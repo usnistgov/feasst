@@ -12,6 +12,7 @@
    constants
    Minimize
    GoldenSearch
+   quadratic_equation
    FormulaExponential
    Matrix
    RandomMT19937

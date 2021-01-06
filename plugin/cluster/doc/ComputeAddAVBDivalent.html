@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ComputeAddAVBDivalent &mdash; FEASST v0.14.0 documentation</title>
+  <title>ComputeAddAVBDivalent &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="ComputeRemoveAVBDivalent" href="ComputeRemoveAVBDivalent.html" />
-    <link rel="prev" title="ComputeGCA" href="ComputeGCA.html" />
+    <link rel="next" title="ComputeGCA" href="ComputeGCA.html" />
+    <link rel="prev" title="ComputeRemoveAVBDivalent" href="ComputeRemoveAVBDivalent.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -129,6 +129,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
@@ -257,7 +258,7 @@
 <h1>ComputeAddAVBDivalent<a class="headerlink" href="#computeaddavbdivalent" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst21ComputeAddAVBDivalentE">
-<span class="target" id="classfeasst_1_1ComputeAddAVBDivalent"></span><em class="property">class </em><code class="sig-name descname">ComputeAddAVBDivalent</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/TrialCompute.html#_CPPv4N6feasst12TrialComputeE" title="feasst::TrialCompute">TrialCompute</a><a class="headerlink" href="#_CPPv4N6feasst21ComputeAddAVBDivalentE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ComputeAddAVBDivalent"></span><em class="property">class </em><code class="sig-name descname">ComputeAddAVBDivalent</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/TrialCompute.html#_CPPv4N6feasst12TrialComputeE" title="feasst::TrialCompute">TrialCompute</a><a class="headerlink" href="#_CPPv4N6feasst21ComputeAddAVBDivalentE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempt to add a particle of type “t” with site_index_t anywhere in the <a class="reference internal" href="../../configuration/doc/Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a>. Then add a second particle of type “a” with site_index_a in the AV of site_index_t. Finally, add a third particle of type “b” with site_index_a in the AV of site_index_t.</p>
 <p>The derivation of the acceptance criteria follows a similar procedure as described in <a class="reference internal" href="ComputeAddAVB.html#classfeasst_1_1ComputeAddAVB"><span class="std std-ref">ComputeAddAVB</span></a>.</p>
 <p><table class="docutils align-default">
@@ -333,6 +334,15 @@ e^{-\beta\Delta U + \beta\mu_a + \beta\mu_b + \beta\mu_t}\)</span></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst21ComputeAddAVBDivalent21ComputeAddAVBDivalentERK7argtype">
+<span class="target" id="classfeasst_1_1ComputeAddAVBDivalent_1aa74216f21627ef14e1c13eb352d6108f"></span><code class="sig-name descname">ComputeAddAVBDivalent</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst21ComputeAddAVBDivalent21ComputeAddAVBDivalentERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>neighbor_index: <a class="reference internal" href="../../system/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../system/doc/System.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> (default: 0). </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst21ComputeAddAVBDivalent22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random">
 <span class="target" id="classfeasst_1_1ComputeAddAVBDivalent_1acb3a977f629c27980d8364723b535a2f"></span>void <code class="sig-name descname">perturb_and_acceptance</code><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> *<em>acceptance</em>, std::vector&lt;<a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#_CPPv4N6feasst10TrialStageE" title="feasst::TrialStage">TrialStage</a>*&gt; *<em>stages</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst21ComputeAddAVBDivalent22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform the Perturbations and determine acceptance. </p>
@@ -351,10 +361,10 @@ e^{-\beta\Delta U + \beta\mu_a + \beta\mu_b + \beta\mu_t}\)</span></p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ComputeRemoveAVBDivalent.html" class="btn btn-neutral float-right" title="ComputeRemoveAVBDivalent" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ComputeGCA.html" class="btn btn-neutral float-right" title="ComputeGCA" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ComputeGCA.html" class="btn btn-neutral float-left" title="ComputeGCA" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ComputeRemoveAVBDivalent.html" class="btn btn-neutral float-left" title="ComputeRemoveAVBDivalent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

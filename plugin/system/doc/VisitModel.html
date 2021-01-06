@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>VisitModel &mdash; FEASST v0.14.0 documentation</title>
+  <title>VisitModel &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -113,6 +113,7 @@
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
@@ -129,6 +130,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
@@ -283,7 +285,7 @@
 <dt id="_CPPv4N6feasst10VisitModelE">
 <span class="target" id="classfeasst_1_1VisitModel"></span><em class="property">class </em><code class="sig-name descname">VisitModel</code><a class="headerlink" href="#_CPPv4N6feasst10VisitModelE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>See <a class="reference internal" href="Model.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a> for a description of the compute methods. These are mirrored by simply switching the calling object and the first argument (.e.g, Model.compute(Visitor, …) vs Visitor.compute(Model, …) </p>
-<p>Subclassed by <a class="reference internal" href="DontVisitModel.html#classfeasst_1_1DontVisitModel"><span class="std std-ref">feasst::DontVisitModel</span></a>, <a class="reference internal" href="../../ewald/doc/Ewald.html#classfeasst_1_1Ewald"><span class="std std-ref">feasst::Ewald</span></a>, <a class="reference internal" href="LongRangeCorrections.html#classfeasst_1_1LongRangeCorrections"><span class="std std-ref">feasst::LongRangeCorrections</span></a>, <a class="reference internal" href="VisitModelBond.html#classfeasst_1_1VisitModelBond"><span class="std std-ref">feasst::VisitModelBond</span></a>, <a class="reference internal" href="VisitModelCell.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">feasst::VisitModelCell</span></a>, <a class="reference internal" href="VisitModelIntra.html#classfeasst_1_1VisitModelIntra"><span class="std std-ref">feasst::VisitModelIntra</span></a>, <a class="reference internal" href="../../opt_lj/doc/VisitModelOptLJ.html#classfeasst_1_1VisitModelOptLJ"><span class="std std-ref">feasst::VisitModelOptLJ</span></a>, <a class="reference internal" href="../../opt_lj/doc/VisitModelOptRPM.html#classfeasst_1_1VisitModelOptRPM"><span class="std std-ref">feasst::VisitModelOptRPM</span></a></p>
+<p>Subclassed by <a class="reference internal" href="DontVisitModel.html#classfeasst_1_1DontVisitModel"><span class="std std-ref">feasst::DontVisitModel</span></a>, <a class="reference internal" href="../../ewald/doc/Ewald.html#classfeasst_1_1Ewald"><span class="std std-ref">feasst::Ewald</span></a>, <a class="reference internal" href="LongRangeCorrections.html#classfeasst_1_1LongRangeCorrections"><span class="std std-ref">feasst::LongRangeCorrections</span></a>, <a class="reference internal" href="VisitModelBond.html#classfeasst_1_1VisitModelBond"><span class="std std-ref">feasst::VisitModelBond</span></a>, <a class="reference internal" href="VisitModelCell.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">feasst::VisitModelCell</span></a>, <a class="reference internal" href="VisitModelIntra.html#classfeasst_1_1VisitModelIntra"><span class="std std-ref">feasst::VisitModelIntra</span></a>, <a class="reference internal" href="VisitModelIntraMap.html#classfeasst_1_1VisitModelIntraMap"><span class="std std-ref">feasst::VisitModelIntraMap</span></a>, <a class="reference internal" href="../../opt_lj/doc/VisitModelOptLJ.html#classfeasst_1_1VisitModelOptLJ"><span class="std std-ref">feasst::VisitModelOptLJ</span></a>, <a class="reference internal" href="../../opt_lj/doc/VisitModelOptRPM.html#classfeasst_1_1VisitModelOptRPM"><span class="std std-ref">feasst::VisitModelOptRPM</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -305,8 +307,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst10VisitModel12check_energyERK5ModelP13ConfigurationKi">
-<span class="target" id="classfeasst_1_1VisitModel_1a6825dcf44eb6dbba6e1a57875822ad81"></span>void <code class="sig-name descname">check_energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a> &amp;<em>model</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10VisitModel12check_energyERK5ModelP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst10VisitModel12check_energyEP5ModelP13ConfigurationKi">
+<span class="target" id="classfeasst_1_1VisitModel_1a50229b11935183fe4f511c89d1a42e6c"></span>void <code class="sig-name descname">check_energy</code><span class="sig-paren">(</span><a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a> *<em>model</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10VisitModel12check_energyEP5ModelP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Test if energy of whole system is consistent with sum of energy of selection by particles. </p>
 </dd></dl>
 

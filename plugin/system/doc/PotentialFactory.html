@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PotentialFactory &mdash; FEASST v0.14.0 documentation</title>
+  <title>PotentialFactory &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -113,6 +113,7 @@
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
@@ -129,6 +130,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
@@ -286,21 +288,27 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16PotentialFactory3addERK9Potential">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a88e77e8165952567d2dbc3f14e0c428f"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3addERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst16PotentialFactory3addENSt10shared_ptrI9PotentialEE">
+<span class="target" id="classfeasst_1_1PotentialFactory_1a2c818aacc8a4860d4647eb4a66c1ea50"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; <em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3addENSt10shared_ptrI9PotentialEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add potential. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16PotentialFactory3setEKiRK9Potential">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a3499f9239b5209ce2aaa564aa7eeb767"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3setEKiRK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst16PotentialFactory3setEKiNSt10shared_ptrI9PotentialEE">
+<span class="target" id="classfeasst_1_1PotentialFactory_1a9891cb8ded1d43f786cd0525be04e156"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, std::shared_ptr&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; <em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3setEKiNSt10shared_ptrI9PotentialEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set a potential. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst16PotentialFactory10potentialsEv">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a8e430624f62cea0e737223f2222e9aed"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; &amp;<code class="sig-name descname">potentials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory10potentialsEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1afb9ae063b0d1bec82fe66a0d67743a08"></span><em class="property">const</em> std::vector&lt;std::shared_ptr&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt;&gt; &amp;<code class="sig-name descname">potentials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory10potentialsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the potentials. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst16PotentialFactory9potentialEKi">
+<span class="target" id="classfeasst_1_1PotentialFactory_1a9a4c0be0645f7ff76cf994043422f2fa"></span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<code class="sig-name descname">potential</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory9potentialEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a potential by index of order added. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -328,8 +336,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16PotentialFactory6energyERK6SelectP13Configuration">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a8f5d32fe04e4eaf8721ef54c072aa26e"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory6energyERK6SelectP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst16PotentialFactory13select_energyERK6SelectP13Configuration">
+<span class="target" id="classfeasst_1_1PotentialFactory_1a2ec4cbae9fbb9de76e89d522c8d17cda"></span>double <code class="sig-name descname">select_energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory13select_energyERK6SelectP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the energy of the selection in the configuration. </p>
 </dd></dl>
 

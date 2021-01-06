@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TrialTransferMultiple &mdash; FEASST v0.14.0 documentation</title>
+  <title>beta_expanded/include/trial_beta &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Coulomb" href="Coulomb.html" />
-    <link rel="prev" title="ewald/include/utils" href="utils.html" />
+    <link rel="next" title="ComputeBeta" href="ComputeBeta.html" />
+    <link rel="prev" title="PerturbBeta" href="PerturbBeta.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -117,29 +117,26 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Ewald</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils.html">ewald/include/utils</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">TrialTransferMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Coulomb.html">Coulomb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Ewald.html">Ewald</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Beta expanded</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="SelectNothing.html">SelectNothing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbBeta.html">PerturbBeta</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">beta_expanded/include/trial_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeBeta.html">ComputeBeta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateBeta.html">MacrostateBeta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -216,11 +213,11 @@
         
           <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
-          <li><a href="../README.html">Ewald</a> &raquo;</li>
+          <li><a href="../README.html">Beta expanded</a> &raquo;</li>
         
           <li><a href="toc.html">&lt;no title&gt;</a> &raquo;</li>
         
-      <li>TrialTransferMultiple</li>
+      <li>beta_expanded/include/trial_beta</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -261,12 +258,20 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="trialtransfermultiple">
-<h1>TrialTransferMultiple<a class="headerlink" href="#trialtransfermultiple" title="Permalink to this headline">¶</a></h1>
-<dl class="cpp class">
-<dt id="_CPPv4N6feasst21TrialTransferMultipleE">
-<span class="target" id="classfeasst_1_1TrialTransferMultiple"></span><em class="property">class </em><code class="sig-name descname">TrialTransferMultiple</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a><a class="headerlink" href="#_CPPv4N6feasst21TrialTransferMultipleE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Attempt <a class="reference internal" href="TrialAddMultiple.html#classfeasst_1_1TrialAddMultiple"><span class="std std-ref">TrialAddMultiple</span></a> or <a class="reference internal" href="TrialRemoveMultiple.html#classfeasst_1_1TrialRemoveMultiple"><span class="std std-ref">TrialRemoveMultiple</span></a> and split the trial weights equally. </p>
+<div class="section" id="beta-expanded-include-trial-beta">
+<h1>beta_expanded/include/trial_beta<a class="headerlink" href="#beta-expanded-include-trial-beta" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp type">
+<dt id="_CPPv46feasst">
+<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><a class="headerlink" href="#_CPPv46feasst" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst13MakeTrialBetaERK7argtype">
+<span class="target" id="namespacefeasst_1a4a5c19c8bc028fedf7cdfa8aa91205e7"></span>std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <code class="sig-name descname">MakeTrialBeta</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst13MakeTrialBetaERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt to change the inverse temperature, <span class="math notranslate nohighlight">\(\beta\)</span> by a fixed amount. </p>
+</dd></dl>
+
+</div>
 </dd></dl>
 
 </div>
@@ -279,10 +284,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Coulomb.html" class="btn btn-neutral float-right" title="Coulomb" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ComputeBeta.html" class="btn btn-neutral float-right" title="ComputeBeta" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="utils.html" class="btn btn-neutral float-left" title="ewald/include/utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="PerturbBeta.html" class="btn btn-neutral float-left" title="PerturbBeta" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

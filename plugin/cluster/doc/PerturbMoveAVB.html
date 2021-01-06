@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PerturbMoveAVB &mdash; FEASST v0.14.0 documentation</title>
+  <title>PerturbMoveAVB &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -129,6 +129,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
@@ -257,15 +258,16 @@
 <h1>PerturbMoveAVB<a class="headerlink" href="#perturbmoveavb" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst14PerturbMoveAVBE">
-<span class="target" id="classfeasst_1_1PerturbMoveAVB"></span><em class="property">class </em><code class="sig-name descname">PerturbMoveAVB</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/PerturbMove.html#_CPPv4N6feasst11PerturbMoveE" title="feasst::PerturbMove">PerturbMove</a><a class="headerlink" href="#_CPPv4N6feasst14PerturbMoveAVBE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1PerturbMoveAVB"></span><em class="property">class </em><code class="sig-name descname">PerturbMoveAVB</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/PerturbMove.html#_CPPv4N6feasst11PerturbMoveE" title="feasst::PerturbMove">PerturbMove</a><a class="headerlink" href="#_CPPv4N6feasst14PerturbMoveAVBE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Move <a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> to inside or outside the AVB of anchor. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst14PerturbMoveAVB14PerturbMoveAVBENSt10shared_ptrI16NeighborCriteriaEERK7argtype">
-<span class="target" id="classfeasst_1_1PerturbMoveAVB_1a2dc012cb5916a7498598437388047615"></span><code class="sig-name descname">PerturbMoveAVB</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; <em>neighbor_criteria</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14PerturbMoveAVB14PerturbMoveAVBENSt10shared_ptrI16NeighborCriteriaEERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14PerturbMoveAVB14PerturbMoveAVBERK7argtype">
+<span class="target" id="classfeasst_1_1PerturbMoveAVB_1a38a0241a3086498ea3939fd615220c8a"></span><code class="sig-name descname">PerturbMoveAVB</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14PerturbMoveAVB14PerturbMoveAVBERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>inside: true if selecting in the AV, otherwise out (default: true). Not implemented for grand_canonical. </p></li>
+<li><p>inside: true if selecting in the AV, otherwise out (default: true). Not implemented for grand_canonical.</p></li>
+<li><p>neighbor_index: <a class="reference internal" href="../../system/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../system/doc/System.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> (default: 0). </p></li>
 </ul>
 </p>
 </dd></dl>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ChargeSelf &mdash; FEASST v0.14.0 documentation</title>
+  <title>ChargeSelf &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="ChargeScreened" href="ChargeScreened.html" />
-    <link rel="prev" title="TrialAddMultiple" href="TrialAddMultiple.html" />
+    <link rel="prev" title="ewald/include/trial_add_multiple" href="trial_add_multiple.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -121,12 +121,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_remove_multiple.html">ewald/include/trial_remove_multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_add_multiple.html">ewald/include/trial_add_multiple</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">ChargeSelf</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">ewald/include/utils</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_transfer_multiple.html">ewald/include/trial_transfer_multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Coulomb.html">Coulomb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
@@ -265,15 +265,15 @@
 <h1>ChargeSelf<a class="headerlink" href="#chargeself" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst10ChargeSelfE">
-<span class="target" id="classfeasst_1_1ChargeSelf"></span><em class="property">class </em><code class="sig-name descname">ChargeSelf</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a><a class="headerlink" href="#_CPPv4N6feasst10ChargeSelfE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ChargeSelf"></span><em class="property">class </em><code class="sig-name descname">ChargeSelf</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a><a class="headerlink" href="#_CPPv4N6feasst10ChargeSelfE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the correction energy used to remove the spurious self-self interaction that the <a class="reference internal" href="Ewald.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation includes</p>
 <p><span class="math notranslate nohighlight">\(U = -q_i q_i \chi \frac{\alpha}{\sqrt{\pi}} \)</span></p>
 <p>see <a class="reference internal" href="ChargeScreened.html#classfeasst_1_1ChargeScreened"><span class="std std-ref">ChargeScreened</span></a> for details. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst10ChargeSelf6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
-<span class="target" id="classfeasst_1_1ChargeSelf_1a066594b61d280338560b9a3d248b6bc6"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>wrapped_site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10ChargeSelf6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst10ChargeSelf6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
+<span class="target" id="classfeasst_1_1ChargeSelf_1a1afa42d72e5d24b9100ed514e642c7fb"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>wrapped_site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10ChargeSelf6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the energy given the wrapped coordinates, site, config and params. </p>
 </dd></dl>
 
@@ -305,7 +305,7 @@
         <a href="ChargeScreened.html" class="btn btn-neutral float-right" title="ChargeScreened" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="TrialAddMultiple.html" class="btn btn-neutral float-left" title="TrialAddMultiple" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="trial_add_multiple.html" class="btn btn-neutral float-left" title="ewald/include/trial_add_multiple" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

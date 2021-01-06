@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Accumulator &mdash; FEASST v0.14.0 documentation</title>
+  <title>Accumulator &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -115,6 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
@@ -311,8 +312,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst11Accumulator9set_blockEKx">
-<span class="target" id="classfeasst_1_1Accumulator_1a6b8e7d660db45ffdd2fed9b6fbe98b65"></span>void <code class="sig-name descname">set_block</code><span class="sig-paren">(</span><em class="property">const</em> long long <em>num_block</em> = 1e5<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator9set_blockEKx" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst11Accumulator9set_blockEKd">
+<span class="target" id="classfeasst_1_1Accumulator_1ac35b5e25cc6e7061592785289ee738b8"></span>void <code class="sig-name descname">set_block</code><span class="sig-paren">(</span><em class="property">const</em> double <em>num_block</em> = 1e5<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator9set_blockEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">num_block</span></code>: number of values per block </p></li>
@@ -326,7 +327,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst11Accumulator9num_blockEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a478eaec4574b63509c1aa00905c52ae0"></span>long long <code class="sig-name descname">num_block</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator9num_blockEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a7c1245e49eb31107b40a9b9eff1c3fff"></span>double <code class="sig-name descname">num_block</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator9num_blockEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return number of values per block. </p>
 </dd></dl>
 
@@ -338,7 +339,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst11Accumulator10num_valuesEv">
-<span class="target" id="classfeasst_1_1Accumulator_1aad00d7592769670fd6b236999015d5aa"></span>long long <code class="sig-name descname">num_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10num_valuesEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a40e39aade86f32580f0c28c9b389bb0f"></span>double <code class="sig-name descname">num_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10num_valuesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return number of values accumulated. </p>
 </dd></dl>
 

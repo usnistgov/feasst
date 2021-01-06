@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PerturbPivot &mdash; FEASST v0.14.0 documentation</title>
+  <title>PerturbPivot &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="PerturbCrankshaft" href="PerturbCrankshaft.html" />
-    <link rel="prev" title="AnalyzeRigidBonds" href="AnalyzeRigidBonds.html" />
+    <link rel="prev" title="chain/include/trial_grow" href="trial_grow.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -115,22 +115,23 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialSwapSites.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckRigidBonds.html">CheckRigidBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RecenterParticles.html">RecenterParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeRigidBonds.html">AnalyzeRigidBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trials.html">chain/include/trials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trial_grow.html">chain/include/trial_grow</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">PerturbPivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -265,7 +266,7 @@
 <h1>PerturbPivot<a class="headerlink" href="#perturbpivot" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst12PerturbPivotE">
-<span class="target" id="classfeasst_1_1PerturbPivot"></span><em class="property">class </em><code class="sig-name descname">PerturbPivot</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotateE" title="feasst::PerturbRotate">PerturbRotate</a><a class="headerlink" href="#_CPPv4N6feasst12PerturbPivotE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1PerturbPivot"></span><em class="property">class </em><code class="sig-name descname">PerturbPivot</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotateE" title="feasst::PerturbRotate">PerturbRotate</a><a class="headerlink" href="#_CPPv4N6feasst12PerturbPivotE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -290,7 +291,7 @@
         <a href="PerturbCrankshaft.html" class="btn btn-neutral float-right" title="PerturbCrankshaft" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="AnalyzeRigidBonds.html" class="btn btn-neutral float-left" title="AnalyzeRigidBonds" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="trial_grow.html" class="btn btn-neutral float-left" title="chain/include/trial_grow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

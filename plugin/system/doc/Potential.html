@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Potential &mdash; FEASST v0.14.0 documentation</title>
+  <title>Potential &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -113,6 +113,7 @@
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
@@ -129,6 +130,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
@@ -366,7 +368,7 @@
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Potential12model_paramsERK13Configuration">
 <span class="target" id="classfeasst_1_1Potential_1adadcbe31ef4383ff8d716d6f0339eeaf"></span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<code class="sig-name descname">model_params</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential12model_paramsERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the model parameters. Use model parameters from configuration if they have not been overriden. </p>
+<dd><p>Return the model parameters. Use model parameters from configuration if they have not been overridden. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -377,13 +379,13 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential6energyEP13Configuration">
-<span class="target" id="classfeasst_1_1Potential_1a9e06ebe61ffead1a3de8814ac4eb9cf0"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential6energyEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Potential_1a239065ccf9c336e3a73c4c36f3a4be3c"></span><em class="property">virtual</em> double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential6energyEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the energy of the entire configuration. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst9Potential6energyERK6SelectP13Configuration">
-<span class="target" id="classfeasst_1_1Potential_1af41f1b12384ddfc27a55babe958a4164"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential6energyERK6SelectP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Potential13select_energyERK6SelectP13Configuration">
+<span class="target" id="classfeasst_1_1Potential_1aef869f3479376812fd2d2a9d2de6bf58"></span><em class="property">virtual</em> double <code class="sig-name descname">select_energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential13select_energyERK6SelectP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the energy of a selection of the configuration. </p>
 </dd></dl>
 
@@ -391,6 +393,12 @@
 <dt id="_CPPv4NK6feasst9Potential13stored_energyEv">
 <span class="target" id="classfeasst_1_1Potential_1a31f7658d66de61fc224f57ccc6471bd6"></span>double <code class="sig-name descname">stored_energy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential13stored_energyEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the last computed value of the energy. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst9Potential17set_stored_energyEKd">
+<span class="target" id="classfeasst_1_1Potential_1ab8b7a98188932e37ce49412ea10d2444"></span>void <code class="sig-name descname">set_stored_energy</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential17set_stored_energyEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the last computed value of the energy. </p>
 </dd></dl>
 
 <dl class="cpp function">

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Model &mdash; FEASST v0.14.0 documentation</title>
+  <title>Model &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -113,6 +113,7 @@
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
@@ -129,6 +130,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
@@ -286,26 +288,26 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Model7computeERK11ModelParamsKiP13ConfigurationP10VisitModel">
-<span class="target" id="classfeasst_1_1Model_1aa3e50ae7c3791affd6db2da5383599bd"></span><em class="property">virtual</em> double <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> int <em>group_index</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst5Model7computeERK11ModelParamsKiP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Model7computeERK11ModelParamsKiP13ConfigurationP10VisitModel">
+<span class="target" id="classfeasst_1_1Model_1a5b0ac9c683fa510fead5f4d70d13b9b9"></span><em class="property">virtual</em> double <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> int <em>group_index</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst5Model7computeERK11ModelParamsKiP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Visit the model over the entire configuration. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Model7computeERK11ModelParamsP13ConfigurationP10VisitModel">
-<span class="target" id="classfeasst_1_1Model_1aabbfe9e30a776c7036b49fb11d82c03e"></span><em class="property">virtual</em> double <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst5Model7computeERK11ModelParamsP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Model7computeERK11ModelParamsP13ConfigurationP10VisitModel">
+<span class="target" id="classfeasst_1_1Model_1afac97f3057ba908777238d3b8bed094b"></span><em class="property">virtual</em> double <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst5Model7computeERK11ModelParamsP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above, except the group index is assumed to be zero (which is all particles and sites in the configuration). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Model7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel">
-<span class="target" id="classfeasst_1_1Model_1a5e5b5684337f7acdcd472e1f5b0e6ceb"></span><em class="property">virtual</em> double <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> int <em>group_index</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst5Model7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Model7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel">
+<span class="target" id="classfeasst_1_1Model_1a3e74a4ed85799ff5ab510103b1c643fd"></span><em class="property">virtual</em> double <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> int <em>group_index</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst5Model7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Visit the model over a selection of the configuration. Optionally, restrict to groups of given index, which is only relevant for multibody models (e.g., two body and not one body). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Model7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel">
-<span class="target" id="classfeasst_1_1Model_1a2399408fc5b8739b0ca4295f084595c9"></span><em class="property">virtual</em> double <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst5Model7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Model7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel">
+<span class="target" id="classfeasst_1_1Model_1a7b2a499c43f36f3bec391218e3c1a566"></span><em class="property">virtual</em> double <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst5Model7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above, except the group index is assumed to be zero (which is all particles and sites in the configuration) </p>
 </dd></dl>
 

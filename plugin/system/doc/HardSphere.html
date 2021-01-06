@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>HardSphere &mdash; FEASST v0.14.0 documentation</title>
+  <title>HardSphere &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -113,6 +113,7 @@
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
@@ -129,6 +130,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
@@ -281,9 +283,10 @@
 <h1>HardSphere<a class="headerlink" href="#hardsphere" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst10HardSphereE">
-<span class="target" id="classfeasst_1_1HardSphere"></span><em class="property">class </em><code class="sig-name descname">HardSphere</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst10HardSphereE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1HardSphere"></span><em class="property">class </em><code class="sig-name descname">HardSphere</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst10HardSphereE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The potential energy for a hard sphere model of radius <span class="math notranslate nohighlight">\(\sigma\)</span> and separation distance <span class="math notranslate nohighlight">\(r\)</span> is as follows</p>
-<p><span class="math notranslate nohighlight">\( U_{HS} = \left\{ \begin{array}{lr} \infty &amp; r \le \sigma \\ 0 &amp; r &gt; \sigma \end{array} \right. \)</span> </p>
+<p><span class="math notranslate nohighlight">\( U_{HS} = \left\{ \begin{array}{lr} \infty &amp; r \le \sigma \\ 0 &amp; r &gt; \sigma \end{array} \right. \)</span></p>
+<p>The cutoff model parameter must also be specified, or essentially equated to sigma in order to not skip this <a class="reference internal" href="#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> interaction. For this reason, HardSphere-only models are often used in conjunction with the <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> argument “set_cutoff_min_to_sigma”. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">

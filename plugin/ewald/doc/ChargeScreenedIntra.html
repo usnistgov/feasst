@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ChargeScreenedIntra &mdash; FEASST v0.14.0 documentation</title>
+  <title>ChargeScreenedIntra &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -121,12 +121,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_remove_multiple.html">ewald/include/trial_remove_multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_add_multiple.html">ewald/include/trial_add_multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">ewald/include/utils</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_transfer_multiple.html">ewald/include/trial_transfer_multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Coulomb.html">Coulomb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
@@ -265,7 +265,7 @@
 <h1>ChargeScreenedIntra<a class="headerlink" href="#chargescreenedintra" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst19ChargeScreenedIntraE">
-<span class="target" id="classfeasst_1_1ChargeScreenedIntra"></span><em class="property">class </em><code class="sig-name descname">ChargeScreenedIntra</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst19ChargeScreenedIntraE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ChargeScreenedIntra"></span><em class="property">class </em><code class="sig-name descname">ChargeScreenedIntra</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst19ChargeScreenedIntraE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the correction energy used to remove the spurious intra-particle interactions that the <a class="reference internal" href="Ewald.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation includes</p>
 <p><span class="math notranslate nohighlight">\(U = -q_i q_j \chi erf(\alpha r)/r\)</span></p>
 <p>see <a class="reference internal" href="ChargeScreened.html#classfeasst_1_1ChargeScreened"><span class="std std-ref">ChargeScreened</span></a> for details. </p>

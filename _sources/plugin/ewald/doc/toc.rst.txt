@@ -1,12 +1,12 @@
 
 .. toctree::
 
-   TrialRemoveMultiple
-   TrialAddMultiple
+   trial_remove_multiple
+   trial_add_multiple
    ChargeSelf
    ChargeScreened
    utils
-   TrialTransferMultiple
+   trial_transfer_multiple
    Coulomb
    ComputeRemoveMultiple
    ComputeAddMultiple

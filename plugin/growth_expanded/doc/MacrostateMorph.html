@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>MacrostateMorph &mdash; FEASST v0.14.0 documentation</title>
+  <title>MacrostateMorph &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="MacrostateGrowthExpanded" href="MacrostateGrowthExpanded.html" />
-    <link rel="prev" title="TrialComputeGrowAdd" href="TrialComputeGrowAdd.html" />
+    <link rel="prev" title="ComputeMorph" href="ComputeMorph.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -124,16 +124,17 @@
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html">Growth expanded</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="ComputeMorph.html">ComputeMorph</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialMorphExpanded.html">TrialMorphExpanded</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialMorph.html">TrialMorph</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbParticleType.html">PerturbParticleType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeGrowAdd.html">TrialComputeGrowAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_morph.html">growth_expanded/include/trial_morph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMorphExpanded.html">TrialMorphExpanded</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeMorph.html">ComputeMorph</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">MacrostateMorph</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateGrowthExpanded.html">MacrostateGrowthExpanded</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
@@ -262,7 +263,7 @@
 <h1>MacrostateMorph<a class="headerlink" href="#macrostatemorph" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst15MacrostateMorphE">
-<span class="target" id="classfeasst_1_1MacrostateMorph"></span><em class="property">class </em><code class="sig-name descname">MacrostateMorph</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../flat_histogram/doc/Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a><a class="headerlink" href="#_CPPv4N6feasst15MacrostateMorphE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1MacrostateMorph"></span><em class="property">class </em><code class="sig-name descname">MacrostateMorph</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../flat_histogram/doc/Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a><a class="headerlink" href="#_CPPv4N6feasst15MacrostateMorphE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>For use with <a class="reference internal" href="TrialMorphExpanded.html#classfeasst_1_1TrialMorphExpanded"><span class="std std-ref">TrialMorphExpanded</span></a>.</p>
 <p>The particle_type_growth_sequence (PTGS) argument is as follows.</p>
 <p>The first index represents individual macrostates. Thus, if the first index is of size 2, the <a class="reference internal" href="../../math/doc/Histogram.html#classfeasst_1_1Histogram"><span class="std std-ref">Histogram</span></a> width should be set equal to 1/PTGS, which means that macrostates would be 0, 0.5, 1.0, 1.5, …</p>
@@ -294,7 +295,7 @@
         <a href="MacrostateGrowthExpanded.html" class="btn btn-neutral float-right" title="MacrostateGrowthExpanded" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="TrialComputeGrowAdd.html" class="btn btn-neutral float-left" title="TrialComputeGrowAdd" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ComputeMorph.html" class="btn btn-neutral float-left" title="ComputeMorph" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

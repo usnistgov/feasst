@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Bond &mdash; FEASST v0.14.0 documentation</title>
+  <title>Bond &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -267,7 +267,7 @@
 <h1>Bond<a class="headerlink" href="#bond" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst4BondE">
-<span class="target" id="classfeasst_1_1Bond"></span><em class="property">class </em><code class="sig-name descname">Bond</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a>, <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="TypedEntity.html#_CPPv4N6feasst11TypedEntityE" title="feasst::TypedEntity">TypedEntity</a><a class="headerlink" href="#_CPPv4N6feasst4BondE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Bond"></span><em class="property">class </em><code class="sig-name descname">Bond</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a>, <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="TypedEntity.html#_CPPv4N6feasst11TypedEntityE" title="feasst::TypedEntity">TypedEntity</a><a class="headerlink" href="#_CPPv4N6feasst4BondE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Sites within the same particle may be bonded. The indices of the sites which are bonded are stored here. The type of the bond is used to determine the bond model. </p>
 <p>Subclassed by <a class="reference internal" href="#classfeasst_1_1Angle"><span class="std std-ref">feasst::Angle</span></a>, <a class="reference internal" href="#classfeasst_1_1Dihedral"><span class="std std-ref">feasst::Dihedral</span></a>, <a class="reference internal" href="#classfeasst_1_1Improper"><span class="std std-ref">feasst::Improper</span></a></p>
 <div class="breathe-sectiondef docutils container">
@@ -301,19 +301,19 @@
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst5AngleE">
-<span class="target" id="classfeasst_1_1Angle"></span><em class="property">class </em><code class="sig-name descname">Angle</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a><a class="headerlink" href="#_CPPv4N6feasst5AngleE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Angle"></span><em class="property">class </em><code class="sig-name descname">Angle</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a><a class="headerlink" href="#_CPPv4N6feasst5AngleE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The <a class="reference internal" href="#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> has three site indices, listed in order of the angle. For example, angle ABC has a vertex at B. The 0 index is A, 1 is B and 2 is C. </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst8DihedralE">
-<span class="target" id="classfeasst_1_1Dihedral"></span><em class="property">class </em><code class="sig-name descname">Dihedral</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a><a class="headerlink" href="#_CPPv4N6feasst8DihedralE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Dihedral"></span><em class="property">class </em><code class="sig-name descname">Dihedral</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a><a class="headerlink" href="#_CPPv4N6feasst8DihedralE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This a place holder. Dihedrals are not fully implemented. </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst8ImproperE">
-<span class="target" id="classfeasst_1_1Improper"></span><em class="property">class </em><code class="sig-name descname">Improper</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a><a class="headerlink" href="#_CPPv4N6feasst8ImproperE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Improper"></span><em class="property">class </em><code class="sig-name descname">Improper</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a><a class="headerlink" href="#_CPPv4N6feasst8ImproperE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This a place holder. Impropers are not fully implemented. </p>
 </dd></dl>
 

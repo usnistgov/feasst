@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Prefetch example &mdash; FEASST v0.14.0 documentation</title>
+  <title>Prefetch example &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -124,6 +124,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html">Prefetch</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../doc/Pool.html">Pool</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
@@ -490,29 +491,12 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">feasst</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/system/tutorial/&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">lj_system</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/monte_carlo/tutorial/&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">analyze</span>
-
-<span class="k">def</span> <span class="nf">lj_system</span><span class="p">(</span><span class="n">box_length</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">):</span>
-    <span class="n">system</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span>
-        <span class="n">feasst</span><span class="o">.</span><span class="n">Domain</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">box_length</span><span class="p">)})),</span>
-        <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/forcefield/data.lj&#39;</span><span class="p">}))</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">set_model_param</span><span class="p">(</span><span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">);</span>
-    <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
-    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">is_cell_enabled</span><span class="p">():</span>
-        <span class="c1">#system.add_to_optimized(feasst.Potential(feasst.MakeLennardJones(), feasst.MakeVisitModelCell()))</span>
-        <span class="n">system</span><span class="o">.</span><span class="n">add_to_reference</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeHardSphere</span><span class="p">(),</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MakeVisitModelCell</span><span class="p">()))</span>
-    <span class="k">return</span> <span class="n">system</span>
+<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
 <span class="k">def</span> <span class="nf">mc</span><span class="p">(</span><span class="n">target_acceptance</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
        <span class="n">tunable_param</span><span class="o">=</span><span class="mf">0.185</span><span class="p">,</span>
        <span class="n">density</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
-       <span class="n">cutoff</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+       <span class="n">cutoff</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
        <span class="n">temperature</span><span class="o">=</span><span class="mf">0.88</span><span class="p">,</span>
        <span class="n">steps_per</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">),</span>
        <span class="p">):</span>
@@ -523,44 +507,36 @@ div.rendered_html tbody tr:hover {
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;target_acceptance&#39;</span><span class="p">,</span> <span class="n">target_acceptance</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;tunable_param&#39;</span><span class="p">,</span> <span class="n">tunable_param</span><span class="p">)</span>
 
-    <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">Prefetch</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per_check&quot;</span><span class="p">:</span> <span class="s2">&quot;10000000&quot;</span><span class="p">}))</span>
+    <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">Prefetch</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per_check&quot;</span><span class="p">:</span> <span class="s2">&quot;10000000&quot;</span><span class="p">}))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">activate_prefetch</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">lj_system</span><span class="p">(</span><span class="n">box_length</span><span class="o">=</span><span class="n">box_length</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">box_length</span><span class="p">)})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">temperature</span><span class="p">),</span>
-        <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span>
-    <span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+        <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">tunable_param</span><span class="p">),</span>
         <span class="s2">&quot;tunable_target_acceptance&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_acceptance</span><span class="p">),</span>
-        <span class="s2">&quot;tunable_percent_change&quot;</span><span class="p">:</span> <span class="s2">&quot;0.01&quot;</span><span class="p">,</span>
-        <span class="c1"># &quot;num_steps&quot;: &quot;4&quot;,</span>
-        <span class="c1"># &quot;reference_index&quot;: &quot;0&quot;,</span>
-    <span class="p">})))</span>
-    <span class="n">feasst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)</span><span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
-    <span class="n">analyze</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">,</span>
-        <span class="n">steps_per</span><span class="p">,</span>
-        <span class="n">proc</span><span class="o">=</span><span class="n">file_app</span><span class="p">,</span>
-        <span class="n">log</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="o">+</span><span class="n">file_app</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="c1">#equilibrate</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">))</span>
-
+        <span class="s2">&quot;tunable_percent_change&quot;</span><span class="p">:</span> <span class="s2">&quot;0.01&quot;</span><span class="p">})))</span>
+    <span class="n">fst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)</span><span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+        <span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
+        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;movie&quot;</span><span class="o">+</span><span class="n">file_app</span><span class="p">,</span>
+        <span class="s2">&quot;clear_file&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">))</span> <span class="c1">#equilibrate</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">activate_prefetch</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMeanSquaredDisplacement</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMeanSquaredDisplacement</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;steps_per_update&quot;</span><span class="p">:</span> <span class="s2">&quot;10000&quot;</span><span class="p">,</span>
         <span class="s2">&quot;updates_per_origin&quot;</span><span class="p">:</span> <span class="s2">&quot;1000&quot;</span><span class="p">,</span>
         <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;msd&quot;</span> <span class="o">+</span> <span class="n">file_app</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
-    <span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeCPUTime</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+        <span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCPUTime</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;steps_per_update&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
         <span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
-        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span> <span class="o">+</span> <span class="n">file_app</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
-    <span class="p">})))</span>
+        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span> <span class="o">+</span> <span class="n">file_app</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">))</span>
 
 <span class="n">mc</span><span class="p">()</span>
@@ -572,11 +548,12 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-num_particles 54
+num_particles 183
 target_acceptance 0.2
 tunable_param 0.185
 </pre></div></div>
 </div>
+<p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>
 
 

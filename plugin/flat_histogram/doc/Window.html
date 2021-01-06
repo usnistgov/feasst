@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Window &mdash; FEASST v0.14.0 documentation</title>
+  <title>Window &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -271,9 +271,8 @@
 <span class="target" id="classfeasst_1_1Window"></span><em class="property">class </em><code class="sig-name descname">Window</code><a class="headerlink" href="#_CPPv4N6feasst6WindowE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> ranges are often broken into separate windows for parallelization. The relative size of these windows can be optimized depending upon the system. Each window must share atleast one macrostate with its neighbors in order to recover the free energy of the entire range.</p>
 <p>A segment is a countinuous, theoretical formula for analytically spacing macrostate ranges. This line segment includes both the minimum, maximum, and intermediate values. Thus, a 4 window segment would contain 5 values.</p>
-<p>Boundaries are integer macrostate minimums and maximums utilized by each window. Thus, 4 window boundaries would contain 4 min and max values for each window. Boundaries use the given line segment, either from formula or user input, and then account for rounding and extra overlap between windows.</p>
-<p>For example, 4 windows with segments given by [0, 100.00, 141.42, 173.21, 200] with 4 extra overlap and rounding would result in the following boundaries: [[0, 100], [96, 141], [137, 173], [169, 200]] where each of the 4 window is expressed as a [min, max] pair.</p>
-<p>Note that <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> should have atleast 3 overlap (or 2 extra_overlap) because the first and last macrostates in the window automatically reject deletions/insertions, respectively, which could skew the calculated probability distributions. <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> does not have this issue. </p>
+<p>Boundaries are integer macrostate minimums and maximums utilized by each window. Thus, 4 window boundaries would contain 4 min and max values. Boundaries use the given line segment, either from formula or user input, and then account for rounding and extra overlap between windows.</p>
+<p>For example, 4 windows with segments given by [0, 100.00, 141.42, 173.21, 200] with 4 extra overlap and rounding would result in the following boundaries: [[0, 100], [96, 141], [137, 173], [169, 200]] where each of the 4 window is expressed as a [min, max] pair. </p>
 <p>Subclassed by <a class="reference internal" href="WindowCustom.html#classfeasst_1_1WindowCustom"><span class="std std-ref">feasst::WindowCustom</span></a>, <a class="reference internal" href="WindowExponential.html#classfeasst_1_1WindowExponential"><span class="std std-ref">feasst::WindowExponential</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>

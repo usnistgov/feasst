@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST v0.14.0 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Analysis of a one-phase (supercritical) simulation" href="tutorial_2_reweight_supercritical.html" />
-    <link rel="prev" title="Flat histogram" href="../README.html" />
+    <link rel="prev" title="Analysis of a hard sphere simulation" href="tutorial_10_hs.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -112,6 +112,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="tutorial_10_hs.html">Analysis of a hard sphere simulation</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
@@ -596,10 +597,10 @@ addition, we also add checkpoint files, criteria status, and average energy of a
 <span class="k">def</span> <span class="nf">run_sample_lj_tm_mc</span><span class="p">(</span><span class="n">checkpoint_file_name</span><span class="p">):</span>
     <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">1.5</span><span class="p">),</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;-2.352321&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeFlatHistogram</span><span class="p">(</span>
         <span class="n">fst</span><span class="o">.</span><span class="n">MakeMacrostateNumParticles</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">}))),</span>
-        <span class="n">fst</span><span class="o">.</span><span class="n">MakeTransitionMatrix</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;min_sweeps&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">})),</span>
-        <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">1.5</span><span class="p">),</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;-2.352321&quot;</span><span class="p">})))</span>
+        <span class="n">fst</span><span class="o">.</span><span class="n">MakeTransitionMatrix</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;min_sweeps&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">}))))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;0.25&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTransfer</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj&quot;</span><span class="p">})))</span>
@@ -667,8 +668,8 @@ Compare the free energies and potential energies with the NIST SRSW ...
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 lnpi energy
-CPU times: user 10.1 s, sys: 1.37 s, total: 11.5 s
-Wall time: 11.5 s
+CPU times: user 9.67 s, sys: 1.4 s, total: 11.1 s
+Wall time: 11 s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -679,7 +680,7 @@ Wall time: 11.5 s
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 11.453s
+Ran 1 test in 11.012s
 
 OK
 </pre></div></div>
@@ -690,7 +691,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f623aa4ccf8&gt;
+&lt;unittest.main.TestProgram at 0x7f3387714e48&gt;
 </pre></div></div>
 </div>
 <p>A number of files should also have been created. If the flat histogram method is sampling perfectly, the simulation performs a random walk along the macrostate. For larger ranges of macrostates, or for more difficult sampling cases, monitoring the macrostate can help you determine what conditions are preventing convergence. For example, a plot of the macrostate as a function of the number of attempts may look like the following:</p>
@@ -811,68 +812,68 @@ OK
       <td>...</td>
     </tr>
     <tr>
-      <th>100</th>
+      <th>310</th>
+      <td>512</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-0.00545166</td>
+      <td>4800000</td>
+      <td>0.960066</td>
+      <td>3.92013</td>
+      <td>0.817123</td>
+      <td>0.974162</td>
+    </tr>
+    <tr>
+      <th>311</th>
+      <td>512</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-7.10261e-16</td>
+      <td>4900000</td>
+      <td>0.955622</td>
+      <td>3.92013</td>
+      <td>0.817117</td>
+      <td>0.972316</td>
+    </tr>
+    <tr>
+      <th>312</th>
+      <td>512</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-0.0256196</td>
+      <td>5000000</td>
+      <td>0.957787</td>
+      <td>3.92013</td>
+      <td>0.80915</td>
+      <td>0.971906</td>
+    </tr>
+    <tr>
+      <th>313</th>
       <td>512</td>
       <td>2</td>
       <td>2</td>
       <td>-0.00242296</td>
-      <td>4800000</td>
-      <td>0.956784</td>
-      <td>3.92013</td>
-      <td>0.812945</td>
-      <td>0.972064</td>
-    </tr>
-    <tr>
-      <th>101</th>
-      <td>512</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1.70979e-16</td>
-      <td>4900000</td>
-      <td>0.956441</td>
-      <td>3.92013</td>
-      <td>0.814978</td>
-      <td>0.974317</td>
-    </tr>
-    <tr>
-      <th>102</th>
-      <td>512</td>
-      <td>4</td>
-      <td>4</td>
-      <td>-0.76314</td>
-      <td>5000000</td>
-      <td>0.957303</td>
-      <td>3.92013</td>
-      <td>0.813699</td>
-      <td>0.973621</td>
-    </tr>
-    <tr>
-      <th>103</th>
-      <td>512</td>
-      <td>5</td>
-      <td>5</td>
-      <td>-0.894897</td>
       <td>5100000</td>
-      <td>0.959727</td>
+      <td>0.959588</td>
       <td>3.92013</td>
-      <td>0.814327</td>
-      <td>0.973249</td>
+      <td>0.809489</td>
+      <td>0.973147</td>
     </tr>
     <tr>
-      <th>104</th>
+      <th>314</th>
       <td>512</td>
-      <td>4</td>
-      <td>4</td>
-      <td>-0.791589</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6.8978e-15</td>
       <td>5200000</td>
-      <td>0.959468</td>
+      <td>0.957371</td>
       <td>3.92013</td>
-      <td>0.812517</td>
-      <td>0.97524</td>
+      <td>0.817237</td>
+      <td>0.975072</td>
     </tr>
   </tbody>
 </table>
-<p>105 rows × 9 columns</p>
+<p>315 rows × 9 columns</p>
 </div></div>
 </div>
 <p>Note that states are index integer values starting from 0 (e.g., 0, 1, 2, …, criteria.num_states() - 1) The state and macrostate happen to be the same when the minimum macrostate is 0, and the macrostate is the integer number of particles. But if the minimum macrostate was 1, then state 0 would correspond to macrostate 1.0. Obtain an arbitrary macrostate value from the state as follows.</p>
@@ -910,8 +911,8 @@ state macrostate
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">volume</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">criteria</span><span class="p">()</span><span class="o">.</span><span class="n">beta</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;beta_mu&#39;</span><span class="p">,</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">criteria</span><span class="p">()</span><span class="o">.</span><span class="n">beta_mu</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">thermo_params</span><span class="p">()</span><span class="o">.</span><span class="n">beta</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;beta_mu&#39;</span><span class="p">,</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">thermo_params</span><span class="p">()</span><span class="o">.</span><span class="n">beta_mu</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;macro_min&#39;</span><span class="p">,</span> <span class="n">criteria</span><span class="o">.</span><span class="n">macrostate</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># monte_carlo.critera() doesn&#39;t know macrostate. Use copy of derived class</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;macro_max&#39;</span><span class="p">,</span> <span class="n">criteria</span><span class="o">.</span><span class="n">macrostate</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">num_states</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;macro_max&#39;</span><span class="p">,</span> <span class="n">criteria</span><span class="o">.</span><span class="n">macrostate</span><span class="p">()</span><span class="o">.</span><span class="n">histogram</span><span class="p">()</span><span class="o">.</span><span class="n">center_of_last_bin</span><span class="p">())</span>
@@ -974,43 +975,43 @@ macro_max 5.0
   <tbody>
     <tr>
       <th>0</th>
-      <td>4.588091e-16</td>
-      <td>3.784382e-16</td>
+      <td>5.934025e-16</td>
+      <td>2.805354e-16</td>
       <td>-2.312265e-10</td>
       <td>6.689238e-10</td>
     </tr>
     <tr>
       <th>1</th>
       <td>-6.057400e-04</td>
-      <td>0.000000e+00</td>
+      <td>3.074653e-12</td>
       <td>-6.057402e-04</td>
       <td>6.709198e-10</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>-3.053308e-02</td>
-      <td>2.170894e-04</td>
+      <td>-3.079117e-02</td>
+      <td>2.160275e-04</td>
       <td>-3.057422e-02</td>
       <td>9.649147e-06</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>-8.954303e-02</td>
-      <td>3.221287e-04</td>
+      <td>-8.954312e-02</td>
+      <td>2.783919e-04</td>
       <td>-8.992832e-02</td>
       <td>1.387472e-04</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>-1.775581e-01</td>
-      <td>8.888823e-04</td>
+      <td>-1.785213e-01</td>
+      <td>7.018941e-04</td>
       <td>-1.784571e-01</td>
       <td>3.315245e-05</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>-2.964494e-01</td>
-      <td>2.584105e-03</td>
+      <td>-2.955383e-01</td>
+      <td>1.519136e-03</td>
       <td>-2.961920e-01</td>
       <td>1.348791e-05</td>
     </tr>
@@ -1020,16 +1021,16 @@ macro_max 5.0
 </div>
 <p>You may also compare the natural logarithm of the macrostate probability</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ln_prob_srsw&quot;</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;lj_fh.txt&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">3</span><span class="p">)[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ln_prob_srsw&quot;</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;lj_fh.txt&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1059,32 +1060,32 @@ macro_max 5.0
     <tr>
       <th>0</th>
       <td>-18.707570</td>
-      <td>-18.701628</td>
+      <td>-18.706792</td>
     </tr>
     <tr>
       <th>1</th>
       <td>-14.037373</td>
-      <td>-14.031816</td>
+      <td>-14.035499</td>
     </tr>
     <tr>
       <th>2</th>
       <td>-10.050312</td>
-      <td>-10.046629</td>
+      <td>-10.046600</td>
     </tr>
     <tr>
       <th>3</th>
       <td>-6.458921</td>
-      <td>-6.456832</td>
+      <td>-6.456418</td>
     </tr>
     <tr>
       <th>4</th>
       <td>-3.145637</td>
-      <td>-3.145035</td>
+      <td>-3.143952</td>
     </tr>
     <tr>
       <th>5</th>
       <td>-0.045677</td>
-      <td>-0.045708</td>
+      <td>-0.045758</td>
     </tr>
   </tbody>
 </table>
@@ -1105,7 +1106,7 @@ macro_max 5.0
         <a href="tutorial_2_reweight_supercritical.html" class="btn btn-neutral float-right" title="Analysis of a one-phase (supercritical) simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../README.html" class="btn btn-neutral float-left" title="Flat histogram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tutorial_10_hs.html" class="btn btn-neutral float-left" title="Analysis of a hard sphere simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

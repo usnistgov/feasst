@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>HenryCoefficient &mdash; FEASST v0.14.0 documentation</title>
+  <title>HenryCoefficient &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="ModelHardShape" href="ModelHardShape.html" />
-    <link rel="prev" title="AlwaysAccept" href="AlwaysAccept.html" />
+    <link rel="prev" title="AlwaysReject" href="AlwaysReject.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -121,11 +121,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="ModelLJShape.html">ModelLJShape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_anywhere.html">confinement/include/trial_anywhere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelSquareWellShape.html">ModelSquareWellShape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="AlwaysAccept.html">AlwaysAccept</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AlwaysReject.html">AlwaysReject</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">HenryCoefficient</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelHardShape.html">ModelHardShape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAnywhereNewOnly.html">TrialAnywhereNewOnly</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTableCart1DHard.html">ModelTableCart1DHard</a></li>
 </ul>
 </li>
@@ -260,8 +260,8 @@
 <h1>HenryCoefficient<a class="headerlink" href="#henrycoefficient" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst16HenryCoefficientE">
-<span class="target" id="classfeasst_1_1HenryCoefficient"></span><em class="property">class </em><code class="sig-name descname">HenryCoefficient</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a><a class="headerlink" href="#_CPPv4N6feasst16HenryCoefficientE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Accumulate <span class="math notranslate nohighlight">\(\langle e^{-\beta U}\rangle\)</span>. </p>
+<span class="target" id="classfeasst_1_1HenryCoefficient"></span><em class="property">class </em><code class="sig-name descname">HenryCoefficient</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a><a class="headerlink" href="#_CPPv4N6feasst16HenryCoefficientE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Assumes there is only one <a class="reference internal" href="../../monte_carlo/doc/Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>, TrialAdd, and it is AlwaysReject-ed. Accumulate <span class="math notranslate nohighlight">\(\langle e^{-\beta \Delta U}\rangle\)</span>, where <span class="math notranslate nohighlight">\(\Delta U\)</span> is the energy contribution of the attempt to add the particle. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -304,7 +304,7 @@
         <a href="ModelHardShape.html" class="btn btn-neutral float-right" title="ModelHardShape" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="AlwaysAccept.html" class="btn btn-neutral float-left" title="AlwaysAccept" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="AlwaysReject.html" class="btn btn-neutral float-left" title="AlwaysReject" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

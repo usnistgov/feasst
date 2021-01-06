@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>EnergyMapAll &mdash; FEASST v0.14.0 documentation</title>
+  <title>EnergyMapAll &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -129,6 +129,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
@@ -257,7 +258,7 @@
 <h1>EnergyMapAll<a class="headerlink" href="#energymapall" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst12EnergyMapAllE">
-<span class="target" id="classfeasst_1_1EnergyMapAll"></span><em class="property">class </em><code class="sig-name descname">EnergyMapAll</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMapE" title="feasst::EnergyMap">EnergyMap</a><a class="headerlink" href="#_CPPv4N6feasst12EnergyMapAllE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1EnergyMapAll"></span><em class="property">class </em><code class="sig-name descname">EnergyMapAll</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMapE" title="feasst::EnergyMap">EnergyMap</a><a class="headerlink" href="#_CPPv4N6feasst12EnergyMapAllE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Map energies with an inefficient but simple data structure. All pairwise interactions between particles and sites are stored, even when the interaction is zero.</p>
 <p>This implementation stores two versions of the map, the current map and the new map. Updates from perturbations change only the new map. If the perturbation is accepted, the updates are finalized into the current map. Otherwise, the new map is synchronized to the old map. </p>
 <p>Subclassed by <a class="reference internal" href="EnergyMapAllCriteria.html#classfeasst_1_1EnergyMapAllCriteria"><span class="std std-ref">feasst::EnergyMapAllCriteria</span></a></p>

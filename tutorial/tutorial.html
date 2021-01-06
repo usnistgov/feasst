@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial &mdash; FEASST v0.14.0 documentation</title>
+  <title>Tutorial &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -484,7 +484,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-version: v0.12.0-42-ga61b2a5885-dirty hwh/dccb_fix_nocell
+version: v0.7.0-90-g6cb364c4ae hwh/branch
 </pre></div></div>
 </div>
 <p>Then a <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created and the random number generator is initialized using the C++ implementation of the Mersenne Twister seeded by the time and date.</p>
@@ -539,17 +539,18 @@ You can test this now by changing the `cubic_box_length` argument to an incorrec
 </div>
 <p>In this example, we introduce both the pair-wise <a class="reference internal" href="../plugin/system/doc/LennardJones.html"><span class="doc">Lennard-Jones (LJ) model</span></a>, and also <a class="reference internal" href="../plugin/system/doc/LongRangeCorrections.html"><span class="doc">long-range corrections</span></a>, which approximately account for the cut off of the LJ potential by assuming a pair-wise radial distance distribution function of unity. A FEASST convention is to use a helper function which appends the word <code class="docutils literal notranslate"><span class="pre">Make</span></code> onto the class name when creating pointers to FEASST derived class objects. This
 serves two purposes involving C++11 smart pointers and brace enclosed initializer lists.</p>
-<p>Initialization of the acceptance <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a> includes thermodynamic constraints such as temperature.</p>
+<p>Initialize <a class="reference internal" href="../plugin/system/doc/ThermoParams.html"><span class="doc">ThermoParams</span></a>, such as temperature, and the acceptance <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">})))</span>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">})))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
-<p>A <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a> is then introduced which attempts to translate a random particle by a random distance which is bound in each dimension by a <code class="docutils literal notranslate"><span class="pre">tunable_param</span></code>. This parameter may be adjusted to obtain a desired acceptance ratio, <code class="docutils literal notranslate"><span class="pre">tunable_target_acceptance</span></code>, with the help of <a class="reference internal" href="../plugin/steppers/doc/Tuner.html"><span class="doc">Tuner</span></a>.</p>
+<p>A <a class="reference internal" href="../plugin/monte_carlo/doc/trials.html"><span class="doc">TrialTranslate</span></a> is then introduced which attempts to translate a random particle by a random distance which is bound in each dimension by a <code class="docutils literal notranslate"><span class="pre">tunable_param</span></code>. This parameter may be adjusted to obtain a desired acceptance ratio, <code class="docutils literal notranslate"><span class="pre">tunable_target_acceptance</span></code>, with the help of <a class="reference internal" href="../plugin/steppers/doc/Tuner.html"><span class="doc">Tuner</span></a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -562,19 +563,20 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </pre></div>
 </div>
 </div>
-<p>With the help of <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a>, we can now initialize the number of particles.</p>
+<p>With the help of <a class="reference internal" href="../plugin/monte_carlo/doc/trials.html"><span class="doc">TrialTranslate</span></a>, we can now initialize the number of particles.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">feasst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>\
-    <span class="o">.</span><span class="n">with_metropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))</span>\
+    <span class="o">.</span><span class="n">with_thermo_params</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))</span>\
+    <span class="o">.</span><span class="n">with_metropolis</span><span class="p">()</span>\
     <span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>A grand canonical simulation is performed here by utilizing a temporary <a class="reference internal" href="../plugin/monte_carlo/doc/TrialAdd.html"><span class="doc">TrialAdd</span></a>, which is why chemical potential was input to <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
+<p>A grand canonical simulation is performed here by utilizing a temporary <a class="reference internal" href="../plugin/monte_carlo/doc/trials.html"><span class="doc">TrialAdd</span></a>, which is why chemical potential was input to <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
 <p>Additional <a class="reference internal" href="../plugin/monte_carlo/doc/Analyze.html"><span class="doc">Analyze</span></a> or <a class="reference internal" href="../plugin/monte_carlo/doc/Modify.html"><span class="doc">Modify</span></a> may be added at any time to perform some task contingent upon the number of attempted trials.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -608,8 +610,8 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 706 ms, sys: 537 µs, total: 707 ms
-Wall time: 705 ms
+CPU times: user 797 ms, sys: 3.79 ms, total: 801 ms
+Wall time: 798 ms
 </pre></div></div>
 </div>
 <p>Now we can analyze the simulation by, for example, plotting the instantaneous energy as a function of the number of attempts.</p>
@@ -631,7 +633,7 @@ Wall time: 705 ms
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f7c99a81278&gt;
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fd1f117e7d0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">

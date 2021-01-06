@@ -24,6 +24,7 @@ Nomenclature and style
 * characters are case sensitive
 * the number of spaces between characters does not matter
 * LMP Coeffs sections were replaced by Properties sections, with different formatting
+* "2 dimensions" may be specified at the beginning of the file for a 2D simulation.
 
 Site Properties
 ================
@@ -49,3 +50,4 @@ Site Labels
 =============
 
 Site labels are used to attach a name to the site type, often used for visualization programs, etc.
+Note: these are not currently implemented.

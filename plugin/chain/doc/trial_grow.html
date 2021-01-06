@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TrialRemoveMultiple &mdash; FEASST v0.14.0 documentation</title>
+  <title>chain/include/trial_grow &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="TrialAddMultiple" href="TrialAddMultiple.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="toc.html" />
+    <link rel="next" title="PerturbPivot" href="PerturbPivot.html" />
+    <link rel="prev" title="chain/include/trials" href="trials.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -114,29 +114,30 @@
 <li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckRigidBonds.html">CheckRigidBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RecenterParticles.html">RecenterParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trials.html">chain/include/trials</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">chain/include/trial_grow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Ewald</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">TrialRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils.html">ewald/include/utils</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Coulomb.html">Coulomb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Ewald.html">Ewald</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
@@ -216,11 +217,11 @@
         
           <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
-          <li><a href="../README.html">Ewald</a> &raquo;</li>
+          <li><a href="../README.html">Chain</a> &raquo;</li>
         
           <li><a href="toc.html">&lt;no title&gt;</a> &raquo;</li>
         
-      <li>TrialRemoveMultiple</li>
+      <li>chain/include/trial_grow</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -261,21 +262,44 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="trialremovemultiple">
-<h1>TrialRemoveMultiple<a class="headerlink" href="#trialremovemultiple" title="Permalink to this headline">¶</a></h1>
-<dl class="cpp class">
-<dt id="_CPPv4N6feasst19TrialRemoveMultipleE">
-<span class="target" id="classfeasst_1_1TrialRemoveMultiple"></span><em class="property">class </em><code class="sig-name descname">TrialRemoveMultiple</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst19TrialRemoveMultipleE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Attempt to remove multiple particles. Typically requires the use of a reference index. </p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<div class="section" id="chain-include-trial-grow">
+<h1>chain/include/trial_grow<a class="headerlink" href="#chain-include-trial-grow" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp type">
+<dt id="_CPPv46feasst">
+<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst19TrialRemoveMultiple19TrialRemoveMultipleERK7argtype">
-<span class="target" id="classfeasst_1_1TrialRemoveMultiple_1a1b1125dce21fb9ca9647c3a5f1a1ec75"></span><code class="sig-name descname">TrialRemoveMultiple</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst19TrialRemoveMultiple19TrialRemoveMultipleERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>particle_type[i]: the i-th type of particle to add. The “[i]” is to be substituted for an integer 0, 1, 2, … </p></li>
+<dt id="_CPPv4N6feasst6feasst13MakeTrialGrowERKNSt6vectorI7argtypeEERK7argtype">
+<span class="target" id="namespacefeasst_1a29d1293d64d7f9fe4473f143d42ab9c8"></span>std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a>&gt; <code class="sig-name descname">MakeTrialGrow</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;argtype&gt; &amp;<em>args</em>, <em class="property">const</em> argtype &amp;<em>default_args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst13MakeTrialGrowERKNSt6vectorI7argtypeEERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">default_args</span></code>: Optionally, the following arguments for num_steps and reference_index are applied to every growth. Any option applied by the above args overwrites this option. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Manually describe partial or full-particle growth using configurational bias. The input is a vector of argtype, where each argtype represents a <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> for growing one (or rarely, multiple) sites.</p>
+<p>The following options may only be used in the first argtype.<ul class="simple">
+<li><p>particle_type: type of particle in <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (always required).</p></li>
+<li><p>site: site index in particle_type to transfer/regrow (always required).</p></li>
+<li><p>weight: weight of selection of this trial (default: see <a class="reference internal" href="../../monte_carlo/doc/Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>).</p></li>
+<li><p>transfer: if true, create add and remove trial with equal weight (default: false).</p></li>
+<li><p>regrow: if true, place anywhere in the domain (default: false).</p></li>
+<li><p>transfer_avb: if true, same as transfer but with AVB Add/Remove for the first stage (default: false).</p></li>
+<li><p>regrow_avb2: if true, regrow using AVB2 in the first stage (default: false).</p></li>
+<li><p>regrow_avb4: if true, regrow using AVB4 in the first stage (default: false).</p></li>
 </ul>
 </p>
+<p>The following options may be used in any argtype, including the first for particle regrowth.<ul class="simple">
+<li><p>num_steps: number of <a class="reference internal" href="../../monte_carlo/doc/Rosenbluth.html#classfeasst_1_1Rosenbluth"><span class="std std-ref">Rosenbluth</span></a> steps (see <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a>).</p></li>
+<li><p>reference_index: reference potential for DCCB (see <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a>).</p></li>
+<li><p>bond: if used, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistance.html#classfeasst_1_1PerturbDistance"><span class="std std-ref">PerturbDistance</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>angle: if used, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistanceAngle.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">PerturbDistanceAngle</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>branch: if used, adds <a class="reference internal" href="SelectBranch.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a> and <a class="reference internal" href="PerturbBranch.html#classfeasst_1_1PerturbBranch"><span class="std std-ref">PerturbBranch</span></a>. Requires arguments described in <a class="reference internal" href="SelectBranch.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a>, <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> and <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a>.</p></li>
+</ul>
+</p>
+<p>Note that only one of bond, angle or branch may be true for a given stage. </p>
 </dd></dl>
 
 </div>
@@ -291,10 +315,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="TrialAddMultiple.html" class="btn btn-neutral float-right" title="TrialAddMultiple" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="PerturbPivot.html" class="btn btn-neutral float-right" title="PerturbPivot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="toc.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="trials.html" class="btn btn-neutral float-left" title="chain/include/trials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

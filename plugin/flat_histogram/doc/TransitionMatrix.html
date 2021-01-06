@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TransitionMatrix &mdash; FEASST v0.14.0 documentation</title>
+  <title>TransitionMatrix &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -268,7 +268,7 @@
 <h1>TransitionMatrix<a class="headerlink" href="#transitionmatrix" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst16TransitionMatrixE">
-<span class="target" id="classfeasst_1_1TransitionMatrix"></span><em class="property">class </em><code class="sig-name descname">TransitionMatrix</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrixE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1TransitionMatrix"></span><em class="property">class </em><code class="sig-name descname">TransitionMatrix</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrixE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Transition matrix flat histogram bias.</p>
 <p>Direct calculation of liquid–vapor phase equilibria from transition matrix Monte Carlo simulation <a class="reference external" href="https://doi.org/10.1063/1.1572463">https://doi.org/10.1063/1.1572463</a></p>
 <p>Elucidating the effects of adsorbent flexibility on fluid adsorption using simple models and flat-histogram sampling methods. <a class="reference external" href="https://doi.org/10.1063/1.4884124">https://doi.org/10.1063/1.4884124</a> </p>
@@ -279,7 +279,8 @@
 <span class="target" id="classfeasst_1_1TransitionMatrix_1aadb728dd2d946e4a83acf75982f1773d"></span><code class="sig-name descname">TransitionMatrix</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix16TransitionMatrixERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>min_visits : A sweep is performed when all macrostates are visited by another macrostate this number of times (default: 100).</p></li>
-<li><p>min_sweeps : Number of sweeps required for completion. </p></li>
+<li><p>min_sweeps : Number of sweeps required for completion.</p></li>
+<li><p>num_blocks : Number of blocks (default: 30). </p></li>
 </ul>
 </p>
 </dd></dl>

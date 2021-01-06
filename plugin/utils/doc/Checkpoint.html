@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Checkpoint &mdash; FEASST v0.14.0 documentation</title>
+  <title>Checkpoint &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -262,7 +262,7 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst10CheckpointE">
 <span class="target" id="classfeasst_1_1Checkpoint"></span><em class="property">class </em><code class="sig-name descname">Checkpoint</code><a class="headerlink" href="#_CPPv4N6feasst10CheckpointE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="#classfeasst_1_1Checkpoint"><span class="std std-ref">Checkpoint</span></a> after user defined number of hours. </p>
+<dd><p><a class="reference internal" href="#classfeasst_1_1Checkpoint"><span class="std std-ref">Checkpoint</span></a> after user defined number of hours. Note that for OMP or parallel simulations, the number of hours is multiplied by the number of cores. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -270,8 +270,9 @@
 <span class="target" id="classfeasst_1_1Checkpoint_1acb0382dc2386654ded0a658245e61f08"></span><code class="sig-name descname">Checkpoint</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Checkpoint10CheckpointERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>num_hours: Number of hours between printing of checkpoint file (default: 1).</p></li>
-<li><p>num_hours_terminate: Terminate after this many hours. If -1, do not terminate (default: -1). (default: 1).</p></li>
-<li><p>file_name: The default is one space (e.g., ” “) and no checkpointing. </p></li>
+<li><p>num_hours_terminate: Terminate after this many hours. If -1, do not terminate (default: -1). Termination may be detected in Bash shell using “$? != 0”.</p></li>
+<li><p>file_name: The default is one space (e.g., ” “). Do not checkpoint if file_name is empty or is one space.</p></li>
+<li><p>writes_per_backup: Create a unique checkpoint file name every this many times that a checkpoint is written (default: -1). If -1, only backup the previous file by appending its name with “.bak”. Otherwise, if &gt; 0, append each backup with an integer count beginning 0. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -283,9 +284,9 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0ENK6feasst10Checkpoint5writeEvRK1T">
-<span class="target" id="classfeasst_1_1Checkpoint_1a9b365355c2e30a23a2279bbe7580ec5a"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0ENK6feasst10Checkpoint5writeEvRK1T" title="feasst::Checkpoint::write::T">T</a> &amp;<em>obj</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4I0ENK6feasst10Checkpoint5writeEvRK1T" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Write the checkpoint to file. </p>
+<dt id="_CPPv4I0ENK6feasst10Checkpoint5writeEvRK1TKNSt6stringE">
+<span class="target" id="classfeasst_1_1Checkpoint_1a2458749dcfd36cfee040406e70c343c5"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0ENK6feasst10Checkpoint5writeEvRK1TKNSt6stringE" title="feasst::Checkpoint::write::T">T</a> &amp;<em>obj</em>, <em class="property">const</em> std::string <em>append_backup</em> = &quot;.bak&quot;<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4I0ENK6feasst10Checkpoint5writeEvRK1TKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write the checkpoint to file. If the file exists, create backup. </p>
 </dd></dl>
 
 <dl class="cpp function">

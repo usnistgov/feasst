@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Developer guidelines &mdash; FEASST v0.14.0 documentation</title>
+  <title>Developer guidelines &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -555,15 +555,16 @@ compatibility.</p></li>
 <div class="section" id="to-do-list">
 <h2>To Do List<a class="headerlink" href="#to-do-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li><p>implement gibbs ensemble</p></li>
+<li><p>find a better way for two different classes to take from the same argument list and still maintain unused checks.</p></li>
+<li><p>Make utils:lj,spce,etc derived classes of System ?</p></li>
+<li><p>benchmark feasst vs simple hardcoded LJ simulations. Create benchmarking profile to compare among versions</p></li>
 <li><p>ideal gas as the first tutorial/testcase</p></li>
 <li><p>specify units in LMP data files?</p></li>
 <li><p>fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu</p></li>
-<li><p>trial regrow to include grand canonical insertions</p></li>
 <li><p>consider optimization of Ewald: init ewald storage on particle types, precompute property index.</p></li>
-<li><p>find a better way for two different classes to take from the same argument list and still maintain unused checks.</p></li>
 <li><p>when selecting from cpdf, use lnp instead of p?</p></li>
 <li><p>insert optimization: update cell list of sites when added, but of domain only when finalized.</p></li>
-<li><p>Python interface cannot take a system pointer to modify system (e.g., perturb, in monte_carlo/tutorial/test_lj_model.py.bak</p></li>
 <li><p>IF using argtype for custom object, considering single string constructors. E.g., for position in cylinder.h, use {“point0”, “0 0 0”}</p></li>
 <li><p>Python debug script: easy for user to run gdb/valgrind</p></li>
 <li><p>Toggle more debug levels, and localized to certain files/plugins, etc</p></li>
@@ -573,12 +574,10 @@ compatibility.</p></li>
 <li><p>add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects</p></li>
 <li><p>VisitModels may prefer to update select properties (e.g., cell, eik)</p></li>
 <li><p>Jupyter notebook output should go to cells, not terminal that runs jupyter.</p></li>
-<li><p>implement gibbs ensemble</p></li>
 <li><p>lint file_[xyz,lmp]</p></li>
 <li><p>regrow but within near existing, for ‘free dof, e.g. azimuthal in  angle, sphere in bond, etc’</p></li>
 <li><p>put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list</p></li>
 <li><p>config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald</p></li>
-<li><p>HS-only simulations can use TrialComputeMoveMayer without computing energy of old configuration</p></li>
 <li><p>Refactor arguments so that they can be checked for usage (especially in Trials)</p></li>
 <li><p>Rename TrialSelect-&gt;SelectTrial, TrialCompute-&gt;ComputeTrial. Rename Compute-&gt;Decide?.</p></li>
 <li><p>Somehow, trial_growth_expanded.h doesn’t include debug.h but can compile with ASSERT</p></li>
@@ -596,6 +595,11 @@ compatibility.</p></li>
 <li><p>System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).</p></li>
 <li><p>Consider using new state instead of old state in acceptance derivations</p></li>
 <li><p>Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.</p></li>
+<li><p>Rename data and xyz files, document them more cleary (second line in xyz, and error if data not read correctly).</p></li>
+<li><p>Make ModelTwoBodyTable that tabulates interaction from min(hs)-max(rc) distance for each distinct pair of site types, and can easily be added as optimized Potential</p></li>
+<li><p>Rename plugin chain-&gt;config_bias ?</p></li>
+<li><p>maybe mc.add(criteria) is preferable to mc.set. Same with sys?</p></li>
+<li><p>in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?</p></li>
 </ul>
 </div>
 </div>

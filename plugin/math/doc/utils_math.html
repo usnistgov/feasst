@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>math/include/utils_math &mdash; FEASST v0.14.0 documentation</title>
+  <title>math/include/utils_math &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -115,6 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
@@ -343,21 +344,15 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorI1TEEEE">
-<span class="target" id="namespacefeasst_1aa51ce44774ce00d3a37b7927026d9274"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::sum::T">T</a>&gt;&gt; &amp;<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the sum of all elements in a 2D vector. </p>
+<dt id="_CPPv4I0EN6feasst6feasst3sumE1TRK1T">
+<span class="target" id="namespacefeasst_1aeeda454cfd1d623dd46a62067e10fb4b"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRK1T" title="feasst::feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRK1T" title="feasst::feasst::sum::T">T</a> &amp;<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3sumE1TRK1T" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Terminate recursive template for multidimensional sums. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE">
-<span class="target" id="namespacefeasst_1a56db5e0b2b2af3eb71f85a226e1c412e"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::sum::T">T</a>&gt;&gt;&gt; &amp;<em>vec3</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the sum of all elements in a 3D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE">
-<span class="target" id="namespacefeasst_1a4341a512499da306499c90c0e199dc4b"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="feasst::feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="feasst::feasst::sum::T">T</a>&gt;&gt;&gt;&gt; &amp;<em>vec4</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the sum of all elements in a 4D vector. </p>
+<dt id="_CPPv4I0EN6feasst6feasst3sumE1TRKNSt5dequeI1TEE">
+<span class="target" id="namespacefeasst_1a4bf65e79ae16d575f150ea27757de0f1"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt5dequeI1TEE" title="feasst::feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> std::deque&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt5dequeI1TEE" title="feasst::feasst::sum::T">T</a>&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt5dequeI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the sum of all elements in a deque. </p>
 </dd></dl>
 
 <dl class="cpp function">

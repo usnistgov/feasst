@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Slab, cylindrical, spherical and mixed confinement &mdash; FEASST v0.14.0 documentation</title>
+  <title>Slab, cylindrical, spherical and mixed confinement &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -483,11 +483,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
+<span></span><span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/monte_carlo/tutorial/&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">analyze</span>
 
 <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="n">confinement</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">confinement</span> <span class="o">==</span> <span class="s2">&quot;slab&quot;</span><span class="p">:</span>
@@ -530,9 +527,10 @@ div.rendered_html tbody tr:hover {
 <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">confinement</span><span class="p">,</span> <span class="n">cubic_box_length</span><span class="p">,</span> <span class="n">num_particles</span><span class="p">):</span>
     <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">cubic_box_length</span><span class="p">)})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeModelHardShape</span><span class="p">(</span><span class="n">shape</span><span class="p">(</span><span class="n">confinement</span><span class="p">))))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeModelHardShape</span><span class="p">(</span><span class="n">shape</span><span class="p">(</span><span class="n">confinement</span><span class="p">))))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
         <span class="p">{</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
         <span class="p">{</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">})))</span>
     <span class="n">fst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)</span><span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
@@ -577,8 +575,8 @@ test (__main__.TestConfinement1LJ) ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 11.9 s, sys: 36.8 ms, total: 12 s
-Wall time: 12 s
+CPU times: user 14.2 s, sys: 16 ms, total: 14.2 s
+Wall time: 14.2 s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -589,7 +587,7 @@ Wall time: 12 s
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 11.949s
+Ran 1 test in 14.167s
 
 OK
 </pre></div></div>
@@ -600,18 +598,10 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f44045819b0&gt;
+&lt;unittest.main.TestProgram at 0x7f2530f4a390&gt;
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
+<p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>
 
 

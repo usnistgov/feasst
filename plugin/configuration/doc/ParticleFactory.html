@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ParticleFactory &mdash; FEASST v0.14.0 documentation</title>
+  <title>ParticleFactory &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -290,9 +290,9 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst15ParticleFactory11check_typesEPiPi">
-<span class="target" id="classfeasst_1_1ParticleFactory_1a1bcd08860459fee2084297a6f70a0be1"></span>void <code class="sig-name descname">check_types</code><span class="sig-paren">(</span>int *<em>num_site_types</em>, int *<em>num_particle_types</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory11check_typesEPiPi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site or particle type is skipped. As particles and sites are added, a never before seen type must be only one higher than the previous maximum index. Types begin with 0.</p>
+<dt id="_CPPv4NK6feasst15ParticleFactory11check_typesEPiPiPiPi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1afebfc265f25da638e9340f0946c9cf5b"></span>void <code class="sig-name descname">check_types</code><span class="sig-paren">(</span>int *<em>num_site_types</em>, int *<em>num_particle_types</em>, int *<em>num_bond_types</em>, int *<em>num_angle_types</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory11check_typesEPiPiPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site, particle, bond or angle type is skipped. As particles and sites are added, a never before seen type must be only one higher than the previous maximum index. Types begin with 0.</p>
 <p>For example, a particle with sites of type {0, 2} is invalid because the second site of type “2” appears without a previous type “1” site.</p>
 <p>In another example, a particle with sites of type {1,2} is invalid because the site type doesn’t begin with 0.</p>
 <p>Note: for partial configurations by groups, these checks may not apply. </p>
@@ -301,27 +301,31 @@
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst15ParticleFactory11check_typesEv">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a65dfce0c22230a2d274c9c3d04ceb961"></span>void <code class="sig-name descname">check_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory11check_typesEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site or particle type is skipped. </p>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site, particle, bond or angle type is skipped. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst15ParticleFactory16check_site_typesEv">
 <span class="target" id="classfeasst_1_1ParticleFactory_1aee6f209981edccb4cde5801e38f6d068"></span>int <code class="sig-name descname">check_site_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory16check_site_typesEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site type is skipped. <dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>number of site types. </p>
-</dd>
-</dl>
-</p>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site type is skipped. Return number of site types. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst15ParticleFactory20check_particle_typesEv">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a67f134b3523ae1299e805943b8b04735"></span>int <code class="sig-name descname">check_particle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory20check_particle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no particle type is skipped. <dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>number of particle types. </p>
-</dd>
-</dl>
-</p>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no particle type is skipped. Return number of particle types. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst15ParticleFactory16check_bond_typesEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a206cac38796d3baa9883e91f0e3cb6c9"></span>int <code class="sig-name descname">check_bond_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory16check_bond_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no bond type is skipped. Return number of bond types. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst15ParticleFactory17check_angle_typesEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a65ab979b865e84ac7173b838ff40cf2f"></span>int <code class="sig-name descname">check_angle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory17check_angle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no angle type is skipped. Return number of angle types. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -422,6 +426,30 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst15ParticleFactory14num_bond_typesEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a4097ad656fd48789e6f7a2c6b2d7143a"></span>int <code class="sig-name descname">num_bond_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory14num_bond_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of bond types. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst15ParticleFactory9num_bondsEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a1949190b7796d6c17a2684d57b9fe05f"></span>int <code class="sig-name descname">num_bonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory9num_bondsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of bonds. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst15ParticleFactory15num_angle_typesEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a1432c2277ff9e4044b06c59319a9c045"></span>int <code class="sig-name descname">num_angle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory15num_angle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of angle types. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst15ParticleFactory10num_anglesEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a29cc6254ce5c085897088beb5d623cc6"></span>int <code class="sig-name descname">num_angles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory10num_anglesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of angles. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst15ParticleFactory13set_site_typeEKiKiKi">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a3b787b37050bdd3d5b6688337abb8e88"></span>void <code class="sig-name descname">set_site_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle</em>, <em class="property">const</em> int <em>site</em>, <em class="property">const</em> int <em>site_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory13set_site_typeEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Change the site type of a given site in a particle. </p>
@@ -458,6 +486,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst15ParticleFactory15set_model_paramEPKcKiKiKd">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a6c75cf672cf8fff6144d8278436951ec"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, <em class="property">const</em> int <em>site_type1</em>, <em class="property">const</em> int <em>site_type2</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory15set_model_paramEPKcKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> a mixed model parameter of given site types and name to value. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst15ParticleFactory15add_model_paramEKNSt6stringEKd">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a298cae10656f499e1c5ee57847048a59"></span>void <code class="sig-name descname">add_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory15add_model_paramEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add model parameter of a given name to value. </p>
@@ -467,6 +501,12 @@
 <dt id="_CPPv4N6feasst15ParticleFactory22add_or_set_model_paramEKNSt6stringEKd">
 <span class="target" id="classfeasst_1_1ParticleFactory_1ad85807e72cb90b4d03ab5cbab5b50644"></span>void <code class="sig-name descname">add_or_set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory22add_or_set_model_paramEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add or set model parameter of a given name to value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst15ParticleFactory23set_cutoff_min_to_sigmaEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a51a33d9b3aef5369a162eba6036cf323"></span>void <code class="sig-name descname">set_cutoff_min_to_sigma</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory23set_cutoff_min_to_sigmaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the minimum cutoff to sigma. </p>
 </dd></dl>
 
 <dl class="cpp function">

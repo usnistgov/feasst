@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>WLTM &mdash; FEASST v0.14.0 documentation</title>
+  <title>WLTM &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -268,7 +268,7 @@
 <h1>WLTM<a class="headerlink" href="#wltm" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst4WLTME">
-<span class="target" id="classfeasst_1_1WLTM"></span><em class="property">class </em><code class="sig-name descname">WLTM</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a><a class="headerlink" href="#_CPPv4N6feasst4WLTME" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1WLTM"></span><em class="property">class </em><code class="sig-name descname">WLTM</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a><a class="headerlink" href="#_CPPv4N6feasst4WLTME" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Begin with <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> and end with <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -291,8 +291,8 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst4WLTM18set_num_iterationsEKi">
-<span class="target" id="classfeasst_1_1WLTM_1a60167b35ca2dbf0b39c657f996d2a935"></span>void <code class="sig-name descname">set_num_iterations</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iteration</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4WLTM18set_num_iterationsEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set the number of iterations required for completion. In <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> and <a class="reference internal" href="#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, this is the minimum number of sweeps. In <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, this is the minimum number of flatness checks. Afterward, check again for completeness. </p>
+<span class="target" id="classfeasst_1_1WLTM_1a60167b35ca2dbf0b39c657f996d2a935"></span>void <code class="sig-name descname">set_num_iterations</code><span class="sig-paren">(</span><em class="property">const</em> int <em>sweeps</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4WLTM18set_num_iterationsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Updates min_sweeps, but neither flatness. </p>
 </dd></dl>
 
 <dl class="cpp function">

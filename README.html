@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>README &mdash; FEASST v0.14.0 documentation</title>
+  <title>README &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -111,6 +111,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#windows-10">Windows 10</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ubuntu-16">Ubuntu 16</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ubuntu-18-or-20">Ubuntu 18 or 20</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cray-nersc-cori">Cray (NERSC CORI)</a></li>
 </ul>
 </li>
 </ul>
@@ -366,9 +367,15 @@ But you can also specify the path as follows.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/install/dir ..
 </pre></div>
 </div>
+<p>Sometimes running the executable results in an error that a plugin cannot be found.
+In that case <cite>LD_LIBRARY_PATH</cite> needs to be set as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/path/to/feasst/build/:</span><span class="nv">$LD_LIBRARY_PATH</span><span class="s2"></span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="troubleshooting-install">
 <h3>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Permalink to this headline">¶</a></h3>
+<p>Please <a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us if you run into an issue not listed below.</p>
 <div class="section" id="macos-mojave">
 <h4>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
@@ -403,11 +410,18 @@ Otherwise, install SWIG 3.</p>
 <li><p>We are not aware of any issues with an Ubuntu 18 or 20 install.</p></li>
 </ul>
 </div>
+<div class="section" id="cray-nersc-cori">
+<h4>Cray (NERSC CORI)<a class="headerlink" href="#cray-nersc-cori" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>OpenMP functions apparently do not work unless the cray programming environment is disabled.</p></li>
+</ul>
+</div>
 </div>
 </div>
 <div class="section" id="build-from-docker">
 <h2>Build from Docker<a class="headerlink" href="#build-from-docker" title="Permalink to this headline">¶</a></h2>
-<p>Installation via <a class="reference external" href="docker.io">Docker</a> is an alternative if you are experiencing installation issues.
+<p>The Docker is no longer being updated and contains a very old version of the code.
+Installation via <a class="reference external" href="docker.io">Docker</a> is an alternative if you are experiencing installation issues.
 Unfortunately there is a performance penalty using this method.</p>
 <p>First, install docker</p>
 <blockquote>

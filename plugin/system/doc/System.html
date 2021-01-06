@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>System &mdash; FEASST v0.14.0 documentation</title>
+  <title>System &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -113,6 +113,7 @@
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
@@ -129,6 +130,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
@@ -286,9 +288,10 @@
 <p><ol class="arabic simple">
 <li><p>The first is without optimizations.</p></li>
 <li><p>The second is with optimizations, which may be periodically compared with the first.</p></li>
-<li><p>The remaining potentials are used for reference. For example, cheap energy calculations in dual-cut configurational bias. Also Mayer-sampling. </p></li>
+<li><p>The remaining potentials are used for reference. For example, cheap energy calculations in dual-cut configurational bias. Also Mayer-sampling.</p></li>
 </ol>
 </p>
+<p>Finally, the <a class="reference internal" href="#classfeasst_1_1System"><span class="std std-ref">System</span></a> also contains the <a class="reference internal" href="ThermoParams.html#classfeasst_1_1ThermoParams"><span class="std std-ref">ThermoParams</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Configurations</p>
 <p>Store and retrieve a list of configurations. </p>
@@ -321,20 +324,20 @@
 <p class="breathe-sectiondef-title rubric">Potentails</p>
 <p>Store and retrieve a list of potentials. </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6System3addERK9Potential">
-<span class="target" id="classfeasst_1_1System_1a4a0f4a8fce281747d020928917fe9e0c"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System3addERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst6System3addENSt10shared_ptrI9PotentialEE">
+<span class="target" id="classfeasst_1_1System_1ad4bb5ede04a274e0562f20784d1b75e5"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; <em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System3addENSt10shared_ptrI9PotentialEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add a potential. By default, the potential is considered unoptimized. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6System15set_unoptimizedEKiRK9Potential">
-<span class="target" id="classfeasst_1_1System_1a82fffb3a2a8d1b781a8bdc5ad3c02573"></span>void <code class="sig-name descname">set_unoptimized</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System15set_unoptimizedEKiRK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst6System15set_unoptimizedEKiNSt10shared_ptrI9PotentialEE">
+<span class="target" id="classfeasst_1_1System_1a29c4ee733fc6186f0e751b93895a1c9b"></span>void <code class="sig-name descname">set_unoptimized</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, std::shared_ptr&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; <em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System15set_unoptimizedEKiNSt10shared_ptrI9PotentialEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set an unoptimized potential. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6System18add_to_unoptimizedERK9Potential">
-<span class="target" id="classfeasst_1_1System_1af743007abd65a51e1eb144162af62c62"></span>void <code class="sig-name descname">add_to_unoptimized</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System18add_to_unoptimizedERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst6System18add_to_unoptimizedENSt10shared_ptrI9PotentialEE">
+<span class="target" id="classfeasst_1_1System_1a03948bad1f22d45ca632b4c56631b562"></span>void <code class="sig-name descname">add_to_unoptimized</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; <em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System18add_to_unoptimizedENSt10shared_ptrI9PotentialEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add an unoptimized potential. </p>
 </dd></dl>
 
@@ -351,8 +354,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6System16add_to_optimizedERK9Potential">
-<span class="target" id="classfeasst_1_1System_1a2804f6d2ca91bcb8d92fd44992f28ed9"></span>void <code class="sig-name descname">add_to_optimized</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System16add_to_optimizedERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst6System16add_to_optimizedENSt10shared_ptrI9PotentialEE">
+<span class="target" id="classfeasst_1_1System_1aaa8c62abd76cb0a361adb21c61c36457"></span>void <code class="sig-name descname">add_to_optimized</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; <em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System16add_to_optimizedENSt10shared_ptrI9PotentialEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add an optimized potential. </p>
 </dd></dl>
 
@@ -363,8 +366,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6System16add_to_referenceERK9PotentialKi">
-<span class="target" id="classfeasst_1_1System_1a697a520953d3d200e3bbffd8ae77ac5a"></span>void <code class="sig-name descname">add_to_reference</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>ref</em>, <em class="property">const</em> int <em>index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System16add_to_referenceERK9PotentialKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst6System16add_to_referenceENSt10shared_ptrI9PotentialEEKi">
+<span class="target" id="classfeasst_1_1System_1a71c1f635ec296967a5d6aa2186cd76c1"></span>void <code class="sig-name descname">add_to_reference</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; <em>ref</em>, <em class="property">const</em> int <em>index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System16add_to_referenceENSt10shared_ptrI9PotentialEEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add a reference potential. </p>
 <p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
@@ -390,7 +393,29 @@
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6System10potentialsEv">
 <span class="target" id="classfeasst_1_1System_1a6f071aafa86893224780359f68f9fb81"></span><em class="property">const</em> <a class="reference internal" href="PotentialFactory.html#_CPPv4N6feasst16PotentialFactoryE" title="feasst::PotentialFactory">PotentialFactory</a> &amp;<code class="sig-name descname">potentials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6System10potentialsEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return a constant pointer to the full potentials. </p>
+<dd><p>Return a constant reference to the full potentials. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Neighbor Criteria</p>
+<p>Define and store various criteria used for defining neighbors </p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6System3addENSt10shared_ptrI16NeighborCriteriaEE">
+<span class="target" id="classfeasst_1_1System_1af4b2cb0c6466645a69aeb8e57a960d48"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; <em>neighbor_criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System3addENSt10shared_ptrI16NeighborCriteriaEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6System17neighbor_criteriaEKi">
+<span class="target" id="classfeasst_1_1System_1a6236d6dc7a4e73ebd23599c115a7ff14"></span><em class="property">const</em> <a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6System17neighbor_criteriaEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6System17neighbor_criteriaEv">
+<span class="target" id="classfeasst_1_1System_1a751382250c34ab1658c6c364b8a7a2bc"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6System17neighbor_criteriaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
 </dd></dl>
 
 </div>
@@ -443,6 +468,28 @@
 <dt id="_CPPv4N6feasst6System16reference_energyERK6SelectKiKi">
 <span class="target" id="classfeasst_1_1System_1ad608c468ddeb0de008a6b12895a70d5f"></span>double <code class="sig-name descname">reference_energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> int <em>ref</em> = 0, <em class="property">const</em> int <em>config</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System16reference_energyERK6SelectKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the reference energy of the selection. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">ThermoParams</p>
+<p>Store and retreive the thermodynamic parameters such as temperature, pressure, etc. </p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6System3setENSt10shared_ptrI12ThermoParamsEE">
+<span class="target" id="classfeasst_1_1System_1a5890cea3b5b212e2a4f92b980d8877b8"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="ThermoParams.html#_CPPv4N6feasst12ThermoParamsE" title="feasst::ThermoParams">ThermoParams</a>&gt; <em>thermo_params</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System3setENSt10shared_ptrI12ThermoParamsEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the thermodynamic parameters. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6System13thermo_paramsEv">
+<span class="target" id="classfeasst_1_1System_1a0c68d48fbee2906aaf7b8114d2b72237"></span><em class="property">const</em> <a class="reference internal" href="ThermoParams.html#_CPPv4N6feasst12ThermoParamsE" title="feasst::ThermoParams">ThermoParams</a> &amp;<code class="sig-name descname">thermo_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6System13thermo_paramsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the thermodynamic parameters. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6System8set_betaEKd">
+<span class="target" id="classfeasst_1_1System_1a648c74030c3cd0c7c6436eeccecbfc78"></span>void <code class="sig-name descname">set_beta</code><span class="sig-paren">(</span><em class="property">const</em> double <em>beta</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System8set_betaEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the inverse temperature, <span class="math notranslate nohighlight">\(\beta\)</span>. </p>
 </dd></dl>
 
 <dl class="cpp function">

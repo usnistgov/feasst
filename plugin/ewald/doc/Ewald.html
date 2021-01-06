@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Ewald &mdash; FEASST v0.14.0 documentation</title>
+  <title>Ewald &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -121,12 +121,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_remove_multiple.html">ewald/include/trial_remove_multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_add_multiple.html">ewald/include/trial_add_multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">ewald/include/utils</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_transfer_multiple.html">ewald/include/trial_transfer_multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Coulomb.html">Coulomb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
@@ -265,7 +265,7 @@
 <h1>Ewald<a class="headerlink" href="#ewald" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst5EwaldE">
-<span class="target" id="classfeasst_1_1Ewald"></span><em class="property">class </em><code class="sig-name descname">Ewald</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst5EwaldE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Ewald"></span><em class="property">class </em><code class="sig-name descname">Ewald</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst5EwaldE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation accounts for the long-range nature of the electrostatic interaction by applying a Gaussian screening charge, computing a Fourier-space long-range component, and then correcting for the various spurious terms that are included in the Fourier summation, such as self and intra-particle.</p>
 <p>See “Computer simulation of liquids” by M. P. Allen and D. J. Tildesley. The LAMMPS and DL_POLY manuals also include thorough descriptions of the <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation. </p>
 <div class="breathe-sectiondef docutils container">
@@ -327,14 +327,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsP13ConfigurationKi">
-<span class="target" id="classfeasst_1_1Ewald_1a76e190a7411a4b7ba6f404a9d1854858"></span>void <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> &amp;<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi">
+<span class="target" id="classfeasst_1_1Ewald_1a14dbf9692e42b6136687dfbf6f3a1d86"></span>void <code class="sig-name descname">compute</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> *<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute interactions of entire group in configuration from scratch. This is not optimized for smaller perturbations to the configuration. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi">
-<span class="target" id="classfeasst_1_1Ewald_1a38a41debd5d1ba57b872030f783d670b"></span>void <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> &amp;<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi">
+<span class="target" id="classfeasst_1_1Ewald_1ac08a6e50d67f24e9f91c3038ee940552"></span>void <code class="sig-name descname">compute</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> *<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute by selection is optimized for perturbations to the system. Contrary to short range interactions, in this case the energy of the entire system is computed from the structure factor. Thus, to get an energy contribution of a selection, one must take a difference between the configuration with and without the selection’s contributions to the structure factor.</p>
 <p>For <a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a> trials, this means that the type of trial must be taken into consideration, which is provided via <a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select_1a101c5d7121aec0a384ed76cae9ffe33f"><span class="std std-ref">Select::trial_state()</span></a>.</p>
 <p>For 0, “old”, first prepare to return the (previously computed) energy of the entire system, and then remove the structure factor contributions of the selection, without updating the selection’s eik. This assumes that there will be a follow up of exactly one 1, “move” state which will update the eik. <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is not currently supported with more than one step in <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a>.</p>

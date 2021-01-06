@@ -13,11 +13,8 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "import sys\n",
     "import unittest\n",
     "import feasst as fst\n",
-    "sys.path.insert(0, fst.install_dir() + '/plugin/monte_carlo/tutorial/')\n",
-    "import analyze\n",
     "\n",
     "def shape(confinement):\n",
     "    if confinement == \"slab\":\n",
@@ -60,9 +57,10 @@
     "def run(confinement, cubic_box_length, num_particles):\n",
     "    monte_carlo = fst.MonteCarlo()\n",
     "    monte_carlo.set(fst.lennard_jones(fst.args({\"cubic_box_length\": str(cubic_box_length)})))\n",
-    "    monte_carlo.add(fst.Potential(fst.MakeModelHardShape(shape(confinement))))\n",
-    "    monte_carlo.add(fst.MakeMetropolis(fst.args(\n",
+    "    monte_carlo.add(fst.MakePotential(fst.MakeModelHardShape(shape(confinement))))\n",
+    "    monte_carlo.set(fst.MakeThermoParams(fst.args(\n",
     "        {\"beta\": \"1.5\", \"chemical_potential\": \"1.\"})))\n",
+    "    monte_carlo.set(fst.MakeMetropolis())\n",
     "    monte_carlo.add(fst.MakeTrialTranslate(fst.args(\n",
     "        {\"weight\": \"1.\", \"tunable_param\": \"2.\"})))\n",
     "    fst.SeekNumParticles(num_particles).with_trial_add().run(monte_carlo)\n",
@@ -99,8 +97,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPU times: user 11.9 s, sys: 36.8 ms, total: 12 s\n",
-      "Wall time: 12 s\n"
+      "CPU times: user 14.2 s, sys: 16 ms, total: 14.2 s\n",
+      "Wall time: 14.2 s\n"
      ]
     },
     {
@@ -110,7 +108,7 @@
       "ok\n",
       "\n",
       "----------------------------------------------------------------------\n",
-      "Ran 1 test in 11.949s\n",
+      "Ran 1 test in 14.167s\n",
       "\n",
       "OK\n"
      ]
@@ -118,7 +116,7 @@
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7f44045819b0>"
+       "<unittest.main.TestProgram at 0x7f2530f4a390>"
       ]
      },
      "execution_count": 2,
@@ -132,11 +130,11 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
+   "cell_type": "markdown",
    "metadata": {},
-   "outputs": [],
-   "source": []
+   "source": [
+    "Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please [contact](../../../CONTACT.rst) us. Any feedback is appreciated!"
+   ]
   }
  ],
  "metadata": {

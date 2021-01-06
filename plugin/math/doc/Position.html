@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Position &mdash; FEASST v0.14.0 documentation</title>
+  <title>Position &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -115,6 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
@@ -321,7 +322,7 @@
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst8Position18set_from_sphericalERKNSt6vectorIdEE">
 <span class="target" id="classfeasst_1_1Position_1abc26a91c66f4db5e592861053bb90c49"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">set_from_spherical</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set vector given Spherical coordinates (2 or 3-dimensional). Spherical coordinates are defined as follows: The first coordinate is rho &gt;= 0. rho is the distance from origin. The second coordinate is theta. theta is the angle between x-axis and projection of line on x-y axis. In 3D, the third and final coordinate is phi, 0 &lt;= phi &lt;= PI. phi is the angle between z-axis and line. </p>
+<dd><p>Set vector given Spherical coordinates (2 or 3-dimensional). See <a class="reference external" href="https://mathworld.wolfram.com/SphericalCoordinates.html">https://mathworld.wolfram.com/SphericalCoordinates.html</a> Spherical coordinates are defined as follows: The first coordinate is rho &gt;= 0. rho is the distance from origin. The second coordinate is theta. theta is the angle between x-axis and projection of the vector on x-y plane. In 3D, the third and final coordinate is phi, 0 &lt;= phi &lt;= PI. phi is the angle between z-axis and line. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -334,6 +335,12 @@
 <dt id="_CPPv4N6feasst8Position18set_from_sphericalEKdKd">
 <span class="target" id="classfeasst_1_1Position_1af65e2766f7b1997f532b2afc908d318a"></span>void <code class="sig-name descname">set_from_spherical</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rho</em>, <em class="property">const</em> double <em>theta</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalEKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above for 2D. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Position9sphericalEv">
+<span class="target" id="classfeasst_1_1Position_1ac89ec3952bc2c7921fd6563071bfb6d1"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <code class="sig-name descname">spherical</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position9sphericalEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the spherical coordinates (r, theta, phi). </p>
 </dd></dl>
 
 <dl class="cpp function">

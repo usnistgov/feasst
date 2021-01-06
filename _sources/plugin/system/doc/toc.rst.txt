@@ -5,6 +5,7 @@
    SynchronizeData
    EnergyMap
    VisitModelInner
+   ThermoParams
    BondThreeBody
    AngleSquareWell
    BondTwoBody
@@ -21,6 +22,7 @@
    ModelOneBody
    ModelEmpty
    ModelThreeBody
+   VisitModelIntraMap
    VisitModelIntra
    VisitModelCell
    LongRangeCorrections

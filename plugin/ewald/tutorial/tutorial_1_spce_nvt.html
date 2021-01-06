@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Canonical ensemble Monte Carlo of bulkd SPC/E water &mdash; FEASST v0.14.0 documentation</title>
+  <title>Canonical ensemble Monte Carlo of bulk SPC/E water &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -119,7 +119,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Ewald</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Canonical ensemble Monte Carlo of bulkd SPC/E water</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Canonical ensemble Monte Carlo of bulk SPC/E water</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -207,7 +207,7 @@
         
           <li><a href="../README.html">Ewald</a> &raquo;</li>
         
-      <li>Canonical ensemble Monte Carlo of bulkd SPC/E water</li>
+      <li>Canonical ensemble Monte Carlo of bulk SPC/E water</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -479,21 +479,16 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Canonical-ensemble-Monte-Carlo-of-bulkd-SPC/E-water">
-<h1>Canonical ensemble Monte Carlo of bulkd SPC/E water<a class="headerlink" href="#Canonical-ensemble-Monte-Carlo-of-bulkd-SPC/E-water" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Canonical-ensemble-Monte-Carlo-of-bulk-SPC/E-water">
+<h1>Canonical ensemble Monte Carlo of bulk SPC/E water<a class="headerlink" href="#Canonical-ensemble-Monte-Carlo-of-bulk-SPC/E-water" title="Permalink to this headline">¶</a></h1>
 <p>In this example, we reproduce the average energy reported in <a class="reference external" href="https://doi.org/10.1063/1.476834">https://doi.org/10.1063/1.476834</a></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">import</span> <span class="nn">feasst</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/ewald/tutorial/&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">spce</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/monte_carlo/tutorial/&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">analyze</span>
+<span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
 <span class="k">class</span> <span class="nc">TestEwald1SPCENVT</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Test a canonical ensemble Lennard Jones Monte Carlo simulation&quot;&quot;&quot;</span>
@@ -506,45 +501,45 @@ div.rendered_html tbody tr:hover {
 <span class="sd">        temperature -- in Kelvin</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-        <span class="c1"># monte_carlo.set(feasst.MakeRandomMT19937(feasst.args({&quot;seed&quot;: &quot;1234&quot;})))</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">box_length</span><span class="p">)})),</span>
-            <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/forcefield/data.spce&#39;</span><span class="p">,</span>
-                         <span class="s2">&quot;physical_constants&quot;</span><span class="p">:</span> <span class="s2">&quot;CODATA2010&quot;</span><span class="p">}))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">spce</span><span class="o">.</span><span class="n">system</span><span class="p">(</span>
-            <span class="n">config</span><span class="p">,</span>
-            <span class="n">alphaL</span><span class="o">=</span><span class="mf">5.6</span><span class="p">,</span>
-            <span class="n">kmax_squared</span><span class="o">=</span><span class="mi">38</span><span class="p">,</span>
-            <span class="n">rcut</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">min_side_length</span><span class="p">()</span><span class="o">/</span><span class="mf">2.</span>
-        <span class="p">))</span>
+        <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
+        <span class="c1"># monte_carlo.set(fst.MakeRandomMT19937(fst.args({&quot;seed&quot;: &quot;1234&quot;})))</span>
+        <span class="c1"># Original manuscript used rcut = L/2, but the default rcut in spce used here is 10</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">spce</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+            <span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">box_length</span><span class="p">),</span>
+            <span class="s2">&quot;physical_constants&quot;</span><span class="p">:</span> <span class="s2">&quot;CODATA2010&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;alphaL&quot;</span><span class="p">:</span> <span class="s2">&quot;5.6&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;kmax_squared&quot;</span><span class="p">:</span> <span class="s2">&quot;38&quot;</span><span class="p">,</span>
+        <span class="p">})))</span>
+        <span class="c1">#monte_carlo.set(spce.system(</span>
+        <span class="c1">#    config,</span>
+        <span class="c1">#    rcut=config.domain().min_side_length()/2.))</span>
         <span class="n">R</span> <span class="o">=</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">()</span><span class="o">.</span><span class="n">ideal_gas_constant</span><span class="p">()</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
             <span class="p">{</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="n">temperature</span><span class="o">/</span><span class="mf">1e3</span><span class="p">)),</span>
              <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-            <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;0.275&quot;</span><span class="p">,</span>
-        <span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialRotate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-            <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">,</span>
-        <span class="p">})))</span>
-        <span class="n">feasst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)</span><span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
-        <span class="n">analyze</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">,</span> <span class="n">steps_per</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;0.275&quot;</span><span class="p">})))</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialRotate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">})))</span>
+        <span class="n">fst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)</span><span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+            <span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
+            <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;spce&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;clear_file&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
+                                                             <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">)})))</span>
 
         <span class="c1"># equilibrate</span>
         <span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">))</span>
 
         <span class="c1"># compute average energy using a stepper/analysis and output into file</span>
-        <span class="n">energy</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MakeEnergy</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+        <span class="n">energy</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeEnergy</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
             <span class="s2">&quot;steps_per_update&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
             <span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
-            <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;spce_nvt_energy.txt&quot;</span><span class="p">,</span>
-        <span class="p">}))</span>
+            <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;spce_nvt_energy.txt&quot;</span><span class="p">}))</span>
         <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span>
 
         <span class="c1"># compute average using this script</span>
-        <span class="n">energy_alt</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">Accumulator</span><span class="p">()</span>
+        <span class="n">energy_alt</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">Accumulator</span><span class="p">()</span>
 
         <span class="c1"># production</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)):</span>
@@ -587,9 +582,9 @@ Compare with the reported average energy from https://doi.org/10.1063/1.476834. 
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
--23948.361395503016 -23948.361395503016 38.842730065761174
-CPU times: user 23min 52s, sys: 1.03 s, total: 23min 53s
-Wall time: 23min 51s
+-23844.03832883373 -23844.03832883373 29.44706507790323
+CPU times: user 20min 14s, sys: 964 ms, total: 20min 15s
+Wall time: 20min 13s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -600,7 +595,7 @@ Wall time: 23min 51s
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 1431.459s
+Ran 1 test in 1213.842s
 
 OK
 </pre></div></div>
@@ -611,9 +606,10 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7fdb29d546a0&gt;
+&lt;unittest.main.TestProgram at 0x7f254c596198&gt;
 </pre></div></div>
 </div>
+<p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>
 
 

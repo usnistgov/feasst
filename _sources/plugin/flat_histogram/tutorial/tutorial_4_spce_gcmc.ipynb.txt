@@ -15,13 +15,8 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "import sys\n",
     "import unittest\n",
-    "import feasst\n",
-    "sys.path.insert(0, feasst.install_dir() + '/plugin/flat_histogram/tutorial/')\n",
-    "import fh\n",
-    "sys.path.insert(0, feasst.install_dir() + '/plugin/ewald/tutorial/')\n",
-    "import spce\n",
+    "import feasst as fst\n",
     "\n",
     "class TestFlatHistogramSPCE(unittest.TestCase):\n",
     "    \"\"\"Test flat histogram grand canonical ensemble Monte Carlo simulations\"\"\"\n",
@@ -30,16 +25,29 @@
     "        https://www.nist.gov/programs-projects/nist-standard-reference-simulation-website\n",
     "        https://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm\n",
     "        \"\"\"\n",
-    "        config = feasst.Configuration(\n",
-    "            feasst.MakeDomain(feasst.args({\"cubic_box_length\": \"20\"})),\n",
-    "            feasst.args({\"particle_type\": feasst.install_dir() +  \"/forcefield/data.spce\",\n",
-    "                         \"physical_constants\": \"CODATA2010\"}))\n",
-    "        temperature = feasst.kelvin2kJpermol(525, config)\n",
-    "        criteria = fh.criteria_flathist(temperature=temperature,\n",
-    "                                        chemical_potential=-8.14*temperature,\n",
-    "                                        macro_min=0, macro_max=5, tmmc=True)\n",
-    "        monte_carlo = fh.monte_carlo(criteria=criteria,\n",
-    "                                     system=spce.system(config))\n",
+    "        monte_carlo = fst.MonteCarlo()\n",
+    "        monte_carlo.set(fst.spce(fst.args({\n",
+    "            \"cubic_box_length\": \"20\",\n",
+    "            \"physical_constants\": \"CODATA2010\",\n",
+    "            \"alphaL\": \"5.6\",\n",
+    "            \"kmax_squared\": \"38\"})))\n",
+    "        temperature = fst.kelvin2kJpermol(525, monte_carlo.configuration())\n",
+    "        monte_carlo.set(fst.MakeThermoParams(fst.args({\"beta\": str(1/temperature),\n",
+    "                                                       \"chemical_potential\": str(-8.14*temperature)})))\n",
+    "        criteria = fst.MakeFlatHistogram(\n",
+    "            fst.MakeMacrostateNumParticles(fst.Histogram(fst.args({\"width\": \"1\", \"max\": \"5\", \"min\": \"0\"}))),\n",
+    "            fst.MakeTransitionMatrix(fst.args({\"min_sweeps\": \"20\"})))\n",
+    "        monte_carlo.set(criteria)\n",
+    "        steps_per = str(1e4)\n",
+    "        monte_carlo.add(fst.MakeTrialTranslate())\n",
+    "        monte_carlo.add(fst.MakeTrialTransfer(fst.args({\"particle_type\": \"0\"})))\n",
+    "        monte_carlo.add(fst.MakeCriteriaUpdater(fst.args({\"steps_per\": steps_per})))\n",
+    "        monte_carlo.add(fst.MakeCriteriaWriter(fst.args({\"steps_per\": steps_per,\n",
+    "                                            \"file_name\": \"spce_fh.txt\"})))\n",
+    "        monte_carlo.add(fst.MakeEnergy(fst.args({\"steps_per_write\": steps_per,\n",
+    "                                        \"file_name\": \"spce_en.txt\",\n",
+    "                                        \"multistate\": \"True\"})))\n",
+    "        monte_carlo.run_until_complete()\n",
     "        \n",
     "        lnpi_previous = [\n",
     "            [-2.7207, 0.015],\n",
@@ -82,26 +90,33 @@
      "output_type": "stream",
      "text": [
       "test_serial_5max (__main__.TestFlatHistogramSPCE)\n",
-      "Compare the free energies and potential energies with the NIST SRSW ... ok\n",
-      "\n",
-      "----------------------------------------------------------------------\n",
-      "Ran 1 test in 104.559s\n",
-      "\n",
-      "OK\n"
+      "Compare the free energies and potential energies with the NIST SRSW ... "
      ]
     },
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPU times: user 1min 43s, sys: 1.08 s, total: 1min 44s\n",
-      "Wall time: 1min 44s\n"
+      "CPU times: user 8.15 s, sys: 28.9 ms, total: 8.17 s\n",
+      "Wall time: 8.14 s\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "ok\n",
+      "\n",
+      "----------------------------------------------------------------------\n",
+      "Ran 1 test in 8.130s\n",
+      "\n",
+      "OK\n"
      ]
     },
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7f86dc34f908>"
+       "<unittest.main.TestProgram at 0x7fc355534940>"
       ]
      },
      "execution_count": 2,

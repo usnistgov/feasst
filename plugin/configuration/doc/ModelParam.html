@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ModelParam &mdash; FEASST v0.14.0 documentation</title>
+  <title>ModelParam &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -339,8 +339,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst10ModelParam4nameEv">
-<span class="target" id="classfeasst_1_1ModelParam_1acfc3ce73894ca4590070843b98b91cc9"></span>std::string <code class="sig-name descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10ModelParam4nameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst10ModelParam4nameEv">
+<span class="target" id="classfeasst_1_1ModelParam_1ae349189f7c6e1918c2d6929f23c68340"></span>std::string <code class="sig-name descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10ModelParam4nameEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the name of the model parameter (e.g., epsilon, cutoff) </p>
 </dd></dl>
 
@@ -368,36 +368,42 @@
 <dd><p>Set the name of the model parameter. </p>
 </dd></dl>
 
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst10ModelParam3strEv">
+<span class="target" id="classfeasst_1_1ModelParam_1a646c9dc4798ef5e696a1509f5838c5d9"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10ModelParam3strEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return as a human readable string. </p>
+</dd></dl>
+
 </div>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst7EpsilonE">
-<span class="target" id="classfeasst_1_1Epsilon"></span><em class="property">class </em><code class="sig-name descname">Epsilon</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst7EpsilonE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Epsilon"></span><em class="property">class </em><code class="sig-name descname">Epsilon</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst7EpsilonE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The epsilon parameter is named “epsilon” in LMP-like data file Pair Coeffs. The epsilon parameter has the mixing rule: <span class="math notranslate nohighlight">\( \epsilon_{ij} = \sqrt(\epsilon_i \epsilon_j) \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst5SigmaE">
-<span class="target" id="classfeasst_1_1Sigma"></span><em class="property">class </em><code class="sig-name descname">Sigma</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst5SigmaE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Sigma"></span><em class="property">class </em><code class="sig-name descname">Sigma</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst5SigmaE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The sigma parameter is named “sigma” in LMP-like data file Pair Coeffs. The sigma parameter has the mixing rule: <span class="math notranslate nohighlight">\( \sigma_{ij} = 0.5*(\sigma_i + \sigma_j) \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst6CutOffE">
-<span class="target" id="classfeasst_1_1CutOff"></span><em class="property">class </em><code class="sig-name descname">CutOff</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6CutOffE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1CutOff"></span><em class="property">class </em><code class="sig-name descname">CutOff</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6CutOffE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The cut off parameter is named “cutoff” in LMP-like data file Pair Coeffs. The cut off parameter has the mixing rule: <span class="math notranslate nohighlight">\( r^c_{ij} = min(r^c_i, r^c_j)\)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst6ChargeE">
-<span class="target" id="classfeasst_1_1Charge"></span><em class="property">class </em><code class="sig-name descname">Charge</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6ChargeE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Charge"></span><em class="property">class </em><code class="sig-name descname">Charge</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6ChargeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The charge parameter is named “charge” in LMP-like data file Pair Coeffs. The charge parameter, q, has the mixing rule: <span class="math notranslate nohighlight">\( q_{ij} = q_i q_j \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst11ModelParamsE">
-<span class="target" id="classfeasst_1_1ModelParams"></span><em class="property">class </em><code class="sig-name descname">ModelParams</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst11ModelParamsE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ModelParams"></span><em class="property">class </em><code class="sig-name descname">ModelParams</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst11ModelParamsE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Container for all model parameters. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -468,6 +474,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst11ModelParams23set_cutoff_min_to_sigmaEv">
+<span class="target" id="classfeasst_1_1ModelParams_1a1e8bb9d5ea81f23993a094c20f9ac7d2"></span>void <code class="sig-name descname">set_cutoff_min_to_sigma</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11ModelParams23set_cutoff_min_to_sigmaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the minimum cutoff to sigma. This is used for <a class="reference internal" href="../../system/doc/HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> potentials that don’t assign cutoff. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst11ModelParams22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE">
 <span class="target" id="classfeasst_1_1ModelParams_1acf97f92298a7dc78c5b2a7d97e22e45f"></span>void <code class="sig-name descname">set_physical_constants</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants">PhysicalConstants</a>&gt; <em>constants</em> = std::make_shared&lt;<a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst10CODATA2018E" title="feasst::CODATA2018">CODATA2018</a>&gt;()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11ModelParams22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the physical constants. </p>
@@ -489,6 +501,12 @@
 <dt id="_CPPv4NK6feasst11ModelParams5checkEv">
 <span class="target" id="classfeasst_1_1ModelParams_1a9f6d51595497403c8ade56fa6b2724c5"></span>void <code class="sig-name descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11ModelParams5checkEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst11ModelParams3strEv">
+<span class="target" id="classfeasst_1_1ModelParams_1af93fd1842a5ad2f31c656488fc3b00d6"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11ModelParams3strEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return as a human readable string. </p>
 </dd></dl>
 
 </div>

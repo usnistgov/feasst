@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>VisitModelIntra &mdash; FEASST v0.14.0 documentation</title>
+  <title>VisitModelIntra &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="VisitModelCell" href="VisitModelCell.html" />
-    <link rel="prev" title="ModelThreeBody" href="ModelThreeBody.html" />
+    <link rel="prev" title="VisitModelIntraMap" href="VisitModelIntraMap.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -113,6 +113,7 @@
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
@@ -129,6 +130,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
@@ -281,7 +283,7 @@
 <h1>VisitModelIntra<a class="headerlink" href="#visitmodelintra" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst15VisitModelIntraE">
-<span class="target" id="classfeasst_1_1VisitModelIntra"></span><em class="property">class </em><code class="sig-name descname">VisitModelIntra</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst15VisitModelIntraE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1VisitModelIntra"></span><em class="property">class </em><code class="sig-name descname">VisitModelIntra</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst15VisitModelIntraE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Intra-particle interactions are computed here. this does not include bonded interaction energies, but “inter”-like models such as lennard jones but between sites in the same particle (e.g., long chains). </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -289,7 +291,7 @@
 <dt id="_CPPv4N6feasst15VisitModelIntra15VisitModelIntraERK7argtype">
 <span class="target" id="classfeasst_1_1VisitModelIntra_1a71fa05c4416b4d9631e627643777f15d"></span><code class="sig-name descname">VisitModelIntra</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15VisitModelIntra15VisitModelIntraERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>cutoff: ignore the interaction between a pair of sites when |i-j| &lt;= cutoff (integer, default: -1). </p></li>
+<li><p>cutoff: ignore the interaction between a pair of sites when the difference between their indices, |i-j| &lt;= cutoff (integer, default: -1). </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -310,7 +312,7 @@
         <a href="VisitModelCell.html" class="btn btn-neutral float-right" title="VisitModelCell" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ModelThreeBody.html" class="btn btn-neutral float-left" title="ModelThreeBody" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="VisitModelIntraMap.html" class="btn btn-neutral float-left" title="VisitModelIntraMap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

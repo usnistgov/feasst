@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lennard Jones reference configuration &mdash; FEASST v0.14.0 documentation</title>
+  <title>Lennard Jones reference configuration &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -488,37 +488,26 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">import</span> <span class="nn">feasst</span>
-
-<span class="c1"># include feasst/plugin/system/tutorial/lj_system.py to conveniently create lj systems</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/system/tutorial/&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">lj_system</span>
-
-<span class="k">def</span> <span class="nf">two_particle_config</span><span class="p">(</span><span class="n">displacement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a two particle configuration with the given displacement between centers&quot;&quot;&quot;</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">lj_system</span><span class="o">.</span><span class="n">configuration</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">select</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">Select</span><span class="p">()</span>
-    <span class="n">select</span><span class="o">.</span><span class="n">add_particle</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">select_particle</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">displace_particle</span><span class="p">(</span><span class="n">select</span><span class="p">,</span> <span class="n">displacement</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">config</span>
+<span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
 <span class="k">class</span> <span class="nc">TestMonteCarloLJRef</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The FEASST implementation of the LJ potential is tested against known cases.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">test_two_particle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Test the LJ potential against analytical calculation of two particles&quot;&quot;&quot;</span>
-
-        <span class="n">displacement</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;1.2345&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">}))</span>
-        <span class="n">system</span> <span class="o">=</span> <span class="n">lj_system</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">two_particle_config</span><span class="p">(</span><span class="n">displacement</span><span class="p">))</span>
+        <span class="n">system</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">()</span>
+        <span class="n">displacement</span> <span class="o">=</span> <span class="mf">1.2345</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">get_configuration</span><span class="p">()</span><span class="o">.</span><span class="n">add_particle_of_type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">get_configuration</span><span class="p">()</span><span class="o">.</span><span class="n">add_particle_of_type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">get_configuration</span><span class="p">()</span><span class="o">.</span><span class="n">update_positions</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Double2DVector</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="n">displacement</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]]))</span>
 
         <span class="c1"># compute the energy of the system</span>
         <span class="n">system</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span>
 
         <span class="c1"># compute the expected analytical LJ and LRC energies</span>
-        <span class="n">enlj</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">displacement</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">12</span><span class="p">)</span> <span class="o">-</span> <span class="nb">pow</span><span class="p">(</span><span class="n">displacement</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">6</span><span class="p">))</span>
+        <span class="n">enlj</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">displacement</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">)</span> <span class="o">-</span> <span class="n">displacement</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">))</span>
         <span class="n">rcut</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">model_params</span><span class="p">()</span><span class="o">.</span><span class="n">cutoff</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">enlrc</span> <span class="o">=</span> <span class="p">(</span><span class="mf">8.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">feasst</span><span class="o">.</span><span class="n">PI</span><span class="o">*</span><span class="n">system</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">num_particles</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span> \
+        <span class="n">enlrc</span> <span class="o">=</span> <span class="p">(</span><span class="mf">8.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">fst</span><span class="o">.</span><span class="n">PI</span><span class="o">*</span><span class="n">system</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">num_particles</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span> \
             <span class="n">system</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span><span class="o">*</span><span class="p">((</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">rcut</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span> <span class="o">-</span> <span class="n">rcut</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span>
 
         <span class="c1"># Compare the analytical results with the FEASST computed energies.</span>
@@ -535,10 +524,11 @@ div.rendered_html tbody tr:hover {
 <span class="sd">        In particular, the 4th configuration of the LJ SRSW reference:</span>
 <span class="sd">        https://www.nist.gov/mml/csd/chemical-informatics-research-group/lennard-jones-fluid-reference-calculations</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="n">lj_system</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span>
-        <span class="n">feasst</span><span class="o">.</span><span class="n">FileXYZ</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/configuration/test/data/lj_sample_config_periodic4.xyz&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">num_particles</span><span class="p">())</span>
-        <span class="n">system</span> <span class="o">=</span> <span class="n">lj_system</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">system</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">()</span>
+        <span class="n">fst</span><span class="o">.</span><span class="n">FileXYZ</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+            <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/configuration/test/data/lj_sample_config_periodic4.xyz&quot;</span><span class="p">,</span>
+            <span class="n">system</span><span class="o">.</span><span class="n">get_configuration</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">num_particles</span><span class="p">())</span>
         <span class="n">system</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span>
         <span class="n">enlj</span> <span class="o">=</span> <span class="o">-</span><span class="mf">16.790321304625856</span>
         <span class="n">enlrc</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5451660014945704</span>
@@ -569,7 +559,7 @@ test_two_particle (__main__.TestMonteCarloLJRef)
 Test the LJ potential against analytical calculation of two particles ... ok
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.002s
+Ran 2 tests in 0.003s
 
 OK
 </pre></div></div>
@@ -580,9 +570,10 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7fef3d2abf98&gt;
+&lt;unittest.main.TestProgram at 0x7fd028ae1780&gt;
 </pre></div></div>
 </div>
+<p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>
 
 

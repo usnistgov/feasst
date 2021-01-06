@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Histogram &mdash; FEASST v0.14.0 documentation</title>
+  <title>Histogram &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -115,6 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
@@ -301,6 +302,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst9Histogram17set_width_min_maxEKdKdKd">
+<span class="target" id="classfeasst_1_1Histogram_1a76ee925bf4a60a25f7468c6b6f244acf"></span>void <code class="sig-name descname">set_width_min_max</code><span class="sig-paren">(</span><em class="property">const</em> double <em>width</em>, <em class="property">const</em> double <em>min</em>, <em class="property">const</em> double <em>max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram17set_width_min_maxEKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but initializes histogram from min to max values. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Histogram9set_edgesEKNSt5dequeIdEE">
 <span class="target" id="classfeasst_1_1Histogram_1ac08e01f1ccc8c4ba95a2033f9fe45a51"></span>void <code class="sig-name descname">set_edges</code><span class="sig-paren">(</span><em class="property">const</em> std::deque&lt;double&gt; <em>edges</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram9set_edgesEKNSt5dequeIdEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the edges or boundaries manually. This makes the histogram not expandable. </p>
@@ -361,15 +368,28 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst9Histogram3addEKd">
-<span class="target" id="classfeasst_1_1Histogram_1a94c59a8e6d3e89d4ddb7e63b1e7d506c"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram3addEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Histogram3addEKdKb">
+<span class="target" id="classfeasst_1_1Histogram_1a437dc6b8a9fb260bffebdd64a71fb913"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value</em>, <em class="property">const</em> bool <em>update</em> = true<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram3addEKdKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update the histogram by adding a value. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update</span></code>: If true, update histogram. Otherwise, simply initialize sizes. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram9histogramEv">
 <span class="target" id="classfeasst_1_1Histogram_1afa846f25ba07770102aa1653df6e2770"></span>std::deque&lt;double&gt; <code class="sig-name descname">histogram</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram9histogramEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the histogram. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst9Histogram3strEv">
+<span class="target" id="classfeasst_1_1Histogram_1a50d7d9e0e703cbedebd6df8a75ecbfeb"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram3strEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return <a class="reference internal" href="#classfeasst_1_1Histogram"><span class="std std-ref">Histogram</span></a> in a human-readable format. </p>
 </dd></dl>
 
 </div>

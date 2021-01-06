@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Configuration &mdash; FEASST v0.14.0 documentation</title>
+  <title>Configuration &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -282,7 +282,8 @@
 <dd><p>args:<ul class="simple">
 <li><p>particle_type[i]: add the i-th type of particle to the configuration. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional.</p></li>
 <li><p>wrap: wrap particle centers within domain (default: true).</p></li>
-<li><p>physical_constants: optional class_name of <a class="reference internal" href="PhysicalConstants.html#classfeasst_1_1PhysicalConstants"><span class="std std-ref">PhysicalConstants</span></a>. </p></li>
+<li><p>physical_constants: optional class_name of <a class="reference internal" href="PhysicalConstants.html#classfeasst_1_1PhysicalConstants"><span class="std std-ref">PhysicalConstants</span></a>.</p></li>
+<li><p>set_cutoff_min_to_sigma: if true and cutoff &lt; sigma, cutoff = sigma (default: false). This is typically used for <a class="reference internal" href="../../system/doc/HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> models that didn’t specify cutoff. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -323,6 +324,18 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst13Configuration14num_bond_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1a3c16bcc82dd5961e0363f80412b15fa0"></span>int <code class="sig-name descname">num_bond_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14num_bond_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of bond types. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13Configuration15num_angle_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1a9b6e5d22c9ec7c6150091d25f3f11b46"></span>int <code class="sig-name descname">num_angle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration15num_angle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of angle types. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst13Configuration13particle_typeEKi">
 <span class="target" id="classfeasst_1_1Configuration_1a61462e50b27aae4cfd198896e321eb69"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="sig-name descname">particle_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13particle_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the particle associated with the type. </p>
@@ -356,6 +369,12 @@
 <dt id="_CPPv4N6feasst13Configuration15set_model_paramEPKcKiKd">
 <span class="target" id="classfeasst_1_1Configuration_1a94510ec8f04ac71ae28c82883fcd3081"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, <em class="property">const</em> int <em>site_type</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEPKcKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> model parameter of a given site type and name to value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst13Configuration15set_model_paramEPKcKiKiKd">
+<span class="target" id="classfeasst_1_1Configuration_1acc2c3df12c270285abe9b84f2f1fd5fb"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, <em class="property">const</em> int <em>site_type1</em>, <em class="property">const</em> int <em>site_type2</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEPKcKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> a mixed model parameter of given site types and name to value. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -464,16 +483,22 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst13Configuration8particleEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a4bf7dad086a0a12b27d42bec68d40489"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="sig-name descname">particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8particleEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return particle by index. Note this index is contiguous from values 0 to num_particles -1, unlike the selection indices (due to ghost particles). Note that this method can be slow because the particle index filters out ghost particles. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst13Configuration8particleEKiKi">
-<span class="target" id="classfeasst_1_1Configuration_1a25e3cb0898b74f5272ad505a03e30261"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> <code class="sig-name descname">particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> int <em>group</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8particleEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Configuration_1adc5ae4960e365884f20a6a7376137512"></span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> <code class="sig-name descname">particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> int <em>group</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8particleEKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">group</span></code>: Provide a group index to consider only a subset of the configuration. By default, a value of zero is for the entire configuration. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">group</span></code>: Provide a group index to consider only a subset of the configuration. </p></li>
 </ul>
 </dd>
 </dl>
 </p>
-<p>Return particle by index. Note this index is contiguous from values 0 to num_particles -1, unlike the selection indices (due to ghost particles). Note that this method can be slow because the particle index filters out ghost particles. Note: this method can be prone to errors if used to define a constant reference to, for example, site or position in particle. </p>
+<p>Same as above, but filter the particle by the group index. Returns a copy of the filtered particle, instead of a constant reference. Note: this method can be prone to errors if used to define a constant reference to, for example, site or position in particle. </p>
 </dd></dl>
 
 <dl class="cpp function">

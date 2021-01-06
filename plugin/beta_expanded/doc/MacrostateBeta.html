@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TrialAVB4 &mdash; FEASST v0.14.0 documentation</title>
+  <title>MacrostateBeta &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="TrialAddAVB" href="TrialAddAVB.html" />
-    <link rel="prev" title="ComputeRemoveAVBDivalent" href="ComputeRemoveAVBDivalent.html" />
+    <link rel="next" title="Beta expanded ensemble" href="../tutorial/tutorial.html" />
+    <link rel="prev" title="ComputeBeta" href="ComputeBeta.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -121,14 +121,19 @@
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Cluster</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../README.html#api">API</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Beta expanded</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="SelectNothing.html">SelectNothing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbBeta.html">PerturbBeta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_beta.html">beta_expanded/include/trial_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeBeta.html">ComputeBeta</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">MacrostateBeta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
@@ -208,11 +213,11 @@
         
           <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
-          <li><a href="../README.html">Cluster</a> &raquo;</li>
+          <li><a href="../README.html">Beta expanded</a> &raquo;</li>
         
           <li><a href="toc.html">&lt;no title&gt;</a> &raquo;</li>
         
-      <li>TrialAVB4</li>
+      <li>MacrostateBeta</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -253,12 +258,22 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="trialavb4">
-<h1>TrialAVB4<a class="headerlink" href="#trialavb4" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="macrostatebeta">
+<h1>MacrostateBeta<a class="headerlink" href="#macrostatebeta" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst9TrialAVB4E">
-<span class="target" id="classfeasst_1_1TrialAVB4"></span><em class="property">class </em><code class="sig-name descname">TrialAVB4</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst9TrialAVB4E" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
+<dt id="_CPPv4N6feasst14MacrostateBetaE">
+<span class="target" id="classfeasst_1_1MacrostateBeta"></span><em class="property">class </em><code class="sig-name descname">MacrostateBeta</code> : <em class="property">public</em> <a class="reference internal" href="trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../flat_histogram/doc/Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a><a class="headerlink" href="#_CPPv4N6feasst14MacrostateBetaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Defines the macrostate to be the inverse temperature, <span class="math notranslate nohighlight">\(\beta\)</span>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst14MacrostateBeta5valueERK6SystemRK8CriteriaRK10Acceptance">
+<span class="target" id="classfeasst_1_1MacrostateBeta_1a6379eaee9b015eed5e089b3ff986f807"></span>double <code class="sig-name descname">value</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> &amp;<em>acceptance</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14MacrostateBeta5valueERK6SystemRK8CriteriaRK10Acceptance" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the current value of the macrostate. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
 
 </div>
 
@@ -270,10 +285,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="TrialAddAVB.html" class="btn btn-neutral float-right" title="TrialAddAVB" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../tutorial/tutorial.html" class="btn btn-neutral float-right" title="Beta expanded ensemble" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ComputeRemoveAVBDivalent.html" class="btn btn-neutral float-left" title="ComputeRemoveAVBDivalent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ComputeBeta.html" class="btn btn-neutral float-left" title="ComputeBeta" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

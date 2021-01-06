@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Random &mdash; FEASST v0.14.0 documentation</title>
+  <title>Random &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -115,6 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
@@ -423,6 +424,43 @@
 </dd>
 </dl>
 </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6Random15standard_normalEv">
+<span class="target" id="classfeasst_1_1Random_1a7133a5722b73a190976ba94aa22ef7b2"></span><em class="property">virtual</em> double <code class="sig-name descname">standard_normal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random15standard_normalEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the normal distribution with 0 mean and unit sigma (standard). Use Box-Muller transformation. See: <a class="reference external" href="https://mathworld.wolfram.com/Box-MullerTransformation.html">https://mathworld.wolfram.com/Box-MullerTransformation.html</a> </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6Random6normalEKdKd">
+<span class="target" id="classfeasst_1_1Random_1a8498b9b2dba918a310617f4b372b73fc"></span>double <code class="sig-name descname">normal</code><span class="sig-paren">(</span><em class="property">const</em> double <em>mean</em>, <em class="property">const</em> double <em>stdev</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random6normalEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but with a given mean and standard deviation. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6Random20harmonic_bond_lengthEKdKdKi">
+<span class="target" id="classfeasst_1_1Random_1a6238570dda1d0c5fae041b73063cb354"></span>double <code class="sig-name descname">harmonic_bond_length</code><span class="sig-paren">(</span><em class="property">const</em> double <em>equilibrium_length</em>, <em class="property">const</em> double <em>spring_constant</em>, <em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random20harmonic_bond_lengthEKdKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a randomly selected bond length with harmonic potential of the form: betaU ~ spring_constant*(length - equilibrium_length)**2 The typical 1/2 factor is included in spring_constant. prob(length) ~ length**2 exp(-betaU) dlength as described in Frenkel and Smit, Alg 43, page 578 and Allen and Tildesley, Section G.3. The maximal length is 3 sigma beyond the mean. Only currently implemented for 3 dimensions. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6Random11bond_lengthEKdKdKiKi">
+<span class="target" id="classfeasst_1_1Random_1a3ec64ab41fe24a798309dea7cbcc9764"></span>double <code class="sig-name descname">bond_length</code><span class="sig-paren">(</span><em class="property">const</em> double <em>equilibrium_length</em>, <em class="property">const</em> double <em>spring_constant</em>, <em class="property">const</em> int <em>exponent</em>, <em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random11bond_lengthEKdKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but generalized for arbitrary exponential powers. betaU ~ spring_constant*(length - equilibrium_length)**exponent In this implementation, the maximum bond length is twice the equilibrium. If exponent == 2, use harmonic_bond_length. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6Random10bond_angleEKdKdKiKiKd">
+<span class="target" id="classfeasst_1_1Random_1a5f22befd1e54feb91b59cfdc3a000c1d"></span>double <code class="sig-name descname">bond_angle</code><span class="sig-paren">(</span><em class="property">const</em> double <em>equilibrium_angle</em>, <em class="property">const</em> double <em>spring_constant</em>, <em class="property">const</em> int <em>exponent</em>, <em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>minimum_angle</em> = 0.<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random10bond_angleEKdKdKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">minimum_angle</span></code>: Optionally, disallow angles &lt; minimum_angle. The max angle is PI. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Return bond angle selected from probability distribution associated with bending energy, <span class="math notranslate nohighlight">\( \beta U=spring_constant*(t-equil_ang)^{exponent} \)</span> from Frenkel and Smit, page 343, below Equation 13.3.6. </p>
 </dd></dl>
 
 <dl class="cpp function">

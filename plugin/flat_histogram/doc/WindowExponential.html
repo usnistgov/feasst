@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>WindowExponential &mdash; FEASST v0.14.0 documentation</title>
+  <title>WindowExponential &mdash; FEASST v0.15.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.14.0
+                v0.15.0
               </div>
             
           
@@ -268,7 +268,7 @@
 <h1>WindowExponential<a class="headerlink" href="#windowexponential" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst17WindowExponentialE">
-<span class="target" id="classfeasst_1_1WindowExponential"></span><em class="property">class </em><code class="sig-name descname">WindowExponential</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Window.html#_CPPv4N6feasst6WindowE" title="feasst::Window">Window</a><a class="headerlink" href="#_CPPv4N6feasst17WindowExponentialE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1WindowExponential"></span><em class="property">class </em><code class="sig-name descname">WindowExponential</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Window.html#_CPPv4N6feasst6WindowE" title="feasst::Window">Window</a><a class="headerlink" href="#_CPPv4N6feasst17WindowExponentialE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Determine windows based on an expontential factor, <span class="math notranslate nohighlight">\(\alpha\)</span>. The macrostate of the windows, <span class="math notranslate nohighlight">\(m_i\)</span>, is given by</p>
 <p><span class="math notranslate nohighlight">\(m_{i+1} = \left( m_i^{\alpha} + \frac{m_{n+1}^{\alpha} - m_0^{\alpha}}{n} \right)^{1/\alpha}\)</span></p>
 <p>where <span class="math notranslate nohighlight">\(i\)</span> is the index of the window, ranging from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(n+1\)</span> and <span class="math notranslate nohighlight">\(n\)</span> is the number of windows. Thus, <span class="math notranslate nohighlight">\(m_{n+1}\)</span> is the maximum macrostate over the entire range, while <span class="math notranslate nohighlight">\(m_0\)</span> is the minimum macrostate over the entire range. For <span class="math notranslate nohighlight">\(\alpha=1\)</span>, the widths of all windows are the same. For <span class="math notranslate nohighlight">\(\alpha&gt;1\)</span>, the widths of the windows decrease exponentially. For <span class="math notranslate nohighlight">\(\alpha&lt;1\)</span>, the widths of the windows increase exponentially.</p>
