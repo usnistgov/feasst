@@ -205,13 +205,14 @@ Ubuntu 18 or 20
 * We are not aware of any issues with an Ubuntu 18 or 20 install.
 
 Cray (NERSC CORI)
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 * OpenMP functions apparently do not work unless the cray programming environment is disabled.
 
 Build from Docker
 ===================
 
+The Docker is no longer being updated and contains a very old version of the code.
 Installation via `Docker <docker.io>`_ is an alternative if you are experiencing installation issues.
 Unfortunately there is a performance penalty using this method.
 

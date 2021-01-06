@@ -67,7 +67,7 @@ TEST(Prefetch, MUVT) {
   // mc->set(MakeRandomMT19937({{"seed", "default"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578665877"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578667496"}}));
-  mc->set(MakeRandomMT19937({{"seed", "1804289383"}}));
+  //mc->set(MakeRandomMT19937({{"seed", "1804289383"}}));
   mc->add(MakeTrialAdd({{"particle_type", "0"}}));
   mc->add(MakeTrialRemove({{"particle_type", "0"}}));
   // mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
@@ -76,7 +76,7 @@ TEST(Prefetch, MUVT) {
   mc->set(MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}})),
-    MakeTransitionMatrix({{"min_sweeps", "10"}})));
+    MakeTransitionMatrix({{"min_sweeps", "10"}, {"num_blocks", "0"}})));
   mc->add(MakeCriteriaUpdater({{"steps_per", str(1e1)}}));
 
 //  // initialize ghosts the same

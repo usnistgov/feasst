@@ -9,7 +9,6 @@
 namespace feasst {
 
 class Solver;
-//class SolverNewtonRaphson;
 class SineDistDeriv;
 
 /**

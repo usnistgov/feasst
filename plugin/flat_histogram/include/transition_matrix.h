@@ -68,13 +68,11 @@ class TransitionMatrix : public Bias {
   int min_visits_ = 0;
   int num_sweeps_ = 0;
   int min_sweeps_ = 0;
+  int num_blocks_ = 30;
 
   std::vector<TransitionMatrix> blocks_;
   bool is_block_ = false;
   int iter_block_= -1;
-
-  // temporary and not serialized
-  int num_blocks_ = 30;
 
   void update_blocks_(
       const int macrostate_old,

@@ -579,9 +579,9 @@ TEST(MonteCarlo, rpm_divalent_growth_expanded_LONG) {
   EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.09);
   EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.06);
   EXPECT_NEAR(lnpi.value(2), -2.1178631459398805, 0.03);
-  EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.02);
-  EXPECT_NEAR(lnpi.value(4), -1.1336431696116527, 0.02);
-  EXPECT_NEAR(lnpi.value(5), -1.289634124762612, 0.02);
+  EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.03);
+  EXPECT_NEAR(lnpi.value(4), -1.1336431696116527, 0.025);
+  EXPECT_NEAR(lnpi.value(5), -1.289634124762612, 0.025);
   const std::vector<std::shared_ptr<Analyze> >& en =
     mc.analyzers().back()->analyzers();
 //  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);

@@ -71,6 +71,8 @@ void TransitionMatrix::update_blocks_(
     }
   }
 
+  INFO("num_blocks " << blocks_.size());
+
   // Update one of the blocks.
   if (revert) {
     if (iter_block_ == 0) {
@@ -209,6 +211,7 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
   feasst_deserialize(&min_visits_, istr);
   feasst_deserialize(&num_sweeps_, istr);
   feasst_deserialize(&min_sweeps_, istr);
+  feasst_deserialize(&num_blocks_, istr);
   feasst_deserialize(&is_block_, istr);
   feasst_deserialize_fstobj(&blocks_, istr);
 }
@@ -223,6 +226,7 @@ void TransitionMatrix::serialize(std::ostream& ostr) const {
   feasst_serialize(min_visits_, ostr);
   feasst_serialize(num_sweeps_, ostr);
   feasst_serialize(min_sweeps_, ostr);
+  feasst_serialize(num_blocks_, ostr);
   feasst_serialize(is_block_, ostr);
   feasst_serialize_fstobj(blocks_, ostr);
 }
@@ -242,6 +246,7 @@ bool TransitionMatrix::is_equal(const TransitionMatrix& transition_matrix,
   if (min_visits_ != transition_matrix.min_visits_) return false;
   if (num_sweeps_ != transition_matrix.num_sweeps_) return false;
   if (min_sweeps_ != transition_matrix.min_sweeps_) return false;
+  if (num_blocks_ != transition_matrix.num_blocks_) return false;
   return true;
 }
 

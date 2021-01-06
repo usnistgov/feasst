@@ -554,7 +554,7 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
   EXPECT_NEAR(en[2]->accumulator().average(), -3.0162868737745732, 0.05);
   EXPECT_NEAR(en[3]->accumulator().average(), -4.8648645814174927, 0.05);
   EXPECT_NEAR(en[4]->accumulator().average(), -6.8089768188067694, 0.05);
-  EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.05);
+  EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.06);
 //  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
 //  EXPECT_NEAR(en[1]->accumulator().average(), -1.30701, 0.03);
 //  EXPECT_NEAR(en[2]->accumulator().average(), -2.98115, 0.03);
