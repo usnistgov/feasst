@@ -108,7 +108,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Developer guidelines</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#branch-policies">Branch policies</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#master-branch">Master branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main-branch">Main branch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#develop-branch">Develop branch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#hotfix-branch">Hotfix branch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#feature-branches">Feature branches</a></li>
@@ -271,8 +271,8 @@
 <p>Using and naming branches in a way that is consistent may simplify this process.
 The policies below are based loosely on the following blog.</p>
 <p><a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p>
-<div class="section" id="master-branch">
-<h3>Master branch<a class="headerlink" href="#master-branch" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="main-branch">
+<h3>Main branch<a class="headerlink" href="#main-branch" title="Permalink to this headline">¶</a></h3>
 <p>This is the release branch.
 This branch may only merge with develop and hotfix branches.</p>
 <ul class="simple">
@@ -298,8 +298,8 @@ Alternatively, you could also rebase your private branch.</p></li>
 </div>
 <div class="section" id="hotfix-branch">
 <h3>Hotfix branch<a class="headerlink" href="#hotfix-branch" title="Permalink to this headline">¶</a></h3>
-<p>The hotfix branch is for implementation of bug fixes to the master branch.
-After merging with master and develop, they are deleted.</p>
+<p>The hotfix branch is for implementation of bug fixes to the main branch.
+After merging with main and develop, they are deleted.</p>
 </div>
 <div class="section" id="feature-branches">
 <h3>Feature branches<a class="headerlink" href="#feature-branches" title="Permalink to this headline">¶</a></h3>
@@ -330,7 +330,7 @@ HINT: rename branches with “git branch -m &lt;newname&gt;”</p></li>
 <h2>Tools<a class="headerlink" href="#tools" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="gtest-unittest-c">
 <h3>GTEST: Unittest C++<a class="headerlink" href="#gtest-unittest-c" title="Permalink to this headline">¶</a></h3>
-<p>The master branch requires GTEST coverage for all cpp plugins in plugin/name/test.</p>
+<p>The main branch requires GTEST coverage for all cpp plugins in plugin/name/test.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DUSE_GTEST<span class="o">=</span>ON ..
 make unittest -j12
 ./bin/unittest
