@@ -71,8 +71,6 @@ void TransitionMatrix::update_blocks_(
     }
   }
 
-  INFO("num_blocks " << blocks_.size());
-
   // Update one of the blocks.
   if (revert) {
     if (iter_block_ == 0) {

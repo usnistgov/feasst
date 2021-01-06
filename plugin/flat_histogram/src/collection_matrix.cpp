@@ -17,7 +17,7 @@ void TripleBandedCollectionMatrix::compute_ln_prob(
   ln_prob->set_value(0, 0.);
   for (int macro = 1; macro < ln_prob->size(); ++macro) {
     const double ln_prob_previous = ln_prob->value(macro - 1);
-    INFO("ln_prob_previous " << ln_prob_previous);
+    TRACE("ln_prob_previous " << ln_prob_previous);
     const double collect_sum_previous = sum_(macro - 1);
     if (collect_sum_previous == 0) {
       ln_prob->set_value(macro, ln_prob_previous);
@@ -27,18 +27,18 @@ void TripleBandedCollectionMatrix::compute_ln_prob(
         ln_prob->set_value(macro, ln_prob_previous);
       } else {
         const double prob_decrease = matrix_[macro][0]/collect_sum;
-        INFO("prob_decrease " << prob_decrease);
+        TRACE("prob_decrease " << prob_decrease);
         if (prob_decrease == 0) {
           ln_prob->set_value(macro, ln_prob_previous);
         } else {
           const double prob_increase = matrix_[macro - 1][2]/collect_sum_previous;
-          INFO("prob_increase " << prob_increase);
+          TRACE("prob_increase " << prob_increase);
           if (prob_increase == 0) {
             ln_prob->set_value(macro, ln_prob_previous);
           } else {
             const double ln_prob_new = ln_prob_previous
                                      + log(prob_increase/prob_decrease);
-            INFO("ln_prob_new " << ln_prob_new);
+            TRACE("ln_prob_new " << ln_prob_new);
             ASSERT(!std::isnan(ln_prob_new), "error");
             ASSERT(std::abs(ln_prob_new) < NEAR_INFINITY, "ln_prob_new:" << ln_prob_new);
             ln_prob->set_value(macro, ln_prob_new);

@@ -16,7 +16,7 @@ The policies below are based loosely on the following blog.
 
 http://nvie.com/posts/a-successful-git-branching-model/
 
-Master branch
+Main branch
 --------------------------------------------------------------------------------
 
 This is the release branch.
@@ -45,8 +45,8 @@ Tested and complete implementation of new features are added here.
 Hotfix branch
 --------------------------------------------------------------------------------
 
-The hotfix branch is for implementation of bug fixes to the master branch.
-After merging with master and develop, they are deleted.
+The hotfix branch is for implementation of bug fixes to the main branch.
+After merging with main and develop, they are deleted.
 
 Feature branches
 --------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ Tools
 GTEST: Unittest C++
 --------------------------------------------------------------------------------
 
-The master branch requires GTEST coverage for all cpp plugins in plugin/name/test.
+The main branch requires GTEST coverage for all cpp plugins in plugin/name/test.
 
 .. code-block:: bash
 

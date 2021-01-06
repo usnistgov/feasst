@@ -156,7 +156,7 @@ void Prefetch::attempt_(
 //          DEBUG("num attempts " << pool_[ithread].mc.trials().num_attempts() << " "
 //                                << pool_[ithread].mc.trials().num_success() << " " << &pool_[ithread].mc);
 //        }
-//        DEBUG("num attempts master " << trials().num_attempts() << " "
+//        DEBUG("num attempts main " << trials().num_attempts() << " "
 //                                     << trials().num_success() << " " << this);
       }
 
@@ -267,7 +267,7 @@ void Prefetch::attempt_(
           DEBUG("num attempts " << pool->mc.trials().num_attempts() << " "
                                 << pool->mc.trials().num_success() << " " << &pool->mc);
         }
-        DEBUG("num attempts master " << trials().num_attempts() << " "
+        DEBUG("num attempts main " << trials().num_attempts() << " "
                                      << trials().num_success() << " " << this);
       }
 
@@ -341,7 +341,7 @@ void Prefetch::attempt_(
       // disable cache
       mc->load_cache_(false);
 
-      // perform after trial on all clones/master after multiple trials performed
+      // perform after trial on all clones/main after multiple trials performed
       // do this in serial so that files are not written to by multiple threads
       // simultaneously
       #ifndef DEBUG_SERIAL_MODE_5324634
@@ -388,7 +388,7 @@ void Prefetch::attempt_(
       if (steps_since_check_ >= steps_per_check_ && proc_id > 0) {
         steps_since_check_ = 0;
         const double energy = criteria().current_energy();
-        DEBUG("check that the current energy of all threads and master are the same: " << energy);
+        DEBUG("check that the current energy of all threads and main are the same: " << energy);
         const double tolerance = 1e-8;
         const MonteCarlo& mcc = *clone_(proc_id);
         const double diff = mcc.criteria().current_energy() - energy;

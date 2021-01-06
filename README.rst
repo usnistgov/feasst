@@ -5,14 +5,14 @@ README
 .. .. image:: https://anaconda.org/hhatch/feasst/badges/installer/conda.svg
 ..     :target: https://conda.anaconda.org/hhatch
 
-.. image:: https://travis-ci.com/hhatch/feasst.svg?branch=master
+.. image:: https://travis-ci.com/hhatch/feasst.svg?branch=main
     :target: https://travis-ci.com/hhatch/feasst
 
-.. image:: https://codecov.io/gh/hhatch/feasst/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/hhatch/feasst/branch/main/graph/badge.svg
     :target: https://codecov.io/gh/hhatch/feasst
 
-.. image:: https://www.codefactor.io/repository/github/hhatch/feasst/badge/master
-    :target: https://www.codefactor.io/repository/github/hhatch/feasst/overview/master
+.. image:: https://www.codefactor.io/repository/github/hhatch/feasst/badge/main
+    :target: https://www.codefactor.io/repository/github/hhatch/feasst/overview/main
     :alt: CodeFactor
 
 The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
