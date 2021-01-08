@@ -45,9 +45,7 @@ void PerturbCrankshaft::move(System * system, TrialSelect * select,
   const double angle = random->uniform_real(-max_angle, max_angle);
   // HWH use axis_angle_opt
   rot_mat_.axis_angle(axis_, angle);
-  PerturbRotate::move(pivot, rot_mat_, system, select,
-    false // do not rotate particle positions
-  );
+  PerturbRotate::move(pivot, rot_mat_, system, select);
 }
 
 }  // namespace feasst

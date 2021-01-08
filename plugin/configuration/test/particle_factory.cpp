@@ -4,22 +4,6 @@
 
 namespace feasst {
 
-TEST(ParticleFactory, size_check) {
-  Particle particle;
-  particle.add(Site(Position({0, 0, 0})));
-  particle.set_position(Position({0, 0, 0}));
-  ParticleFactory particles;
-  particles.add(particle);
-  Position position;
-  position.set_vector({0, 0});
-  particle.set_position(position);
-  TRY(
-    particles.add(particle);
-    particles.check();
-    CATCH_PHRASE("size error");
-  );
-}
-
 TEST(ParticleFactory, site_types) {
   ParticleFactory particles;
   particles.add(FileLMP().read("../forcefield/data.atom"));

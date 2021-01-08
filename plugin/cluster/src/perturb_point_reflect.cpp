@@ -31,7 +31,6 @@ void PerturbPointReflect::update_selection(const Position& reflect,
   for (int select_index = 0;
        select_index < reflected->num_particles();
        ++select_index) {
-    reflected->get_particle_position(select_index)->reflect(reflect);
     for (int site = 0;
          site < static_cast<int>(reflected->site_indices(select_index).size());
          ++site) {
@@ -57,7 +56,7 @@ void PerturbPointReflect::move(System * system,
     &reflect_
   );
   ASSERT(select->mobile().num_particles() == 1, "assumes 1 particle");
-  reflect_.add(select->mobile().particle_positions()[0]);
+  reflect_.add(select->mobile().site_positions()[0][0]);
   DEBUG("max move " << tunable().value());
   ASSERT(tunable().value() > NEAR_ZERO, "tunable(" << tunable().value()
     << ") is too small");

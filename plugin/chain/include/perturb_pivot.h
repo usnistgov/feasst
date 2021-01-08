@@ -6,7 +6,6 @@
 
 namespace feasst {
 
-// HWH recenter particle position
 class PerturbPivot : public PerturbRotate {
  public:
   PerturbPivot(const argtype& args = argtype()) : PerturbRotate(args) {

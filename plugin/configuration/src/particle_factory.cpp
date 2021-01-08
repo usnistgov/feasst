@@ -28,10 +28,10 @@ void ParticleFactory::check(const int dimension) const {
   if (particles_.size() != 0) {
     int size = dimension;
     if (size == -1) {
-      size = particles_.front().position().size();
+      size = particles_.front().site(0).position().size();
     }
     for (Particle particle : particles_) {
-      ASSERT(particle.position().size() == size, "size error");
+      ASSERT(particle.site(0).position().size() == size, "size error");
       particle.check();
     }
   }
@@ -199,11 +199,6 @@ void ParticleFactory::replace_position(const int particle_index,
   particles_[particle_index].replace_position(site_index, replacement);
 }
 
-void ParticleFactory::replace_position(const int particle_index,
-                                 const Position& replacement) {
-  particles_[particle_index].set_position(replacement);
-}
-
 void ParticleFactory::remove(const int particle_index) {
   ASSERT(particle_index < num(), "size error");
   particles_.erase(particles_.begin() + particle_index);
@@ -231,12 +226,12 @@ void ParticleFactory::scale_particle_positions(const int dimen,
   Position displacement;
   for (Particle& particle : particles_) {
     if (dimen == -1) {
-      displacement = particle.position();
+      displacement = particle.site(0).position();
       displacement.multiply(factor - 1.);
     } else {
-      displacement.set_to_origin(particle.position().dimension());
+      displacement.set_to_origin(particle.site(0).position().dimension());
       displacement.set_coord(dimen,
-        (factor - 1)*particle.position().coord(dimen));
+        (factor - 1)*particle.site(0).position().coord(dimen));
     }
     particle.displace(displacement);
   }

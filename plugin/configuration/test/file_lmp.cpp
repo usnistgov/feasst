@@ -85,7 +85,7 @@ TEST(FileLMP, dimer) {
   FileLMP lmp_file;
   Particle particle = lmp_file.read("../forcefield/data.dimer");
   EXPECT_EQ(particle.num_sites(), 2);
-  EXPECT_EQ(-0.5, particle.position().coord(0));
+  EXPECT_EQ(-0.5, particle.site(0).position().coord(0));
 }
 
 }  // namespace feasst

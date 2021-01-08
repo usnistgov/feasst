@@ -107,9 +107,6 @@ Particle FileLMP::read(const std::string file_name) {
     }
 
     position.set_vector(xtmp);
-    if (i == 0) {
-      particle.set_position(position);
-    }
     site.set_position(position);
     site.set_type(itype);
     particle.add(site);

@@ -45,7 +45,6 @@ TEST(PerturbMoveAVB, move) {
   EXPECT_FALSE(sel_in2.is_ghost());
   EXPECT_TRUE(sel_in2.sel(&system, ran.get()));
   DEBUG(sel_in2.mobile().str());
-  DEBUG("pos? " << sel_in2.mobile().particle_positions().size());
 
   DEBUG("b4 in->out");
   DEBUG(config.particle(0).site(0).position().str());
@@ -160,7 +159,6 @@ TEST(PerturbMoveAVB, AVB4) {
     return;
   }
   DEBUG(sel_in2.mobile().str());
-  DEBUG("pos? " << sel_in2.mobile().particle_positions().size());
 
   DEBUG("b4");
   DEBUG(config.particle(0).site(0).position().str());

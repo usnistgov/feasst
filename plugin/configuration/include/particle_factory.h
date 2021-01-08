@@ -103,10 +103,6 @@ class ParticleFactory {
                         const int site_index,
                         const Position& replacement);
 
-  /// Replace position of particle but not site.
-  void replace_position(const int particle_index,
-                        const Position& replacement);
-
   /// Replace properties of the site by index.
   void replace_properties(const int particle_index,
                           const int site_index,

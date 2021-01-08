@@ -296,10 +296,6 @@ class Configuration {
   /// Same as above except for only one particle that is selected.
   void remove_particle(const Select& selection);
 
-  /// Set the particle positions of the group to the geometric center of the
-  /// site positions.
-  void recenter_particle_positions(const int group_index = 0);
-
   //@{
   /** @name Domain
     A configuration's domain includes periodic boundaries and cells.
@@ -502,10 +498,6 @@ class Configuration {
   /// Replace position of site in particle.
   void replace_position_(const int particle_index,
                          const int site_index,
-                         const Position& replacement);
-
-  /// Replace position of particle but not site.
-  void replace_position_(const int particle_index,
                          const Position& replacement);
 
   /// Replace properties of site in particle.

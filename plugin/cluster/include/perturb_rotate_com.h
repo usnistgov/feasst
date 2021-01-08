@@ -6,7 +6,6 @@
 
 namespace feasst {
 
-// HWH recenter particle position
 /**
   Uses the geometric center as the pivot point for the rotation.
  */
@@ -18,7 +17,6 @@ class PerturbRotateCOM : public PerturbRotate {
 
   /// Rotate the selected particles using the tuning parameter.
   /// Set the pivot to the geometric center of the mobile selection.
-  /// Rotate the particle positions.
   void move(System * system, TrialSelect * select, Random * random) override;
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

@@ -6,7 +6,6 @@
 
 namespace feasst {
 
-// HWH recenter particle position
 class PerturbCrankshaft : public PerturbRotate {
  public:
   PerturbCrankshaft(const argtype& args = argtype()) : PerturbRotate(args) {

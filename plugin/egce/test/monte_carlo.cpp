@@ -595,7 +595,7 @@ TEST(MonteCarlo, rpm_divalent_growth_expanded_LONG) {
   EXPECT_NEAR(en[4]->accumulator().average(), -3.0162868737745732, 0.05);
   EXPECT_NEAR(en[6]->accumulator().average(), -4.8648645814174927, 0.05);
   EXPECT_NEAR(en[8]->accumulator().average(), -6.8089768188067694, 0.05);
-  EXPECT_NEAR(en[10]->accumulator().average(), -8.8377616317395002, 0.05);
+  EXPECT_NEAR(en[10]->accumulator().average(), -8.8377616317395002, 0.06);
 }
 
 }  // namespace feasst

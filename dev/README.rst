@@ -355,3 +355,5 @@ To Do List
 * Rename plugin chain->config_bias ?
 * maybe mc.add(criteria) is preferable to mc.set. Same with sys?
 * in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?
+* Consider getting rid of particle positions, default to use first site (optional?) for wrapping and rotation pivots, etc.
+* Remove SpatialEntity and TypedEntity

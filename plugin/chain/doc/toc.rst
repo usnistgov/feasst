@@ -10,7 +10,6 @@
    PerturbReptate
    CheckRigidBonds
    AnalyzeBonds
-   RecenterParticles
    trials
    trial_grow
    PerturbPivot

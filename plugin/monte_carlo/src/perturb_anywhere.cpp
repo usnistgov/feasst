@@ -28,7 +28,7 @@ void PerturbAnywhere::set_position(const Position& center,
                                    System * system,
                                    TrialSelect * select) {
   Position add = center;
-  add.subtract(select->mobile().particle_positions()[0]);
+  add.subtract(select->mobile().site_positions()[0][0]);
   translate_.move(add, system, select);
 }
 

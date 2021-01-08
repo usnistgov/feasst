@@ -210,12 +210,6 @@ void Configuration::replace_position_(const int particle_index,
   position_tracker_(particle_index, site_index);
 }
 
-void Configuration::replace_position_(const int particle_index,
-                                      const Position& replacement) {
-  particles_.replace_position(particle_index, replacement);
-  /// HWH no position_tracker_ for just particle positions.
-}
-
 void Configuration::add(std::shared_ptr<Group> group, std::string name) {
   ASSERT(group->is_empty() || particle_types_.num() != 0,
     "add groups after particle types");
@@ -392,9 +386,6 @@ void Configuration::update_positions(
       position.set_vector(coords[iter_site]);
       Site site = part.site(site_index);
       site.set_position(position);
-      if (num_site == 0) {
-        part.set_position(position);
-      }
       part.set_site(site_index, site);
       ++num_site;
       ++iter_site;
@@ -445,7 +436,6 @@ void Configuration::update_positions(const Select& select,
                                      const bool no_exclude) {
   int pindex = 0;
   for (int particle_index : select.particle_indices()) {
-    replace_position_(particle_index, select.particle_positions()[pindex]);
     int sindex = 0;
     for (int site_index : select.site_indices(pindex)) {
       // DEBUG(select.site_properties()[pindex][sindex].str());
@@ -588,13 +578,13 @@ int Configuration::num_particles_of_type(const int type) const {
 
 void Configuration::wrap_particle(const int particle_index) {
   if (wrap_) {
-    const Position& part_position = select_particle(particle_index).position();
-    const Position& pbc_shift = domain_->shift_opt(part_position);
-    DEBUG("part_position " << part_position.str());
+    const Position& site0_position = select_particle(particle_index).site(0).position();
+    const Position& pbc_shift = domain_->shift_opt(site0_position);
+    DEBUG("site0_position " << site0_position.str());
     DEBUG("pbc " << pbc_shift.str());
     if (pbc_shift.squared_distance() > NEAR_ZERO) {
       displace_particle_(particle_index, pbc_shift);
-      DEBUG("new pos " << select_particle(particle_index).position().str());
+      DEBUG("new pos " << select_particle(particle_index).site(0).position().str());
     }
   }
 }
@@ -629,12 +619,6 @@ bool Configuration::is_equal(const Configuration& configuration,
     for (int pindex = 0; pindex < num_particles(); ++pindex) {
       const Particle p1 = particle(pindex);
       const Particle p2 = configuration.particle(pindex);
-      if (!p1.position().is_equal(p2.position(), tolerance)) {
-        DEBUG("pindex " << pindex);
-        DEBUG("unequal positions: " << p1.position().str() << " vs "
-          << p2.position().str());
-        return false;
-      }
       for (int is = 0; is < p1.num_sites(); ++is) {
         if (!p1.site(is).position().is_equal(p2.site(is).position(),
                                              tolerance)) {
@@ -684,16 +668,6 @@ void Configuration::set_site_type(const int particle_type,
     if (particles_.particle(particle).type() == particle_type) {
       particles_.set_site_type(particle, site, site_type);
     }
-  }
-}
-
-void Configuration::recenter_particle_positions(const int group_index) {
-  const Select& group = group_selects_[group_index];
-  for (int spindex = 0; spindex < group.num_particles(); ++spindex) {
-    const int pindex = group.particle_index(spindex);
-    Select sel(pindex, select_particle(pindex));
-    sel.set_particle_position(0, sel.geometric_center());
-    update_positions(sel);
   }
 }
 

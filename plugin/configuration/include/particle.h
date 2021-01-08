@@ -26,10 +26,9 @@ namespace feasst {
   the particle. Reference sites may be stored optionally.
  */
 class Particle : public PropertiedEntity,
-                 public TypedEntity,
-                 public SpatialEntity {
+                 public TypedEntity {
  public:
-  Particle() : PropertiedEntity(), TypedEntity(), SpatialEntity() {}
+  Particle() : PropertiedEntity(), TypedEntity() {}
 
   /** @name Sites
     Sites of the particle. */
@@ -97,12 +96,6 @@ class Particle : public PropertiedEntity,
 
   /// Replace the position of site by index.
   void replace_position(const int site_index, const Position& replacement);
-
-  /// Return the average of the site positions
-  Position average_site_position() const;
-
-  /// Set the particle position as the average of site positions.
-  void set_position_as_center();
 
   //@}
   /** @name Properties

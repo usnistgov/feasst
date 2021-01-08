@@ -178,10 +178,6 @@ class Select {
   const std::vector<std::vector<Properties> >& site_properties() const {
     return site_properties_; }
 
-  /// Return the particle positions.
-  const std::vector<Position>& particle_positions() const {
-    return particle_positions_; }
-
   /// Set the position of a site by particle and site index.
   /// Note that these indices are based on selection, not configuration.
   void set_site_position(const int particle_index,
@@ -199,21 +195,11 @@ class Select {
                             const int site_index,
                             const Position& position);
 
-  /// Add to the position of a particle by index.
-  /// Note that these indices are based on selection, not configuration.
-  void add_to_particle_position(const int particle_index,
-                                const Position& position);
-
   /// Set the property of a site by particle and site index.
   /// Note that these indices are based on selection, not configuration.
   void set_site_properties(const int particle_index,
                            const int site_index,
                            const Properties& properties);
-
-  /// Set the position of a particle by its index.
-  /// Note that this index is based on selection, not configuration.
-  void set_particle_position(const int particle_index,
-                             const Position& position);
 
   /// Load the positions of a particle with existing selection indices.
   void load_position(const int pindex, const Particle& particle);
@@ -234,10 +220,6 @@ class Select {
   // optimized access to site positions.
   Position * get_site_position(const int particle_index, const int site_index) {
     return &site_positions_[particle_index][site_index]; }
-
-  // optimized access to particle positions.
-  Position * get_particle_position(const int particle_index) {
-    return &particle_positions_[particle_index]; }
 
   //@}
   /** @name Trials
@@ -311,7 +293,6 @@ class Select {
   std::shared_ptr<Select> new_bond_;
   std::shared_ptr<Select> old_bond_;
   std::shared_ptr<Group> group_;
-  std::vector<Position> particle_positions_;
   std::vector<std::vector<Position> > site_positions_;
   std::vector<std::vector<Properties> > site_properties_;
 

@@ -7,7 +7,6 @@
 namespace feasst {
 
 void Particle::displace(const Position& displacement) {
-  add_position(displacement);
   for (Site& site : sites_) {
     site.displace(displacement);
   }
@@ -15,7 +14,7 @@ void Particle::displace(const Position& displacement) {
 
 void Particle::check() {
   for (Site site : sites_) {
-    ASSERT(position().size() == site.position().size(), "size error");
+    ASSERT(sites_[0].position().size() == site.position().size(), "size error");
   }
   properties().check();
 }
@@ -78,7 +77,6 @@ bool Particle::is_isotropic() {
 }
 
 void Particle::replace_position(const Particle& particle) {
-  set_position(particle.position());
   ASSERT(num_sites() == particle.num_sites(), "size error");
   for (int site_index = 0; site_index < num_sites(); ++site_index) {
     sites_[site_index].set_position(particle.site(site_index).position());
@@ -97,20 +95,6 @@ void Particle::replace_position(const int site_index,
 //    add_or_set_site_property(name, value, site_index);
 //  }
 //}
-
-Position Particle::average_site_position() const {
-  Position center = site(0).position();
-  center.multiply(0);
-  for (const Site& site : sites()) {
-    center.add(site.position());
-  }
-  center.divide(num_sites());
-  return center;
-}
-
-void Particle::set_position_as_center() {
-  set_position(average_site_position());
-}
 
 void Particle::resize_list_(std::vector<std::vector<int> > * list) {
   if (static_cast<int>(list->size()) < num_sites()) {
@@ -208,7 +192,6 @@ int Particle::num_sites_of_type(const int type) const {
 void Particle::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
   TypedEntity::serialize(ostr);
-  SpatialEntity::serialize(ostr);
   feasst_serialize_version(365, ostr);
   feasst_serialize_fstobj(sites_, ostr);
   feasst_serialize_fstobj(bonds_, ostr);
@@ -220,8 +203,7 @@ void Particle::serialize(std::ostream& ostr) const {
 
 Particle::Particle(std::istream& istr)
   : PropertiedEntity(istr),
-    TypedEntity(istr),
-    SpatialEntity(istr) {
+    TypedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 365, "version mismatch: " << version);
   feasst_deserialize_fstobj(&sites_, istr);

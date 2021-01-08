@@ -11,7 +11,7 @@ TEST(FileXYZ, load) {
   config.check();
   EXPECT_NEAR(config.domain().volume(), 512., NEAR_ZERO);
   EXPECT_EQ(30, config.num_particles());
-  EXPECT_NEAR(config.particle(29).position().coord(1), 3.786335083587E+00, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(29).site(0).position().coord(1), 3.786335083587E+00, NEAR_ZERO);
   FileXYZ().write("tmp/print.xyz", config);
 }
 

@@ -172,7 +172,6 @@
 #include "steppers/include/check_properties.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/pair_distribution.h"
-#include "chain/include/recenter_particles.h"
 #include "cluster/include/trial_avb2.h"
 #include "cluster/include/trial_rigid_cluster.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
@@ -479,7 +478,6 @@ using namespace std;
 %shared_ptr(feasst::CriteriaUpdater);
 %shared_ptr(feasst::PairDistributionInner);
 %shared_ptr(feasst::PairDistribution);
-%shared_ptr(feasst::RecenterParticles);
 %shared_ptr(feasst::SeekNumParticles);
 %shared_ptr(feasst::TrialMorphExpanded);
 %shared_ptr(feasst::ComputeRemoveAVBDivalent);
@@ -723,7 +721,6 @@ using namespace std;
 %include steppers/include/check_properties.h
 %include steppers/include/criteria_updater.h
 %include steppers/include/pair_distribution.h
-%include chain/include/recenter_particles.h
 %include cluster/include/trial_avb2.h
 %include cluster/include/trial_rigid_cluster.h
 %include cluster/include/trial_transfer_avb_divalent.h

@@ -304,12 +304,10 @@ TEST(Configuration, change_volume) {
   Select second;
   second.add_particle(config.particle(1), 1);
   config.displace_particle(second, Position({1, 1, 1}));
-  EXPECT_NEAR(config.particle(0).position().coord(0), 0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(0).position().coord(0), 0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(1).position().coord(0), 1.0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(2).position().coord(0), -0.333313247568237, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(2).position().coord(1), 0.942816142731718, NEAR_ZERO);
-  EXPECT_NEAR(config.particle(1).position().coord(0), 1, NEAR_ZERO);
   EXPECT_NEAR(config.particle(1).site(0).position().coord(0), 1, NEAR_ZERO);
   EXPECT_NEAR(config.particle(1).site(1).position().coord(0), 2.0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(1).site(2).position().coord(0), 0.666686752431763, NEAR_ZERO);
@@ -323,12 +321,10 @@ TEST(Configuration, change_volume) {
   EXPECT_EQ(config.domain().side_length(0), 9.9);
   EXPECT_EQ(config.domain().side_length(1), 10);
   EXPECT_EQ(config.domain().side_length(2), 10);
-  EXPECT_NEAR(config.particle(0).position().coord(0), 0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(0).position().coord(0), 0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(1).position().coord(0), 1.0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(2).position().coord(0), -0.333313247568237, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(2).position().coord(1), 0.942816142731718, NEAR_ZERO);
-  EXPECT_NEAR(config.particle(1).position().coord(0), 0.99, NEAR_ZERO);
   EXPECT_NEAR(config.particle(1).site(0).position().coord(0), 0.99, NEAR_ZERO);
   EXPECT_NEAR(config.particle(1).site(1).position().coord(0), 1.99, NEAR_ZERO);
   EXPECT_NEAR(config.particle(1).site(2).position().coord(0), 0.656686752431763, NEAR_ZERO);
@@ -338,12 +334,10 @@ TEST(Configuration, change_volume) {
   EXPECT_NEAR(config.domain().side_length(0), 9.86655379913093, 1e-12);
   EXPECT_NEAR(config.domain().side_length(1), 9.96621595871811, 1e-12);
   EXPECT_NEAR(config.domain().side_length(2), 9.96621595871811, 1e-12);
-  EXPECT_NEAR(config.particle(0).position().coord(0), 0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(0).position().coord(0), 0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(1).position().coord(0), 1.0, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(2).position().coord(0), -0.333313247568237, NEAR_ZERO);
   EXPECT_NEAR(config.particle(0).site(2).position().coord(1), 0.942816142731718, NEAR_ZERO);
-  EXPECT_NEAR(config.particle(1).position().coord(0), 0.986655379913093, NEAR_ZERO);
   EXPECT_NEAR(config.particle(1).site(0).position().coord(0), 0.986655379913093, NEAR_ZERO);
   EXPECT_NEAR(config.particle(1).site(1).position().coord(0), 1.986655379913093, NEAR_ZERO);
   EXPECT_NEAR(config.particle(1).site(2).position().coord(0), 0.653342132344856, NEAR_ZERO);

@@ -33,7 +33,6 @@
 #include "chain/include/trials.h"
 #include "chain/include/trial_grow.h"
 #include "chain/include/trial_grow_linear.h"
-#include "chain/include/recenter_particles.h"
 #include "chain/include/analyze_bonds.h"
 #include "chain/test/system_chain.h"
 
@@ -283,7 +282,6 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   SeekNumParticles(10).with_trial_add().run(&mc);
   const std::string steps_per = feasst::str(1e5);
   mc.add(MakeEnergy());
-  mc.add(MakeRecenterParticles());
   mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer2d"}, {"steps_per", steps_per}}));
   mc.add(MakeChirality2D());
   mc.add(MakeAnalyzeBonds());

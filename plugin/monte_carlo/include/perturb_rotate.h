@@ -16,25 +16,20 @@ class PerturbRotate : public PerturbMove {
   /**
     args:
     - pivot_site: set the site index in selection with which to use as the
-      pivot for rotation.
-      If -1, use the particle position (default: -1).
+      pivot for rotation (default: 0).
    */
   PerturbRotate(const argtype& args = argtype());
 
   /// Change the position in the selection given a pivot and rotation matrix.
   void update_selection(const Position& pivot,
       const RotationMatrix& rotation,
-      TrialSelect * select,
-      /// Rotate particle positions (default). Otherwise, do not.
-      const bool rotate_particle_position = true);
+      TrialSelect * select);
 
   /// Change the position of the selection given a pivot and rotation matrix.
   void move(const Position& pivot,
       const RotationMatrix& rotation,
       System * system,
-      TrialSelect * select,
-      /// Rotate particle positions (default). Otherwise, do not.
-      const bool rotate_particle_position = true);
+      TrialSelect * select);
 
   /// Rotate the selected particles using the tuning parameter.
   /// Set the pivot using the first particle position, and also
@@ -48,9 +43,7 @@ class PerturbRotate : public PerturbMove {
       TrialSelect * select,
       Random * random,
       /// If pivot is empty, use first particle position.
-      const Position& pivot,
-      /// Rotate particle positions if true. Otherwise, do not.
-      const bool rotate_particle_position);
+      const Position& pivot);
 
   // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
@@ -70,7 +63,7 @@ class PerturbRotate : public PerturbMove {
 
   const Position& piv_sel_(const Position& pivot, const TrialSelect * select) {
     if (pivot.dimension() == 0) {
-      return select->mobile().particle_positions()[0];
+      return select->mobile().site_positions()[0][0];
     }
     return pivot;
   }

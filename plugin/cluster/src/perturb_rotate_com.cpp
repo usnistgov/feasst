@@ -39,7 +39,7 @@ void PerturbRotateCOM::move(System * system,
     Random * random) {
   const Position pivot = select->mobile().geometric_center();
   DEBUG("piv " << pivot.str());
-  PerturbRotate::move(system, select, random, pivot, true);
+  PerturbRotate::move(system, select, random, pivot);
 }
 
 }  // namespace feasst

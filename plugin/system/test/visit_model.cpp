@@ -20,8 +20,8 @@ double en_lj(const double pos) {
 TEST(VisitModel, energy) {
   Configuration config = two_particle_configuration();
   const double pos = 1.25;
-  EXPECT_EQ(config.particle(0).position().coord(0), 0);
-  EXPECT_EQ(config.particle(1).position().coord(0), pos);
+  EXPECT_EQ(config.particle(0).site(0).position().coord(0), 0);
+  EXPECT_EQ(config.particle(1).site(0).position().coord(0), pos);
   LennardJones model;
   VisitModel visit;
   visit.precompute(&config);
@@ -29,11 +29,10 @@ TEST(VisitModel, energy) {
   EXPECT_NEAR(en_lj(pos), visit.energy(), NEAR_ZERO);
 
   // check PBCs
-  Position position = config.particle(1).position();
+  Position position = config.particle(1).site(0).position();
   position.set_coord(0, 4);
 
   Particle particle = config.particle(1);
-  particle.set_position(position);
   Site site = particle.site(0);
   site.set_position(position);
   particle.set_site(0, site);
@@ -43,8 +42,6 @@ TEST(VisitModel, energy) {
   EXPECT_EQ(3, config.particle(0).site(0).position().size());
   EXPECT_EQ(0, config.particle(0).site(0).position().coord(0));
   EXPECT_EQ(4, config.particle(1).site(0).position().coord(0));
-
-  EXPECT_EQ(4, config.particle(1).position().coord(0));
   model.compute(select, &config, &visit);
   EXPECT_NEAR(en_lj(2.), visit.energy(), NEAR_ZERO);
   Select select2;

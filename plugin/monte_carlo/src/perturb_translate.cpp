@@ -31,7 +31,6 @@ void PerturbTranslate::update_selection(const Position& trajectory,
   for (int select_index = 0;
        select_index < displaced->num_particles();
        ++select_index) {
-    displaced->add_to_particle_position(select_index, trajectory);
     for (int site = 0;
          site < static_cast<int>(displaced->site_indices(select_index).size());
          ++site) {

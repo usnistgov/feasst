@@ -268,9 +268,9 @@ const Group& Select::group() const {
 void Select::set_site_position(const int particle_index,
                                        const int site_index,
                                        const Position& position) {
-  ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
+  ASSERT(particle_index < static_cast<int>(site_positions_.size()),
     "particle_index(" << particle_index << ") is larger than position size: "
-    << particle_positions_.size());
+    << site_positions_.size());
   ASSERT(site_index < static_cast<int>(site_positions_[particle_index].size()),
     "size error");
   site_positions_[particle_index][site_index] = position;
@@ -287,20 +287,12 @@ void Select::set_site_position(const int particle_index,
 void Select::add_to_site_position(const int particle_index,
                                           const int site_index,
                                           const Position& position) {
-  ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
+  ASSERT(particle_index < static_cast<int>(site_positions_.size()),
     "particle_index(" << particle_index << ") is larger than position size: "
-    << particle_positions_.size());
+    << site_positions_.size());
   ASSERT(site_index < static_cast<int>(site_positions_[particle_index].size()),
     "size error");
   site_positions_[particle_index][site_index].add(position);
-}
-
-void Select::add_to_particle_position(const int particle_index,
-                                              const Position& position) {
-  ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
-    "particle_index(" << particle_index << ") is larger than position size: "
-    << particle_positions_.size());
-  particle_positions_[particle_index].add(position);
 }
 
 void Select::set_site_properties(
@@ -310,20 +302,11 @@ void Select::set_site_properties(
   site_properties_[particle_index][site_index] = properties;
 }
 
-void Select::set_particle_position(const int particle_index,
-                                   const Position& position) {
-  ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
-    "particle_index: " << particle_index << " must be less than " <<
-    particle_positions_.size());
-  particle_positions_[particle_index] = position;
-}
-
 void Select::load_position(const int pindex,
     const Particle& particle) {
-  if (particle_positions_.size() == 0) {
+  if (site_positions_.size() == 0) {
     resize_positions();
   }
-  set_particle_position(pindex, particle.position());
   int sindex = 0;
   for (int site_index : site_indices(pindex)) {
     set_site_position(pindex, sindex, particle.site(site_index).position());
@@ -342,8 +325,6 @@ void Select::load_positions(const ParticleFactory& particles) {
 
 void Select::load_positions_of_last(const Particle& particle,
     const Position& frame_of_reference) {
-  particle_positions_.push_back(particle.position());
-  particle_positions_.back().add(frame_of_reference);
   const int pindex = num_particles() - 1;
   std::vector<Position> site_posit;
   std::vector<Properties> site_props;
@@ -357,7 +338,7 @@ void Select::load_positions_of_last(const Particle& particle,
 }
 
 Position Select::geometric_center(const int particle_index) const {
-  Position center(particle_positions()[0].dimension());
+  Position center(site_positions()[0][0].dimension());
   // consider all particles if particle index is not provided
   if (particle_index == -1) {
     for (int sp = 0; sp < num_particles(); ++sp) {
@@ -379,13 +360,11 @@ Position Select::geometric_center(const int particle_index) const {
 void Select::clear() {
   particle_indices_.clear();
   site_indices_.clear();
-  particle_positions_.clear();
   site_positions_.clear();
   site_properties_.clear();
 }
 
 void Select::resize_positions() {
-  particle_positions_.resize(num_particles());
   site_positions_.resize(num_particles());
   site_properties_.resize(num_particles());
   for (int index = 0; index < num_particles(); ++index) {
@@ -421,7 +400,6 @@ void Select::serialize(std::ostream& sstr) const {
   feasst_serialize(new_bond_, sstr);
   feasst_serialize(old_bond_, sstr);
   feasst_serialize(group_, sstr);
-  feasst_serialize_fstobj(particle_positions_, sstr);
   feasst_serialize_fstobj(site_positions_, sstr);
   feasst_serialize_fstobj(site_properties_, sstr);
   feasst_serialize_endcap("Select", sstr);
@@ -455,7 +433,6 @@ Select::Select(std::istream& sstr) {
   if (existing != 0) {
     group_ = std::make_shared<Group>(sstr);
   }
-  feasst_deserialize_fstobj(&particle_positions_, sstr);
   feasst_deserialize_fstobj(&site_positions_, sstr);
   feasst_deserialize_fstobj(&site_properties_, sstr);
   feasst_deserialize_endcap("Select", sstr);

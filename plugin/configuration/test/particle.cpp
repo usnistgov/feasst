@@ -14,7 +14,6 @@ TEST(Particle, getset) {
 TEST(Particle, check) {
   Particle particle;
   particle.add(Site(Position({0, 0, 0})));
-  particle.set_position(Position({0, 0, 0}));
   Site site;
   Position pos;
   pos.set_vector({0, 0});
@@ -24,14 +23,6 @@ TEST(Particle, check) {
     particle.check();
     CATCH_PHRASE("size error");
   );
-}
-
-TEST(Particle, center) {
-  Particle chain = FileLMP().read("../forcefield/data.chain10");
-  EXPECT_EQ(0, chain.position().coord(0));
-  chain.set_position_as_center();
-  EXPECT_EQ(4.5, chain.position().coord(0));
-  EXPECT_EQ(0., chain.position().coord(1));
 }
 
 TEST(Particle, bond) {

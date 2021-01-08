@@ -40,7 +40,7 @@ void PerturbPivot::move(System * system,
                         Random * random) {
   const Position& pivot = select->anchor_position(0, 0, *system);
   DEBUG("piv " << pivot.str());
-  PerturbRotate::move(system, select, random, pivot, false);
+  PerturbRotate::move(system, select, random, pivot);
   DEBUG(select->mobile().site_positions()[0][0].str());
 }
 }  // namespace feasst
