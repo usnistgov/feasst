@@ -109,6 +109,7 @@ void Trial::finalize(System * system) {
   for (int index = num_stages() - 1; index >= 0; --index) {
     stages_[index]->finalize(system);
   }
+  system->finalize(acceptance_.perturbed());
 }
 
 bool Trial::attempt(Criteria * criteria, System * system, Random * random) {

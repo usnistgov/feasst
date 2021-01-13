@@ -87,7 +87,7 @@ inline void test_revert(System * system) {
 
   // finalize removal
   remove.perturb(system, tsel.get(), random.get());
-  remove.finalize(system);
+  system->finalize(tsel->mobile());
   EXPECT_EQ(1, system->configuration().num_particles());
   if (inner.is_energy_map_queryable()) {
     EXPECT_NEAR(0., inner.energy_map().total_energy(), 10*NEAR_ZERO);
@@ -99,7 +99,7 @@ inline void test_revert(System * system) {
   tsel_ghost->sel(system, random.get());
   add.perturb(system, tsel_ghost.get(), random.get());
   const double en2 = system->energy();
-  add.finalize(system);
+  system->finalize(tsel_ghost->mobile());
   EXPECT_EQ(2, system->configuration().num_particles());
   EXPECT_GT(std::abs(en2 - pe_original), NEAR_ZERO);
 //  INFO("en2 " << en2);
@@ -113,7 +113,7 @@ inline void test_revert(System * system) {
   EXPECT_EQ(2, system->configuration().num_particles());
   translate.perturb(system, tsel.get(), random.get());
   const double en2t = system->energy();
-  translate.finalize(system);
+  system->finalize(tsel->mobile());
   if (en2t != 0 || en2 != 0) {
     EXPECT_GT(std::abs(en2t - en2), NEAR_ZERO);
     //INFO("en2t " << en2t);

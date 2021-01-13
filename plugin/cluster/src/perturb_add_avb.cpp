@@ -52,7 +52,7 @@ void PerturbAddAVB::revert(System * system) {
 void PerturbAddAVB::finalize(System * system) {
   DEBUG("finalize_possible " << finalize_possible());
   if (finalize_possible()) {
-    system->finalize(finalize_select()->mobile());
+//    system->finalize(finalize_select()->mobile());
   }
 }
 

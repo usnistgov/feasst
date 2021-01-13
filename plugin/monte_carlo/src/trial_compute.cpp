@@ -52,16 +52,16 @@ void TrialCompute::compute_rosenbluth(
     energy_change += energy;
     if (stage->reference() >= 0) reference_used = true;
   }
+
+  // update the trial state of the perturbed selection
+  int trial_state = (*stages)[0]->trial_select().mobile().trial_state();
+  // set the trial state if old configuration and is a move type (1)
+  if (trial_state == 1 && old == 1) trial_state = 0;
+  acceptance->set_perturbed_state(trial_state);
+
   DEBUG("reference used? " << reference_used);
   if (reference_used) {
     ASSERT(acceptance->perturbed().num_sites() > 0, "error");
-
-    // update the trial state of the perturbed selection
-    int trial_state = (*stages)[0]->trial_select().mobile().trial_state();
-    // set the trial state if old configuration and is a move type (1)
-    if (trial_state == 1 && old == 1) trial_state = 0;
-    acceptance->set_perturbed_state(trial_state);
-
     DEBUG(acceptance->perturbed().str());
     DEBUG("state " << acceptance->perturbed().trial_state());
     const double en_full = system->perturbed_energy(acceptance->perturbed());

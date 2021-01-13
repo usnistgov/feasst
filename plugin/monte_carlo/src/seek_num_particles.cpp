@@ -57,15 +57,21 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
     "There are " << config.num_particles_of_type(particle_type_)
     << " particles of type " << particle_type_ << " which is > "
     << num_);
-  auto original_params = std::make_shared<ThermoParams>(
-    monte_carlo->system().thermo_params());
-  if (thermo_params_) monte_carlo->set(thermo_params_);
+  std::shared_ptr<ThermoParams> original_params;
+  if (thermo_params_) {
+    if (monte_carlo->system().thermo_params_ptr_()) {
+      original_params = std::make_shared<ThermoParams>(
+        monte_carlo->system().thermo_params());
+    }
+    monte_carlo->set(thermo_params_);
+  }
   Criteria * crit;
   if (criteria_) {
     crit = criteria_.get();
   } else {
     crit = monte_carlo->get_criteria();
   }
+  ASSERT(crit, "SeekNumParticles requires criteria in MonteCarlo or input");
   System * sys = monte_carlo->get_system();
   crit->set_current_energy(sys->energy());
   Random * ran = monte_carlo->get_random();
@@ -87,7 +93,7 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
       }
     }
   }
-  if (thermo_params_) monte_carlo->set(original_params);
+  if (thermo_params_ && original_params) monte_carlo->set(original_params);
   monte_carlo->initialize_criteria();
   monte_carlo->reset_trial_stats();
 }

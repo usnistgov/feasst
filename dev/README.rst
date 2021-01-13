@@ -357,3 +357,4 @@ To Do List
 * in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?
 * Consider getting rid of particle positions, default to use first site (optional?) for wrapping and rotation pivots, etc.
 * Remove SpatialEntity and TypedEntity
+* EnergyMapNeighborCriteria should be able to take index of energy map stored by System

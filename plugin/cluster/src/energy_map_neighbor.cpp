@@ -75,6 +75,7 @@ double EnergyMapNeighbor::update(
       }
     }
   }
+  finalizable_ = true;
   return energy;
 }
 
@@ -82,15 +83,7 @@ void EnergyMapNeighbor::revert(const Select& select) {
   map_new_()->clear();
 }
 
-void EnergyMapNeighbor::finalize(const Select& select) {
-  DEBUG("map: " << map_str());
-  DEBUG("new map: " << map_new_str());
-  DEBUG("perturbed: " << select.str());
-
-  DEBUG("map size " << map_()->size())
-  DEBUG("new map size " << map_new_()->size())
-
-  // Sort map_new (needed for some VisitModel, like Cell)
+void EnergyMapNeighbor::sort_map_new_() {
   std::sort(map_new_()->begin(), map_new_()->end());
   for (std::pair<int, mn4type>& mn4 : *map_new_()) {
     std::sort(mn4.second.begin(), mn4.second.end());
@@ -102,8 +95,9 @@ void EnergyMapNeighbor::finalize(const Select& select) {
     }
   }
   DEBUG("sorted new map: " << map_new_str());
+}
 
-  // Initially size map_
+void EnergyMapNeighbor::size_map_() {
   for (const std::pair<int, mn4type>& mn4 : *map_new_()) {
     const int part1 = mn4.first;
     DEBUG("part1 " << part1);
@@ -117,185 +111,270 @@ void EnergyMapNeighbor::finalize(const Select& select) {
     }
   }
   DEBUG("map size after init " << map_()->size())
+}
 
-  if (select.trial_state() == -1 ||
-      select.trial_state() == 1) {
-    // add part2 in new map not in old map
-    DEBUG("map new size: " << map_new_()->size());
-    for (std::pair<int, mn4type>& mn4 : *map_new_()) {
-      const int part1 = mn4.first;
-      DEBUG("part1 " << part1);
-      map4type * map4 = find_or_add_(part1, map_());
-      for (std::pair<int, map3type>& mn3 : mn4.second) {
-        const int site1 = mn3.first;
-        map3type * map3 = find_or_add_(site1, map4);
+void EnergyMapNeighbor::remove_from_map_nvt_(const Select& select) {
+  // remove 1. part2 in selection not in new
+  //        2. site2 in selection not in new
+  for (int spindex = 0; spindex < select.num_particles(); ++spindex) {
+    const int part1 = select.particle_index(spindex);
+    DEBUG("part1 " << part1);
+    if (part1 < static_cast<int>(map_()->size())) {
+      map4type * map4 = &(*map_())[part1];
+      mn4type * mn4 = find_or_add_(part1, map_new_());
+      for (const int site1 : select.site_indices(spindex)) {
+        if (site1 < static_cast<int>(map4->size())) {
+          DEBUG("site1 " << site1);
+          map3type * map3 = &(*map4)[site1];
+          map3type * mn3 = find_or_add_(site1, mn4);
 
-        map3type diff3;
-        std::set_difference(mn3.second.begin(), mn3.second.end(),
-                            map3->begin(), map3->end(), back_inserter(diff3));
-        for (auto& mn2 : diff3) {
-          const int part2 = mn2.first;
-          DEBUG("adding part1/2: " << part1 << "/" << part2);
-          map2type * map2 = find_or_add_(part2, map3);
-          *map2 = mn2.second;
-          std::sort(map3->begin(), map3->end());
-
-          // for newly added part2, also add perturbed indices of each site
-          for (auto& mn1 : mn2.second) {
-            const int site2 = mn1.first;
-            map2type * map2inv = find_or_add_(part1,
-                                 find_or_add_(site2,
-                                 find_or_add_(part2, map_())));
-            map1type * map1inv = find_or_add_(site1, map2inv);
-            *map1inv = mn1.second;
-            invert_pbcs_(map1inv);
-            std::sort(map2inv->begin(), map2inv->end());
-          }
-        }
-      }
-    }
-
-    DEBUG("map after adding before before removing: " << map_str());
-    DEBUG("new map after adding before before removing: " << map_new_str());
-
-    // HWH partially related to trial_state 2, make function for reuse?
-    // remove part2 in selection not in new
-    for (int spindex = 0; spindex < select.num_particles(); ++spindex) {
-      const int part1 = select.particle_index(spindex);
-      DEBUG("part1 " << part1);
-      if (part1 < static_cast<int>(map_()->size())) {
-        map4type * map4 = &(*map_())[part1];
-        mn4type * mn4 = find_or_add_(part1, map_new_());
-        for (const int site1 : select.site_indices(spindex)) {
-          if (site1 < static_cast<int>(map4->size())) {
-            DEBUG("site1 " << site1);
-            map3type * map3 = &(*map4)[site1];
-            map3type * mn3 = find_or_add_(site1, mn4);
-
-            // remove part2 in selection not in new map
-            map3type diff3;
-            std::set_difference(map3->begin(), map3->end(),
-                                mn3->begin(), mn3->end(), back_inserter(diff3));
-            for (auto& mn2 : diff3) {
-              const int part2 = mn2.first;
-              // skip double counted
-              DEBUG(select.trial_state());
-              if (select.trial_state() == 1 || part2 > part1) {
-                DEBUG("removing part1/2: " << part1 << "/" << part2);
-                int fpindex = -1;
-                const bool found = find_in_list(part2, *map3, &fpindex);
-                if (found) {
-                  map3->erase(map3->begin() + fpindex,
-                              map3->begin() + fpindex + 1);
-                } else {
-                  FATAL(part2 << " not found");
-                }
-
-                // for removed part2, also remove perturbed indices
-                for (auto& mn1 : mn2.second) {
-                  const int site2 = mn1.first;
-                  map2type * map2inv = find_or_add_(part1,
-                                       find_or_add_(site2,
-                                       find_or_add_(part2, map_())));
-                  int fsindex = -1;
-                  const bool found = find_in_list(site1, *map2inv, &fsindex);
-                  if (found) {
-                    map2inv->erase(map2inv->begin() + fsindex,
-                                   map2inv->begin() + fsindex + 1);
-                  } else {
-                    FATAL(part2 << " not found");
-                  }
-                }
+          // remove part2 in selection not in new map
+          map3type diff3;
+          std::set_difference(map3->begin(), map3->end(),
+                              mn3->begin(), mn3->end(), back_inserter(diff3));
+          for (const auto& mn2 : diff3) {
+            const int part2 = mn2.first;
+            // skip double counted
+            DEBUG(select.trial_state());
+            if (select.trial_state() == 1 || part2 > part1) {
+              DEBUG("removing part1/2: " << part1 << "/" << part2);
+              int fpindex = -1;
+              const bool found = find_in_list(part2, *map3, &fpindex);
+              if (found) {
+                map3->erase(map3->begin() + fpindex,
+                            map3->begin() + fpindex + 1);
+              } else {
+                FATAL(part2 << " not found");
               }
-            }
-          }
-        }
-      }
-    }
 
-    // for part2 in both old and new map, add site2 in new map not in old
-    for (std::pair<int, mn4type>& mn4 : *map_new_()) {
-      for (std::pair<int, map3type>& mn3 : mn4.second) {
-        const int site1 = mn3.first;
-        ASSERT(site1 == 0, "not implemented");
-      }
-    }
-    // for part2 in both old and new map, remove site2 in old map not in new
-    for (std::pair<int, mn4type>& mn4 : *map_new_()) {
-      for (std::pair<int, map3type>& mn3 : mn4.second) {
-        const int site1 = mn3.first;
-        ASSERT(site1 == 0, "not implemented");
-      }
-    }
-  } else if (select.trial_state() == 2) {
-    for (int spindex = 0; spindex < select.num_particles(); ++spindex) {
-      const int part1 = select.particle_index(spindex);
-      DEBUG("part1 " << part1);
-      if (part1 < static_cast<int>(map_()->size())) {
-        map4type * map4 = &(*map_())[part1];
-        for (const int site1 : select.site_indices(spindex)) {
-          if (site1 < static_cast<int>(map4->size())) {
-            DEBUG("site1 " << site1);
-            map3type * map3 = &(*map4)[site1];
-            for (const std::pair<int, map2type>& map2 : *map3) {
-              const int part2 = map2.first;
-              DEBUG("part2 " << part2);
-              for (const std::pair<int, map1type>& map1 : map2.second) {
-                const int site2 = map1.first;
-                DEBUG("site2 " << site2);
+              // for removed part2, also remove perturbed indices
+              for (const auto& mn1 : mn2.second) {
+                const int site2 = mn1.first;
                 map2type * map2inv = find_or_add_(part1,
                                      find_or_add_(site2,
                                      find_or_add_(part2, map_())));
                 int fsindex = -1;
-                const bool found = find_in_list(site2, *map2inv, &fsindex);
+                const bool found = find_in_list(site1, *map2inv, &fsindex);
                 if (found) {
                   map2inv->erase(map2inv->begin() + fsindex,
                                  map2inv->begin() + fsindex + 1);
                 } else {
-                  FATAL(site2 << " not found");
+                  FATAL(part2 << " not found");
                 }
               }
             }
           }
-        }
-        (*map_())[part1] = map4type();
-      }
-    }
-  } else if (select.trial_state() == 3) {
-    // Add "new" to map
-    DEBUG("map new size: " << map_new_()->size());
-    for (const std::pair<int, mn4type>& mn4 : *map_new_()) {
-      const int part1 = mn4.first;
-      DEBUG("part1 " << part1);
-      map4type * map4 = find_or_add_(part1, map_());
-      for (const std::pair<int, map3type>& mn3 : mn4.second) {
-        const int site1 = mn3.first;
-        DEBUG("site1 " << site1);
-        map3type * map3 = find_or_add_(site1, map4);
-        for (const std::pair<int, map2type>& mn2 : mn3.second) {
-          const int part2 = mn2.first;
-          DEBUG("part2 " << part2);
-          map2type * map2 = find_or_add_(part2, map3);
-          for (const std::pair<int, map1type>& mn1 : mn2.second) {
-            const int site2 = mn1.first;
-            DEBUG("site2 " << site2);
-            map1type * map1 = find_or_add_(site1, map2);
-            *map1 = mn1.second;
 
-            // HWH copied from above.. make function
-            // perturb indices and add
-            map2type * map2inv = find_or_add_(part1,
-                                 find_or_add_(site2,
-                                 find_or_add_(part2, map_())));
-            map1type * map1inv = find_or_add_(site1, map2inv);
-            *map1inv = mn1.second;
-            invert_pbcs_(map1inv);
-            std::sort(map2inv->begin(), map2inv->end());
+          // find part2 in selection and old map in order to compare sites
+          map3type intersect3;
+          std::set_intersection(map3->begin(), map3->end(),
+                                mn3->begin(), mn3->end(),
+                                back_inserter(intersect3));
+          for (const auto& mn2 : intersect3) {
+            const int part2 = mn2.first;
+            if (select.trial_state() == 1 || part2 > part1) {
+              // find site2 in selection not in new map
+              map2type * map2 = find_or_add_(part2, map3);
+              map2type diff2;
+              std::set_difference(map2->begin(), map2->end(),
+                                  mn2.second.begin(), mn2.second.end(),
+                                  back_inserter(diff2));
+              for (const auto& missing1 : diff2) {
+                const int site2 = missing1.first;
+                int fsindex = -1;
+                bool found = find_in_list(site2, *map2, &fsindex);
+                ASSERT(found, "err");
+                map2->erase(map2->begin() + fsindex,
+                            map2->begin() + fsindex + 1);
+                // for removed site2, also remove perturbed index
+                map2type * map2inv = find_or_add_(part1,
+                                     find_or_add_(site2,
+                                     find_or_add_(part2, map_())));
+                fsindex = -1;
+                found = find_in_list(site1, *map2inv, &fsindex);
+                ASSERT(found, "err");
+                map2inv->erase(map2inv->begin() + fsindex,
+                               map2inv->begin() + fsindex + 1);
+              }
+            }
           }
         }
       }
     }
+  }
+}
 
+void EnergyMapNeighbor::add_to_map_nvt_() {
+  // add 1. part2 in new map not in old map
+  //     2. site2 in new map not in old map
+  DEBUG("map new size: " << map_new_()->size());
+  for (std::pair<int, mn4type>& mn4 : *map_new_()) {
+    const int part1 = mn4.first;
+    DEBUG("part1 " << part1);
+    map4type * map4 = find_or_add_(part1, map_());
+    for (std::pair<int, map3type>& mn3 : mn4.second) {
+      const int site1 = mn3.first;
+      map4 = &(*map_())[part1];
+      // resizing may make map4 pointer relocate, same with map3
+      map3type * map3 = find_or_add_(site1, map4);
+
+      // find part2 in new map not in old map
+      map3type diff3;
+      std::set_difference(mn3.second.begin(), mn3.second.end(),
+                          map3->begin(), map3->end(), back_inserter(diff3));
+      for (const auto& mn2 : diff3) {
+        const int part2 = mn2.first;
+        DEBUG("adding part1/2: " << part1 << "/" << part2);
+        map3 = &(*map_())[part1][site1];
+        map2type * map2 = find_or_add_(part2, map3);
+        *map2 = mn2.second;
+        std::sort(map3->begin(), map3->end());
+
+        // for newly added part2, also add perturbed indices of each site
+        for (const auto& mn1 : mn2.second) {
+          const int site2 = mn1.first;
+          map2type * map2inv = find_or_add_(part1,
+                               find_or_add_(site2,
+                               find_or_add_(part2, map_())));
+          map1type * map1inv = find_or_add_(site1, map2inv);
+          *map1inv = mn1.second;
+          invert_pbcs_(map1inv);
+          std::sort(map2inv->begin(), map2inv->end());
+        }
+      }
+
+      // find part2 in new map and old map in order to compare the sites
+      map3type intersect3;
+      std::set_intersection(mn3.second.begin(), mn3.second.end(),
+                            map3->begin(), map3->end(),
+                            back_inserter(intersect3));
+      for (const auto& mn2 : intersect3) {
+        const int part2 = mn2.first;
+        map2type * map2 = find_or_add_(part2, map3);
+        // find site2 in new map not in old map
+        map2type diff2;
+        std::set_difference(mn2.second.begin(), mn2.second.end(),
+                            map2->begin(), map2->end(), back_inserter(diff2));
+        for (const auto& mn1 : diff2) {
+          const int site2 = mn1.first;
+          DEBUG("adding site2: " << site2);
+          map1type * map1 = find_or_add_(site2, map2);
+          *map1 = mn1.second;
+          std::sort(map2->begin(), map2->end());
+
+          // for newly added site2, also add perturbed index
+          // HWH copied from above
+          map2type * map2inv = find_or_add_(part1,
+                               find_or_add_(site2,
+                               find_or_add_(part2, map_())));
+          map1type * map1inv = find_or_add_(site1, map2inv);
+          *map1inv = mn1.second;
+          invert_pbcs_(map1inv);
+          std::sort(map2inv->begin(), map2inv->end());
+        }
+      }
+    }
+  }
+
+  DEBUG("map after adding before removing: " << map_str());
+  DEBUG("new map after adding before removing: " << map_new_str());
+}
+
+void EnergyMapNeighbor::remove_particle_from_map_(const Select& select) {
+  ASSERT(select.num_particles() == 1, "multi-particle not implemented");
+  for (int spindex = 0; spindex < select.num_particles(); ++spindex) {
+    const int part1 = select.particle_index(spindex);
+    DEBUG("part1 " << part1);
+    if (part1 < static_cast<int>(map_()->size())) {
+      map4type * map4 = &(*map_())[part1];
+      for (const int site1 : select.site_indices(spindex)) {
+        if (site1 < static_cast<int>(map4->size())) {
+          DEBUG("site1 " << site1);
+          map3type * map3 = &(*map4)[site1];
+          for (const std::pair<int, map2type>& map2 : *map3) {
+            const int part2 = map2.first;
+            DEBUG("part2 " << part2);
+            for (const std::pair<int, map1type>& map1 : map2.second) {
+              const int site2 = map1.first;
+              DEBUG("site2 " << site2);
+              map2type * map2inv = find_or_add_(part1,
+                                   find_or_add_(site2,
+                                   find_or_add_(part2, map_())));
+              int fsindex = -1;
+              const bool found = find_in_list(site2, *map2inv, &fsindex);
+              if (found) {
+                map2inv->erase(map2inv->begin() + fsindex,
+                               map2inv->begin() + fsindex + 1);
+              } else {
+                FATAL(site2 << " not found");
+              }
+            }
+          }
+        }
+      }
+      (*map_())[part1] = map4type(); // erase
+    }
+  }
+}
+
+void EnergyMapNeighbor::add_particle_to_map_() {
+  // Add "new" to map
+  DEBUG("map new size: " << map_new_()->size());
+  for (const std::pair<int, mn4type>& mn4 : *map_new_()) {
+    const int part1 = mn4.first;
+    DEBUG("part1 " << part1);
+    map4type * map4 = find_or_add_(part1, map_());
+    for (const std::pair<int, map3type>& mn3 : mn4.second) {
+      const int site1 = mn3.first;
+      DEBUG("site1 " << site1);
+      map3type * map3 = find_or_add_(site1, map4);
+      for (const std::pair<int, map2type>& mn2 : mn3.second) {
+        const int part2 = mn2.first;
+        DEBUG("part2 " << part2);
+        map2type * map2 = find_or_add_(part2, map3);
+        for (const std::pair<int, map1type>& mn1 : mn2.second) {
+          const int site2 = mn1.first;
+          DEBUG("site2 " << site2);
+          map1type * map1 = find_or_add_(site1, map2);
+          *map1 = mn1.second;
+
+          // HWH copied from above.. make function
+          // perturb indices and add
+          map2type * map2inv = find_or_add_(part1,
+                               find_or_add_(site2,
+                               find_or_add_(part2, map_())));
+          map1type * map1inv = find_or_add_(site1, map2inv);
+          *map1inv = mn1.second;
+          invert_pbcs_(map1inv);
+          std::sort(map2inv->begin(), map2inv->end());
+        }
+      }
+    }
+  }
+}
+
+void EnergyMapNeighbor::finalize(const Select& select) {
+  if (!finalizable_) return;
+  DEBUG("map: " << map_str());
+  DEBUG("new map: " << map_new_str());
+  DEBUG("perturbed: " << select.str());
+
+  DEBUG("map size " << map_()->size())
+  DEBUG("new map size " << map_new_()->size())
+
+  sort_map_new_();
+  size_map_();
+
+  if (select.trial_state() == -1 || select.trial_state() == 1) {
+    remove_from_map_nvt_(select);
+  }
+
+  if (select.trial_state() == -1 || select.trial_state() == 1) {
+    add_to_map_nvt_();
+  } else if (select.trial_state() == 2) {
+    remove_particle_from_map_(select);
+  } else if (select.trial_state() == 3) {
+    add_particle_to_map_();
   } else {
     FATAL("unrecognized trial state: " << select.trial_state());
   }
@@ -471,8 +550,12 @@ void EnergyMapNeighbor::check() const {
             const map1type& m1 = m2[sneigh].second;
             if (m1.size() > 0) {
               int tmp;
-              const bool found = find_in_list(part1, const_map_()[part2][site2], &tmp);
+              bool found = find_in_list(part1, const_map_()[part2][site2], &tmp);
               ASSERT(found, "unmatched pair part1: " << part1 << " part2: " << part2
+                << " map: " << map_str());
+              found = find_in_list(site1, const_map_()[part2][site2][tmp].second, &tmp);
+              ASSERT(found, "unmatched pair part1: " << part1 << " site1: " <<
+                site1 << " part2 " << part2 << " site2: " << site2
                 << " map: " << map_str());
             }
           }

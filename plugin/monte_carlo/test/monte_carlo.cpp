@@ -184,7 +184,7 @@ TEST(MonteCarlo, GCMC) {
   //const int trials = 1e6;
   mc.attempt(trials);
   EXPECT_EQ(mc.trials().num(), 3);
-  EXPECT_NEAR(mc.trial(0).num_attempts(), trials/5, trials*0.015);
+  EXPECT_NEAR(mc.trial(0).num_attempts(), trials/5, trials*0.02);
   EXPECT_NEAR(mc.trial(1).num_attempts(), trials*2/5., trials*0.025);
   EXPECT_NEAR(mc.trial(2).num_attempts(), trials*2/5., trials*0.025);
 //  const double sum0 = profile->profile()[0].sum();

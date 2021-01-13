@@ -204,6 +204,7 @@ class Ewald : public VisitModel {
   // HWH to put eiks in selection and no longer exclude them from update.
   std::vector<std::vector<Properties> > old_eiks_;
   bool revertable_ = false;
+  bool finalizable_ = false;
   Configuration * old_config_;
   const Select * old_select_;
 

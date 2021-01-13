@@ -472,6 +472,7 @@ void Ewald::compute(
                                                   struct_fact_imag_new_);
   DEBUG("stored_energy_ " << stored_energy_new_);
   set_energy(stored_energy_new_);
+  finalizable_ = true;
 }
 
 void Ewald::compute(
@@ -554,6 +555,7 @@ void Ewald::compute(
   DEBUG("stored_energy_ " << stored_energy() << " "
        "stored_energy_new_ " << stored_energy_new_);
   set_energy(enrg);
+  finalizable_ = true;
 }
 
 void Ewald::revert(const Select& select) {
@@ -582,12 +584,15 @@ void Ewald::revert(const Select& select) {
 }
 
 void Ewald::finalize(const Select& select) {
-  DEBUG("finalizing");
-  ASSERT(struct_fact_real_new_.size() > 0, "error");
-  *stored_energy_() = stored_energy_new_;
-  *struct_fact_real_() = struct_fact_real_new_;
-  *struct_fact_imag_() = struct_fact_imag_new_;
-  revertable_ = false;
+  if (finalizable_) {
+    DEBUG("finalizing");
+    ASSERT(struct_fact_real_new_.size() > 0, "error");
+    *stored_energy_() = stored_energy_new_;
+    *struct_fact_real_() = struct_fact_real_new_;
+    *struct_fact_imag_() = struct_fact_imag_new_;
+    revertable_ = false;
+    finalizable_ = false;
+  }
 }
 
 void Ewald::check_size() const {

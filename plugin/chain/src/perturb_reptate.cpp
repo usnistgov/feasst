@@ -35,7 +35,7 @@ void PerturbReptate::serialize(std::ostream& ostr) const {
 }
 
 void PerturbReptate::finalize(System * system) {
-  PerturbDistance::finalize(system);
+  //PerturbDistance::finalize(system);
   // HWH could also use revert_select instead of finalize_select?
   const Select& mobile = finalize_select()->mobile();
   const int part_index = mobile.particle_indices()[0];

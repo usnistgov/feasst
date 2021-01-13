@@ -201,6 +201,16 @@ class EnergyMapNeighbor : public EnergyMap {
   std::string map_new_str() const;
   std::string map_str() const;
   std::string map_str(const map3type& map3) const;
+
+  void sort_map_new_();
+  void size_map_();
+  void remove_from_map_nvt_(const Select& select);
+  void add_to_map_nvt_();
+  void remove_particle_from_map_(const Select& select);
+  void add_particle_to_map_();
+
+  // temporary and not serialized
+  bool finalizable_ = false;
 };
 
 inline std::shared_ptr<EnergyMapNeighbor> MakeEnergyMapNeighbor(

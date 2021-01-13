@@ -29,6 +29,7 @@
 #include "steppers/include/seek_analyze.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/trial_avb2.h"
+#include "cluster/include/energy_map_neighbor.h"
 #include "chain/include/check_rigid_bonds.h"
 #include "chain/include/trials.h"
 #include "chain/include/trial_grow.h"
@@ -310,6 +311,41 @@ TEST(MonteCarlo, heterotrimer2d_LONG) {
   Accumulator en_avb4 = SeekAnalyze().reference("Energy", mc_avb4).accumulator();
   INFO(en_avb4.str());
   EXPECT_TRUE(en_no_avb.is_equivalent(en_avb4, z_factor, true));
+}
+
+TEST(MonteCarlo, multisite_neighbors) {
+  MonteCarlo mc;
+  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "1610132694"}}));
+  mc.set(lennard_jones({{"particle", "forcefield/data.dimer"},
+                        {"cubic_box_length", "6"},
+                        {"lrc", "false"}}));
+  SeekNumParticles(5)
+    .with_thermo_params({{"beta", "1"}, {"chemical_potential", "1"}})
+    .with_metropolis()
+    .with_trial_add()
+    .run(&mc);
+  auto neigh = MakeEnergyMapNeighbor();
+  mc.set(0, MakePotential(MakeLennardJones(), MakeVisitModel(MakeVisitModelInner(neigh))));
+  mc.add_to_reference(MakePotential(MakeLennardJones()));
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1"}}));
+  mc.set(MakeMetropolis());
+//  mc.add(MakeTrialTranslate());
+//  mc.add(MakeTrialRotate({{"tunable_param", "50"}}));
+  mc.add(MakeTrialGrow({
+    {{"regrow", "true"}, {"particle_type", "0"}, {"site", "0"}},
+    {{"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}}},
+    {{"num_steps", "4"}, {"reference_index", "0"}}));
+//  mc.add(MakeTrialGrow({
+//    {{"regrow", "true"}, {"particle_type", "0"}, {"site", "1"}},
+//    {{"bond", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}}},
+//    {{"num_steps", "4"}}));
+  mc.add(MakeLogAndMovie({{"steps_per", "100"}, {"file_name", "tmp/dimer"}}));
+  for (int i = 0; i < 1e1; ++i) {
+    mc.attempt(1);
+    neigh->check();
+  }
+  EXPECT_NEAR(mc.criteria().current_energy(), neigh->total_energy(), 1e-12);
 }
 
 }  // namespace feasst

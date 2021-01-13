@@ -40,7 +40,7 @@ void PerturbRemove::perturb(
 
 void PerturbRemove::finalize(System * system) {
   if (finalize_possible()) {
-    system->finalize(finalize_select()->mobile());
+    //system->finalize(finalize_select()->mobile());
   }
 }
 
