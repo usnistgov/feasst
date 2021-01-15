@@ -2,9 +2,6 @@
 README
 *************************
 
-.. .. image:: https://anaconda.org/hhatch/feasst/badges/installer/conda.svg
-..     :target: https://conda.anaconda.org/hhatch
-
 .. image:: https://travis-ci.com/hhatch/feasst.svg?branch=main
     :target: https://travis-ci.com/hhatch/feasst
 

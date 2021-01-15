@@ -184,11 +184,10 @@ void System::finalize(const Select& select, const int config) {
     // finalize removal
     configurations_[config].remove_particles(select);
   }
-  DEBUG("ref_used_last_ " << ref_used_last_);
-  if (ref_used_last_ != -1) {
-    references_[ref_used_last_].finalize(select);
-  } else {
-    potentials_()->finalize(select);
+  unoptimized_.finalize(select);
+  optimized_.finalize(select);
+  for (PotentialFactory& ref : references_) {
+    ref.finalize(select);
   }
 }
 

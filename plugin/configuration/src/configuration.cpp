@@ -120,30 +120,6 @@ void Configuration::remove_particle_(const int particle_index) {
   for (Select& select : group_selects_) {
     select.remove_particle(particle_index);
   }
-
-  // remove particle_index from cell
-  // note: somewhat derivative of position_tracker
-  for (int cell_index = 0;
-       cell_index < static_cast<int>(domain().cells().size());
-       ++cell_index) {
-    const Cells& cells = domain().cells()[cell_index];
-    const int group_index = cells.group();
-    const Particle& part = select_particle(particle_index);
-    const Group& group = group_selects_[group_index].group();
-    if (group.is_in(part)) {
-      for (int site_index = 0; site_index < part.num_sites(); ++site_index) {
-        const Site& site = part.site(site_index);
-        if (group.is_in(site)) {
-          if (cells.type() < site.num_cells()) {
-            const int cell_old = site.cell(cells.type());
-            Select select;
-            select.add_site(particle_index, site_index);
-            domain_->remove_from_cell_list(cell_index, select, cell_old);
-          }
-        }
-      }
-    }
-  }
 }
 
 void Configuration::remove_particles(const Select& selection) {
@@ -228,54 +204,10 @@ void Configuration::add(std::shared_ptr<Group> group, std::string name) {
 void Configuration::position_tracker_(const int particle_index,
                                       const int site_index) {
   ASSERT(site_index >= 0, "index error");
-  DEBUG("update cells");
-  if (domain_) {
-    for (int cell_index = 0;
-         cell_index < static_cast<int>(domain().cells().size());
-         ++cell_index) {
-      DEBUG("cell index " << cell_index);
-      const Cells& cells = domain().cells()[cell_index];
-      DEBUG("group " << cells.group());
-      const int group_index = cells.group();
-      ASSERT(group_index >= 0, "error");
-      const Particle& part = select_particle(particle_index);
-      const Group& group = group_selects_[group_index].group();
-      if (group.is_in(part)) {
-        const Site& site = part.site(site_index);
-        if (group.is_in(site)) {
-          const int cell_new = domain_->cell_id(site.position(), cells);
-          if (one_site_select_.num_particles() == 0) {
-            one_site_select_.add_site(0, 0);
-          }
-          one_site_select_.set_particle(0, particle_index);
-          one_site_select_.set_site(0, 0, site_index);
-          Site * sitep = particles_.get_particle(particle_index)->get_site(site_index);
-          if (cells.type() < site.num_cells()) {
-            const int cell_old = site.cell(cells.type());
-            DEBUG("index " << particle_index << " " << site_index);
-            DEBUG("new cell " << cell_new << " old cell " << cell_old);
-            DEBUG("before new cell set: " <<
-              particles_.particle(particle_index).site(
-              site_index).property("cell0"));
-            sitep->set_cell(cells.type(), cell_new);
-            domain_->update_cell_list(cell_index, one_site_select_, cell_new,
-                                      cell_old);
-          } else {
-            sitep->add_cell(cell_new);
-            DEBUG("adding to cell list " << cell_index << " cllnw "
-              << cell_new << " si " << site_index);
-            domain_->add_to_cell_list(cell_index, one_site_select_, cell_new);
-          }
-        }
-      }
-    }
-  }
-
   DEBUG("update selection");
   for (const Select& select : group_selects_) {
     ASSERT(!select.group().is_spatial(), "implement updating of groups");
   }
-  /// HWH update neighbors?
 }
 
 void Configuration::position_tracker_(const int particle_index) {
@@ -315,17 +247,6 @@ void Configuration::check() const {
   for (int index = 0; index < num_particles(); ++index) {
     ASSERT(static_cast<int>(group_selects_[0].site_indices(index).size()) ==
       particle(index).num_sites(), "size error");
-  }
-
-  if (domain_) {
-    // check that number of particles in cell list is number in selection.
-    for (const Cells& cells : domain().cells()) {
-      const int group_index = cells.group();
-      const Select& select = group_selects_[group_index];
-      ASSERT(select.num_sites() == cells.num_sites(),
-        "sites in group(" << select.num_sites() << ") is not equal to sites " <<
-        "in cell(" << cells.num_sites() << ") for group: " << group_index);
-    }
   }
 
   // check number of particle types
@@ -650,14 +571,7 @@ int Configuration::max_sites_in_any_particle() const {
 void Configuration::set_site_type(const int particle_type,
                                   const int site,
                                   const int site_type) {
-  for (int cell_index = 0;
-       cell_index < static_cast<int>(domain().cells().size());
-       ++cell_index) {
-    const Cells& cells = domain().cells()[cell_index];
-    const int group_index = cells.group();
-    ASSERT(group_index == 0,
-      "check if cell list needs to be updated with changing type");
-  }
+  // Check if cell needs to be updated with changing type
   for (const Select& group : group_selects_) {
     if (find_in_list(site_type, group.group().site_types())) {
       ERROR("check if groups need to be updated with changing type");

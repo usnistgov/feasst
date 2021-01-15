@@ -215,13 +215,6 @@ Pip notes
 
 dev/tools/pip_install.sh
 
-Anaconda cloud notes
--------------------------
-
-https://docs.anaconda.com/anaconda-cloud/user-guide/getting-started/
-* conda build purge
-* still haven't gotten this to work because of overlinking
-
 Style
 ================================================================================
 
@@ -355,6 +348,4 @@ To Do List
 * Rename plugin chain->config_bias ?
 * maybe mc.add(criteria) is preferable to mc.set. Same with sys?
 * in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?
-* Consider getting rid of particle positions, default to use first site (optional?) for wrapping and rotation pivots, etc.
-* Remove SpatialEntity and TypedEntity
 * EnergyMapNeighborCriteria should be able to take index of energy map stored by System

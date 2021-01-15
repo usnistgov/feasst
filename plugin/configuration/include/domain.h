@@ -62,11 +62,6 @@ class Domain {
     - xy: set the tilt along the x-y direction (default: 0).
     - xz: set the tilt along the x-z direction (default: 0).
     - yz: set the tilt along the y-z direction (default: 0).
-    - init_cells[i]: build cell list with given minimum length between cells.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one cell, the "[i]" is optional.
-    - cell_group[i]: only compute cells for those in given group index
-      for cell of corresponding "i" (default: 0).
    */
   explicit Domain(const argtype& args = argtype());
 
@@ -140,56 +135,7 @@ class Domain {
 
   // HWH implement check
 
-  /// Initialize the cells according to the minimum side length.
-  void init_cells(const double min_length,
-    /// A group index corresponds to a group defined in configuration.
-    /// If this index is set to 0 (default) use all particles and sites.
-    const int group_index = 0);
-
-  /// Return the number of cell lists.
-  int num_cells() const { return static_cast<int>(cells_.size()); }
-
-  /// Return the cells.
-  const std::vector<Cells>& cells() const { return cells_; }
-
-  /// Return the cells by index.
-  const Cells& cells(const int index) const;
-
-  /// Add selection to cells.
-  void add_to_cell_list(const int cell_index,
-                        const Select& select,
-                        const int particle_cell) {
-    cells_[cell_index].add(select, particle_cell);
-  }
-
-  /// Update selection in cells.
-  void update_cell_list(const int cell_index,
-                        const Select& select,
-                        const int cell_new,
-                        const int cell_old) {
-    cells_[cell_index].update(select, cell_new, cell_old);
-  }
-
-  /// Remove selection from cells.
-  void remove_from_cell_list(const int cell_index,
-                             const Select& select,
-                             const int cell) {
-    cells_[cell_index].remove(select, cell);
-  }
-
-
-  /// Return the unique cell number for the position.
-  int cell_id(const Position& position, const Cells& cells);
-
   bool is_tilted() const { return is_tilted_; }
-
-  /// Return true if cell list is enabled.
-  bool is_cell_enabled() const {
-    if (cells().size() > 0) {
-      return true;
-    }
-    return false;
-  }
 
   // Optimized domain wrap for use in inner pair loops.
   // Not for typical users.
@@ -228,9 +174,6 @@ class Domain {
   Position opt_origin_, opt_rel_, opt_pbc_;
   double opt_r2_;
   void resize_opt_(const int dimension);
-
-  /// Cell lists
-  std::vector<Cells> cells_;
 
   void set_xy_(const double yz);
   void set_xz_(const double yz);

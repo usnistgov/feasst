@@ -344,6 +344,9 @@ class Configuration {
   /// Warning: typically not for users because it may include ghost particles.
   const ParticleFactory& particles() const { return particles_; }
 
+  // Return the particles.
+  ParticleFactory * get_particles_() { return &particles_; }
+
   /// Return particle by index provided in selection.
   /// Warning: typically not for users because it may include ghost particles.
   const Particle& select_particle(const int index) const {
@@ -468,7 +471,6 @@ class Configuration {
   // temporaries (not serialized)
   Arguments args_;
   int newest_particle_index_;
-  Select one_site_select_;
 
   /// Selects based on groups that are continuously updated.
   // HWH currently only updated when adding and removing particles

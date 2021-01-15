@@ -42,31 +42,6 @@ Domain::Domain(const argtype& args) {
       if (!args_.boolean()) disable(dim);
     }
   }
-
-  DEBUG("parse cells");
-  // HWH make this more modular
-  start.assign("init_cells");
-  // if only one cell, drop subscript
-  if (args_.key(start).used()) {
-    const double min_length = args_.dble();
-    int group_index = args_.key("cell_group").dflt("0").integer();
-    init_cells(min_length, group_index);
-  } else {
-    int cell = 0;
-    std::stringstream key;
-    key << start << cell;
-    while (args_.key(key.str()).used()) {
-      const double min_length = args_.dble();
-      std::stringstream cgrp;
-      cgrp << "cell_group" << cell;
-      int group_index = args_.key(cgrp.str()).dflt("0").integer();
-      init_cells(min_length, group_index);
-      ++cell;
-      ASSERT(cell < 1e8, "cell(" << cell << ") is very high. Infinite loop?");
-      key.str("");
-      key << start << cell;
-    }
-  }
 }
 
 Domain& Domain::set_cubic(const double box_length) {
@@ -93,7 +68,6 @@ void Domain::set_side_lengths(const Position& side_lengths) {
 }
 
 void Domain::set_side_length(const int dimension, const double length) {
-  ASSERT(cells_.size() == 0, "Implement check of cell list when changing box");
   side_lengths_.set_coord(dimension, length);
 }
 
@@ -166,47 +140,6 @@ void Domain::random_position(Position * position, Random * random) const {
   return random->position_in_cuboid(side_lengths_, position);
 }
 
-// HWH note if there are problems with scaled coordinates here, it probably
-// means there is an issue with wrapping. As currently implemented, translations
-// automatically wrap. So if you're doing a test without them you might run
-// into this issue.
-int Domain::cell_id(const Position& position,
-                    const Cells& cells) {
-//  Position scaled(position);
-//  DEBUG("scaled before wrap " << scaled.str() << " pos " << position.str() <<
-//    " box " << side_lengths().str());
-  wrap_opt(position, opt_origin_, &opt_rel_, &opt_pbc_, &opt_r2_);
-  //wrap(&scaled);
-  DEBUG("opt_rel_ after wrap " << opt_rel_.str() << " pos " << position.str() <<
-    " box " << side_lengths().str());
-  opt_rel_.divide(side_lengths());
-  DEBUG("opt_rel_ " << opt_rel_.str() << " pos " << position.str() << " box "
-    << side_lengths().str());
-  return cells.id(opt_rel_.coord());
-}
-
-void Domain::init_cells(const double min_length,
-                        const int group_index) {
-  ASSERT(side_lengths().size() > 0, "cannot define cells before domain sides");
-  ASSERT(!is_tilted(), "implement triclinic");
-  ASSERT(group_index >= 0, "error");
-  Cells cell;
-  cell.create(min_length, side_lengths().coord());
-  cell.set_type(cells_.size());
-  cell.set_group(group_index);
-  if (cell.num_total() > 0) {
-    cells_.push_back(cell);
-  } else {
-    INFO("Requested cell list rejected: min_length:" << min_length <<
-         " did not meet requirements.");
-  }
-}
-
-const Cells& Domain::cells(const int index) const {
-  ASSERT(index < static_cast<int>(cells_.size()), "index error");
-  return cells_[index];
-}
-
 void Domain::unwrap(const int dim, const int num_wrap, Position * shift) const {
   // do nothing if not periodic
   if (!periodic(dim)) {
@@ -277,7 +210,6 @@ void Domain::serialize(std::ostream& sstr) const {
   feasst_serialize(yz_, sstr);
   feasst_serialize(is_tilted_, sstr);
   feasst_serialize(periodic_, sstr);
-  feasst_serialize_fstobj(cells_, sstr);
 }
 
 Domain::Domain(std::istream& sstr) {
@@ -289,7 +221,6 @@ Domain::Domain(std::istream& sstr) {
   feasst_deserialize(&yz_, sstr);
   feasst_deserialize(&is_tilted_, sstr);
   feasst_deserialize(&periodic_, sstr);
-  feasst_deserialize_fstobj(&cells_, sstr);
   resize_opt_(side_lengths_.dimension());
 }
 

@@ -17,10 +17,22 @@ namespace feasst {
   to this particular site and not the same for every site of the same type.
  */
 class Site : public PropertiedEntity,
-             public TypedEntity,
-             public SpatialEntity {
+             public TypedEntity {
  public:
   Site();
+
+  /// Set the Position.
+  void set_position(const Position& position) { position_ = position; }
+
+  /// Add to the position.
+  void add_position(const Position& position) { position_.add(position); }
+
+  /// Return the Position.
+  const Position& position() const { return position_; }
+
+  /// Return the Position in a given dimension.
+  const double position(const int dimension) const {
+    return position_.coord(dimension); }
 
   /// Construct with a position.
   Site(const Position position) : Site() { set_position(position); }
@@ -51,7 +63,7 @@ class Site : public PropertiedEntity,
   void set_cell(const int index, const int cell) { cells_[index] = cell; }
 
   /// Return a cell.
-  int cell(const int index) const { return cells_[index]; }
+  int cell(const int index) const;
 
   /// Return the number of cells.
   int num_cells() const { return static_cast<int>(cells_.size()); }
@@ -61,6 +73,7 @@ class Site : public PropertiedEntity,
   virtual ~Site() {}
 
  private:
+  Position position_;
   bool is_director_ = false;
   bool is_physical_;
   std::vector<int> cells_;

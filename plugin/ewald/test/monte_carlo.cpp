@@ -74,11 +74,10 @@ TEST(MonteCarlo, spce_gce_LONG) {
   mc.set(spce({{"cubic_box_length", str(24.8586887)}}));
   { const double sigma = mc.configuration().model_params().sigma().value(0);
     INFO("sigma " << sigma);
-    mc.get_system()->get_configuration()->get_domain()->init_cells(sigma);
     mc.add_to_reference(MakePotential(
       MakeModelTwoBodyFactory({MakeLennardJones(),
                                MakeChargeScreened()}),
-      MakeVisitModelCell()));
+      MakeVisitModelCell({{"min_length", str(sigma)}})));
   }
   const double beta = 1/kelvin2kJpermol(525);
   mc.set(MakeThermoParams({

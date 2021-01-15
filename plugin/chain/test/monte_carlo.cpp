@@ -41,7 +41,7 @@ namespace feasst {
 
 TEST(MonteCarlo, chain) {
   MonteCarlo mc;
-  //mc.set(MakeRandomMT19937({{"seed", "1602167050"}}));
+  mc.set(MakeRandomMT19937({{"seed", "1610724059"}}));
   mc.set(chain_system());
   mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
@@ -50,34 +50,31 @@ TEST(MonteCarlo, chain) {
     {"weight", "1."},
     {"tunable_param", "1."},
     {"reference_index", "0"},
-    {"num_steps", "2"},
-  }));
+    {"num_steps", "2"}}));
   mc.add(MakeTrialRotate({
     {"weight", "1."},
     {"tunable_param", "20."},
     {"reference_index", "0"},
-    {"num_steps", "2"},
-  }));
+    {"num_steps", "2"}}));
   mc.add(MakeTrialPivot({
     {"weight", "1."},
     {"tunable_param", "20."},
     {"max_length", "30"},
     {"reference_index", "0"},
-    {"num_steps", "2"},
-  }));
-  mc.add(MakeTrialReptate({
-    {"weight", "1."},
-    {"max_length", "1"},
-//    {"reference_index", "0"},
-//    {"num_steps", "2"},
-  }));
+    {"num_steps", "2"}}));
+//  // HWH Reptate finalize needs to be made to work with cell list.
+//  mc.add(MakeTrialReptate({
+//    {"weight", "1."},
+//    {"max_length", "1"},
+////    {"reference_index", "0"},
+////    {"num_steps", "2"},
+//  }));
   mc.add(MakeTrialCrankshaft({
     {"weight", "1."},
     {"tunable_param", "25."},
     {"max_length", "5."},
     {"reference_index", "0"},
-    {"num_steps", "2"},
-  }));
+    {"num_steps", "2"}}));
   mc.add(MakeTrialGrowLinear(
     MakeTrialComputeMove(),
     {
@@ -85,21 +82,17 @@ TEST(MonteCarlo, chain) {
       {"particle_type", "0"},
       {"num_steps", "3"},
       {"reference_index", "0"},
-    }
-  ));
-  const int steps_per = 1e2;
+    }));
+  const int steps_per = 1e0;
   mc.add(MakeLog({
     {"steps_per", str(steps_per)},
-    {"file_name", "tmp/chainlog.txt"},
-  }));
+    {"file_name", "tmp/chainlog.txt"}}));
   mc.add(MakeMovie({
     {"steps_per", str(steps_per)},
-    {"file_name", "tmp/chain10movie.xyz"},
-  }));
+    {"file_name", "tmp/chain10movie.xyz"}}));
   mc.add(MakeCheckEnergy({
     {"steps_per", str(steps_per)},
-    {"tolerance", "1e-10"},
-  }));
+    {"tolerance", "1e-10"}}));
   mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
   mc.add(MakeCheckRigidBonds({{"steps_per", str(steps_per)}}));
   mc.attempt(3e2);

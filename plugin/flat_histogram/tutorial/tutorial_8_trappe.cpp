@@ -77,7 +77,8 @@ std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int
   if (mx > dccb_begin) {
     feasst::Potential reference(feasst::MakeLennardJones());
     if (mc->configuration().domain().num_cells() > 0) {
-      reference = feasst::Potential(feasst::MakeLennardJones(), feasst::MakeVisitModelCell());
+      reference = feasst::Potential(feasst::MakeLennardJones(),
+                                    feasst::MakeVisitModelCell({{"min_length", feasst::str(dccb_cutoff)}}));
     }
     reference.set_model_params(mc->configuration());
     for (int site_type = 0; site_type < mc->configuration().num_site_types(); ++site_type) {

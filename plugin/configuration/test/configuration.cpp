@@ -193,61 +193,6 @@ TEST(Configuration, group) {
 //  EXPECT_EQ(300, config->num_sites());
 }
 
-TEST(Configuration, cells) {
-  Configuration config(MakeDomain({{"cubic_box_length", "7"}}),
-    {{"particle_type0", "../forcefield/data.spce"}});
-  config.add(MakeGroup({{"add_site_type", "0"}}));
-  config.add_particle_of_type(0);
-  EXPECT_EQ(config.particle(0).site(0).num_cells(), 0);
-  auto domain = std::make_shared<Domain>(config.domain());
-  domain->init_cells(1);
-  domain->init_cells(1.4, 1);
-//  config.init_cells(1);
-//  config.init_cells(1.4, 1);
-  config.set(domain);
-  EXPECT_EQ(0, config.domain().cells()[0].type());
-  EXPECT_EQ(config.domain().cells()[0].num_total(), 7*7*7);
-  int cell0 = round(7*7*7/2. - 0.5);
-  int cell1 = round(5*5*5/2. - 0.5);
-  Site site = config.particle(0).site(0);
-  EXPECT_EQ(cell0, site.cell(0));
-  EXPECT_EQ(cell1, site.cell(1));
-  std::vector<int> indices = {0};
-  EXPECT_EQ(config.domain().cells(0).particles()[0].num_particles(), 0);
-  EXPECT_EQ(config.domain().cells(1).particles()[0].num_particles(), 0);
-  EXPECT_EQ(config.domain().cells(0).particles()[cell0].num_particles(), 1);
-  EXPECT_EQ(config.domain().cells(1).particles()[cell1].num_particles(), 1);
-  EXPECT_EQ(config.particle(0).site(0).num_cells(), 2);
-  EXPECT_EQ(config.particle(0).site(1).num_cells(), 1);
-  Position trajectory({-3.49, -3.49, -3.49});
-
-  DEBUG("displacing particles");
-  Select select(0, config.select_particle(0));
-  //select.particle(0, config);
-  config.displace_particles(select, trajectory);
-  EXPECT_EQ(0, config.particle(0).site(0).cell(0));
-  site = config.particle(0).site(0);
-  EXPECT_EQ(0, site.cell(0));
-  EXPECT_EQ(0, site.cell(1));
-  DEBUG("pos " << config.particle(0).site(2).position().coord(0));
-  EXPECT_EQ(1, config.particle(0).site(1).cell(0));
-  EXPECT_EQ(6, config.particle(0).site(2).cell(0));
-  EXPECT_EQ(config.particle(0).site(0).num_cells(), 2);
-  EXPECT_EQ(config.particle(0).site(1).num_cells(), 1);
-  EXPECT_EQ(config.particle(0).site(2).num_cells(), 1);
-  EXPECT_EQ(config.domain().cells(0).particles()[cell0].num_particles(), 0);
-  EXPECT_EQ(config.domain().cells(1).particles()[cell1].num_particles(), 0);
-  EXPECT_NE(cell1, site.cell(1));
-
-  // serialize
-  Configuration config2 = test_serialize(config);
-  EXPECT_EQ(6, config2.particle(0).site(2).cell(0));
-  EXPECT_EQ(config2.domain().cells(1).particles()[cell1].num_particles(), 0);
-
-  config.remove_particle(select);
-  config.check();
-}
-
 TEST(Configuration, select_particle_by_group) {
   Configuration config = spce_sample1();
   config.add(MakeGroup({{"add_site_type", "0"}}));

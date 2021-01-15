@@ -24,9 +24,7 @@ print("args:", args)
 def mc(thread, mn, mx):
     steps_per=int(1e4)
     mc = fst.MakeMonteCarlo()
-    domain_args = {"side_length0": str(args.lx), "side_length1": str(args.ly), "side_length2": str(args.lz)}
     if mx > args.dccb_begin:
-        domain_args["init_cells"] = str(args.dccb_cutoff)
         ref = "0"
         num = "4"
     else:
@@ -40,14 +38,12 @@ def mc(thread, mn, mx):
         thermo_params["chemical_potential"+str(index)] = str(args.beta_mu*args.temperature)
         index += 1
     thermo_params["chemical_potential0"] = str((args.delta_betamu_0 + args.beta_mu)*args.temperature)
-    mc.add(fst.Configuration(fst.MakeDomain(fst.args(domain_args)), config_args))
+    mc.add(fst.Configuration(fst.MakeDomain(fst.args({"side_length0": str(args.lx), "side_length1": str(args.ly), "side_length2": str(args.lz)})),
+        config_args))
     mc.add(fst.MakePotential(fst.MakeLennardJones()))
     mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
     if mx > args.dccb_begin:
-        if mc.configuration().domain().num_cells() > 0:
-            reference = fst.Potential(fst.MakeLennardJones(), fst.MakeVisitModelCell())
-        else:
-            reference = fst.Potential(fst.MakeLennardJones())
+        reference = fst.Potential(fst.MakeLennardJones(), fst.MakeVisitModelCell(fst.args({"min_length": str(args.dccb_cutoff)})))
         reference.set_model_params(mc.configuration())
         for site_type in range(mc.configuration().num_site_types()):
             reference.set_model_param("cutoff", site_type, args.dccb_cutoff)

@@ -23,84 +23,67 @@ TEST(VisitModelCell, lj_reference_config) {
   Select select(config.newest_particle_index(), config.newest_particle());
   config.remove_particle(select);
   auto domain = std::make_shared<Domain>(config.domain());
-  domain->init_cells(rcut);
   config.set(domain);
   config.check();
   LennardJones model;
-  VisitModelCell cell_visit;
+  auto cell_visit = MakeVisitModelCell({{"min_length", feasst::str(rcut)}});
   VisitModel visit;
-  cell_visit.precompute(&config);
+  cell_visit->precompute(&config);
   visit.precompute(&config);
   model.compute(&config, &visit);
-  model.compute(&config, &cell_visit);
-  EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-12);
+  model.compute(&config, cell_visit.get());
+  EXPECT_NEAR(visit.energy(), cell_visit->energy(), 5e-12);
   EXPECT_NEAR(-15.076312312129405, visit.energy(), NEAR_ZERO);
 
   /// test energy of selection
   auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
   RandomMT19937 random;
-  //select.random_particle_of_type(0, &config);
   tsel->random_particle(config, &select, &random);
   model.compute(select, &config, &visit);
-  model.compute(select, &config, &cell_visit);
-  EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-15);
+  model.compute(select, &config, cell_visit.get());
+  EXPECT_NEAR(visit.energy(), cell_visit->energy(), 5e-15);
 
-  auto cell_visit2 = test_serialize<VisitModelCell, VisitModel>(cell_visit);
+  auto cell_visit2 = test_serialize<VisitModelCell, VisitModel>(*cell_visit);
   model.compute(select, &config, cell_visit2.get());
   EXPECT_NEAR(visit.energy(), cell_visit2->energy(), 5e-15);
 
   visit.check_energy(&model, &config);
-  cell_visit.check_energy(&model, &config);
+  cell_visit->check_energy(&model, &config);
 }
 
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, spce_reference_config) {
-  Configuration config;
-  config.add_particle_type("../forcefield/data.spce");
+  Configuration config = spce_sample1();
   const int rcut = 5;
   for (int site_index = 0; site_index < config.num_site_types(); ++site_index) {
     config.set_model_param("cutoff", site_index, rcut);
   }
-//  TRY(
-//    auto config2 = config;
-//    config2.init_cells(rcut);
-//    CATCH_PHRASE("cannot define cells before domain side");
-//  );
-  for (int part = 0; part < 100; ++part) {
-    config.add_particle_of_type(0);
-  }
-  FileXYZ().load(
-    "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz",
-    &config);
   config.add_particle_of_type(0);
   Select select(config.newest_particle_index(), config.newest_particle());
   config.remove_particle(select);
-  //config.init_cells(rcut);
   auto domain = std::make_shared<Domain>(config.domain());
-  domain->init_cells(rcut);
   config.set(domain);
   config.check();
   LennardJones model;
-  VisitModelCell cell_visit;
+  auto cell_visit = MakeVisitModelCell({{"min_length", feasst::str(rcut)}});
   VisitModel visit;
-  cell_visit.precompute(&config);
+  cell_visit->precompute(&config);
   visit.precompute(&config);
   model.compute(&config, &visit);
-  model.compute(&config, &cell_visit);
-  EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-12);
+  model.compute(&config, cell_visit.get());
+  EXPECT_NEAR(visit.energy(), cell_visit->energy(), 5e-12);
   EXPECT_NEAR(896.85497602741475, visit.energy(), NEAR_ZERO);
 
   /// test energy of selection
   auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
-  //select.random_particle_of_type(0, &config);
   RandomMT19937 random;
   tsel->random_particle(config, &select, &random);
   model.compute(select, &config, &visit);
-  model.compute(select, &config, &cell_visit);
-  EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-14);
+  model.compute(select, &config, cell_visit.get());
+  EXPECT_NEAR(visit.energy(), cell_visit->energy(), 5e-14);
 
   visit.check_energy(&model, &config);
-  cell_visit.check_energy(&model, &config);
+  cell_visit->check_energy(&model, &config);
 }
 
 //// add individual particles until reaching the point where the visitors are

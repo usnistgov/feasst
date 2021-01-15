@@ -42,14 +42,7 @@ System spce(const argtype& args) {
   const std::string cubic_box_length =
     args_.key("cubic_box_length").dflt("20").str();
   {
-    std::shared_ptr<Domain> domain;
-    if (std::abs(dual_cut + 1) < NEAR_ZERO) {
-      domain = MakeDomain({{"cubic_box_length", cubic_box_length}});
-    } else {
-      domain = MakeDomain({{"cubic_box_length", cubic_box_length},
-                           {"init_cells", str(dual_cut)}});
-    }
-    Configuration config(domain,
+    Configuration config(MakeDomain({{"cubic_box_length", cubic_box_length}}),
       {{"particle_type", install_dir() + "/" + args_.key("particle").dflt("forcefield/data.spce").str()},
        {"physical_constants", args_.key("physical_constants").dflt("CODATA2018").str()}}
     );
@@ -70,14 +63,9 @@ System spce(const argtype& args) {
   system.add(MakePotential(MakeLongRangeCorrections()));
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
     std::shared_ptr<Potential> ref;
-    if (system.configuration().domain().num_cells() > 0) {
-      ref = MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                                   MakeChargeScreened()}),
-                          MakeVisitModelCell());
-    } else {
-      ref = MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                                   MakeChargeScreened()}));
-    }
+    ref = MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                                 MakeChargeScreened()}),
+                        MakeVisitModelCell({{"min_length", str(dual_cut)}}));
     ref->set_model_params(system.configuration());
     ref->set_model_param("cutoff", 0, dual_cut);
     ref->set_model_param("cutoff", 1, dual_cut);
@@ -92,14 +80,8 @@ System rpm(const argtype& args) {
   double dual_cut = args_.key("dual_cut").dflt("-1").dble();
   const std::string cubic_box_length =
     args_.key("cubic_box_length").dflt("12").str();
-  { std::shared_ptr<Domain> domain;
-    if (std::abs(dual_cut + 1) < NEAR_ZERO) {
-      domain = MakeDomain({{"cubic_box_length", cubic_box_length}});
-    } else {
-      domain = MakeDomain({{"cubic_box_length", cubic_box_length},
-                           {"init_cells", str(dual_cut)}});
-    }
-    Configuration config(domain,
+  {
+    Configuration config(MakeDomain({{"cubic_box_length", cubic_box_length}}),
       {{"particle_type0", install_dir() + "/" + args_.key("particle0").dflt("plugin/ewald/forcefield/data.rpm_plus").str()},
        {"particle_type1", install_dir() + "/" + args_.key("particle1").dflt("plugin/ewald/forcefield/data.rpm_minus").str()}}
     );
@@ -143,7 +125,7 @@ System rpm(const argtype& args) {
     //Potential ref(MakeModelTwoBodyFactory({MakeHardSphere()}),
     auto ref = MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                       MakeChargeScreened()}),
-                        MakeVisitModelCell());
+                        MakeVisitModelCell({{"min_length", str(dual_cut)}}));
     ref->set_model_params(system.configuration());
     ref->set_model_param("cutoff", 0, dual_cut);
     ref->set_model_param("cutoff", 1, dual_cut);

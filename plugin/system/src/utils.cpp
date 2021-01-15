@@ -26,20 +26,16 @@ System lennard_jones(const argtype& args) {
   const bool lrc = args_.key("lrc").dflt("true").boolean();
   const double dual_cut = args_.key("dual_cut").dflt("-1").dble();
   std::shared_ptr<Domain> domain;
-  if (std::abs(dual_cut + 1) < NEAR_ZERO) {
-    domain = MakeDomain({{"cubic_box_length", str(box_length)}});
-  } else {
-    domain = MakeDomain({{"cubic_box_length", str(box_length)},
-                         {"init_cells", str(dual_cut)}});
-  }
   System system;
   std::stringstream ss;
   ss << feasst::install_dir() << "/" << data;
-  system.add(Configuration(domain, {{"particle_type0", ss.str()}}));
+  system.add(Configuration(MakeDomain({{"cubic_box_length", str(box_length)}}),
+                           {{"particle_type0", ss.str()}}));
   system.add(MakePotential(MakeLennardJones()));
   if (lrc) system.add(MakePotential(MakeLongRangeCorrections()));
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
-    auto ref = MakePotential(MakeLennardJones(), MakeVisitModelCell());
+    auto ref = MakePotential(MakeLennardJones(),
+                             MakeVisitModelCell({{"min_length", str(dual_cut)}}));
     ref->set_model_params(system.configuration());
     ref->set_model_param("cutoff", 0, dual_cut);
     system.add_to_reference(ref);

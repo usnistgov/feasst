@@ -106,11 +106,10 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
 
 TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
   MonteCarlo mc;
-  mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"},
-                                   {"init_cells", "1"}}),
+  mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
                        {{"particle_type", "../forcefield/data.lj"}}));
   mc.add(MakePotential(MakeLennardJones()));
-  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell()));
+  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(MakeThermoParams({{"beta", "1.2"}}));
   mc.set(MakeMetropolis());
@@ -128,7 +127,8 @@ TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
     .run(&mc);
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-  mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on hwhdesk after site cells integer
+  mc.attempt(1e5);  // 2 sec with 50 particles, 10 steps on hwhdesk after moved to VisitModelCell
+  //mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on hwhdesk after site cells integer
   //mc.attempt(1e5);  // 4.4 sec with 50 particles, 10 steps on hwhdesk after cell group opt
   //mc.attempt(1e5);  // 4.5 sec with 50 particles, 10 steps on hwhdesk after domain shift opt
   //mc.attempt(1e5);  // 5.6 sec with 50 particles, 10 steps on hwhdesk
@@ -212,7 +212,11 @@ TEST(MonteCarlo, GCMC_cell) {
       {"reference_index", "0"}}));
   mc.add(MakeNumParticles({{"steps_per_write", str(1e5)},
                            {"file_name", "tmp/ljnum.txt"}}));
-  mc.attempt(1e4);
+  //mc.attempt(1e4);
+  for (int i = 0; i < 1e4; ++i) {
+    mc.attempt(1);
+    mc.system().potential(0).visit_model().check();
+  }
 }
 
 TEST(MonteCarlo, ConstrainNumParticles) {

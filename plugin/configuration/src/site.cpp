@@ -4,7 +4,7 @@
 
 namespace feasst {
 
-Site::Site() : PropertiedEntity(), TypedEntity(), SpatialEntity() {
+Site::Site() : PropertiedEntity(), TypedEntity() {
   set_physical();
 }
 
@@ -15,11 +15,17 @@ void Site::add_property(const std::string name, const double value) {
   }
 }
 
+int Site::cell(const int index) const {
+  ASSERT(index < num_cells(),
+    "index: " << index << " cellsize: " << cells_.size());
+  return cells_[index];
+}
+
 void Site::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
   TypedEntity::serialize(ostr);
-  SpatialEntity::serialize(ostr);
   feasst_serialize_version(480, ostr);
+  feasst_serialize_fstobj(position_, ostr);
   feasst_serialize(is_director_, ostr);
   feasst_serialize(is_physical_, ostr);
   feasst_serialize(cells_, ostr);
@@ -27,10 +33,10 @@ void Site::serialize(std::ostream& ostr) const {
 
 Site::Site(std::istream& istr)
   : PropertiedEntity(istr),
-    TypedEntity(istr),
-    SpatialEntity(istr) {
+    TypedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 480, "unrecognized version: " << version);
+  feasst_deserialize_fstobj(&position_, istr);
   feasst_deserialize(&is_director_, istr);
   feasst_deserialize(&is_physical_, istr);
   feasst_deserialize(&cells_, istr);

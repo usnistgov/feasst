@@ -200,8 +200,8 @@ TEST(MonteCarlo, lj_fh_LONG) {
   EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.006);
   const LnProbability lnpi3 = lnpi.reduce(2);
   INFO(feasst_str(lnpi3.values()));
-  EXPECT_NEAR(lnpi3.value(0), -13.9933350923078, 0.02);
-  EXPECT_NEAR(lnpi3.value(1), -6.41488235897456, 0.02);
+  EXPECT_NEAR(lnpi3.value(0), -13.9933350923078, 0.025);
+  EXPECT_NEAR(lnpi3.value(1), -6.41488235897456, 0.025);
   EXPECT_NEAR(lnpi3.value(2), -0.00163919230786818, 0.005);
 }
 

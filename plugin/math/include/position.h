@@ -179,35 +179,6 @@ inline std::shared_ptr<Position> MakePosition(const int dimension) {
   return std::make_shared<Position>(dimension);
 }
 
-class SpatialEntity {
- public:
-  SpatialEntity() {}
-
-  /// Set the Position.
-  void set_position(const Position& position) { position_ = position; }
-
-  /// Add to the position.
-  void add_position(const Position& position) { position_.add(position); }
-
-  /// Return the Position.
-  const Position& position() const { return position_; }
-
-  /// Return the Position in a given dimension.
-  const double position(const int dimension) const {
-    return position_.coord(dimension); }
-
-  /// Set the coordinate of one dimension.
-  void set_coordinate(const int dimension, const double coord) {
-    position_.set_coord(dimension, coord);
-  }
-
-  void serialize(std::ostream& ostr) const { position_.serialize(ostr); }
-  explicit SpatialEntity(std::istream& istr) { position_ = Position(istr); }
-
- private:
-  Position position_;
-};
-
 }  // namespace feasst
 
 #endif  // FEASST_MATH_POSITION_H_

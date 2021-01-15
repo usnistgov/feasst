@@ -584,6 +584,7 @@ void Ewald::revert(const Select& select) {
 }
 
 void Ewald::finalize(const Select& select) {
+  VisitModel::finalize(select);
   if (finalizable_) {
     DEBUG("finalizing");
     ASSERT(struct_fact_real_new_.size() > 0, "error");
