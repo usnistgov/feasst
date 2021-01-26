@@ -172,7 +172,9 @@ class Random {
   /**
     Return bond angle selected from probability distribution associated with
     bending energy, \f$ \beta U=spring_constant*(t-equil_ang)^{exponent} \f$
-    from Frenkel and Smit, page 343, below Equation 13.3.6. */
+    from Frenkel and Smit, page 343, below Equation 13.3.6.
+    The equilibrium_angle has units of radians.
+  */
   double bond_angle(const double equilibrium_angle,
     const double spring_constant,
     const int exponent,

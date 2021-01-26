@@ -21,10 +21,22 @@ class FileVMD {
   explicit FileVMD(std::istream& istr);
 };
 
-/// HWH Add html link to XYZ format
-/// Note that the load() function reads the box length from the second line
-/// according to the format [id lx ly lz]
-/// Note HWH: best not to assume this second line format by default
+// Note HWH: best not to assume this second line format by default
+/**
+  The XYZ file format has no formal standard: https://en.wikipedia.org/wiki/XYZ_file_format
+  It is important to remember that FEASST as its own variant.
+
+  The first line is the number of sites, n.
+  The second line is of the format [id lx ly lz xy xz yz], where id is a
+  placeholder for order parameters or macrostates,
+  lx is the box length in the x direction,
+  ly is the box length in the y direction,
+  lz is the box length in the z direction,
+  xy is the xy domain tilt (see Domain),
+  xz is the xz domain tilt, and yz is the yz domain tilt.
+  The following n lines are in the format [id x y z],
+  where id is the unique site type and x, y, z are the Cartesian coordinates.
+ */
 class FileXYZ {
  public:
   FileXYZ() {
@@ -32,8 +44,13 @@ class FileXYZ {
     set_append();
   }
 
-  /// Load the xyz file with file_name into the configuration.
-  /// If no particles in the configuration, try to use the first particle type.
+  /**
+    Load the xyz file with file_name into the configuration.
+    Note that this function does not read the domain tilts xy, xz and yz.
+    This function also does not read the site types.
+    Thus, particles should be added to the system in the desired order.
+    If no particles in the configuration, use the first particle type.
+   */
   void load(const std::string file_name, Configuration * config) const;
 
   /// Write the configuration to file_name in xyz format.

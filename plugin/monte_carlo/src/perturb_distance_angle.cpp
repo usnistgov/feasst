@@ -123,7 +123,7 @@ void PerturbDistanceAngle::place_in_circle(const double distance,
 
   // If 3D, randomly spin site about rjk.
   if (dimension == 3) {
-    rot_mat_.axis_angle(rjk_, 2*PI*random->uniform());
+    rot_mat_.axis_angle(rjk_, 360.*random->uniform());
     rot_mat_.rotate(origin_, site);
   }
 

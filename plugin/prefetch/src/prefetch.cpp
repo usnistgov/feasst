@@ -392,7 +392,7 @@ void Prefetch::attempt_(
         const double tolerance = 1e-8;
         const MonteCarlo& mcc = *clone_(proc_id);
         const double diff = mcc.criteria().current_energy() - energy;
-        ASSERT(fabs(diff) <= tolerance, "diff: " << diff);
+        ASSERT(std::abs(diff) <= tolerance, "diff: " << diff);
         ASSERT(system().configuration().is_equal(mcc.system().configuration(), tolerance), "configs not equal thread" << proc_id);
         ASSERT(trials().is_equal(mcc.trials()), "trials not equal thread" << proc_id);
         ASSERT(criteria().is_equal(mcc.criteria(), tolerance), "criteria not equal: " << proc_id);

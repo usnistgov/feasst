@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--task", type=int, help="SLURM job array index", default=0)
 parser.add_argument("--num_procs", type=int, help="number of processors", default=12)
 parser.add_argument("--num_hours", type=float, help="number of hours before restart", default=1.)
-parser.add_argument("--dccb_begin", type=int, help="number of molecules before DCCB", default=300)
+parser.add_argument("--dccb_begin", type=int, help="number of molecules before DCCB", default=200)
 args = parser.parse_args()
 print("args:", args)
 
@@ -48,6 +48,10 @@ def mc(thread, mn, mx):
     mc.add(fst.MakeCriteriaWriter(fst.args({
         "steps_per": str(steps_per),
         "file_name": "clones" + str(thread) + "_crit.txt"})))
+    mc.add(fst.MakeEnergy(fst.args({
+        "steps_per_write": str(steps_per),
+        "file_name": "en" + str(thread),
+        "multistate": "true"})))
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(thread) + ".fst",
                                         "num_hours_terminate": str(0.9*args.num_procs*args.num_hours)})))
     return mc

@@ -1,3 +1,4 @@
+#include <cmath>
 #include <vector>
 #include "utils/include/serialize.h"
 #include "utils/include/utils.h"  // find_in_list
