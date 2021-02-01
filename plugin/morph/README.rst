@@ -1,8 +1,8 @@
 ***************
-Growth expanded
+Morph
 ***************
 
-This plugin is for growth expanded ensemble simulations.
+This plugin is for morphing particle types, including example ensemble simulations.
 
 .. toctree::
 

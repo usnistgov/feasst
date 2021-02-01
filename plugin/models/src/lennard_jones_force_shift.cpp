@@ -14,7 +14,8 @@ class MapLennardJonesForceShift {
 
 static MapLennardJonesForceShift map_lennard_jones_force_shift_ = MapLennardJonesForceShift();
 
-LennardJonesForceShift::LennardJonesForceShift() {
+LennardJonesForceShift::LennardJonesForceShift(const argtype& args)
+  : LennardJonesAlpha(args) {
   class_name_ = "LennardJonesForceShift";
 }
 
@@ -45,11 +46,6 @@ void LennardJonesForceShift::precompute(const ModelParams& existing) {
   force_shift_.set_model(this);
   force_shift_.set_param(existing);
   force_shift_.set_model(NULL);
-}
-
-void LennardJonesForceShift::set_alpha(const double alpha) {
-  LennardJonesAlpha::set_alpha(alpha);
-  ASSERT(!precomputed_, "shift depends on alpha. Set alpha first");
 }
 
 double LennardJonesForceShift::energy(

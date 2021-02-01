@@ -15,9 +15,11 @@ class MapLennardJones {
 
 static MapLennardJones mapper_ = MapLennardJones();
 
-LennardJones::LennardJones() {
-  set_hard_sphere_threshold();
+LennardJones::LennardJones(const argtype& args) {
   class_name_ = "LennardJones";
+  args_.init(args);
+  const double thres = args_.key("hard_sphere_threshold").dflt("0.2").dble();
+  hard_sphere_threshold_sq_ = thres*thres;
 }
 
 void LennardJones::serialize(std::ostream& ostr) const {

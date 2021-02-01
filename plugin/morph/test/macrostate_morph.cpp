@@ -4,7 +4,7 @@
 #include "system/include/long_range_corrections.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_select_particle.h"
-#include "growth_expanded/include/macrostate_morph.h"
+#include "morph/include/macrostate_morph.h"
 
 namespace feasst {
 

@@ -13,9 +13,8 @@ TEST(LennardJones, analytical) {
 }
 
 TEST(LennardJones, serialize) {
-  LennardJones model;
-  model.set_hard_sphere_threshold(0.3);
-  auto model2 = test_serialize<LennardJones, Model>(model,
+  auto model = MakeLennardJones({{"hard_sphere_threshold", "0.3"}});
+  auto model2 = test_serialize<LennardJones, Model>(*model,
     "LennardJones 763 0.089999999999999997 ");
 }
 

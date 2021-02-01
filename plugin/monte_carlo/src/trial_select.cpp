@@ -107,7 +107,8 @@ TrialSelect::TrialSelect(std::istream& istr) {
 }
 
 void TrialSelect::remove_unphysical_sites(const Configuration& config) {
-  Select unphysical;
+  //Select unphysical;
+  bool resize = false;
   for (int sp_index = 0;
        sp_index < static_cast<int>(mobile_.particle_indices().size());
        ++sp_index) {
@@ -122,11 +123,11 @@ void TrialSelect::remove_unphysical_sites(const Configuration& config) {
       }
     }
     if (sites.size() > 0) {
-      unphysical.add_sites(p_index, sites);
+      resize = true;
+      mobile_.remove_sites(p_index, sites);
     }
   }
-  if (unphysical.num_particles() > 0) {
-    mobile_.remove(unphysical);
+  if (resize) {
     mobile_.resize_positions();
     mobile_.load_positions(config.particles());
   }

@@ -4,7 +4,7 @@
 #include "system/include/potential.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/trial_select_particle.h"
-#include "growth_expanded/include/perturb_particle_type.h"
+#include "morph/include/perturb_particle_type.h"
 #include "ewald/include/utils.h"
 
 namespace feasst {

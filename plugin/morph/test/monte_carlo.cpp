@@ -14,9 +14,9 @@
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
-#include "growth_expanded/include/trial_morph.h"
-#include "growth_expanded/include/trial_morph_expanded.h"
-#include "growth_expanded/include/macrostate_morph.h"
+#include "morph/include/trial_morph.h"
+#include "morph/include/trial_morph_expanded.h"
+#include "morph/include/macrostate_morph.h"
 #include "ewald/include/utils.h"
 
 namespace feasst {

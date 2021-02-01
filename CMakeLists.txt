@@ -29,10 +29,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;threads;flat_histogram;prefetch;ewald;cluster")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;ewald;flat_histogram;egce;cluster")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;morph")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;threads;confinement;chain;flat_histogram;ewald;opt_lj")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;threads;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce;beta_expanded")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;threads;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce;xtc")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;threads;flat_histogram;ewald;morph;opt_lj;cluster;prefetch;egce;beta_expanded")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;threads;flat_histogram;ewald;morph;opt_lj;cluster;prefetch;egce;xtc")
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
 
@@ -218,12 +218,12 @@ if (${_index} GREATER -1)
   target_link_libraries(feasstsystem feasstconfiguration)
 endif()
 
-# growth_expanded
-list (FIND FEASST_PLUGINS "growth_expanded" _index)
+# morph
+list (FIND FEASST_PLUGINS "morph" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstgrowth_expanded feasstchain)
-  target_link_libraries(feasstgrowth_expanded feasstflat_histogram)
-  target_link_libraries(feasstgrowth_expanded feasstewald)
+  target_link_libraries(feasstmorph feasstchain)
+  target_link_libraries(feasstmorph feasstflat_histogram)
+  target_link_libraries(feasstmorph feasstewald)
 endif()
 
 # prefetch

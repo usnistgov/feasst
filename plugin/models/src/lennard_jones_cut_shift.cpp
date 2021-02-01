@@ -16,6 +16,11 @@ class MapLennardJonesCutShift {
 static MapLennardJonesCutShift map_lennard_jones_cut_shift_ =
   MapLennardJonesCutShift();
 
+LennardJonesCutShift::LennardJonesCutShift(const argtype& args)
+  : LennardJonesAlpha(args) {
+  class_name_ = "LennardJonesCutShift";
+}
+
 void LennardJonesCutShift::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_lennard_jones_alpha_(ostr);
@@ -37,11 +42,6 @@ void LennardJonesCutShift::precompute(const ModelParams& existing) {
   shift_.set_model(this); // note the model is used here for the computation
   shift_.set_param(existing);
   shift_.set_model(NULL); // remove model immediately
-}
-
-void LennardJonesCutShift::set_alpha(const double alpha) {
-  LennardJonesAlpha::set_alpha(alpha);
-  ASSERT(!precomputed_, "shift depends on alpha. Set alpha first");
 }
 
 void LennardJonesCutShift::set_wca(const int site_type1, const int site_type2,

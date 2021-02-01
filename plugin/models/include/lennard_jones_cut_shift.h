@@ -29,16 +29,13 @@ namespace feasst {
  */
 class LennardJonesCutShift : public LennardJonesAlpha {
  public:
-  LennardJonesCutShift() { class_name_ = "LennardJonesCutShift"; }
+  LennardJonesCutShift(const argtype& args = argtype());
 
   // HWH some issues with this implementation include
   // - what if model params change, or is defined different by a special potential
   // - how to simplify user interface
   /// Precompute the shift factor for optimization, given existing model parameters.
   void precompute(const ModelParams& existing) override;
-
-  // Same as base class except with an error check.
-  void set_alpha(const double alpha) override;
 
   double energy(
       const double squared_distance,
@@ -62,8 +59,9 @@ private:
   bool precomputed_ = false;
 };
 
-inline std::shared_ptr<LennardJonesCutShift> MakeLennardJonesCutShift() {
-  return std::make_shared<LennardJonesCutShift>();
+inline std::shared_ptr<LennardJonesCutShift> MakeLennardJonesCutShift(
+    const argtype& args = argtype()) {
+  return std::make_shared<LennardJonesCutShift>(args);
 }
 
 }  // namespace feasst

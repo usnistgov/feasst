@@ -36,7 +36,7 @@ std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int
   const int dccb_begin = args.get_int("--dccb_begin");
   std::string ref("-1");
   std::string num("1");
-  const int dccb_cutoff = args.get_int("--dccb_cutoff");
+  const double dccb_cutoff = args.get_int("--dccb_cutoff");
   if (mx > dccb_begin) {
     domain_args.insert({"init_cells", feasst::str(dccb_cutoff)});
     ref = "0";

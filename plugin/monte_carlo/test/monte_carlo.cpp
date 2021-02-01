@@ -80,28 +80,32 @@ TEST(MonteCarlo, NVT_NO_FEASST_BENCHMARK_LONG) {
 }
 
 TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
-  MonteCarlo mc;
-  mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.set(lennard_jones({{"lrc", "false"}}));
-  FileXYZ().load("../plugin/monte_carlo/test/data/bench.xyz",
-                 mc.get_system()->get_configuration());
-  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
-  mc.set(MakeMetropolis());
-  INFO(mc.criteria().current_energy());
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-//  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-//  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-  //mc.set(0, Potential(MakeLennardJones(),
-  //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
-                                    MakeVisitModelOptLJ()));
-  //SeekNumParticles(50).with_trial_add().add(MakeProgressReport()).run(&mc);
-  // mc.seek_num_particles(250);
-  mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
-  // mc.seek_num_particles(450);
-  // mc.attempt(1e5);  // 15 sec with 450 on slow computer
-  //mc.attempt(1e3);
-  // DEBUG("\n" << mc.timer_str());
+  for (const bool opt : {false}) {
+  //for (const bool opt : {true}) {
+  //for (const bool opt : {true, false}) {
+    MonteCarlo mc;
+    mc.set(MakeRandomMT19937({{"seed", "123"}}));
+    mc.set(lennard_jones({{"lrc", "false"}}));
+    FileXYZ().load("../plugin/monte_carlo/test/data/bench.xyz",
+                   mc.get_system()->get_configuration());
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    mc.set(MakeMetropolis());
+    INFO(mc.criteria().current_energy());
+    mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  //  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
+  //  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+    //mc.set(0, Potential(MakeLennardJones(),
+    //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+    if (opt) mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
+                                               MakeVisitModelOptLJ()));
+    //SeekNumParticles(50).with_trial_add().add(MakeProgressReport()).run(&mc);
+    // mc.seek_num_particles(250);
+    mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
+    // mc.seek_num_particles(450);
+    // mc.attempt(1e5);  // 15 sec with 450 on slow computer
+    //mc.attempt(1e3);
+    // DEBUG("\n" << mc.timer_str());
+  }
 }
 
 TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {

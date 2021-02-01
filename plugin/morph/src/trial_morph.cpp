@@ -3,9 +3,9 @@
 #include "math/include/random.h"
 #include "configuration/include/domain.h"
 #include "monte_carlo/include/trial_select_particle.h"
-#include "growth_expanded/include/perturb_particle_type.h"
-#include "growth_expanded/include/compute_morph.h"
-#include "growth_expanded/include/trial_morph.h"
+#include "morph/include/perturb_particle_type.h"
+#include "morph/include/compute_morph.h"
+#include "morph/include/trial_morph.h"
 
 namespace feasst {
 

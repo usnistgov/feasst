@@ -60,7 +60,7 @@ class Select {
     const int particle_index,
     const std::vector<int> site_indices);
 
-  /// Remove sites by configuration-based site index.
+  /// Remove sites by configuration-based particle and site index.
   void remove_sites(const int particle_index,
                     const std::vector<int> site_indices);
 

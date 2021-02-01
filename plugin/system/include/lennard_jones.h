@@ -4,6 +4,7 @@
 
 #include <string>
 #include <memory>
+#include "utils/include/arguments.h"
 #include "system/include/model_two_body.h"
 
 namespace feasst {
@@ -18,18 +19,17 @@ namespace feasst {
  */
 class LennardJones : public ModelTwoBody {
  public:
-  LennardJones();
+  /**
+    -hard_sphere_threshold: when r < threshold*sigma, return NEAR_INFINITY
+     (default: 0.2).
+   */
+  LennardJones(const argtype& args = argtype());
 
   double energy(
       const double squared_distance,
       const int type1,
       const int type2,
       const ModelParams& model_params) override;
-
-  /// When the distance between sites does not exceed thresshold*sigma,
-  /// then return NEAR_INFINITY energy.
-  void set_hard_sphere_threshold(const double threshold = 0.2) {
-    hard_sphere_threshold_sq_ = threshold*threshold; }
 
   /// Return the threshold for hard sphere interaction.
   double hard_sphere_threshold() const;
@@ -44,13 +44,15 @@ class LennardJones : public ModelTwoBody {
 
  protected:
   void serialize_lennard_jones_(std::ostream& ostr) const;
+  Arguments args_;
 
  private:
   double hard_sphere_threshold_sq_;
 };
 
-inline std::shared_ptr<LennardJones> MakeLennardJones() {
-  return std::make_shared<LennardJones>();
+inline std::shared_ptr<LennardJones> MakeLennardJones(
+    const argtype& args = argtype()) {
+  return std::make_shared<LennardJones>(args);
 }
 
 }  // namespace feasst

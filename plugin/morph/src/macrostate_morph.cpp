@@ -1,6 +1,6 @@
 #include <algorithm>
 #include "utils/include/serialize.h"
-#include "growth_expanded/include/macrostate_morph.h"
+#include "morph/include/macrostate_morph.h"
 
 namespace feasst {
 

@@ -8,7 +8,7 @@ namespace feasst {
 
 /**
   The Lennard-Jones potential, \f$U_{LJ}\f$ is described in LennardJones.
-  This class implements the force shfited (FS) version which ensures both
+  This class implements the force shifted (FS) version which ensures both
   \f$U(r_c)=0\f$ and \f$\left.\frac{\partial U}{\partial r}\right|_{r=r_c}=0\f$.
 
   \f$ U_{LJ}^{FS}(r) = \left\{
@@ -20,12 +20,10 @@ namespace feasst {
  */
 class LennardJonesForceShift : public LennardJonesAlpha {
  public:
-  LennardJonesForceShift();
+  LennardJonesForceShift(const argtype& args = argtype());
 
   /// Precompute the shift factor for optimization, given existing model parameters.
   void precompute(const ModelParams& existing) override;
-
-  void set_alpha(const double alpha) override;
 
   double energy(
       const double squared_distance,
@@ -45,8 +43,9 @@ class LennardJonesForceShift : public LennardJonesAlpha {
   bool precomputed_ = false;
 };
 
-inline std::shared_ptr<LennardJonesForceShift> MakeLennardJonesForceShift() {
-  return std::make_shared<LennardJonesForceShift>();
+inline std::shared_ptr<LennardJonesForceShift> MakeLennardJonesForceShift(
+    const argtype& args = argtype()) {
+  return std::make_shared<LennardJonesForceShift>(args);
 }
 
 }  // namespace feasst

@@ -24,9 +24,9 @@
    ModelThreeBody
    VisitModelIntraMap
    VisitModelIntra
-   VisitModelCell
    LongRangeCorrections
    VisitModelBond
+   VisitModelCell
    Potential
    PotentialFactory
    System

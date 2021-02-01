@@ -1,13 +1,13 @@
 
 .. toctree::
 
-   SelectBranch
-   SelectPerturbed
    SelectSiteOfType
+   SelectPerturbed
+   SelectBranch
+   PerturbReptate
    SelectSegment
    SelectEndSegment
    SelectReptate
-   PerturbReptate
    CheckRigidBonds
    AnalyzeBonds
    trials

@@ -14,10 +14,9 @@ TEST(LennardJonesAlpha, analytical) {
 }
 
 TEST(LennardJonesAlpha, serialize) {
-  LennardJonesAlpha model;
-  model.set_alpha(12);
-  model.set_hard_sphere_threshold(0.3);
-  std::shared_ptr<Model> model2 = test_serialize<LennardJonesAlpha, Model>(model, "LennardJonesAlpha 763 0.089999999999999997 713 12 ");
+  auto model = MakeLennardJonesAlpha({{"alpha", "12"},
+                                      {"hard_sphere_threshold", "0.3"}});
+  std::shared_ptr<Model> model2 = test_serialize<LennardJonesAlpha, Model>(*model, "LennardJonesAlpha 763 0.089999999999999997 713 12 ");
 }
 
 }  // namespace feasst

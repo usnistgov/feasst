@@ -2,6 +2,7 @@
 #ifndef FEASST_MODELS_LENNARD_JONES_ALPHA_H_
 #define FEASST_MODELS_LENNARD_JONES_ALPHA_H_
 
+#include "utils/include/arguments.h"
 #include "configuration/include/model_params.h"
 #include "system/include/lennard_jones.h"
 
@@ -13,10 +14,11 @@ namespace feasst {
  */
 class LennardJonesAlpha : public LennardJones {
  public:
-  LennardJonesAlpha();
-
-  /// Set the value of \f$\alpha\f$. The default value is 6.
-  virtual void set_alpha(const double alpha = 6) { alpha_ = alpha; }
+  /**
+    args:
+    - alpha: set the value of \f$\alpha\f$ (default: 6).
+   */
+  LennardJonesAlpha(const argtype& args = argtype());
 
   /// Return the value of alpha.
   const double& alpha() const { return alpha_; }
@@ -58,8 +60,9 @@ class LennardJonesAlpha : public LennardJones {
   double alpha_;
 };
 
-inline std::shared_ptr<LennardJonesAlpha> MakeLennardJonesAlpha() {
-  return std::make_shared<LennardJonesAlpha>();
+inline std::shared_ptr<LennardJonesAlpha> MakeLennardJonesAlpha(
+    const argtype& args = argtype()) {
+  return std::make_shared<LennardJonesAlpha>(args);
 }
 
 class EnergyAtCutoff : public ModelParam {

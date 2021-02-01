@@ -5,8 +5,8 @@
 
 namespace feasst {
 
-LennardJonesAlpha::LennardJonesAlpha() {
-  set_alpha();
+LennardJonesAlpha::LennardJonesAlpha(const argtype& args) : LennardJones(args) {
+  alpha_ = args_.key("alpha").dflt("6").dble();
   class_name_ = "LennardJonesAlpha";
 }
 

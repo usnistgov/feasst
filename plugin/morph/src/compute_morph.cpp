@@ -2,7 +2,7 @@
 #include "utils/include/serialize.h"
 #include "configuration/include/domain.h"
 #include "monte_carlo/include/trial_select.h"
-#include "growth_expanded/include/compute_morph.h"
+#include "morph/include/compute_morph.h"
 
 namespace feasst {
 

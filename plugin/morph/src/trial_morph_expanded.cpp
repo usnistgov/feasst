@@ -6,9 +6,9 @@
 #include "monte_carlo/include/trials.h"
 #include "ewald/include/trial_add_multiple.h"
 #include "ewald/include/trial_remove_multiple.h"
-#include "growth_expanded/include/compute_morph.h"
-#include "growth_expanded/include/trial_morph.h"
-#include "growth_expanded/include/trial_morph_expanded.h"
+#include "morph/include/compute_morph.h"
+#include "morph/include/trial_morph.h"
+#include "morph/include/trial_morph_expanded.h"
 
 namespace feasst {
 

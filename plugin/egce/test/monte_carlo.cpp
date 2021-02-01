@@ -26,8 +26,8 @@
 #include "cluster/include/energy_map_neighbor_criteria.h"
 #include "cluster/include/trial_transfer_avb.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
-#include "growth_expanded/include/macrostate_morph.h"
-#include "growth_expanded/include/trial_morph_expanded.h"
+#include "morph/include/macrostate_morph.h"
+#include "morph/include/trial_morph_expanded.h"
 #include "egce/include/a_equal_b.h"
 #include "egce/include/a_half_b.h"
 #include "opt_lj/include/visit_model_opt_rpm.h"
@@ -526,7 +526,7 @@ TEST(MonteCarlo, rpm_divalent_avb_VERY_LONG) {
   EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.05);
 }
 
-TEST(MonteCarlo, rpm_divalent_growth_expanded_LONG) {
+TEST(MonteCarlo, rpm_divalent_morph_LONG) {
   const int min = 0, max = 5, steps_per = 1e3;
   MonteCarlo mc = dival_egce(min, max, steps_per, false);
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
