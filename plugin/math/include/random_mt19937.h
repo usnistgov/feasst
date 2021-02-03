@@ -32,7 +32,7 @@ class RandomMT19937 : public Random {
   std::normal_distribution<double> std_normal_;
   std::mt19937 generator_;
 
-  void reseed_() override;
+  void reseed_(const int seed) override;
 
   double gen_uniform_() override { return dis_double_(generator_); }
 

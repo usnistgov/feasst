@@ -9,8 +9,8 @@ int RandomMT19937::gen_uniform_(const int min, const int max) {
   return dis_int(generator_);
 }
 
-void RandomMT19937::reseed_() {
-  const int seed = rand();
+void RandomMT19937::reseed_(const int seed) {
+//  const int seed = rand();
   TRACE("seed " << seed << " address " << this);
   generator_ = std::mt19937(seed);
   dis_double_ = std::uniform_real_distribution<double>(0.0, 1.0);

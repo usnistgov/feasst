@@ -33,7 +33,7 @@ void Random::seed_by_time() {
   const int t = time(NULL);
   srand(t);
   std::cout << "time(seed): " << t << std::endl;
-  reseed_();
+  reseed_(t);
   is_seeded_ = true;
 }
 
@@ -41,7 +41,7 @@ void Random::seed(const int seed) {
   srand(seed);
   std::cout << "Initializing random number generator for reproduction with "
     << "seed(" << seed << ")" << std::endl;
-  reseed_();
+  reseed_(seed);
   is_seeded_ = true;
 }
 
@@ -295,6 +295,10 @@ double Random::bond_angle(const double equilibrium_angle,
     ++attempt;
   }
   FATAL("max attempts reached");
+}
+
+int Random::gen_uniform_(const int min, const int max) {
+  return min + static_cast<int>(gen_uniform_()*(max - min));
 }
 
 }  // namespace feasst

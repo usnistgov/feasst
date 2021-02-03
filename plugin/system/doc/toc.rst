@@ -14,10 +14,10 @@
    NeighborCriteria
    VisitModel
    ModelTwoBody
+   LennardJones
    IdealGas
    ModelTwoBodyFactory
    HardSphere
-   LennardJones
    DontVisitModel
    ModelOneBody
    ModelEmpty

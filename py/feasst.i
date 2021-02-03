@@ -76,13 +76,13 @@
 #include "cluster/include/energy_map_all_criteria.h"
 #include "system/include/visit_model.h"
 #include "system/include/model_two_body.h"
+#include "system/include/lennard_jones.h"
 #include "models/include/square_well.h"
 #include "models/include/yukawa.h"
 #include "example/include/model_example.h"
 #include "system/include/ideal_gas.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/hard_sphere.h"
-#include "system/include/lennard_jones.h"
 #include "system/include/dont_visit_model.h"
 #include "system/include/model_one_body.h"
 #include "system/include/model_empty.h"
@@ -117,24 +117,23 @@
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
 #include "chain/include/select_branch.h"
-#include "monte_carlo/include/perturb.h"
-#include "monte_carlo/include/perturb_volume.h"
-#include "beta_expanded/include/perturb_beta.h"
-#include "morph/include/perturb_particle_type.h"
-#include "monte_carlo/include/perturb_move.h"
-#include "cluster/include/perturb_point_reflect.h"
-#include "monte_carlo/include/perturb_translate.h"
-#include "monte_carlo/include/perturb_distance.h"
-#include "chain/include/perturb_reptate.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "chain/include/select_segment.h"
 #include "chain/include/select_end_segment.h"
 #include "chain/include/select_reptate.h"
 #include "cluster/include/select_particle_avb.h"
-#include "cluster/include/select_cluster.h"
 #include "cluster/include/select_particle_avb_divalent.h"
+#include "cluster/include/select_cluster.h"
+#include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/perturb_volume.h"
+#include "beta_expanded/include/perturb_beta.h"
+#include "monte_carlo/include/perturb_move.h"
+#include "monte_carlo/include/perturb_distance.h"
+#include "chain/include/perturb_reptate.h"
+#include "monte_carlo/include/perturb_translate.h"
+#include "cluster/include/perturb_point_reflect.h"
+#include "morph/include/perturb_particle_type.h"
 #include "monte_carlo/include/criteria.h"
-#include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 #include "monte_carlo/include/trial.h"
@@ -196,6 +195,7 @@
 #include "cluster/include/compute_remove_avb_divalent.h"
 #include "cluster/include/compute_avb2.h"
 #include "cluster/include/compute_avb4.h"
+#include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/constraint.h"
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "egce/include/a_equal_b.h"
@@ -207,6 +207,7 @@
 #include "configuration/include/file_lmp.h"
 #include "configuration/include/domain.h"
 #include "math/include/random.h"
+#include "math/include/random_modulo.h"
 #include "math/include/constants.h"
 #include "math/include/minimize.h"
 #include "math/include/golden_search.h"
@@ -359,13 +360,13 @@ using namespace std;
 %shared_ptr(feasst::EnergyMapAllCriteria);
 %shared_ptr(feasst::VisitModel);
 %shared_ptr(feasst::ModelTwoBody);
+%shared_ptr(feasst::LennardJones);
 %shared_ptr(feasst::SquareWell);
 %shared_ptr(feasst::Yukawa);
 %shared_ptr(feasst::ModelExample);
 %shared_ptr(feasst::IdealGas);
 %shared_ptr(feasst::ModelTwoBodyFactory);
 %shared_ptr(feasst::HardSphere);
-%shared_ptr(feasst::LennardJones);
 %shared_ptr(feasst::DontVisitModel);
 %shared_ptr(feasst::ModelOneBody);
 %shared_ptr(feasst::ModelEmpty);
@@ -407,24 +408,23 @@ using namespace std;
 %shared_ptr(feasst::TrialSelectBond);
 %shared_ptr(feasst::TrialSelectAngle);
 %shared_ptr(feasst::SelectBranch);
-%shared_ptr(feasst::Perturb);
-%shared_ptr(feasst::PerturbVolume);
-%shared_ptr(feasst::PerturbBeta);
-%shared_ptr(feasst::PerturbParticleType);
-%shared_ptr(feasst::PerturbMove);
-%shared_ptr(feasst::PerturbPointReflect);
-%shared_ptr(feasst::PerturbTranslate);
-%shared_ptr(feasst::PerturbDistance);
-%shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::TrialSelectParticle);
 %shared_ptr(feasst::SelectSegment);
 %shared_ptr(feasst::SelectEndSegment);
 %shared_ptr(feasst::SelectReptate);
 %shared_ptr(feasst::SelectParticleAVB);
-%shared_ptr(feasst::SelectCluster);
 %shared_ptr(feasst::SelectParticleAVBDivalent);
+%shared_ptr(feasst::SelectCluster);
+%shared_ptr(feasst::Perturb);
+%shared_ptr(feasst::PerturbVolume);
+%shared_ptr(feasst::PerturbBeta);
+%shared_ptr(feasst::PerturbMove);
+%shared_ptr(feasst::PerturbDistance);
+%shared_ptr(feasst::PerturbReptate);
+%shared_ptr(feasst::PerturbTranslate);
+%shared_ptr(feasst::PerturbPointReflect);
+%shared_ptr(feasst::PerturbParticleType);
 %shared_ptr(feasst::Criteria);
-%shared_ptr(feasst::Metropolis);
 %shared_ptr(feasst::TrialStage);
 %shared_ptr(feasst::TrialCompute);
 %shared_ptr(feasst::Trial);
@@ -485,6 +485,7 @@ using namespace std;
 %shared_ptr(feasst::ComputeRemoveAVBDivalent);
 %shared_ptr(feasst::ComputeAVB2);
 %shared_ptr(feasst::ComputeAVB4);
+%shared_ptr(feasst::Metropolis);
 %shared_ptr(feasst::Constraint);
 %shared_ptr(feasst::ConstrainNumParticles);
 %shared_ptr(feasst::AEqualB);
@@ -497,6 +498,7 @@ using namespace std;
 %shared_ptr(feasst::FileLMP);
 %shared_ptr(feasst::Domain);
 %shared_ptr(feasst::Random);
+%shared_ptr(feasst::RandomModulo);
 %shared_ptr(feasst::Minimize);
 %shared_ptr(feasst::GoldenSearch);
 %shared_ptr(feasst::FormulaExponential);
@@ -617,13 +619,13 @@ using namespace std;
 %include cluster/include/energy_map_all_criteria.h
 %include system/include/visit_model.h
 %include system/include/model_two_body.h
+%include system/include/lennard_jones.h
 %include models/include/square_well.h
 %include models/include/yukawa.h
 %include example/include/model_example.h
 %include system/include/ideal_gas.h
 %include system/include/model_two_body_factory.h
 %include system/include/hard_sphere.h
-%include system/include/lennard_jones.h
 %include system/include/dont_visit_model.h
 %include system/include/model_one_body.h
 %include system/include/model_empty.h
@@ -658,24 +660,23 @@ using namespace std;
 %include monte_carlo/include/trial_select_bond.h
 %include monte_carlo/include/trial_select_angle.h
 %include chain/include/select_branch.h
-%include monte_carlo/include/perturb.h
-%include monte_carlo/include/perturb_volume.h
-%include beta_expanded/include/perturb_beta.h
-%include morph/include/perturb_particle_type.h
-%include monte_carlo/include/perturb_move.h
-%include cluster/include/perturb_point_reflect.h
-%include monte_carlo/include/perturb_translate.h
-%include monte_carlo/include/perturb_distance.h
-%include chain/include/perturb_reptate.h
 %include monte_carlo/include/trial_select_particle.h
 %include chain/include/select_segment.h
 %include chain/include/select_end_segment.h
 %include chain/include/select_reptate.h
 %include cluster/include/select_particle_avb.h
-%include cluster/include/select_cluster.h
 %include cluster/include/select_particle_avb_divalent.h
+%include cluster/include/select_cluster.h
+%include monte_carlo/include/perturb.h
+%include monte_carlo/include/perturb_volume.h
+%include beta_expanded/include/perturb_beta.h
+%include monte_carlo/include/perturb_move.h
+%include monte_carlo/include/perturb_distance.h
+%include chain/include/perturb_reptate.h
+%include monte_carlo/include/perturb_translate.h
+%include cluster/include/perturb_point_reflect.h
+%include morph/include/perturb_particle_type.h
 %include monte_carlo/include/criteria.h
-%include monte_carlo/include/metropolis.h
 %include monte_carlo/include/trial_stage.h
 %include monte_carlo/include/trial_compute.h
 %include monte_carlo/include/trial.h
@@ -737,6 +738,7 @@ using namespace std;
 %include cluster/include/compute_remove_avb_divalent.h
 %include cluster/include/compute_avb2.h
 %include cluster/include/compute_avb4.h
+%include monte_carlo/include/metropolis.h
 %include monte_carlo/include/constraint.h
 %include monte_carlo/include/constrain_num_particles.h
 %include egce/include/a_equal_b.h
@@ -748,6 +750,7 @@ using namespace std;
 %include configuration/include/file_lmp.h
 %include configuration/include/domain.h
 %include math/include/random.h
+%include math/include/random_modulo.h
 %include math/include/constants.h
 %include math/include/minimize.h
 %include math/include/golden_search.h

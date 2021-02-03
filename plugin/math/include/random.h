@@ -211,9 +211,9 @@ class Random {
   Cache cache_;
   bool is_seeded_ = false;
 
-  virtual void reseed_() = 0;
+  virtual void reseed_(const int seed) = 0;
   virtual double gen_uniform_() = 0;
-  virtual int gen_uniform_(const int min, const int max) = 0;
+  virtual int gen_uniform_(const int min, const int max);
 };
 
 }  // namespace feasst
