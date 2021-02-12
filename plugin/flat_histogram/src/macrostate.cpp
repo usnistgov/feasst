@@ -67,49 +67,11 @@ void Macrostate::serialize_macrostate_(std::ostream& ostr) const {
 }
 
 Macrostate::Macrostate(std::istream& istr) {
-  ASSERT(feasst_deserialize_version(istr) == 520, "version check");
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 520, "version: " << version);
   feasst_deserialize_fstobj(&histogram_, istr);
   feasst_deserialize(&soft_max_, istr);
   feasst_deserialize(&soft_min_, istr);
 }
-
-//std::vector<double> segment(
-//    const double min,
-//    const double max,
-//    const int num,
-//    const double exp) {
-//  ASSERT(num > 0, "num(" << num << ") must be > 0.");
-//  std::vector<double> segment(num + 1);
-//  segment[0] = min;
-//  segment[num] = max;
-//  // diff = (max^a - min^a)/num
-//  const long double exp_diff =
-//    (std::pow(max, exp) - std::pow(min, exp))/static_cast<double>(num);
-//  // seg diff = ( (n0^a) + diff)^(1/a)
-//  for (int index = 1; index < num; ++index) {
-//    segment[index] = std::pow(std::pow(segment[index - 1], exp) + exp_diff, 1./exp);
-//  }
-//  return segment;
-//}
-//
-///// Segment a range into windows by exponential scaling.
-//std::vector<std::vector<int> > window(
-//    const int min,
-//    const int max,
-//    const int num,
-//    const double exp,
-//    const int extra_overlap) {
-//  std::vector<double> boundaries = segment(min, max, num, exp);
-//  std::vector<std::vector<int> > windows(num, std::vector<int>(2, 0.));
-//  for (int index = 0; index < num; ++index) {
-//    if (index == 0) {
-//      windows[index][0] = min;
-//    } else {
-//      windows[index][0] = round(boundaries[index] - extra_overlap);
-//    }
-//    windows[index][1] = round(boundaries[index + 1]);
-//  }
-//  return windows;
-//}
 
 }  // namespace feasst

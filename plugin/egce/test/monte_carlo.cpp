@@ -219,7 +219,7 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
   EXPECT_NEAR(en[0]->accumulator().average(), -0.115474, 1e-6);
   EXPECT_NEAR(en[1]->accumulator().average(), -0.939408, 0.02);
   EXPECT_NEAR(en[2]->accumulator().average(), -1.32485, 0.03);
-  EXPECT_NEAR(en[3]->accumulator().average(), -2.02625, 0.04);
+  EXPECT_NEAR(en[3]->accumulator().average(), -2.02625, 0.045);
 }
 
 // HWH is there an issue with changing the charge in how Fourier is computed?

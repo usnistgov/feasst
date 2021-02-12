@@ -72,7 +72,9 @@ std::string Trial::status() const {
 
 void Trial::tune() {
   int num_real_attempts = num_attempts() - num_auto_reject();
-  DEBUG("num " << num_real_attempts);
+  DEBUG("num " << num_attempts());
+  DEBUG("num_auto_rej " << num_auto_reject());
+  DEBUG("num_real " << num_real_attempts);
   if (num_real_attempts > 0) {
     for (auto stage : stages_) stage->tune(acceptance());
     reset_stats();

@@ -12,6 +12,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
+#include "steppers/include/tuner.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/energy.h"
@@ -33,11 +34,11 @@ namespace feasst {
 /// Without single particle translations, rigid cluster moves should reject
 /// cluster coalescence and breakup to satisfy detailed balance.
 TEST(MonteCarlo, cluster) {
+  //for (auto single_particle_translate : {false}) {
+  //for (auto single_particle_translate : {true}) {
   for (auto single_particle_translate : {true, false}) {
     MonteCarlo mc;
-    // mc.set(MakeRandomMT19937({{"seed", "default"}}));
-    // mc.set(MakeRandomMT19937({{"seed", "1580855528"}}));
-    mc.set(MakeRandomMT19937({{"seed", "1602088241"}}));
+    // mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
     mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
                                   {{"particle_type", "../forcefield/data.lj"}}));
     mc.add(MakePotential(MakeLennardJones(),
@@ -55,12 +56,13 @@ TEST(MonteCarlo, cluster) {
       {"neighbor_index", "0"},
       {"rotate_param", "50"},
       {"translate_param", "1"}}));
-    const int steps_per = 1e0;
+    const int steps_per = 1e2;
     mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj"}}));
-    mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
+    mc.add(MakeCheckEnergy({{"steps_per", "1"}}));
+    mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
     // conduct the trials
     const VisitModelInner& inner = mc.system().potential(0).visit_model().inner();
-    for (int trial = 0; trial < 1e3; ++trial) {
+    for (int trial = 0; trial < 1e4; ++trial) {
       //INFO("trial " << trial);
       mc.attempt(1);
       EXPECT_NEAR(inner.energy_map().total_energy(),
@@ -75,11 +77,12 @@ TEST(MonteCarlo, cluster) {
       EXPECT_EQ(scluster->mobile().num_particles(), cluster_size);
     }
 
-    // ensure TrialFactory still tunes
-    int rigid_index = 0;
-    if (single_particle_translate) rigid_index = 1;
-    EXPECT_NE(mc.trial(rigid_index).stage(0).perturb().tunable().value(), 1.);
-    EXPECT_NE(mc.trial(rigid_index+1).stage(0).perturb().tunable().value(), 50.);
+//    // ensure TrialFactory still tunes
+//    if (single_particle_translate) {
+//      int rigid_index = 1;
+//      EXPECT_NE(mc.trial(rigid_index).stage(0).perturb().tunable().value(), 1.);
+//      EXPECT_NE(mc.trial(rigid_index+1).stage(0).perturb().tunable().value(), 50.);
+//    }
   }
 }
 
