@@ -11,9 +11,8 @@ namespace feasst {
  */
 class PerturbRotateCOM : public PerturbRotate {
  public:
-  PerturbRotateCOM(const argtype& args = argtype()) : PerturbRotate(args) {
-    class_name_ = "PerturbRotateCOM";
-  }
+  explicit PerturbRotateCOM(argtype args = argtype());
+  explicit PerturbRotateCOM(argtype * args);
 
   /// Rotate the selected particles using the tuning parameter.
   /// Set the pivot to the geometric center of the mobile selection.
@@ -28,7 +27,7 @@ class PerturbRotateCOM : public PerturbRotate {
 };
 
 inline std::shared_ptr<PerturbRotateCOM> MakePerturbRotateCOM(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbRotateCOM>(args);
 }
 

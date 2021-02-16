@@ -22,7 +22,7 @@ class ProgressReport {
       (default: 0.1 e.g., 10%)
     - file_name: append report to this file. If empty, cout (default: empty).
    */
-  explicit ProgressReport(const argtype& args = argtype());
+  explicit ProgressReport(argtype args = argtype());
 
   /// Set the number of iterations to completion.
   void set_num(const int num) { num_ = num; }
@@ -55,7 +55,7 @@ class ProgressReport {
 };
 
 inline std::shared_ptr<ProgressReport> MakeProgressReport(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<ProgressReport>(args);
 }
 

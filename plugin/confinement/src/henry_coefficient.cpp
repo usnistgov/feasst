@@ -14,9 +14,9 @@ class MapHenryCoefficient {
 
 static MapHenryCoefficient mapper_ = MapHenryCoefficient();
 
-HenryCoefficient::HenryCoefficient(const argtype &args) : Analyze(args) {
-  args_.init(args);
+HenryCoefficient::HenryCoefficient(argtype args) : Analyze(&args) {
   ASSERT(steps_per_update() == 1, "should update every step");
+  check_all_used(args);
 }
 
 void HenryCoefficient::initialize(Criteria * criteria,
@@ -29,7 +29,7 @@ void HenryCoefficient::initialize(Criteria * criteria,
   ASSERT(trial_factory->trial(0).description() == "TrialAdd",
     "HenryCoefficient requires TrialAdd. " <<
     "Found: " << trial_factory->trial(0).description());
-  ASSERT(trial_factory->trial(0).compute().is_new_only(),
+  ASSERT(trial_factory->trial(0).stage(0).is_new_only(),
     "HenryCoefficient requires new_only.");
   printer(header(*criteria, *system, *trial_factory),
           file_name(*criteria));

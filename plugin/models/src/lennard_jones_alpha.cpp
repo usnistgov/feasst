@@ -5,9 +5,11 @@
 
 namespace feasst {
 
-LennardJonesAlpha::LennardJonesAlpha(const argtype& args) : LennardJones(args) {
-  alpha_ = args_.key("alpha").dflt("6").dble();
+LennardJonesAlpha::LennardJonesAlpha(argtype args) : LennardJonesAlpha(&args) {
+  check_all_used(args); }
+LennardJonesAlpha::LennardJonesAlpha(argtype * args) : LennardJones(args) {
   class_name_ = "LennardJonesAlpha";
+  alpha_ = dble("alpha", args, 6);
 }
 
 class MapLennardJonesAlpha {

@@ -20,7 +20,7 @@ namespace feasst {
  */
 class LennardJonesForceShift : public LennardJonesAlpha {
  public:
-  LennardJonesForceShift(const argtype& args = argtype());
+  explicit LennardJonesForceShift(argtype args = argtype());
 
   /// Precompute the shift factor for optimization, given existing model parameters.
   void precompute(const ModelParams& existing) override;
@@ -44,7 +44,7 @@ class LennardJonesForceShift : public LennardJonesAlpha {
 };
 
 inline std::shared_ptr<LennardJonesForceShift> MakeLennardJonesForceShift(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<LennardJonesForceShift>(args);
 }
 

@@ -152,9 +152,9 @@ TEST(Prefetch, AVB) {
   // Something wrong with adding TrialFactories when using prefetch...
   // I think they don't end up selecting the right trial type
 //  monte_carlo->add(MakeTrialAVB2({{"neighbor_index", "0"}}));
-  monte_carlo->add(MakeTrialAVB2Half({{"neighbor_index", "0"}, {"out_to_in", "true"}}));
-  monte_carlo->add(MakeTrialAVB2Half({{"neighbor_index", "0"}, {"out_to_in", "false"}}));
-  monte_carlo->add(MakeTrialAVB4({{"neighbor_index", "0"}}));
+  monte_carlo->add(MakeTrialAVB2Half({{"particle_type", "0"}, {"neighbor_index", "0"}, {"out_to_in", "true"}}));
+  monte_carlo->add(MakeTrialAVB2Half({{"particle_type", "0"}, {"neighbor_index", "0"}, {"out_to_in", "false"}}));
+  monte_carlo->add(MakeTrialAVB4({{"particle_type", "0"}, {"neighbor_index", "0"}}));
 //  monte_carlo->add(MakeTrialTransferAVB({{"neighbor_index", "0"},
 //    {"particle_type", "0"}}));
   monte_carlo->add(MakeTrialTranslate({{"tunable_param", "4"}}));

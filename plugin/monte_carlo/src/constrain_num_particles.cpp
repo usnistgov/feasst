@@ -4,12 +4,12 @@
 
 namespace feasst {
 
-ConstrainNumParticles::ConstrainNumParticles(const argtype& args) {
+ConstrainNumParticles::ConstrainNumParticles(argtype args) {
   class_name_ = "ConstrainNumParticles";
-  Arguments args_(args);
-  maximum_ = args_.key("maximum").dflt("-1").integer();
-  minimum_ = args_.key("minimum").dflt("0").integer();
-  type_ = args_.key("type").dflt("-1").integer();
+  maximum_ = integer("maximum", &args, -1);
+  minimum_ = integer("minimum", &args, 0);
+  type_ = integer("type", &args, -1);
+  check_all_used(args);
 }
 
 int ConstrainNumParticles::num_particles(const System& system,

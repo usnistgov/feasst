@@ -61,7 +61,7 @@ class Prefetch : public MonteCarlo {
       https://doi.org/10.1063/1.477973
     - synchronize: synchronize data with accepted thread (default: false).
    */
-  explicit Prefetch(const argtype& args = argtype());
+  explicit Prefetch(argtype args = argtype());
 
   /// Return the number of steps between checking equality of threads.
   int steps_per_check() const { return steps_per_check_; }
@@ -100,7 +100,7 @@ class Prefetch : public MonteCarlo {
   void create(std::vector<Pool> * pool);
 };
 
-inline std::shared_ptr<Prefetch> MakePrefetch(const argtype& args = argtype()) {
+inline std::shared_ptr<Prefetch> MakePrefetch(argtype args = argtype()) {
   return std::make_shared<Prefetch>(args);
 }
 

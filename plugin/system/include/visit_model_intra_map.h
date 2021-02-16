@@ -30,7 +30,7 @@ class VisitModelIntraMap : public VisitModel {
     - exclude_angles: if true, exclude intra interactions between the two
       extremes of the angle sites (e.g, exclude AC of <ABC) (default: false).
    */
-  explicit VisitModelIntraMap(const argtype& args = argtype());
+  explicit VisitModelIntraMap(argtype args = argtype());
 
   /// Initialize include_map after VisitModel::precompute.
   void precompute(Configuration * config) override;
@@ -63,7 +63,7 @@ class VisitModelIntraMap : public VisitModel {
 };
 
 inline std::shared_ptr<VisitModelIntraMap> MakeVisitModelIntraMap(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<VisitModelIntraMap>(args);
 }
 

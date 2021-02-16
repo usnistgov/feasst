@@ -474,6 +474,7 @@ TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
     {"weight", "1."},
     {"particle_type", "1"},
     {"target_particle_type", "0"}}));
+  EXPECT_TRUE(mc.trial(7).stage(0).select().is_ghost());
   mc.attempt(2*steps_per);
 }
 

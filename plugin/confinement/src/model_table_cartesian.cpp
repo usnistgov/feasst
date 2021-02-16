@@ -107,10 +107,9 @@ void ModelTableCart1DHard::compute_table(
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& args,
+    argtype args,
     const int site_type) {
-  Arguments args_(args);
-  const double diameter = args_.key("diameter").dflt("1.").dble();
+  const double diameter = dble("diameter", &args, 1.);
   Table1D * table = tables_[site_type].get();
   auto report = MakeProgressReport({{"num", str(table->num())}});
   Position point(domain->dimension());
@@ -123,6 +122,7 @@ void ModelTableCart1DHard::compute_table(
     table->set_data(bin, minimize.minimum(&objective));
     report->check();
   }
+  check_all_used(args);
 }
 
 class MapModelTableCart2DIntegr {
@@ -194,7 +194,7 @@ void ModelTableCart2DIntegr::compute_table(
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& integration_args,
+    argtype integration_args,
     const int site_type) {
   Table2D * table = tables_[site_type].get();
   auto report = MakeProgressReport(
@@ -219,7 +219,7 @@ void ModelTableCart2DIntegr::compute_table_omp(
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& integration_args,
+    argtype integration_args,
     const int site_type,
     const int node,
     const int num_nodes) {
@@ -332,7 +332,7 @@ void ModelTableCart3DIntegr::compute_table(
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& integration_args,
+    argtype integration_args,
     const int site_type) {
   Table3D * table = tables_[site_type].get();
   auto report = MakeProgressReport(
@@ -361,7 +361,7 @@ void ModelTableCart3DIntegr::compute_table_omp(
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& integration_args,
+    argtype integration_args,
     const int site_type,
     const int node,
     const int num_nodes) {

@@ -23,7 +23,7 @@ class SelectParticleAVBDivalent : public TrialSelect {
     - ghost: true if selecting a ghost (for adding).
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
    */
-  SelectParticleAVBDivalent(const argtype& args = argtype());
+  SelectParticleAVBDivalent(argtype args = argtype());
 
   bool select(const Select& perturbed,
               System* system,

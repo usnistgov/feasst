@@ -17,7 +17,8 @@ namespace feasst {
  */
 class PerturbDistanceAngle : public PerturbDistance {
  public:
-  explicit PerturbDistanceAngle(const argtype& args = argtype());
+  explicit PerturbDistanceAngle(argtype args = argtype());
+  explicit PerturbDistanceAngle(argtype * args);
 
   /// Same as PerturbDistance, but also obtain the equilibrium angle and
   /// spring constant.
@@ -75,7 +76,7 @@ class PerturbDistanceAngle : public PerturbDistance {
 };
 
 inline std::shared_ptr<PerturbDistanceAngle> MakePerturbDistanceAngle(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbDistanceAngle>(args);
 }
 

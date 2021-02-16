@@ -31,7 +31,7 @@ args:
   reference potential with this cutoff.
   Ignore if -1 (default: -1).
  */
-System spce(const argtype& args = argtype());
+System spce(argtype args = argtype());
 
 /**
 Prepare a MonteCarlo for a typical RPM simulation.
@@ -50,7 +50,7 @@ args:
   reference potential with this cutoff.
   Ignore if -1 (default: -1).
  */
-System rpm(const argtype& args = argtype());
+System rpm(argtype args = argtype());
 
 }  // namespace feasst
 

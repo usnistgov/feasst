@@ -20,7 +20,7 @@ class AnalyzeBonds : public AnalyzeUpdateOnly {
       (default: 1).
     - bond_bin_width: bin width for bond histogram (default: 1).
    */
-  AnalyzeBonds(const argtype &args = argtype());
+  AnalyzeBonds(argtype args = argtype());
 
   void update(const Criteria& criteria,
     const System& system,
@@ -53,7 +53,8 @@ class AnalyzeBonds : public AnalyzeUpdateOnly {
   std::vector<Histogram> bond_hist_, angle_hist_;
 };
 
-inline std::shared_ptr<AnalyzeBonds> MakeAnalyzeBonds(const argtype &args = argtype()) {
+inline std::shared_ptr<AnalyzeBonds> MakeAnalyzeBonds(
+    argtype args = argtype()) {
   return std::make_shared<AnalyzeBonds>(args);
 }
 

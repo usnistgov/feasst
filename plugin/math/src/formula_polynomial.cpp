@@ -6,7 +6,9 @@
 
 namespace feasst {
 
-FormulaPolynomial::FormulaPolynomial(const argtype& args) : Formula(args) {
+FormulaPolynomial::FormulaPolynomial(argtype args) : FormulaPolynomial(&args) {
+  check_all_used(args); }
+FormulaPolynomial::FormulaPolynomial(argtype * args) : Formula(args) {
   class_name_ = "FormulaPolynomial";
 }
 

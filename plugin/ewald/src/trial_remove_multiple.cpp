@@ -7,30 +7,31 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialRemoveMultiple(
-    const argtype &args) {
-  auto trial = MakeTrial(args);
+std::shared_ptr<Trial> MakeTrialRemoveMultiple(argtype args) {
+  auto trial = std::make_shared<Trial>(&args);
   trial->set_description("TrialRemoveMultiple");
-  Arguments args_(args);
-  args_.dont_check();
-  const std::vector<int> pt = ptypes(&args_);
+  const std::vector<int> pt = ptypes(&args);
   std::vector<argtype> new_args;
+  trial->set(std::make_shared<ComputeRemoveMultiple>(&args));
   for (int p : pt) {
-    argtype nag = args_.args();
+    argtype nag = args;
     nag.insert({"particle_type", str(p)});
-    if (args_.key("num_steps").dflt("1").integer() == 1) {
+    const std::string num_steps = feasst::str("num_steps", &nag, "1");
+    nag.insert({"num_steps", num_steps});
+    if (num_steps == "1") {
       nag.insert({"load_coordinates", "false"});
     }
     nag.insert({"exclude_perturbed", "true"});
     new_args.push_back(nag);
   }
-  for (const argtype& arg : new_args) {
+
+  for (argtype arg : new_args) {
     trial->add_stage(
-      MakeTrialSelectParticle(arg),
-      MakePerturbRemove(),
-      arg);
+      std::make_shared<TrialSelectParticle>(&arg),
+      std::make_shared<PerturbRemove>(),
+      &arg);
+    check_all_used(arg);
   }
-  trial->set(std::make_shared<ComputeRemoveMultiple>(args));
   return trial;
 }
 

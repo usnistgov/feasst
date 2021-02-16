@@ -32,7 +32,7 @@ class Random {
       If the string "default" is provided, then use the default integer
       included in Random::seed().
    */
-  explicit Random(const argtype& args = argtype());
+  explicit Random(argtype * args);
 
   /// Generate seed from time and date.
   void seed_by_time();
@@ -201,11 +201,10 @@ class Random {
   virtual ~Random() {}
 
  protected:
+  void parse_seed_(argtype * args);
   std::string class_name_ = "Random";
   void serialize_random_(std::ostream& ostr) const;
   explicit Random(std::istream& istr);
-
-  void parse_seed_(const argtype& args);
 
  private:
   Cache cache_;

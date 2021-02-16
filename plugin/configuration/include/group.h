@@ -24,7 +24,7 @@ class Group : public PropertiedEntity {
     - dynamic: set true if groups should be updated (default: true).
     - spatial: set true if group is based on location (default: false).
    */
-  explicit Group(const argtype& args = argtype());
+  explicit Group(argtype args = argtype());
 
   /// Return the list of site types in the group.
   const std::vector<int> site_types() const { return site_types_; }
@@ -61,7 +61,7 @@ class Group : public PropertiedEntity {
   bool spatial_;
 };
 
-inline std::shared_ptr<Group> MakeGroup(const argtype &args = argtype()) {
+inline std::shared_ptr<Group> MakeGroup(argtype args = argtype()) {
   return std::make_shared<Group>(args);
 }
 

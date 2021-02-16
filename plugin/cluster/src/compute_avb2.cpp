@@ -5,14 +5,15 @@
 
 namespace feasst {
 
-ComputeAVB2::ComputeAVB2(const argtype& args)
-  : TrialComputeMove() {
+ComputeAVB2::ComputeAVB2(argtype args) : ComputeAVB2(&args) {
+  check_all_used(args);
+}
+ComputeAVB2::ComputeAVB2(argtype * args) : TrialComputeMove(args) {
   class_name_ = "ComputeAVB2";
-  Arguments args_(args);
-  p_bias_ = args_.key("probability_out_to_in").dflt("0.5").dble();
+  p_bias_ = dble("probability_out_to_in", args, 0.5);
   ASSERT((p_bias_ > 0.) && (p_bias_ < 1.), "probability_out_to_in: " << p_bias_
     << "must be >0 and <1");
-  out_to_in_ = args_.key("out_to_in").boolean();
+  out_to_in_ = boolean("out_to_in", args);
 }
 
 class MapComputeAVB2 {

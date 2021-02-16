@@ -304,16 +304,12 @@ To Do List
 ================================================================================
 
 * implement gibbs ensemble
-* find a better way for two different classes to take from the same argument list and still maintain unused checks.
 * Make utils:lj,spce,etc derived classes of System ?
-* benchmark feasst vs simple hardcoded LJ simulations. Create benchmarking profile to compare among versions
-* ideal gas as the first tutorial/testcase
+* Create benchmarking profile to compare among versions
 * specify units in LMP data files?
 * fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
 * consider optimization of Ewald: init ewald storage on particle types, precompute property index.
 * when selecting from cpdf, use lnp instead of p?
-* insert optimization: update cell list of sites when added, but of domain only when finalized.
-* IF using argtype for custom object, considering single string constructors. E.g., for position in cylinder.h, use {"point0", "0 0 0"}
 * Python debug script: easy for user to run gdb/valgrind
 * Toggle more debug levels, and localized to certain files/plugins, etc
 * force precompute when reinitializing system, criteria, etc in MonteCarlo
@@ -326,12 +322,11 @@ To Do List
 * regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
 * put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list
 * config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald
-* Refactor arguments so that they can be checked for usage (especially in Trials)
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
 * Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
 * Speed up RNG by maintaining int_distribution like dis_double
 * Document utils lj, spce, rpm in tutorials
-* Add a FAQ for common compile errors: "no known conversion from brace-enclosed initializer list to const argtype&" often means that a parameter was not converted to a string.
+* Add a FAQ for common compile errors: "no known conversion from brace-enclosed initializer list to argtype" often means that a parameter was not converted to a string.
 * Make a CachedRandom and CachedPotential for prefetch and avoid if statements that could slow down serial simulations.
 * remove tutorial/fh.py
 * Tuner->Tune

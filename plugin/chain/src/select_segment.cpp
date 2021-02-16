@@ -38,11 +38,12 @@ void SelectSegment::serialize(std::ostream& ostr) const {
   serialize_select_segment_(ostr);
 }
 
-SelectSegment::SelectSegment(const argtype& args)
-  : TrialSelectParticle(args) {
+SelectSegment::SelectSegment(argtype args) : SelectSegment(&args) {
+  check_all_used(args);
+}
+SelectSegment::SelectSegment(argtype * args) : TrialSelectParticle(args) {
   class_name_ = "SelectSegment";
-  args_.dont_check();
-  max_length_ = args_.key("max_length").dflt("-1").integer();
+  max_length_ = integer("max_length", args, -1);
 }
 
 bool SelectSegment::random_segment_in_particle(

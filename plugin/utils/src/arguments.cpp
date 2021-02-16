@@ -8,115 +8,95 @@
 
 namespace feasst {
 
-void Arguments::init(const argtype &args) {
-  args_ = args;
-}
-
-Arguments& Arguments::key(const std::string &key) {
-  key_ = key;
-  used_keys_.push_back(key_);
-  remove_ = false;
-  return *this;
-}
-
-Arguments& Arguments::dflt(const std::string &defaultVal) {
-  default_value_ = defaultVal;
-  return *this;
-}
-
-bool Arguments::empty() {
-  ASSERT(!key_.empty(), "key must be set before");
-  auto pair = args_.find(key_);
-  if (pair != args_.end()) {
-    return false;
+bool used(const std::string& key, const argtype& args) {
+  const auto pair = args.find(key);
+  if (pair != args.end()) {
+    return true;
   }
-  return true;
+  return false;
 }
 
-std::string Arguments::str() {
-  ASSERT(!key_.empty(), "key must be set before");
-  auto pair = args_.find(key_);
-  std::string str;
-  if (pair != args_.end()) {
-    str = pair->second;
+std::string str(const std::string& key, argtype * args) {
+  auto pair = args->find(key);
+  ASSERT(pair != args->end(), "key(" << key << ") is required for args but " <<
+    "not found in " << str(*args));
+  const std::string second = pair->second;
+  args->erase(pair);
+  return second;
+}
 
-    // remove parsed arg from args_
-    if (remove_) {
-      args_.erase(pair);
-      remove_ = false;
-    }
+std::string str(const std::string& key, argtype * args,
+    const std::string dflt) {
+  std::string return_str;
+  auto pair = args->find(key);
+  if (pair != args->end()) {
+    return_str = pair->second;
+    args->erase(pair);
   } else {
-    ASSERT(!default_value_.empty(), "key(" << key_ << ") is required for args "
-      << "when no default value is set.");
-    str = default_value_;
+    return_str = dflt;
   }
-  key_ = "";
-  default_value_ = "";
-  return str;
+  return return_str;
 }
 
-bool Arguments::check_all_used() {
-  used_keys_.push_back("");
-  for (const auto &pair : args_) {
-    ASSERT(find_in_list(pair.first, used_keys_),
-      "Key arg(" << pair.first <<") "
-      << ") is not recognized. Check for any typos in your provided keyword "
-      << "arguments and check documentation. All keywords provided in args "
-      << "must be used, otherwise, a simple typo in keyword arguments would go "
-      << "unnoticed. If you are a developer, check that you have processed "
-      << "all possible keywords in the appropriate constructor.");
+double dble(const std::string& key, argtype * args) {
+  return str_to_double(str(key, args));
+}
+
+double dble(const std::string& key, argtype * args,
+    const double dflt) {
+  auto pair = args->find(key);
+  if (pair != args->end()) {
+    const std::string return_str = pair->second;
+    args->erase(pair);
+    return str_to_double(return_str);
+  } else {
+    return dflt;
   }
-  return true;
 }
 
-Arguments& Arguments::remove() {
-  remove_ = true;
-  return *this;
+int integer(const std::string& key, argtype * args) {
+  return str_to_int(str(key, args));
 }
 
-std::string Arguments::status() const {
-  std::stringstream ss;
-  ss << "used(";
-  for (std::string used : used_keys_) {
-    ss << used << ",";
+int integer(const std::string& key, argtype * args,
+    const int dflt) {
+  auto pair = args->find(key);
+  if (pair != args->end()) {
+    const std::string return_str = pair->second;
+    args->erase(pair);
+    return str_to_int(return_str);
+  } else {
+    return dflt;
   }
-  ss << "),args" << feasst_str(args_);
-  return ss.str();
 }
 
-argtype Arguments::remove(const std::string first, const argtype& args) const {
-  argtype new_args = args;
-  auto pair = new_args.find(first);
-  if (pair != new_args.end()) {
-    new_args.erase(pair);
+bool boolean(const std::string& key, argtype * args) {
+  return str_to_bool(str(key, args));
+}
+
+bool boolean(const std::string& key, argtype * args,
+    const bool dflt) {
+  auto pair = args->find(key);
+  if (pair != args->end()) {
+    const std::string return_str = pair->second;
+    args->erase(pair);
+    return str_to_bool(return_str);
+  } else {
+    return dflt;
   }
-  return new_args;
 }
 
-argtype Arguments::append(const std::string append,
-                          const std::string first,
-                          const argtype& args) const {
-  argtype new_args = args;
-  auto pair = new_args.find(first);
-  if (pair != new_args.end()) {
+void append(const std::string& key, argtype * args, const std::string& append) {
+  auto pair = args->find(key);
+  if (pair != args->end()) {
     const std::string second = pair->second;
-    new_args.erase(pair);
-    new_args.insert({first, second + append});
+    args->erase(pair);
+    args->insert({key, second + append});
   }
-  return new_args;
 }
 
-//Arguments::~Arguments() {}
-Arguments::~Arguments() { if (check_) check_all_used(); }
-
-std::string str(const argtype& args) {
-  std::stringstream ss;
-  ss << "{";
-  for (const auto &pair : args) {
-    ss << "{" << pair.first << "," << pair.second << "},";
-  }
-  ss << "}";
-  return ss.str();
+void check_all_used(const argtype& args) {
+  ASSERT(args.size() == 0, "unused: " << str(args));
 }
 
 }  // namespace feasst

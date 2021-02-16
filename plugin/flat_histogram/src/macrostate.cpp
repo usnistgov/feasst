@@ -5,17 +5,20 @@
 
 namespace feasst {
 
-Macrostate::Macrostate(const Histogram& histogram, const argtype& args) {
+Macrostate::Macrostate(const Histogram& histogram, argtype args)
+  : Macrostate(histogram, &args) {
+  check_all_used(args);
+}
+Macrostate::Macrostate(const Histogram& histogram, argtype * args) {
   set(histogram);
 
   // soft limits
-  args_.init(args);
   soft_min_ = 0;
   soft_max_ = histogram_.size() - 1;
-  if (args_.key("soft_max").used()) {
-    soft_max_ = args_.integer();
-    if (args_.key("soft_min").used()) {
-      soft_min_ = args_.integer();
+  if (used("soft_max", *args)) {
+    soft_max_ = integer("soft_max", args);
+    if (used("soft_min", *args)) {
+      soft_min_ = integer("soft_min", args);
     }
   }
   DEBUG("soft min " << soft_min_);

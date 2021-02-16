@@ -6,25 +6,23 @@
 
 namespace feasst {
 
-void gen_avb4_args_(const argtype& args, argtype * args_sel, argtype * args_mv) {
-  *args_sel = args;
-  args_sel->insert({"grand_canonical", "false"});
-  args_sel->insert({"second_target", "true"});
-  *args_mv = args;
-  args_mv->insert({"inside", "true"});
+void gen_avb4_args_(argtype * args) {
+  args->insert({"grand_canonical", "false"});
+  args->insert({"second_target", "true"});
+  args->insert({"inside", "true"});
 }
 
-std::shared_ptr<Trial> MakeTrialAVB4(const argtype &args) {
-  argtype args_sel, args_mv;
-  gen_avb4_args_(args, &args_sel, &args_mv);
-  auto trial = MakeTrial(args);
+std::shared_ptr<Trial> MakeTrialAVB4(argtype args) {
+  auto trial = std::make_shared<Trial>(&args);
+  gen_avb4_args_(&args);
   trial->set_description("TrialAVB4");
   trial->add_stage(
-    MakeSelectParticleAVB(args_sel),
-    MakePerturbMoveAVB(args_mv),
-    args
+    std::make_shared<SelectParticleAVB>(&args),
+    std::make_shared<PerturbMoveAVB>(&args),
+    &args
   );
   trial->set(MakeComputeAVB4());
+  check_all_used(args);
   return trial;
 }
 

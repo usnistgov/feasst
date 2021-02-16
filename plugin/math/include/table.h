@@ -35,7 +35,8 @@ class Table1D : public Table {
     - num: number of values (default: 1).
     - default_value: initialize data to this constant (default: 0).
    */
-  Table1D(const argtype& args = argtype());
+  explicit Table1D(argtype args = argtype());
+  explicit Table1D(argtype *args);
 
   /// Return the number of values.
   int num() const { return static_cast<int>(data_.size()); }
@@ -88,9 +89,8 @@ class Table1D : public Table {
   void calc_d_();
 };
 
-inline std::shared_ptr<Table1D> MakeTable1D(const argtype& args = argtype()) {
-  return std::make_shared<Table1D>(args);
-}
+inline std::shared_ptr<Table1D> MakeTable1D(argtype args = argtype()) {
+  return std::make_shared<Table1D>(args); }
 
 typedef std::vector<std::vector<double> > vec2;
 
@@ -105,7 +105,8 @@ class Table2D : public Table {
     - num1: number of values in second dimension (default: 1).
     - default_value: initialize data to this constant (default: 0).
    */
-  Table2D(const argtype& args = argtype());
+  explicit Table2D(argtype args = argtype());
+  explicit Table2D(argtype * args);
 
   /// Return the number of values in the first dimension
   int num0() const { return static_cast<int>(data_.size()); }
@@ -163,9 +164,8 @@ class Table2D : public Table {
   void calc_d_();
 };
 
-inline std::shared_ptr<Table2D> MakeTable2D(const argtype& args = argtype()) {
-  return std::make_shared<Table2D>(args);
-}
+inline std::shared_ptr<Table2D> MakeTable2D(argtype args = argtype()) {
+  return std::make_shared<Table2D>(args); }
 
 typedef std::vector<std::vector<std::vector<double> > > vec3;
 
@@ -181,7 +181,8 @@ class Table3D : public Table {
     - num2: number of values in third dimension (default: 1).
     - default_value: initialize data to this constant (default: 0).
    */
-  Table3D(const argtype& args = argtype());
+  explicit Table3D(argtype args = argtype());
+  explicit Table3D(argtype * args);
 
   /// Return the number of values in the first dimension
   int num0() const { return static_cast<int>(data_.size()); }
@@ -249,9 +250,8 @@ class Table3D : public Table {
   void calc_d_();
 };
 
-inline std::shared_ptr<Table3D> MakeTable3D(const argtype& args = argtype()) {
-  return std::make_shared<Table3D>(args);
-}
+inline std::shared_ptr<Table3D> MakeTable3D(argtype args = argtype()) {
+  return std::make_shared<Table3D>(args); }
 
 inline std::shared_ptr<Table3D> MakeTable3D(const std::string file_name) {
   return std::make_shared<Table3D>(file_name);

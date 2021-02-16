@@ -67,13 +67,13 @@ const Modify& Modify::modify(const int index) const {
   FATAL("not implemented");
 }
 
-ModifyUpdateOnly::ModifyUpdateOnly(const argtype &args) : Modify(args) {
+ModifyUpdateOnly::ModifyUpdateOnly(argtype * args) : Modify(args) {
   // disable write
   Modify::set_steps_per_write(-1);
 
   // parse
-  if (!args_.key("steps_per").empty()) {
-    set_steps_per(args_.integer());
+  if (used("steps_per", *args)) {
+    set_steps_per(integer("steps_per", args));
   }
 }
 

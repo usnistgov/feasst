@@ -22,7 +22,7 @@ namespace feasst {
  */
 class RandomModulo : public Random {
  public:
-  explicit RandomModulo(const argtype& args = argtype());
+  explicit RandomModulo(argtype args = argtype());
 
   // serialize
   std::shared_ptr<Random> create(std::istream& istr) const override {
@@ -39,7 +39,7 @@ class RandomModulo : public Random {
 };
 
 inline std::shared_ptr<RandomModulo> MakeRandomModulo(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<RandomModulo>(args);
 }
 

@@ -17,7 +17,7 @@ class Cylinder : public Shape {
     /**
       radius : Set the radius of the cylinder.
      */
-    const argtype &args,
+    argtype args,
     /// one point on the cylinder's axis of symmetry
     const Position point0,
     /// a second point on the cylinder's axis of symmetry
@@ -34,11 +34,10 @@ class Cylinder : public Shape {
  private:
   double radius_;
   Position point0_, point1_;
-  Arguments args_;
 };
 
 inline std::shared_ptr<Cylinder> MakeCylinder(
-    const argtype& args,
+    argtype args,
     const Position point0,
     const Position point1) {
   return std::make_shared<Cylinder>(args, point0, point1);

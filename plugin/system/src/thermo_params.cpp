@@ -4,21 +4,20 @@
 
 namespace feasst {
 
-ThermoParams::ThermoParams(const argtype &args) {
-  Arguments args_(args);
-  if (args_.key("beta").used()) {
-    set_beta(args_.dble());
+ThermoParams::ThermoParams(argtype args) {
+  if (used("beta", args)) {
+    set_beta(dble("beta", &args));
   }
   std::string start("chemical_potential");
   // if only one chemical potential, drop the subscript
-  if (args_.key(start).used()) {
-    add_chemical_potential(args_.dble());
+  if (used(start, args)) {
+    add_chemical_potential(dble(start, &args));
   } else {
     std::stringstream key;
     int type = 0;
     key << start << type;
-    while (args_.key(key.str()).used()) {
-      add_chemical_potential(args_.dble());
+    while (used(key.str(), args)) {
+      add_chemical_potential(dble(key.str(), &args));
       ++type;
       ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
       key.str("");
@@ -26,8 +25,9 @@ ThermoParams::ThermoParams(const argtype &args) {
     }
   }
 
-  if (args_.key("pH").used()) set_pH(args_.dble());
-  if (args_.key("pressure").used()) set_pressure(args_.dble());
+  if (used("pH", args)) set_pH(dble("pH", &args));
+  if (used("pressure", args)) set_pressure(dble("pressure", &args));
+  check_all_used(args);
 }
 
 void ThermoParams::set_beta(const double beta) {

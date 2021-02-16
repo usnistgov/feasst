@@ -173,7 +173,7 @@ class PhysicalConstantsCustom : public PhysicalConstants {
     - permitivity_vacuum
     - elementary_charge
    */
-  explicit PhysicalConstantsCustom(const argtype& args = argtype());
+  explicit PhysicalConstantsCustom(argtype args = argtype());
 
   const double boltzmann_constant() const override {
     return boltzmann_constant_; }
@@ -196,7 +196,7 @@ class PhysicalConstantsCustom : public PhysicalConstants {
 };
 
 inline std::shared_ptr<PhysicalConstantsCustom> MakePhysicalConstantsCustom(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PhysicalConstantsCustom>(args);
 }
 

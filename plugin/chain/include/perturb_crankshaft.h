@@ -8,7 +8,10 @@ namespace feasst {
 
 class PerturbCrankshaft : public PerturbRotate {
  public:
-  PerturbCrankshaft(const argtype& args = argtype()) : PerturbRotate(args) {
+  PerturbCrankshaft(argtype args = argtype()) : PerturbCrankshaft(&args) {
+    check_all_used(args);
+  }
+  PerturbCrankshaft(argtype * args) : PerturbRotate(args) {
     class_name_ = "PerturbCrankshaft";
   }
 
@@ -31,7 +34,7 @@ class PerturbCrankshaft : public PerturbRotate {
 };
 
 inline std::shared_ptr<PerturbCrankshaft> MakePerturbCrankshaft(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbCrankshaft>(args);
 }
 

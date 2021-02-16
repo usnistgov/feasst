@@ -3,16 +3,16 @@
 
 namespace feasst {
 
-AEqualB::AEqualB(const argtype& args) {
+AEqualB::AEqualB(argtype args) {
   class_name_ = "AEqualB";
-  Arguments args_(args);
-  extra_A_ = args_.key("extra_A").dflt("0").integer();
+  extra_A_ = integer("extra_A", &args, 0);
   num_A_ = ConstrainNumParticles({
-    {"type", args_.key("particle_type_A").dflt("0").str()}});
+    {"type", str("particle_type_A", &args, "0")}});
   num_B_ = ConstrainNumParticles({
-    {"type", args_.key("particle_type_B").dflt("1").str()}});
+    {"type", str("particle_type_B", &args, "1")}});
   ASSERT(num_A_.type() != num_B_.type(), "particle_type_A: " << num_A_.type()
     << " == particle_type_B_: " << num_B_.type());
+  check_all_used(args);
 }
 
 bool AEqualB::is_allowed(const System& system,

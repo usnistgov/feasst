@@ -7,11 +7,10 @@
 
 namespace feasst {
 
-VisitModelIntraMap::VisitModelIntraMap(const argtype& args) {
+VisitModelIntraMap::VisitModelIntraMap(argtype args) {
   class_name_ = "VisitModelIntraMap";
-  Arguments args_(args);
-  exclude_bonds_ = args_.key("exclude_bonds").dflt("false").boolean();
-  exclude_angles_ = args_.key("exclude_angles").dflt("false").boolean();
+  exclude_bonds_ = boolean("exclude_bonds", &args, false);
+  exclude_angles_ = boolean("exclude_angles", &args, false);
 }
 
 void VisitModelIntraMap::precompute(Configuration * config) {

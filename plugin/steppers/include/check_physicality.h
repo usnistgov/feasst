@@ -11,7 +11,7 @@ namespace feasst {
  */
 class CheckPhysicality : public AnalyzeUpdateOnly {
  public:
-  CheckPhysicality(const argtype &args = argtype()) : AnalyzeUpdateOnly(args) {}
+  CheckPhysicality(argtype args = argtype());
   void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
@@ -24,7 +24,7 @@ class CheckPhysicality : public AnalyzeUpdateOnly {
 };
 
 inline std::shared_ptr<CheckPhysicality> MakeCheckPhysicality(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<CheckPhysicality>(args);
 }
 

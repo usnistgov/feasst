@@ -30,7 +30,7 @@ class NeighborCriteria {
     - site_type1: consider only interactions between a specific site type.
       If -1, consider all sites (default: -1).
    */
-  explicit NeighborCriteria(const argtype& args = argtype());
+  explicit NeighborCriteria(argtype args = argtype());
 
   int reference_potential() const { return reference_potential_; }
   int potential_index() const { return potential_index_; }
@@ -72,7 +72,7 @@ class NeighborCriteria {
 };
 
 inline std::shared_ptr<NeighborCriteria> MakeNeighborCriteria(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<NeighborCriteria>(args);
 }
 

@@ -13,6 +13,10 @@ class MapCheckPhysicality {
 
 static MapCheckPhysicality mapper_ = MapCheckPhysicality();
 
+CheckPhysicality::CheckPhysicality(argtype args) : AnalyzeUpdateOnly(&args) {
+  check_all_used(args);
+}
+
 void CheckPhysicality::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(204, ostr);

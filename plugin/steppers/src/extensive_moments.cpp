@@ -15,9 +15,9 @@ class MapExtensiveMoments {
 
 static MapExtensiveMoments mapper_ = MapExtensiveMoments();
 
-ExtensiveMoments::ExtensiveMoments(const argtype &args) : Analyze(args) {
-  args_.init(args);
-  max_order_ = args_.key("max_order").dflt("3").integer();
+ExtensiveMoments::ExtensiveMoments(argtype args) : Analyze(&args) {
+  max_order_ = integer("max_order", &args, 3);
+  check_all_used(args);
 }
 
 void ExtensiveMoments::initialize(Criteria * criteria,

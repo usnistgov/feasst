@@ -6,11 +6,14 @@
 
 namespace feasst {
 
-ComputeRemoveMultiple::ComputeRemoveMultiple(const argtype& args) {
+ComputeRemoveMultiple::ComputeRemoveMultiple(argtype args)
+  : ComputeRemoveMultiple(&args) {
+  check_all_used(args);
+}
+ComputeRemoveMultiple::ComputeRemoveMultiple(argtype * args)
+  : TrialCompute(args) {
   class_name_ = "ComputeRemoveMultiple";
-  Arguments args_(args);
-  args_.dont_check();
-  shift_ = args_.key("shift").dflt("-1").integer();
+  shift_ = integer("shift", args, -1);
 }
 
 class MapComputeRemoveMultiple {

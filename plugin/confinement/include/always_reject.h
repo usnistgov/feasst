@@ -13,11 +13,10 @@ class Random;
  */
 class AlwaysReject : public Criteria {
  public:
-  explicit AlwaysReject(const argtype &args = argtype());
+  explicit AlwaysReject();
 
   /// Same as above, but with an added constraint.
-  AlwaysReject(std::shared_ptr<Constraint> constraint,
-    const argtype& args = argtype());
+  AlwaysReject(std::shared_ptr<Constraint> constraint);
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
@@ -31,14 +30,13 @@ class AlwaysReject : public Criteria {
   ~AlwaysReject() {}
 };
 
-inline std::shared_ptr<AlwaysReject> MakeAlwaysReject(const argtype &args = argtype()) {
-  return std::make_shared<AlwaysReject>(args);
+inline std::shared_ptr<AlwaysReject> MakeAlwaysReject() {
+  return std::make_shared<AlwaysReject>();
 }
 
 inline std::shared_ptr<AlwaysReject> MakeAlwaysReject(
-    std::shared_ptr<Constraint> constraint,
-    const argtype &args = argtype()) {
-  return std::make_shared<AlwaysReject>(constraint, args);
+    std::shared_ptr<Constraint> constraint) {
+  return std::make_shared<AlwaysReject>(constraint);
 }
 
 }  // namespace feasst

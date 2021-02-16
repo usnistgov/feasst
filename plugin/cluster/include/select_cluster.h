@@ -20,7 +20,8 @@ class SelectCluster : public TrialSelect {
     args:
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
    */
-  SelectCluster(const argtype& args = argtype());
+  explicit SelectCluster(argtype args = argtype());
+  explicit SelectCluster(argtype * args);
 
   /// Return a cluster as selection given one particle in the system.
   void select_cluster(const int first_particle, const System& system,

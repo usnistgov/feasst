@@ -16,8 +16,7 @@ class WindowCustom : public Window {
  public:
   /// Construct by manual input of the segments, defined in Window.
   WindowCustom(const std::vector<double> segment,
-               const argtype& args = argtype());
-
+               argtype args = argtype());
   std::vector<double> segment() const override { return segment_; }
   int minimum() const override { return static_cast<int>(segment_.front()); }
   int maximum() const override { return static_cast<int>(segment_.back()); }

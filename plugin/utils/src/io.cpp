@@ -53,7 +53,7 @@ int num_spaces(const std::string str) {
   return std::count(str.begin(), str.end(), ' ');
 }
 
-std::string feasst_str(std::map<std::string, std::string> mp) {
+std::string str(const std::map<std::string, std::string>& mp) {
   std::stringstream ss;
   ss << "{";
   for (auto const& pair : mp) {

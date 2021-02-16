@@ -12,7 +12,7 @@ namespace feasst {
  */
 class Energy : public Analyze {
  public:
-  explicit Energy(const argtype &args = argtype());
+  explicit Energy(argtype args = argtype());
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -42,7 +42,7 @@ class Energy : public Analyze {
   explicit Energy(const Analyze& energy);
 };
 
-inline std::shared_ptr<Energy> MakeEnergy(const argtype &args = argtype()) {
+inline std::shared_ptr<Energy> MakeEnergy(argtype args = argtype()) {
   return std::make_shared<Energy>(args);
 }
 

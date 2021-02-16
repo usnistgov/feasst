@@ -13,8 +13,8 @@ class MapEnergy {
 
 static MapEnergy mapper_ = MapEnergy();
 
-Energy::Energy(const argtype &args) : Analyze(args) {
-  args_.init(args);
+Energy::Energy(argtype args) : Analyze(&args) {
+  check_all_used(args);
 }
 
 void Energy::initialize(Criteria * criteria,

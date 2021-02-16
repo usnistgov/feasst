@@ -6,13 +6,16 @@
 
 namespace feasst {
 
-PerturbMoveAVB::PerturbMoveAVB(const argtype& args) : PerturbMove(args) {
+PerturbMoveAVB::PerturbMoveAVB(argtype args) : PerturbMoveAVB(&args) {
+  check_all_used(args);
+}
+PerturbMoveAVB::PerturbMoveAVB(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbMoveAVB";
-  neighbor_ = args_.key("neighbor_index").dflt("0").integer();
+  neighbor_ = integer("neighbor_index", args, 0);
   rotate_.set_tunable(180.);
   rotate_.disable_tunable_();
   disable_tunable_();
-  inside_ = args_.key("inside").dflt("true").boolean();
+  inside_ = boolean("inside", args, true);
 }
 
 class MapPerturbMoveAVB {

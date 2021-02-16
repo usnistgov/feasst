@@ -11,7 +11,7 @@ namespace feasst {
  */
 class ModifyFactory : public Modify {
  public:
-  explicit ModifyFactory(const argtype &args = argtype()) : Modify(args) {}
+  explicit ModifyFactory(argtype args = argtype()) : Modify(&args) {}
 
   /// Add a Modify object.
   void add(std::shared_ptr<Modify> modify) { modifiers_.push_back(modify); }
@@ -53,7 +53,7 @@ class ModifyFactory : public Modify {
 };
 
 inline std::shared_ptr<ModifyFactory> MakeModifyFactory(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<ModifyFactory>(args);
 }
 

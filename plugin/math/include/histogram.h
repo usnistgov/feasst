@@ -20,11 +20,12 @@ class Histogram {
  public:
   /**
     args:
-    - width: constant bin width
-    - max: maximum value
+    - width: constant bin width (optional)
+    - max: maximum value (required)
     - min: minimum value (default: 0)
    */
-  explicit Histogram(const argtype& args = argtype());
+  explicit Histogram(argtype args = argtype());
+  explicit Histogram(argtype * args);
 
   /**
     Depending on the way the bins are defined, the histogram may be told how to
@@ -103,15 +104,11 @@ class Histogram {
   // optimization for constant width
   int is_constant_width_ = 0;
 
-  Arguments args_;
-
   void set_expandable_() { expandable_ = true; }
 };
 
-inline std::shared_ptr<Histogram> MakeHistogram(
-    const argtype &args = argtype()) {
-  return std::make_shared<Histogram>(args);
-}
+inline std::shared_ptr<Histogram> MakeHistogram(argtype args = argtype()) {
+  return std::make_shared<Histogram>(args); }
 
 }  // namespace feasst
 

@@ -19,7 +19,8 @@ class PerturbMoveAVB : public PerturbMove {
       Not implemented for grand_canonical.
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
    */
-  PerturbMoveAVB(const argtype& args = argtype());
+  explicit PerturbMoveAVB(argtype args = argtype());
+  explicit PerturbMoveAVB(argtype * args);
 
   void move(System * system,
             TrialSelect * select,
@@ -42,7 +43,7 @@ class PerturbMoveAVB : public PerturbMove {
 };
 
 inline std::shared_ptr<PerturbMoveAVB> MakePerturbMoveAVB(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbMoveAVB>(args);
 }
 

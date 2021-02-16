@@ -27,7 +27,8 @@ class Trial {
     - weight: unnormalized relative probability of selection of this trial
       with respect to all trials (default: 1).
    */
-  explicit Trial(const argtype& args = argtype());
+  explicit Trial(argtype args = argtype());
+  explicit Trial(argtype * args);
 
   /// Return the unnormalized relative probability of selection of this trial
   /// with respect to all trials.
@@ -37,10 +38,13 @@ class Trial {
   void set_weight(const double weight) { weight_ = weight; }
 
   /// Add a stage which includes selection and perturbation with arguments.
-  void add_stage(
-    std::shared_ptr<TrialSelect> select,
-    std::shared_ptr<Perturb> perturb,
-    const argtype& args = argtype());
+  void add_stage(std::shared_ptr<TrialSelect> select,
+                 std::shared_ptr<Perturb> perturb,
+                 argtype * stage_args);
+
+  /// Same as above, but without arguments for stage.
+  void add_stage(std::shared_ptr<TrialSelect> select,
+                 std::shared_ptr<Perturb> perturb);
 
   /// Set a stage, as can be done just before each attempt.
   void set(const int index, std::shared_ptr<TrialStage> stage);
@@ -176,9 +180,11 @@ class Trial {
   void refresh_stages_ptr_();
 };
 
-inline std::shared_ptr<Trial> MakeTrial(const argtype& args = argtype()) {
-  return std::make_shared<Trial>(args);
-}
+inline std::shared_ptr<Trial> MakeTrial(argtype args = argtype()) {
+  return std::make_shared<Trial>(args); }
+
+inline std::shared_ptr<Trial> MakeTrial(argtype * args) {
+  return std::make_shared<Trial>(args); }
 
 }  // namespace feasst
 

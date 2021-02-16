@@ -63,7 +63,7 @@ class Domain {
     - xz: set the tilt along the x-z direction (default: 0).
     - yz: set the tilt along the y-z direction (default: 0).
    */
-  explicit Domain(const argtype& args = argtype());
+  explicit Domain(argtype args = argtype());
 
   /// Get the side lengths.
   const Position& side_lengths() const { return side_lengths_; }
@@ -180,9 +180,8 @@ class Domain {
   void set_yz_(const double yz);
 };
 
-inline std::shared_ptr<Domain> MakeDomain(const argtype &args = argtype()) {
-  return std::make_shared<Domain>(args);
-}
+inline std::shared_ptr<Domain> MakeDomain(argtype args = argtype()) {
+  return std::make_shared<Domain>(args); }
 
 }  // namespace feasst
 

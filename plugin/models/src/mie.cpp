@@ -5,11 +5,10 @@
 
 namespace feasst {
 
-Mie::Mie(const argtype& args) {
+Mie::Mie(argtype args) {
   class_name_ = "Mie";
-  Arguments args_(args);
-  n_ = args_.key("n").dflt("12").dble();
-  m_ = args_.key("m").dflt("6").dble();
+  n_ = dble("n", &args, 12);
+  m_ = dble("m", &args, 6);
   prefactor_ = (n_/(n_ - m_))*std::pow(n_/m_, m_/(n_ - m_));
 }
 

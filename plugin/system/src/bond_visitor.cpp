@@ -23,10 +23,10 @@ std::map<std::string, std::shared_ptr<BondVisitor> >& BondVisitor::deserialize_m
   return *ans;
 }
 
-BondVisitor::BondVisitor(const argtype& args) {
-  Arguments args_(args);
-  verbose_ = args_.key("verbose").dflt("false").boolean();
+BondVisitor::BondVisitor(argtype args) {
+  verbose_ = boolean("verbose", &args, false);
   if (VERBOSE_LEVEL == 5) verbose_ = true;
+  check_all_used(args);
 }
 
 void BondVisitor::serialize(std::ostream& ostr) const {

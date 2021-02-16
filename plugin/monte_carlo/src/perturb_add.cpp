@@ -3,7 +3,10 @@
 
 namespace feasst {
 
-PerturbAdd::PerturbAdd(const argtype& args) : Perturb(args) {
+PerturbAdd::PerturbAdd(argtype args) : PerturbAdd(&args) {
+  check_all_used(args);
+}
+PerturbAdd::PerturbAdd(argtype * args) : Perturb(args) {
   class_name_ = "PerturbAdd";
   disable_tunable_();
 }

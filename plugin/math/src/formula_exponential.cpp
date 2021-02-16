@@ -42,12 +42,13 @@ double FormulaExponential::evaluate(const double x) const {
   return f0_*exp(A_*std::pow(x - x0(), B_));
 }
 
-FormulaExponential::FormulaExponential(const argtype& args) : Formula(args) {
+FormulaExponential::FormulaExponential(argtype args)
+  : FormulaExponential(&args) { check_all_used(args); }
+FormulaExponential::FormulaExponential(argtype * args) : Formula(args) {
   class_name_ = "FormulaExponential";
-  args_.init(args);
-  set_f0(args_.key("f0").dflt("0").dble());
-  set_A(args_.key("A").dflt("1").dble());
-  set_B(args_.key("B").dflt("1").dble());
+  set_f0(dble("f0", args, 0.));
+  set_A(dble("A", args, 1.));
+  set_B(dble("B", args, 1.));
 }
 
 }  // namespace feasst

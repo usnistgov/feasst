@@ -7,11 +7,10 @@
 
 namespace feasst {
 
-ComputeAddAVBDivalent::ComputeAddAVBDivalent(const argtype& args) {
+ComputeAddAVBDivalent::ComputeAddAVBDivalent(argtype args) {
   class_name_ = "ComputeAddAVBDivalent";
-  Arguments args_(args);
-  args_.dont_check();
-  neighbor_ = args_.key("neighbor_index").dflt("0").integer();
+  neighbor_ = integer("neighbor_index", &args, 0);
+  check_all_used(args);
 }
 
 class MapComputeAddAVBDivalent {

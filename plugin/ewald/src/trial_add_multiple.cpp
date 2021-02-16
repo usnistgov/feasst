@@ -7,40 +7,38 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialAddMultiple(
-    const argtype &args) {
-  auto trial = MakeTrial(args);
+std::shared_ptr<Trial> MakeTrialAddMultiple(argtype args) {
+  auto trial = std::make_shared<Trial>(&args);
   trial->set_description("TrialAddMultiple");
-  Arguments args_(args);
-  args_.dont_check();
   // Create one stage per particle
-  const std::vector<int> pt = ptypes(&args_);
+  const std::vector<int> pt = ptypes(&args);
   std::vector<argtype> new_args;
   for (int p : pt) {
-    argtype nag = args_.args();
+    argtype nag = args;
     nag.insert({"particle_type", str(p)});
     nag.insert({"exclude_perturbed", "true"});
     new_args.push_back(nag);
   }
-  for (const argtype& arg : new_args) {
+  for (argtype arg : new_args) {
     trial->add_stage(
-      MakeTrialSelectParticle(arg),
-      MakePerturbAdd(arg),
-      arg);
+      std::make_shared<TrialSelectParticle>(&arg),
+      std::make_shared<PerturbAdd>(&arg),
+      &arg);
+    check_all_used(arg);
   }
   trial->set(std::make_shared<ComputeAddMultiple>());
   return trial;
 }
 
-std::vector<int> ptypes(Arguments * args) {
+std::vector<int> ptypes(argtype * args) {
   std::vector<int> ptypes;
   int count = 0;
   std::string start("particle_type");
   std::stringstream ss;
   ss << start << count;
-  while (args->key(ss.str()).used()) {
+  while (used(ss.str(), *args)) {
     DEBUG("ss " << ss.str());
-    ptypes.push_back(args->remove().integer());
+    ptypes.push_back(integer(ss.str(), args));
     ASSERT(count < 1e8, "count: " << count << " is too high");
     ++count;
     ss.str("");

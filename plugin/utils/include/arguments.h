@@ -13,95 +13,62 @@ namespace feasst {
 typedef std::map<std::string, std::string> argtype;
 typedef std::map<std::string, argtype> arglist;
 
-std::string str(const argtype& args);
-
 /**
- * The Arguments class takes in arguments as a map of strings
- * (e.g., key,value pairs in a dictionary).
- * It then uses chainsetters to access the key values and finds keys that
- * were used for error checking.
+  Classes should take argtype as input for (optional) arguments that may or may
+  not have default values:
+
+  MakeTestArgs({{"arg", "value"}});
+
+  All arguments are pairs of strings that may be converted to int, double or
+  bool via utils/include/io.h.
+
+  Constructurs should take argtype as object and pointer.
+  The point implementation removes arguments as they are processed, while the
+  argtype constructor passes the arguments to the other constructor, and then
+  checks that all argtype were used.
+  Thus, the pointer implementation is used for base classes and containers,
+  while the object implementation is for the user.
+
+  Please see utils/test/arguments.cpp TestArgs and TEST(Arguments, args)
+  for a working example of how to implement arguments in a class.
  */
-class Arguments {
- public:
-  Arguments() {}
 
-  /**
-    Initialize the arguments using a brace enclosed initializer list.
-   */
-  void init(const argtype &args);
+/// Return true if
+bool used(const std::string& key, const argtype& args);
 
-  /// Construct via brace enclosed initializer list.
-  explicit Arguments(const argtype &args) { init(args); }
+/// Read an argument and remove it
+std::string str(const std::string& key, argtype * args);
 
-  /**
-   * Set the argument key (the first in the map/dictionary pair).
-   * Store the key for error processing.
-   * Return self for chainsetting.
-   */
-  Arguments& key(const std::string &key);
+/// Same as above, but with a default value should key not be in args.
+std::string str(const std::string& key, argtype * args,
+  const std::string dflt);
 
-  /// Set the default value if key is not present in args.
-  Arguments& dflt(const std::string &defaultVal);
+/// Read an argument and remove it from args, then return as double.
+double dble(const std::string& key, argtype * args);
 
-  /// Return true if key is not present in args. Otherwise, false.
-  bool empty();
+/// Same as above, but with a default value should key not be in args.
+double dble(const std::string& key, argtype * args,
+  const double dflt);
 
-  /// Return true if the key is used (e.g., the inverse of empty()).
-  bool used() { return !empty(); }
+/// Read an argument and remove it from args, then return as double.
+int integer(const std::string& key, argtype * args);
 
-  /// Return the value of the processed keyword.
-  /// Reset key and dflt
-  std::string str();
+/// Same as above, but with a default value should key not be in args.
+int integer(const std::string& key, argtype * args,
+  const int dflt);
 
-  /// Return the conversion of a str of the processed keyword to double
-  /// a precision floating point number.
-  double dble() { return str_to_double(str()); }
+/// Read an argument and remove it from args, then return as double.
+bool boolean(const std::string& key, argtype * args);
 
-  /// Return the conversion of a str of the processed keyword to int.
-  int integer() { return str_to_int(str()); }
+/// Same as above, but with a default value should key not be in args.
+bool boolean(const std::string& key, argtype * args,
+  const bool dflt);
 
-  /// Return the conversion of a str of the processed keyword to boolean.
-  /// Accept the strings "True", "False", "1", "0", "true" or "false".
-  bool boolean() { return str_to_bool(str()); }
+/// Append to given key
+void append(const std::string& key, argtype * args, const std::string& append);
 
-  /// Upon destruction, check that all provided args were processed.
-  /// Automatically include empty string key as processed.
-  bool check_all_used();
-
-  /// Chainset argparse to remove the next arg returned by str from args
-  Arguments& remove();
-
-  /// Return the size of the args (e.g., the number)
-  int size() const { return static_cast<int>(args_.size()); }
-
-  argtype args() const { return args_; }  //!< Return args
-
-  /// Print the status of the arguments to human readable string.
-  std::string status() const;
-
-  /// Don't check for unused arguments upon destruction.
-  void dont_check() { check_ = false; }
-
-  // The following functions ease manipulation of argtypes
-
-  /// Return argtype after removing any pair with the given first index.
-  argtype remove(const std::string first, const argtype& args) const;
-
-  /// Return argtype after appending onto pair with given first index.
-  argtype append(const std::string append,
-                 const std::string first,
-                 const argtype& args) const;
-
-  ~Arguments();
-
- private:
-  argtype args_;
-  std::string key_;
-  std::string default_value_;
-  std::vector<std::string> used_keys_;
-  bool remove_ = false;
-  bool check_ = true;
-};
+/// Check that all arguments are used.
+void check_all_used(const argtype& args);
 
 }  // namespace feasst
 

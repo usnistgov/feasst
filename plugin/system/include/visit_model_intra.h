@@ -21,7 +21,7 @@ class VisitModelIntra : public VisitModel {
     - cutoff: ignore the interaction between a pair of sites when the difference
       between their indices, |i-j| <= cutoff (integer, default: -1).
    */
-  explicit VisitModelIntra(const argtype& args = argtype());
+  explicit VisitModelIntra(argtype args = argtype());
   int cutoff() const { return cutoff_; }
   void set_cutoff(const int cut) { cutoff_ = cut; }
   void compute(
@@ -45,7 +45,7 @@ class VisitModelIntra : public VisitModel {
 };
 
 inline std::shared_ptr<VisitModelIntra> MakeVisitModelIntra(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<VisitModelIntra>(args);
 }
 

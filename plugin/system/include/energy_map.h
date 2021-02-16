@@ -26,7 +26,7 @@ class EnergyMap {
     args:
     - default_value: set initial or cleared values to this.
    */
-  EnergyMap(const argtype& args = argtype());
+  EnergyMap(argtype args = argtype());
 
   /// Return the default value.
   double default_value() const { return default_value_; }

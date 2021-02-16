@@ -29,7 +29,7 @@ class Accumulator {
     args:
     - num_block: number of values per block (default: 1e5).
    */
-  explicit Accumulator(const argtype& args = argtype());
+  explicit Accumulator(argtype args = argtype());
 
   /// Add a value to the running sum of values and higher moments.
   void accumulate(double value);
@@ -137,10 +137,8 @@ class Accumulator {
   std::shared_ptr<Accumulator> block_averages_;
 };
 
-inline std::shared_ptr<Accumulator> MakeAccumulator(
-    const argtype& args = argtype()) {
-  return std::make_shared<Accumulator>(args);
-}
+inline std::shared_ptr<Accumulator> MakeAccumulator(argtype args = argtype()) {
+  return std::make_shared<Accumulator>(args); }
 
 }  // namespace feasst
 

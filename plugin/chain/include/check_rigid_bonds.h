@@ -15,7 +15,7 @@ namespace feasst {
  */
 class CheckRigidBonds : public AnalyzeUpdateOnly {
  public:
-  CheckRigidBonds(const argtype &args = argtype());
+  CheckRigidBonds(argtype args = argtype());
   void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
@@ -31,7 +31,8 @@ class CheckRigidBonds : public AnalyzeUpdateOnly {
   AngleSquareWell angle_;
 };
 
-inline std::shared_ptr<CheckRigidBonds> MakeCheckRigidBonds(const argtype &args = argtype()) {
+inline std::shared_ptr<CheckRigidBonds> MakeCheckRigidBonds(
+    argtype args = argtype()) {
   return std::make_shared<CheckRigidBonds>(args);
 }
 

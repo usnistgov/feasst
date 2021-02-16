@@ -13,14 +13,14 @@ void ProgressReport::reset() {
   current_ = 0.;
 }
 
-ProgressReport::ProgressReport(const argtype &args) {
+ProgressReport::ProgressReport(argtype args) {
   reset();
-  Arguments args_(args);
-  num_ = args_.key("num").dflt("1").integer();
-  percent_per_write_ = args_.key("percent").dflt("0.1").dble();
-  if (args_.key("file_name").used()) file_name_ = args_.str();
+  num_ = integer("num", &args, 1);
+  percent_per_write_ = dble("percent", &args, 0.1);
+  if (used("file_name", args)) file_name_ = str("file_name", &args);
   ASSERT(percent_per_write_ > 0.01, "percent_per_write: " << percent_per_write_
     << " must be > 0.01");
+  check_all_used(args);
 }
 
 void ProgressReport::serialize(std::ostream& ostr) const {

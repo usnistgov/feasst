@@ -9,13 +9,12 @@
 
 namespace feasst {
 
-Criteria::Criteria(const argtype &args) {
+Criteria::Criteria() {
   set_expanded_state();
   data_.get_dble_1D()->resize(1);
 }
 
-Criteria::Criteria(std::shared_ptr<Constraint> constraint,
-    const argtype& args) : Criteria(args) {
+Criteria::Criteria(std::shared_ptr<Constraint> constraint) : Criteria() {
   add(constraint);
 }
 

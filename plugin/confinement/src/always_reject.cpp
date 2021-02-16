@@ -3,12 +3,12 @@
 
 namespace feasst {
 
-AlwaysReject::AlwaysReject(const argtype &args) : Criteria(args) {
+AlwaysReject::AlwaysReject() : Criteria() {
   class_name_ = "AlwaysReject";
 }
 
-AlwaysReject::AlwaysReject(std::shared_ptr<Constraint> constraint,
-    const argtype& args) : AlwaysReject(args) {
+AlwaysReject::AlwaysReject(std::shared_ptr<Constraint> constraint)
+  : AlwaysReject() {
   add(constraint);
 }
 

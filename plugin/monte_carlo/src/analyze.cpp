@@ -66,13 +66,13 @@ const Analyze& Analyze::analyze(const int index) const {
   FATAL("not implemented");
 }
 
-AnalyzeWriteOnly::AnalyzeWriteOnly(const argtype &args) : Analyze(args) {
+AnalyzeWriteOnly::AnalyzeWriteOnly(argtype * args) : Analyze(args) {
   // disable update
   Stepper::set_steps_per_update(-1);
 
   // parse
-  if (!args_.key("steps_per").empty()) {
-    set_steps_per(args_.integer());
+  if (used("steps_per", *args)) {
+    set_steps_per(integer("steps_per", args));
   }
 }
 
@@ -80,13 +80,13 @@ void AnalyzeWriteOnly::set_steps_per_update(const int steps) {
   ERROR("This analyze is write only.");
 }
 
-AnalyzeUpdateOnly::AnalyzeUpdateOnly(const argtype &args) : Analyze(args) {
+AnalyzeUpdateOnly::AnalyzeUpdateOnly(argtype * args) : Analyze(args) {
   // disable update
   Analyze::set_steps_per_write(-1);
 
   // parse
-  if (!args_.key("steps_per").empty()) {
-    set_steps_per(args_.integer());
+  if (used("steps_per", *args)) {
+    set_steps_per(integer("steps_per", args));
   }
 }
 

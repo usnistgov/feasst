@@ -15,12 +15,8 @@ namespace feasst {
 /// Implement the perturbation and calculation of acceptance.
 class TrialCompute {
  public:
-  /**
-    args:
-    - new_only: do not compute the Rosenbluth of the old configuration
-      (default: false).
-   */
-  explicit TrialCompute(const argtype& args = argtype());
+  explicit TrialCompute(argtype args = argtype());
+  explicit TrialCompute(argtype * args);
 
   /// Perform the stages on the system and compute the acceptance.
   void compute_rosenbluth(
@@ -40,9 +36,6 @@ class TrialCompute {
     std::vector<TrialStage*> * stages,
     Random * random) = 0;
 
-  /// Return true if the trial computes new configuration only.
-  bool is_new_only() const { return is_new_only_; }
-
   // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
@@ -53,12 +46,8 @@ class TrialCompute {
 
  protected:
   std::string class_name_ = "TrialCompute";
-  Arguments args_;
   void serialize_trial_compute_(std::ostream& ostr) const;
   TrialCompute(std::istream& istr);
-
- private:
-  bool is_new_only_;
 };
 
 }  // namespace feasst

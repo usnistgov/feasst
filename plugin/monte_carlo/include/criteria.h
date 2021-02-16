@@ -20,11 +20,10 @@ class Constraint;
  */
 class Criteria {
  public:
-  explicit Criteria(const argtype& args = argtype());
+  Criteria();
 
   /// Same as above, but also add a constraint.
-  Criteria(std::shared_ptr<Constraint> constraint,
-    const argtype& args = argtype());
+  Criteria(std::shared_ptr<Constraint> constraint);
 
   /// Add a constraint.
   void add(std::shared_ptr<Constraint> constraint) {
@@ -128,7 +127,6 @@ class Criteria {
 
  protected:
   std::string class_name_ = "Criteria";
-  Arguments args_;
   void serialize_criteria_(std::ostream& ostr) const;
   bool was_accepted_ = false;
   SynchronizeData data_;

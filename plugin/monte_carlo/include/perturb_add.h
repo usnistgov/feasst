@@ -12,7 +12,8 @@ namespace feasst {
  */
 class PerturbAdd : public Perturb {
  public:
-  explicit PerturbAdd(const argtype& args = argtype());
+  explicit PerturbAdd(argtype args = argtype());
+  explicit PerturbAdd(argtype * args);
 
   //initialize ghost selection in TrialSelect?
   void precompute(TrialSelect * select, System * system) override {
@@ -51,7 +52,7 @@ class PerturbAdd : public Perturb {
   PerturbAnywhere anywhere_;
 };
 
-inline std::shared_ptr<PerturbAdd> MakePerturbAdd(const argtype& args = argtype()) {
+inline std::shared_ptr<PerturbAdd> MakePerturbAdd(argtype args = argtype()) {
   return std::make_shared<PerturbAdd>(args);
 }
 

@@ -22,7 +22,7 @@ class FormulaSineWave : public Formula {
     - phase: shift the wave to the right in units of x (default: 0).
     - shift: shift the wave up in units of y (default: documented below).
    */
-  FormulaSineWave(const argtype& args = argtype());
+  FormulaSineWave(argtype args = argtype());
 
   /// Return the amplitude.
   double amplitude() const { return amplitude_; }
@@ -66,7 +66,7 @@ class FormulaSineWave : public Formula {
 };
 
 inline std::shared_ptr<FormulaSineWave> MakeFormulaSineWave(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<FormulaSineWave>(args);
 }
 

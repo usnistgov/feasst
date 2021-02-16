@@ -12,8 +12,9 @@ class MapLog {
 
 static MapLog mapper_ = MapLog();
 
-Log::Log(const argtype& args) : AnalyzeWriteOnly(args) {
-  if (args_.key("append").dflt("true").boolean()) {
+Log::Log(argtype args) : Log(&args) { check_all_used(args); }
+Log::Log(argtype * args) : AnalyzeWriteOnly(args) {
+  if (boolean("append", args, true)) {
     set_append();
   } else {
     ERROR("append is required");

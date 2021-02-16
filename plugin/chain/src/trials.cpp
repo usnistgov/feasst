@@ -25,48 +25,54 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialPivot(const argtype &args) {
-  return MakeTrialMove(std::make_shared<SelectEndSegment>(args),
-    std::make_shared<PerturbPivot>(args),
+std::shared_ptr<Trial> MakeTrialPivot(argtype args) {
+  auto trial = MakeTrialMove(std::make_shared<SelectEndSegment>(&args),
+    std::make_shared<PerturbPivot>(&args),
     "TrialPivot",
-    args);
+    &args);
+  check_all_used(args);
+  return trial;
 }
 
-std::shared_ptr<Trial> MakeTrialCrankshaft(const argtype &args) {
-  return MakeTrialMove(std::make_shared<SelectSegment>(args),
-    std::make_shared<PerturbCrankshaft>(args),
+std::shared_ptr<Trial> MakeTrialCrankshaft(argtype args) {
+  auto trial = MakeTrialMove(std::make_shared<SelectSegment>(&args),
+    std::make_shared<PerturbCrankshaft>(&args),
     "TrialCrankshaft",
-    args);
+    &args);
+  check_all_used(args);
+  return trial;
 }
 
-std::shared_ptr<Trial> MakeTrialReptate(const argtype &args) {
-  return MakeTrialMove(std::make_shared<SelectReptate>(args),
-    std::make_shared<PerturbReptate>(args),
+std::shared_ptr<Trial> MakeTrialReptate(argtype args) {
+  auto trial = MakeTrialMove(std::make_shared<SelectReptate>(&args),
+    std::make_shared<PerturbReptate>(&args),
     "TrialReptate",
-    args);
+    &args);
+  check_all_used(args);
+  return trial;
 }
 
-std::shared_ptr<Trial> MakeTrialSwapSites(const argtype &args) {
-  auto trial = MakeTrial(args);
+std::shared_ptr<Trial> MakeTrialSwapSites(argtype args) {
+  auto trial = MakeTrial(&args);
   trial->set_description("TrialSwapSites");
   trial->set(MakeTrialComputeMove());
-  Arguments args_(args);
-  args_.dont_check();
-  const int site_type1 = args_.key("site_type1").integer();
-  const int site_type2 = args_.key("site_type2").integer();
+  const int site_type1 = integer("site_type1", &args);
+  const int site_type2 = integer("site_type2", &args);
   ASSERT(site_type1 != site_type2, "site types should not match: " <<
     site_type1 << " " << site_type2);
-  const std::string part_type = args_.key("particle_type").str();
+  const std::string part_type = str("particle_type", &args);
+  argtype stage_args = args;
   trial->add_stage(
     MakeSelectSiteOfType({{"site_type", str(site_type1)}, {"particle_type", part_type}}),
     MakePerturbSiteType({{"type", str(site_type2)}}),
-    args
-  );
+    &stage_args);
+  check_all_used(stage_args);
   trial->add_stage(
     MakeSelectSiteOfType({{"site_type", str(site_type2)}, {"particle_type", part_type}}),
     MakePerturbSiteType({{"type", str(site_type1)}}),
-    args
+    &args
   );
+  check_all_used(args);
   return trial;
 }
 

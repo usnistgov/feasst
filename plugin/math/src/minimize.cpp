@@ -24,11 +24,11 @@ std::shared_ptr<Minimize> Minimize::deserialize(std::istream& istr) {
     true);
 }
 
-Minimize::Minimize(const argtype& args) {
-  args_.init(args);
-  tolerance_ = args_.key("tolerance").dble();
-  set_lower(args_.key("lower").dble());
-  set_upper(args_.key("upper").dble());
+Minimize::Minimize(argtype args) {
+  tolerance_ = dble("tolerance", &args);
+  set_lower(dble("lower", &args));
+  set_upper(dble("upper", &args));
+  check_all_used(args);
 }
 
 void Minimize::serialize_solver_(std::ostream& ostr) const {

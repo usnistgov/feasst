@@ -15,7 +15,7 @@ namespace feasst {
  */
 class HenryCoefficient : public Analyze {
  public:
-  explicit HenryCoefficient(const argtype &args = argtype());
+  explicit HenryCoefficient(argtype args = argtype());
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -43,7 +43,8 @@ class HenryCoefficient : public Analyze {
   explicit HenryCoefficient(std::istream& istr);
 };
 
-inline std::shared_ptr<HenryCoefficient> MakeHenryCoefficient(const argtype &args = argtype()) {
+inline std::shared_ptr<HenryCoefficient> MakeHenryCoefficient(
+    argtype args = argtype()) {
   return std::make_shared<HenryCoefficient>(args);
 }
 

@@ -4,25 +4,25 @@
 
 namespace feasst {
 
-TrialSelect::TrialSelect(const argtype& args) {
-  args_.init(args);
-  args_.dont_check();
-
+TrialSelect::TrialSelect(argtype args) : TrialSelect(&args) {
+  check_all_used(args);
+}
+TrialSelect::TrialSelect(argtype * args) {
   // defaults
   set_ghost(false);
 
   // parse particle type and group index from args.
   particle_type_ = -1;
   group_index_ = 0;
-  if (args_.key("particle_type").used()) {
+  if (used("particle_type", *args)) {
     is_particle_type_set_ = true;
-    particle_type_ = args_.integer();
+    particle_type_ = integer("particle_type", args);
     DEBUG("particle_type " << particle_type_);
-    ASSERT(args_.key("group_index").empty(),
+    ASSERT(!used("group_index", *args),
       "cant specify both particle type and group index");
   } else {
-    if (args_.key("group_index").used()) {
-      group_index_ = args_.key("group_index").integer();
+    if (used("group_index", *args)) {
+      group_index_ = integer("group_index", args);
     }
   }
 

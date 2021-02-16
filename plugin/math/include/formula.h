@@ -15,11 +15,12 @@ namespace feasst {
  */
 class Formula {
  public:
+  Formula() {}
   /**
     args:
     - x0: central reference position (default: 0).
    */
-  Formula(const argtype& args = argtype());
+  explicit Formula(argtype * args);
   void set_x0(const double x0) { x0_ = x0; }
   double x0() const { return x0_; }
   virtual double evaluate(const double x) const;
@@ -38,7 +39,6 @@ class Formula {
  protected:
   std::string class_name_ = "Formula";
   void serialize_formula_(std::ostream& ostr) const;
-  Arguments args_;
 
  private:
   double x0_;

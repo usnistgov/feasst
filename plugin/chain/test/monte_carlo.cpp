@@ -111,7 +111,7 @@ TEST(MonteCarlo, TrialGrow) {
       data = "forcefield/data.spce";
     }
     MonteCarlo mc;
-    mc.set(MakeRandomMT19937({{"seed", "123"}}));
+//    mc.set(MakeRandomMT19937({{"seed", "123"}}));
     mc.set(lennard_jones({{"cubic_box_length", str(box_length)},
                           {"particle", data}}));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
@@ -288,7 +288,7 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   return mc2;
 }
 
-const double z_factor = 10.;
+const double z_factor = 12.;
 
 TEST(MonteCarlo, heterotrimer2d_LONG) {
   MonteCarlo mc_no_avb = test_avb(false, false);

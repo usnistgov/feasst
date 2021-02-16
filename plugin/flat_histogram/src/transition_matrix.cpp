@@ -9,12 +9,14 @@
 
 namespace feasst {
 
-TransitionMatrix::TransitionMatrix(const argtype &args) {
+TransitionMatrix::TransitionMatrix(argtype args) : TransitionMatrix(&args) {
+  check_all_used(args);
+}
+TransitionMatrix::TransitionMatrix(argtype * args) {
   class_name_ = "TransitionMatrix";
-  Arguments args_(args);
-  min_visits_ = args_.key("min_visits").dflt("100").integer();
-  min_sweeps_ = args_.key("min_sweeps").integer();
-  num_blocks_ = args_.key("num_blocks").dflt("30").integer();
+  min_visits_ = integer("min_visits", args, 100);
+  min_sweeps_ = integer("min_sweeps", args);
+  num_blocks_ = integer("num_blocks", args, 30);
 }
 
 void TransitionMatrix::update_or_revert(
@@ -130,7 +132,7 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
   for (const TransitionMatrix& block : blocks_) {
 //    ss << MAX_PRECISION << block.ln_prob().value(bin) << ",";
    // write_per_bin(bin) << ",";
-    DEBUG(block.ln_prob().value(bin));
+    TRACE(block.ln_prob().value(bin));
     acc_block.accumulate(block.ln_prob().value(bin));
   }
   if (blocks_.size() > 2) {

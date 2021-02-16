@@ -3,11 +3,16 @@
 
 namespace feasst {
 
-SelectCluster::SelectCluster(const argtype& args) : TrialSelect(args) {
+SelectCluster::SelectCluster(argtype args) : SelectCluster(&args) {
+  check_all_used(args);
+}
+SelectCluster::SelectCluster(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectCluster";
-  neighbor_ = args_.key("neighbor_index").dflt("0").integer();
+  neighbor_ = integer("neighbor_index", args, 0);
+  if (is_particle_type_set()) {
+    args->insert({"particle_type", str(particle_type())});
+  }
   select_particle_ = std::make_shared<TrialSelectParticle>(args);
-  // HWH optimize by not loading coordinates?
   printable_["cluster_size"] = Accumulator();
 }
 

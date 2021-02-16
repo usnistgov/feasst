@@ -12,7 +12,7 @@ namespace feasst {
  */
 class Check : public AnalyzeUpdateOnly {
  public:
-  Check(const argtype &args = argtype()) : AnalyzeUpdateOnly(args) {}
+  Check(argtype args = argtype()) : AnalyzeUpdateOnly(&args) {}
   void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
@@ -23,7 +23,7 @@ class Check : public AnalyzeUpdateOnly {
   explicit Check(std::istream& istr);
 };
 
-inline std::shared_ptr<Check> MakeCheck(const argtype &args = argtype()) {
+inline std::shared_ptr<Check> MakeCheck(argtype args = argtype()) {
   return std::make_shared<Check>(args);
 }
 

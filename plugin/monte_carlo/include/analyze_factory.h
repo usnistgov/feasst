@@ -14,7 +14,7 @@ namespace feasst {
  */
 class AnalyzeFactory : public Analyze {
  public:
-  explicit AnalyzeFactory(const argtype &args = argtype()) : Analyze(args) {}
+  explicit AnalyzeFactory(argtype args = argtype()) : Analyze(&args) {}
 
   void initialize(Criteria * criteria,
     System * system,
@@ -59,7 +59,7 @@ class AnalyzeFactory : public Analyze {
 };
 
 inline std::shared_ptr<AnalyzeFactory> MakeAnalyzeFactory(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<AnalyzeFactory>(args);
 }
 

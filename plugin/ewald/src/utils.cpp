@@ -35,26 +35,24 @@ double kelvin2kJpermol(const double kelvin, const Configuration& config) {
   return kelvin*R/1000.;
 }
 
-System spce(const argtype& args) {
+System spce(argtype args) {
   System system;
-  Arguments args_(args);
-  double dual_cut = args_.key("dual_cut").dflt("-1").dble();
-  const std::string cubic_box_length =
-    args_.key("cubic_box_length").dflt("20").str();
+  double dual_cut = dble("dual_cut", &args, -1);
+  const std::string cubic_box_length = str("cubic_box_length", &args, "20");
   {
     Configuration config(MakeDomain({{"cubic_box_length", cubic_box_length}}),
-      {{"particle_type", install_dir() + "/" + args_.key("particle").dflt("forcefield/data.spce").str()},
-       {"physical_constants", args_.key("physical_constants").dflt("CODATA2018").str()}}
+      {{"particle_type", install_dir() + "/" + str("particle", &args, "forcefield/data.spce")},
+       {"physical_constants", str("physical_constants", &args, "CODATA2018")}}
     );
-    if (args_.key("xyz_file").used()) {
-      FileXYZ().load(args_.str(), &config);
+    if (used("xyz_file", args)) {
+      FileXYZ().load(str("xyz_file", &args), &config);
     }
     system.add(config);
   }
   system.add(MakePotential(
-    MakeEwald({{"kmax_squared", args_.key("kmax_squared").dflt("38").str()},
+    MakeEwald({{"kmax_squared", str("kmax_squared", &args, "38")},
                {"alpha",
-      str(args_.key("alphaL").dflt("5.6").dble()/
+      str(dble("alphaL", &args, 5.6)/
           system.configuration().domain().min_side_length())}})));
   system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
                                                 MakeChargeScreened()})));
@@ -71,23 +69,23 @@ System spce(const argtype& args) {
     ref->set_model_param("cutoff", 1, dual_cut);
     system.add_to_reference(ref);
   }
+  check_all_used(args);
   return system;
 }
 
-System rpm(const argtype& args) {
+System rpm(argtype args) {
   System system;
-  Arguments args_(args);
-  double dual_cut = args_.key("dual_cut").dflt("-1").dble();
+  double dual_cut = dble("dual_cut", &args, -1);
   const std::string cubic_box_length =
-    args_.key("cubic_box_length").dflt("12").str();
+    str("cubic_box_length", &args, "12");
   {
     Configuration config(MakeDomain({{"cubic_box_length", cubic_box_length}}),
-      {{"particle_type0", install_dir() + "/" + args_.key("particle0").dflt("plugin/ewald/forcefield/data.rpm_plus").str()},
-       {"particle_type1", install_dir() + "/" + args_.key("particle1").dflt("plugin/ewald/forcefield/data.rpm_minus").str()}}
+      {{"particle_type0", install_dir() + "/" + str("particle0", &args, "plugin/ewald/forcefield/data.rpm_plus")},
+       {"particle_type1", install_dir() + "/" + str("particle1", &args, "plugin/ewald/forcefield/data.rpm_minus")}}
     );
 
-    if (args_.key("cutoff").used()) {
-      const double cutoff = args_.dble();
+    if (used("cutoff", args)) {
+      const double cutoff = dble("cutoff", &args);
       ASSERT(cutoff > dual_cut,
         "cutoff: " << cutoff << " should be > dual_cut: " << dual_cut);
       config.set_model_param("cutoff", 0, cutoff);
@@ -98,13 +96,13 @@ System rpm(const argtype& args) {
     for (int type = 0; type < config.num_particle_types(); ++type) {
       double cval = charge.value(type);
       if (type == 0) {
-        cval *= args_.key("charge_ratio").dflt("1").dble();
+        cval *= dble("charge_ratio", &args, 1);
       }
       config.set_model_param("charge", type,
         cval/std::sqrt(charge_conversion));
     }
-    if (args_.key("delta").used()) {
-      const double delta = args_.dble();
+    if (used("delta", args)) {
+      const double delta = dble("delta", &args);
       const Sigma& sigma = config.model_params().sigma();
       config.set_model_param("sigma", 0, sigma.value(0) + delta);
       config.set_model_param("sigma", 1, sigma.value(1) - delta);
@@ -112,9 +110,9 @@ System rpm(const argtype& args) {
     system.add(config);
   }
   system.add(MakePotential(
-    MakeEwald({{"kmax_squared", args_.key("kmax_squared").dflt("38").str()},
+    MakeEwald({{"kmax_squared", str("kmax_squared", &args, "38")},
                {"alpha",
-      str(args_.key("alphaL").dflt("5.6").dble()/
+      str(dble("alphaL", &args, 5.6)/
           system.configuration().domain().min_side_length())}})));
   system.add(MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                 MakeChargeScreened()})));
@@ -141,6 +139,7 @@ System rpm(const argtype& args) {
 //    {"tunable_param", "0.1"},
 //    {"reference_index", iref},
 //    {"num_steps", num_steps}}));
+  check_all_used(args);
   return system;
 }
 

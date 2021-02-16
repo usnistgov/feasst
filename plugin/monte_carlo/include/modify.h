@@ -16,7 +16,8 @@ namespace feasst {
  */
 class Modify : public Stepper {
  public:
-  explicit Modify(const argtype &args = argtype()) : Stepper(args) {}
+  Modify() : Stepper() {}
+  explicit Modify(argtype * args) : Stepper(args) {}
 
   /// Initialize and precompute before trials.
   virtual void initialize(Criteria * criteria,
@@ -66,7 +67,7 @@ class ModifyUpdateOnly : public Modify {
     args:
     - steps_per: update every this many steps
    */
-  explicit ModifyUpdateOnly(const argtype &args = argtype());
+  explicit ModifyUpdateOnly(argtype * args);
 
   void set_steps_per_write(const int steps) override;
 

@@ -3,12 +3,18 @@
 
 namespace feasst {
 
-TrialStage::TrialStage(const argtype& args) {
-  Arguments args_(args);
-  args_.dont_check();
-  rosenbluth_.resize(args_.key("num_steps").dflt("1").integer());
-  reference_ = args_.key("reference_index").dflt("-1").integer();
-  is_new_only_ = args_.key("new_only").dflt("false").boolean();
+TrialStage::TrialStage(argtype * args) {
+  rosenbluth_.resize(integer("num_steps", args, 1));
+  reference_ = integer("reference_index", args, -1);
+  is_new_only_ = boolean("new_only", args, false);
+}
+
+argtype get_stage_args(argtype * args) {
+  argtype tmp_args;
+  for (const std::string key : {"num_steps", "reference_index", "new_only"}) {
+    if (used(key, *args)) tmp_args.insert({key, str(key, args)});
+  }
+  return tmp_args;
 }
 
 void TrialStage::precompute(System * system) {

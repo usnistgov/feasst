@@ -8,12 +8,10 @@
 
 namespace feasst {
 
-Domain::Domain(const argtype& args) {
-  Arguments args_(args);
-
-  bool is_cubic = args_.key("cubic_box_length").used();
+Domain::Domain(argtype args) {
+  bool is_cubic = used("cubic_box_length", args);
   if (is_cubic) {
-    set_cubic(args_.dble());
+    set_cubic(dble("cubic_box_length", &args));
   }
 
   std::string start("side_length");
@@ -21,27 +19,28 @@ Domain::Domain(const argtype& args) {
     int dim = dimension();
     std::stringstream key;
     key << start << dim;
-    while (args_.key(key.str()).used()) {
+    while (used(key.str(), args)) {
       ASSERT(!is_cubic, "cubic_box_length argument should not be used in " <<
         "conjunction with side_length arguments");
-      add_side_length(args_.dble());
+      add_side_length(dble(key.str(), &args));
       ++dim;
       ASSERT(dim < 1e8, "dim(" << dim << ") is very high. Infinite loop?");
       key.str("");
       key << start << dim;
     }
   }
-  set_xy_(args_.key("xy").dflt("0.0").dble());
-  set_xz_(args_.key("xz").dflt("0.0").dble());
-  set_yz_(args_.key("yz").dflt("0.0").dble());
+  set_xy_(dble("xy", &args, 0.0));
+  set_xz_(dble("xz", &args, 0.0));
+  set_yz_(dble("yz", &args, 0.0));
 
   for (int dim = 0; dim < dimension(); ++dim) {
     std::stringstream key;
     key << "periodic" << dim;
-    if (args_.key(key.str()).used()) {
-      if (!args_.boolean()) disable(dim);
+    if (used(key.str(), args)) {
+      if (!boolean(key.str(), &args)) disable(dim);
     }
   }
+  check_all_used(args);
 }
 
 Domain& Domain::set_cubic(const double box_length) {

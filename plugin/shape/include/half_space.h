@@ -27,18 +27,17 @@ namespace feasst {
  */
 class HalfSpace : public Shape {
  public:
-  HalfSpace(
-    /**
-      dimension : Set the dimension of the axis which is perpendicular to the
-        divider.
-
-      intersection : Set the value where this axis intersects the dividing
-        surface.
-
-      direction : Set the direction at the intersection which is inside.
-        The only accepted values are "1" or "-1".
-     */
-    const argtype &args = argtype());
+  /**
+    args:
+    - dimension: Set the dimension of the axis which is perpendicular to the
+      divider.
+    - intersection: Set the value where this axis intersects the dividing
+      surface.
+    - direction: Set the direction at the intersection which is inside.
+      The only accepted values are "1" or "-1".
+   */
+  HalfSpace(argtype args = argtype());
+  HalfSpace(argtype * args);
 
   /// Return dimension argument.
   int dimension() const { return dimension_; }
@@ -58,7 +57,6 @@ class HalfSpace : public Shape {
   virtual ~HalfSpace() {}
 
  protected:
-  Arguments args_;
   void serialize_half_space_(std::ostream& ostr) const;
 
  private:
@@ -67,8 +65,7 @@ class HalfSpace : public Shape {
   int direction_;
 };
 
-inline std::shared_ptr<HalfSpace> MakeHalfSpace(
-    const argtype& args = argtype()) {
+inline std::shared_ptr<HalfSpace> MakeHalfSpace(argtype args = argtype()) {
   return std::make_shared<HalfSpace>(args);
 }
 

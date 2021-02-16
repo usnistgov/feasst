@@ -3,12 +3,12 @@
 
 namespace feasst {
 
-SelectBranch::SelectBranch(const argtype& args)
-  : TrialSelectAngle(args) {
+SelectBranch::SelectBranch(argtype args) : SelectBranch(&args) {
+  check_all_used(args);
+}
+SelectBranch::SelectBranch(argtype * args) : TrialSelectAngle(args) {
   class_name_ = "SelectBranch";
-  Arguments args_(args);
-  args_.dont_check();
-  mobile_site2_ = args_.key("mobile_site2").integer();
+  mobile_site2_ = integer("mobile_site2", args);
 }
 
 class MapSelectBranch {

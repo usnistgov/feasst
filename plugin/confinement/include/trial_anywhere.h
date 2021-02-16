@@ -14,11 +14,12 @@ namespace feasst {
   Attempt to rigidly move anywhere in the box with any orientation.
  */
 inline std::shared_ptr<Trial> MakeTrialAnywhere(
-    const argtype &args = argtype()) {
-  auto trial = MakeTrialMove(std::make_shared<TrialSelectParticle>(args),
+    argtype args = argtype()) {
+  auto trial = MakeTrialMove(std::make_shared<TrialSelectParticle>(&args),
     std::make_shared<PerturbAnywhere>(),
     "TrialAnywhere",
-    args);
+    &args);
+  check_all_used(args);
   return trial;
 }
 

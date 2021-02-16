@@ -8,10 +8,10 @@
 namespace feasst {
 
 /// Rigidly pivot an end segment of a chain to a random orientation.
-std::shared_ptr<Trial> MakeTrialPivot(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialPivot(argtype args = argtype());
 
 /// Rigidly rotate a sub section of a chain.
-std::shared_ptr<Trial> MakeTrialCrankshaft(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialCrankshaft(argtype args = argtype());
 
 /**
   Reptate a linear chain by taking one end and adding it to the other end.
@@ -19,7 +19,7 @@ std::shared_ptr<Trial> MakeTrialCrankshaft(const argtype &args = argtype());
   particles with the same type.
   Thus, individual heteropolymers should be added as unique particle types.
  */
-std::shared_ptr<Trial> MakeTrialReptate(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialReptate(argtype args = argtype());
 
 /**
   Swap the types of two sites in a particle.
@@ -27,7 +27,7 @@ std::shared_ptr<Trial> MakeTrialReptate(const argtype &args = argtype());
   - site_type1: type of site to swap.
   - site_type2: type of other site to swap.
  */
-std::shared_ptr<Trial> MakeTrialSwapSites(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialSwapSites(argtype args = argtype());
 
 }  // namespace feasst
 

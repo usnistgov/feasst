@@ -34,7 +34,8 @@ class Perturb {
     - tunable_target_acceptance: optionally set target acceptance.
     - tunable_percent_change: optionally set the percent change.
    */
-  explicit Perturb(const argtype& args = argtype());
+  explicit Perturb(argtype args = argtype());
+  explicit Perturb(argtype * args);
 
   /// Return the tunable parameter.
   const Tunable& tunable() const { return tunable_; }
@@ -117,7 +118,6 @@ class Perturb {
   std::string class_name_ = "Perturb";
   void serialize_perturb_(std::ostream& ostr) const;
   Perturb(std::istream& istr);
-  Arguments args_;
 
  private:
   Tunable tunable_;

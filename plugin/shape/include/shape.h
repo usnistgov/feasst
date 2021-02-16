@@ -78,7 +78,7 @@ class Shape {
   double integrate(
     const Position& point,
     Random * random,
-    const argtype& args = argtype());
+    argtype args = argtype());
 
   // serialize
   std::string class_name() const { return class_name_; }

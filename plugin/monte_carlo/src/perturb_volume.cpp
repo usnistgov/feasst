@@ -6,7 +6,10 @@
 
 namespace feasst {
 
-PerturbVolume::PerturbVolume(const argtype& args) : Perturb(args) {
+PerturbVolume::PerturbVolume(argtype args) : PerturbVolume(&args) {
+  check_all_used(args);
+}
+PerturbVolume::PerturbVolume(argtype * args) : Perturb(args) {
   class_name_ = "PerturbVolume";
 }
 

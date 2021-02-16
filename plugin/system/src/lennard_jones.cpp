@@ -15,10 +15,11 @@ class MapLennardJones {
 
 static MapLennardJones mapper_ = MapLennardJones();
 
-LennardJones::LennardJones(const argtype& args) {
+LennardJones::LennardJones(argtype args) : LennardJones(&args) {
+  check_all_used(args); }
+LennardJones::LennardJones(argtype * args) {
   class_name_ = "LennardJones";
-  args_.init(args);
-  const double thres = args_.key("hard_sphere_threshold").dflt("0.2").dble();
+  const double thres = dble("hard_sphere_threshold", args, 0.2);
   hard_sphere_threshold_sq_ = thres*thres;
 }
 

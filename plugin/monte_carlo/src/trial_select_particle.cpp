@@ -5,21 +5,25 @@
 
 namespace feasst {
 
-TrialSelectParticle::TrialSelectParticle(const argtype& args)
-  : TrialSelect(args) {
+TrialSelectParticle::TrialSelectParticle(argtype args)
+  : TrialSelectParticle(&args) {
+  check_all_used(args);
+}
+
+TrialSelectParticle::TrialSelectParticle(argtype * args) : TrialSelect(args) {
   class_name_ = "TrialSelectParticle";
-  load_coordinates_ = args_.key("load_coordinates").dflt("true").boolean();
+  load_coordinates_ = boolean("load_coordinates", args, true);
 
   // parse site
-  site_ = args_.key("site").dflt("-1").integer();
+  site_ = integer("site", args, -1);
   if (site_ != -1) {
     mobile_.clear();
     mobile_.add_site(0, site_);
     site_vec_ =  {site_};
   }
 
-  set_ghost(args_.key("ghost").dflt("false").boolean());
-  exclude_perturbed_ = args_.key("exclude_perturbed").dflt("false").boolean();
+  set_ghost(boolean("ghost", args, false));
+  exclude_perturbed_ = boolean("exclude_perturbed", args, false);
 }
 
 class MapTrialSelectParticle {

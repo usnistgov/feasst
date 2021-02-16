@@ -16,7 +16,7 @@ inline std::shared_ptr<Trial> MakeTrialMove(
     std::shared_ptr<TrialSelect> select,
     std::shared_ptr<PerturbMove> perturb,
     const std::string& description,
-    const argtype& args = argtype()) {
+    argtype * args) {
   auto trial = MakeTrial(args);
   trial->set_description(description);
   trial->add_stage(select, perturb, args);

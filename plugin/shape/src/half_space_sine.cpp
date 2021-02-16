@@ -58,9 +58,9 @@ void HalfSpaceSine::init_sine_dist_deriv_() {
 }
 
 HalfSpaceSine::HalfSpaceSine(std::shared_ptr<FormulaSineWave> sine_wave,
-    const argtype& args) : HalfSpace(args) {
+    argtype args) : HalfSpace(&args) {
   class_name_ = "HalfSpaceSine";
-  wave_dimension_ = args_.key("wave_dimension").integer();
+  wave_dimension_ = integer("wave_dimension", &args);
   sine_wave_ = *sine_wave;
   ASSERT(std::abs(sine_wave_.shift() - sine_wave_.default_shift()) < NEAR_ZERO,
     "use the intersection argument instead of shift in sine wave");
@@ -69,6 +69,7 @@ HalfSpaceSine::HalfSpaceSine(std::shared_ptr<FormulaSineWave> sine_wave,
   // solver_ = MakeSolverBisection({{"tolerance", str(1e-8)}});
   // solver_ = MakeSolverNewtonRaphson({{"tolerance", str(1e-8)}, {"guess", "0"}});
   init_sine_dist_deriv_();
+  check_all_used(args);
 }
 
 bool HalfSpaceSine::is_inside(const Position& point) const {

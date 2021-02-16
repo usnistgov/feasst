@@ -37,11 +37,12 @@ void SelectSiteOfType::serialize(std::ostream& ostr) const {
   serialize_select_segment_(ostr);
 }
 
-SelectSiteOfType::SelectSiteOfType(const argtype& args)
-  : TrialSelect(args) {
+SelectSiteOfType::SelectSiteOfType(argtype args) : SelectSiteOfType(&args) {
+  check_all_used(args);
+}
+SelectSiteOfType::SelectSiteOfType(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectSiteOfType";
-  args_.dont_check();
-  site_type_ = args_.key("site_type").integer();
+  site_type_ = integer("site_type", args);
 }
 
 int SelectSiteOfType::random_site_in_particle(

@@ -19,7 +19,7 @@ class ConstrainNumParticles : public Constraint {
     - minimum: minimum number of particles (default: 0).
     - type: particle type. If -1, all types (default: -1).
    */
-  explicit ConstrainNumParticles(const argtype& args = argtype());
+  explicit ConstrainNumParticles(argtype args = argtype());
 
   /// Return the particle type.
   int type() const { return type_; }
@@ -45,7 +45,7 @@ class ConstrainNumParticles : public Constraint {
 };
 
 inline std::shared_ptr<ConstrainNumParticles> MakeConstrainNumParticles(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<ConstrainNumParticles>(args);
 }
 

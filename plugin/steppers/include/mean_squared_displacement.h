@@ -22,7 +22,7 @@ class MeanSquaredDisplacement : public Analyze {
       origin (default: 1000).
     - group_index: group_index associated with configuration (default: 0).
   */
-  MeanSquaredDisplacement(const argtype &args = argtype());
+  MeanSquaredDisplacement(argtype args = argtype());
 
   void initialize(Criteria * criteria,
       System * system,
@@ -59,7 +59,7 @@ class MeanSquaredDisplacement : public Analyze {
 };
 
 inline std::shared_ptr<MeanSquaredDisplacement> MakeMeanSquaredDisplacement(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<MeanSquaredDisplacement>(args);
 }
 

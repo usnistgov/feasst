@@ -14,8 +14,8 @@ class MapVolume {
 
 static MapVolume mapper_ = MapVolume();
 
-Volume::Volume(const argtype &args) : Analyze(args) {
-  args_.init(args);
+Volume::Volume(argtype args) : Analyze(&args) {
+  check_all_used(args);
 }
 
 void Volume::initialize(Criteria * criteria,

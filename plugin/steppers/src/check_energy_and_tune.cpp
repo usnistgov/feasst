@@ -5,9 +5,13 @@
 
 namespace feasst {
 
-CheckEnergyAndTune::CheckEnergyAndTune(const argtype& args) : ModifyFactory() {
-  add(MakeCheckEnergy(args));
-  add(MakeTuner(Arguments().remove("tolerance", args)));
+CheckEnergyAndTune::CheckEnergyAndTune(argtype args) : ModifyFactory() {
+  argtype check_args = args;
+  add(MakeCheckEnergy(check_args));
+
+  // remove tolerance and apply the same args to Tune
+  str("tolerance", &args, "?");
+  add(MakeTuner(args));
 }
 
 }  // namespace feasst

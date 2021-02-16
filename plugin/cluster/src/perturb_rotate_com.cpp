@@ -13,6 +13,13 @@ class MapPerturbRotateCOM {
 
 static MapPerturbRotateCOM mapper_ = MapPerturbRotateCOM();
 
+PerturbRotateCOM::PerturbRotateCOM(argtype args) : PerturbRotateCOM(&args) {
+  check_all_used(args);
+}
+PerturbRotateCOM::PerturbRotateCOM(argtype * args) : PerturbRotate(args) {
+  class_name_ = "PerturbRotateCOM";
+}
+
 std::shared_ptr<Perturb> PerturbRotateCOM::create(std::istream& istr) const {
   return std::make_shared<PerturbRotateCOM>(istr);
 }

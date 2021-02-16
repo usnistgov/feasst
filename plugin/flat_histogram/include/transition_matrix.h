@@ -30,7 +30,8 @@ class TransitionMatrix : public Bias {
     - min_sweeps : Number of sweeps required for completion.
     - num_blocks : Number of blocks (default: 30).
    */
-  TransitionMatrix(const argtype &args = argtype());
+  explicit TransitionMatrix(argtype args = argtype());
+  explicit TransitionMatrix(argtype * args);
   void update_or_revert(
     const int macrostate_old,
     const int macrostate_new,
@@ -83,7 +84,7 @@ class TransitionMatrix : public Bias {
 };
 
 inline std::shared_ptr<TransitionMatrix> MakeTransitionMatrix(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<TransitionMatrix>(args);
 }
 

@@ -13,7 +13,8 @@ class SelectSiteOfType : public TrialSelect {
     args:
     - site_type: type of site to select.
    */
-  SelectSiteOfType(const argtype& args);
+  explicit SelectSiteOfType(argtype args = argtype());
+  explicit SelectSiteOfType(argtype * args);
 
   int site_type() const { return site_type_; }
 
@@ -40,7 +41,7 @@ class SelectSiteOfType : public TrialSelect {
 };
 
 inline std::shared_ptr<SelectSiteOfType> MakeSelectSiteOfType(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<SelectSiteOfType>(args);
 }
 

@@ -23,7 +23,8 @@ class TrialSelectAngle : public TrialSelectBond {
     args:
     - anchor_site2 : index of second anchor site.
    */
-  explicit TrialSelectAngle(const argtype& args = argtype());
+  explicit TrialSelectAngle(argtype args = argtype());
+  explicit TrialSelectAngle(argtype * args);
 
   /// Same as TrialSelectBond, but also add the second anchor site, and add
   /// angle_type as a property.
@@ -42,7 +43,7 @@ class TrialSelectAngle : public TrialSelectBond {
 };
 
 inline std::shared_ptr<TrialSelectAngle> MakeTrialSelectAngle(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<TrialSelectAngle>(args);
 }
 

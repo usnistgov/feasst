@@ -13,10 +13,10 @@ class MapCheckEnergy {
 
 static MapCheckEnergy mapper_energy_check_ = MapCheckEnergy();
 
-CheckEnergy::CheckEnergy(const argtype &args) : ModifyUpdateOnly(args) {
-  args_.init(args);
-  tolerance_ = args_.key("tolerance").dflt(str(1e-10)).dble();
+CheckEnergy::CheckEnergy(argtype args) : ModifyUpdateOnly(&args) {
+  tolerance_ = dble("tolerance", &args, 1e-10);
   check_ = MakeCheck();
+  check_all_used(args);
 }
 
 void CheckEnergy::update(Criteria * criteria,

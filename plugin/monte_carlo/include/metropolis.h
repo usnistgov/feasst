@@ -15,11 +15,10 @@ class Random;
  */
 class Metropolis : public Criteria {
  public:
-  explicit Metropolis(const argtype &args = argtype());
+  Metropolis();
 
   /// Same as above, but with an added constraint.
-  Metropolis(std::shared_ptr<Constraint> constraint,
-    const argtype& args = argtype());
+  Metropolis(std::shared_ptr<Constraint> constraint);
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
@@ -33,14 +32,13 @@ class Metropolis : public Criteria {
   ~Metropolis() {}
 };
 
-inline std::shared_ptr<Metropolis> MakeMetropolis(const argtype &args = argtype()) {
-  return std::make_shared<Metropolis>(args);
+inline std::shared_ptr<Metropolis> MakeMetropolis() {
+  return std::make_shared<Metropolis>();
 }
 
 inline std::shared_ptr<Metropolis> MakeMetropolis(
-    std::shared_ptr<Constraint> constraint,
-    const argtype &args = argtype()) {
-  return std::make_shared<Metropolis>(constraint, args);
+    std::shared_ptr<Constraint> constraint) {
+  return std::make_shared<Metropolis>(constraint);
 }
 
 }  // namespace feasst

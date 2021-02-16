@@ -20,7 +20,7 @@ class BondVisitor {
    args:
    - verbose: print non-zero energies (default: false).
    */
-  explicit BondVisitor(const argtype& args = argtype());
+  explicit BondVisitor(argtype args = argtype());
   void compute(
       const BondTwoBody& model,
       const Configuration& config,

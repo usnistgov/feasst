@@ -6,7 +6,10 @@
 
 namespace feasst {
 
-TrialComputeRemove::TrialComputeRemove(const argtype& args) : TrialCompute(args) {
+TrialComputeRemove::TrialComputeRemove(argtype args) : TrialComputeRemove(&args) {
+  check_all_used(args);
+}
+TrialComputeRemove::TrialComputeRemove(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeRemove";
 }
 

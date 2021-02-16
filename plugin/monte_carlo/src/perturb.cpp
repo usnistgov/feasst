@@ -3,16 +3,15 @@
 
 namespace feasst {
 
-Perturb::Perturb(const argtype& args) {
+Perturb::Perturb(argtype args) : Perturb(&args) { check_all_used(args); }
+Perturb::Perturb(argtype * args) {
   set_probability();
-  args_.init(args);
-  args_.dont_check();
-  tunable_.set_value(args_.key("tunable_param").dflt("0.1").dble());
-  if (args_.key("tunable_target_acceptance").used()) {
-    tunable_.set_target(args_.dble());
+  tunable_.set_value(dble("tunable_param", args, 0.1));
+  if (used("tunable_target_acceptance", *args)) {
+    tunable_.set_target(dble("tunable_target_acceptance", args));
   }
-  if (args_.key("tunable_percent_change").used()) {
-    tunable_.set_percent_change(args_.dble());
+  if (used("tunable_percent_change", *args)) {
+    tunable_.set_percent_change(dble("tunable_percent_change", args));
   }
 }
 

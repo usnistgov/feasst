@@ -19,7 +19,7 @@ class VisitModelCell : public VisitModel {
     - min_length: build cell list with given minimum distance between cells.
     - cell_group: compute cells only in given group index (default: 0).
    */
-  VisitModelCell(const argtype& args = argtype());
+  VisitModelCell(argtype args = argtype());
 
   /// Return the cells.
   const Cells& cells() const { return cells_; }
@@ -86,7 +86,7 @@ class VisitModelCell : public VisitModel {
 };
 
 inline std::shared_ptr<VisitModelCell> MakeVisitModelCell(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<VisitModelCell>(args);
 }
 

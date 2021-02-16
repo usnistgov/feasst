@@ -26,7 +26,8 @@ class Macrostate {
       Note that this max is an integer bin number.
     - soft_min : minimum as described above (default: same as histogram).
    */
-  Macrostate(const Histogram& histogram,  const argtype& args = argtype());
+  Macrostate(const Histogram& histogram, argtype args = argtype());
+  Macrostate(const Histogram& histogram, argtype * args);
 
   /**
     Set the bins of the macrostate by providing a Histogram.
@@ -79,7 +80,6 @@ class Macrostate {
 
  protected:
   void serialize_macrostate_(std::ostream& ostr) const;
-  Arguments args_;
 
  private:
   Histogram histogram_;

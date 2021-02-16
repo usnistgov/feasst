@@ -9,14 +9,16 @@
 namespace feasst {
 
 /// Attempt to add a particle with AVB as described in ComputeAddAVB.
-std::shared_ptr<Trial> MakeTrialAddAVB(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialAddAVB(argtype args = argtype());
+std::shared_ptr<Trial> MakeTrialAddAVB(argtype * args);
 
 /// Attempt to remove a particle with AVB as described in ComputeRemoveAVB.
-std::shared_ptr<Trial> MakeTrialRemoveAVB(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialRemoveAVB(argtype args = argtype());
+std::shared_ptr<Trial> MakeTrialRemoveAVB(argtype * args);
 
 /// Attempt TrialAddAVB or TrialRemoveAVB with equal probability.
 std::shared_ptr<TrialFactory> MakeTrialTransferAVB(
-  const argtype &args = argtype());
+  argtype args = argtype());
 
 }  // namespace feasst
 

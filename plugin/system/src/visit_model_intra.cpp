@@ -8,10 +8,10 @@
 
 namespace feasst {
 
-VisitModelIntra::VisitModelIntra(const argtype& args) {
+VisitModelIntra::VisitModelIntra(argtype args) {
   class_name_ = "VisitModelIntra";
-  Arguments args_(args);
-  set_cutoff(args_.key("cutoff").dflt("-1").integer());
+  set_cutoff(integer("cutoff", &args, -1));
+  check_all_used(args);
 }
 
 void VisitModelIntra::compute(

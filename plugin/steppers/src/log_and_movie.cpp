@@ -5,9 +5,12 @@
 
 namespace feasst {
 
-LogAndMovie::LogAndMovie(const argtype& args) : AnalyzeFactory() {
-  add(MakeLog(Arguments().append(".txt", "file_name", args)));
-  add(MakeMovie(Arguments().append(".xyz", "file_name", args)));
+LogAndMovie::LogAndMovie(argtype args) : AnalyzeFactory() {
+  argtype log_args = args;
+  feasst::append("file_name", &log_args, ".txt");
+  add(MakeLog(log_args));
+  feasst::append("file_name", &args, ".xyz");
+  add(MakeMovie(args));
 }
 
 }  // namespace feasst

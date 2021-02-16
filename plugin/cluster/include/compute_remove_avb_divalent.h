@@ -41,7 +41,7 @@ class ComputeRemoveAVBDivalent : public TrialCompute {
     args:
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
    */
-  explicit ComputeRemoveAVBDivalent(const argtype& args = argtype());
+  explicit ComputeRemoveAVBDivalent(argtype args = argtype());
 
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -67,7 +67,7 @@ class ComputeRemoveAVBDivalent : public TrialCompute {
 };
 
 inline std::shared_ptr<ComputeRemoveAVBDivalent> MakeComputeRemoveAVBDivalent(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<ComputeRemoveAVBDivalent>(args);
 }
 

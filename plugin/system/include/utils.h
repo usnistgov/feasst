@@ -13,7 +13,7 @@ namespace feasst {
   args:
   - cubic_box_length: default 6
  */
-System two_particle_system(const argtype& args = argtype());
+System two_particle_system(argtype args = argtype());
 
 /**
   Return a Lennard-Jones system
@@ -26,7 +26,7 @@ System two_particle_system(const argtype& args = argtype());
     list.
     If -1, ignore. (default: -1).
  */
-System lennard_jones(const argtype& args = argtype());
+System lennard_jones(argtype args = argtype());
 
 }  // namespace feasst
 

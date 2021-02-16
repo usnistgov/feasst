@@ -46,11 +46,10 @@ MonteCarlo * Clones::get_clone(const int index) {
   return clones_[index].get();
 }
 
-void Clones::initialize(const int upper_index,
-    const argtype& args) {
-  Arguments args_(args);
-  const int attempt_batch = args_.key("attempt_batch").dflt("1").integer();
-  const int max_batch = args_.key("max_batch").dflt("-1").integer();
+void Clones::initialize(const int upper_index, argtype args) {
+  const int attempt_batch = integer("attempt_batch", &args, 1);
+  const int max_batch = integer("max_batch", &args, -1);
+  check_all_used(args);
   Acceptance empty;
   MonteCarlo * lower = clones_[upper_index - 1].get();
   MonteCarlo * upper = clones_[upper_index].get();
@@ -93,13 +92,13 @@ void Clones::initialize(const int upper_index,
   upper->initialize_criteria();
 }
 
-void Clones::initialize(const argtype& args) {
+void Clones::initialize(argtype args) {
   for (int upper_index = 1; upper_index < num(); ++upper_index) {
     initialize(upper_index, args);
   }
 }
 
-void Clones::run_until_complete(const argtype& args) {
+void Clones::run_until_complete(argtype args) {
 #ifdef _OPENMP
   run_until_complete_omp_(args);
 #else // _OPENMP
@@ -122,15 +121,17 @@ bool are_all_complete(const std::vector<bool>& is_complete) {
   return complete;
 }
 
-void Clones::run_until_complete_omp_(const argtype& run_args,
+void Clones::run_until_complete_omp_(argtype run_args,
                                      const bool init,
-                                     const argtype& init_args) {
+                                     argtype init_args) {
   DEBUG("run_until_complete_omp_");
 #ifdef _OPENMP
-  Arguments args_(run_args);
-  const int omp_batch = args_.key("omp_batch").dflt(str(1e6)).integer();
+  const int omp_batch = integer("omp_batch", &run_args, 1e6);
   std::string ln_prob_file;
-  if (args_.key("ln_prob_file").used()) ln_prob_file = args_.str();
+  if (used("ln_prob_file", run_args)) {
+    ln_prob_file = str("ln_prob_file", &run_args);
+  }
+  check_all_used(run_args);
   std::vector<bool> is_complete(num(), false);
   std::vector<bool> is_initialized(num(), false);
   is_initialized[0] = true;
@@ -174,6 +175,7 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
         }
       }
     } catch(const feasst::CustomException& e) {
+      WARN(e.what());
       terminated = true;
     }
     DEBUG("terminated: " << terminated);
@@ -192,8 +194,8 @@ FATAL("Not complied with OMP");
 #endif // _OPENMP
 }
 
-void Clones::initialize_and_run_until_complete(const argtype& run_args,
-                                               const argtype& init_args) {
+void Clones::initialize_and_run_until_complete(argtype run_args,
+                                               argtype init_args) {
 #ifdef _OPENMP
   run_until_complete_omp_(run_args, true, init_args);
 #else // _OPENMP

@@ -15,7 +15,8 @@ class SelectSegment : public TrialSelectParticle {
     - max_length : maximum length of selected segment. If -1 (default), then
       randomly select all possible lengths.
    */
-  SelectSegment(const argtype& args = argtype());
+  explicit SelectSegment(argtype args = argtype());
+  explicit SelectSegment(argtype * args);
 
   /// Return the maximum length.
   int max_length() const { return max_length_; }
@@ -47,7 +48,7 @@ class SelectSegment : public TrialSelectParticle {
 };
 
 inline std::shared_ptr<SelectSegment> MakeSelectSegment(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<SelectSegment>(args);
 }
 

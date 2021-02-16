@@ -81,7 +81,8 @@ and :math:`\chi > 1`. Thus,
  */
 class TrialComputeMove : public TrialCompute {
  public:
-  explicit TrialComputeMove(const argtype& args = argtype());
+  explicit TrialComputeMove(argtype args = argtype());
+  explicit TrialComputeMove(argtype * args);
 
   void perturb_and_acceptance(
     Criteria * criteria,
@@ -99,7 +100,7 @@ class TrialComputeMove : public TrialCompute {
 };
 
 inline std::shared_ptr<TrialComputeMove> MakeTrialComputeMove(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<TrialComputeMove>(args);
 }
 

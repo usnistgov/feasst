@@ -15,7 +15,8 @@ class PerturbSiteType : public Perturb {
     args:
     - type: type to set for site.
    */
-  explicit PerturbSiteType(const argtype& args = argtype());
+  explicit PerturbSiteType(argtype args = argtype());
+  explicit PerturbSiteType(argtype * args);
 
   //initialize ghost selection in TrialSelect?
   void precompute(TrialSelect * select, System * system) override {
@@ -52,7 +53,7 @@ class PerturbSiteType : public Perturb {
   int old_particle_type_;
 };
 
-inline std::shared_ptr<PerturbSiteType> MakePerturbSiteType(const argtype& args = argtype()) {
+inline std::shared_ptr<PerturbSiteType> MakePerturbSiteType(argtype args = argtype()) {
   return std::make_shared<PerturbSiteType>(args);
 }
 

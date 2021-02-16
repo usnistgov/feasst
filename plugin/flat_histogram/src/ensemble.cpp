@@ -118,9 +118,8 @@ double GrandCanonicalEnsemble::betaPV(const int phase) const {
 
 void ExtrapolateBetaGCE::extrapolateBetaGCE_(
     const std::vector<std::vector<double> >& energy_moments,
-    const argtype& args) {
-  Arguments args_(args);
-  const int order = args_.key("order").dflt("2").integer();
+    argtype args) {
+  const int order = integer("order", &args, 2);
   ASSERT(order == 2, "Only second order is currently implemented");
   ASSERT(static_cast<int>(energy_moments.size()) == order,
     "order: " << order << " doesn't match energy: " << energy_moments.size());
@@ -131,8 +130,9 @@ void ExtrapolateBetaGCE::extrapolateBetaGCE_(
   // add option to ignore phases, phase=-1
   ASSERT(std::abs(macrostates().center_of_bin(0)) < NEAR_ZERO,
     "assumes first marcostate is 0 particles for N and <NU>");
-  const double beta_new = args_.key("beta_new").dble();
-  const double beta_original = args_.key("beta_original").dble();
+  const double beta_new = dble("beta_new", &args);
+  const double beta_original = dble("beta_original", &args);
+  check_all_used(args);
   const double dbeta = beta_new - beta_original;
   DEBUG("dbeta " << dbeta);
   std::vector<double> nu(ln_prob_original_.size());
@@ -172,7 +172,7 @@ void ExtrapolateBetaGCE::extrapolateBetaGCE_(
 ExtrapolateBetaGCE::ExtrapolateBetaGCE(
     const MonteCarlo& mc,
     const FlatHistogram& flat_hist,
-    const argtype& args)
+    argtype args)
   : GrandCanonicalEnsemble(flat_hist, mc.system().thermo_params().beta_mu()) {
   const Analyze& an = SeekAnalyze().reference("Energy", mc);
   const int num_moments = static_cast<int>(an.accumulator().moments().size());
@@ -186,7 +186,7 @@ ExtrapolateBetaGCE::ExtrapolateBetaGCE(
 }
 
 ExtrapolateBetaGCE::ExtrapolateBetaGCE(const Clones& clones,
-    const argtype& args) : GrandCanonicalEnsemble(clones) {
+    argtype args) : GrandCanonicalEnsemble(clones) {
   const Analyze& an = SeekAnalyze().reference("Energy", clones.clone(0));
   const int num_moments = static_cast<int>(an.accumulator().moments().size());
   DEBUG("num_moments " << num_moments);

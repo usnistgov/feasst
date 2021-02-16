@@ -14,7 +14,7 @@ namespace feasst {
  */
 class ProfileTrials : public Analyze {
  public:
-  explicit ProfileTrials(const argtype &args = argtype());
+  explicit ProfileTrials(argtype args = argtype());
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -50,7 +50,7 @@ class ProfileTrials : public Analyze {
 };
 
 inline std::shared_ptr<ProfileTrials> MakeProfileTrials(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<ProfileTrials>(args);
 }
 

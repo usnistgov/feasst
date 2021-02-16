@@ -4,10 +4,11 @@
 namespace feasst {
 
 MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
-    const argtype& args) : Macrostate(histogram, args) {
+    argtype args) : Macrostate(histogram, &args) {
   num_ = ConstrainNumParticles(
-    {{"type", args_.key("particle_type").dflt("-1").str()}});
+    {{"type", str("particle_type", &args, "-1")}});
   ASSERT(num_.type() >= -1, "particle_type: " << num_.type());
+  check_all_used(args);
 }
 
 double MacrostateNumParticles::value(const System& system,

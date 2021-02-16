@@ -60,7 +60,7 @@ class Ewald : public VisitModel {
     - kmax_squared: optionally set the squared maximum integer wave vector for
       cubic domains only, which also sets kxmax, etc.
    */
-  Ewald(const argtype& args = argtype());
+  Ewald(argtype args = argtype());
 
   /**
     Recommend an alpha parameter for Ewald as described and implemented in LAMMPS
@@ -254,7 +254,7 @@ class Ewald : public VisitModel {
   int find_eikrx0_(const Site& site);
 };
 
-inline std::shared_ptr<Ewald> MakeEwald(const argtype& args = argtype()) {
+inline std::shared_ptr<Ewald> MakeEwald(argtype args = argtype()) {
   return std::make_shared<Ewald>(args);
 }
 

@@ -15,7 +15,7 @@ namespace feasst {
  */
 class RandomMT19937 : public Random {
  public:
-  explicit RandomMT19937(const argtype& args = argtype());
+  explicit RandomMT19937(argtype args = argtype());
 
   /// Use http://www.cplusplus.com/reference/random/normal_distribution/
   double standard_normal() override { return std_normal_(generator_); }
@@ -40,7 +40,7 @@ class RandomMT19937 : public Random {
 };
 
 inline std::shared_ptr<RandomMT19937> MakeRandomMT19937(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<RandomMT19937>(args);
 }
 

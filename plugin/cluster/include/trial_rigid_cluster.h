@@ -13,13 +13,13 @@ namespace feasst {
   Rigid translation of a cluster of particles.
  */
 std::shared_ptr<Trial> MakeTrialTranslateCluster(
-  const argtype &args = argtype());
+  argtype args = argtype());
 
 /**
   Rigid translation of a cluster of particles.
  */
 std::shared_ptr<Trial> MakeTrialRotateCluster(
-  const argtype &args = argtype());
+  argtype args = argtype());
 
 /**
   Attempt TrialTranslateCluster and TrialRotateCluster with equal probability.
@@ -29,7 +29,7 @@ std::shared_ptr<Trial> MakeTrialRotateCluster(
   - translate_param: initial value of the tunable parameter (default: 0.1).
  */
 std::shared_ptr<TrialFactory> MakeTrialRigidCluster(
-  const argtype &args = argtype());
+  argtype args = argtype());
 
 }  // namespace feasst
 

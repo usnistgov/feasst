@@ -25,10 +25,8 @@ static MapTrialMorphExpanded mapper_trial_morph_expanded_ = MapTrialMorphExpande
 
 TrialMorphExpanded::TrialMorphExpanded(
     const std::vector<std::vector<int> > grow_seq,
-    const argtype& args) : Trial(args) {
+    argtype args) : Trial(&args) {
   class_name_ = "TrialMorphExpanded";
-  Arguments args_(args);
-  args_.dont_check();
   bool add_previously = false;
   for (int step = 0;
        step < static_cast<int>(grow_seq.size());
@@ -85,9 +83,9 @@ TrialMorphExpanded::TrialMorphExpanded(
       }
     }
     if (add) {
-      DEBUG(feasst_str(grow_args));
+      DEBUG(str(grow_args));
       grow_.push_back(MakeTrialAddMultiple(grow_args));
-      DEBUG(feasst_str(grow_args));
+      DEBUG(str(grow_args));
       add = false;
       add_previously = true;
     } else {
@@ -95,7 +93,7 @@ TrialMorphExpanded::TrialMorphExpanded(
       add_previously = false;
     }
     if (remove) {
-      DEBUG(feasst_str(shrink_args));
+      DEBUG(str(shrink_args));
       shrink_.push_back(MakeTrialRemoveMultiple(shrink_args));
       remove = false;
     } else {
@@ -108,8 +106,8 @@ TrialMorphExpanded::TrialMorphExpanded(
 void TrialMorphExpanded::precompute(Criteria * criteria,
     System * system) {
   Trial::precompute(criteria, system);
-  for (std::shared_ptr<Trial> gi : grow_) gi->precompute(criteria, system);
-  for (std::shared_ptr<Trial> si : shrink_) si->precompute(criteria, system);
+  for (std::shared_ptr<Trial> g : grow_) g->precompute(criteria, system);
+  for (std::shared_ptr<Trial> s : shrink_) s->precompute(criteria, system);
 }
 
 bool TrialMorphExpanded::attempt(Criteria * criteria,

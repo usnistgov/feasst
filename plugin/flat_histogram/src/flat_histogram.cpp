@@ -6,14 +6,13 @@
 
 namespace feasst {
 
-FlatHistogram::FlatHistogram(const argtype &args) : Criteria(args) {
+FlatHistogram::FlatHistogram() : Criteria() {
   class_name_ = "FlatHistogram";
 }
 
 FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
-    std::shared_ptr<Bias> bias,
-    const argtype &args)
-  : FlatHistogram(args) {
+    std::shared_ptr<Bias> bias)
+  : FlatHistogram() {
   macrostate_ = macrostate;
   bias_ = bias;
   bias_->resize(macrostate_->histogram());
@@ -21,9 +20,8 @@ FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
 
 FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
     std::shared_ptr<Bias> bias,
-    std::shared_ptr<Constraint> constraint,
-    const argtype &args)
-  : FlatHistogram(macrostate, bias, args) {
+    std::shared_ptr<Constraint> constraint)
+  : FlatHistogram(macrostate, bias) {
   add(constraint);
 }
 

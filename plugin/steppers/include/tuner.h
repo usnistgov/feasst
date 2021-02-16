@@ -11,7 +11,7 @@ namespace feasst {
  */
 class Tuner : public ModifyUpdateOnly {
  public:
-  explicit Tuner(const argtype &args = argtype()) : ModifyUpdateOnly(args) {}
+  explicit Tuner(argtype args = argtype());
 
   void update(Criteria * criteria,
       System * system,
@@ -26,7 +26,7 @@ class Tuner : public ModifyUpdateOnly {
   explicit Tuner(std::istream& istr);
 };
 
-inline std::shared_ptr<Tuner> MakeTuner(const argtype &args = argtype()) {
+inline std::shared_ptr<Tuner> MakeTuner(argtype args = argtype()) {
   return std::make_shared<Tuner>(args);
 }
 

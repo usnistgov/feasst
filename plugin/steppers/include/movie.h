@@ -14,7 +14,7 @@ namespace feasst {
  */
 class Movie : public AnalyzeWriteOnly {
  public:
-  Movie(const argtype &args = argtype());
+  Movie(argtype args = argtype());
 
   /// Write the sample VMD files and the initial configuration.
   void initialize(Criteria * criteria,
@@ -38,7 +38,7 @@ class Movie : public AnalyzeWriteOnly {
   FileVMD vmd_;
 };
 
-inline std::shared_ptr<Movie> MakeMovie(const argtype &args = argtype()) {
+inline std::shared_ptr<Movie> MakeMovie(argtype args = argtype()) {
   return std::make_shared<Movie>(args);
 }
 

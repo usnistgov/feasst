@@ -31,7 +31,7 @@ class ChargeScreened : public ModelTwoBody {
    - hard_sphere_threshold: return NEAR_INFINITY when distance is less than
      this threshold (default: 0.1).
    */
-  ChargeScreened(const argtype& args = argtype());
+  ChargeScreened(argtype args = argtype());
 
   double energy(
       const double squared_distance,
@@ -65,7 +65,7 @@ class ChargeScreened : public ModelTwoBody {
 };
 
 inline std::shared_ptr<ChargeScreened> MakeChargeScreened(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<ChargeScreened>(args);
 }
 

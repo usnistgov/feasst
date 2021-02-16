@@ -17,7 +17,8 @@ namespace feasst {
  */
 class PerturbDistance : public PerturbMove {
  public:
-  explicit PerturbDistance(const argtype& args = argtype());
+  explicit PerturbDistance(argtype args = argtype());
+  explicit PerturbDistance(argtype * args);
 
   /// Compute and store the distance from the bond_length property in select.
   /// Also store the spring constant.
@@ -53,7 +54,7 @@ class PerturbDistance : public PerturbMove {
 };
 
 inline std::shared_ptr<PerturbDistance> MakePerturbDistance(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbDistance>(args);
 }
 

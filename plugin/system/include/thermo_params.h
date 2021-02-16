@@ -25,7 +25,7 @@ class ThermoParams {
       The chemical potential must have the inverse units of \f$\beta\f$.
     - pressure: imposed isotropic system pressure.
    */
-  explicit ThermoParams(const argtype& args = argtype());
+  explicit ThermoParams(argtype args = argtype());
 
   /// Set beta.
   void set_beta(const double beta);
@@ -82,7 +82,7 @@ class ThermoParams {
 };
 
 inline std::shared_ptr<ThermoParams> MakeThermoParams(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<ThermoParams>(args);
 }
 

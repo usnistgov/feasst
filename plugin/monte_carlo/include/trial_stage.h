@@ -30,7 +30,7 @@ class TrialStage {
     - new_only: do not compute the Rosenbluth of the old configuration
       (default: false).
    */
-  explicit TrialStage(const argtype& args = argtype());
+  explicit TrialStage(argtype * args);
 
   /// Return the index of the reference potential.
   int reference() const { return reference_; }
@@ -124,6 +124,10 @@ class TrialStage {
   bool is_new_only_;
   void set_rosenbluth_energy_(const int step, System * system);
 };
+
+/// Return the optional arguments relevant to TrialStage.
+/// This helps multiple stages with the same arguments.
+argtype get_stage_args(argtype * args);
 
 }  // namespace feasst
 

@@ -28,7 +28,7 @@ class TrialMorphExpanded : public Trial {
     /// See MacrostateMorph for a description of the growth sequence.
     /// This growth sequence must be equivalent to MacrostateMorph.
     const std::vector<std::vector<int> > particle_type_growth_sequence,
-    const argtype& args = argtype());
+    argtype args = argtype());
   void precompute(Criteria * criteria, System * system) override;
   bool attempt(Criteria * criteria, System * system, Random * random) override;
   std::shared_ptr<Trial> create(std::istream& istr) const override;
@@ -43,7 +43,7 @@ class TrialMorphExpanded : public Trial {
 
 inline std::shared_ptr<TrialMorphExpanded> MakeTrialMorphExpanded(
     const std::vector<std::vector<int> > particle_type_growth_sequence,
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<TrialMorphExpanded>(particle_type_growth_sequence,
                                               args);
 }

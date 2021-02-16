@@ -32,37 +32,38 @@ void TrialGrowLinear::serialize(std::ostream& ostr) const {
 }
 
 TrialGrowLinear::TrialGrowLinear(std::shared_ptr<TrialCompute> compute,
-    const argtype& args) : Trial(args) {
+    argtype args) : Trial(&args) {
   class_name_ = "TrialGrowLinear";
   stored_args_ = args;
   set(compute);
 }
 
 void TrialGrowLinear::precompute(Criteria * criteria, System * system) {
-  Arguments tmp_args(stored_args_);
-  tmp_args.dont_check();
-  const int type = tmp_args.key("particle_type").dflt("0").integer();
+  argtype tmp_args = stored_args_;
+  const int type = integer("particle_type", &tmp_args, 0);
+  tmp_args.insert({"particle_type", str(type)});
   const int num_sites = system->configuration().particle_type(type).num_sites();
 
   // put the first site anywhere
-  argtype first_select_args = stored_args_;
-  first_select_args.insert({"site", "0"});
+  argtype first_args = tmp_args;
+  first_args.insert({"site", "0"});
   add_stage(
-    std::make_shared<TrialSelectParticle>(first_select_args),
+    std::make_shared<TrialSelectParticle>(&first_args),
     std::make_shared<PerturbAnywhere>(),
-    stored_args_
-  );
+    &first_args);
+  check_all_used(first_args);
 
   // for the rest, grow based on bond length only
   for (int site = 1; site < num_sites; ++site) {
-    argtype args = stored_args_;
+    argtype args = tmp_args;
     args.insert(std::pair<std::string, std::string>("mobile_site", str(site)));
     args.insert(std::pair<std::string, std::string>("anchor_site", str(site - 1)));
     add_stage(
-      std::make_shared<TrialSelectBond>(args),
-      std::make_shared<PerturbDistance>(args),
-      args
+      std::make_shared<TrialSelectBond>(&args),
+      std::make_shared<PerturbDistance>(&args),
+      &args
     );
+    check_all_used(args);
   }
 
   // precompute stages

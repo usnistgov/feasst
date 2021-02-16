@@ -47,7 +47,8 @@ class Stepper {
       If not provided, use default value in Accumulator.
     - configuration: index of configuration (default: 0)
    */
-  Stepper(const argtype &args = argtype());
+  explicit Stepper(argtype args = argtype());
+  explicit Stepper(argtype * args);
 
   /// Return the number of steps per update
   int steps_per_update() const { return steps_per_update_; }
@@ -112,7 +113,6 @@ class Stepper {
   virtual ~Stepper() {}
 
  protected:
-  Arguments args_;
   int steps_since_update_ = 0;
   int steps_since_write_ = 0;
   Accumulator accumulator_;

@@ -7,11 +7,10 @@
 
 namespace feasst {
 
-Slab::Slab(const argtype &args) : ShapeIntersect() {
-  Arguments args_(args);
-  int dimension = args_.key("dimension").integer();
-  double upper = args_.key("bound0").dble();
-  double lower = args_.key("bound1").dble();
+Slab::Slab(argtype args) : ShapeIntersect() {
+  int dimension = integer("dimension", &args);
+  double upper = dble("bound0", &args);
+  double lower = dble("bound1", &args);
   sort(&lower, &upper);
   ASSERT(upper - lower > NEAR_ZERO, "slab is infinitesimally thin");
   auto half0 = MakeHalfSpace({
@@ -25,6 +24,7 @@ Slab::Slab(const argtype &args) : ShapeIntersect() {
     {"direction", str(1)},
   });
   set(half0, half1);
+  check_all_used(args);
 }
 
 }  // namespace feasst

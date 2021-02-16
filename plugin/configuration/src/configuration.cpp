@@ -11,38 +11,31 @@
 
 namespace feasst {
 
-Configuration::Configuration(const argtype& args) {
+Configuration::Configuration(argtype args) {
   domain_ = std::make_shared<Domain>();
   particle_types_.unique_particles();
   unique_types_.unique_types();
   // reset_unique_indices_();
   add(MakeGroup());  // add empty group which represents all particles
-  args_.init(args);
 
   DEBUG("parse physical constants");
-  if (args_.key("physical_constants").used()) {
-    std::stringstream ss(args_.str());
+  if (used("physical_constants", args)) {
+    std::stringstream ss(str("physical_constants", &args));
     set_physical_constants(MakeCODATA2014()->deserialize(ss));
   }
 
   std::string start;
-
-//  DEBUG("parse domain");
-//  if (args_.key("cubic_box_length").used()) {
-//    domain_ = MakeDomain({{"cubic_box_length", args_.str()}});
-//  }
-
   DEBUG("parse types");
   // if only one particle type, allow drop the subscript
   start.assign("particle_type");
-  if (args_.key(start).used()) {
-    add_particle_type(args_.str());
+  if (used(start, args)) {
+    add_particle_type(str(start, &args));
   } else {
     int type = num_particle_types();
     std::stringstream key;
     key << start << type;
-    while (args_.key(key.str()).used()) {
-      add_particle_type(args_.str());
+    while (used(key.str(), args)) {
+      add_particle_type(str(key.str(), &args));
       ++type;
       ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
       key.str("");
@@ -50,12 +43,12 @@ Configuration::Configuration(const argtype& args) {
     }
   }
 
-  if (args_.key("set_cutoff_min_to_sigma").dflt("false").boolean()) {
+  if (boolean("set_cutoff_min_to_sigma", &args, false)) {
     unique_types_.set_cutoff_min_to_sigma();
   }
 
-  init_wrap(args_.key("wrap").dflt("true").boolean());
-  args_.check_all_used();
+  init_wrap(boolean("wrap", &args, true));
+  check_all_used(args);
 }
 
 void Configuration::add_particle_type(const std::string file_name,
@@ -761,14 +754,19 @@ void Configuration::set_particle_type(const int ptype,
 }
 
 void Configuration::change_volume(const double delta_volume,
-    const argtype& args) {
+    argtype args) {
+  change_volume(delta_volume, &args);
+  check_all_used(args);
+}
+
+void Configuration::change_volume(const double delta_volume,
+    argtype * args) {
   ASSERT(domain().volume() + delta_volume > 0,
     "delta_volume " << delta_volume << " too large for volume "
     << domain().volume());
   ASSERT(wrap_, "positions must be wrapped before scaling for volume change");
   double factor = 1. + delta_volume/domain_->volume();
-  Arguments args_(args);
-  const int dimen = args_.key("dimension").dflt("-1").integer();
+  const int dimen = integer("dimension", args, -1);
   if (dimen == -1) {
     factor = std::pow(factor, 1./dimension());
     for (int dim = 0; dim < dimension(); ++dim) {

@@ -17,7 +17,7 @@ class Random;
  */
 class CriteriaMayer : public Criteria {
  public:
-  CriteriaMayer(const argtype& args = argtype()) : Criteria(args) {}
+  CriteriaMayer() : Criteria() {}
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
@@ -39,8 +39,8 @@ class CriteriaMayer : public Criteria {
   Accumulator mayer_ref_;
 };
 
-inline std::shared_ptr<CriteriaMayer> MakeCriteriaMayer(const argtype &args = argtype()) {
-  return std::make_shared<CriteriaMayer>(args);
+inline std::shared_ptr<CriteriaMayer> MakeCriteriaMayer() {
+  return std::make_shared<CriteriaMayer>();
 }
 
 }  // namespace feasst

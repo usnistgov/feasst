@@ -4,8 +4,9 @@
 
 namespace feasst {
 
-WindowExponential::WindowExponential(const argtype& args) : Window(args) {
-  alpha_ = args_.key("alpha").dflt("1.5").dble();
+WindowExponential::WindowExponential(argtype args) : Window(&args) {
+  alpha_ = dble("alpha", &args, 1.5);
+  check_all_used(args);
 }
 
 std::vector<double> WindowExponential::segment() const {

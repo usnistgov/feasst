@@ -5,7 +5,10 @@
 
 namespace feasst {
 
-TrialFactory::TrialFactory(const argtype& args) : Trial(args) {
+TrialFactory::TrialFactory(argtype args) : TrialFactory(&args) {
+  check_all_used(args);
+}
+TrialFactory::TrialFactory(argtype * args) : Trial(args) {
   class_name_ = "TrialFactory";
 }
 

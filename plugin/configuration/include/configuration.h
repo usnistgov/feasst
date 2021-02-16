@@ -63,11 +63,11 @@ class Configuration {
       (default: false). This is typically used for HardSphere models that
       didn't specify cutoff.
    */
-  explicit Configuration(const argtype& args = argtype());
+  explicit Configuration(argtype args = argtype());
 
   /// Same as above, but also set the domain.
   explicit Configuration(std::shared_ptr<Domain> domain,
-    const argtype& args = argtype()) : Configuration(args) {domain_ = domain; }
+    argtype args = argtype()) : Configuration(args) {domain_ = domain; }
 
   //@}
   /** @name Typing
@@ -327,8 +327,8 @@ class Configuration {
     args:
     - dimension: index of dimension to change. If -1, change all (default: -1)
    */
-  void change_volume(const double delta_volume,
-    const argtype& args = argtype());
+  void change_volume(const double delta_volume, argtype args);
+  void change_volume(const double delta_volume, argtype * args);
 
   //@}
   /** @name Ghosts
@@ -469,7 +469,6 @@ class Configuration {
   bool wrap_;
 
   // temporaries (not serialized)
-  Arguments args_;
   int newest_particle_index_;
 
   /// Selects based on groups that are continuously updated.
@@ -562,12 +561,11 @@ class Configuration {
 };
 
 inline std::shared_ptr<Configuration> MakeConfiguration(
-    const argtype &args = argtype()
-    ) {
+    argtype args = argtype()) {
   return std::make_shared<Configuration>(args);
 }
 inline std::shared_ptr<Configuration> MakeConfiguration(
-    std::shared_ptr<Domain> domain, const argtype &args = argtype()) {
+    std::shared_ptr<Domain> domain, argtype args = argtype()) {
   return std::make_shared<Configuration>(domain, args);
 }
 

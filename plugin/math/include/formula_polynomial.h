@@ -15,7 +15,8 @@ namespace feasst {
  */
 class FormulaPolynomial : public Formula {
  public:
-  FormulaPolynomial(const argtype& args = argtype());
+  explicit FormulaPolynomial(argtype args = argtype());
+  explicit FormulaPolynomial(argtype * args);
 
   FormulaPolynomial& set_A(const int index, const double A) {
     // resize A coefficients if necessary
@@ -39,7 +40,7 @@ class FormulaPolynomial : public Formula {
 };
 
 inline std::shared_ptr<FormulaPolynomial> MakeFormulaPolynomial(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<FormulaPolynomial>(args);
 }
 

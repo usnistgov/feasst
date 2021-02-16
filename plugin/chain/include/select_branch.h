@@ -30,7 +30,8 @@ class SelectBranch : public TrialSelectAngle {
     args:
     - mobile_site2 : index of second mobile site.
    */
-  explicit SelectBranch(const argtype& args = argtype());
+  explicit SelectBranch(argtype args = argtype());
+  explicit SelectBranch(argtype * args);
 
   /// Same as derived, but also add second mobile site.
   void precompute(System * system) override;

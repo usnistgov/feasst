@@ -12,7 +12,7 @@ namespace feasst {
  */
 class Volume : public Analyze {
  public:
-  explicit Volume(const argtype &args = argtype());
+  explicit Volume(argtype args = argtype());
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -40,7 +40,7 @@ class Volume : public Analyze {
   explicit Volume(std::istream& istr);
 };
 
-inline std::shared_ptr<Volume> MakeVolume(const argtype &args = argtype()) {
+inline std::shared_ptr<Volume> MakeVolume(argtype args = argtype()) {
   return std::make_shared<Volume>(args);
 }
 

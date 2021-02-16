@@ -23,7 +23,8 @@ class TrialSelect {
     - group_index: index of group definied within system (default: 0).
     - particle_type: type of particle in configuration (default: -1)
    */
-  explicit TrialSelect(const argtype& args = argtype());
+  explicit TrialSelect(argtype args = argtype());
+  explicit TrialSelect(argtype * args);
 
   /// Return the index of group for selection.
   int group_index() const { return group_index_; }
@@ -141,7 +142,6 @@ class TrialSelect {
 
  protected:
   std::string class_name_ = "TrialSelect";
-  Arguments args_;
   Select mobile_original_;
   Select mobile_;
   Select anchor_;

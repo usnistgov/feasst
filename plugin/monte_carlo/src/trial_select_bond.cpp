@@ -4,10 +4,13 @@
 
 namespace feasst {
 
-TrialSelectBond::TrialSelectBond(const argtype& args) : TrialSelect(args) {
+TrialSelectBond::TrialSelectBond(argtype args) : TrialSelectBond(&args) {
+  check_all_used(args);
+}
+TrialSelectBond::TrialSelectBond(argtype * args) : TrialSelect(args) {
   class_name_ = "TrialSelectBond";
-  mobile_site_ = args_.key("mobile_site").integer();
-  anchor_site_ = args_.key("anchor_site").integer();
+  mobile_site_ = integer("mobile_site", args);
+  anchor_site_ = integer("anchor_site", args);
 }
 
 class MapTrialSelectBond {

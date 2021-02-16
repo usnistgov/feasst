@@ -4,13 +4,13 @@
 
 namespace feasst {
 
-Checkpoint::Checkpoint(const argtype &args) {
-  Arguments args_(args);
-  num_hours_ = args_.key("num_hours").dflt("1.").dble();
-  num_hours_terminate_ = args_.key("num_hours_terminate").dflt("-1").dble();
-  file_name_ = args_.key("file_name").dflt(" ").str();
-  writes_per_backup_ = args_.key("writes_per_backup").dflt("-1").integer();
+Checkpoint::Checkpoint(argtype args) {
+  num_hours_ = dble("num_hours", &args, 1.);
+  num_hours_terminate_ = dble("num_hours_terminate", &args, -1);
+  file_name_ = str("file_name", &args, " ");
+  writes_per_backup_ = integer("writes_per_backup", &args, -1);
   first_hours_ = cpu_hours();
+  check_all_used(args);
 }
 
 void Checkpoint::serialize(std::ostream& ostr) const {

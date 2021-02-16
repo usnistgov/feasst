@@ -5,11 +5,12 @@
 
 namespace feasst {
 
-std::shared_ptr<TrialFactory> MakeTrialTransferMultiple(
-    const argtype &args) {
-  auto factory = std::make_shared<TrialFactory>(args);
-  factory->add(MakeTrialAddMultiple(args));
-  factory->add(MakeTrialRemoveMultiple(args));
+std::shared_ptr<TrialFactory> MakeTrialTransferMultiple(argtype args) {
+  argtype rm_args = args, add_args = args;
+  str("shift", &add_args, ""); // remove shift
+  auto factory = std::make_shared<TrialFactory>(&args);
+  factory->add(MakeTrialAddMultiple(add_args));
+  factory->add(MakeTrialRemoveMultiple(rm_args));
   return factory;
 }
 

@@ -3,12 +3,14 @@
 
 namespace feasst {
 
-PerturbParticleType::PerturbParticleType(const argtype& args) : Perturb(args) {
+PerturbParticleType::PerturbParticleType(argtype args)
+  : PerturbParticleType(&args) {
+  check_all_used(args);
+}
+PerturbParticleType::PerturbParticleType(argtype * args) : Perturb(args) {
   class_name_ = "PerturbParticleType";
   disable_tunable_();
-  Arguments args_(args);
-  args_.dont_check();
-  new_particle_type_ = args_.key("type").integer();
+  new_particle_type_ = integer("type", args);
 }
 
 class MapPerturbParticleType {

@@ -17,7 +17,7 @@ class CheckNetCharge : public AnalyzeUpdateOnly {
     - minimum: minimum acceptable charge (default: 0).
     - maximum: maximum acceptable charge (default: 0).
    */
-  CheckNetCharge(const argtype &args = argtype());
+  CheckNetCharge(argtype args = argtype());
   void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
@@ -36,7 +36,7 @@ class CheckNetCharge : public AnalyzeUpdateOnly {
 };
 
 inline std::shared_ptr<CheckNetCharge> MakeCheckNetCharge(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<CheckNetCharge>(args);
 }
 

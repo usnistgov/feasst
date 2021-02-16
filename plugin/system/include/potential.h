@@ -33,7 +33,7 @@ class Potential {
     - prevent_cache: set this to true in order to prevent the use of cache
       (default: False)
    */
-  explicit Potential(const argtype& args = argtype());
+  explicit Potential(argtype args = argtype());
 
   /// Return the index of the group
   int group_index() const { return group_index_; }
@@ -43,14 +43,14 @@ class Potential {
 
   /// Constract with model and default visitor.
   explicit Potential(std::shared_ptr<Model> model,
-                     const argtype& args = argtype());
+                     argtype args = argtype());
 
   /// Return the model.
   const Model& model() const { return const_cast<Model&>(*model_); }
 
   /// Construct with visitor and default model.
   explicit Potential(std::shared_ptr<VisitModel> visit_model,
-                     const argtype& args = argtype());
+                     argtype args = argtype());
 
   /// Return the method used to compute.
   const VisitModel& visit_model() const {
@@ -59,7 +59,7 @@ class Potential {
   /// Construct with model and visitor.
   Potential(std::shared_ptr<Model> model,
             std::shared_ptr<VisitModel> visit_model,
-            const argtype& args = argtype());
+            argtype args = argtype());
 
   /// Set the model parameters. If not set, use the one from configuration.
   void set(const ModelParams& model_params);
@@ -139,26 +139,26 @@ class Potential {
 };
 
 inline std::shared_ptr<Potential> MakePotential(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<Potential>(args);
 }
 
 inline std::shared_ptr<Potential> MakePotential(
     std::shared_ptr<Model> model,
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<Potential>(model, args);
 }
 
 inline std::shared_ptr<Potential> MakePotential(
     std::shared_ptr<VisitModel> visit_model,
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<Potential>(visit_model, args);
 }
 
 inline std::shared_ptr<Potential> MakePotential(
     std::shared_ptr<Model> model,
     std::shared_ptr<VisitModel> visit_model,
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<Potential>(model, visit_model, args);
 }
 

@@ -19,7 +19,7 @@ class AEqualB : public Constraint {
     - particle_type_B: particle type for B (default: 1).
     - extra_A: allow this many extra A particles (default: 0).
    */
-  AEqualB(const argtype& args = argtype());
+  AEqualB(argtype args = argtype());
   bool is_allowed(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override;
@@ -36,7 +36,7 @@ class AEqualB : public Constraint {
   ConstrainNumParticles num_A_, num_B_;
 };
 
-inline std::shared_ptr<AEqualB> MakeAEqualB(const argtype& args = argtype()) {
+inline std::shared_ptr<AEqualB> MakeAEqualB(argtype args = argtype()) {
   return std::make_shared<AEqualB>(args);
 }
 

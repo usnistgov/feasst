@@ -5,7 +5,7 @@ namespace feasst {
 
 MacrostateEnergy::MacrostateEnergy(const Histogram& histogram,
     const argtype& args) : Macrostate(histogram, args) {
-  WARN("MacrostateEnergy has not been tested.");
+  //WARN("MacrostateEnergy has not been tested.");
   //num_ = ConstrainEnergy(
   //  {{"type", args_.key("particle_type").dflt("-1").str()}});
   //ASSERT(num_.type() >= -1, "particle_type: " << num_.type());

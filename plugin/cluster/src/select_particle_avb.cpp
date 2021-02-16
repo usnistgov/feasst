@@ -7,43 +7,37 @@
 
 namespace feasst {
 
-SelectParticleAVB::SelectParticleAVB(const argtype& args) : TrialSelect(args) {
+SelectParticleAVB::SelectParticleAVB(argtype args) : SelectParticleAVB(&args) {
+  check_all_used(args);
+}
+SelectParticleAVB::SelectParticleAVB(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectParticleAVB";
-  neighbor_ = args_.key("neighbor_index").dflt("0").integer();
-  site_index_ = args_.key("site").dflt("0").integer();
-  //INFO("site_index_ " << site_index_);
+  neighbor_ = integer("neighbor_index", args, 0);
+  site_index_ = integer("site", args, 0);
   mobile_.clear();
   mobile_.add_site(0, site_index_);
-  grand_canonical_ = args_.key("grand_canonical").boolean();
-  inside_ = args_.key("inside").dflt("true").boolean();
-  is_second_target_ = args_.key("second_target").dflt("false").boolean();
-
-// HWH ghost isn't set by PerturbAdd::precompute
-//  set_ghost(args_.key("ghost").dflt("false").boolean());
-//  if (is_ghost()) ASSERT(grand_canonical_, "ghost requires grand_canonical");
-//  DEBUG("ghost? " << is_ghost());
+  grand_canonical_ = boolean("grand_canonical", args);
+  inside_ = boolean("inside", args, true);
+  is_second_target_ = boolean("second_target", args, false);
 
   // initialize select_target_
   argtype target_args;
-//  if (is_ghost()) {
-    target_args.insert({"load_coordinates", "true"});
-//  } else {
-//    target_args.insert({"load_coordinates", "false"});
-//  }
+  target_args.insert({"load_coordinates", "true"});
   target_args.insert({"particle_type",
-                      args_.key("target_particle_type").dflt("0").str()});
-  target_args.insert({"site", args_.key("target_site").dflt("0").str()});
+                      str("target_particle_type", args, "0")});
+  target_args.insert({"site", str("target_site", args, "0")});
   select_target_ = TrialSelectParticle(target_args);
 
   // initialize select_mobile_
   argtype mobile_args;
   mobile_args.insert({"load_coordinates", "true"});
-  mobile_args.insert({"particle_type",
-    args_.key("particle_type").dflt("-1").str()});
+  if (is_particle_type_set()) {
+    mobile_args.insert({"particle_type", str(particle_type())});
+  }
   mobile_args.insert({"site", str(site_index_)});
   select_mobile_ = TrialSelectParticle(mobile_args);
 
-  ASSERT(!args_.key("group_index").used(), "group not implemented with AVB");
+  ASSERT(!used("group_index", *args), "group not implemented with AVB");
 }
 
 class MapSelectParticleAVB {

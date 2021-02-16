@@ -23,18 +23,16 @@ class FlatHistogram : public Criteria {
  public:
   // HWH remove, considering EnsembleAverage?
   // Only used for reweighting
-  FlatHistogram(const argtype &args = argtype());
+  FlatHistogram();
 
   /// Constructor
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
-      std::shared_ptr<Bias> bias,
-      const argtype &args = argtype());
+      std::shared_ptr<Bias> bias);
 
   /// Same as above, but with an added Constraint.
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
       std::shared_ptr<Bias> bias,
-      std::shared_ptr<Constraint> constraint,
-      const argtype &args = argtype());
+      std::shared_ptr<Constraint> constraint);
 
   /// Return the macrostate.
   const Macrostate& macrostate() const {
@@ -105,24 +103,21 @@ class FlatHistogram : public Criteria {
   Acceptance empty_;
 };
 
+inline std::shared_ptr<FlatHistogram> MakeFlatHistogram() {
+  return std::make_shared<FlatHistogram>();
+}
+
 inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(
-    const argtype &args = argtype()) {
-  return std::make_shared<FlatHistogram>(args);
+    std::shared_ptr<Macrostate> macrostate,
+    std::shared_ptr<Bias> bias) {
+  return std::make_shared<FlatHistogram>(macrostate, bias);
 }
 
 inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(
     std::shared_ptr<Macrostate> macrostate,
     std::shared_ptr<Bias> bias,
-    const argtype &args = argtype()) {
-  return std::make_shared<FlatHistogram>(macrostate, bias, args);
-}
-
-inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(
-    std::shared_ptr<Macrostate> macrostate,
-    std::shared_ptr<Bias> bias,
-    std::shared_ptr<Constraint> constraint,
-    const argtype &args = argtype()) {
-  return std::make_shared<FlatHistogram>(macrostate, bias, constraint, args);
+    std::shared_ptr<Constraint> constraint) {
+  return std::make_shared<FlatHistogram>(macrostate, bias, constraint);
 }
 
 }  // namespace feasst

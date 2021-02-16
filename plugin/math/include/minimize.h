@@ -23,7 +23,7 @@ class Minimize {
     - lower: lower bound.
     - upper: upper bound.
    */
-  Minimize(const argtype& args = argtype());
+  Minimize(argtype args = argtype());
 
   /// Return the tolerance
   double tolerance() const { return tolerance_; }
@@ -58,7 +58,6 @@ class Minimize {
  protected:
   std::string class_name_ = "Minimize";
   void serialize_solver_(std::ostream& ostr) const;
-  Arguments args_;
 
  private:
   double tolerance_;

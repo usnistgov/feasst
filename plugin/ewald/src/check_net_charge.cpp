@@ -4,9 +4,10 @@
 
 namespace feasst {
 
-CheckNetCharge::CheckNetCharge(const argtype &args) : AnalyzeUpdateOnly(args) {
-  minimum_ = args_.key("minimum").dflt("0.").dble();
-  maximum_ = args_.key("maximum").dflt("0.").dble();
+CheckNetCharge::CheckNetCharge(argtype args) : AnalyzeUpdateOnly(&args) {
+  minimum_ = dble("minimum", &args, 0.);
+  maximum_ = dble("maximum", &args, 0.);
+  check_all_used(args);
 }
 
 void CheckNetCharge::update(const Criteria& criteria,

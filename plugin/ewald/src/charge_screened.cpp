@@ -16,14 +16,14 @@ class MapChargeScreened {
 
 static MapChargeScreened map_charge_screened_ = MapChargeScreened();
 
-ChargeScreened::ChargeScreened(const argtype& args) {
+ChargeScreened::ChargeScreened(argtype args) {
   class_name_ = "ChargeScreened";
-  Arguments args_(args);
-  if (args_.key("disable_table").dflt("false").boolean()) {
+  if (boolean("disable_table", &args, false)) {
     shift_ = -1;
   }
-  const double hs_thres = args_.key("hard_sphere_threshold").dflt("0.1").dble();
+  const double hs_thres = dble("hard_sphere_threshold", &args, 0.1);
   hard_sphere_threshold_sq_ = hs_thres*hs_thres;
+  check_all_used(args);
 }
 
 void ChargeScreened::serialize(std::ostream& ostr) const {

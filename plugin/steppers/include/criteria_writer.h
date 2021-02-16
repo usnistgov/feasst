@@ -11,7 +11,7 @@ namespace feasst {
  */
 class CriteriaWriter : public AnalyzeWriteOnly {
  public:
-  explicit CriteriaWriter(const argtype &args = argtype());
+  explicit CriteriaWriter(argtype args = argtype());
   std::string write(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
@@ -26,7 +26,7 @@ class CriteriaWriter : public AnalyzeWriteOnly {
 };
 
 inline std::shared_ptr<CriteriaWriter> MakeCriteriaWriter(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<CriteriaWriter>(args);
 }
 

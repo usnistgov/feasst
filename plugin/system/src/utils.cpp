@@ -12,19 +12,19 @@
 
 namespace feasst {
 
-System two_particle_system(const argtype& args) {
+System two_particle_system(argtype args) {
   System sys;
   sys.add(two_particle_configuration(args));
   sys.add_to_unoptimized(MakePotential(MakeLennardJones()));
+  check_all_used(args);
   return sys;
 }
 
-System lennard_jones(const argtype& args) {
-  Arguments args_(args);
-  const double box_length = args_.key("cubic_box_length").dflt("8").dble();
-  const std::string data = args_.key("particle").dflt("forcefield/data.lj").str();
-  const bool lrc = args_.key("lrc").dflt("true").boolean();
-  const double dual_cut = args_.key("dual_cut").dflt("-1").dble();
+System lennard_jones(argtype args) {
+  const double box_length = dble("cubic_box_length", &args, 8);
+  const std::string data = str("particle", &args, "forcefield/data.lj");
+  const bool lrc = boolean("lrc", &args, true);
+  const double dual_cut = dble("dual_cut", &args, -1.);
   std::shared_ptr<Domain> domain;
   System system;
   std::stringstream ss;
@@ -40,6 +40,7 @@ System lennard_jones(const argtype& args) {
     ref->set_model_param("cutoff", 0, dual_cut);
     system.add_to_reference(ref);
   }
+  check_all_used(args);
   return system;
 }
 

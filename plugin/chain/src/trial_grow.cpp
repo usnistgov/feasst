@@ -31,36 +31,41 @@
 
 namespace feasst {
 
-std::shared_ptr<TrialFactory> MakeTrialGrow(
-    const std::vector<argtype>& args,
+std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
     const argtype& default_args) {
-  auto factory = std::make_shared<TrialFactory>(args[0]);
+  auto factory = std::make_shared<TrialFactory>(&args[0]);
   // First, determine all trial types from args[0]
   std::vector<std::string> trial_types;
   const int num_args = static_cast<int>(args.size());
-  ASSERT(num_args > 0, "TrialGrow requires args.size: " << num_args << " >0");
-  Arguments args0(args[0]);
-  args0.dont_check();
-  if (args0.key("transfer").used()) {
+  ASSERT(num_args > 0, "TrialGrow requires args.size: " << num_args << " > 0");
+  if (used("transfer", args[0])) {
+    str("transfer", &args[0]);
     trial_types.push_back("add");
     trial_types.push_back("remove");
   }
-  if (args0.key("transfer_avb").used()) {
+  if (used("transfer_avb", args[0])) {
+    str("transfer_avb", &args[0]);
     trial_types.push_back("add_avb");
     trial_types.push_back("remove_avb");
   }
-  if (args0.key("regrow_avb2").used()) {
+  if (used("regrow_avb2", args[0])) {
+    str("regrow_avb2", &args[0]);
     trial_types.push_back("regrow_avb2_in");
     trial_types.push_back("regrow_avb2_out");
   }
-  if (args0.key("regrow").used()) trial_types.push_back("regrow");
-  if (args0.key("regrow_avb4").used()) trial_types.push_back("regrow_avb4");
+  if (used("regrow", args[0])) {
+    str("regrow", &args[0]);
+    trial_types.push_back("regrow");
+  }
+  if (used("regrow_avb4", args[0])) {
+    str("regrow_avb4", &args[0]);
+    trial_types.push_back("regrow_avb4");
+  }
   if (trial_types.size() == 0) trial_types.push_back("partial_regrow");
-  Arguments default_args_(default_args);
-  default_args_.dont_check();
+  const std::string site = str("site", &args[0], "-1");
 
   // Second, determine the particle_type and first site from args[0]
-  const std::string particle_type = args0.key("particle_type").str();
+  const std::string particle_type = str("particle_type", &args[0]);
 
   // Finally, add each trial to the factory
   for (const std::string trial_type : trial_types) {
@@ -70,13 +75,10 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(
     std::shared_ptr<TrialCompute> compute = MakeTrialComputeMove();
     for (int iarg = 0; iarg < num_args; ++iarg) {
       DEBUG("iarg: " << iarg);
-      Arguments args_(args[iarg]);
-      args_.dont_check();
-      argtype sel_args;
+      argtype iargs = args[iarg];
       std::shared_ptr<TrialSelect> select;
       std::shared_ptr<Perturb> perturb;
       if (iarg == 0 && trial_type != "partial_regrow") {
-        const std::string site = args0.key("site").str();
         argtype sel_args = {{"particle_type", particle_type}, {"site", site}};
         select = MakeTrialSelectParticle(sel_args);
         if (trial_type == "add") {
@@ -93,32 +95,48 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(
           FATAL("remove avb not impl");
         } else if (trial_type == "regrow_avb2_in" ||
                    trial_type == "regrow_avb2_out") {
-          argtype args_sel, args_mv, args_comp;
-          argtype args_avb2(args[iarg]);
+          //argtype args_sel, args_mv, args_comp;
+          //argtype args_avb2(args[iarg]);
+          bool out_to_in;
           if (trial_type == "regrow_avb2_in") {
-            args_avb2.insert({"out_to_in", "true"});
+            out_to_in = true;
+            iargs.insert({"out_to_in", "true"});
           } else {
-            args_avb2.insert({"out_to_in", "false"});
+            out_to_in = false;
+            iargs.insert({"out_to_in", "false"});
           }
-          gen_avb2_args_(args_avb2, &args_sel, &args_mv, &args_comp);
-          //INFO(str(args_sel));
-          select = MakeSelectParticleAVB(args_sel);
-          perturb = MakePerturbMoveAVB(args_mv);
-          compute = MakeComputeAVB2(args_comp);
+          argtype perturb_args;
+          gen_avb2_args_(out_to_in, &iargs, &perturb_args);
+          iargs.insert({"particle_type", particle_type});
+          iargs.insert({"site", site});
+          select = std::make_shared<SelectParticleAVB>(&iargs);
+          perturb = std::make_shared<PerturbMoveAVB>(&perturb_args);
+          compute = std::make_shared<ComputeAVB2>(&iargs);
         } else if (trial_type == "regrow_avb4") {
-          argtype args_sel, args_mv;
-          gen_avb4_args_(args[iarg], &args_sel, &args_mv);
-          select = MakeSelectParticleAVB(args_sel);
-          perturb = MakePerturbMoveAVB(args_mv);
-          compute = MakeComputeAVB4();
+          //argtype args_sel, args_mv;
+          gen_avb4_args_(&iargs);
+          iargs.insert({"particle_type", particle_type});
+          iargs.insert({"site", site});
+          select = std::make_shared<SelectParticleAVB>(&iargs);
+          perturb = std::make_shared<PerturbMoveAVB>(&iargs);
+          compute = std::make_shared<ComputeAVB4>();
         } else {
           FATAL("unreocgnized trial_type: " << trial_type);
         }
       } else {
         bool bond = false, angle = false, branch = false;
-        if (args_.key("bond").used()) bond = true;
-        if (args_.key("angle").used()) angle = true;
-        if (args_.key("branch").used()) branch = true;
+        if (used("bond", iargs)) {
+          str("bond", &iargs);
+          bond = true;
+        }
+        if (used("angle", iargs)) {
+          str("angle", &iargs);
+          angle = true;
+        }
+        if (used("branch", iargs)) {
+          str("branch", &iargs);
+          branch = true;
+        }
         ASSERT((bond && !(angle || branch)) ||
                (angle && !(bond || branch)) ||
                (branch && !(bond || angle)), "cannot have two of " <<
@@ -126,32 +144,35 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(
         if (bond) {
           select = MakeTrialSelectBond({
             {"particle_type", particle_type},
-            {"mobile_site", args_.key("mobile_site").str()},
-            {"anchor_site", args_.key("anchor_site").str()}});
+            {"mobile_site", str("mobile_site", &iargs)},
+            {"anchor_site", str("anchor_site", &iargs)}});
           perturb = MakePerturbDistance();
         } else if (angle) {
           select = MakeTrialSelectAngle({
             {"particle_type", particle_type},
-            {"mobile_site", args_.key("mobile_site").str()},
-            {"anchor_site", args_.key("anchor_site").str()},
-            {"anchor_site2", args_.key("anchor_site2").str()}});
+            {"mobile_site", str("mobile_site", &iargs)},
+            {"anchor_site", str("anchor_site", &iargs)},
+            {"anchor_site2", str("anchor_site2", &iargs)}});
           perturb = MakePerturbDistanceAngle();
         } else if (branch) {
           select = MakeSelectBranch({
             {"particle_type", particle_type},
-            {"mobile_site", args_.key("mobile_site").str()},
-            {"mobile_site2", args_.key("mobile_site2").str()},
-            {"anchor_site", args_.key("anchor_site").str()},
-            {"anchor_site2", args_.key("anchor_site2").str()}});
+            {"mobile_site", str("mobile_site", &iargs)},
+            {"mobile_site2", str("mobile_site2", &iargs)},
+            {"anchor_site", str("anchor_site", &iargs)},
+            {"anchor_site2", str("anchor_site2", &iargs)}});
           perturb = MakePerturbBranch();
         } else {
-          FATAL("unrecognized args: " << args_.str() << ". " <<
+          FATAL("unrecognized args: " << str(iargs) << ". " <<
                 "Requires bond, angle, branch, etc");
         }
       }
-      trial->add_stage(select, perturb, {
-        {"num_steps", args_.key("num_steps").dflt(default_args_.key("num_steps").dflt("1").str()).str()},
-        {"reference_index", args_.key("reference_index").dflt(default_args_.key("reference_index").dflt("-1").str()).str()}});
+      argtype dflt_args = default_args;
+      argtype stage_args = {{"num_steps", str("num_steps", &iargs, str("num_steps", &dflt_args, "1"))},
+        {"reference_index", str("reference_index", &iargs, str("reference_index", &dflt_args, "-1"))}};
+      check_all_used(iargs);
+      trial->add_stage(select, perturb, &stage_args);
+      check_all_used(stage_args);
     }
     trial->set(compute);
     factory->add(trial);

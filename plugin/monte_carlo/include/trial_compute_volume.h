@@ -65,7 +65,7 @@ And if volume is changed in \ln units
  */
 class TrialComputeVolume : public TrialCompute {
  public:
-  explicit TrialComputeVolume(const argtype& args = argtype());
+  explicit TrialComputeVolume(argtype args = argtype());
 
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -85,7 +85,7 @@ class TrialComputeVolume : public TrialCompute {
 };
 
 inline std::shared_ptr<TrialComputeVolume> MakeTrialComputeVolume(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<TrialComputeVolume>(args);
 }
 }  // namespace feasst

@@ -23,7 +23,7 @@ TEST(MacrostateMorph, lj) {
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
   auto macro = MakeMacrostateMorph(grow_sequence,
     Histogram({{"width", str(1./grow_sequence.size())}, {"max", "10"}}));
-  auto criteria = MakeMetropolis({{"beta", "1"}});
+  auto criteria = MakeMetropolis();
 
   Acceptance accept;
   EXPECT_EQ(macro->value(system, *criteria, accept), 0.);

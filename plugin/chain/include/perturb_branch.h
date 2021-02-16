@@ -15,7 +15,8 @@ namespace feasst {
  */
 class PerturbBranch : public PerturbMove {
  public:
-  explicit PerturbBranch(const argtype& args = argtype());
+  explicit PerturbBranch(argtype args = argtype());
+  explicit PerturbBranch(argtype * args);
 
   /// Same as PerturbDistanceAngle, but for two sets of angles/bonds.
   /// Also, obtain the angle parameters between the two mobile branch sites.
@@ -50,7 +51,7 @@ class PerturbBranch : public PerturbMove {
 };
 
 inline std::shared_ptr<PerturbBranch> MakePerturbBranch(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbBranch>(args);
 }
 

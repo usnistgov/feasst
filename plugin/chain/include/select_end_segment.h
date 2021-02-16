@@ -11,7 +11,10 @@ namespace feasst {
 // HWH optimize, set anchor one site next from selection.
 class SelectEndSegment : public SelectSegment {
  public:
-  SelectEndSegment(const argtype& args = argtype()) : SelectSegment(args) {
+  SelectEndSegment(argtype args = argtype()) : SelectEndSegment(&args) {
+    check_all_used(args);
+  }
+  SelectEndSegment(argtype * args) : SelectSegment(args) {
     class_name_ = "SelectEndSegment";
   }
   void precompute(System * system) override;

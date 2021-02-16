@@ -10,21 +10,18 @@
 
 namespace feasst {
 
-Random::Random(const argtype& args) {}
+Random::Random(argtype * args) {}
 
 // parsing seed in constructor leads to pure virtual function reseed_
-void Random::parse_seed_(const argtype& args) {
-  Arguments args_;
-  args_.init(args);
-  if (args_.key("seed").used()) {
-    const std::string seed_str = args_.str();
+void Random::parse_seed_(argtype * args) {
+  if (used("seed", *args)) {
+    const std::string seed_str = str("seed", args);
     if (seed_str == "time") {
       seed_by_time();
     } else if (seed_str == "default") {
       seed();
     } else {
-      args_.init(args);
-      seed(args_.key("seed").integer());
+      seed(str_to_int(seed_str));
     }
   }
 }

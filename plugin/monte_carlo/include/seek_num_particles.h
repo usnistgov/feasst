@@ -26,10 +26,10 @@ class SeekNumParticles {
     - particle_type: type of particle to add. If -1, all types (default: -1).
     - max_attempts: maximum number of trial attempts for seek (default: 1e8).
    */
-  SeekNumParticles(const int num, const argtype& args = argtype());
+  SeekNumParticles(const int num, argtype args = argtype());
 
   /// Optionally, use a temporary ThermoParams.
-  SeekNumParticles with_thermo_params(const argtype& args);
+  SeekNumParticles with_thermo_params(argtype args);
 
   /// Optionally use a temporary Metropolis criteria with given args.
   /// This is the recommended approach, especially to avoid using FlatHistogram.
@@ -44,7 +44,7 @@ class SeekNumParticles {
     argument particle_type, if not -1.
     If -1, then use 0.
    */
-  SeekNumParticles with_trial_add(const argtype& args = argtype());
+  SeekNumParticles with_trial_add(argtype args = argtype());
 
   /**
     Add an extra trial.
@@ -72,7 +72,7 @@ class SeekNumParticles {
 
 inline std::shared_ptr<SeekNumParticles> MakeSeekNumParticles(
     const int num,
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<SeekNumParticles>(num, args);
 }
 

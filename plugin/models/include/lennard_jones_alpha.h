@@ -18,7 +18,8 @@ class LennardJonesAlpha : public LennardJones {
     args:
     - alpha: set the value of \f$\alpha\f$ (default: 6).
    */
-  LennardJonesAlpha(const argtype& args = argtype());
+  explicit LennardJonesAlpha(argtype args = argtype());
+  explicit LennardJonesAlpha(argtype * args);
 
   /// Return the value of alpha.
   const double& alpha() const { return alpha_; }
@@ -61,7 +62,7 @@ class LennardJonesAlpha : public LennardJones {
 };
 
 inline std::shared_ptr<LennardJonesAlpha> MakeLennardJonesAlpha(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<LennardJonesAlpha>(args);
 }
 

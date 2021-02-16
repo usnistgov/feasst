@@ -6,7 +6,11 @@
 
 namespace feasst {
 
-PerturbDistanceAngle::PerturbDistanceAngle(const argtype& args)
+PerturbDistanceAngle::PerturbDistanceAngle(argtype args)
+  : PerturbDistanceAngle(&args) {
+  check_all_used(args);
+}
+PerturbDistanceAngle::PerturbDistanceAngle(argtype * args)
   : PerturbDistance(args) {
   class_name_ = "PerturbDistanceAngle";
 }

@@ -11,7 +11,7 @@ namespace feasst {
  */
 class CriteriaUpdater : public ModifyUpdateOnly {
  public:
-  explicit CriteriaUpdater(const argtype &args = argtype());
+  explicit CriteriaUpdater(argtype args = argtype());
   void update(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override { criteria->update(); }
@@ -26,7 +26,7 @@ class CriteriaUpdater : public ModifyUpdateOnly {
 };
 
 inline std::shared_ptr<CriteriaUpdater> MakeCriteriaUpdater(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<CriteriaUpdater>(args);
 }
 

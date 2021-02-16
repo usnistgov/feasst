@@ -10,7 +10,7 @@ namespace feasst {
 
 
 // parse the number of particle types.
-std::vector<int> ptypes(Arguments * args);
+std::vector<int> ptypes(argtype * args);
 
 /**
   Attempt to add multiple particles.
@@ -20,8 +20,7 @@ std::vector<int> ptypes(Arguments * args);
   - particle_type[i]: the i-th type of particle to add.
     The "[i]" is to be substituted for an integer 0, 1, 2, ...
  */
-std::shared_ptr<Trial> MakeTrialAddMultiple(
-    const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialAddMultiple(argtype args = argtype());
 
 }  // namespace feasst
 

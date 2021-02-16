@@ -1,6 +1,5 @@
-Arguments
+utils/include/arguments
 =====================================================
 
-.. doxygenclass:: feasst::Arguments
+.. doxygenfile:: utils/include/arguments.h
    :project: FEASST
-   :members:

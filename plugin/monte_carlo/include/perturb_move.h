@@ -13,7 +13,8 @@ namespace feasst {
  */
 class PerturbMove : public Perturb {
  public:
-  explicit PerturbMove(const argtype& args = argtype()) : Perturb(args) {}
+  explicit PerturbMove(argtype args = argtype()) : PerturbMove(&args) {}
+  explicit PerturbMove(argtype * args) : Perturb(args) {}
 
   /// Move the selection of the system.
   virtual void move(System * system, TrialSelect * select, Random * random) = 0;

@@ -8,12 +8,11 @@
 namespace feasst {
 
 SlabSine::SlabSine(std::shared_ptr<FormulaSineWave> sine_wave,
-    const argtype &args) : ShapeIntersect() {
-  Arguments args_(args);
-  int dimension = args_.key("dimension").integer();
-  int wave_dimension = args_.key("wave_dimension").integer();
-  double upper = args_.key("average_bound0").dble();
-  double lower = args_.key("average_bound1").dble();
+    argtype args) : ShapeIntersect() {
+  int dimension = integer("dimension", &args);
+  int wave_dimension = integer("wave_dimension", &args);
+  double upper = dble("average_bound0", &args);
+  double lower = dble("average_bound1", &args);
   sort(&lower, &upper);
   ASSERT(upper - lower > NEAR_ZERO, "slab is too thin");
   sine_wave->set_phase(sine_wave->phase() - 0.25*sine_wave->width());
@@ -31,6 +30,7 @@ SlabSine::SlabSine(std::shared_ptr<FormulaSineWave> sine_wave,
     {"direction", str(1)},
   });
   set(half0, half1);
+  check_all_used(args);
 }
 
 }  // namespace feasst

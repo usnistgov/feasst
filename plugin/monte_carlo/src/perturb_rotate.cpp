@@ -6,12 +6,13 @@
 
 namespace feasst {
 
-PerturbRotate::PerturbRotate(const argtype& args) : PerturbMove(args) {
+PerturbRotate::PerturbRotate(argtype args) : PerturbRotate(&args) {
+  check_all_used(args);
+}
+PerturbRotate::PerturbRotate(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbRotate";
   set_tunable_min_and_max(2*NEAR_ZERO, 360.);
-  Arguments args_(args);
-  args_.dont_check();
-  pivot_site_ = args_.key("pivot_site").dflt("0").integer();
+  pivot_site_ = integer("pivot_site", args, 0);
 }
 
 class MapPerturbRotate {

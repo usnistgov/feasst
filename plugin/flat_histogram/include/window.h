@@ -34,13 +34,14 @@ class Window {
   /**
     args:
     - minimum: minimum in macrostate range (default: 0).
-    - maximum: maximum in macrostate range.
-    - num: number of windows.
+    - maximum: maximum in macrostate range (default: -1).
+    - num: number of windows (default: -1).
     - num_from_omp: obtain num from OMP threads (default: false).
     - extra_overlap: additional overlap of the windows in addition to the one
       macrostate that they must share (default: 0).
    */
-  explicit Window(const argtype& args = argtype());
+  explicit Window(argtype args = argtype());
+  explicit Window(argtype * args);
 
   /// Return the minimum.
   virtual int minimum() const { return minimum_; }
@@ -49,7 +50,7 @@ class Window {
   virtual int maximum() const { return maximum_; }
 
   /// Return the number of windows.
-  virtual int num() const;
+  virtual int num() const { return num_; }
 
   /// Return the extra overlap.
   int extra_overlap() const { return extra_overlap_; }
@@ -62,9 +63,6 @@ class Window {
   std::vector<std::vector<int> > boundaries() const;
 
   virtual ~Window() {}
-
- protected:
-  Arguments args_;
 
  private:
   int minimum_, maximum_, num_, extra_overlap_;

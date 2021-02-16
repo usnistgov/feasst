@@ -6,8 +6,10 @@
 
 namespace feasst {
 
+// HWH
 /**
   Defines the macrostate to be the total potential energy of the system.
+  WARNING: this class has not been tested at all.
  */
 class MacrostateEnergy : public Macrostate {
  public:

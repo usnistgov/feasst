@@ -8,7 +8,10 @@ namespace feasst {
 
 class PerturbPivot : public PerturbRotate {
  public:
-  PerturbPivot(const argtype& args = argtype()) : PerturbRotate(args) {
+  PerturbPivot(argtype args = argtype()) : PerturbPivot(&args) {
+    check_all_used(args);
+  }
+  PerturbPivot(argtype * args) : PerturbRotate(args) {
     class_name_ = "PerturbPivot";
   }
 
@@ -25,7 +28,7 @@ class PerturbPivot : public PerturbRotate {
   void serialize_perturb_pivot_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<PerturbPivot> MakePerturbPivot(const argtype& args = argtype()) {
+inline std::shared_ptr<PerturbPivot> MakePerturbPivot(argtype args = argtype()) {
   return std::make_shared<PerturbPivot>(args);
 }
 

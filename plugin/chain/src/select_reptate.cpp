@@ -36,10 +36,11 @@ void SelectReptate::serialize(std::ostream& ostr) const {
   serialize_select_reptate_(ostr);
 }
 
-SelectReptate::SelectReptate(const argtype& args)
-  : SelectEndSegment(args) {
-  ASSERT(max_length() == 1,
-    "requires max_length(" << max_length() << ") of 1");
+SelectReptate::SelectReptate(argtype args) : SelectReptate(&args) {
+  check_all_used(args);
+}
+SelectReptate::SelectReptate(argtype * args) : SelectEndSegment(args) {
+  ASSERT(max_length() == 1, "requires max_length(" << max_length() << ") of 1");
   class_name_ = "SelectReptate";
 }
 

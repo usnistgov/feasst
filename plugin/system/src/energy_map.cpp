@@ -10,9 +10,9 @@ std::map<std::string, std::shared_ptr<EnergyMap> >& EnergyMap::deserialize_map()
   return *ans;
 }
 
-EnergyMap::EnergyMap(const argtype& args) {
-  Arguments args_(args);
-  default_value_ = args_.key("default_value").dflt("0.").dble();
+EnergyMap::EnergyMap(argtype args) {
+  default_value_ = dble("default_value", &args, 0.);
+  check_all_used(args);
 }
 
 void EnergyMap::clear(

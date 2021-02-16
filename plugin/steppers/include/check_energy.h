@@ -18,7 +18,7 @@ class CheckEnergy : public ModifyUpdateOnly {
     - tolerance: relative absolute difference between running energy
       and recomputed energy (default: 1e-10).
   */
-  explicit CheckEnergy(const argtype &args = argtype());
+  explicit CheckEnergy(argtype args = argtype());
 
   void update(Criteria * criteria,
       System * system,
@@ -38,7 +38,7 @@ class CheckEnergy : public ModifyUpdateOnly {
 };
 
 inline std::shared_ptr<CheckEnergy> MakeCheckEnergy(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<CheckEnergy>(args);
 }
 

@@ -13,7 +13,10 @@ namespace feasst {
  */
 class PerturbReptate : public PerturbDistance {
  public:
-  PerturbReptate(const argtype& args = argtype()) : PerturbDistance(args) {
+  PerturbReptate(argtype args = argtype()) : PerturbReptate(&args) {
+    check_all_used(args);
+  }
+  PerturbReptate(argtype * args) : PerturbDistance(args) {
     class_name_ = "PerturbReptate";
   }
   void move(System * system, TrialSelect * select, Random * random) override {
@@ -31,7 +34,7 @@ class PerturbReptate : public PerturbDistance {
   void serialize_perturb_reptate_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<PerturbReptate> MakePerturbReptate(const argtype& args = argtype()) {
+inline std::shared_ptr<PerturbReptate> MakePerturbReptate(argtype args = argtype()) {
   return std::make_shared<PerturbReptate>(args);
 }
 

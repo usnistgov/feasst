@@ -4,11 +4,12 @@
 
 namespace feasst {
 
-PerturbBeta::PerturbBeta(const argtype& args) : Perturb(args) {
+PerturbBeta::PerturbBeta(argtype args) : PerturbBeta(&args) {
+  check_all_used(args);
+}
+PerturbBeta::PerturbBeta(argtype * args) : Perturb(args) {
   class_name_ = "PerturbBeta";
-  Arguments args_(args);
-  args_.dont_check();
-  fixed_beta_change_ = args_.key("fixed_beta_change").dble();
+  fixed_beta_change_ = dble("fixed_beta_change", args);
   disable_tunable_();
 }
 

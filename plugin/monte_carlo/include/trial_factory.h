@@ -14,7 +14,8 @@ namespace feasst {
  */
 class TrialFactory : public Trial {
  public:
-  TrialFactory(const argtype& args = argtype());
+  explicit TrialFactory(argtype args = argtype());
+  explicit TrialFactory(argtype * args);
 
   /// Add a trial.
   void add(std::shared_ptr<Trial> trial);

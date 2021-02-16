@@ -78,35 +78,34 @@ double Shape::volume() const { FATAL("not implemented"); }
 double Shape::integrate(
     const Position& point,
     Random * random,
-    const argtype& args) {
-  Arguments args_(args);
+    argtype args) {
 
   // read alpha and epsilon
   std::vector<double> alpha, epsilon;
   std::string start;
   start.assign("alpha");
-  if (args_.key(start).used()) {
-    alpha.push_back(args_.dble());
-    epsilon.push_back(args_.key("epsilon").dble());
+  if (used(start, args)) {
+    alpha.push_back(dble(start, &args));
+    epsilon.push_back(dble("epsilon", &args));
   } else {
     int type = static_cast<int>(alpha.size());
     std::stringstream key;
     key << start << type;
-    while (args_.key(key.str()).used()) {
-      alpha.push_back(args_.dble());
+    while (used(key.str(), args)) {
+      alpha.push_back(dble(key.str(), &args));
       key.str("");
       key << "epsilon" << type;
-      epsilon.push_back(args_.key(key.str()).dble());
+      epsilon.push_back(dble(key.str(), &args));
       ++type;
       key.str("");
       key << start << type;
     }
   }
 
-  const bool invert = args_.key("invert").dflt("true").boolean();
-  const double max_radius = args_.key("max_radius").dble();
-  const int num_shells = args_.key("num_shells").integer();
-  const double points_per_shell = args_.key("points_per_shell").dble();
+  const bool invert = boolean("invert", &args, true);
+  const double max_radius = dble("max_radius", &args);
+  const int num_shells = integer("num_shells", &args);
+  const double points_per_shell = dble("points_per_shell", &args);
   double sum = 0.;
   ASSERT(point.dimension() == 3, "assumes 3d");
   const double dr = max_radius/static_cast<double>(num_shells);
@@ -164,6 +163,7 @@ double Shape::integrate(
     }
     ++irad;
   }
+  check_all_used(args);
   return sum;
 }
 

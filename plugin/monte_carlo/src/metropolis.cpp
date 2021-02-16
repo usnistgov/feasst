@@ -5,12 +5,11 @@
 
 namespace feasst {
 
-Metropolis::Metropolis(const argtype &args) : Criteria(args) {
+Metropolis::Metropolis() : Criteria() {
   class_name_ = "Metropolis";
 }
 
-Metropolis::Metropolis(std::shared_ptr<Constraint> constraint,
-    const argtype& args) : Metropolis(args) {
+Metropolis::Metropolis(std::shared_ptr<Constraint> constraint) : Metropolis() {
   add(constraint);
 }
 

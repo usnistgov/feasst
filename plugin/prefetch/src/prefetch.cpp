@@ -13,15 +13,15 @@
 
 namespace feasst {
 
-Prefetch::Prefetch(const argtype& args) {
+Prefetch::Prefetch(argtype args) {
   activate_prefetch();
-  Arguments args_(args);
-  steps_per_check_ = args_.key("steps_per_check").dflt("100000").integer();
-  load_balance_ = args_.key("load_balance").dflt("true").boolean();
-  is_synchronize_ = args_.key("synchronize").dflt("false").boolean();
+  steps_per_check_ = integer("steps_per_check", &args, 100000);
+  load_balance_ = boolean("load_balance", &args, true);
+  is_synchronize_ = boolean("synchronize", &args, false);
   #ifdef DEBUG_SERIAL_MODE_5324634
     WARN("DEBUG_SERIAL_MODE_5324634");
   #endif
+  check_all_used(args);
 }
 
 void Prefetch::reset_trial_stats() {

@@ -8,28 +8,28 @@
 
 namespace feasst {
 
-Ewald::Ewald(const argtype& args) {
+Ewald::Ewald(argtype args) {
   class_name_ = "Ewald";
-  Arguments args_(args);
-  if (args_.key("tolerance").used()) {
-    tolerance_ = std::make_shared<double>(args_.dble());
+  if (used("tolerance", args)) {
+    tolerance_ = std::make_shared<double>(dble("tolerance", &args));
   }
-  if (args_.key("alpha").used()) {
-    alpha_arg_ = std::make_shared<double>(args_.dble());
+  if (used("alpha", args)) {
+    alpha_arg_ = std::make_shared<double>(dble("alpha", &args));
   }
-  if (args_.key("kxmax").used()) {
-    kxmax_arg_ = std::make_shared<int>(args_.integer());
+  if (used("kxmax", args)) {
+    kxmax_arg_ = std::make_shared<int>(integer("kxmax", &args));
   }
-  if (args_.key("kymax").used()) {
-    kymax_arg_ = std::make_shared<int>(args_.integer());
+  if (used("kymax", args)) {
+    kymax_arg_ = std::make_shared<int>(integer("kymax", &args));
   }
-  if (args_.key("kzmax").used()) {
-    kzmax_arg_ = std::make_shared<int>(args_.integer());
+  if (used("kzmax", args)) {
+    kzmax_arg_ = std::make_shared<int>(integer("kzmax", &args));
   }
-  if (args_.key("kmax_squared").used()) {
-    kmax_sq_arg_ = std::make_shared<int>(args_.integer());
+  if (used("kmax_squared", args)) {
+    kmax_sq_arg_ = std::make_shared<int>(integer("kmax_squared", &args));
   }
   data_.get_dble_1D()->resize(1);
+  check_all_used(args);
 }
 
 void Ewald::tolerance_to_alpha_ks(const double tolerance,

@@ -18,10 +18,9 @@ class MapModelLJShape {
 static MapModelLJShape map_model_hard_shape_ = MapModelLJShape();
 
 ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
-  const argtype& args) : ModelOneBody(), ShapedEntity(shape) {
+  argtype args) : ModelOneBody(), ShapedEntity(shape) {
   class_name_ = "ModelLJShape";
-  args_.init(args);
-  alpha_ = args_.key("alpha").dflt("3").dble();
+  alpha_ = dble("alpha", &args, 3);
 }
 
 void ModelLJShape::serialize(std::ostream& ostr) const {

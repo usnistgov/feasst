@@ -23,7 +23,7 @@ class TrialGrowLinear : public Trial {
    */
   TrialGrowLinear(
     std::shared_ptr<TrialCompute> compute,
-    const argtype& args = argtype());
+    argtype args = argtype());
   void precompute(Criteria * criteria, System * system) override;
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
@@ -36,7 +36,7 @@ class TrialGrowLinear : public Trial {
 
 inline std::shared_ptr<TrialGrowLinear> MakeTrialGrowLinear(
     std::shared_ptr<TrialCompute> compute,
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<TrialGrowLinear>(compute, args);
 }
 

@@ -12,9 +12,10 @@ class MapCheckProperties {
 
 static MapCheckProperties mapper_check_properties_ = MapCheckProperties();
 
-CheckProperties::CheckProperties(const argtype &args)
-  : ModifyUpdateOnly(args) {
-  tolerance_ = args_.key("tolerance").dflt(str(1e-15)).dble();
+CheckProperties::CheckProperties(argtype args)
+  : ModifyUpdateOnly(&args) {
+  tolerance_ = dble("tolerance", &args, 1e-15);
+  check_all_used(args);
 }
 
 void CheckProperties::update(Criteria * criteria,

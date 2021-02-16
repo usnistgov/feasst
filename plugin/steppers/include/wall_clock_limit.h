@@ -16,7 +16,7 @@ class WallClockLimit : public AnalyzeUpdateOnly {
     args:
     - max_hours: maximum number of wall clock hours until job termination.
    */
-  WallClockLimit(const argtype &args = argtype());
+  WallClockLimit(argtype args = argtype());
 
   void update(const Criteria& criteria,
       const System& system,
@@ -34,7 +34,7 @@ class WallClockLimit : public AnalyzeUpdateOnly {
 };
 
 inline std::shared_ptr<WallClockLimit> MakeWallClockLimit(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<WallClockLimit>(args);
 }
 

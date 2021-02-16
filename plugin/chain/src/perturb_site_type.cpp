@@ -3,12 +3,13 @@
 
 namespace feasst {
 
-PerturbSiteType::PerturbSiteType(const argtype& args) : Perturb(args) {
+PerturbSiteType::PerturbSiteType(argtype args) : PerturbSiteType(&args) {
+  check_all_used(args);
+}
+PerturbSiteType::PerturbSiteType(argtype * args) : Perturb(args) {
   class_name_ = "PerturbSiteType";
   disable_tunable_();
-  Arguments args_(args);
-  args_.dont_check();
-  new_site_type_ = args_.key("type").integer();
+  new_site_type_ = integer("type", args);
 }
 
 class MapPerturbSiteType {

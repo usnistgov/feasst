@@ -80,15 +80,15 @@ class MapPhysicalConstantsCustom {
 
 static MapPhysicalConstantsCustom mapper_physical_constants_custom_ = MapPhysicalConstantsCustom();
 
-PhysicalConstantsCustom::PhysicalConstantsCustom(const argtype& args)
+PhysicalConstantsCustom::PhysicalConstantsCustom(argtype args)
   : PhysicalConstants() {
   class_name_ = "PhysicalConstantsCustom";
-  Arguments args_(args);
-  boltzmann_constant_ = args_.key("boltzmann_constant").dble();
-  avogadro_constant_ = args_.key("avogadro_constant").dble();
-  permitivity_vacuum_ = args_.key("permitivity_vacuum").dble();
-  elementary_charge_ = args_.key("elementary_charge").dble();
+  boltzmann_constant_ = dble("boltzmann_constant", &args);
+  avogadro_constant_ = dble("avogadro_constant", &args);
+  permitivity_vacuum_ = dble("permitivity_vacuum", &args);
+  elementary_charge_ = dble("elementary_charge", &args);
   compute_derived_();
+  check_all_used(args);
 }
 
 void PhysicalConstantsCustom::serialize(std::ostream& ostr) const {

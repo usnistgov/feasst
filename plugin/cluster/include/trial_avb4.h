@@ -15,10 +15,9 @@ namespace feasst {
   args:
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
  */
-std::shared_ptr<Trial> MakeTrialAVB4(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialAVB4(argtype args = argtype());
 
-// Process AVB4 args, which can also be used in TrialGrow
-void gen_avb4_args_(const argtype& args, argtype * args_sel, argtype * args_mv);
+void gen_avb4_args_(argtype * args);
 
 }  // namespace feasst
 

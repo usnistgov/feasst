@@ -3,12 +3,12 @@
 
 namespace feasst {
 
-TrialSelectAngle::TrialSelectAngle(const argtype& args)
-  : TrialSelectBond(args) {
+TrialSelectAngle::TrialSelectAngle(argtype args) : TrialSelectAngle(&args) {
+  check_all_used(args);
+}
+TrialSelectAngle::TrialSelectAngle(argtype * args) : TrialSelectBond(args) {
   class_name_ = "TrialSelectAngle";
-  Arguments args_(args);
-  args_.dont_check();
-  anchor_site2_ = args_.key("anchor_site2").integer();
+  anchor_site2_ = integer("anchor_site2", args);
 }
 
 class MapTrialSelectAngle {

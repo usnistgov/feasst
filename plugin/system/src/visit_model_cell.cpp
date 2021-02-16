@@ -9,15 +9,15 @@
 
 namespace feasst {
 
-VisitModelCell::VisitModelCell(const argtype& args) : VisitModel() {
+VisitModelCell::VisitModelCell(argtype args) : VisitModel() {
   class_name_ = "VisitModelCell";
   DEBUG("parse cells");
-  Arguments args_(args);
-  if (args_.key("min_length").used()) {
-    min_length_ = args_.dble();
-    group_index_ = args_.key("cell_group").dflt("0").integer();
+  if (used("min_length", args)) {
+    min_length_ = dble("min_length", &args);
+    group_index_ = integer("cell_group", &args, 0);
     ASSERT(group_index_ >= 0, "invalid group_index: " << group_index_);
   }
+  check_all_used(args);
 }
 
 int VisitModelCell::cell_id(const Domain& domain,

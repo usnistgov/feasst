@@ -13,10 +13,10 @@ class MapNumParticles {
 
 static MapNumParticles mapper_ = MapNumParticles();
 
-NumParticles::NumParticles(const argtype &args) : Analyze(args) {
-//  args_.init(args);
-  particle_type_ = args_.key("particle_type").dflt("-1").integer();
-  group_ = args_.key("group").dflt("-1").integer();
+NumParticles::NumParticles(argtype args) : Analyze(&args) {
+  particle_type_ = integer("particle_type", &args, -1);
+  group_ = integer("group", &args, -1);
+  check_all_used(args);
 }
 
 std::string NumParticles::header(const Criteria& criteria,

@@ -11,7 +11,7 @@ namespace feasst {
  */
 class PerturbPointReflect : public PerturbMove {
  public:
-  explicit PerturbPointReflect(const argtype& args = argtype());
+  explicit PerturbPointReflect(argtype args = argtype());
 
   /// Initialize minimum and maximum tunable parameter based on domain.
   void precompute(TrialSelect * select, System * system) override;
@@ -41,7 +41,7 @@ class PerturbPointReflect : public PerturbMove {
 };
 
 inline std::shared_ptr<PerturbPointReflect> MakePerturbPointReflect(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbPointReflect>(args);
 }
 

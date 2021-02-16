@@ -19,7 +19,7 @@ Configuration spce_sample1();
   args:
   - cubic_box_length: default 6
  */
-Configuration two_particle_configuration(const argtype& args = argtype());
+Configuration two_particle_configuration(argtype args = argtype());
 
 }  // namespace feasst
 

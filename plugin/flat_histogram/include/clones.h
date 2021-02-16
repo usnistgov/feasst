@@ -59,12 +59,11 @@ class Clones {
       for overlap (default: 1).
     - max_batch: maximum number of batches. Infinite if -1 (default: -1).
    */
-  void initialize(const argtype& args = argtype());
+  void initialize(argtype args = argtype());
 
   /// Same as above, but for only one overlapping pair of clones, given by
   /// upper_index and upper_index - 1.
-  void initialize(const int upper_index,
-    const argtype& args = argtype());
+  void initialize(const int upper_index, argtype args = argtype());
 
   /**
     Run until all clones are complete.
@@ -77,7 +76,7 @@ class Clones {
     - ln_prob_file: file name of aggregate ln_prob. If empty (default),
       do not write the file.
    */
-  void run_until_complete(const argtype& args = argtype());
+  void run_until_complete(argtype args = argtype());
 
   /**
     Combine the bottom up initialization and run until complete.
@@ -87,8 +86,8 @@ class Clones {
     This is repeated until all clones are running in parallel.
    */
   void initialize_and_run_until_complete(
-    const argtype& run_args = argtype(),
-    const argtype& init_args = argtype());
+    argtype run_args = argtype(),
+    argtype init_args = argtype());
 
   /// Set the number of Criteria iterations of all clones.
   void set_num_iterations(const int iterations);
@@ -141,9 +140,9 @@ class Clones {
   std::vector<std::shared_ptr<MonteCarlo> > clones_;
   std::shared_ptr<Checkpoint> checkpoint_;
 
-  void run_until_complete_omp_(const argtype& run_args,
+  void run_until_complete_omp_(argtype run_args,
                                const bool init = false,
-                               const argtype& init_args = argtype());
+                               argtype init_args = argtype());
   void run_until_complete_serial_();
 };
 

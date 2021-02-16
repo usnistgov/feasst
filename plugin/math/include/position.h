@@ -24,7 +24,7 @@ class Position {
     - y: y-coordinate. Requires explicit x.
     - z: z-coordinate. Requires explicit y.
    */
-  explicit Position(const argtype& args);
+  explicit Position(argtype args);
 
   /// Initialize coordinates by brace initialized position vector.
   explicit Position(std::vector<double> vec) { coord_ = vec; }
@@ -167,7 +167,7 @@ class Position {
   std::vector<double> coord_;
 };
 
-inline std::shared_ptr<Position> MakePosition(const argtype& args = argtype()) {
+inline std::shared_ptr<Position> MakePosition(argtype args = argtype()) {
   return std::make_shared<Position>(args);
 }
 

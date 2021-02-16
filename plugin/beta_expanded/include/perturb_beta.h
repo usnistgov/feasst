@@ -16,7 +16,8 @@ class PerturbBeta : public Perturb {
     - fixed_beta_change: input the fixed amount that beta change.
       The choice to increase or decrease is randomly selected.
    */
-  explicit PerturbBeta(const argtype& args = argtype());
+  explicit PerturbBeta(argtype args = argtype());
+  explicit PerturbBeta(argtype * args);
 
   void perturb(
       System * system,
@@ -42,8 +43,7 @@ class PerturbBeta : public Perturb {
   double previous_beta_;
 };
 
-inline std::shared_ptr<PerturbBeta> MakePerturbBeta(
-    const argtype& args = argtype()) {
+inline std::shared_ptr<PerturbBeta> MakePerturbBeta(argtype args = argtype()) {
   return std::make_shared<PerturbBeta>(args);
 }
 

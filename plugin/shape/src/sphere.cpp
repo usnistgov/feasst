@@ -19,11 +19,12 @@ class MapSphere {
 
 static MapSphere mapper_ = MapSphere();
 
-Sphere::Sphere(const argtype &args,
-    const Position center) : Shape() {
+Sphere::Sphere(argtype args, const Position center) : Sphere(&args, center) {
+  check_all_used(args);
+}
+Sphere::Sphere(argtype * args, const Position center) : Shape() {
   class_name_ = "Sphere";
-  args_.init(args);
-  radius_ = args_.key("radius").dble();
+  radius_ = dble("radius", args);
   center_ = center;
 }
 

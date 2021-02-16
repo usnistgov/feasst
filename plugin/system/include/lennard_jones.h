@@ -23,7 +23,8 @@ class LennardJones : public ModelTwoBody {
     -hard_sphere_threshold: when r < threshold*sigma, return NEAR_INFINITY
      (default: 0.2).
    */
-  LennardJones(const argtype& args = argtype());
+  explicit LennardJones(argtype args = argtype());
+  explicit LennardJones(argtype * args);
 
   double energy(
       const double squared_distance,
@@ -44,14 +45,13 @@ class LennardJones : public ModelTwoBody {
 
  protected:
   void serialize_lennard_jones_(std::ostream& ostr) const;
-  Arguments args_;
 
  private:
   double hard_sphere_threshold_sq_;
 };
 
 inline std::shared_ptr<LennardJones> MakeLennardJones(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<LennardJones>(args);
 }
 

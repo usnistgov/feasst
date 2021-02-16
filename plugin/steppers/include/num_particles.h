@@ -19,7 +19,7 @@ class NumParticles : public Analyze {
       If -1, sum all particles (default: -1).
       Can only be specified if particle_type is -1.
    */
-  explicit NumParticles(const argtype &args = argtype());
+  explicit NumParticles(argtype args = argtype());
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -53,7 +53,7 @@ class NumParticles : public Analyze {
 };
 
 inline std::shared_ptr<NumParticles> MakeNumParticles(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<NumParticles>(args);
 }
 

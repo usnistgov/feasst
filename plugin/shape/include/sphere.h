@@ -18,13 +18,13 @@ class Sphere : public Shape {
     args:
     - radius: Set the radius of the sphere.
    */
-  Sphere(
-    const argtype &args,
+  Sphere(argtype args,
     /// position of the center of the sphere in absolute coordinates.
     const Position center);
+  Sphere(argtype * args, const Position center);
 
   /// Same as above, but the center is assumed to be the origin.
-  Sphere(const argtype &args) : Sphere(args, Position({0, 0, 0})) {}
+  Sphere(argtype args) : Sphere(args, Position({0, 0, 0})) {}
 
   double nearest_distance(const Position& point) const override;
   double surface_area() const override;
@@ -51,16 +51,15 @@ class Sphere : public Shape {
  private:
   double radius_;
   Position center_;
-  Arguments args_;
 };
 
 inline std::shared_ptr<Sphere> MakeSphere(
-    const argtype& args,
+    argtype args,
     const Position center) {
   return std::make_shared<Sphere>(args, center);
 }
 
-inline std::shared_ptr<Sphere> MakeSphere(const argtype& args) {
+inline std::shared_ptr<Sphere> MakeSphere(argtype args) {
   return std::make_shared<Sphere>(args);
 }
 

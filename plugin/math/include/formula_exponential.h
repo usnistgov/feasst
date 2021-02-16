@@ -21,7 +21,8 @@ class FormulaExponential : public Formula {
     - A: coefficient inside exponential (default: 1).
     - B: stretched exponential by power (default: 1).
    */
-  FormulaExponential(const argtype& args = argtype());
+  explicit FormulaExponential(argtype args = argtype());
+  explicit FormulaExponential(argtype * args);
   void set_f0(const double f0) { f0_ = f0; }
   void set_A(const double A) { A_ = A; }
   void set_B(const double B) { B_ = B; }
@@ -38,7 +39,7 @@ class FormulaExponential : public Formula {
 };
 
 inline std::shared_ptr<FormulaExponential> MakeFormulaExponential(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<FormulaExponential>(args);
 }
 

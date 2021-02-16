@@ -6,7 +6,10 @@
 
 namespace feasst {
 
-PerturbTranslate::PerturbTranslate(const argtype& args) : PerturbMove(args) {
+PerturbTranslate::PerturbTranslate(argtype args) : PerturbTranslate(&args) {
+  check_all_used(args);
+}
+PerturbTranslate::PerturbTranslate(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbTranslate";
 }
 

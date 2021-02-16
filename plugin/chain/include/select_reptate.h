@@ -9,7 +9,8 @@ namespace feasst {
 /// Select a random end point for reptation.
 class SelectReptate : public SelectEndSegment {
  public:
-  SelectReptate(const argtype& args = argtype());
+  explicit SelectReptate(argtype args = argtype());
+  explicit SelectReptate(argtype * args);
 
   void precompute(System * system) override;
 
@@ -36,7 +37,7 @@ class SelectReptate : public SelectEndSegment {
 };
 
 inline std::shared_ptr<SelectReptate> MakeSelectReptate(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<SelectReptate>(args);
 }
 

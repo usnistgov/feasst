@@ -11,7 +11,8 @@ namespace feasst {
  */
 class PerturbTranslate : public PerturbMove {
  public:
-  explicit PerturbTranslate(const argtype& args = argtype());
+  explicit PerturbTranslate(argtype args = argtype());
+  explicit PerturbTranslate(argtype * args);
 
   /// Initialize minimum and maximum tunable parameter based on domain.
   void precompute(TrialSelect * select, System * system) override;
@@ -41,7 +42,7 @@ class PerturbTranslate : public PerturbMove {
 };
 
 inline std::shared_ptr<PerturbTranslate> MakePerturbTranslate(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbTranslate>(args);
 }
 

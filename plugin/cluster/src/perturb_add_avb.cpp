@@ -5,9 +5,12 @@
 
 namespace feasst {
 
-PerturbAddAVB::PerturbAddAVB(const argtype& args) : Perturb(args) {
+PerturbAddAVB::PerturbAddAVB(argtype args) : PerturbAddAVB(&args) {
+  check_all_used(args);
+}
+PerturbAddAVB::PerturbAddAVB(argtype * args) : Perturb(args) {
   class_name_ = "PerturbAddAVB";
-  move_ = MakePerturbMoveAVB(args);
+  move_ = std::make_shared<PerturbMoveAVB>(args);
 }
 
 class MapPerturbAddAVB {

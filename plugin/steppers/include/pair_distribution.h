@@ -47,7 +47,7 @@ class PairDistribution : public Modify {
     args:
     - dr: radial distribution bin size (default: 0.1).
    */
-  explicit PairDistribution(const argtype &args = argtype());
+  explicit PairDistribution(argtype args = argtype());
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -91,7 +91,7 @@ class PairDistribution : public Modify {
 };
 
 inline std::shared_ptr<PairDistribution> MakePairDistribution(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PairDistribution>(args);
 }
 

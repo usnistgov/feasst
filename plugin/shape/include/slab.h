@@ -19,10 +19,10 @@ class Slab : public ShapeIntersect {
     - bound0: Set a lower or upper value of the slab.
     - bound1: Set the second bound, upper or lower, respectively.
    */
-  Slab(const argtype& args = argtype());
+  Slab(argtype args = argtype());
 };
 
-inline std::shared_ptr<Slab> MakeSlab(const argtype &args = argtype()) {
+inline std::shared_ptr<Slab> MakeSlab(argtype args = argtype()) {
   return std::make_shared<Slab>(args);
 }
 

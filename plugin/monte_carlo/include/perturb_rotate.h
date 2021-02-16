@@ -18,7 +18,8 @@ class PerturbRotate : public PerturbMove {
     - pivot_site: set the site index in selection with which to use as the
       pivot for rotation (default: 0).
    */
-  PerturbRotate(const argtype& args = argtype());
+  explicit PerturbRotate(argtype args = argtype());
+  explicit PerturbRotate(argtype * args);
 
   /// Change the position in the selection given a pivot and rotation matrix.
   void update_selection(const Position& pivot,
@@ -86,7 +87,7 @@ class PerturbRotate : public PerturbMove {
 };
 
 inline std::shared_ptr<PerturbRotate> MakePerturbRotate(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbRotate>(args);
 }
 

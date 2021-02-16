@@ -138,11 +138,11 @@ class ExtrapolateBetaGCE : public GrandCanonicalEnsemble {
    */
   ExtrapolateBetaGCE(const MonteCarlo& monte_carlo,
                      const FlatHistogram& flat_histogram,
-                     const argtype& args = argtype());
+                     argtype args = argtype());
 
   /// Same as above, but stitched together from parallel Clones.
   ExtrapolateBetaGCE(const Clones& clones,
-    const argtype& args = argtype());
+    argtype args = argtype());
 
   /// Return the new energies based on extrapolation.
   const std::vector<double> energy() const { return energy_; }
@@ -157,7 +157,7 @@ class ExtrapolateBetaGCE : public GrandCanonicalEnsemble {
     /// The first moment (corresponding to U) is modified to be the new energy
     /// at the new, extrapolated value of \f$\beta\f$.
     const std::vector<std::vector<double> >& energy_moments,
-    const argtype& args = argtype());
+    argtype args = argtype());
 };
 
 }  // namespace feasst

@@ -14,10 +14,10 @@ class MapWallClockLimit {
 
 static MapWallClockLimit mapper_ = MapWallClockLimit();
 
-WallClockLimit::WallClockLimit(const argtype &args) : AnalyzeUpdateOnly(args) {
-  args_.init(args);
-  max_hours_ = args_.key("max_hours").dble();
-  set_steps_per(args_.key("steps_per").dflt("1").integer());
+WallClockLimit::WallClockLimit(argtype args) : AnalyzeUpdateOnly(&args) {
+  max_hours_ = dble("max_hours", &args);
+  set_steps_per(integer("steps_per", &args, 1));
+  check_all_used(args);
 }
 
 void WallClockLimit::update(const Criteria& criteria,

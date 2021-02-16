@@ -60,13 +60,14 @@ class MapPairDistribution {
 
 static MapPairDistribution mapper_ = MapPairDistribution();
 
-PairDistribution::PairDistribution(const argtype &args) : Modify(args) {
+PairDistribution::PairDistribution(argtype args) : Modify(&args) {
   //DEBUG("class " << class_name());
   //DEBUG("args " << args_.status());
-  dr_ = args_.key("dr").dflt("0.1").dble();
+  dr_ = dble("dr", &args, 0.1);
   DEBUG("is multistate? " << is_multistate());
   DEBUG("is multistate agg? " << is_multistate_aggregate());
   DEBUG("file name " << file_name());
+  check_all_used(args);
 }
 
 void PairDistribution::initialize(Criteria * criteria,

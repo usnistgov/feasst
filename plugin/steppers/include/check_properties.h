@@ -15,7 +15,7 @@ class CheckProperties : public ModifyUpdateOnly {
     args:
     - tolerance: acceptable deviation (default: 1e-15).
    */
-  explicit CheckProperties(const argtype &args = argtype());
+  explicit CheckProperties(argtype args = argtype());
 
   void update(Criteria * criteria,
       System * system,
@@ -33,7 +33,8 @@ class CheckProperties : public ModifyUpdateOnly {
   double tolerance_;
 };
 
-inline std::shared_ptr<CheckProperties> MakeCheckProperties(const argtype &args = argtype()) {
+inline std::shared_ptr<CheckProperties> MakeCheckProperties(
+    argtype args = argtype()) {
   return std::make_shared<CheckProperties>(args);
 }
 

@@ -18,7 +18,7 @@ namespace feasst {
   - particle_type_b: type of third added particle in AV of first.
   - site_index_b: index of site in type b that defines AV (default: 0).
  */
-std::shared_ptr<Trial> MakeTrialAddAVBDivalent(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialAddAVBDivalent(argtype args = argtype());
 
 /**
   Attempt to add a particle with AVB as described in ComputeRemoveAVBDivalent.
@@ -30,11 +30,11 @@ std::shared_ptr<Trial> MakeTrialAddAVBDivalent(const argtype &args = argtype());
   - site_index_b: index of site in type b that defines AV (default: 0).
  */
 std::shared_ptr<Trial> MakeTrialRemoveAVBDivalent(
-  const argtype &args = argtype());
+  argtype args = argtype());
 
 /// Attempt TrialAddAVBDivalent or TrialRemoveAVBDivalent with equal probability
 std::shared_ptr<TrialFactory> MakeTrialTransferAVBDivalent(
-  const argtype &args = argtype());
+  argtype args = argtype());
 
 }  // namespace feasst
 

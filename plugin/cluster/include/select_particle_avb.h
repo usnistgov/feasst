@@ -31,7 +31,8 @@ class SelectParticleAVB : public TrialSelect {
       (default: false).
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
    */
-  SelectParticleAVB(const argtype& args = argtype());
+  SelectParticleAVB(argtype args = argtype());
+  SelectParticleAVB(argtype * args);
 
   // ghost is set in precompute
   void precompute(System * system) override;
@@ -64,7 +65,7 @@ class SelectParticleAVB : public TrialSelect {
 };
 
 inline std::shared_ptr<SelectParticleAVB> MakeSelectParticleAVB(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<SelectParticleAVB>(args);
 }
 

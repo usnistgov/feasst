@@ -9,37 +9,39 @@
 
 namespace feasst {
 
-Stepper::Stepper(const argtype &args) {
-  //INFO("class name " << class_name());
-  args_.init(args);
-  //INFO("args " << args_.status());
-  set_steps_per_write(args_.key("steps_per_write").dflt("1").integer());
-  set_steps_per_update(args_.key("steps_per_update").dflt("1").integer());
-  if (args_.key("file_name").used()) set_file_name(args_.str());
+Stepper::Stepper(argtype args) : Stepper(&args) {}
+Stepper::Stepper(argtype * args) {
+  set_steps_per_write(integer("steps_per_write", args, 1));
+  set_steps_per_update(integer("steps_per_update", args, 1));
+  if (used("file_name", *args)) set_file_name(str("file_name", args));
 
-  if (args_.key("append").dflt("0").boolean()) {
+  if (boolean("append", args, false)) {
     set_append();
   } else {
     set_no_append();
   }
 
-  if (args_.key("clear_file").dflt("false").boolean()) {
+  if (boolean("clear_file", args, false)) {
     ASSERT(!file_name_.empty(), "file_name is a required argument with clear.");
     std::ofstream file;
     file.open(file_name_, std::ofstream::out);
     file.close();
   }
-  stop_after_phase_ = args_.key("stop_after_phase").dflt("-1").integer();
-  start_after_phase_ = args_.key("start_after_phase").dflt("-1").integer();
+  stop_after_phase_ = integer("stop_after_phase", args, -1);
+  start_after_phase_ = integer("start_after_phase", args, -1);
   file_name_append_phase_ =
-    args_.key("file_name_append_phase").dflt("false").boolean();
-  set_multistate(args_.key("multistate").dflt("0").boolean());
+    boolean("file_name_append_phase", args, false);
+  set_multistate(boolean("multistate", args, false));
   is_multistate_aggregate_ =
-    args_.key("multistate_aggregate").dflt("true").boolean();
+    boolean("multistate_aggregate", args, true);
 
-  if (args_.key("num_block").used()) accumulator_.set_block(args_.integer());
-  if (args_.key("num_moments").used()) accumulator_.set_moments(args_.integer());
-  configuration_ = args_.key("configuration").dflt("0").integer();
+  if (used("num_block", *args)) {
+    accumulator_.set_block(integer("num_block", args));
+  }
+  if (used("num_moments", *args)) {
+    accumulator_.set_moments(integer("num_moments", args));
+  }
+  configuration_ = integer("configuration", args, 0);
 }
 
 bool Stepper::is_time(const int steps_per, int * steps_since) {

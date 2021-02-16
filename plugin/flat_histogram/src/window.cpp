@@ -7,24 +7,26 @@
 
 namespace feasst {
 
-Window::Window(const argtype& args) {
-  args_.init(args);
-  minimum_ = args_.key("minimum").dflt("0").integer();
-  maximum_ = args_.key("maximum").dflt("-1").integer();
-  num_ = args_.key("num").dflt("-1").integer();
-  if (args_.key("num_from_omp").dflt("false").boolean()) {
+Window::Window(argtype args) : Window(&args) {
+  check_all_used(args);
+}
+Window::Window(argtype * args) {
+  minimum_ = integer("minimum", args, 0);
+  maximum_ = integer("maximum", args, -1);
+  num_ = integer("num", args, -1);
+  if (boolean("num_from_omp", args, false)) {
     ASSERT(num_ == -1, "cannot use both num and num_from_omp args");
     num_ = ThreadOMP().num();
   }
-  extra_overlap_ = args_.key("extra_overlap").dflt("0").integer();
+  extra_overlap_ = integer("extra_overlap", args, 0);
   ASSERT(extra_overlap_ >= 0, "extra_overlap: " << extra_overlap_
     << " must be >= 0");
 }
 
-int Window::num() const {
-  ASSERT(num_ > 0, "num: " << num_ << " must be > 0");
-  return num_;
-}
+//int Window::num() const {
+//  ASSERT(num_ > 0, "num: " << num_ << " must be > 0");
+//  return num_;
+//}
 
 std::vector<std::vector<int> > Window::boundaries() const {
   ASSERT(maximum() > minimum(),

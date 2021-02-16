@@ -13,7 +13,9 @@ class MapCPUTime {
 
 static MapCPUTime mapper_ = MapCPUTime();
 
-CPUTime::CPUTime(const argtype& args) : AnalyzeWriteOnly(args) {}
+CPUTime::CPUTime(argtype args) : AnalyzeWriteOnly(&args) {
+  check_all_used(args);
+}
 
 void CPUTime::initialize(Criteria * criteria,
     System * system,

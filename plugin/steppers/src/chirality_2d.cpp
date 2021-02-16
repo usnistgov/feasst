@@ -14,12 +14,12 @@ class MapChirality2D {
 
 static MapChirality2D mapper_energy_check_ = MapChirality2D();
 
-Chirality2D::Chirality2D(const argtype &args)
-  : Analyze(args) {
-  group_ = args_.key("group").dflt("0").integer();
-  bond1_ = args_.key("bond1").dflt("0").integer();
-  bond2_ = args_.key("bond2").dflt("1").integer();
-  sign_error_ = args_.key("sign_error").dflt("0").integer();
+Chirality2D::Chirality2D(argtype args) : Analyze(&args) {
+  group_ = integer("group", &args, 0);
+  bond1_ = integer("bond1", &args, 0);
+  bond2_ = integer("bond2", &args, 1);
+  sign_error_ = integer("sign_error", &args, 0);
+  check_all_used(args);
 }
 
 std::string Chirality2D::header(const Criteria& criteria,

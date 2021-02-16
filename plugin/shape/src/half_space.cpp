@@ -17,12 +17,14 @@ class MapHalfSpace {
 
 static MapHalfSpace mapper_ = MapHalfSpace();
 
-HalfSpace::HalfSpace(const argtype &args) : Shape() {
+HalfSpace::HalfSpace(argtype args) : HalfSpace(&args) {
+  check_all_used(args);
+}
+HalfSpace::HalfSpace(argtype * args) : Shape() {
   class_name_ = "HalfSpace";
-  args_.init(args);
-  dimension_ = args_.key("dimension").integer();
-  intersection_ = args_.key("intersection").dble();
-  direction_ = args_.key("direction").integer();
+  dimension_ = integer("dimension", args);
+  intersection_ = dble("intersection", args);
+  direction_ = integer("direction", args);
   DEBUG("dir " << direction_);
   ASSERT(direction_ == -1 or direction_ == 1, "invalid direction: "
     << direction_);

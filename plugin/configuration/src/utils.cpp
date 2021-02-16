@@ -21,15 +21,15 @@ Configuration spce_sample1() {
   return *config;
 }
 
-Configuration two_particle_configuration(const argtype& args) {
-  Arguments args_(args);
-  const double cubic_box_length = args_.key("cubic_box_length").dflt("6").dble();
+Configuration two_particle_configuration(argtype args) {
+  const double cubic_box_length = dble("cubic_box_length", &args, 6.);
   Configuration config(
     MakeDomain({{"cubic_box_length", feasst::str(cubic_box_length)}}),
     {{"particle_type", "../forcefield/data.atom"}});
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   config.update_positions({{0, 0, 0}, {1.25, 0, 0}});
+  check_all_used(args);
   return config;
 }
 

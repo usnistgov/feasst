@@ -53,6 +53,7 @@ TEST(MonteCarlo, cluster) {
     scluster->select_cluster(0, mc.system());
     const int cluster_size = scluster->mobile().num_particles();
     mc.add(MakeTrialRigidCluster({
+      {"particle_type", "7"},
       {"neighbor_index", "0"},
       {"rotate_param", "50"},
       {"translate_param", "1"}}));
@@ -159,9 +160,11 @@ MonteCarlo mc_avb_test(
     monte_carlo.add(MakeNeighborCriteria({{"maximum_distance", "3"},
                                           {"minimum_distance", "1"}}));
     if (avb2) {
-      monte_carlo.add(MakeTrialAVB2({{"neighbor_index", "0"}}));
+      monte_carlo.add(MakeTrialAVB2({{"neighbor_index", "0"},
+                                     {"particle_type", "0"}}));
     } else if (avb4) {
-      monte_carlo.add(MakeTrialAVB4({{"neighbor_index", "0"}}));
+      monte_carlo.add(MakeTrialAVB4({{"neighbor_index", "0"},
+                                     {"particle_type", "0"}}));
     } else {
       monte_carlo.add(MakeTrialTransferAVB(
         {{"particle_type", "0"}, {"neighbor_index", "0"}}));

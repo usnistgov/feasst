@@ -15,15 +15,13 @@ class MapAnalyzeBonds {
 
 static MapAnalyzeBonds mapper_ = MapAnalyzeBonds();
 
-AnalyzeBonds::AnalyzeBonds(const argtype &args)
-  : AnalyzeUpdateOnly(args) {
-  Arguments args_(args);
-  args_.dont_check();
+AnalyzeBonds::AnalyzeBonds(argtype args) : AnalyzeUpdateOnly(&args) {
   Histogram bhist, ahist;
-  bhist.set_width_center(args_.key("bond_bin_width").dflt("1").dble(), 0.);
+  bhist.set_width_center(dble("bond_bin_width", &args, 1), 0.);
   bond_hist_.push_back(bhist);
-  ahist.set_width_center(args_.key("angle_bin_width").dflt("1").dble(), 0.);
+  ahist.set_width_center(dble("angle_bin_width", &args, 1), 0.);
   angle_hist_.push_back(ahist);
+  check_all_used(args);
 }
 
 void AnalyzeBonds::serialize(std::ostream& ostr) const {

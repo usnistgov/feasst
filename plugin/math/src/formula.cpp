@@ -24,9 +24,8 @@ std::shared_ptr<Formula> Formula::deserialize(std::istream& istr) {
     true);
 }
 
-Formula::Formula(const argtype& args) {
-  args_.init(args);
-  x0_ = args_.key("x0").dflt("0").dble();
+Formula::Formula(argtype * args) {
+  x0_ = dble("x0", args, 0.);
 }
 
 void Formula::serialize_formula_(std::ostream& ostr) const {

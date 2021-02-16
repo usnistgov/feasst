@@ -103,7 +103,8 @@ class ComputeAVB2 : public TrialComputeMove {
       (default: 0.5).
     - out_to_in: true if out->in move, otherwise false.
    */
-  explicit ComputeAVB2(const argtype& args = argtype());
+  explicit ComputeAVB2(argtype args = argtype());
+  explicit ComputeAVB2(argtype * args);
 
   /// Return the probability of an out to in move.
   double probability_out_to_in() const { return p_bias_; }
@@ -127,8 +128,7 @@ class ComputeAVB2 : public TrialComputeMove {
   bool out_to_in_;
 };
 
-inline std::shared_ptr<ComputeAVB2> MakeComputeAVB2(
-    const argtype& args = argtype()) {
+inline std::shared_ptr<ComputeAVB2> MakeComputeAVB2(argtype args = argtype()) {
   return std::make_shared<ComputeAVB2>(args);
 }
 }  // namespace feasst

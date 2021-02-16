@@ -24,12 +24,11 @@ std::shared_ptr<Solver> Solver::deserialize(std::istream& istr) {
     true);
 }
 
-Solver::Solver(const argtype& args) {
-  args_.init(args);
-  tolerance_ = args_.key("tolerance").dble();
-  if (args_.key("lower").used()) set_lower(args_.dble());
-  if (args_.key("upper").used()) set_upper(args_.dble());
-  if (args_.key("guess").used()) set_guess(args_.dble());
+Solver::Solver(argtype args) {
+  tolerance_ = dble("tolerance", &args);
+  if (used("lower", args)) set_lower(dble("lower", &args));
+  if (used("upper", args)) set_upper(dble("upper", &args));
+  if (used("guess", args)) set_guess(dble("guess", &args));
 }
 
 void Solver::serialize_solver_(std::ostream& ostr) const {

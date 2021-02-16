@@ -40,7 +40,7 @@ class ModelTableCart1DHard : public ModelOneBody {
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& args = argtype(),
+    argtype args = argtype(),
     const int site_type = 0);
 
   double energy(
@@ -87,7 +87,7 @@ class ModelTableCart2DIntegr : public ModelOneBody {
     Domain * domain,
     Random * random,
     /// See Shape for documentation of integration_args.
-    const argtype& integration_args,
+    argtype integration_args,
     const int site_type = 0);
 
   /// Same as above, but parallelize the task with OMP.
@@ -95,7 +95,7 @@ class ModelTableCart2DIntegr : public ModelOneBody {
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& integration_args,
+    argtype integration_args,
     const int site_type = 0,
     /// See Thread for documentation of these two arguments.
     const int node = 0,
@@ -148,7 +148,7 @@ class ModelTableCart3DIntegr : public ModelOneBody {
     Domain * domain,
     Random * random,
     /// See Shape for documentation of integration_args.
-    const argtype& integration_args,
+    argtype integration_args,
     const int site_type = 0);
 
   /// Same as above, but parallelize the task with OMP.
@@ -156,7 +156,7 @@ class ModelTableCart3DIntegr : public ModelOneBody {
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& integration_args,
+    argtype integration_args,
     const int site_type = 0,
     /// See Thread for documentation of these two arguments.
     const int node = 0,

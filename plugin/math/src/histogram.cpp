@@ -11,13 +11,13 @@
 
 namespace feasst {
 
-Histogram::Histogram(const argtype& args) {
-  args_.init(args);
+Histogram::Histogram(argtype args) : Histogram(&args) { check_all_used(args); }
+Histogram::Histogram(argtype * args) {
   // optionally construct a constant width bin
-  if (args_.key("width").used()) {
-    const double width = args_.dble();
-    const double max = args_.key("max").dble();
-    const double min = args_.key("min").dflt("0").dble();
+  if (used("width", *args)) {
+    const double width = dble("width", args);
+    const double max = dble("max", args);
+    const double min = dble("min", args, 0.);
     ASSERT(max > min, "max(" << max <<") <= min(" << min << ")");
     set_width_min_max(width, min, max);
   }

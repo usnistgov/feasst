@@ -25,7 +25,8 @@ class ComputeRemoveMultiple : public TrialCompute {
     args:
     - shift: macrostate shift (default: -1).
    */
-  ComputeRemoveMultiple(const argtype& args = argtype());
+  explicit ComputeRemoveMultiple(argtype args = argtype());
+  explicit ComputeRemoveMultiple(argtype * args);
 
   void perturb_and_acceptance(
       Criteria * criteria,

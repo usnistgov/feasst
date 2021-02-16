@@ -11,7 +11,8 @@ namespace feasst {
  */
 class PerturbVolume : public Perturb {
  public:
-  explicit PerturbVolume(const argtype& args = argtype());
+  explicit PerturbVolume(argtype args = argtype());
+  explicit PerturbVolume(argtype * args);
 
   void perturb(
       System * system,
@@ -42,7 +43,7 @@ class PerturbVolume : public Perturb {
 };
 
 inline std::shared_ptr<PerturbVolume> MakePerturbVolume(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbVolume>(args);
 }
 

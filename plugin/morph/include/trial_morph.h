@@ -21,7 +21,7 @@ namespace feasst {
     The [i] is to be substituted for an integer 0, 1, 2, ...
     Each [i] should have a corresponding particle_type[i] argument.
  */
-std::shared_ptr<Trial> MakeTrialMorph(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialMorph(argtype args = argtype());
 
 }  // namespace feasst
 

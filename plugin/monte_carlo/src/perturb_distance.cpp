@@ -7,7 +7,10 @@
 
 namespace feasst {
 
-PerturbDistance::PerturbDistance(const argtype& args) : PerturbMove(args) {
+PerturbDistance::PerturbDistance(argtype args) : PerturbDistance(&args) {
+  check_all_used(args);
+}
+PerturbDistance::PerturbDistance(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbDistance";
   disable_tunable_();
 }

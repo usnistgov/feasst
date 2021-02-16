@@ -244,13 +244,16 @@ void System::synchronize_(const System& system, const Select& perturbed) {
   }
 }
 
-void System::change_volume(const double delta_volume, const argtype& args) {
-  Arguments args_(args);
-  args_.dont_check();
-  const int config = args_.key("configuration").dflt("0").integer();
-  const int dimen = args_.key("dimension").dflt("-1").integer();
-  configurations_[config].change_volume(delta_volume,
-    args_.remove("configuration", args));
+void System::change_volume(const double delta_volume, argtype args) {
+  change_volume(delta_volume, &args);
+  check_all_used(args);
+}
+
+void System::change_volume(const double delta_volume, argtype * args) {
+  const int config = integer("configuration", args, 0);
+  const int dimen = integer("dimension", args, -1);
+  args->insert({"dimension", str(dimen)});
+  configurations_[config].change_volume(delta_volume, args);
   unoptimized_.change_volume(delta_volume, dimen);
   optimized_.change_volume(delta_volume, dimen);
   for (PotentialFactory& ref : references_) {

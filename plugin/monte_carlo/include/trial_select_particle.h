@@ -19,7 +19,8 @@ class TrialSelectParticle : public TrialSelect {
     - ghost: select ghost particles (default: false).
     - exclude_perturbed: if true, exclude perturbed particle (default: false)
    */
-  explicit TrialSelectParticle(const argtype& args = argtype());
+  explicit TrialSelectParticle(argtype args = argtype());
+  explicit TrialSelectParticle(argtype * args);
 
   /// Return true if loading coordinates into selection.
   bool load_coordinates() const { return load_coordinates_; }
@@ -77,7 +78,7 @@ class TrialSelectParticle : public TrialSelect {
 };
 
 inline std::shared_ptr<TrialSelectParticle> MakeTrialSelectParticle(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<TrialSelectParticle>(args);
 }
 

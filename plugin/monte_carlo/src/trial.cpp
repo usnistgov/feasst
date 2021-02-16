@@ -16,11 +16,10 @@ class MapTrial {
 
 static MapTrial mapper_ = MapTrial();
 
-Trial::Trial(const argtype& args) {
-  Arguments args_(args);
-  args_.dont_check();
+Trial::Trial(argtype args) : Trial(&args) { check_all_used(args); }
+Trial::Trial(argtype * args) {
   set_finalize_delayed();
-  weight_ = args_.key("weight").dflt("1").dble();
+  weight_ = dble("weight", args, 1);
   data_.get_int64_1D()->resize(3);
   reset_stats();
 }
@@ -28,11 +27,17 @@ Trial::Trial(const argtype& args) {
 void Trial::add_stage(
   std::shared_ptr<TrialSelect> select,
   std::shared_ptr<Perturb> perturb,
-  const argtype& args) {
-  auto stage = std::make_shared<TrialStage>(args);
+  argtype * stage_args) {
+  auto stage = std::make_shared<TrialStage>(stage_args);
   stage->set(select);
   stage->set(perturb);
   add_(stage);
+}
+
+void Trial::add_stage(std::shared_ptr<TrialSelect> select,
+                      std::shared_ptr<Perturb> perturb) {
+  argtype empty_args;
+  add_stage(select, perturb, &empty_args);
 }
 
 void Trial::set(const int index, std::shared_ptr<TrialStage> stage) {

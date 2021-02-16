@@ -22,7 +22,7 @@ class ExtensiveMoments : public Analyze {
     args:
     - max_order: maximum order cutoff for the powers (default: 3).
    */
-  explicit ExtensiveMoments(const argtype &args = argtype());
+  explicit ExtensiveMoments(argtype args = argtype());
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -64,7 +64,7 @@ class ExtensiveMoments : public Analyze {
   std::vector<std::vector<double> > n_i_j_;
 };
 
-inline std::shared_ptr<ExtensiveMoments> MakeExtensiveMoments(const argtype &args = argtype()) {
+inline std::shared_ptr<ExtensiveMoments> MakeExtensiveMoments(argtype args = argtype()) {
   return std::make_shared<ExtensiveMoments>(args);
 }
 

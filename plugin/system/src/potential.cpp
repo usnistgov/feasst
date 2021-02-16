@@ -9,33 +9,33 @@
 
 namespace feasst {
 
-Potential::Potential(const argtype& args) {
+Potential::Potential(argtype args) {
   model_ = std::make_shared<ModelEmpty>();
   visit_model_ = std::make_shared<VisitModel>();
 
-  Arguments args_(args);
-  group_index_ = args_.key("group_index").dflt("0").integer();
-  if (args_.key("cell_index").used()) {
+  group_index_ = integer("group_index", &args, 0);
+  if (used("cell_index", args)) {
     ASSERT(group_index_ == 0, "cell_index overrides group_index");
-    group_index_ = args_.integer();
+    group_index_ = integer("cell_index", &args);
   }
-  prevent_cache_ = args_.key("prevent_cache").dflt("False").boolean();
+  prevent_cache_ = boolean("prevent_cache", &args, false);
+  check_all_used(args);
 }
 
 Potential::Potential(std::shared_ptr<Model> model,
-                     const argtype& args) : Potential(args) {
+                     argtype args) : Potential(args) {
   model_ = model;
 }
 
 Potential::Potential(std::shared_ptr<VisitModel> visit_model,
-                     const argtype& args) : Potential(args) {
+                     argtype args) : Potential(args) {
   visit_model_ = visit_model;
 }
 
 Potential::Potential(
     std::shared_ptr<Model> model,
     std::shared_ptr<VisitModel> visit_model,
-    const argtype& args) : Potential(model, args) {
+    argtype args) : Potential(model, args) {
   visit_model_ = visit_model;
 }
 

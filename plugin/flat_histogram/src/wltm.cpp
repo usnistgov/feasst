@@ -7,26 +7,16 @@
 
 namespace feasst {
 
-WLTM::WLTM(const argtype &args) {
+WLTM::WLTM(argtype args) {
   class_name_ = "WLTM";
-  Arguments args_(args);
-  collect_flatness_ = args_.key("collect_flatness").remove().integer();
-  argtype args_wl = args_.args();
-  min_flatness_ = args_.key("min_flatness").remove().integer();
+  collect_flatness_ = integer("collect_flatness", &args);
+  wang_landau_ = std::make_shared<WangLandau>(&args);
+  min_flatness_ = wang_landau_->min_flatness();
   ASSERT(collect_flatness_ < min_flatness_,
     "collect_flatness:" << collect_flatness_ << " should be less than " <<
     "transition_flatness:" << min_flatness_);
-  auto min_sweeps = args_wl.find("min_sweeps");
-  ASSERT(min_sweeps != args_wl.end(), "min_sweeps is a required argument.");
-  args_wl.erase(min_sweeps);
-  args_.key("min_sweeps").integer();
-  DEBUG("wl args " << args_wl.size());
-  DEBUG(args_wl["min_flatness"]);
-  argtype args_tm = args_.args();
-  DEBUG("tm args " << args_tm.size());
-  DEBUG(args_tm["min_sweeps"]);
-  wang_landau_ = MakeWangLandau(args_wl);
-  transition_matrix_ = MakeTransitionMatrix(args_tm);
+  transition_matrix_ = std::make_shared<TransitionMatrix>(&args);
+  check_all_used(args);
 }
 
 void WLTM::update_or_revert(

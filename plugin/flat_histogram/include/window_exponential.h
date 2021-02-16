@@ -34,7 +34,7 @@ class WindowExponential : public Window {
     args:
     - alpha: exponential factor (default: 1.5).
    */
-  explicit WindowExponential(const argtype& args = argtype());
+  explicit WindowExponential(argtype args = argtype());
   std::vector<double> segment() const override;
   virtual ~WindowExponential() {}
 

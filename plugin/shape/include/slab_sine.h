@@ -33,12 +33,12 @@ class SlabSine : public ShapeIntersect {
     - average_bound1: Set the second average bound, upper or lower, respectively.
    */
   SlabSine(std::shared_ptr<FormulaSineWave> sine_wave,
-           const argtype& args = argtype());
+           argtype args = argtype());
 };
 
 inline std::shared_ptr<SlabSine> MakeSlabSine(
     std::shared_ptr<FormulaSineWave> sine_wave,
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<SlabSine>(sine_wave, args);
 }
 

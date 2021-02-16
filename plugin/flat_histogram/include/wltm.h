@@ -26,7 +26,7 @@ class WLTM : public Bias {
       Also, increment the phase when this occurs.
     - min_sweeps: Number of sweeps required for completion.
    */
-  WLTM(const argtype &args = argtype());
+  WLTM(argtype args = argtype());
   void update_or_revert(
     const int macrostate_old,
     const int macrostate_new,
@@ -58,8 +58,7 @@ class WLTM : public Bias {
   std::shared_ptr<TransitionMatrix> transition_matrix_;
 };
 
-inline std::shared_ptr<WLTM> MakeWLTM(
-    const argtype& args = argtype()) {
+inline std::shared_ptr<WLTM> MakeWLTM(argtype args = argtype()) {
   return std::make_shared<WLTM>(args);
 }
 

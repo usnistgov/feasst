@@ -8,14 +8,14 @@
 
 namespace feasst {
 
-SeekNumParticles::SeekNumParticles(const int num, const argtype& args) :
+SeekNumParticles::SeekNumParticles(const int num, argtype args) :
   num_(num) {
-  Arguments args_(args);
-  particle_type_ = args_.key("particle_type").dflt("-1").integer();
-  max_attempts_ = args_.key("max_attempts").dflt(str(1e8)).integer();
+  particle_type_ = integer("particle_type", &args, -1);
+  max_attempts_ = integer("max_attempts", &args, 1e8);
+  check_all_used(args);
 }
 
-SeekNumParticles SeekNumParticles::with_thermo_params(const argtype& args) {
+SeekNumParticles SeekNumParticles::with_thermo_params(argtype args) {
   thermo_params_ = MakeThermoParams(args);
   return *this;
 }
@@ -31,18 +31,19 @@ SeekNumParticles SeekNumParticles::with_metropolis(
   return *this;
 }
 
-SeekNumParticles SeekNumParticles::with_trial_add(const argtype& args) {
-  argtype typed_args;
-  auto pair = args.find("particle_type");
-  if (pair == args.end()) {
+SeekNumParticles SeekNumParticles::with_trial_add(argtype args) {
+  argtype typed_args = args;
+  if (used("particle_type", args)) {
+    const int ptype = integer("particle_type", &args);
+    ASSERT(ptype == particle_type_, "particle type given to add: "
+      << ptype << " not equal to type of seek: " << particle_type_);
+  } else {
     std::string type = str(particle_type_);
     if (particle_type_ == -1) type = "0";
     typed_args.insert({"particle_type", type});
-  } else {
-    ASSERT(pair->second == str(particle_type_), "particle type given to add: "
-      << pair->second << " not equal to type of seek: " << particle_type_);
   }
   extra_trials_.add(MakeTrialAdd(typed_args));
+  check_all_used(args);
   return *this;
 }
 

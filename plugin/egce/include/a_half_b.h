@@ -19,7 +19,7 @@ class AHalfB : public Constraint {
     - particle_type_B: particle type for B (default: 1).
     - extra: allow |2*A - B| <= extra (default: 0).
    */
-  AHalfB(const argtype& args = argtype());
+  AHalfB(argtype args = argtype());
   bool is_allowed(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override;
@@ -36,7 +36,7 @@ class AHalfB : public Constraint {
   ConstrainNumParticles num_A_, num_B_;
 };
 
-inline std::shared_ptr<AHalfB> MakeAHalfB(const argtype& args = argtype()) {
+inline std::shared_ptr<AHalfB> MakeAHalfB(argtype args = argtype()) {
   return std::make_shared<AHalfB>(args);
 }
 

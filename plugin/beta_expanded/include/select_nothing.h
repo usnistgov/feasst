@@ -14,7 +14,8 @@ namespace feasst {
  */
 class SelectNothing : public TrialSelect {
  public:
-  explicit SelectNothing(const argtype& args = argtype());
+  explicit SelectNothing(argtype args = argtype());
+  explicit SelectNothing(argtype * args);
 
   bool select(const Select& perturbed,
               System * system,

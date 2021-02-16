@@ -4,11 +4,9 @@
 
 namespace feasst {
 
-TrialCompute::TrialCompute(const argtype& args) {
-  args_.init(args);
-  args_.dont_check();
-  is_new_only_ = args_.key("new_only").dflt("false").boolean();
-}
+TrialCompute::TrialCompute(argtype args) : TrialCompute(&args) {
+  check_all_used(args); }
+TrialCompute::TrialCompute(argtype * args) {}
 
 void TrialCompute::compute_rosenbluth(
     const int old,
@@ -17,7 +15,7 @@ void TrialCompute::compute_rosenbluth(
     Acceptance * acceptance,
     std::vector<TrialStage*> * stages,
     Random * random) {
-  if (old == 1 && is_new_only_) return;
+  if (old == 1 && (*stages)[0]->is_new_only()) return;
   double ln_rosenbluth = 0.;
   double energy_change = 0.;
   bool reference_used = false;
@@ -105,14 +103,12 @@ std::shared_ptr<TrialCompute> TrialCompute::deserialize(std::istream& istr) {
 
 void TrialCompute::serialize_trial_compute_(std::ostream& ostr) const {
   feasst_serialize_version(803, ostr);
-  feasst_serialize(is_new_only_, ostr);
 }
 
 TrialCompute::TrialCompute(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(803 == version, "mismatch version: " << version);
-  feasst_deserialize(&is_new_only_, istr);
 }
 
 }  // namespace feasst

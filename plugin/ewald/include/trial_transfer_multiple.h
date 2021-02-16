@@ -11,7 +11,7 @@ namespace feasst {
 /// Attempt TrialAddMultiple or TrialRemoveMultiple and split the trial weights
 /// equally.
 std::shared_ptr<TrialFactory> MakeTrialTransferMultiple(
-    const argtype &args = argtype());
+    argtype args = argtype());
 
 }  // namespace feasst
 

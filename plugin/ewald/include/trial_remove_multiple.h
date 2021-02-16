@@ -17,7 +17,7 @@ namespace feasst {
     The "[i]" is to be substituted for an integer 0, 1, 2, ...
  */
 std::shared_ptr<Trial> MakeTrialRemoveMultiple(
-    const argtype &args = argtype());
+    argtype args = argtype());
 
 }  // namespace feasst
 

@@ -9,23 +9,23 @@
 namespace feasst {
 
 /// Attempt a rigid translation of a random particle.
-std::shared_ptr<Trial> MakeTrialTranslate(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialTranslate(argtype args = argtype());
 
 /// Attempt a rigid rotation of a random particle.
-std::shared_ptr<Trial> MakeTrialRotate(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialRotate(argtype args = argtype());
 
 /// Attempt to add a particle.
-std::shared_ptr<Trial> MakeTrialAdd(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialAdd(argtype args = argtype());
 
 /// Attempt to remove a particle.
-std::shared_ptr<Trial> MakeTrialRemove(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialRemove(argtype args = argtype());
 
 /// Attempt TrialAdd or TrialRemove with equal probability.
 std::shared_ptr<TrialFactory> MakeTrialTransfer(
-  const argtype &args = argtype());
+  argtype args = argtype());
 
 /// Attempt to change the volume.
-std::shared_ptr<Trial> MakeTrialVolume(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialVolume(argtype args = argtype());
 
 }  // namespace feasst
 

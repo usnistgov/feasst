@@ -22,7 +22,8 @@ namespace feasst {
  */
 class Log : public AnalyzeWriteOnly {
  public:
-  explicit Log(const argtype& args = argtype());
+  explicit Log(argtype args = argtype());
+  explicit Log(argtype * args);
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -44,7 +45,7 @@ class Log : public AnalyzeWriteOnly {
   Log(std::istream& istr);
 };
 
-inline std::shared_ptr<Log> MakeLog(const argtype &args = argtype()) {
+inline std::shared_ptr<Log> MakeLog(argtype args = argtype()) {
   return std::make_shared<Log>(args);
 }
 

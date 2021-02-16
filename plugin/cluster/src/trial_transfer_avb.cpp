@@ -9,38 +9,47 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialAddAVB(const argtype &args) {
+std::shared_ptr<Trial> MakeTrialAddAVB(argtype args) {
+  auto trial = MakeTrialAddAVB(&args);
+  check_all_used(args);
+  return trial;
+}
+
+std::shared_ptr<Trial> MakeTrialAddAVB(argtype * args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialAddAVB");
-  argtype args_sel(args);
-  args_sel.insert({"ghost", "true"});
-  args_sel.insert({"grand_canonical", "true"});
+  args->insert({"grand_canonical", "true"});
   trial->add_stage(
-    MakeSelectParticleAVB(args_sel),
-    MakePerturbAddAVB(args),
+    std::make_shared<SelectParticleAVB>(args),
+    std::make_shared<PerturbAddAVB>(args),
     args);
   trial->set(MakeComputeAddAVB());
   return trial;
 }
 
-std::shared_ptr<Trial> MakeTrialRemoveAVB(const argtype &args) {
+std::shared_ptr<Trial> MakeTrialRemoveAVB(argtype args) {
+  auto trial = MakeTrialRemoveAVB(&args);
+  check_all_used(args);
+  return trial;
+}
+
+std::shared_ptr<Trial> MakeTrialRemoveAVB(argtype * args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialRemoveAVB");
-  argtype args_sel(args);
-  args_sel.insert({"load_coordinates", "false"});
-  args_sel.insert({"grand_canonical", "true"});
+  args->insert({"grand_canonical", "true"});
   trial->add_stage(
-    MakeSelectParticleAVB(args_sel),
-    MakePerturbRemove(),
+    std::make_shared<SelectParticleAVB>(args),
+    std::make_shared<PerturbRemove>(),
     args);
   trial->set(MakeComputeRemoveAVB());
   return trial;
 }
 
-std::shared_ptr<TrialFactory> MakeTrialTransferAVB(const argtype &args) {
-  auto factory = std::make_shared<TrialFactory>(args);
-  factory->add(MakeTrialAddAVB(args));
-  factory->add(MakeTrialRemoveAVB(args));
+std::shared_ptr<TrialFactory> MakeTrialTransferAVB(argtype args) {
+  argtype orig_args = args;
+  auto factory = std::make_shared<TrialFactory>(&args);
+  factory->add(MakeTrialAddAVB(orig_args));
+  factory->add(MakeTrialRemoveAVB(orig_args));
   return factory;
 }
 

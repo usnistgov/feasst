@@ -5,17 +5,17 @@
 
 namespace feasst {
 
-Group::Group(const argtype& args) {
-  Arguments args_(args);
-  while (args_.key("add_site_type").used()) {
-    site_types_.push_back(args_.remove().integer());
+Group::Group(argtype args) {
+  while (used("add_site_type", args)) {
+    site_types_.push_back(integer("add_site_type", &args));
   }
-  while (args_.key("add_particle_type").used()) {
-    particle_types_.push_back(args_.remove().integer());
+  while (used("add_particle_type", args)) {
+    particle_types_.push_back(integer("add_particle_type", &args));
   }
-  dynamic_ = args_.key("dynamic").dflt("true").boolean();
-  spatial_ = args_.key("spatial").dflt("false").boolean();
+  dynamic_ = boolean("dynamic", &args, true);
+  spatial_ = boolean("spatial", &args, false);
   ASSERT(!spatial_, "spatial groups are not implemented");
+  check_all_used(args);
 }
 
 bool Group::is_empty() const {

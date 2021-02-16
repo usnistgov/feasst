@@ -8,10 +8,10 @@
 
 namespace feasst {
 
-Accumulator::Accumulator(const argtype& args) {
+Accumulator::Accumulator(argtype args) {
   reset();
-  Arguments args_(args);
-  set_block(args_.key("num_block").dflt(feasst::str(1e5)).integer());
+  set_block(integer("num_block", &args, 1e5));
+  check_all_used(args);
 }
 
 // Accumulator::Accumulator(const long long num_values, const long double sum,

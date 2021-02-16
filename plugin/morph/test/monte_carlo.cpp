@@ -69,7 +69,7 @@ MonteCarlo test_morph_expanded_lj(
   }
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const double num_parts_in_grow = static_cast<double>(grow_sequence[0].size());
-  INFO(str(num_parts_in_grow/grow_sequence.size()));
+  //INFO(str(num_parts_in_grow/grow_sequence.size()));
   mc.set(MakeThermoParams({
     {"beta", str(1./1.5)},
     {"chemical_potential0", "-2.352321"},
@@ -82,7 +82,7 @@ MonteCarlo test_morph_expanded_lj(
   mc.set(criteria);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "1."}}));
   mc.add(MakeTrialMorphExpanded(grow_sequence,
-    {{"reference_index", "0"}, {"shift", str(-1*num_parts_in_grow)}}));
+    {{"reference_index", "0"}}));//, {"shift", str(-1*num_parts_in_grow)}}));
   const std::string steps_per = str(int(1e3));
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/grow_fh"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));

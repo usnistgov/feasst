@@ -7,13 +7,15 @@
 
 namespace feasst {
 
-WangLandau::WangLandau(const argtype &args) {
+WangLandau::WangLandau(argtype args) : WangLandau(&args) {
+  check_all_used(args);
+}
+WangLandau::WangLandau(argtype * args) {
   class_name_ = "WangLandau";
-  Arguments args_(args);
-  min_flatness_ = args_.key("min_flatness").integer();
-  flatness_threshold_ = args_.key("flatness_threshold").dflt("0.8").dble();
-  add_to_ln_probability_ = args_.key("add_to_ln_probability").dflt("1.").dble();
-  reduce_ln_probability_ = args_.key("reduce_ln_probability").dflt("0.5").dble();
+  min_flatness_ = integer("min_flatness", args);
+  flatness_threshold_ = dble("flatness_threshold", args, 0.8);
+  add_to_ln_probability_ = dble("add_to_ln_probability", args, 1.);
+  reduce_ln_probability_ = dble("reduce_ln_probability", args, 0.5);
 }
 
 void WangLandau::flatness_update_() {

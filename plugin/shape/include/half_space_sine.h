@@ -45,7 +45,7 @@ class HalfSpaceSine : public HalfSpace {
     - wave_dimension : the wave travels along this dimension.
    */
   HalfSpaceSine(std::shared_ptr<FormulaSineWave> sine_wave,
-    const argtype &args = argtype());
+    argtype args = argtype());
 
   /// Return the sine wave formula.
   const FormulaSineWave& sine_wave() const { return sine_wave_; }
@@ -75,7 +75,7 @@ class HalfSpaceSine : public HalfSpace {
 
 inline std::shared_ptr<HalfSpaceSine> MakeHalfSpaceSine(
     std::shared_ptr<FormulaSineWave> sine_wave,
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<HalfSpaceSine>(sine_wave, args);
 }
 

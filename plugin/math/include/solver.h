@@ -24,7 +24,7 @@ class Solver {
     - upper: optional upper bound.
     - guess: initial guess for the root.
    */
-  Solver(const argtype& args = argtype());
+  Solver(argtype args = argtype());
 
   /// Return the tolerance
   double tolerance() const { return tolerance_; }
@@ -68,7 +68,6 @@ class Solver {
  protected:
   std::string class_name_ = "Solver";
   void serialize_solver_(std::ostream& ostr) const;
-  Arguments args_;
 
  private:
   double tolerance_;

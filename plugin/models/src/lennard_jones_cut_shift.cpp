@@ -16,8 +16,8 @@ class MapLennardJonesCutShift {
 static MapLennardJonesCutShift map_lennard_jones_cut_shift_ =
   MapLennardJonesCutShift();
 
-LennardJonesCutShift::LennardJonesCutShift(const argtype& args)
-  : LennardJonesAlpha(args) {
+LennardJonesCutShift::LennardJonesCutShift(argtype args)
+  : LennardJonesAlpha(&args) {
   class_name_ = "LennardJonesCutShift";
 }
 

@@ -18,7 +18,7 @@ class MacrostateNumParticles : public Macrostate {
      types.
   */
   MacrostateNumParticles(const Histogram& histogram,
-    const argtype& args = argtype());
+    argtype args = argtype());
 
   double value(const System& system,
     const Criteria& criteria,
@@ -35,7 +35,7 @@ class MacrostateNumParticles : public Macrostate {
 };
 
 inline std::shared_ptr<MacrostateNumParticles> MakeMacrostateNumParticles(
-    const Histogram& histogram, const argtype& args = argtype()) {
+    const Histogram& histogram, argtype args = argtype()) {
   return std::make_shared<MacrostateNumParticles>(histogram, args);
 }
 

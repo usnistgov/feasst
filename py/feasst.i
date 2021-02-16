@@ -312,7 +312,6 @@ using namespace std;
 %shared_ptr(feasst::Timer);
 %shared_ptr(feasst::ArgumentParse);
 %shared_ptr(feasst::CustomException);
-%shared_ptr(feasst::Arguments);
 %shared_ptr(feasst::Checkpoint);
 %shared_ptr(feasst::EnergyMap);
 %shared_ptr(feasst::VisitModelInner);

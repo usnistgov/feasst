@@ -32,7 +32,9 @@ class WangLandau : public Bias {
       when the percentage between minimum visisted states and average reaches
       this threshold (default: 0.8).
    */
-  WangLandau(const argtype &args = argtype());
+  explicit WangLandau(argtype args = argtype());
+  explicit WangLandau(argtype * args);
+  int min_flatness() const { return min_flatness_; }
   void update_or_revert(
     const int macrostate_old,
     const int macrostate_new,
@@ -72,7 +74,7 @@ class WangLandau : public Bias {
 };
 
 inline std::shared_ptr<WangLandau> MakeWangLandau(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<WangLandau>(args);
 }
 

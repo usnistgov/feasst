@@ -20,7 +20,8 @@ class TrialSelectBond : public TrialSelect {
     - mobile_site: index of the mobile site.
     - anchor_site: index of the anchor site.
    */
-  explicit TrialSelectBond(const argtype& args = argtype());
+  explicit TrialSelectBond(argtype args = argtype());
+  explicit TrialSelectBond(argtype * arg);
 
   /// Return the anchor site.
   int anchor_site() const { return anchor_site_; }
@@ -50,7 +51,7 @@ class TrialSelectBond : public TrialSelect {
 };
 
 inline std::shared_ptr<TrialSelectBond> MakeTrialSelectBond(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<TrialSelectBond>(args);
 }
 

@@ -15,10 +15,10 @@ void Table1D::calc_d_() {
   bin_spacing_ = 1./static_cast<double>(num() - 1);
 }
 
-Table1D::Table1D(const argtype& args) : Table() {
-  Arguments args_(args);
-  const int num = args_.key("num").dflt("1").integer();
-  data_.resize(num, args_.key("default_value").dflt("0.").dble());
+Table1D::Table1D(argtype args) : Table1D(&args) { check_all_used(args); }
+Table1D::Table1D(argtype * args) : Table() {
+  const int num = integer("num", args, 1);
+  data_.resize(num, dble("default_value", args, 0.));
   calc_d_();
 }
 
@@ -95,12 +95,12 @@ void Table2D::calc_d_() {
     1./static_cast<double>(num1() - 1)});
 }
 
-Table2D::Table2D(const argtype& args) : Table() {
-  Arguments args_(args);
-  const int num0 = args_.key("num0").dflt("1").integer();
-  const int num1 = args_.key("num1").dflt("1").integer();
+Table2D::Table2D(argtype args) : Table2D(&args) { check_all_used(args); }
+Table2D::Table2D(argtype * args) : Table() {
+  const int num0 = integer("num0", args, 1);
+  const int num1 = integer("num1", args, 1);
   resize(num0, num1, &data_);
-  fill(args_.key("default_value").dflt("0.").dble(), &data_);
+  fill(dble("default_value", args, 0.), &data_);
   calc_d_();
 }
 
@@ -178,13 +178,13 @@ void Table3D::calc_d_() {
     1./static_cast<double>(num2() - 1)});
 }
 
-Table3D::Table3D(const argtype& args) : Table() {
-  Arguments args_(args);
-  const int num0 = args_.key("num0").dflt("1").integer();
-  const int num1 = args_.key("num1").dflt("1").integer();
-  const int num2 = args_.key("num2").dflt("1").integer();
+Table3D::Table3D(argtype args) : Table3D(&args) { check_all_used(args); }
+Table3D::Table3D(argtype * args) : Table() {
+  const int num0 = integer("num0", args, 1);
+  const int num1 = integer("num1", args, 1);
+  const int num2 = integer("num2", args, 1);
   resize(num0, num1, num2, &data_);
-  fill(args_.key("default_value").dflt("0.").dble(), &data_);
+  fill(dble("default_value", args, 0.), &data_);
   calc_d_();
 }
 

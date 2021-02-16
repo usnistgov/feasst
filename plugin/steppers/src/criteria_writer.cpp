@@ -3,7 +3,9 @@
 
 namespace feasst {
 
-CriteriaWriter::CriteriaWriter(const argtype &args) : AnalyzeWriteOnly(args) {}
+CriteriaWriter::CriteriaWriter(argtype args) : AnalyzeWriteOnly(&args) {
+  check_all_used(args);
+}
 
 class MapCriteriaWriter {
  public:

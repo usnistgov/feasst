@@ -8,12 +8,13 @@
 
 namespace feasst {
 
-FormulaSineWave::FormulaSineWave(const argtype& args) : Formula(args) {
+FormulaSineWave::FormulaSineWave(argtype args) : Formula(&args) {
   class_name_ = "FormulaSineWave";
-  amplitude_ = args_.key("amplitude").dflt("1.").dble();
-  width_ = args_.key("width").dflt(str(2*PI)).dble();
-  phase_ = args_.key("phase").dflt("0.").dble();
-  shift_ = args_.key("shift").dflt(str(default_shift())).dble();
+  amplitude_ = dble("amplitude", &args, 1.);
+  width_ = dble("width", &args, 2*PI);
+  phase_ = dble("phase", &args, 0.);
+  shift_ = dble("shift", &args, default_shift());
+  check_all_used(args);
 }
 
 class MapFormulaSineWave {

@@ -8,7 +8,7 @@
 namespace feasst {
 
 /// Attempt to change the inverse temperature, \f$\beta\f$ by a fixed amount.
-std::shared_ptr<Trial> MakeTrialBeta(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialBeta(argtype args = argtype());
 
 }  // namespace feasst
 

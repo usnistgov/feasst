@@ -25,7 +25,7 @@ class ModelLJShape : public ModelOneBody,
     /**
       alpha: set the exponent (default: 3).
      */
-    const argtype& args = argtype());
+    argtype args = argtype());
 
   double energy(
     const Position& wrapped_site,
@@ -41,7 +41,6 @@ class ModelLJShape : public ModelOneBody,
 
  private:
   double alpha_;
-  Arguments args_;
 };
 
 inline std::shared_ptr<ModelLJShape> MakeModelLJShape(

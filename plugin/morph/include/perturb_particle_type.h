@@ -15,7 +15,8 @@ class PerturbParticleType : public Perturb {
     args:
     - type: type to set for particle.
    */
-  explicit PerturbParticleType(const argtype& args = argtype());
+  explicit PerturbParticleType(argtype args = argtype());
+  explicit PerturbParticleType(argtype * args);
 
   void set_particle_type(
     System * system,
@@ -46,7 +47,8 @@ class PerturbParticleType : public Perturb {
   int old_particle_type_;
 };
 
-inline std::shared_ptr<PerturbParticleType> MakePerturbParticleType(const argtype& args = argtype()) {
+inline std::shared_ptr<PerturbParticleType> MakePerturbParticleType(
+    argtype args = argtype()) {
   return std::make_shared<PerturbParticleType>(args);
 }
 

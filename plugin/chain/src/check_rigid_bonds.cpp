@@ -15,9 +15,9 @@ class MapCheckRigidBonds {
 
 static MapCheckRigidBonds mapper_ = MapCheckRigidBonds();
 
-CheckRigidBonds::CheckRigidBonds(const argtype &args)
-  : AnalyzeUpdateOnly(args) {
+CheckRigidBonds::CheckRigidBonds(argtype args) : AnalyzeUpdateOnly(&args) {
   visitor_ = MakeBondVisitor({{"verbose", "true"}});
+  check_all_used(args);
 }
 
 void CheckRigidBonds::serialize(std::ostream& ostr) const {

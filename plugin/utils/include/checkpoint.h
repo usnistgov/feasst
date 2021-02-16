@@ -35,7 +35,7 @@ class Checkpoint {
       If -1, only backup the previous file by appending its name with ".bak".
       Otherwise, if > 0, append each backup with an integer count beginning 0.
    */
-  explicit Checkpoint(const argtype &args = argtype());
+  explicit Checkpoint(argtype args = argtype());
 
   /// Return number of hours between writing file.
   double num_hours() const { return num_hours_; }
@@ -104,8 +104,7 @@ class Checkpoint {
   double previous_hours_ = 0.;
 };
 
-inline std::shared_ptr<Checkpoint> MakeCheckpoint(
-    const argtype &args = argtype()) {
+inline std::shared_ptr<Checkpoint> MakeCheckpoint(argtype args = argtype()) {
   return std::make_shared<Checkpoint>(args);
 }
 

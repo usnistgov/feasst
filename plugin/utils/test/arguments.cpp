@@ -5,73 +5,67 @@
 
 namespace feasst {
 
-TEST(Arguments, Arguments) {
-  Arguments args;
-  args.init({{"key1", "val1"}});
-  EXPECT_EQ(args.key("yo").dflt("hi").str(), "hi");
+class TestArgs {
+ public:
+  TestArgs(argtype args = argtype()) : TestArgs(&args) {
+    check_all_used(args);
+  }
+  TestArgs(argtype * args) {
+    key1_ = str("strkey", args);
+    dblekey_ = dble("dblekey", args);
+    intkey_ = integer("intkey", args);
+    boolkey_ = boolean("boolkey", args, false);
+  }
+ private:
+  std::string key1_;
+  double dblekey_;
+  int intkey_;
+  bool boolkey_;
+};
 
-  // test if a key is empty before it is set
+TEST(Arguments, args) {
+  TestArgs({{"strkey", "val1"}, {"dblekey", "0.2"}, {"intkey", "-15"},
+            {"boolkey", "true"}});
+  TestArgs({{"strkey", "val1"}, {"dblekey", "0.2"}, {"intkey", "-15"}});
   TRY(
-    args.empty();
-    CATCH_PHRASE("key must be set before");
+    TestArgs({{"strkey", "val1"}, {"dblekey", "0.2"}});
+    CATCH_PHRASE("key(intkey) is required for args but not found");
   );
-
-  // test if a key is empty after set
-  EXPECT_TRUE(args.key("yo").empty());
-
-  // test if all keywords have been used
-  TRY(
-    EXPECT_FALSE(args.check_all_used());
-    CATCH_PHRASE("All keywords provided in args must be used");
-  );
-
-  // test if provided key is empty
-  EXPECT_FALSE(args.key("key1").empty());
-
-  // check second key pair without providing key, because already set
-  EXPECT_EQ(args.dflt("hi").str(), "val1");
-
-  // alternatively, set key and check simultaneously
-  EXPECT_EQ(args.key("key1").dflt("hi").str(), "val1");
-
-  // test if key1 is removed using remove()
-  const int nargs = args.size();
-  EXPECT_EQ(args.key("key1").dflt("hi").remove().str(), "val1");
-  EXPECT_EQ(args.size(), nargs - 1);
-
-  // check if all args were used
-  EXPECT_TRUE(args.check_all_used());
+  argtype args;
+  EXPECT_EQ(str("yo", &args, "hi"), "hi");
+  EXPECT_FALSE(used("yo", args));
+  args = {{"key1", "val1"}};
+  EXPECT_TRUE(used("key1", args));
+  EXPECT_EQ(1, args.size());
+  append("key1", &args, "a");
+  EXPECT_EQ("val1a", str("key1", &args));
+  check_all_used(args);
 }
 
-TEST(Arguments, integer) {
-  TRY(
-    Arguments args;
-    args.init({{"key1", "val1"}});
-    args.key("key1").integer();
-    CATCH_PHRASE("was expected to be an integer");
-  );
-  TRY(
-    Arguments args;
-    args.init({{"key1", "1.1"}});
-    args.key("key1").integer();
-    CATCH_PHRASE("was expected to be an integer");
-  );
 
-  Arguments args;
-  args.init({{"key1", "1."}});
-  args.key("key1").integer();
+TEST(Arguments, integer) {
+  argtype args = {{"key1", "val1"}};
+  TRY(
+    integer("key1", &args);
+    CATCH_PHRASE("was expected to be an integer");
+  );
+  args = {{"key1", "1.1"}};
+  TRY(
+    integer("key1", &args);
+    CATCH_PHRASE("was expected to be an integer");
+  );
+  args = {{"key1", "1"}};
+  integer("key1", &args);
 }
 
 TEST(Arguments, dble) {
+  argtype args = {{"key1", "mymypie"}};
   TRY(
-    Arguments args;
-    args.init({{"key1", "mymypie"}});
-    args.key("key1").dble();
+    dble("key1", &args);
     CATCH_PHRASE("was expected to be a double precision number");
   );
-  Arguments args;
-  args.init({{"key1", "3.1415"}});
-  EXPECT_NEAR(3.1415, args.key("key1").dble(), NEAR_ZERO);
+  args = {{"key1", "3.1415"}};
+  EXPECT_NEAR(3.1415, dble("key1", &args), NEAR_ZERO);
 }
 
 TEST(Arguments, arglist) {
@@ -84,9 +78,10 @@ TEST(Arguments, arglist) {
 }
 
 TEST(Arguments, boolean) {
-  Arguments args(argtype({{"bananas", "1"}}));
-  EXPECT_TRUE(args.key("bananas").boolean());
-  EXPECT_EQ("used(bananas,),args{{\"bananas\",\"1\"},}", args.status());
+  for (const std::string arg : {"1", "true", "True"}) {
+    argtype args = {{"bananas", arg}};
+    EXPECT_TRUE(boolean("bananas", &args));
+  }
 }
 
 }  // namespace feasst

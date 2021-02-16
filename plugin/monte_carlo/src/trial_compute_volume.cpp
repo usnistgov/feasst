@@ -6,8 +6,9 @@
 
 namespace feasst {
 
-TrialComputeVolume::TrialComputeVolume(const argtype& args) : TrialCompute(args) {
+TrialComputeVolume::TrialComputeVolume(argtype args) : TrialCompute(&args) {
   class_name_ = "TrialComputeVolume";
+  check_all_used(args);
 }
 
 class MapTrialComputeVolume {

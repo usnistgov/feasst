@@ -45,7 +45,6 @@ class HalfSpaceTilted : public Shape {
   virtual ~HalfSpaceTilted() {}
 
  protected:
-  Arguments args_;
   void serialize_half_space_tilted_(std::ostream& ostr) const;
 
  private:

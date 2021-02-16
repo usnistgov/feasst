@@ -60,7 +60,7 @@ std::string feasst_str(const std::deque<T> &deq,
 }
 
 /// Print a std::map of a pair of strings in human readable format.
-std::string feasst_str(std::map<std::string, std::string> mp);
+std::string str(const std::map<std::string, std::string>& mp);
 
 /// Split a string into a vector of strings via space delimitors.
 std::vector<std::string> split(const std::string str);

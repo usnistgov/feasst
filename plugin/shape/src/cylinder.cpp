@@ -18,14 +18,14 @@ class MapCylinder {
 
 static MapCylinder mapper_ = MapCylinder();
 
-Cylinder::Cylinder(const argtype &args,
+Cylinder::Cylinder(argtype args,
     const Position point0,
     const Position point1) {
   class_name_ = "Cylinder";
-  args_.init(args);
-  radius_ = args_.key("radius").dble();
+  radius_ = dble("radius", &args);
   point0_ = point0;
   point1_ = point1;
+  check_all_used(args);
 }
 
 double Cylinder::nearest_distance(const Position& point) const {

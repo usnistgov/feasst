@@ -36,12 +36,11 @@ namespace feasst {
 
   Note that only one of bond, angle or branch may be true for a given stage.
  */
-std::shared_ptr<TrialFactory> MakeTrialGrow(
-    const std::vector<argtype>& args,
-    /// Optionally, the following arguments for num_steps and reference_index
-    /// are applied to every growth.
-    /// Any option applied by the above args overwrites this option.
-    const argtype& default_args = argtype());
+std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
+  /// Optionally, the following arguments for num_steps and reference_index
+  /// are applied to every growth.
+  /// Any option applied by the above args overwrites this option.
+  const argtype& default_args = argtype());
 
 }  // namespace feasst
 

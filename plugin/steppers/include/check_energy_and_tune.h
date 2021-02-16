@@ -11,11 +11,11 @@ namespace feasst {
 /// Combine CheckEnergy and Tuner.
 class CheckEnergyAndTune : public ModifyFactory {
  public:
-  explicit CheckEnergyAndTune(const argtype& args = argtype());
+  explicit CheckEnergyAndTune(argtype args = argtype());
 };
 
 inline std::shared_ptr<CheckEnergyAndTune> MakeCheckEnergyAndTune(
-    const argtype &args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<CheckEnergyAndTune>(args);
 }
 

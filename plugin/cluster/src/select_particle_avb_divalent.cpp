@@ -7,18 +7,17 @@
 
 namespace feasst {
 
-SelectParticleAVBDivalent::SelectParticleAVBDivalent(const argtype& args)
-  : TrialSelect(args) {
+SelectParticleAVBDivalent::SelectParticleAVBDivalent(argtype args)
+  : TrialSelect(&args) {
   class_name_ = "SelectParticleAVBDivalent";
-  neighbor_ = args_.key("neighbor_index").dflt("0").integer();
+  neighbor_ = integer("neighbor_index", &args, 0);
 
   // initialize select_mobile_
   argtype mobile_args;
   mobile_args.insert({"load_coordinates", "true"});
-  mobile_args.insert({"particle_type",
-    args_.key("particle_type").str()});
-  mobile_args.insert({"site", args_.key("site_index").dflt("0").str()});
-  mobile_args.insert({"ghost", args_.key("ghost").str()});
+  mobile_args.insert({"particle_type", str(particle_type())});
+  mobile_args.insert({"site", str("site_index", &args, "0")});
+  mobile_args.insert({"ghost", str("ghost", &args)});
   select_mobile_ = TrialSelectParticle(mobile_args);
   DEBUG(select_mobile_.particle_type());
   mobile_.clear();
@@ -26,8 +25,9 @@ SelectParticleAVBDivalent::SelectParticleAVBDivalent(const argtype& args)
 
   anchor_.clear();
   anchor_.add_site(0,
-    args_.key("target_site_index").dflt("0").integer());
-  ASSERT(!args_.key("group_index").used(), "group not implemented with AVB");
+    integer("target_site_index", &args, 0));
+  ASSERT(!used("group_index", args), "group not implemented with AVB");
+  check_all_used(args);
 }
 
 class MapSelectParticleAVBDivalent {

@@ -10,8 +10,10 @@
 
 namespace feasst {
 
-PerturbBranch::PerturbBranch(const argtype& args)
-  : PerturbMove(args) {
+PerturbBranch::PerturbBranch(argtype args) : PerturbBranch(&args) {
+  check_all_used(args);
+}
+PerturbBranch::PerturbBranch(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbBranch";
 }
 

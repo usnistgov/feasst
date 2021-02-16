@@ -5,14 +5,15 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialBeta(const argtype &args) {
-  auto trial = std::make_shared<Trial>(args);
+std::shared_ptr<Trial> MakeTrialBeta(argtype args) {
+  auto trial = std::make_shared<Trial>(&args);
   trial->set_description("TrialBeta");
   trial->add_stage(
-    MakeSelectNothing(args),
-    MakePerturbBeta(args),
-    args);
+    std::make_shared<SelectNothing>(&args),
+    std::make_shared<PerturbBeta>(&args),
+    &args);
   trial->set(MakeComputeBeta());
+  check_all_used(args);
   return trial;
 }
 

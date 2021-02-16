@@ -9,25 +9,25 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialMorph(const argtype &args) {
-  auto trial = MakeTrial(args);
+std::shared_ptr<Trial> MakeTrialMorph(argtype args) {
+  auto trial = MakeTrial(&args);
   trial->set_description("TrialMorph");
-  Arguments args_(args);
-  args_.dont_check();
-  DEBUG(args_.status());
   std::string start("particle_type");
   std::stringstream key;
   int type = 0;
   key << start << type;
-  while (args_.key(key.str()).used()) {
+  //INFO("args: " << str(args));
+  argtype stage_args = get_stage_args(&args);
+  while (used(key.str(), args)) {
     const std::string type_str = feasst::str(type);
-    const std::string ptype = args_.str();
-    const std::string pmt = args_.key("particle_type_morph" + type_str).str();
+    const std::string ptype = str(key.str(), &args);
+    const std::string pmt = str("particle_type_morph" + type_str, &args);
     ASSERT(ptype != pmt, "Attempting to morph particles into the same type: " <<
       ptype);
     auto sel = MakeTrialSelectParticle({{"particle_type", ptype},
                                         {"exclude_perturbed", "true"}});
-    trial->add_stage(sel, MakePerturbParticleType({{"type", pmt}}), args);
+    argtype tmp_stage_args = stage_args;
+    trial->add_stage(sel, MakePerturbParticleType({{"type", pmt}}), &tmp_stage_args);
     ++type;
     ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
     key.str("");
@@ -35,6 +35,7 @@ std::shared_ptr<Trial> MakeTrialMorph(const argtype &args) {
   }
   ASSERT(type > 0, "required arguments not used");
   trial->set(MakeComputeMorph());
+  check_all_used(args);
   return trial;
 }
 

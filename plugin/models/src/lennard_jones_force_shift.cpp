@@ -14,8 +14,8 @@ class MapLennardJonesForceShift {
 
 static MapLennardJonesForceShift map_lennard_jones_force_shift_ = MapLennardJonesForceShift();
 
-LennardJonesForceShift::LennardJonesForceShift(const argtype& args)
-  : LennardJonesAlpha(args) {
+LennardJonesForceShift::LennardJonesForceShift(argtype args)
+  : LennardJonesAlpha(&args) {
   class_name_ = "LennardJonesForceShift";
 }
 

@@ -16,7 +16,8 @@ class PerturbAddAVB : public Perturb {
     args:
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
    */
-  PerturbAddAVB(const argtype& args = argtype());
+  PerturbAddAVB(argtype args = argtype());
+  PerturbAddAVB(argtype * args);
 
   void precompute(TrialSelect * select, System * system) override {
     select->set_ghost(true); }
@@ -43,7 +44,7 @@ class PerturbAddAVB : public Perturb {
 };
 
 inline std::shared_ptr<PerturbAddAVB> MakePerturbAddAVB(
-    const argtype& args = argtype()) {
+    argtype args = argtype()) {
   return std::make_shared<PerturbAddAVB>(args);
 }
 

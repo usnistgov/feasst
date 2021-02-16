@@ -16,7 +16,8 @@ namespace feasst {
  */
 class Analyze : public Stepper {
  public:
-  explicit Analyze(const argtype &args = argtype()) : Stepper(args) {}
+  Analyze() : Stepper() {}
+  explicit Analyze(argtype * args) : Stepper(args) {}
 
   /// Initialize and precompute before trials.
   virtual void initialize(Criteria * criteria,
@@ -66,7 +67,7 @@ class AnalyzeWriteOnly : public Analyze {
     args:
     - steps_per: write every this many steps
    */
-  explicit AnalyzeWriteOnly(const argtype &args = argtype());
+  explicit AnalyzeWriteOnly(argtype * args);
 
   void set_steps_per_update(const int steps) override;
 
@@ -84,7 +85,7 @@ class AnalyzeUpdateOnly : public Analyze {
     args:
     - steps_per: update every this many steps
    */
-  explicit AnalyzeUpdateOnly(const argtype &args = argtype());
+  explicit AnalyzeUpdateOnly(argtype * args);
 
   void set_steps_per_write(const int steps) override;
 

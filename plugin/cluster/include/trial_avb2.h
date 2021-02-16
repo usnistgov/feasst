@@ -19,16 +19,15 @@ namespace feasst {
     - out_to_in: if true, use out->in. Otherwise, in->out.
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
  */
-std::shared_ptr<Trial> MakeTrialAVB2Half(const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialAVB2Half(argtype args = argtype());
 
 /// Attempt AVB2 in->out and out->in with equal probability.
 /// Only implemented for single-site particles
 /// See ComputeAVB2 for more information.
-std::shared_ptr<TrialFactory> MakeTrialAVB2(const argtype &args = argtype());
+std::shared_ptr<TrialFactory> MakeTrialAVB2(argtype args = argtype());
 
 // Process AVB2 args, which can also be used in TrialGrow
-void gen_avb2_args_(const argtype& args, argtype * args_sel, argtype * args_mv,
-  argtype * args_comp);
+void gen_avb2_args_(const bool out_to_in, argtype * args, argtype * perturb_args);
 
 }  // namespace feasst
 

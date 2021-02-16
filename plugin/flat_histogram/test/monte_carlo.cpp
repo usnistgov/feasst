@@ -67,7 +67,7 @@ TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
   for (double delta_conjugate = -6; delta_conjugate < 1; delta_conjugate += 0.1) {
     gce.reweight(delta_conjugate);
     if (gce.ln_prob().value(gce.ln_prob().size() - 1) < -6) {
-      EXPECT_NEAR(gce.average_macrostate(), gce.betaPV(), 0.1);
+      EXPECT_NEAR(gce.average_macrostate()/gce.betaPV(), 1, 0.01);
     }
   }
 }
@@ -178,7 +178,7 @@ TEST(MonteCarlo, lj_fh) {
       EXPECT_NEAR(energy_av(1, mc), -0.030574223333333334, 0.05);
       EXPECT_NEAR(energy_av(2, mc), -0.089928316, 0.08);
       EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.11);
-      EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.14);
+      EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.15);
       EXPECT_LE(mc.system().configuration().num_particles(), 5);
     }
   }
@@ -212,7 +212,7 @@ TEST(MonteCarlo, lj_fh_liquid_LONG) {
   EXPECT_NEAR(lnpi.value(0), -4.92194963175925, 0.025);
   EXPECT_NEAR(lnpi.value(1), -4.03855513175926, 0.02);
   EXPECT_NEAR(lnpi.value(2), -3.15822813175925, 0.02);
-  EXPECT_NEAR(lnpi.value(3), -2.28019483175925, 0.01);
+  EXPECT_NEAR(lnpi.value(3), -2.28019483175925, 0.015);
   EXPECT_NEAR(lnpi.value(4), -1.40647303175926, 0.005);
   EXPECT_NEAR(lnpi.value(5), -0.535594831759248, 0.005);
   EXPECT_NEAR(energy_av(0, mc), -1.381223800E+02, 0.5);
