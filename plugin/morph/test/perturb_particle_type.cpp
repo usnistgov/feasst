@@ -22,6 +22,8 @@ TEST(PerturbParticleType, serialize) {
     config.update_positions({{0, 0, 0}, {1, 1, 1}});
     config.particle_type_to_group_create(0);
     config.particle_type_to_group_create(1);
+    EXPECT_EQ(config.model_params().sigma().mixed_value(0, 1), 1.25/2.);
+    EXPECT_EQ(config.model_params().cutoff().mixed_value(0, 1), 2.);
     sys.add(config);
   }
   sys.add(MakePotential(MakeLennardJones()));
@@ -50,7 +52,7 @@ TEST(PerturbParticleType, serialize) {
   EXPECT_EQ(config.group_select(0).num_particles(), 2);
   EXPECT_EQ(config.group_select(1).num_particles(), 1);
   EXPECT_EQ(config.group_select(2).num_particles(), 1);
-  EXPECT_NEAR(sys.energy(), 0, NEAR_ZERO);
+  EXPECT_NEAR(sys.energy(), -0.0088108241166350975, NEAR_ZERO);
   morph2.revert(&sys);
   EXPECT_EQ(config.particle(0).type(), 0);
   EXPECT_EQ(config.particle(0).site(0).type(), 0);

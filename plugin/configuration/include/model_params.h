@@ -136,16 +136,12 @@ class Sigma : public ModelParam {
 /**
  The cut off parameter is named "cutoff" in LMP-like data file Pair Coeffs.
  The cut off parameter has the mixing rule:
- \f$ r^c_{ij} = min(r^c_i, r^c_j)\f$
+ \f$ r^c_{ij} = 0.5*(r^c_i + r^c_j)\f$
  */
 class CutOff : public ModelParam {
  public:
   CutOff() { set_name("cutoff"); }
   explicit CutOff(std::istream& istr) : ModelParam(istr) {}
-
- private:
-  double mix_(const double value1, const double value2) override {
-    return std::min(value1, value2); }
 };
 
 /**

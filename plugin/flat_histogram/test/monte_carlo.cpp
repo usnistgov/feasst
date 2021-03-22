@@ -235,7 +235,7 @@ TEST(MonteCarlo, lj_fh_multi_LONG) {
   EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.02);
   EXPECT_NEAR(lnpi.value(2), -0.00163919230786818, 0.005);
   EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);
-  EXPECT_NEAR(energy_av(1, mc), -0.089928316, 0.002);
+  EXPECT_NEAR(energy_av(1, mc), -0.089928316, 0.0025);
   EXPECT_NEAR(energy_av(2, mc), -0.29619201333333334, 0.02);
 }
 
