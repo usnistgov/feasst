@@ -106,7 +106,7 @@ MonteCarlo test_morph_expanded_lj(
 //}
 
 TEST(MonteCarlo, TrialMorphExpanded_2_lj_LONG) {
-  MonteCarlo mc = test_morph_expanded_lj({{1, 1}, {0, 0}});
+  MonteCarlo mc = test_morph_expanded_lj({{1, 1}, {0, 0}}, 5);
   mc.run_until_complete();
   INFO(FlatHistogram(mc.criteria()).write());
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob().reduce(2);

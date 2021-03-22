@@ -36,6 +36,7 @@ TrialMorphExpanded::TrialMorphExpanded(
     argtype shrink_args = args;
     bool add = false;
     bool remove = false;
+    int num_removed = 0;
     int noskipgstage = 0;
     int noskipsstage = 0;
     for (int stage = 0; stage < static_cast<int>(seq.size()); ++stage) {
@@ -60,6 +61,8 @@ TrialMorphExpanded::TrialMorphExpanded(
         const int ptypem1 = grow_seq[step-1][stage];
         if (ptypem1 != -1) {
           remove = true;
+          ++num_removed;
+          DEBUG("particle_type" + str(noskipsstage));
           shrink_args.insert({"particle_type" + str(noskipsstage), str(ptypem1)});
           ++noskipsstage;
         }
@@ -93,6 +96,7 @@ TrialMorphExpanded::TrialMorphExpanded(
       add_previously = false;
     }
     if (remove) {
+      shrink_args.insert({"shift", str(-1*num_removed)});
       DEBUG(str(shrink_args));
       shrink_.push_back(MakeTrialRemoveMultiple(shrink_args));
       remove = false;

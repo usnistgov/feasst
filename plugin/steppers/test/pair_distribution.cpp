@@ -53,7 +53,7 @@ TEST(PairDistribution, gr_LONG) {
 
   // compare with https://mmlapps.nist.gov/srs/LJ_PURE/md.htm
   EXPECT_EQ(gr[43].first, 1.0875);
-  EXPECT_NEAR(gr[43].second[0][0], 2.65, 0.15);
+  EXPECT_NEAR(gr[43].second[0][0], 2.65, 0.2);
   EXPECT_NEAR(en.average()/num, -5.517, 0.06);
 }
 
