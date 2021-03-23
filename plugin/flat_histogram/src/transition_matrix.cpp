@@ -255,4 +255,10 @@ void TransitionMatrix::set_num_iterations(const int sweeps) {
   if (num_sweeps_ < min_sweeps_) set_incomplete_();
 }
 
+TransitionMatrix::TransitionMatrix(const Bias& bias) {
+  std::stringstream ss;
+  bias.serialize(ss);
+  *this = TransitionMatrix(ss);
+}
+
 }  // namespace feasst

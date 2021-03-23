@@ -51,7 +51,7 @@ class TripleBandedCollectionMatrix {
   void compute_ln_prob(LnProbability * ln_prob);
 
   /// Return the matrix
-  std::vector<std::vector<double> > matrix() const { return matrix_; }
+  const std::vector<std::vector<double> >& matrix() const { return matrix_; }
 
   bool is_equal(const TripleBandedCollectionMatrix& colmat,
       const double tolerance) const;

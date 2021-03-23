@@ -54,12 +54,14 @@ class TransitionMatrix : public Bias {
   bool is_equal(const TransitionMatrix& transition_matrix,
     const double tolerance) const;
 
-//  // HWH for testing only
-//  TripleBandedCollectionMatrix * get_collection() { return &collection_; }
+  /// Return the collection matrix.
+  const TripleBandedCollectionMatrix& collection() const {
+    return collection_; }
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TransitionMatrix(std::istream& istr);
+  explicit TransitionMatrix(const Bias& bias);
   virtual ~TransitionMatrix() {}
 
  private:
@@ -76,11 +78,11 @@ class TransitionMatrix : public Bias {
   int iter_block_= -1;
 
   void update_blocks_(
-      const int macrostate_old,
-      const int macrostate_new,
-      const double ln_metropolis_prob,
-      const bool is_accepted,
-      const bool revert);
+    const int macrostate_old,
+    const int macrostate_new,
+    const double ln_metropolis_prob,
+    const bool is_accepted,
+    const bool revert);
 };
 
 inline std::shared_ptr<TransitionMatrix> MakeTransitionMatrix(
