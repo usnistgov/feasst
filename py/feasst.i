@@ -18,6 +18,8 @@
   }
 }
 
+%warnfilter(509);
+
 %{
 #include "configuration/include/properties.h"
 #include "configuration/include/typed_entity.h"

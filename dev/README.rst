@@ -344,3 +344,4 @@ To Do List
 * maybe mc.add(criteria) is preferable to mc.set. Same with sys?
 * in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?
 * EnergyMapNeighborCriteria should be able to take index of energy map stored by System
+* Optimize TrialRemove for new_only by not computing interactions with neighbors

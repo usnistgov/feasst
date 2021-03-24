@@ -15,7 +15,14 @@ void TrialCompute::compute_rosenbluth(
     Acceptance * acceptance,
     std::vector<TrialStage*> * stages,
     Random * random) {
-  if (old == 1 && (*stages)[0]->is_new_only()) return;
+//  // Attempt at optimizing energy for TrialRemove led to issues
+//  if (old == 1 && (*stages)[0]->is_new_only()) {
+//    for (TrialStage* stage : *stages) {
+//      stage->set_mobile_physical(true, system);
+//      stage->get_trial_select()->set_trial_state(2);
+//    }
+//    return;
+//  }
   double ln_rosenbluth = 0.;
   double energy_change = 0.;
   bool reference_used = false;

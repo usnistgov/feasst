@@ -100,7 +100,7 @@ TEST(MonteCarlo, spce_gce_LONG) {
   mc.add(num);
   mc.attempt(1e5);
   INFO(num->num_particles().str());
-  EXPECT_NEAR(num->num_particles().average(), 9, 2);
+  EXPECT_NEAR(num->num_particles().average(), 9, 4);
 }
 
 // Fast test to be run with valgrind

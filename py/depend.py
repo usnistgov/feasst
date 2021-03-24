@@ -139,6 +139,8 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
   }\n\
 }\n\
 \n\
+%warnfilter(509);\n\
+\n\
 %{\n\
 ")
     for dep in deps:

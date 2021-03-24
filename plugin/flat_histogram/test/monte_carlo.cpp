@@ -16,8 +16,10 @@
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/check_properties.h"
+#include "steppers/include/check_energy.h"
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/tuner.h"
 #include "steppers/include/log_and_movie.h"
 #include "ewald/include/ewald.h"
 #include "ewald/include/charge_screened.h"
@@ -70,6 +72,41 @@ TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
       EXPECT_NEAR(gce.average_macrostate()/gce.betaPV(), 1, 0.01);
     }
   }
+}
+
+TEST(MonteCarlo, hard_sphere_LONG) {
+  MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
+                       {{"particle_type", "../forcefield/data.hard_sphere"}}));
+  mc.add(MakePotential(MakeHardSphere()));
+//  mc.add_to_optimized(MakePotential(MakeHardSphere(), MakeVisitModelCell({{"min_length", "1"}})));
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "-2.352321"}}));
+  //auto bias = MakeWLTM({{"collect_flatness", "18"},
+  //              {"min_flatness", "22"},
+  //              {"min_sweeps", "100"}});
+  auto bias = MakeTransitionMatrix({{"min_sweeps", "100"}});
+  mc.set(MakeFlatHistogram(
+      MakeMacrostateNumParticles(
+          Histogram({{"width", "1"}, {"max", "40"}, {"min", "0"}})), bias));
+  const std::string is_new_only = "true";
+  mc.add(MakeTrialTranslate({{"new_only", is_new_only}, {"weight", "1."}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialTransfer({{"new_only", is_new_only}, {"weight", "4"}, {"particle_type", "0"}}));
+  const std::string steps_per = "100";
+  mc.add(MakeCheckEnergy({{"steps_per", steps_per}, {"tolerance", "0.0001"}}));
+  mc.add(MakeCheckPhysicality({{"steps_per", "1"}}));
+  mc.add(MakeTuner({{"steps_per", steps_per}, {"stop_after_phase", "0"}}));
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per},
+                          {"file_name", "hs_fh"},
+                          {"file_name_append_phase", "True"}}));
+  mc.add(MakeCriteriaUpdater({{"steps_per", steps_per}}));
+  mc.add(MakeCriteriaWriter({{"steps_per", steps_per},
+                             {"file_name", "tmp/crit.txt"},
+                             {"file_name_append_phase", "True"}}));
+  mc.run_until_complete();
+  INFO(feasst_str(bias->ln_prob().values()));
+  EXPECT_NEAR(bias->ln_prob().value(0), -41.16903361558974, 0.075);
+  //EXPECT_NEAR(bias->ln_prob().value(0), -41.3327752, 0.05);
 }
 
 MonteCarlo test_lj_fh(const int num_steps,
@@ -468,10 +505,10 @@ TEST(MonteCarlo, rpm_fh_LONG) {
   const LnProbability& lnpi = fh.bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -1.2994315780357, 0.1);
   EXPECT_NEAR(lnpi.value(1), -1.08646312498868, 0.1);
-  EXPECT_NEAR(lnpi.value(2), -0.941850889679828, 0.1);
+  EXPECT_NEAR(lnpi.value(2), -0.941850889679828, 0.125);
   EXPECT_NEAR(energy_av(0, mc2), 0, 1e-14);
   EXPECT_NEAR(energy_av(1, mc2), -0.939408, 0.02);
-  EXPECT_NEAR(energy_av(2, mc2), -2.02625, 0.04);
+  EXPECT_NEAR(energy_av(2, mc2), -2.02625, 0.05);
 }
 
 TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {

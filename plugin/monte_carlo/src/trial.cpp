@@ -142,8 +142,9 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
       stage->select(system, &acceptance_, random);
     }
   }
-  if (acceptance_.reject()) DEBUG("auto rejected at selection");
-  if (!acceptance_.reject()) {
+  if (acceptance_.reject()) {
+    DEBUG("auto rejected at selection");
+  } else {
     for (TrialStage * stage : stages_ptr_) {
       stage->set_mobile_physical(false, system);
     }
