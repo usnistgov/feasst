@@ -32,6 +32,8 @@ class Potential {
       This also overrides group_index.
     - prevent_cache: set this to true in order to prevent the use of cache
       (default: False)
+    - table_size: set size of tabular potential (default: 0).
+      Do not use table if size <= 0.
    */
   explicit Potential(argtype args = argtype());
 
@@ -41,7 +43,7 @@ class Potential {
   /// Return the index of the cell
   int cell_index() const;
 
-  /// Constract with model and default visitor.
+  /// Construct with model and default visitor.
   explicit Potential(std::shared_ptr<Model> model,
                      argtype args = argtype());
 
@@ -136,6 +138,7 @@ class Potential {
   ModelParams model_params_;
   Cache cache_;
   bool prevent_cache_;
+  int table_size_;
 };
 
 inline std::shared_ptr<Potential> MakePotential(

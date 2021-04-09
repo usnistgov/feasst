@@ -2,10 +2,12 @@
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
+#include "math/include/table.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/potential.h"
 #include "system/include/model_empty.h"
+#include "system/include/model_two_body_table.h"
 
 namespace feasst {
 
@@ -19,6 +21,7 @@ Potential::Potential(argtype args) {
     group_index_ = integer("cell_index", &args);
   }
   prevent_cache_ = boolean("prevent_cache", &args, false);
+  table_size_ = integer("table_size", &args, 0);
   check_all_used(args);
 }
 
@@ -109,6 +112,18 @@ void Potential::precompute(Configuration * config) {
     WARN("The maximum cutoff:" << max_cutoff << " is greater than half the " <<
          "minimum side length: " << half_min_side);
   }
+
+  if (table_size_ > 0) {
+    ASSERT(model_->num_body() == 2, "tables are only implemented for two "
+      << "body simulations");
+    auto table = MakeModelTwoBodyTable();
+    table->set(model_params(*config),
+      table_size_,
+      config->num_site_types(),
+      model_);
+    model_ = table;
+    table_size_ = 0;
+  }
 }
 
 void Potential::check() const {
@@ -127,6 +142,7 @@ void Potential::serialize(std::ostream& ostr) const {
   }
   feasst_serialize_fstobj(cache_, ostr);
   feasst_serialize(prevent_cache_, ostr);
+  feasst_serialize(table_size_, ostr);
 }
 
 Potential::Potential(std::istream& istr) {
@@ -156,6 +172,7 @@ Potential::Potential(std::istream& istr) {
   }
   feasst_deserialize_fstobj(&cache_, istr);
   feasst_deserialize(&prevent_cache_, istr);
+  feasst_deserialize(&table_size_, istr);
 }
 
 void Potential::set_model_params(const Configuration& config) {

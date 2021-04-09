@@ -71,7 +71,7 @@ TEST(PerturbParticleType, ewald) {
   sys.get_configuration()->add_particle_of_type(1);
   sys.get_configuration()->update_positions({{0, 0, 0}, {1, 1, 1}});
   const double en_init = sys.energy();
-  EXPECT_NEAR(en_init, -0.58091299681926167, NEAR_ZERO);
+  EXPECT_NEAR(en_init, -0.58091299681501574, NEAR_ZERO);
   EXPECT_EQ(sys.configuration().num_particles_of_type(0), 1);
   EXPECT_EQ(sys.configuration().num_particles_of_type(1), 1);
 
@@ -88,7 +88,7 @@ TEST(PerturbParticleType, ewald) {
   const double en_final = sys.energy();
   EXPECT_NEAR(en_init + en_new - en_old, en_final, NEAR_ZERO);
 
-  EXPECT_NEAR(en_final, 0.12472510014695548, NEAR_ZERO);
+  EXPECT_NEAR(en_final, 0.12472510014270943, NEAR_ZERO);
   EXPECT_EQ(sys.configuration().num_particles_of_type(0), 0);
   EXPECT_EQ(sys.configuration().num_particles_of_type(1), 2);
 }

@@ -105,7 +105,7 @@ TEST(MonteCarlo, hard_sphere_LONG) {
                              {"file_name_append_phase", "True"}}));
   mc.run_until_complete();
   INFO(feasst_str(bias->ln_prob().values()));
-  EXPECT_NEAR(bias->ln_prob().value(0), -41.16903361558974, 0.075);
+  EXPECT_NEAR(bias->ln_prob().value(0), -41.16903361558974, 0.115);
   //EXPECT_NEAR(bias->ln_prob().value(0), -41.3327752, 0.05);
 }
 

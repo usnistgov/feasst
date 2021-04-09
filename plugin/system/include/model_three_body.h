@@ -39,6 +39,7 @@ class ModelThreeBody : public Model {
     visitor->compute(this, config, 0);
     return visitor->energy();
   }
+  int num_body() const override { return 3; }
   virtual double energy3(
       const int type1,
       const int type2,

@@ -113,7 +113,7 @@ TEST(Prefetch, NVT_spce) {
   auto mc = MakePrefetch({{"synchronize", "true"}});
   //auto mc = MakePrefetch({{"synchronize", "false"}});
   // mc->set(MakeRandomMT19937({{"seed", "123"}}));
-  mc->set(spce());
+  mc->set(spce({{"table_size", str(1e3)}}));
   const int steps_per = 1e2;
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());

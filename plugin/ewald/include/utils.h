@@ -30,6 +30,7 @@ args:
 - dual_cut: add cell list with this width and also create a short-range
   reference potential with this cutoff.
   Ignore if -1 (default: -1).
+- table_size: size of tabular potential to speed up erfc (default: 1e6).
  */
 System spce(argtype args = argtype());
 

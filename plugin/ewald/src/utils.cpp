@@ -9,6 +9,7 @@
 #include "system/include/visit_model_bond.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/visit_model_cell.h"
+#include "system/include/model_two_body_table.h"
 #include "monte_carlo/include/metropolis.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/log.h"
@@ -54,8 +55,21 @@ System spce(argtype args) {
                {"alpha",
       str(dble("alphaL", &args, 5.6)/
           system.configuration().domain().min_side_length())}})));
+//  auto real_space = MakeModelTwoBodyFactory({MakeLennardJones(),
+//                                             MakeChargeScreened({{"table_size", "0"}})});
+//  real_space->precompute(system.configuration().model_params());
+//  auto table = MakeModelTwoBodyTable();
+//  table->set(system.configuration().model_params(),
+//    int(1e6),
+//    system.configuration().num_site_types(),
+//    real_space);
+//  system.add(MakePotential(table));
+//  const std::string tabsize = str("table_size", &args, str(1e6));
+//  system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
+//                                                    MakeChargeScreened()})));
   system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                                MakeChargeScreened()})));
+                                                    MakeChargeScreened({{"table_size", "0"}})}),
+                           {{"table_size", str("table_size", &args, str(1e6))}}));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
   system.add(MakePotential(MakeChargeSelf()));
   system.add(MakePotential(MakeLongRangeCorrections()));

@@ -5,7 +5,7 @@
 namespace feasst {
 
 TEST(Configuration, synchronize) {
-  System s1 = spce();
+  System s1 = spce({{"table_size", str(1e3)}});
   s1.get_configuration()->add_particle_of_type(0);
   s1.precompute();
   s1.energy();

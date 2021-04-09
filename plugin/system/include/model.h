@@ -66,6 +66,9 @@ class Model {
     VisitModel * visitor) = 0;
   virtual ~Model() {}
 
+  /// Return the number of bodies in the model (e.g., two-body/pairwise = 2).
+  virtual int num_body() const = 0;
+
   /// Precompute model parameters based on existing model parameters.
   virtual void precompute(const ModelParams& existing) {}
 

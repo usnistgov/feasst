@@ -71,6 +71,7 @@ class ModelTwoBody : public Model {
     visitor->compute(this, selection, config, 0);
     return visitor->energy();
   }
+  int num_body() const override { return 2; }
   virtual ~ModelTwoBody() {}
   explicit ModelTwoBody(std::istream& istr) : Model(istr) {}
 };

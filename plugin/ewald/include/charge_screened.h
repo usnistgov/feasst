@@ -27,9 +27,10 @@ class ChargeScreened : public ModelTwoBody {
  public:
   /**
    args:
-   - disable_table: if true, do not use a tabular erfc (default: false).
    - hard_sphere_threshold: return NEAR_INFINITY when distance is less than
      this threshold (default: 0.1).
+   - table_size: size of linearly-interpolated tabular potential (default: 1e6).
+     disable table if this value is less than or equal to zero.
    */
   ChargeScreened(argtype args = argtype());
 
@@ -55,13 +56,9 @@ class ChargeScreened : public ModelTwoBody {
   double alpha_;
   double conversion_factor_;
   double hard_sphere_threshold_sq_;
-
+  int table_size_;
   std::shared_ptr<Table1D> erfc_;
-  void init_erfc_(const double cutoff,
-    const int num_elements = 1e5);
-  // shift increases the table slightly beyond the range of the cutoff
-  // in addition, if shift is less than zero, the table is not used.
-  double shift_ = 1.;
+  void init_erfc_(const double cutoff);
 };
 
 inline std::shared_ptr<ChargeScreened> MakeChargeScreened(

@@ -75,6 +75,8 @@ class ModelOneBody : public Model {
     return visitor->energy();
   }
 
+  int num_body() const override { return 1; }
+
   /// Return the energy given the wrapped coordinates, site, config and params.
   virtual double energy(
     const Position& wrapped_site,

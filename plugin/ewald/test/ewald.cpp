@@ -63,9 +63,9 @@ TEST(Ewald, system) {
     System system = spce({{"physical_constants", "CODATA2010"},
       {"kmax_squared", "27"},
       {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
-    EXPECT_NEAR(-4062.4726310273468, system.energy(), 1e-10);
+    EXPECT_NEAR(-4062.472630678883, system.energy(), 1e-10);
     EXPECT_NEAR(52.1324574151071, system.potential(0).stored_energy(), 1e-12);
-    EXPECT_NEAR(-3819.2497122547243, system.potential(1).stored_energy(), 1e-10);
+    EXPECT_NEAR(-3819.2497119062596, system.potential(1).stored_energy(), 1e-10);
     EXPECT_NEAR(23363.573774608, system.potential(2).stored_energy(), 1e-10);
     EXPECT_NEAR(-23652.08040365018, system.potential(3).stored_energy(), 1e-12);
     EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
@@ -74,9 +74,9 @@ TEST(Ewald, system) {
     System system = spce({{"physical_constants", "CODATA2018"},
       {"kmax_squared", "27"},
       {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
-    EXPECT_NEAR(-4062.4726241840176, system.energy(), 1e-10);
+    EXPECT_NEAR(-4062.4726238355574, system.energy(), 1e-10);
     EXPECT_NEAR(52.13245734204947, system.potential(0).stored_energy(), 1e-12);
-    EXPECT_NEAR(-3819.2497057426572, system.potential(1).stored_energy(), 1e-10);
+    EXPECT_NEAR(-3819.2497053941993, system.potential(1).stored_energy(), 1e-10);
     EXPECT_NEAR(23363.573741866534, system.potential(2).stored_energy(), 1e-10);
     EXPECT_NEAR(-23652.080370504391, system.potential(3).stored_energy(), 1e-12);
     EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
@@ -87,7 +87,7 @@ TEST(Ewald, revert) {
   System system = spce({{"physical_constants", "CODATA2018"},
     {"kmax_squared", "27"},
     {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
-  const double en = -4062.4726241840176;
+  const double en = -4062.4726238355574;
   EXPECT_NEAR(en, system.energy(), 1e-10);
   PerturbTranslate perturb;
   TrialSelectParticle tsel;
