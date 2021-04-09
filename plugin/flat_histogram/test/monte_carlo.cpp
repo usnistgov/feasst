@@ -105,7 +105,7 @@ TEST(MonteCarlo, hard_sphere_LONG) {
                              {"file_name_append_phase", "True"}}));
   mc.run_until_complete();
   INFO(feasst_str(bias->ln_prob().values()));
-  EXPECT_NEAR(bias->ln_prob().value(0), -41.16903361558974, 0.115);
+  EXPECT_NEAR(bias->ln_prob().value(0), -41.16903361558974, 0.15);
   //EXPECT_NEAR(bias->ln_prob().value(0), -41.3327752, 0.05);
 }
 
@@ -150,7 +150,7 @@ MonteCarlo test_lj_fh(const int num_steps,
     bias = MakeTransitionMatrix({{"min_sweeps", str(sweeps)}});
   } else if (bias_name == "WL") {
     if (sweeps == 10) sweeps = 20;
-    bias = MakeWangLandau({{"min_flatness", str(sweeps)}});
+    bias = MakeWangLandau({{"min_flatness", str(sweeps)}, {"updates_per_flat_check", "100"}});
   } else if (bias_name == "WLTM") {
     bias = MakeWLTM({{"collect_flatness", "15"},
       {"min_flatness", "20"}, {"min_sweeps", str(sweeps)}});

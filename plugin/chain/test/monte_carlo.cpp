@@ -288,7 +288,7 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   return mc2;
 }
 
-const double z_factor = 13.;
+const double z_factor = 15.;
 
 TEST(MonteCarlo, heterotrimer2d_LONG) {
   MonteCarlo mc_no_avb = test_avb(false, false);

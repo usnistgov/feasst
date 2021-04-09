@@ -16,6 +16,8 @@ WangLandau::WangLandau(argtype * args) {
   flatness_threshold_ = dble("flatness_threshold", args, 0.8);
   add_to_ln_probability_ = dble("add_to_ln_probability", args, 1.);
   reduce_ln_probability_ = dble("reduce_ln_probability", args, 0.5);
+  updates_per_flat_check_ = integer("updates_per_flat_check", args, 1e2);
+  min_visit_per_macro_ = integer("min_visit_per_macro", args, 1e3);
 }
 
 void WangLandau::flatness_update_() {
@@ -30,6 +32,15 @@ void WangLandau::flatness_update_() {
   }
 }
 
+void WangLandau::flatness_check_() {
+  const int min_visit =
+    *std::min_element(visited_states_.begin(), visited_states_.end());
+  if ((min_visit >= min_visit_per_macro_) &&
+      (min_visit >= flatness_threshold_ * average(visited_states_))) {
+    flatness_update_();
+  }
+}
+
 void WangLandau::update_or_revert(
     const int macrostate_old,
     const int macrostate_new,
@@ -40,9 +51,11 @@ void WangLandau::update_or_revert(
   int bin = bin_(macrostate_old, macrostate_new, is_accepted);
   ln_prob_.add(bin, add_to_ln_probability_);
   ++visited_states_[bin];
-  if (*std::min_element(visited_states_.begin(), visited_states_.end()) >
-      flatness_threshold_ * average(visited_states_)) {
-    flatness_update_();
+  DEBUG("updates_since " << updates_since_flat_check_);
+  ++updates_since_flat_check_;
+  if (updates_since_flat_check_ >= updates_per_flat_check_) {
+    flatness_check_();
+    updates_since_flat_check_ = 0;
   }
 }
 
@@ -93,6 +106,9 @@ WangLandau::WangLandau(std::istream& istr) : Bias(istr) {
   feasst_deserialize_fstobj(&(ln_prob_), istr);
   feasst_deserialize(&(add_to_ln_probability_), istr);
   feasst_deserialize(&(reduce_ln_probability_), istr);
+  feasst_deserialize(&(updates_per_flat_check_), istr);
+  feasst_deserialize(&(updates_since_flat_check_), istr);
+  feasst_deserialize(&(min_visit_per_macro_), istr);
   feasst_deserialize(&(flatness_threshold_), istr);
   feasst_deserialize(&(visited_states_), istr);
   feasst_deserialize(&(num_flatness_), istr);
@@ -110,6 +126,9 @@ void WangLandau::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(ln_prob_, ostr);
   feasst_serialize(add_to_ln_probability_, ostr);
   feasst_serialize(reduce_ln_probability_, ostr);
+  feasst_serialize(updates_per_flat_check_, ostr);
+  feasst_serialize(updates_since_flat_check_, ostr);
+  feasst_serialize(min_visit_per_macro_, ostr);
   feasst_serialize(flatness_threshold_, ostr);
   feasst_serialize(visited_states_, ostr);
   feasst_serialize(num_flatness_, ostr);
