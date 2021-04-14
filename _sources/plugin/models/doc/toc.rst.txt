@@ -6,3 +6,4 @@
    LennardJonesAlpha
    LennardJonesCutShift
    LennardJonesForceShift
+   Mie

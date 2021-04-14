@@ -2,15 +2,6 @@
 README
 *************************
 
-.. .. image:: https://anaconda.org/hhatch/feasst/badges/installer/conda.svg
-..     :target: https://conda.anaconda.org/hhatch
-
-.. image:: https://travis-ci.com/hhatch/feasst.svg?branch=main
-    :target: https://travis-ci.com/hhatch/feasst
-
-.. image:: https://codecov.io/gh/hhatch/feasst/branch/main/graph/badge.svg
-    :target: https://codecov.io/gh/hhatch/feasst
-
 .. image:: https://www.codefactor.io/repository/github/hhatch/feasst/badge/main
     :target: https://www.codefactor.io/repository/github/hhatch/feasst/overview/main
     :alt: CodeFactor
@@ -99,7 +90,7 @@ Python install
 
 * SWIG is required. Version 3.0.12 is recommended if your current SWIG version does not work properly.
 
-* Anaconda with Python 3 is recommended.
+* Python 3 is recommended.
 
 * CMake attempts to find the python libraries during compilation.
   But you may want to specify them manually.
@@ -110,14 +101,21 @@ Python install
     mkdir feasst/build
     cd feasst/build
 
-    conda env create -f ../py/feasst.yml
-    conda activate feasst
-    # alternatively, without env create, include some tutorial dependencies
-    # pip install jupyter matplotlib pandas scipy # for tutorials
+    # install python virtual environment for feasst usage
+    sudo apt install python3-dev
+    mkdir ~/.pyenv
+    pushd ~/.pyenv
+    python3 -m venv feasst
+    source ~/.pyenv/feasst/bin/activate # may add this to your .bash_profile
+    pip install jupyter matplotlib pandas scipy # for tutorials
+    popd
+    # # alternatively, using Anaconda:
+    # conda env create -f ../py/feasst.yml
+    # conda activate feasst
 
     cmake -DUSE_SWIG=ON ..
     # alternatively, for manually setting the python path
-    # cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..
+    # cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.so ..
 
     make -j4
     make install -j4
@@ -178,7 +176,7 @@ macOS Mojave
 * SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst.
   Try SWIG version 3 instead.
 
-* Sometimes CMake has trouble finding anaconda, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so
+* Sometimes CMake has trouble finding python, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so
 
 CentOS 7
 ~~~~~~~~~

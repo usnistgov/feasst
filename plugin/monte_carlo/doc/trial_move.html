@@ -1,32 +1,40 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>monte_carlo/include/trial_move &mdash; FEASST v0.15.0 documentation</title>
+  <title>monte_carlo/include/trial_move &mdash; FEASST v0.16.0 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
 
   
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   
+
   
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
@@ -37,14 +45,9 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Constraint" href="Constraint.html" />
+    <link rel="next" title="Metropolis" href="Metropolis.html" />
     <link rel="prev" title="TrialComputeMove" href="TrialComputeMove.html" />
 
 	<!-- frame blocking -->
@@ -81,7 +84,7 @@
             
             
               <div class="version">
-                v0.15.0
+                v0.16.0
               </div>
             
           
@@ -91,6 +94,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -117,18 +121,15 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
@@ -138,11 +139,14 @@
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="trials.html">monte_carlo/include/trials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">monte_carlo/include/trial_move</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
@@ -179,6 +183,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -295,8 +300,8 @@
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst13MakeTrialMoveENSt10shared_ptrI11TrialSelectEENSt10shared_ptrI11PerturbMoveEERKNSt6stringERK7argtype">
-<span class="target" id="namespacefeasst_1a42c08dbe38413956faba2b4b52bb8611"></span>std::shared_ptr&lt;<a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <code class="sig-name descname">MakeTrialMove</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a>&gt; <em>select</em>, std::shared_ptr&lt;<a class="reference internal" href="PerturbMove.html#_CPPv4N6feasst11PerturbMoveE" title="feasst::PerturbMove">PerturbMove</a>&gt; <em>perturb</em>, <em class="property">const</em> std::string &amp;<em>description</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst13MakeTrialMoveENSt10shared_ptrI11TrialSelectEENSt10shared_ptrI11PerturbMoveEERKNSt6stringERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst6feasst13MakeTrialMoveENSt10shared_ptrI11TrialSelectEENSt10shared_ptrI11PerturbMoveEERKNSt6stringEP7argtype">
+<span class="target" id="namespacefeasst_1ac4fccc480f630dbf1151826658e0a1fa"></span>std::shared_ptr&lt;<a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <code class="sig-name descname">MakeTrialMove</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a>&gt; <em>select</em>, std::shared_ptr&lt;<a class="reference internal" href="PerturbMove.html#_CPPv4N6feasst11PerturbMoveE" title="feasst::PerturbMove">PerturbMove</a>&gt; <em>perturb</em>, <em class="property">const</em> std::string &amp;<em>description</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst13MakeTrialMoveENSt10shared_ptrI11TrialSelectEENSt10shared_ptrI11PerturbMoveEERKNSt6stringEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempt to rigidly move a selection in a <a class="reference internal" href="Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> in one stage. </p>
 </dd></dl>
 
@@ -310,16 +315,10 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Constraint.html" class="btn btn-neutral float-right" title="Constraint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="TrialComputeMove.html" class="btn btn-neutral float-left" title="TrialComputeMove" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="Metropolis.html" class="btn btn-neutral float-right" title="Metropolis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="TrialComputeMove.html" class="btn btn-neutral float-left" title="TrialComputeMove" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
@@ -328,7 +327,14 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
 
 	<br></br>
@@ -411,7 +417,6 @@
 
 
 </footer>
-
         </div>
       </div>
 
@@ -419,7 +424,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -15,3 +15,4 @@
    Ensemble
    FlatHistogram
    Clones
+   MacrostateEnergy

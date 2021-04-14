@@ -1387,7 +1387,7 @@
     "assert(U_muvt == -1241.6148817462106)\n",
     "\n",
     "# exercise: verify calculations in python\n",
-    "assert(abs(N_muvt - (np.exp(dfsrsw[\"lnPI\"]) * dfsrsw[\"N\"]).sum()) < 1e-13)\n",
+    "assert(abs(N_muvt - (np.exp(dfsrsw[\"lnPI\"]) * dfsrsw[\"N\"]).sum()) < 1e-11)\n",
     "assert(abs(U_muvt - (np.exp(dfsrsw[\"lnPI\"]) * dfsrsw[\"energy\"]).sum()) < 1e-11)"
    ]
   },
@@ -2888,7 +2888,7 @@
     "\n",
     "N_muvt_rw = gce.average_macrostate()\n",
     "print('N(beta_mu =', beta_mu_rw, ') =', N_muvt_rw)\n",
-    "assert(abs(N_muvt_rw - 153.44171767002885) < 1e-13)\n",
+    "assert(abs(N_muvt_rw - 153.44171767002885) < 1e-11)\n",
     "\n",
     "U_muvt_rw = gce.average(fst.DoubleVector(dfsrsw['energy']))\n",
     "print('U(beta_mu =', beta_mu_rw, ') =', U_muvt_rw)\n",

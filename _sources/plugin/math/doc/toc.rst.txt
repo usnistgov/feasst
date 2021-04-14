@@ -9,6 +9,7 @@
    utils_math
    Position
    Random
+   RandomModulo
    constants
    Minimize
    GoldenSearch

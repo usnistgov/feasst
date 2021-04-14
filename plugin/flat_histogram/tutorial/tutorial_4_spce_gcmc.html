@@ -1,32 +1,40 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E &mdash; FEASST v0.15.0 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E &mdash; FEASST v0.16.0 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
 
   
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   
+
   
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
@@ -37,11 +45,6 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Parallelize a flat histogram simulation" href="tutorial_5_lj_gcmc_parallel.html" />
@@ -81,7 +84,7 @@
             
             
               <div class="version">
-                v0.15.0
+                v0.16.0
               </div>
             
           
@@ -91,6 +94,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -150,6 +154,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -237,21 +242,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -352,7 +371,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -418,6 +437,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -491,7 +511,7 @@ div.rendered_html tbody tr:hover {
 <h1>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E<a class="headerlink" href="#Grand-canonical-ensemble-transition-matrix-Monte-Carlo-with-SPC/E" title="Permalink to this headline">¶</a></h1>
 <p>This example is similar to the Lennard Jones tutorial, except this time we simulate the SPC/E water model.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -537,7 +557,7 @@ div.rendered_html tbody tr:hover {
             <span class="p">[</span><span class="o">-</span><span class="mf">1.6479</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
             <span class="p">[</span><span class="o">-</span><span class="mf">1.8786</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">]]</span>
         <span class="n">energy_previous</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-13</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-11</span><span class="p">],</span>
             <span class="p">[</span><span class="o">-</span><span class="mf">0.0879115</span><span class="p">,</span> <span class="mf">1.1293158298007674394e-05</span><span class="p">],</span>
             <span class="p">[</span><span class="o">-</span><span class="mf">2.326</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">],</span>
             <span class="p">[</span><span class="o">-</span><span class="mf">6.806</span><span class="p">,</span> <span class="mf">0.24</span><span class="p">],</span>
@@ -563,7 +583,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -578,7 +598,7 @@ div.rendered_html tbody tr:hover {
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 test_serial_5max (__main__.TestFlatHistogramSPCE)
-Compare the free energies and potential energies with the NIST SRSW ...
+Compare the free energies and potential energies with the NIST SRSW ... ok
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -586,8 +606,8 @@ Compare the free energies and potential energies with the NIST SRSW ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 8.15 s, sys: 28.9 ms, total: 8.17 s
-Wall time: 8.14 s
+CPU times: user 7.38 s, sys: 11.7 ms, total: 7.39 s
+Wall time: 7.36 s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -595,21 +615,21 @@ Wall time: 8.14 s
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-ok
+
 
 ----------------------------------------------------------------------
-Ran 1 test in 8.130s
+Ran 1 test in 7.361s
 
 OK
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7fc355534940&gt;
+&lt;unittest.main.TestProgram at 0x7fd632725340&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
@@ -620,16 +640,10 @@ OK
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="tutorial_5_lj_gcmc_parallel.html" class="btn btn-neutral float-right" title="Parallelize a flat histogram simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="tutorial_3_reweight_phase_separation.html" class="btn btn-neutral float-left" title="Analysis of a two-phase (phase separated) simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="tutorial_5_lj_gcmc_parallel.html" class="btn btn-neutral float-right" title="Parallelize a flat histogram simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial_3_reweight_phase_separation.html" class="btn btn-neutral float-left" title="Analysis of a two-phase (phase separated) simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
@@ -638,7 +652,14 @@ OK
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
 
 	<br></br>
@@ -721,7 +742,6 @@ OK
 
 
 </footer>
-
         </div>
       </div>
 
@@ -729,7 +749,6 @@ OK
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -11,8 +11,15 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
-   "metadata": {},
+   "execution_count": 2,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2021-02-05T18:25:36.363403Z",
+     "iopub.status.busy": "2021-02-05T18:25:36.362625Z",
+     "iopub.status.idle": "2021-02-05T18:25:36.387354Z",
+     "shell.execute_reply": "2021-02-05T18:25:36.386708Z"
+    }
+   },
    "outputs": [],
    "source": [
     "import unittest\n",
@@ -57,7 +64,7 @@
     "            [-1.6479, 0.015],\n",
     "            [-1.8786, 0.03]]\n",
     "        energy_previous = [\n",
-    "            [0, 1e-13],\n",
+    "            [0, 1e-11],\n",
     "            [-0.0879115, 1.1293158298007674394e-05],\n",
     "            [-2.326, 0.12],\n",
     "            [-6.806, 0.24],\n",
@@ -82,33 +89,40 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
-   "metadata": {},
+   "execution_count": 3,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2021-02-05T18:25:36.390977Z",
+     "iopub.status.busy": "2021-02-05T18:25:36.390376Z",
+     "iopub.status.idle": "2021-02-05T18:25:44.948239Z",
+     "shell.execute_reply": "2021-02-05T18:25:44.948757Z"
+    }
+   },
    "outputs": [
     {
      "name": "stderr",
      "output_type": "stream",
      "text": [
       "test_serial_5max (__main__.TestFlatHistogramSPCE)\n",
-      "Compare the free energies and potential energies with the NIST SRSW ... "
+      "Compare the free energies and potential energies with the NIST SRSW ... ok"
      ]
     },
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPU times: user 8.15 s, sys: 28.9 ms, total: 8.17 s\n",
-      "Wall time: 8.14 s\n"
+      "CPU times: user 7.38 s, sys: 11.7 ms, total: 7.39 s\n",
+      "Wall time: 7.36 s\n"
      ]
     },
     {
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "ok\n",
+      "\n",
       "\n",
       "----------------------------------------------------------------------\n",
-      "Ran 1 test in 8.130s\n",
+      "Ran 1 test in 7.361s\n",
       "\n",
       "OK\n"
      ]
@@ -116,10 +130,10 @@
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7fc355534940>"
+       "<unittest.main.TestProgram at 0x7fd632725340>"
       ]
      },
-     "execution_count": 2,
+     "execution_count": 3,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -153,7 +167,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.6.10"
+   "version": "3.8.5"
   }
  },
  "nbformat": 4,

@@ -1,32 +1,40 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.15.0 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.16.0 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
 
   
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
   
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="_static/leave_notice.js"></script>
@@ -37,11 +45,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="README" href="README.html" />
@@ -80,7 +83,7 @@
             
             
               <div class="version">
-                v0.15.0
+                v0.16.0
               </div>
             
           
@@ -90,6 +93,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -112,6 +116,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -218,8 +223,6 @@
 <h1>FEASST: Free Energy and Advanced Sampling Simulation Toolkit<a class="headerlink" href="#feasst-free-energy-and-advanced-sampling-simulation-toolkit" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="readme">
 <h2>README<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h2>
-<a class="reference external image-reference" href="https://travis-ci.com/hhatch/feasst"><img alt="https://travis-ci.com/hhatch/feasst.svg?branch=main" src="https://travis-ci.com/hhatch/feasst.svg?branch=main" /></a>
-<a class="reference external image-reference" href="https://codecov.io/gh/hhatch/feasst"><img alt="https://codecov.io/gh/hhatch/feasst/branch/main/graph/badge.svg" src="https://codecov.io/gh/hhatch/feasst/branch/main/graph/badge.svg" /></a>
 <a class="reference external image-reference" href="https://www.codefactor.io/repository/github/hhatch/feasst/overview/main"><img alt="CodeFactor" src="https://www.codefactor.io/repository/github/hhatch/feasst/badge/main" /></a>
 <p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
 open-source, modular program to conduct molecular and particle-based
@@ -289,7 +292,7 @@ For example, if you would like more information on <a class="reference external"
 <h4>Python install<a class="headerlink" href="#python-install" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>SWIG is required. Version 3.0.12 is recommended if your current SWIG version does not work properly.</p></li>
-<li><p>Anaconda with Python 3 is recommended.</p></li>
+<li><p>Python 3 is recommended.</p></li>
 <li><p>CMake attempts to find the python libraries during compilation.
 But you may want to specify them manually.</p></li>
 </ul>
@@ -297,14 +300,21 @@ But you may want to specify them manually.</p></li>
 mkdir feasst/build
 <span class="nb">cd</span> feasst/build
 
-conda env create -f ../py/feasst.yml
-conda activate feasst
-<span class="c1"># alternatively, without env create, include some tutorial dependencies</span>
-<span class="c1"># pip install jupyter matplotlib pandas scipy # for tutorials</span>
+<span class="c1"># install python virtual environment for feasst usage</span>
+sudo apt install python3-dev
+mkdir ~/.pyenv
+<span class="nb">pushd</span> ~/.pyenv
+python3 -m venv feasst
+<span class="nb">source</span> ~/.pyenv/feasst/bin/activate <span class="c1"># may add this to your .bash_profile</span>
+pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
+<span class="nb">popd</span>
+<span class="c1"># # alternatively, using Anaconda:</span>
+<span class="c1"># conda env create -f ../py/feasst.yml</span>
+<span class="c1"># conda activate feasst</span>
 
 cmake -DUSE_SWIG<span class="o">=</span>ON ..
 <span class="c1"># alternatively, for manually setting the python path</span>
-<span class="c1"># cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..</span>
+<span class="c1"># cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.so ..</span>
 
 make -j4
 make install -j4
@@ -354,7 +364,7 @@ In that case <cite>LD_LIBRARY_PATH</cite> needs to be set as follows:</p>
 <ul class="simple">
 <li><p>SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst.
 Try SWIG version 3 instead.</p></li>
-<li><p>Sometimes CMake has trouble finding anaconda, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so</p></li>
+<li><p>Sometimes CMake has trouble finding python, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so</p></li>
 </ul>
 </div>
 <div class="section" id="centos-7">
@@ -521,7 +531,7 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/debug.html">utils/include/debug</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/Arguments.html">Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/arguments.html">utils/include/arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/ProgressReport.html">ProgressReport</a></li>
@@ -538,6 +548,7 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/utils_math.html">math/include/utils_math</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/Position.html">Position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/Random.html">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/RandomModulo.html">RandomModulo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/constants.html">math/include/constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/GoldenSearch.html">GoldenSearch</a></li>
@@ -594,19 +605,20 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBody.html">ModelTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/IdealGas.html">IdealGas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LennardJones.html">LennardJones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/HardSphere.html">HardSphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LennardJones.html">LennardJones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntra.html">VisitModelIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html">VisitModelCell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelBond.html">VisitModelBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/System.html">System</a></li>
@@ -630,18 +642,15 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelect.html">TrialSelect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectBond.html">TrialSelectBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Criteria.html">Criteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialCompute.html">TrialCompute</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeVolume.html">TrialComputeVolume</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Trial.html">Trial</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Analyze.html">Analyze</a></li>
@@ -651,11 +660,14 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/trials.html">monte_carlo/include/trials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeVolume.html">TrialComputeVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/trial_move.html">monte_carlo/include/trial_move</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/ConstrainNumParticles.html">ConstrainNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html">PerturbAdd</a></li>
@@ -680,6 +692,7 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesAlpha.html">LennardJonesAlpha</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesCutShift.html">LennardJonesCutShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesForceShift.html">LennardJonesForceShift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/Mie.html">Mie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -699,13 +712,13 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Energy.html">Energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaWriter.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/PairDistributionInner.html">PairDistributionInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckEnergy.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckEnergyAndTune.html">CheckEnergyAndTune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/SeekModify.html">SeekModify</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Tuner.html">Tuner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaUpdater.html">CriteriaUpdater</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/PairDistributionInner.html">PairDistributionInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Movie.html">Movie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -743,6 +756,7 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/FlatHistogram.html">FlatHistogram</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Clones.html">Clones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
 </li>
 </ul>
@@ -764,16 +778,15 @@ docker build -t hhatch/feasst:firsttry feasst/
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/chain/README.html">Chain</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectBranch.html">SelectBranch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectPerturbed.html">SelectPerturbed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectSiteOfType.html">SelectSiteOfType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectPerturbed.html">SelectPerturbed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectBranch.html">SelectBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbReptate.html">PerturbReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbReptate.html">PerturbReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/CheckRigidBonds.html">CheckRigidBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/RecenterParticles.html">RecenterParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/trials.html">chain/include/trials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/trial_grow.html">chain/include/trial_grow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbPivot.html">PerturbPivot</a></li>
@@ -869,23 +882,23 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapNeighbor.html">EnergyMapNeighbor</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectCluster.html">SelectCluster</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectCluster.html">SelectCluster</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/trial_avb2.html">cluster/include/trial_avb2</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/trial_rigid_cluster.html">cluster/include/trial_rigid_cluster</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/trial_transfer_avb_divalent.html">cluster/include/trial_transfer_avb_divalent</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/trial_transfer_avb.html">cluster/include/trial_transfer_avb</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/trial_avb4.html">cluster/include/trial_avb4</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeRemoveAVBDivalent.html">ComputeRemoveAVBDivalent</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAddAVBDivalent.html">ComputeAddAVBDivalent</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeGCA.html">ComputeGCA</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAddAVB.html">ComputeAddAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeMoveCluster.html">ComputeMoveCluster</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB4.html">ComputeAVB4</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAddAVB.html">ComputeAddAVB</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeGCA.html">ComputeGCA</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAddAVBDivalent.html">ComputeAddAVBDivalent</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeRemoveAVBDivalent.html">ComputeRemoveAVBDivalent</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB2.html">ComputeAVB2</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB4.html">ComputeAVB4</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbRotateCOM.html">PerturbRotateCOM</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbMoveAVB.html">PerturbMoveAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbAddAVB.html">PerturbAddAVB</a></li>
@@ -897,21 +910,19 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l4"><a class="reference internal" href="plugin/egce/tutorial/tutorial_1_rpm_egce.html">Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/egce/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/egce/README.html#api">API</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/egce/doc/AHalfB.html">AHalfB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/egce/doc/AEqualB.html">AEqualB</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/egce/doc/AHalfB.html">AHalfB</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/growth_expanded/README.html">Growth expanded</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/growth_expanded/doc/PerturbParticleType.html">PerturbParticleType</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/growth_expanded/doc/TrialComputeGrowAdd.html">TrialComputeGrowAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/growth_expanded/doc/trial_morph.html">growth_expanded/include/trial_morph</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/growth_expanded/doc/TrialMorphExpanded.html">TrialMorphExpanded</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/growth_expanded/doc/ComputeMorph.html">ComputeMorph</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/growth_expanded/doc/MacrostateMorph.html">MacrostateMorph</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/growth_expanded/doc/MacrostateGrowthExpanded.html">MacrostateGrowthExpanded</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/growth_expanded/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/morph/README.html">Morph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/morph/doc/PerturbParticleType.html">PerturbParticleType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/morph/doc/trial_morph.html">morph/include/trial_morph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/morph/doc/TrialMorphExpanded.html">TrialMorphExpanded</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/morph/doc/ComputeMorph.html">ComputeMorph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/morph/doc/MacrostateMorph.html">MacrostateMorph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/morph/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/beta_expanded/README.html">Beta expanded</a><ul>
@@ -988,7 +999,6 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l4"><a class="reference internal" href="dev/README.html#setup">Setup</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dev/README.html#sphinx-breathe-doxygen-notes">Sphinx/Breathe/Doxygen notes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dev/README.html#pip-notes">Pip notes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dev/README.html#anaconda-cloud-notes">Anaconda cloud notes</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="dev/README.html#style">Style</a><ul>
@@ -1031,14 +1041,9 @@ docker build -t hhatch/feasst:firsttry feasst/
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="README.html" class="btn btn-neutral float-right" title="README" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
+        <a href="README.html" class="btn btn-neutral float-right" title="README" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
@@ -1047,7 +1052,14 @@ docker build -t hhatch/feasst:firsttry feasst/
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
 
 	<br></br>
@@ -1130,7 +1142,6 @@ docker build -t hhatch/feasst:firsttry feasst/
 
 
 </footer>
-
         </div>
       </div>
 
@@ -1138,7 +1149,6 @@ docker build -t hhatch/feasst:firsttry feasst/
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

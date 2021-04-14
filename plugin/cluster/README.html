@@ -1,32 +1,40 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Cluster &mdash; FEASST v0.15.0 documentation</title>
+  <title>Cluster &mdash; FEASST v0.16.0 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
 
   
   
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   
+
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../_static/leave_notice.js"></script>
@@ -37,11 +45,6 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Monte Carlo with rigid cluster moves" href="tutorial/tutorial_1_lj_cluster.html" />
@@ -81,7 +84,7 @@
             
             
               <div class="version">
-                v0.15.0
+                v0.16.0
               </div>
             
           
@@ -91,6 +94,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -128,7 +132,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../morph/README.html">Morph</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
 </ul>
@@ -146,6 +150,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -272,23 +277,23 @@
 <li class="toctree-l1"><a class="reference internal" href="doc/EnergyMapNeighbor.html">EnergyMapNeighbor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/SelectCluster.html">SelectCluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/SelectCluster.html">SelectCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trial_avb2.html">cluster/include/trial_avb2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trial_rigid_cluster.html">cluster/include/trial_rigid_cluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trial_transfer_avb_divalent.html">cluster/include/trial_transfer_avb_divalent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trial_transfer_avb.html">cluster/include/trial_transfer_avb</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trial_avb4.html">cluster/include/trial_avb4</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ComputeRemoveAVBDivalent.html">ComputeRemoveAVBDivalent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ComputeAddAVBDivalent.html">ComputeAddAVBDivalent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ComputeGCA.html">ComputeGCA</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ComputeAddAVB.html">ComputeAddAVB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/ComputeMoveCluster.html">ComputeMoveCluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ComputeAVB4.html">ComputeAVB4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ComputeAddAVB.html">ComputeAddAVB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ComputeGCA.html">ComputeGCA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ComputeAddAVBDivalent.html">ComputeAddAVBDivalent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ComputeRemoveAVBDivalent.html">ComputeRemoveAVBDivalent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/ComputeAVB2.html">ComputeAVB2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ComputeAVB4.html">ComputeAVB4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbRotateCOM.html">PerturbRotateCOM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbMoveAVB.html">PerturbMoveAVB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbAddAVB.html">PerturbAddAVB</a></li>
@@ -302,16 +307,10 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="tutorial/tutorial_1_lj_cluster.html" class="btn btn-neutral float-right" title="Monte Carlo with rigid cluster moves" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../threads/doc/ThreadOMP.html" class="btn btn-neutral float-left" title="ThreadOMP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="tutorial/tutorial_1_lj_cluster.html" class="btn btn-neutral float-right" title="Monte Carlo with rigid cluster moves" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../threads/doc/ThreadOMP.html" class="btn btn-neutral float-left" title="ThreadOMP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
@@ -320,7 +319,14 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
 
 	<br></br>
@@ -403,7 +409,6 @@
 
 
 </footer>
-
         </div>
       </div>
 
@@ -411,7 +416,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

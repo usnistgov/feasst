@@ -35,7 +35,6 @@ Plugins in development
 
    cluster/README
    egce/README
-   growth_expanded/README
+   morph/README
    beta_expanded/README
    prefetch/README
-   ph/README

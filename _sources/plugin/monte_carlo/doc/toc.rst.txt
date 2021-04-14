@@ -8,18 +8,15 @@
    TrialSelect
    TrialSelectBond
    TrialSelectAngle
-   TrialSelectParticle
    Perturb
    PerturbVolume
    PerturbMove
-   PerturbDistance
    PerturbTranslate
+   PerturbDistance
+   TrialSelectParticle
    Criteria
    TrialStage
    TrialCompute
-   TrialComputeVolume
-   TrialComputeRemove
-   TrialComputeAdd
    Trial
    TrialFactory
    Analyze
@@ -29,11 +26,14 @@
    MonteCarlo
    SeekNumParticles
    trials
+   TrialComputeVolume
+   TrialComputeRemove
+   TrialComputeAdd
    TrialComputeMove
    trial_move
+   Metropolis
    Constraint
    ConstrainNumParticles
-   Metropolis
    PerturbRotate
    PerturbAnywhere
    PerturbAdd

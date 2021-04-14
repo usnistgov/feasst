@@ -1,32 +1,40 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST v0.15.0 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST v0.16.0 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
 
   
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   
+
   
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
@@ -37,11 +45,6 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Analysis of a one-phase (supercritical) simulation" href="tutorial_2_reweight_supercritical.html" />
@@ -81,7 +84,7 @@
             
             
               <div class="version">
-                v0.15.0
+                v0.16.0
               </div>
             
           
@@ -91,6 +94,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -150,6 +154,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -237,21 +242,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -352,7 +371,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -418,6 +437,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -668,8 +688,8 @@ Compare the free energies and potential energies with the NIST SRSW ...
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 lnpi energy
-CPU times: user 9.67 s, sys: 1.4 s, total: 11.1 s
-Wall time: 11 s
+CPU times: user 8.97 s, sys: 1.53 s, total: 10.5 s
+Wall time: 10.5 s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -680,7 +700,7 @@ Wall time: 11 s
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 11.012s
+Ran 1 test in 10.458s
 
 OK
 </pre></div></div>
@@ -691,7 +711,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f3387714e48&gt;
+&lt;unittest.main.TestProgram at 0x7f41d3758070&gt;
 </pre></div></div>
 </div>
 <p>A number of files should also have been created. If the flat histogram method is sampling perfectly, the simulation performs a random walk along the macrostate. For larger ranges of macrostates, or for more difficult sampling cases, monitoring the macrostate can help you determine what conditions are preventing convergence. For example, a plot of the macrostate as a function of the number of attempts may look like the following:</p>
@@ -729,6 +749,7 @@ OK
       <th></th>
       <th>volume</th>
       <th>p0</th>
+      <th>beta</th>
       <th>state</th>
       <th>energy</th>
       <th>attempt</th>
@@ -742,62 +763,67 @@ OK
     <tr>
       <th>0</th>
       <td>512</td>
-      <td>5</td>
-      <td>5</td>
-      <td>-0.9423</td>
+      <td>4</td>
+      <td>0.666667</td>
+      <td>4</td>
+      <td>-0.148161</td>
       <td>100000</td>
-      <td>0.939505</td>
+      <td>0.943354</td>
       <td>1</td>
-      <td>0.0430282</td>
-      <td>0.0429021</td>
+      <td>0.0444889</td>
+      <td>0.0441788</td>
     </tr>
     <tr>
       <th>1</th>
       <td>512</td>
-      <td>2</td>
-      <td>2</td>
-      <td>-0.00242296</td>
+      <td>5</td>
+      <td>0.666667</td>
+      <td>5</td>
+      <td>-0.0307635</td>
       <td>200000</td>
-      <td>0.965169</td>
+      <td>0.968788</td>
       <td>1.05</td>
-      <td>0.565513</td>
-      <td>0.565051</td>
+      <td>0.538184</td>
+      <td>0.53477</td>
     </tr>
     <tr>
       <th>2</th>
       <td>512</td>
       <td>5</td>
+      <td>0.666667</td>
       <td>5</td>
-      <td>-0.10326</td>
+      <td>-0.0537466</td>
       <td>300000</td>
-      <td>0.974583</td>
+      <td>0.970127</td>
       <td>1.1025</td>
-      <td>0.771117</td>
-      <td>0.977977</td>
+      <td>0.811549</td>
+      <td>0.956009</td>
     </tr>
     <tr>
       <th>3</th>
       <td>512</td>
-      <td>2</td>
-      <td>2</td>
-      <td>-0.00242296</td>
+      <td>1</td>
+      <td>0.666667</td>
+      <td>1</td>
+      <td>-0.00060574</td>
       <td>400000</td>
-      <td>0.966711</td>
+      <td>0.967404</td>
       <td>1.15763</td>
-      <td>0.815167</td>
-      <td>0.973676</td>
+      <td>0.812098</td>
+      <td>0.971658</td>
     </tr>
     <tr>
       <th>4</th>
       <td>512</td>
-      <td>2</td>
-      <td>2</td>
-      <td>-0.00242296</td>
+      <td>4</td>
+      <td>0.666667</td>
+      <td>4</td>
+      <td>-0.00969184</td>
       <td>500000</td>
-      <td>0.968584</td>
+      <td>0.968405</td>
       <td>1.21551</td>
-      <td>0.807139</td>
-      <td>0.972768</td>
+      <td>0.818027</td>
+      <td>0.97253</td>
     </tr>
     <tr>
       <th>...</th>
@@ -810,70 +836,76 @@ OK
       <td>...</td>
       <td>...</td>
       <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>310</th>
+      <th>465</th>
+      <td>512</td>
+      <td>0</td>
+      <td>0.666667</td>
+      <td>0</td>
+      <td>-4.12506e-15</td>
+      <td>4700000</td>
+      <td>0.956725</td>
+      <td>3.92013</td>
+      <td>0.818701</td>
+      <td>0.97249</td>
+    </tr>
+    <tr>
+      <th>466</th>
       <td>512</td>
       <td>3</td>
+      <td>0.666667</td>
       <td>3</td>
       <td>-0.00545166</td>
       <td>4800000</td>
-      <td>0.960066</td>
+      <td>0.956511</td>
       <td>3.92013</td>
-      <td>0.817123</td>
-      <td>0.974162</td>
+      <td>0.817026</td>
+      <td>0.973856</td>
     </tr>
     <tr>
-      <th>311</th>
+      <th>467</th>
       <td>512</td>
-      <td>0</td>
-      <td>0</td>
-      <td>-7.10261e-16</td>
+      <td>2</td>
+      <td>0.666667</td>
+      <td>2</td>
+      <td>-0.00966056</td>
       <td>4900000</td>
-      <td>0.955622</td>
+      <td>0.959734</td>
       <td>3.92013</td>
-      <td>0.817117</td>
-      <td>0.972316</td>
+      <td>0.810314</td>
+      <td>0.97335</td>
     </tr>
     <tr>
-      <th>312</th>
+      <th>468</th>
       <td>512</td>
       <td>3</td>
+      <td>0.666667</td>
       <td>3</td>
-      <td>-0.0256196</td>
+      <td>-0.0857703</td>
       <td>5000000</td>
-      <td>0.957787</td>
+      <td>0.961697</td>
       <td>3.92013</td>
-      <td>0.80915</td>
-      <td>0.971906</td>
+      <td>0.81506</td>
+      <td>0.97419</td>
     </tr>
     <tr>
-      <th>313</th>
+      <th>469</th>
       <td>512</td>
-      <td>2</td>
-      <td>2</td>
-      <td>-0.00242296</td>
+      <td>0</td>
+      <td>0.666667</td>
+      <td>0</td>
+      <td>-3.21954e-15</td>
       <td>5100000</td>
-      <td>0.959588</td>
+      <td>0.95887</td>
       <td>3.92013</td>
-      <td>0.809489</td>
-      <td>0.973147</td>
-    </tr>
-    <tr>
-      <th>314</th>
-      <td>512</td>
-      <td>0</td>
-      <td>0</td>
-      <td>6.8978e-15</td>
-      <td>5200000</td>
-      <td>0.957371</td>
-      <td>3.92013</td>
-      <td>0.817237</td>
-      <td>0.975072</td>
+      <td>0.808285</td>
+      <td>0.973467</td>
     </tr>
   </tbody>
 </table>
-<p>315 rows × 9 columns</p>
+<p>470 rows × 10 columns</p>
 </div></div>
 </div>
 <p>Note that states are index integer values starting from 0 (e.g., 0, 1, 2, …, criteria.num_states() - 1) The state and macrostate happen to be the same when the minimum macrostate is 0, and the macrostate is the integer number of particles. But if the minimum macrostate was 1, then state 0 would correspond to macrostate 1.0. Obtain an arbitrary macrostate value from the state as follows.</p>
@@ -975,43 +1007,43 @@ macro_max 5.0
   <tbody>
     <tr>
       <th>0</th>
-      <td>5.934025e-16</td>
-      <td>2.805354e-16</td>
+      <td>1.040058e-16</td>
+      <td>1.611033e-16</td>
       <td>-2.312265e-10</td>
       <td>6.689238e-10</td>
     </tr>
     <tr>
       <th>1</th>
       <td>-6.057400e-04</td>
-      <td>3.074653e-12</td>
+      <td>0.000000e+00</td>
       <td>-6.057402e-04</td>
       <td>6.709198e-10</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>-3.079117e-02</td>
-      <td>2.160275e-04</td>
+      <td>-3.085999e-02</td>
+      <td>3.288205e-04</td>
       <td>-3.057422e-02</td>
       <td>9.649147e-06</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>-8.954312e-02</td>
-      <td>2.783919e-04</td>
+      <td>-8.994438e-02</td>
+      <td>6.247232e-04</td>
       <td>-8.992832e-02</td>
       <td>1.387472e-04</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>-1.785213e-01</td>
-      <td>7.018941e-04</td>
+      <td>-1.783068e-01</td>
+      <td>5.512742e-04</td>
       <td>-1.784571e-01</td>
       <td>3.315245e-05</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>-2.955383e-01</td>
-      <td>1.519136e-03</td>
+      <td>-2.973719e-01</td>
+      <td>2.316644e-03</td>
       <td>-2.961920e-01</td>
       <td>1.348791e-05</td>
     </tr>
@@ -1021,7 +1053,7 @@ macro_max 5.0
 </div>
 <p>You may also compare the natural logarithm of the macrostate probability</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1030,7 +1062,7 @@ macro_max 5.0
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1060,38 +1092,56 @@ macro_max 5.0
     <tr>
       <th>0</th>
       <td>-18.707570</td>
-      <td>-18.706792</td>
+      <td>-18.702804</td>
     </tr>
     <tr>
       <th>1</th>
       <td>-14.037373</td>
-      <td>-14.035499</td>
+      <td>-14.035393</td>
     </tr>
     <tr>
       <th>2</th>
       <td>-10.050312</td>
-      <td>-10.046600</td>
+      <td>-10.047641</td>
     </tr>
     <tr>
       <th>3</th>
       <td>-6.458921</td>
-      <td>-6.456418</td>
+      <td>-6.457822</td>
     </tr>
     <tr>
       <th>4</th>
       <td>-3.145637</td>
-      <td>-3.143952</td>
+      <td>-3.145087</td>
     </tr>
     <tr>
       <th>5</th>
       <td>-0.045677</td>
-      <td>-0.045758</td>
+      <td>-0.045704</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
-<p>The macrostate probability distribution depends upon the choice of the chemical potential, but can be reweighted to different chemical potentials.</p>
+<p>The macrostate probability distribution depends upon the choice of the chemical potential, but can be reweighted to different chemical potentials. The collection matrix may be accessed directly as:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">tm</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">TransitionMatrix</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">bias</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tm</span><span class="o">.</span><span class="n">collection</span><span class="p">()</span><span class="o">.</span><span class="n">matrix</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+((0.0, 490611.0, 326738.0), (3268.237449174398, 520559.0335592011, 346173.7289886871), (6150.134671388728, 498387.2676497138, 329032.59768084437), (8994.715736100925, 492255.9315743939, 324274.3526889978), (11893.55579635053, 495457.33304284315, 324504.11115981545), (16200.462783328334, 548042.2720933373, 357457.2651219352))
+</pre></div></div>
+</div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>
 
@@ -1100,16 +1150,10 @@ macro_max 5.0
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="tutorial_2_reweight_supercritical.html" class="btn btn-neutral float-right" title="Analysis of a one-phase (supercritical) simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="tutorial_10_hs.html" class="btn btn-neutral float-left" title="Analysis of a hard sphere simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="tutorial_2_reweight_supercritical.html" class="btn btn-neutral float-right" title="Analysis of a one-phase (supercritical) simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial_10_hs.html" class="btn btn-neutral float-left" title="Analysis of a hard sphere simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
@@ -1118,7 +1162,14 @@ macro_max 5.0
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
 
 	<br></br>
@@ -1201,7 +1252,6 @@ macro_max 5.0
 
 
 </footer>
-
         </div>
       </div>
 
@@ -1209,7 +1259,6 @@ macro_max 5.0
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

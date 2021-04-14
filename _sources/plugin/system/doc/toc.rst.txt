@@ -14,19 +14,20 @@
    NeighborCriteria
    VisitModel
    ModelTwoBody
-   IdealGas
+   LennardJones
    ModelTwoBodyFactory
    HardSphere
-   LennardJones
+   IdealGas
    DontVisitModel
    ModelOneBody
    ModelEmpty
    ModelThreeBody
    VisitModelIntraMap
    VisitModelIntra
-   VisitModelCell
-   LongRangeCorrections
    VisitModelBond
+   LongRangeCorrections
+   ModelTwoBodyTable
+   VisitModelCell
    Potential
    PotentialFactory
    System
