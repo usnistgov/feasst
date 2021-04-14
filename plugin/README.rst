@@ -38,4 +38,3 @@ Plugins in development
    morph/README
    beta_expanded/README
    prefetch/README
-   ph/README

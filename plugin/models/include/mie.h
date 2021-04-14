@@ -12,7 +12,7 @@ namespace feasst {
   The Mie potential, \f$U\f$ is described in
   http://www.sklogwiki.org/SklogWiki/index.php/Mie_potential.
 
-  /f$U=\epsilon\left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)}\left[\left(\frac{\sigma}{r}\right)^n-\left(\frac{\sigma}{r}\right)^m\right]
+  \f$U=\epsilon\left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)}\left[\left(\frac{\sigma}{r}\right)^n-\left(\frac{\sigma}{r}\right)^m\right]\f$
  */
 class Mie : public ModelTwoBody {
  public:

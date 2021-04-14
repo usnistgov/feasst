@@ -69,7 +69,7 @@ if args.task == 0:
         clones.add(mc(proc, win[0], win[1]))
     clones.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint.fst"})))
 else:
-    clones = fst.MakeClones("checkpoint", args.num_procs);
+    clones = fst.MakeClones("checkpoint", args.num_procs)
 #clones.initialize_and_run_until_complete()
 clones.initialize_and_run_until_complete(fst.args({"ln_prob_file": "ln_prob.txt",
                                                    "omp_batch": str(int(1e6))}))

@@ -59,7 +59,7 @@ class Ensemble {
     in the conjugate variable.
     For example, if reweighting in number
     of particles using the grand canonical ensemble, the change in the
-    thermodynamic conjugate is \f$\Delta(\beta\mu\)f$.
+    thermodynamic conjugate is \f$\Delta(\beta\mu)\f$.
     If reweighting in potential energy in the microcanonical, the change
     in the thermodynamic conjugate is \f$\Delta(-\beta)\f$.
    */

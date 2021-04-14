@@ -79,26 +79,28 @@
 #include "system/include/visit_model.h"
 #include "system/include/model_two_body.h"
 #include "system/include/lennard_jones.h"
-#include "models/include/square_well.h"
 #include "models/include/yukawa.h"
+#include "models/include/square_well.h"
 #include "example/include/model_example.h"
-#include "system/include/ideal_gas.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/hard_sphere.h"
+#include "system/include/ideal_gas.h"
 #include "system/include/dont_visit_model.h"
 #include "system/include/model_one_body.h"
 #include "system/include/model_empty.h"
 #include "system/include/model_three_body.h"
 #include "system/include/visit_model_intra_map.h"
 #include "system/include/visit_model_intra.h"
-#include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_bond.h"
+#include "system/include/long_range_corrections.h"
 #include "configuration/include/site.h"
 #include "configuration/include/particle.h"
 #include "configuration/include/model_params.h"
 #include "models/include/lennard_jones_alpha.h"
 #include "models/include/lennard_jones_cut_shift.h"
 #include "models/include/lennard_jones_force_shift.h"
+#include "models/include/mie.h"
+#include "system/include/model_two_body_table.h"
 #include "configuration/include/group.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
@@ -119,22 +121,22 @@
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
 #include "chain/include/select_branch.h"
+#include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/perturb_volume.h"
+#include "beta_expanded/include/perturb_beta.h"
+#include "morph/include/perturb_particle_type.h"
+#include "monte_carlo/include/perturb_move.h"
+#include "cluster/include/perturb_point_reflect.h"
+#include "monte_carlo/include/perturb_translate.h"
+#include "monte_carlo/include/perturb_distance.h"
+#include "chain/include/perturb_reptate.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "chain/include/select_segment.h"
 #include "chain/include/select_end_segment.h"
 #include "chain/include/select_reptate.h"
 #include "cluster/include/select_particle_avb.h"
-#include "cluster/include/select_particle_avb_divalent.h"
 #include "cluster/include/select_cluster.h"
-#include "monte_carlo/include/perturb.h"
-#include "monte_carlo/include/perturb_volume.h"
-#include "beta_expanded/include/perturb_beta.h"
-#include "monte_carlo/include/perturb_move.h"
-#include "monte_carlo/include/perturb_distance.h"
-#include "chain/include/perturb_reptate.h"
-#include "monte_carlo/include/perturb_translate.h"
-#include "cluster/include/perturb_point_reflect.h"
-#include "morph/include/perturb_particle_type.h"
+#include "cluster/include/select_particle_avb_divalent.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
@@ -182,10 +184,10 @@
 #include "morph/include/trial_morph_expanded.h"
 #include "cluster/include/trial_avb4.h"
 #include "beta_expanded/include/trial_beta.h"
-#include "morph/include/compute_morph.h"
 #include "monte_carlo/include/trial_compute_volume.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "monte_carlo/include/trial_compute_add.h"
+#include "morph/include/compute_morph.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "monte_carlo/include/trial_move.h"
 #include "beta_expanded/include/compute_beta.h"
@@ -274,6 +276,7 @@
 #include "flat_histogram/include/ensemble.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/clones.h"
+#include "flat_histogram/include/macrostate_energy.h"
 using namespace feasst;
 %}
 %include "std_string.i"
@@ -362,20 +365,20 @@ using namespace std;
 %shared_ptr(feasst::VisitModel);
 %shared_ptr(feasst::ModelTwoBody);
 %shared_ptr(feasst::LennardJones);
-%shared_ptr(feasst::SquareWell);
 %shared_ptr(feasst::Yukawa);
+%shared_ptr(feasst::SquareWell);
 %shared_ptr(feasst::ModelExample);
-%shared_ptr(feasst::IdealGas);
 %shared_ptr(feasst::ModelTwoBodyFactory);
 %shared_ptr(feasst::HardSphere);
+%shared_ptr(feasst::IdealGas);
 %shared_ptr(feasst::DontVisitModel);
 %shared_ptr(feasst::ModelOneBody);
 %shared_ptr(feasst::ModelEmpty);
 %shared_ptr(feasst::ModelThreeBody);
 %shared_ptr(feasst::VisitModelIntraMap);
 %shared_ptr(feasst::VisitModelIntra);
-%shared_ptr(feasst::LongRangeCorrections);
 %shared_ptr(feasst::VisitModelBond);
+%shared_ptr(feasst::LongRangeCorrections);
 %shared_ptr(feasst::Site);
 %shared_ptr(feasst::Particle);
 %shared_ptr(feasst::ModelParam);
@@ -389,6 +392,8 @@ using namespace std;
 %shared_ptr(feasst::EnergyDerivAtCutoff);
 %shared_ptr(feasst::LennardJonesCutShift);
 %shared_ptr(feasst::LennardJonesForceShift);
+%shared_ptr(feasst::Mie);
+%shared_ptr(feasst::ModelTwoBodyTable);
 %shared_ptr(feasst::Group);
 %shared_ptr(feasst::ParticleFactory);
 %shared_ptr(feasst::Select);
@@ -409,22 +414,22 @@ using namespace std;
 %shared_ptr(feasst::TrialSelectBond);
 %shared_ptr(feasst::TrialSelectAngle);
 %shared_ptr(feasst::SelectBranch);
+%shared_ptr(feasst::Perturb);
+%shared_ptr(feasst::PerturbVolume);
+%shared_ptr(feasst::PerturbBeta);
+%shared_ptr(feasst::PerturbParticleType);
+%shared_ptr(feasst::PerturbMove);
+%shared_ptr(feasst::PerturbPointReflect);
+%shared_ptr(feasst::PerturbTranslate);
+%shared_ptr(feasst::PerturbDistance);
+%shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::TrialSelectParticle);
 %shared_ptr(feasst::SelectSegment);
 %shared_ptr(feasst::SelectEndSegment);
 %shared_ptr(feasst::SelectReptate);
 %shared_ptr(feasst::SelectParticleAVB);
-%shared_ptr(feasst::SelectParticleAVBDivalent);
 %shared_ptr(feasst::SelectCluster);
-%shared_ptr(feasst::Perturb);
-%shared_ptr(feasst::PerturbVolume);
-%shared_ptr(feasst::PerturbBeta);
-%shared_ptr(feasst::PerturbMove);
-%shared_ptr(feasst::PerturbDistance);
-%shared_ptr(feasst::PerturbReptate);
-%shared_ptr(feasst::PerturbTranslate);
-%shared_ptr(feasst::PerturbPointReflect);
-%shared_ptr(feasst::PerturbParticleType);
+%shared_ptr(feasst::SelectParticleAVBDivalent);
 %shared_ptr(feasst::Criteria);
 %shared_ptr(feasst::TrialStage);
 %shared_ptr(feasst::TrialCompute);
@@ -472,10 +477,10 @@ using namespace std;
 %shared_ptr(feasst::CriteriaUpdater);
 %shared_ptr(feasst::SeekNumParticles);
 %shared_ptr(feasst::TrialMorphExpanded);
-%shared_ptr(feasst::ComputeMorph);
 %shared_ptr(feasst::TrialComputeVolume);
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialComputeAdd);
+%shared_ptr(feasst::ComputeMorph);
 %shared_ptr(feasst::TrialComputeMove);
 %shared_ptr(feasst::ComputeBeta);
 %shared_ptr(feasst::ComputeMoveCluster);
@@ -563,6 +568,7 @@ using namespace std;
 %shared_ptr(feasst::ExtrapolateBetaGCE);
 %shared_ptr(feasst::FlatHistogram);
 %shared_ptr(feasst::Clones);
+%shared_ptr(feasst::MacrostateEnergy);
 %include configuration/include/properties.h
 %include configuration/include/typed_entity.h
 %include configuration/include/bond.h
@@ -621,26 +627,28 @@ using namespace std;
 %include system/include/visit_model.h
 %include system/include/model_two_body.h
 %include system/include/lennard_jones.h
-%include models/include/square_well.h
 %include models/include/yukawa.h
+%include models/include/square_well.h
 %include example/include/model_example.h
-%include system/include/ideal_gas.h
 %include system/include/model_two_body_factory.h
 %include system/include/hard_sphere.h
+%include system/include/ideal_gas.h
 %include system/include/dont_visit_model.h
 %include system/include/model_one_body.h
 %include system/include/model_empty.h
 %include system/include/model_three_body.h
 %include system/include/visit_model_intra_map.h
 %include system/include/visit_model_intra.h
-%include system/include/long_range_corrections.h
 %include system/include/visit_model_bond.h
+%include system/include/long_range_corrections.h
 %include configuration/include/site.h
 %include configuration/include/particle.h
 %include configuration/include/model_params.h
 %include models/include/lennard_jones_alpha.h
 %include models/include/lennard_jones_cut_shift.h
 %include models/include/lennard_jones_force_shift.h
+%include models/include/mie.h
+%include system/include/model_two_body_table.h
 %include configuration/include/group.h
 %include configuration/include/particle_factory.h
 %include configuration/include/select.h
@@ -661,22 +669,22 @@ using namespace std;
 %include monte_carlo/include/trial_select_bond.h
 %include monte_carlo/include/trial_select_angle.h
 %include chain/include/select_branch.h
+%include monte_carlo/include/perturb.h
+%include monte_carlo/include/perturb_volume.h
+%include beta_expanded/include/perturb_beta.h
+%include morph/include/perturb_particle_type.h
+%include monte_carlo/include/perturb_move.h
+%include cluster/include/perturb_point_reflect.h
+%include monte_carlo/include/perturb_translate.h
+%include monte_carlo/include/perturb_distance.h
+%include chain/include/perturb_reptate.h
 %include monte_carlo/include/trial_select_particle.h
 %include chain/include/select_segment.h
 %include chain/include/select_end_segment.h
 %include chain/include/select_reptate.h
 %include cluster/include/select_particle_avb.h
-%include cluster/include/select_particle_avb_divalent.h
 %include cluster/include/select_cluster.h
-%include monte_carlo/include/perturb.h
-%include monte_carlo/include/perturb_volume.h
-%include beta_expanded/include/perturb_beta.h
-%include monte_carlo/include/perturb_move.h
-%include monte_carlo/include/perturb_distance.h
-%include chain/include/perturb_reptate.h
-%include monte_carlo/include/perturb_translate.h
-%include cluster/include/perturb_point_reflect.h
-%include morph/include/perturb_particle_type.h
+%include cluster/include/select_particle_avb_divalent.h
 %include monte_carlo/include/criteria.h
 %include monte_carlo/include/trial_stage.h
 %include monte_carlo/include/trial_compute.h
@@ -724,10 +732,10 @@ using namespace std;
 %include morph/include/trial_morph_expanded.h
 %include cluster/include/trial_avb4.h
 %include beta_expanded/include/trial_beta.h
-%include morph/include/compute_morph.h
 %include monte_carlo/include/trial_compute_volume.h
 %include monte_carlo/include/trial_compute_remove.h
 %include monte_carlo/include/trial_compute_add.h
+%include morph/include/compute_morph.h
 %include monte_carlo/include/trial_compute_move.h
 %include monte_carlo/include/trial_move.h
 %include beta_expanded/include/compute_beta.h
@@ -816,3 +824,4 @@ using namespace std;
 %include flat_histogram/include/ensemble.h
 %include flat_histogram/include/flat_histogram.h
 %include flat_histogram/include/clones.h
+%include flat_histogram/include/macrostate_energy.h

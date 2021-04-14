@@ -20,22 +20,22 @@ class cd:
 def vector2d_to_list(vec):
     """ converts a swig stl vector to python list """
     lst = list()
-    for index1 in range(len(vec)):
+    for _, vec1 in enumerate(vec):
         lst2 = list()
-        for index2 in range(len(vec[index1])):
-          lst2.append(vec[index1][index2])
+        for _, vec2 in enumerate(vec1):
+          lst2.append(vec2)
         lst.append(lst2)
     return lst
 
 def vector3d_to_list(vec):
     """ converts a swig stl vector to python list """
     lst = list()
-    for index1 in range(len(vec)):
+    for _, vec1 in enumerate(vec):
         lst2 = list()
-        for index2 in range(len(vec[index1])):
+        for _, vec2 in enumerate(vec1):
             lst3 = list()
-            for index3 in range(len(vec[index1][index2])):
-                lst3.append(vec[index1][index2][index3])
+            for _, vec3 in enumerate(vec2):
+                lst3.append(vec3)
             lst2.append(lst3)
         lst.append(lst2)
     return lst

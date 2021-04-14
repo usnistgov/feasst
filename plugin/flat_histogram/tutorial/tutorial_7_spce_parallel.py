@@ -15,7 +15,8 @@ def mc(thread, mn, mx):
     mc = fst.MakeMonteCarlo()
     spce_args = {"physical_constants": "CODATA2010", "cubic_box_length": "20",
         "alphaL": "5.6", "kmax_squared": "38"}
-    if mx > args.dccb_begin: spce_args["dual_cut"] = "3.16555789"
+    if mx > args.dccb_begin:
+        spce_args["dual_cut"] = "3.16555789"
     mc.set(fst.spce(fst.args(spce_args)))
     beta = 1./fst.kelvin2kJpermol(525, mc.configuration())
     mc.set(fst.MakeThermoParams(fst.args({"beta": str(beta),
@@ -32,8 +33,10 @@ def mc(thread, mn, mx):
         regrow21 = [{"bond": "true", "mobile_site": "2", "anchor_site": "0"}] + regrow1
         grow012 = [{"transfer": "true", "site": "0", "weight": "4"}] + regrow12
         grow021 = [{"transfer": "true", "site": "0", "weight": "4"}] + regrow21
-        for grow in [regrow1, regrow2]: grow[0]["weight"] = "0.3"
-        for grow in [regrow12, regrow21]: grow[0]["weight"] = "0.2"
+        for grow in [regrow1, regrow2]:
+            grow[0]["weight"] = "0.3"
+        for grow in [regrow12, regrow21]:
+            grow[0]["weight"] = "0.2"
         for grow in [grow012, grow021, regrow12, regrow21, regrow1, regrow2]:
             grow[0]["particle_type"] = "0"
             mc.add(fst.MakeTrialGrow(fst.ArgsVector(grow),
@@ -69,7 +72,7 @@ if args.task == 0:
         clones.add(mc(proc, win[0], win[1]))
     clones.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint.fst"})))
 else:
-    clones = fst.MakeClones("checkpoint", args.num_procs);
+    clones = fst.MakeClones("checkpoint", args.num_procs)
 clones.initialize_and_run_until_complete(fst.args({"ln_prob_file": "ln_prob.txt"}))
 print(clones.ln_prob().values())
 open('clones.fst', 'w').write(clones.serialize())

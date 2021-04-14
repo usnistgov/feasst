@@ -175,7 +175,6 @@ void parallel(RandomBenchmark * random) {
     #pragma omp barrier
 
     while (trial < num_trials) {
-
       #ifdef DEBUG_SERIAL_MODE_5324634
       #pragma omp critical
       {

@@ -24,7 +24,6 @@ class FiniteCylinder : public ShapeIntersect {
     const Position& point0,
     /// the second end-point along the cylinder's axis of symmetry.
     const Position& point1);
-
 };
 
 inline std::shared_ptr<FiniteCylinder> MakeFiniteCylinder(

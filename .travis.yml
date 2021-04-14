@@ -14,7 +14,7 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - lcov
-      - valgrind
+      # - valgrind
 
   apt_packages:
     - swig3.0
@@ -31,7 +31,8 @@ before_install:
 install:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
-      brew install swig valgrind lcov libomp
+      brew install swig lcov libomp
+      #brew install swig valgrind lcov libomp
     fi
 
 script:
@@ -41,7 +42,7 @@ script:
   - make coverage
 #  - make install
 #  - make test
-  - valgrind ./bin/unittest --gtest_filter=-*LONG*
+#  - valgrind ./bin/unittest --gtest_filter=-*LONG*
 #  - python ../py/test.py
   - ../py/run.sh ../py/test.py
 

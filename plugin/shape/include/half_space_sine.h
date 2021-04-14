@@ -28,7 +28,7 @@ class SineDistDeriv;
 
   should be a minimum. Thus, the derivative should be zero.
 
-  \f$\frac{d D^2}{2dx} = 0 = x-e+(y-f)*\frac{dy}{dx}
+  \f$\frac{d D^2}{2dx} = 0 = x-e+(y-f) \frac{dy}{dx}\f$
 
   For this implementation, we begin by finding the limits of the nearest
   half-wave of interest, in order to bracket the possible solutions to this

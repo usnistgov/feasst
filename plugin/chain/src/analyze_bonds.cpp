@@ -60,7 +60,6 @@ void AnalyzeBonds::initialize(Criteria * criteria,
 void AnalyzeBonds::update(const Criteria& criteria,
   const System& system,
   const TrialFactory& trial_factory) {
-
   const Configuration& config = system.configuration();
   const Select& all = config.selection_of_all();
   for (int index = 0; index < all.num_particles(); ++index) {

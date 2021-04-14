@@ -27,11 +27,11 @@ For example, the ideal gas with this algorithm will be :math:`\beta PV=N+1`.
 
 The limiting distribution in the isothermal-isobaric ensemble is
 
-:math:`\pi_i \propto e^{-\beta U - \beta P V + N \lnV} dV`
+:math:`\pi_i \propto e^{-\beta U - \beta P V + N \ln V} dV`
 
 But if volume is changed in \ln units
 
-:math:`\pi_i \propto e^{-\beta U - \beta P V + (N+1) \lnV} d\ln V`
+:math:`\pi_i \propto e^{-\beta U - \beta P V + (N+1) \ln V} d\ln V`
 
 The transition probabilities are as follows, assuming that this move is
 coupled with a trial that removes particles with the same selection weight.
@@ -53,8 +53,8 @@ coupled with a trial that removes particles with the same selection weight.
 Application of local detailed balance yields the acceptance probability,
 :math:`\chi`.
 
-:math:`\frac{e^{-\beta U_o - \beta P V_o + N \ln V_o}{\Delta V}min(1, \chi) =
-\frac{e^{-\beta U_n - \beta P V_n + N \ln V_n}{\Delta V}min(1, 1/\chi)`
+:math:`\frac{e^{-\beta U_o - \beta P V_o + N \ln V_o}}{\Delta V}min(1, \chi) =
+\frac{e^{-\beta U_n - \beta P V_n + N \ln V_n}}{\Delta V}min(1, 1/\chi)`
 
 :math:`\chi = e^{-\beta\Delta U - \beta P \Delta V + N \ln V_n/V_o}`
 
@@ -88,6 +88,7 @@ inline std::shared_ptr<TrialComputeVolume> MakeTrialComputeVolume(
     argtype args = argtype()) {
   return std::make_shared<TrialComputeVolume>(args);
 }
+
 }  // namespace feasst
 
 #endif  // FEASST_MONTE_CARLO_TRIAL_COMPUTE_VOLUME_H_

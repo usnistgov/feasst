@@ -41,4 +41,3 @@ for p in range(3):
                           extmom.moments(p, m, k, j, i).num_values(),
                           extmom.moments(p, m, k, j, i).sum_dble(),
                           extmom.moments(p, m, k, j, i).sum_of_squared_dble())
-

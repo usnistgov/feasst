@@ -1,6 +1,6 @@
-RandomModulo
+ModelTwoBodyTable
 =====================================================
 
-.. doxygenclass:: feasst::RandomModulo
+.. doxygenclass:: feasst::ModelTwoBodyTable
    :project: FEASST
    :members:

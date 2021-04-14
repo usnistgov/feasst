@@ -1,8 +1,9 @@
 
 .. toctree::
 
-   SquareWell
    Yukawa
+   SquareWell
    LennardJonesAlpha
    LennardJonesCutShift
    LennardJonesForceShift
+   Mie

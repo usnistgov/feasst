@@ -119,7 +119,6 @@ void Prefetch::attempt_(
     // num_trials may change to terminate loop
     bool complete = false;
     while (!complete) {
-
       #ifndef _OPENMP
       for (proc_id = 0; proc_id < num_threads_; ++proc_id) {
       #endif // _OPENMP

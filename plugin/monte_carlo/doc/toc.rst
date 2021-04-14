@@ -8,12 +8,12 @@
    TrialSelect
    TrialSelectBond
    TrialSelectAngle
-   TrialSelectParticle
    Perturb
    PerturbVolume
    PerturbMove
-   PerturbDistance
    PerturbTranslate
+   PerturbDistance
+   TrialSelectParticle
    Criteria
    TrialStage
    TrialCompute

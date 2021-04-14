@@ -1,6 +1,6 @@
-RandomModulo
+Mie
 =====================================================
 
-.. doxygenclass:: feasst::RandomModulo
+.. doxygenclass:: feasst::Mie
    :project: FEASST
    :members:

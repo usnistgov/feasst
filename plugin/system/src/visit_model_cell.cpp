@@ -78,7 +78,8 @@ void VisitModelCell::compute(
   ASSERT(group_index == group_index_, "not equivalent");
   init_relative_(domain, &relative_, &pbc_);
 
-  /** Loop index nomenclature
+  /*
+    Loop index nomenclature
     ends in 1 or 2 to represent the pair
     cell -> id of cell
     select -> selection inside each cell
@@ -198,6 +199,7 @@ void VisitModelCell::position_tracker_(const Select& select) {
       const int group_index = cells_.group();
       ASSERT(group_index >= 0, "error");
       const Particle& part = config_->select_particle(particle_index);
+      ASSERT(config_, "error");
       const Group& group = config_->group_selects()[group_index].group();
       if (group.is_in(part)) {
         const Site& site = part.site(site_index);

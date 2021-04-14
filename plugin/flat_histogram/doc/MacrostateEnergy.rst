@@ -1,6 +1,6 @@
-RandomModulo
+MacrostateEnergy
 =====================================================
 
-.. doxygenclass:: feasst::RandomModulo
+.. doxygenclass:: feasst::MacrostateEnergy
    :project: FEASST
    :members:

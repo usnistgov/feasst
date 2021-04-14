@@ -15,17 +15,18 @@
    VisitModel
    ModelTwoBody
    LennardJones
-   IdealGas
    ModelTwoBodyFactory
    HardSphere
+   IdealGas
    DontVisitModel
    ModelOneBody
    ModelEmpty
    ModelThreeBody
    VisitModelIntraMap
    VisitModelIntra
-   LongRangeCorrections
    VisitModelBond
+   LongRangeCorrections
+   ModelTwoBodyTable
    VisitModelCell
    Potential
    PotentialFactory
