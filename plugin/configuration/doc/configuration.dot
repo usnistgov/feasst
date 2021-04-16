@@ -15,8 +15,6 @@ digraph parallel {
   //parts -> Dihedrals
   //parts -> Impropers
 
-  domain -> Cells
-
   parts -> pos
   domain -> pos
   sites -> pos

@@ -281,16 +281,16 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   mc.add(MakeAnalyzeBonds());
   mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
   MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e7);
+  mc2.attempt(1e6);
   const Analyze& chiral = SeekAnalyze().reference("Chirality2D", mc2);
   EXPECT_NEAR(chiral.accumulator().average(), 10., NEAR_ZERO);
   EXPECT_NEAR(chiral.accumulator().stdev(), 0., NEAR_ZERO);
   return mc2;
 }
 
-const double z_factor = 15.;
+const double z_factor = 20.;
 
-TEST(MonteCarlo, heterotrimer2d_LONG) {
+TEST(MonteCarlo, heterotrimer2d_VERY_LONG) {
   MonteCarlo mc_no_avb = test_avb(false, false);
   Accumulator en_no_avb = SeekAnalyze().reference("Energy", mc_no_avb).accumulator();
   INFO(en_no_avb.str());

@@ -27,6 +27,7 @@
    VisitModelBond
    LongRangeCorrections
    ModelTwoBodyTable
+   Cells
    VisitModelCell
    Potential
    PotentialFactory

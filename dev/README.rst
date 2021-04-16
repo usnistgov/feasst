@@ -195,6 +195,9 @@ pip install sphinx_rtd_theme nbsphinx
 
 run sphinx: make html
 
+apt install graphviz graphviz-dev
+pip install pygraphviz
+
 Sphinx/Breathe/Doxygen notes
 --------------------------------------------------------------------------------
 

@@ -1,10 +1,10 @@
 
 #include <cmath>
 #include <sstream>
-#include "configuration/include/cells.h"
 #include "math/include/utils_math.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
+#include "system/include/cells.h"
 
 namespace feasst {
 

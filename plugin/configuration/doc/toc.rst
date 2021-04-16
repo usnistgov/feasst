@@ -11,7 +11,6 @@
    Group
    ParticleFactory
    Select
-   Cells
    VisitParticles
    Configuration
    VisitConfiguration

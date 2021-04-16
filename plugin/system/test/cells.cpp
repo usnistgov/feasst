@@ -1,6 +1,6 @@
 #include "utils/test/utils.h"
-#include "configuration/include/cells.h"
 #include "utils/include/debug.h"
+#include "system/include/cells.h"
 
 namespace feasst {
 

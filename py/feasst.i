@@ -104,10 +104,10 @@
 #include "configuration/include/group.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
+#include "system/include/cells.h"
+#include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/rosenbluth.h"
 #include "monte_carlo/include/acceptance.h"
-#include "configuration/include/cells.h"
-#include "system/include/visit_model_cell.h"
 #include "configuration/include/visit_particles.h"
 #include "configuration/include/configuration.h"
 #include "system/include/potential.h"
@@ -397,10 +397,10 @@ using namespace std;
 %shared_ptr(feasst::Group);
 %shared_ptr(feasst::ParticleFactory);
 %shared_ptr(feasst::Select);
-%shared_ptr(feasst::Rosenbluth);
-%shared_ptr(feasst::Acceptance);
 %shared_ptr(feasst::Cells);
 %shared_ptr(feasst::VisitModelCell);
+%shared_ptr(feasst::Rosenbluth);
+%shared_ptr(feasst::Acceptance);
 %shared_ptr(feasst::VisitParticles);
 %shared_ptr(feasst::LoopOneBody);
 %shared_ptr(feasst::Configuration);
@@ -652,10 +652,10 @@ using namespace std;
 %include configuration/include/group.h
 %include configuration/include/particle_factory.h
 %include configuration/include/select.h
+%include system/include/cells.h
+%include system/include/visit_model_cell.h
 %include monte_carlo/include/rosenbluth.h
 %include monte_carlo/include/acceptance.h
-%include configuration/include/cells.h
-%include system/include/visit_model_cell.h
 %include configuration/include/visit_particles.h
 %include configuration/include/configuration.h
 %include system/include/potential.h

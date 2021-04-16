@@ -5,7 +5,6 @@
 #include <memory>
 #include <vector>
 #include "math/include/position.h"
-#include "configuration/include/cells.h"
 
 namespace feasst {
 
@@ -23,7 +22,6 @@ class Random;
   A cuboid-shaped domain may have unique side lengths but the angles between
   the edges of the domain are fixed at ninety degrees.
   In two-dimensions, the cuboid reduces to a rectangle.
-  The cuboid domain may be faster and cells are specific to cuboid domain.
 
   A triclinic-shaped domain is similar to cuboid-shaped except that the angles
   between the boundaries may different from ninety degrees.

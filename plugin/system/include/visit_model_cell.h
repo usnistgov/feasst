@@ -4,8 +4,8 @@
 
 #include <memory>
 #include "utils/include/arguments.h"
-#include "configuration/include/cells.h"
 #include "system/include/visit_model.h"
+#include "system/include/cells.h"
 
 namespace feasst {
 
@@ -39,7 +39,6 @@ class VisitModelCell : public VisitModel {
   void remove_from_cell_list(const Select& select,
                              const int cell) {
     cells_.remove(select, cell); }
-
 
   /// Return the unique cell number for the position.
   int cell_id(const Domain& domain, const Position& position) const;

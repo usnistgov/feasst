@@ -2,10 +2,6 @@
 README
 *************************
 
-.. image:: https://www.codefactor.io/repository/github/hhatch/feasst/badge/main
-    :target: https://www.codefactor.io/repository/github/hhatch/feasst/overview/main
-    :alt: CodeFactor
-
 The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
 open-source, modular program to conduct molecular and particle-based
 simulations with flat-histogram Monte Carlo methods.
