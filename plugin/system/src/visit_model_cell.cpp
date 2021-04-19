@@ -50,20 +50,23 @@ void VisitModelCell::precompute(Configuration * config) {
   ASSERT(config->domain().side_lengths().size() > 0,
     "cannot define cells before domain sides");
   ASSERT(!config->domain().is_tilted(), "implement triclinic");
-  Cells cells;
-  cells.create(min_length_, config->domain().side_lengths().coord());
-  cells.set_type(cell_index_);
-  cells.set_group(group_index_);
-  if (cells.num_total() > 0) {
-    cells_ = cells;
-  } else {
-    FATAL("Requested cell list rejected: min_length:" << min_length_ <<
-          " did not meet requirements.");
+  if (cells_.type() == -1) {
+    Cells cells;
+    cells.create(min_length_, config->domain().side_lengths().coord());
+    cells.set_type(config->num_cell_lists());
+    config->increment_num_cell_lists();
+    cells.set_group(group_index_);
+    if (cells.num_total() > 0) {
+      cells_ = cells;
+    } else {
+      FATAL("Requested cell list rejected: min_length:" << min_length_ <<
+            " did not meet requirements.");
+    }
+    opt_origin_.set_to_origin(config_->dimension());
+    opt_rel_.set_to_origin(config_->dimension());
+    opt_pbc_.set_to_origin(config_->dimension());
+    position_tracker_(config->group_selects()[group_index_]);
   }
-  opt_origin_.set_to_origin(config_->dimension());
-  opt_rel_.set_to_origin(config_->dimension());
-  opt_pbc_.set_to_origin(config_->dimension());
-  position_tracker_(config->group_selects()[group_index_]);
   check();
 }
 
@@ -213,6 +216,7 @@ void VisitModelCell::position_tracker_(const Select& select) {
           ParticleFactory * particles = config_->get_particles_();
           Site * sitep = particles->get_particle(particle_index)->get_site(site_index);
           if (cells_.type() < site.num_cells()) {
+            DEBUG(cells_.type());
             const int cell_old = site.cell(cells_.type());
             DEBUG("index " << particle_index << " " << site_index);
             DEBUG("new cell " << cell_new << " old cell " << cell_old);
@@ -220,12 +224,14 @@ void VisitModelCell::position_tracker_(const Select& select) {
 //              particles->particle(particle_index).site(
 //              site_index).property("cell0"));
             sitep->set_cell(cells_.type(), cell_new);
-            update_cell_list(one_site_select_, cell_new, cell_old);
+            DEBUG(one_site_select_.str());
+            DEBUG(cells_.num_total());
+            cells_.update(one_site_select_, cell_new, cell_old);
           } else {
             sitep->add_cell(cell_new);
             DEBUG("adding to cell list cllnw "
               << cell_new << " si " << site_index);
-            add_to_cell_list(one_site_select_, cell_new);
+            cells_.add(one_site_select_, cell_new);
           }
         }
       }
@@ -250,7 +256,7 @@ void VisitModelCell::finalize(const Select& select) {
               const int cell_old = site.cell(cells_.type());
               Select select;
               select.add_site(particle_index, site_index);
-              remove_from_cell_list(select, cell_old);
+              cells_.remove(select, cell_old);
             }
           }
         }
@@ -267,9 +273,9 @@ void VisitModelCell::check() const {
   int num_sites_in_cell = 0;
   for (const int part_index : config_->selection_of_all().particle_indices()) {
     for (const Site& site : config_->select_particle(part_index).sites()) {
-      if (site.num_cells() > cell_index_) {
+      if (site.num_cells() > cells_.type()) {
         ++num_sites_in_cell;
-        const int old_cell = site.cell(cell_index_);
+        const int old_cell = site.cell(cells_.type());
         const int cur_cell = cell_id(config_->domain(), site.position());
         ASSERT(old_cell == cur_cell,
           "old_cell: " << old_cell << " != cur_cell: " << cur_cell);

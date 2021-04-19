@@ -141,6 +141,32 @@ TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
   // mc.attempt(1e6);
 }
 
+TEST(MonteCarlo, NVT_two_cells_BENCHMARK_LONG) {
+  MonteCarlo mc;
+  mc.set(MakeRandomMT19937({{"seed", "default"}}));
+  mc.add(Configuration(MakeDomain({{"cubic_box_length", "12"}}),
+                       {{"particle_type", "../forcefield/data.lj"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
+  mc.set(MakeThermoParams({{"beta", "1.2"}}));
+  mc.set(MakeMetropolis());
+  SeekNumParticles(200)
+    .with_thermo_params({{"beta", "0.1"}, {"chemical_potential", "10"}})
+    .with_metropolis()
+    .with_trial_add()
+    .run(&mc);
+  mc.add(MakeTrialTranslate({
+    {"weight", "1"},
+    {"reference_index", "0"},
+    {"num_steps", "4"},
+    {"tunable_param", "1"}}));
+  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add_to_optimized(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "3"}})));
+  mc.initialize_system();
+  mc.attempt(1e5);
+}
+
 TEST(MonteCarlo, NVT_SRSW) {
   MonteCarlo mc;
   mc.set(lennard_jones());

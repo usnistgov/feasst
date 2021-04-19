@@ -321,6 +321,12 @@ class Configuration {
   /// Set whether or not to wrap particles
   void init_wrap(const bool wrap = true) { wrap_ = wrap; }
 
+  /// Return the number of cell lists.
+  int num_cell_lists() const { return num_cell_lists_; }
+
+  /// Increment the number of cell lists.
+  void increment_num_cell_lists() { ++num_cell_lists_; }
+
   /*
     Change the volume. Also, update cells.
 
@@ -467,6 +473,7 @@ class Configuration {
   ParticleFactory particles_;
   std::shared_ptr<Domain> domain_;
   bool wrap_;
+  int num_cell_lists_ = 0;
 
   // temporaries (not serialized)
   int newest_particle_index_;

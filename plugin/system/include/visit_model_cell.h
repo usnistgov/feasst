@@ -24,22 +24,6 @@ class VisitModelCell : public VisitModel {
   /// Return the cells.
   const Cells& cells() const { return cells_; }
 
-  /// Add selection to cells.
-  void add_to_cell_list(const Select& select,
-                        const int particle_cell) {
-    cells_.add(select, particle_cell); }
-
-  /// Update selection in cells.
-  void update_cell_list(const Select& select,
-                        const int cell_new,
-                        const int cell_old) {
-    cells_.update(select, cell_new, cell_old); }
-
-  /// Remove selection from cells.
-  void remove_from_cell_list(const Select& select,
-                             const int cell) {
-    cells_.remove(select, cell); }
-
   /// Return the unique cell number for the position.
   int cell_id(const Domain& domain, const Position& position) const;
 
@@ -73,7 +57,6 @@ class VisitModelCell : public VisitModel {
   Cells cells_;
   double min_length_;
   int group_index_;
-  int cell_index_ = 0;  // HWH update for more than one cell list
   Position opt_origin_, opt_rel_, opt_pbc_;
 
   // temporary and not serialized
