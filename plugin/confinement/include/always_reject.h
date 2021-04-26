@@ -13,10 +13,10 @@ class Random;
  */
 class AlwaysReject : public Criteria {
  public:
-  explicit AlwaysReject();
+  AlwaysReject();
 
   /// Same as above, but with an added constraint.
-  AlwaysReject(std::shared_ptr<Constraint> constraint);
+  explicit AlwaysReject(std::shared_ptr<Constraint> constraint);
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
