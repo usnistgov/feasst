@@ -17,6 +17,7 @@ TransitionMatrix::TransitionMatrix(argtype * args) {
   min_visits_ = integer("min_visits", args, 100);
   min_sweeps_ = integer("min_sweeps", args);
   num_blocks_ = integer("num_blocks", args, 30);
+  reset_sweeps_ = integer("reset_sweeps", args, -1);
 }
 
 void TransitionMatrix::update_or_revert(
@@ -170,6 +171,9 @@ void TransitionMatrix::infrequent_update() {
   if (*std::min_element(visits_.begin(), visits_.end()) >= min_visits_) {
     ++num_sweeps_;
     std::fill(visits_.begin(), visits_.end(), 0);
+    if (num_sweeps_ == reset_sweeps_) {
+       increment_phase();
+    }
   }
 
   DEBUG("check if complete");
@@ -211,6 +215,7 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
   feasst_deserialize(&min_visits_, istr);
   feasst_deserialize(&num_sweeps_, istr);
   feasst_deserialize(&min_sweeps_, istr);
+  feasst_deserialize(&reset_sweeps_, istr);
   feasst_deserialize(&num_blocks_, istr);
   feasst_deserialize(&is_block_, istr);
   feasst_deserialize_fstobj(&blocks_, istr);
@@ -226,6 +231,7 @@ void TransitionMatrix::serialize(std::ostream& ostr) const {
   feasst_serialize(min_visits_, ostr);
   feasst_serialize(num_sweeps_, ostr);
   feasst_serialize(min_sweeps_, ostr);
+  feasst_serialize(reset_sweeps_, ostr);
   feasst_serialize(num_blocks_, ostr);
   feasst_serialize(is_block_, ostr);
   feasst_serialize_fstobj(blocks_, ostr);
@@ -246,6 +252,7 @@ bool TransitionMatrix::is_equal(const TransitionMatrix& transition_matrix,
   if (min_visits_ != transition_matrix.min_visits_) return false;
   if (num_sweeps_ != transition_matrix.num_sweeps_) return false;
   if (min_sweeps_ != transition_matrix.min_sweeps_) return false;
+  if (reset_sweeps_ != transition_matrix.reset_sweeps_) return false;
   if (num_blocks_ != transition_matrix.num_blocks_) return false;
   return true;
 }
