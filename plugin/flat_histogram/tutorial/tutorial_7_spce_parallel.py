@@ -1,3 +1,4 @@
+import copy
 import argparse
 import feasst as fst
 
@@ -29,10 +30,10 @@ def mc(thread, mn, mx):
     if mx > args.dccb_begin:
         regrow1 = [{"angle": "true", "mobile_site": "1", "anchor_site": "0", "anchor_site2": "2"}]
         regrow2 = [{"angle": "true", "mobile_site": "2", "anchor_site": "0", "anchor_site2": "1"}]
-        regrow12 = [{"bond": "true", "mobile_site": "1", "anchor_site": "0"}] + regrow2
-        regrow21 = [{"bond": "true", "mobile_site": "2", "anchor_site": "0"}] + regrow1
-        grow012 = [{"transfer": "true", "site": "0", "weight": "4"}] + regrow12
-        grow021 = [{"transfer": "true", "site": "0", "weight": "4"}] + regrow21
+        regrow12 = [{"bond": "true", "mobile_site": "1", "anchor_site": "0"}] + copy.deepcopy(regrow2)
+        regrow21 = [{"bond": "true", "mobile_site": "2", "anchor_site": "0"}] + copy.deepcopy(regrow1)
+        grow012 = [{"transfer": "true", "site": "0", "weight": "4"}] + copy.deepcopy(regrow12)
+        grow021 = [{"transfer": "true", "site": "0", "weight": "4"}] + copy.deepcopy(regrow21)
         for grow in [regrow1, regrow2]:
             grow[0]["weight"] = "0.3"
         for grow in [regrow12, regrow21]:

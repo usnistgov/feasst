@@ -160,6 +160,9 @@ class Ewald : public VisitModel {
   int num_kx() const { return num_kx_; }
   int num_ky() const { return num_ky_; }
   int num_kz() const { return num_kz_; }
+  int kxmax() const { return kxmax_; }
+  int kymax() const { return kymax_; }
+  int kzmax() const { return kzmax_; }
   void check_size() const;
   const std::vector<double>& struct_fact_real() const {
     return data_.dble_2D()[0]; }

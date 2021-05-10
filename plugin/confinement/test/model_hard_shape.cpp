@@ -1,9 +1,9 @@
 #include "utils/test/utils.h"
-#include "confinement/include/model_hard_shape.h"
 #include "shape/include/half_space.h"
 #include "configuration/include/configuration.h"
 #include "configuration/include/select.h"
 #include "configuration/include/domain.h"
+#include "confinement/include/model_hard_shape.h"
 
 namespace feasst {
 

@@ -218,6 +218,7 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
   feasst_deserialize(&reset_sweeps_, istr);
   feasst_deserialize(&num_blocks_, istr);
   feasst_deserialize(&is_block_, istr);
+  feasst_deserialize(&iter_block_, istr);
   feasst_deserialize_fstobj(&blocks_, istr);
 }
 
@@ -234,6 +235,7 @@ void TransitionMatrix::serialize(std::ostream& ostr) const {
   feasst_serialize(reset_sweeps_, ostr);
   feasst_serialize(num_blocks_, ostr);
   feasst_serialize(is_block_, ostr);
+  feasst_serialize(iter_block_, ostr);
   feasst_serialize_fstobj(blocks_, ostr);
 }
 

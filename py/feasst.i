@@ -238,6 +238,7 @@
 #include "math/include/solver_brent_dekker.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 #include "opt_lj/include/visit_model_opt_rpm.h"
+#include "ewald/include/slab_correction.h"
 #include "ewald/include/trial_remove_multiple.h"
 #include "ewald/include/trial_add_multiple.h"
 #include "ewald/include/charge_self.h"
@@ -530,6 +531,7 @@ using namespace std;
 %shared_ptr(feasst::SolverBrentDekker);
 %shared_ptr(feasst::VisitModelOptLJ);
 %shared_ptr(feasst::VisitModelOptRPM);
+%shared_ptr(feasst::SlabCorrection);
 %shared_ptr(feasst::ChargeSelf);
 %shared_ptr(feasst::ChargeScreened);
 %shared_ptr(feasst::Coulomb);
@@ -540,6 +542,7 @@ using namespace std;
 %shared_ptr(feasst::CheckNetCharge);
 %shared_ptr(feasst::CriteriaMayer);
 %shared_ptr(feasst::ModelLJShape);
+%shared_ptr(feasst::ModelLJShapeEnergyAtCutoff);
 %shared_ptr(feasst::ModelSquareWellShape);
 %shared_ptr(feasst::AlwaysReject);
 %shared_ptr(feasst::HenryCoefficient);
@@ -786,6 +789,7 @@ using namespace std;
 %include math/include/solver_brent_dekker.h
 %include opt_lj/include/visit_model_opt_lj.h
 %include opt_lj/include/visit_model_opt_rpm.h
+%include ewald/include/slab_correction.h
 %include ewald/include/trial_remove_multiple.h
 %include ewald/include/trial_add_multiple.h
 %include ewald/include/charge_self.h

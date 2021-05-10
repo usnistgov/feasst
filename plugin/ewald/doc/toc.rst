@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   SlabCorrection
    trial_remove_multiple
    trial_add_multiple
    ChargeSelf

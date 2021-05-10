@@ -13,7 +13,7 @@ namespace feasst {
   \f$ U_{LJ}^{CS}(r) = \left\{
     \begin{array}{lr}
       U_{LJ}(r) - U_{LJ}(r_c) & : r < r_c \\
-      0 & r \ge r_c
+      0 & : r \ge r_c
     \end{array}
   \right. \f$
 
@@ -45,7 +45,7 @@ class LennardJonesCutShift : public LennardJonesAlpha {
 
   /// Initialize WCA cutoff distances for types 1 and 2 in model parameters.
   void set_wca(const int site_type1, const int site_type2,
-      ModelParams * params);
+      ModelParams * params) const;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<LennardJonesCutShift>(istr); }
@@ -56,7 +56,7 @@ class LennardJonesCutShift : public LennardJonesAlpha {
 
 private:
   EnergyAtCutoff shift_;
-  bool precomputed_ = false;
+  //bool precomputed_ = false;
 };
 
 inline std::shared_ptr<LennardJonesCutShift> MakeLennardJonesCutShift(

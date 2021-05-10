@@ -20,6 +20,7 @@
 #include "ewald/include/charge_screened.h"
 #include "ewald/include/charge_screened_intra.h"
 #include "ewald/include/charge_self.h"
+//#include "ewald/include/slab_correction.h"
 #include "ewald/include/trial_add_multiple.h"
 #include "ewald/include/trial_remove_multiple.h"
 
@@ -73,6 +74,7 @@ System spce(argtype args) {
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
   system.add(MakePotential(MakeChargeSelf()));
   system.add(MakePotential(MakeLongRangeCorrections()));
+//  system.add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
     std::shared_ptr<Potential> ref;
     ref = MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),

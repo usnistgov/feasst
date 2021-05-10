@@ -281,7 +281,7 @@ void EnergyMapNeighbor::add_to_map_nvt_() {
 }
 
 void EnergyMapNeighbor::remove_particle_from_map_(const Select& select) {
-  ASSERT(select.num_particles() == 1, "multi-particle not implemented");
+  //ASSERT(select.num_particles() == 1, "multi-particle not implemented");
   for (int spindex = 0; spindex < select.num_particles(); ++spindex) {
     const int part1 = select.particle_index(spindex);
     DEBUG("part1 " << part1);

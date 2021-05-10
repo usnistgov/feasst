@@ -231,7 +231,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
       if (site.is_physical()) {
         const int eikrx0_index = find_eikrx0_(site);
         // calculate eik of kx = 0 explicitly
-        ASSERT(num_ky_ == num_kz_, "assumption");
+        //ASSERT(num_ky_ == num_kz_, "assumption");
         const int eikry0_index = eikrx0_index + kxmax_ + kymax_ + 1;//num_kx_ + kmax_;
         const int eikrz0_index = eikry0_index + kymax_ + kzmax_ + 1;//num_ky_;
         const int eikix0_index = eikrz0_index + kzmax_ + 1;//num_kx_ + num_ky_ + num_kz_;

@@ -19,6 +19,7 @@
 #include "steppers/include/num_particles.h"
 #include "ewald/include/trial_transfer_multiple.h"
 #include "ewald/include/check_net_charge.h"
+#include "ewald/include/slab_correction.h"
 #include "ewald/include/charge_screened.h"
 #include "ewald/include/utils.h"
 
@@ -107,6 +108,7 @@ TEST(MonteCarlo, spce_gce_LONG) {
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
   mc.set(spce());
+  mc.get_system()->add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
   const double beta = 1/kelvin2kJpermol(525);
   mc.set(MakeThermoParams({
     {"beta", str(beta)},

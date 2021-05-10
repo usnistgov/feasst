@@ -26,7 +26,7 @@ void LennardJonesCutShift::serialize(std::ostream& ostr) const {
   serialize_lennard_jones_alpha_(ostr);
   feasst_serialize_version(644, ostr);
   shift_.serialize(ostr);
-  ostr << precomputed_ << " ";
+//  ostr << precomputed_ << " ";
 }
 
 LennardJonesCutShift::LennardJonesCutShift(std::istream& istr)
@@ -34,18 +34,18 @@ LennardJonesCutShift::LennardJonesCutShift(std::istream& istr)
   const int version = feasst_deserialize_version(istr);
   ASSERT(644 == version, version);
   shift_ = EnergyAtCutoff(istr);
-  istr >> precomputed_;
+//  istr >> precomputed_;
 }
 
 void LennardJonesCutShift::precompute(const ModelParams& existing) {
-  precomputed_ = true;
+//  precomputed_ = true;
   shift_.set_model(this); // note the model is used here for the computation
   shift_.set_param(existing);
   shift_.set_model(NULL); // remove model immediately
 }
 
 void LennardJonesCutShift::set_wca(const int site_type1, const int site_type2,
-    ModelParams * params) {
+    ModelParams * params) const {
   const double sigma = params->mixed_sigma()[site_type1][site_type2];
   const double r_wca = std::pow(2, 1./alpha())*sigma;
   params->set("cutoff", site_type1, site_type2, r_wca);
@@ -66,6 +66,8 @@ double LennardJonesCutShift::energy(
   const double rinv_alpha = std::pow(rinv2, 0.5*alpha());
   const double en = 4.*epsilon*rinv_alpha*(rinv_alpha - 1.);
   const double shift = shift_.mixed_values()[type1][type2];
+  TRACE("en " << en);
+  TRACE("shift " << shift);
   return en - shift;
 }
 

@@ -111,7 +111,7 @@ Python install
 
     cmake -DUSE_SWIG=ON ..
     # alternatively, for manually setting the python path
-    # cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.so ..
+    # cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.[so/dylib] ..
 
     make -j4
     make install -j4
@@ -202,53 +202,6 @@ Cray (NERSC CORI)
 ~~~~~~~~~~~~~~~~~~
 
 * OpenMP functions apparently do not work unless the cray programming environment is disabled.
-
-Build from Docker
-===================
-
-The Docker is no longer being updated and contains a very old version of the code.
-Installation via `Docker <docker.io>`_ is an alternative if you are experiencing installation issues.
-Unfortunately there is a performance penalty using this method.
-
-First, install docker
-
- * Ubuntu: `apt install docker`
- * macOS: download and install Docker Desktop.
- * CentOS: `yum install docker`
-
-On a mac, run Docker.app, login, startup and skip this step.
-Otherwise, start docker and create a `docker group <https://docs.docker.com/install/linux/linux-postinstall/>`_ to avoid root.
-
-.. code-block:: bash
-
-    sudo service docker start
-    sudo groupadd docker
-    sudo usermod -aG docker $USER
-    newgrp docker
-
-.. code-block:: bash
-
-    git clone https://github.com/usnistgov/feasst.git
-    docker build -t hhatch/feasst:firsttry feasst/
-
-Alternatively you could pull feasst from docker hub (version may be old):
-
-.. code-block:: bash
-
-    docker pull hhatch/feasst:firsttry
-
-Then you can interactively run feasst via
-
-.. code-block:: bash
-
-    docker run -v ~/scripts:/mnt/scripts -it hhatch/feasst:firsttry
-    cd /mnt/scripts
-
-Or with `~/notebooks`
-
-.. code-block:: bash
-
-    docker run -v ~/notebooks:/mnt/notebooks -i -t -p 8888:8888 hhatch/feasst:firsttry /bin/bash -c "jupyter notebook --notebook-dir=/mnt/notebooks --ip='*' --port=8888 --no-browser --allow-root"
 
 .. include:: CONTACT.rst
 

@@ -64,13 +64,14 @@ double ChargeScreened::energy(
     const double z = squared_distance/mixed_max_cutoff/mixed_max_cutoff;
     const double erffac = erfc_->linear_interpolation(z);
     TRACE("erffac " << erffac);
+    TRACE("U " << mixed_charge*conversion_factor_*erffac);
     return mixed_charge*conversion_factor_*erffac;
   } else {
     const double distance = std::sqrt(squared_distance);
     const double en = mixed_charge*conversion_factor_*std::erfc(alpha_*distance)/distance;
-    //INFO("mixed_charge " << mixed_charge);
-    //INFO("conversion_factor_ " << conversion_factor_);
-    //INFO("en " << en);
+    //TRACE("mixed_charge " << mixed_charge);
+    //TRACE("conversion_factor_ " << conversion_factor_);
+    TRACE("en " << en);
     return en;
   }
 }
