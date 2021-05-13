@@ -6,7 +6,7 @@
 namespace feasst {
 
 TEST(SelectReptate, serialize) {
-  auto add = MakeSelectReptate({{"max_length", "1"}});
+  auto add = MakeSelectReptate({{"max_length", "1"}, {"particle_type", "0"}});
   auto sys = chain_system();
   add->precompute(&sys);
   auto random = MakeRandomMT19937();

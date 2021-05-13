@@ -74,6 +74,7 @@ class Trial {
   void increment_num_auto_reject() { *num_auto_reject_() += 1; }
 
   /// Return the ratio of the number of successful attempts and total attempts.
+  /// Return -1 if no attempts were performed.
   double acceptance() const;
 
   /// Reset trial statistics.

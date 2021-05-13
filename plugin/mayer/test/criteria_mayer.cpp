@@ -66,7 +66,7 @@ CriteriaMayer ljb2(const int trials) {
 TEST(MonteCarlo, ljb2) {
   CriteriaMayer mayer = ljb2(1e4);
   INFO("a " << mayer.second_virial());
-  EXPECT_NEAR(-5.3, mayer.second_virial(), 15);
+  EXPECT_NEAR(-5.3, mayer.second_virial(), 20);
   EXPECT_GT(std::abs(2.0944-mayer.second_virial()), 0.0001); // HS value
 }
 

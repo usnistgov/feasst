@@ -19,6 +19,8 @@ namespace feasst {
   Thus, do not assume a particular order when analyzing the log file.
   Instead, use the headers to specify columns.
   For example, the pandas module in python is ideal for this task.
+
+  By default, the first number printed for a Trial is its Trial::acceptance.
  */
 class Log : public AnalyzeWriteOnly {
  public:

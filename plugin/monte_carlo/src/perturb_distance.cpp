@@ -30,16 +30,13 @@ std::shared_ptr<Perturb> PerturbDistance::create(std::istream& istr) const {
 }
 
 void PerturbDistance::precompute(TrialSelect * select, System * system) {
-  if (select->has_property("bond_type")) {
-    const int bond_type = feasst::round(select->property("bond_type"));
-    const Bond& bond = system->configuration().unique_types().particle(
-      select->particle_type()).bond(bond_type);
-    distance_ = bond.property("length");
-    if (bond.has_property("spring_constant")) {
-      spring_constant_ = bond.property("spring_constant");
-    }
-  } else {
-    WARN("using default distance (typically for reptation): " << distance_);
+  ASSERT(select->has_property("bond_type"), "cannot obtain bond properties");
+  const int bond_type = feasst::round(select->property("bond_type"));
+  const Bond& bond = system->configuration().unique_types().particle(
+    select->particle_type()).bond(bond_type);
+  distance_ = bond.property("length");
+  if (bond.has_property("spring_constant")) {
+    spring_constant_ = bond.property("spring_constant");
   }
 }
 

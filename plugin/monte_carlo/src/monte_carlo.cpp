@@ -384,7 +384,7 @@ std::shared_ptr<MonteCarlo> MakeMonteCarlo(const std::string file_name) {
 }
 
 void MonteCarlo::add(const Potential& potential) {
-  FATAL("For newest version, place use MakePotential instead of Potential");
+  FATAL("Please use MakePotential instead of Potential");
 }
 
 }  // namespace feasst

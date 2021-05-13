@@ -283,7 +283,7 @@ const Trial& Trial::trial(const int index) const {
 
 double Trial::acceptance() const {
   int num_real_attempts = num_attempts() - num_auto_reject();
-  if (num_real_attempts == 0) return 0.;
+  if (num_real_attempts == 0) return -1;
   return static_cast<double>(num_success())/
          static_cast<double>(num_real_attempts);
 }

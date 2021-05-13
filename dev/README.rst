@@ -342,9 +342,9 @@ To Do List
 * Consider using new state instead of old state in acceptance derivations
 * Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.
 * Rename data and xyz files, document them more cleary (second line in xyz, and error if data not read correctly).
-* Make ModelTwoBodyTable that tabulates interaction from min(hs)-max(rc) distance for each distinct pair of site types, and can easily be added as optimized Potential
 * Rename plugin chain->config_bias ?
-* maybe mc.add(criteria) is preferable to mc.set. Same with sys?
 * in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?
 * EnergyMapNeighborCriteria should be able to take index of energy map stored by System
 * Optimize TrialRemove for new_only by not computing interactions with neighbors
+* Make a 'file extension' for fst data files (fstdata)
+* Reptate with non-unit bond lengths

@@ -18,6 +18,9 @@ std::shared_ptr<Trial> MakeTrialCrankshaft(argtype args = argtype());
   For heteropolymers, this perturbation changes the composition of all
   particles with the same type.
   Thus, individual heteropolymers should be added as unique particle types.
+  The bond length is taken as the bond between site 0 and 1, and is assumed
+  to be constant.
+  Thus, as currently implemented, heteropolymers must have the same bond length.
  */
 std::shared_ptr<Trial> MakeTrialReptate(argtype args = argtype());
 
