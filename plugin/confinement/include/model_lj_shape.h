@@ -2,9 +2,9 @@
 #ifndef FEASST_CONFINEMENT_MODEL_LJ_SHAPE_H_
 #define FEASST_CONFINEMENT_MODEL_LJ_SHAPE_H_
 
+#include "utils/include/arguments.h"
 #include "system/include/model_one_body.h"
 #include "shape/include/shape.h"
-#include "utils/include/arguments.h"
 
 namespace feasst {
 
@@ -83,7 +83,11 @@ class ModelLJShapeEnergyAtCutoff : public ModelParam {
     const double epsilon = model_params.epsilon().value(type1);
     const double sigma = model_params.sigma().value(type1);
     const double cutoff = model_params.cutoff().value(type1);
-    return model_->energy(epsilon, sigma, cutoff);
+    if (cutoff > 0) {
+      return model_->energy(epsilon, sigma, cutoff);
+    } else {
+      return 0.;
+    }
   }
 
   ModelLJShapeEnergyAtCutoff(std::istream& istr) : ModelParam(istr) {}

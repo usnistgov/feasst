@@ -6,12 +6,41 @@
 namespace feasst {
 
 Group::Group(argtype args) {
-  while (used("add_site_type", args)) {
-    site_types_.push_back(integer("add_site_type", &args));
+  std::string start;
+  // if only one site type, allow drop the subscript
+  start.assign("site_type");
+  if (used(start, args)) {
+    site_types_.push_back(integer(start, &args));
+  } else {
+    int type = site_types_.size();
+    std::stringstream key;
+    key << start << type;
+    while (used(key.str(), args)) {
+      site_types_.push_back(integer(key.str(), &args));
+      ++type;
+      ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
+      key.str("");
+      key << start << type;
+    }
   }
-  while (used("add_particle_type", args)) {
-    particle_types_.push_back(integer("add_particle_type", &args));
+
+  // if only one particle type, allow drop the subscript
+  start.assign("particle_type");
+  if (used(start, args)) {
+    particle_types_.push_back(integer(start, &args));
+  } else {
+    int type = particle_types_.size();
+    std::stringstream key;
+    key << start << type;
+    while (used(key.str(), args)) {
+      particle_types_.push_back(integer(key.str(), &args));
+      ++type;
+      ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
+      key.str("");
+      key << start << type;
+    }
   }
+
   dynamic_ = boolean("dynamic", &args, true);
   spatial_ = boolean("spatial", &args, false);
   ASSERT(!spatial_, "spatial groups are not implemented");

@@ -179,7 +179,7 @@ class Ewald : public VisitModel {
  private:
   // HWH serialize
   std::shared_ptr<double> tolerance_, alpha_arg_;
-  std::shared_ptr<int> kxmax_arg_, kymax_arg_, kzmax_arg_, kmax_sq_arg_;
+  std::shared_ptr<int> tolerance_num_sites_, kxmax_arg_, kymax_arg_, kzmax_arg_, kmax_sq_arg_;
   int kxmax_, kymax_, kzmax_;
   double kmax_squared_;
   int num_kx_;

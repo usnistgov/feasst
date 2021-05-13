@@ -7,9 +7,9 @@
 
 namespace feasst {
 
-// HWH cite XYZ or allow different formats.
+// HWH allow different formats.
 /**
-  Write a trajectory of the site positions using XYZ file format.
+  Write a trajectory of the site positions using FileXYZ format.
   Does not overwrite existing file by default.
  */
 class Movie : public AnalyzeWriteOnly {

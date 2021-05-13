@@ -16,6 +16,8 @@ static MapMovie mapper_ = MapMovie();
 Movie::Movie(argtype args) : AnalyzeWriteOnly(&args) {
   set_append();
   ASSERT(!file_name().empty(), "file name is required");
+  args.insert({"append", "true"}); // always append
+  xyz_ = FileXYZ(&args);
   check_all_used(args);
 }
 
@@ -27,7 +29,6 @@ void Movie::initialize(Criteria * criteria,
     "Analyze::set_file_name()?");
 
   // write xyz
-  xyz_.set_append(1);
   if (state() == criteria->state()) {
     xyz_.write(name, system->configuration());
   }

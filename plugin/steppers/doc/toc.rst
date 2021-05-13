@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   DensityProfile
    LogAndMovie
    AnalyzeData
    WallClockLimit

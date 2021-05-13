@@ -77,7 +77,7 @@ TEST(Select, group) {
   config.add_particle_type("../forcefield/data.spce");
   config.add_particle_of_type(0);
   Select oxygen;
-  oxygen.set_group(MakeGroup({{"add_site_type", "1"}}));
+  oxygen.set_group(MakeGroup({{"site_type", "1"}}));
   Select oxygen2 = test_serialize(oxygen);
 }
 

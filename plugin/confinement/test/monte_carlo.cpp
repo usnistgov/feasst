@@ -24,6 +24,7 @@
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/density_profile.h"
 #include "confinement/include/model_hard_shape.h"
 #include "confinement/include/model_table_cartesian.h"
 #include "confinement/include/always_reject.h"
@@ -312,6 +313,36 @@ TEST(HardShape, henry_LONG) {
     Accumulator h = henry(system);
     INFO(h.str());
     EXPECT_NEAR(h.average(), 5/system.configuration().domain().min_side_length(), 5*h.block_stdev());
+  }
+}
+
+TEST(DensityProfile, ig_hard_slab) {
+  MonteCarlo mc;
+  mc.add(Configuration(MakeDomain({{"cubic_box_length", "10"}}),
+    {{"particle_type0", "../forcefield/data.hard_sphere"},
+     {"particle_type1", "../forcefield/data.lj"}}));
+  mc.add(MakePotential(MakeHardSphere()));
+  mc.add(MakePotential(MakeModelHardShape(MakeSlab({
+    {"dimension", "2"},
+    {"bound0", "3"},
+    {"bound1", "-3"}}))));
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "1"},
+    {"chemical_potential1", "1"}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialTranslate({{"tunable_param", "3"}}));
+  SeekNumParticles(10, {{"particle_type", "0"}}).with_trial_add({{"particle_type", "0"}}).run(&mc);
+  SeekNumParticles(10, {{"particle_type", "1"}}).with_trial_add({{"particle_type", "1"}}).run(&mc);
+  mc.add(MakeLogAndMovie({{"steps_per", "100"}, {"file_name", "tmp/prof_traj"}}));
+  EXPECT_EQ(mc.configuration().num_particles(), 20);
+  auto profile = MakeDensityProfile({{"steps_per_update", "100"},
+    {"steps_per_write", "1000"}, {"dimension", "2"}, {"file_name", "tmp/prof.txt"}});
+  mc.add(profile);
+  mc.attempt(1e4);
+  auto profile2 = test_serialize(*profile);
+  for (int type = 0; type < mc.configuration().num_site_types(); ++type) {
+    EXPECT_NEAR(profile2.profile()[0][type][1], 0., NEAR_ZERO);
+    EXPECT_NEAR(profile2.profile()[50][type][0], 0., NEAR_ZERO);
+    EXPECT_NEAR(profile2.profile()[50][type][1], 0.02, 0.01);
   }
 }
 

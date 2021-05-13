@@ -396,7 +396,7 @@ int Configuration::particle_type_to_group_create(const int particle_type) {
   if (grp != -1) {
     return grp;
   }
-  add(MakeGroup({{"add_particle_type", str(particle_type)}}));
+  add(MakeGroup({{"particle_type", str(particle_type)}}));
   group_store_particle_type_.push_back(particle_type);
   group_store_group_index_.push_back(num_groups() - 1);
   const int index = static_cast<int>(group_store_group_index_.size()) - 1;

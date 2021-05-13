@@ -13,6 +13,9 @@ Ewald::Ewald(argtype args) {
   if (used("tolerance", args)) {
     tolerance_ = std::make_shared<double>(dble("tolerance", &args));
   }
+  if (used("tolerance_num_sites", args)) {
+    tolerance_num_sites_ = std::make_shared<int>(integer("tolerance_num_sites", &args));
+  }
   if (used("alpha", args)) {
     alpha_arg_ = std::make_shared<double>(dble("alpha", &args));
   }
@@ -37,11 +40,14 @@ void Ewald::tolerance_to_alpha_ks(const double tolerance,
     int * kxmax, int * kymax, int * kzmax) {
   const double cutoff = config.model_params().cutoff().max();
   int num_sites = config.num_sites();
+  if (tolerance_num_sites_) {
+    num_sites = *tolerance_num_sites_;
+  }
   ASSERT(num_sites > 0, "the number of sites: " << num_sites
     << " must be > 0");
 
   // determine alpha
-  *alpha = std::sqrt(config.num_sites()*cutoff*config.domain().volume());
+  *alpha = std::sqrt(num_sites*cutoff*config.domain().volume());
   *alpha *= tolerance/(2.*sum_squared_charge_(config));
   if (*alpha >= 1.) {
     *alpha = (1.35 - 0.15*log(tolerance))/cutoff; // from LAMMPS
@@ -353,6 +359,7 @@ void Ewald::serialize(std::ostream& ostr) const {
   serialize_visit_model_(ostr);
   feasst_serialize_version(319, ostr);
   feasst_serialize_sp(tolerance_, ostr);
+  feasst_serialize_sp(tolerance_num_sites_, ostr);
   feasst_serialize_sp(alpha_arg_, ostr);
   feasst_serialize_sp(kxmax_arg_, ostr);
   feasst_serialize_sp(kymax_arg_, ostr);
@@ -389,6 +396,11 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
   if (existing != 0) {
     istr >> value;
     tolerance_ = std::make_shared<double>(value);
+  }
+  istr >> existing;
+  if (existing != 0) {
+    istr >> existing;
+    tolerance_num_sites_ = std::make_shared<int>(existing);
   }
   istr >> existing;
   if (existing != 0) {

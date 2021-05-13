@@ -133,7 +133,7 @@ TEST(Configuration, group) {
   auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "7"}}));
   TRY(
     Configuration config_err(*config);
-    config_err.add(MakeGroup({{"add_site_type", "0"}}));
+    config_err.add(MakeGroup({{"site_type", "0"}}));
     CATCH_PHRASE("add groups after particle types");
   );
   config->add_particle_type("../forcefield/data.spce");
@@ -144,9 +144,9 @@ TEST(Configuration, group) {
     config_err.add_particle_type("../forcefield/data.lj");
     CATCH_PHRASE("types cannot be added after particles");
   );
-  config->add(MakeGroup({{"add_site_type", "0"}, {"add_particle_type", "0"}}), "O");
-  config->add(MakeGroup({{"add_site_type", "0"}, {"add_particle_type", "1"}}), "H");
-  config->add(MakeGroup({{"add_site_type", "2"}, {"add_particle_type", "1"}}), "none");
+  config->add(MakeGroup({{"site_type", "0"}, {"particle_type", "0"}}), "O");
+  config->add(MakeGroup({{"site_type", "0"}, {"particle_type", "1"}}), "H");
+  config->add(MakeGroup({{"site_type", "2"}, {"particle_type", "1"}}), "none");
   EXPECT_TRUE(config->group_select(0).group().has_property("0"));
   EXPECT_TRUE(config->group_select(1).group().has_property("O"));
   EXPECT_TRUE(config->group_select(2).group().has_property("H"));
@@ -195,7 +195,7 @@ TEST(Configuration, group) {
 
 TEST(Configuration, select_particle_by_group) {
   Configuration config = spce_sample1();
-  config.add(MakeGroup({{"add_site_type", "0"}}));
+  config.add(MakeGroup({{"site_type", "0"}}));
   Particle part = config.particle(2, 1);
   EXPECT_EQ(1, part.num_sites());
 }

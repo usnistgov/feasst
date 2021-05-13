@@ -20,7 +20,7 @@ TEST(VisitModelInnerPatch, patch_one) {
   visit.set_inner(patch);
   visit.precompute(&config);
   patch->set_patch_angle(1, 90.);
-  config.add(MakeGroup({{"add_site_type", "0"}}));
+  config.add(MakeGroup({{"site_type", "0"}}));
   visit.compute(&model, &config, 1);
   EXPECT_NEAR(-3., visit.energy(), NEAR_ZERO);
 
@@ -35,7 +35,7 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
       MakeDomain({{"cubic_box_length", "10"}}),
       {{"particle_type", "../plugin/patch/forcefield/data.patch_one"}}
     );
-    config.add(MakeGroup({{"add_site_type", "0"}}));
+    config.add(MakeGroup({{"site_type", "0"}}));
     config.add_particle_of_type(0);
     config.add_particle_of_type(0);
     system.add(config);
@@ -55,16 +55,15 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
   PerturbRotate rotate;
   tsel.select_particle(1, system.configuration());
   auto axis = Position().set_vector({0., 0., 1.});
-  FileXYZ file;
-  file.write_for_vmd("tmp/patch.xyz", system.configuration());
+  auto file = MakeFileXYZ({{"append", "true"}});
+  file->write_for_vmd("tmp/patch.xyz", system.configuration());
   rotate.move(
     traj,
     RotationMatrix().axis_angle(axis, 180.),
     &system,
     &tsel
   );
-  file.set_append(1);
-  file.write("tmp/patch.xyz", system.configuration());
+  file->write("tmp/patch.xyz", system.configuration());
 
   EXPECT_NEAR(-1., system.energy(), NEAR_ZERO);
 

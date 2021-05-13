@@ -69,9 +69,9 @@ void Histogram::set_edges(const std::vector<double> edges) {
 int Histogram::bin(const double value) const {
   if (is_constant_width_ == 1) {
     const double kWidth = edges_[1] - edges_[0];
-    DEBUG("kWidth " << kWidth);
-    DEBUG("value " << value);
-    DEBUG("center " << center_of_bin(0));
+    TRACE("kWidth " << kWidth);
+    TRACE("value " << value);
+    TRACE("center " << center_of_bin(0));
     return round((value - center_of_bin(0))/kWidth);
   } else {
     ASSERT(value <= max() && value >= min(),
@@ -104,7 +104,7 @@ void Histogram::add(const double value, const bool update) {
     // expand histogram if allowed and formula is available.
     ASSERT(bin_size_ != NULL && expandable_, "out of range");
     int increment = 0;
-    const int kMaxIncrements = 1e3;
+    const int kMaxIncrements = 1e8;
     int found = 0;
     if (value > max()) {
       while (found == 0 && increment < kMaxIncrements) {

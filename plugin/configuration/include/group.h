@@ -19,8 +19,12 @@ class Group : public PropertiedEntity {
  public:
   /**
     args:
-    - add_site_type: add a site type. If none, all sites included.
-    - add_particle_type: add a particle type. If none, all particles included.
+    - site_type[i]: add the i-th site type. If none, all sites included.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      If only one site type, the "[i]" is optional.
+    - particle_type[i]: add the i-th particle type. If none, all included.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      If only one particle type, the "[i]" is optional.
     - dynamic: set true if groups should be updated (default: true).
     - spatial: set true if group is based on location (default: false).
    */
@@ -28,6 +32,9 @@ class Group : public PropertiedEntity {
 
   /// Return the list of site types in the group.
   const std::vector<int> site_types() const { return site_types_; }
+
+  /// Return the list of particle types in the group.
+  const std::vector<int> particle_types() const { return particle_types_; }
 
   /// Return true if dynamic.
   bool is_dynamic() const { return dynamic_; }

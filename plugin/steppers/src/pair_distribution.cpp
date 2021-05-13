@@ -130,6 +130,7 @@ std::string PairDistribution::write(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
   std::stringstream ss;
+  ss << header(*criteria, *system, *trial_factory);
   const grtype& rad = radial(system->configuration());
   for (const grbintype& gr : rad) {
     ss << gr.first << ",";

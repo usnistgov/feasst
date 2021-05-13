@@ -144,6 +144,7 @@
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/analyze.h"
 #include "chain/include/check_rigid_bonds.h"
+#include "steppers/include/density_profile.h"
 #include "chain/include/analyze_bonds.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "steppers/include/log_and_movie.h"
@@ -440,6 +441,7 @@ using namespace std;
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
 %shared_ptr(feasst::CheckRigidBonds);
+%shared_ptr(feasst::DensityProfile);
 %shared_ptr(feasst::AnalyzeBonds);
 %shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::LogAndMovie);
@@ -695,6 +697,7 @@ using namespace std;
 %include monte_carlo/include/trial_factory.h
 %include monte_carlo/include/analyze.h
 %include chain/include/check_rigid_bonds.h
+%include steppers/include/density_profile.h
 %include chain/include/analyze_bonds.h
 %include monte_carlo/include/analyze_factory.h
 %include steppers/include/log_and_movie.h

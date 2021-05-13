@@ -9,12 +9,12 @@ TEST(Group, remove_sites) {
   EXPECT_EQ(3, particle.num_sites());
 
   Particle oxygen(particle);
-  MakeGroup({{"add_site_type", "0"}})->remove_sites(&oxygen);
+  MakeGroup({{"site_type", "0"}})->remove_sites(&oxygen);
   EXPECT_EQ(1, oxygen.num_sites());
 
   feasst::Particle hydrogen(particle);
 //  std::vector<int> full_to_partial, partial_to_full;
-  MakeGroup({{"add_site_type", "1"}})->remove_sites(&hydrogen);
+  MakeGroup({{"site_type", "1"}})->remove_sites(&hydrogen);
 //                                                &full_to_partial,
 //                                                &partial_to_full);
   EXPECT_EQ(2, hydrogen.num_sites());
@@ -27,9 +27,15 @@ TEST(Group, remove_sites) {
 //  EXPECT_EQ(2, partial_to_full[1]);
 }
 
+TEST(Group, multiple_particles) {
+  auto grp = MakeGroup({{"particle_type0", "0"},
+                        {"particle_type1", "1"}});
+  EXPECT_EQ(grp->particle_types().size(), 2);
+}
+
 TEST(Group, serialize) {
-  auto grp = MakeGroup({{"add_site_type", "1"},
-                          {"add_particle_type", "0"}});
+  auto grp = MakeGroup({{"site_type", "1"},
+                        {"particle_type", "0"}});
   std::stringstream ss;
   grp->serialize(ss);
   Group grp2(ss);

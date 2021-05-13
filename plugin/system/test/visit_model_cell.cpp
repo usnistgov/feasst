@@ -13,7 +13,7 @@ namespace feasst {
 TEST(VisitModelCell, cells) {
   Configuration config(MakeDomain({{"cubic_box_length", "7"}}),
     {{"particle_type0", "../forcefield/data.spce"}});
-  config.add(MakeGroup({{"add_site_type", "0"}}));
+  config.add(MakeGroup({{"site_type", "0"}}));
   config.add_particle_of_type(0);
 
   auto visit = MakeVisitModelCell({{"min_length", "1.4"}});

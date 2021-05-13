@@ -90,8 +90,11 @@ double ModelLJShape::energy(
     const double sigma = model_params.sigma().value(type);
     const double en = energy(epsilon, sigma, distance);
     if (disable_shift_) {
+      TRACE("en " << en);
       return en;
     } else {
+      TRACE("shift " << shift_->value(type));
+      TRACE("en " << en - shift_->value(type));
       return en - shift_->value(type);
     }
   }

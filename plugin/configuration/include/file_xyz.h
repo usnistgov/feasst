@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include "utils/include/arguments.h"
 #include "configuration/include/configuration.h"
 
 namespace feasst {
@@ -39,10 +40,14 @@ class FileVMD {
  */
 class FileXYZ {
  public:
-  FileXYZ() {
-    set_group_index();
-    set_append();
-  }
+  /**
+    args:
+    - group_index: print the coordinates of this group index only (default: 0).
+    - append: append file output if set to true.
+      Do not append if false (default: "false").
+   */
+  explicit FileXYZ(argtype args = argtype());
+  explicit FileXYZ(argtype * args);
 
   /**
     Load the xyz file with file_name into the configuration.
@@ -63,18 +68,17 @@ class FileXYZ {
   void write_for_vmd(const std::string file_name,
              const Configuration& config) const;
 
-  void set_group_index(const int index = 0) { group_index_ = index; }
-
-  /// By default, do not append
-  void set_append(const int append = 0) { append_ = append; }
-
   void serialize(std::ostream& ostr) const;
   explicit FileXYZ(std::istream& istr);
 
  private:
   int group_index_;
-  int append_;
+  bool append_;
 };
+
+inline std::shared_ptr<FileXYZ> MakeFileXYZ(argtype args = argtype()) {
+  return std::make_shared<FileXYZ>(args);
+}
 
 }  // namespace feasst
 

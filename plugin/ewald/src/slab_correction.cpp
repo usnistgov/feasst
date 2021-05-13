@@ -99,7 +99,7 @@ void SlabCorrection::compute(ModelOneBody * model,
     Configuration * config,
     const int group_index) {
   dipole_new_ = net_dipole(*config);
-  INFO("dipole_new " << dipole_new_);
+  DEBUG("dipole_new " << dipole_new_);
   stored_energy_new_ = dipole_to_en(dipole_new_, *config, model_params);
   DEBUG("stored_energy_ " << stored_energy_new_);
   set_energy(stored_energy_new_);
@@ -129,7 +129,7 @@ void SlabCorrection::compute(ModelOneBody * model,
   ASSERT(group_index == 0, "not implemented");
   const int state = selection.trial_state();
   DEBUG("state " << state);
-  INFO("sel_dipole " << sel_dipole);
+  DEBUG("sel_dipole " << sel_dipole);
   if (state == 0) {
     dipole_new_ = dipole_ - sel_dipole;
   } else if (state == 1) {

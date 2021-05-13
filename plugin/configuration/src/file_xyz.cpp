@@ -33,6 +33,14 @@ void FileVMD::write(const std::string file_name,
   }
 }
 
+FileXYZ::FileXYZ(argtype * args) {
+  group_index_ = integer("group_index", args, 0);
+  append_ = boolean("append", args, false);
+}
+FileXYZ::FileXYZ(argtype args) : FileXYZ(&args) {
+  check_all_used(args);
+}
+
 void FileXYZ::load(const std::string file_name, Configuration * config) const {
   std::ifstream xyz_file(file_name);
   int num_sites;
@@ -114,7 +122,7 @@ void FileXYZ::write(const std::string file_name,
     file->open(file_name, std::ofstream::app);
   }
   const Domain& domain = config.domain();
-  (*file.get()) << config.num_sites() << std::endl
+  (*file.get()) << config.group_selects()[group_index_].num_sites() << std::endl
     << "-1 ";
   (*file.get()) << std::setprecision(num_places);
   for (int dim = 0; dim < domain.dimension(); ++dim) {
