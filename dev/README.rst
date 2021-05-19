@@ -348,3 +348,4 @@ To Do List
 * Optimize TrialRemove for new_only by not computing interactions with neighbors
 * Make a 'file extension' for fst data files (fstdata)
 * Reptate with non-unit bond lengths
+* Rename ewald plugin to charge

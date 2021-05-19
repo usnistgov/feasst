@@ -10,6 +10,7 @@
    trial_transfer_multiple
    Coulomb
    ComputeRemoveMultiple
+   ElectricField
    ComputeAddMultiple
    ChargeScreenedIntra
    Ewald

@@ -248,6 +248,7 @@
 #include "ewald/include/trial_transfer_multiple.h"
 #include "ewald/include/coulomb.h"
 #include "ewald/include/compute_remove_multiple.h"
+#include "ewald/include/electric_field.h"
 #include "ewald/include/compute_add_multiple.h"
 #include "ewald/include/charge_screened_intra.h"
 #include "ewald/include/ewald.h"
@@ -538,6 +539,7 @@ using namespace std;
 %shared_ptr(feasst::ChargeScreened);
 %shared_ptr(feasst::Coulomb);
 %shared_ptr(feasst::ComputeRemoveMultiple);
+%shared_ptr(feasst::ElectricField);
 %shared_ptr(feasst::ComputeAddMultiple);
 %shared_ptr(feasst::ChargeScreenedIntra);
 %shared_ptr(feasst::Ewald);
@@ -801,6 +803,7 @@ using namespace std;
 %include ewald/include/trial_transfer_multiple.h
 %include ewald/include/coulomb.h
 %include ewald/include/compute_remove_multiple.h
+%include ewald/include/electric_field.h
 %include ewald/include/compute_add_multiple.h
 %include ewald/include/charge_screened_intra.h
 %include ewald/include/ewald.h

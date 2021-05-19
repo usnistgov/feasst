@@ -44,7 +44,7 @@ def mc(thread, mn, mx):
                                          "file_name": "clones" + str(thread),
                                          "file_name_append_phase": "True"})))
     mc.add(fst.MakeEnergy(fst.args({"steps_per_write": steps_per,
-                                    "file_name": "en" + str(thread) + ".txt.",
+                                    "file_name": "en" + str(thread) + ".txt",
                                     "file_name_append_phase": "True",
                                     "start_after_phase": "0",
                                     "multistate": "True"})))
