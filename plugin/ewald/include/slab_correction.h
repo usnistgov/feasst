@@ -61,7 +61,7 @@ class SlabCorrection : public VisitModel {
       Configuration * config,
       const int group_index) override;
 
-  void finalize(const Select& select) override;
+  void finalize(const Select& select, Configuration * config) override;
 
   std::shared_ptr<VisitModel> create(std::istream& istr) const override {
     return std::make_shared<SlabCorrection>(istr); }

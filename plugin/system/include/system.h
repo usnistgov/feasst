@@ -219,7 +219,7 @@ class System {
   std::string status() const;
 
   /// Run checks.
-  void check() const;
+  void check(const int config = 0) const;
 
   /// Serialize
   void serialize(std::ostream& sstr) const;

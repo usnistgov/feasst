@@ -108,46 +108,47 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
   }
 }
 
-TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
-  MonteCarlo mc;
-  mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
-                       {{"particle_type", "../forcefield/data.lj"}}));
-  mc.add(MakePotential(MakeLennardJones()));
-  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
-  mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  mc.set(MakeThermoParams({{"beta", "1.2"}}));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate({
-    {"weight", "1"},
-    {"reference_index", "0"},
-    {"num_steps", "10"},
-    {"tunable_param", "1"}}));
-//  const int steps_per = 1e3;
-//  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", "1e-10"}}));
-  SeekNumParticles(50)
-    .with_thermo_params({{"beta", "0.1"}, {"chemical_potential", "10"}})
-    .with_metropolis()
-    .with_trial_add()
-    .run(&mc);
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-  mc.attempt(1e5);  // 2 sec with 50 particles, 10 steps on hwhdesk after moved to VisitModelCell
-  //mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on hwhdesk after site cells integer
-  //mc.attempt(1e5);  // 4.4 sec with 50 particles, 10 steps on hwhdesk after cell group opt
-  //mc.attempt(1e5);  // 4.5 sec with 50 particles, 10 steps on hwhdesk after domain shift opt
-  //mc.attempt(1e5);  // 5.6 sec with 50 particles, 10 steps on hwhdesk
-  //mc.attempt(1e5);  // 5.1 sec with 50 particles, 10 steps on hwhdesk after opt cell_id
-  //mc.attempt(1e3);
-  // mc.attempt(1e6);
-}
-
-TEST(MonteCarlo, NVT_two_cells_BENCHMARK_LONG) {
+// HWH Removed due to DCCB issue
+//TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
+//  MonteCarlo mc;
+//  mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
+//                       {{"particle_type", "../forcefield/data.lj"}}));
+//  mc.add(MakePotential(MakeLennardJones()));
+//  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
+//  mc.set(MakeRandomMT19937({{"seed", "default"}}));
+//  mc.set(MakeThermoParams({{"beta", "1.2"}}));
+//  mc.set(MakeMetropolis());
+//  mc.add(MakeTrialTranslate({
+//    {"weight", "1"},
+//    {"reference_index", "0"},
+//    {"num_steps", "10"},
+//    {"tunable_param", "1"}}));
+////  const int steps_per = 1e3;
+////  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", "1e-10"}}));
+//  SeekNumParticles(50)
+//    .with_thermo_params({{"beta", "0.1"}, {"chemical_potential", "10"}})
+//    .with_metropolis()
+//    .with_trial_add()
+//    .run(&mc);
+//  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
+//  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+//  mc.attempt(1e5);  // 2 sec with 50 particles, 10 steps on hwhdesk after moved to VisitModelCell
+//  //mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on hwhdesk after site cells integer
+//  //mc.attempt(1e5);  // 4.4 sec with 50 particles, 10 steps on hwhdesk after cell group opt
+//  //mc.attempt(1e5);  // 4.5 sec with 50 particles, 10 steps on hwhdesk after domain shift opt
+//  //mc.attempt(1e5);  // 5.6 sec with 50 particles, 10 steps on hwhdesk
+//  //mc.attempt(1e5);  // 5.1 sec with 50 particles, 10 steps on hwhdesk after opt cell_id
+//  //mc.attempt(1e3);
+//  // mc.attempt(1e6);
+//}
+//TEST(MonteCarlo, NVT_two_cells_BENCHMARK_LONG) {
+TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.add(Configuration(MakeDomain({{"cubic_box_length", "12"}}),
                        {{"particle_type", "../forcefield/data.lj"}}));
   mc.add(MakePotential(MakeLennardJones()));
-  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
+//  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
   mc.set(MakeThermoParams({{"beta", "1.2"}}));
   mc.set(MakeMetropolis());
   SeekNumParticles(200)
@@ -157,8 +158,8 @@ TEST(MonteCarlo, NVT_two_cells_BENCHMARK_LONG) {
     .run(&mc);
   mc.add(MakeTrialTranslate({
     {"weight", "1"},
-    {"reference_index", "0"},
-    {"num_steps", "4"},
+//    {"reference_index", "0"},
+//    {"num_steps", "4"},
     {"tunable_param", "1"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
@@ -229,10 +230,7 @@ TEST(MonteCarlo, GCMC_cell) {
   mc.set(lennard_jones({{"dual_cut", "1."}}));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate({{"weight", "1."},
-                             {"tunable_param", "1."},
-                             {"reference_index", "0"},
-                             {"num_steps", "4"}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
@@ -245,7 +243,7 @@ TEST(MonteCarlo, GCMC_cell) {
   //mc.attempt(1e4);
   for (int i = 0; i < 1e4; ++i) {
     mc.attempt(1);
-    mc.system().potential(0).visit_model().check();
+    mc.system().potential(0).visit_model().check(mc.configuration());
   }
 }
 

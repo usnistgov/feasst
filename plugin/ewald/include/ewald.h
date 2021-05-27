@@ -154,7 +154,7 @@ class Ewald : public VisitModel {
   void revert(const Select& select) override;
 
   // HWH refactor Ewald for finalization (e.g., do not enter eiks until finalize?)
-  void finalize(const Select& select) override;
+  void finalize(const Select& select, Configuration * config) override;
 
   int num_vectors() const { return static_cast<int>(wave_prefactor_.size()); }
   int num_kx() const { return num_kx_; }

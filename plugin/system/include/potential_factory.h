@@ -63,7 +63,7 @@ class PotentialFactory {
   void revert(const Select& select);
 
   /// Finalize changes due to perturbations.
-  void finalize(const Select& select);
+  void finalize(const Select& select, Configuration * config);
 
   /// Set cache to load energy calculations.
   void load_cache(const bool load);
@@ -73,7 +73,7 @@ class PotentialFactory {
 
   void synchronize_(const PotentialFactory& factory, const Select& perturbed);
 
-  void check() const;
+  void check(const Configuration& config) const;
 
   /// Serialize.
   void serialize(std::ostream& sstr) const;

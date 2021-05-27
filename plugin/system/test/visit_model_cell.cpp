@@ -38,7 +38,7 @@ TEST(VisitModelCell, cells) {
   Select select(0, config.select_particle(0));
   //select.particle(0, config);
   config.displace_particles(select, trajectory);
-  visit->finalize(select);
+  visit->finalize(select, &config);
   EXPECT_EQ(0, config.particle(0).site(0).cell(0));
   site = config.particle(0).site(0);
   EXPECT_EQ(0, site.cell(0));
@@ -59,7 +59,7 @@ TEST(VisitModelCell, cells) {
 //  EXPECT_EQ(config2.domain().cells(1).particles()[cell1].num_particles(), 0);
 //
 //  config.remove_particle(select);
-  visit->check();
+  visit->check(config);
 }
 
 /// Use a 5 angstrom cut off
@@ -93,7 +93,7 @@ TEST(VisitModelCell, simple_lj) {
   EXPECT_EQ(cells.particles()[center + 1].particle_index(0), 1);
   EXPECT_EQ(cells.particles()[center + 1].site_index(0, 0), 0);
   config.check();
-  cell_visit->check();
+  cell_visit->check(config);
   VisitModel visit;
   visit.precompute(&config);
   model.compute(&config, &visit);
@@ -109,7 +109,7 @@ TEST(VisitModelCell, simple_lj) {
   DEBUG("Move to the same cell");
   pos.set_vector({-1, 1, 1});
   config.displace_particle(select, pos);
-  cell_visit->finalize(select);
+  cell_visit->finalize(select, &config);
   EXPECT_EQ(config.particle(0).site(0).cell(0), center);
   EXPECT_EQ(config.particle(1).site(0).cell(0), center);
   EXPECT_EQ(cells.particles()[center].num_sites(), 2);

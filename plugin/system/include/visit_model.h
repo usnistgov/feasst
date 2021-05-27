@@ -110,12 +110,14 @@ class VisitModel {
       const int group_index = 0);
 
   virtual void revert(const Select& select) { inner_->revert(select); }
-  virtual void finalize(const Select& select) { inner_->finalize(select); }
+  virtual void finalize(const Select& select, Configuration * config) {
+    inner_->finalize(select); }
 
   virtual void precompute(Configuration * config) {
     inner_->precompute(config); }
 
-  virtual void check() const { inner_->check(); }
+  virtual void check(const Configuration& config) const {
+    inner_->check(); }
 
   // Synchronize with another object of the same type.
   // Typically used with prefetch.

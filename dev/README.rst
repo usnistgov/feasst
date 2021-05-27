@@ -349,3 +349,4 @@ To Do List
 * Make a 'file extension' for fst data files (fstdata)
 * Reptate with non-unit bond lengths
 * Rename ewald plugin to charge
+* Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.

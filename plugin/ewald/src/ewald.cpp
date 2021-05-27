@@ -595,8 +595,8 @@ void Ewald::revert(const Select& select) {
 //    stored_energy_ = stored_energy_old_;
 }
 
-void Ewald::finalize(const Select& select) {
-  VisitModel::finalize(select);
+void Ewald::finalize(const Select& select, Configuration * config) {
+  VisitModel::finalize(select, config);
   if (finalizable_) {
     DEBUG("finalizing");
     ASSERT(struct_fact_real_new_.size() > 0, "error");

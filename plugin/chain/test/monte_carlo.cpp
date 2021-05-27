@@ -46,16 +46,8 @@ TEST(MonteCarlo, chain) {
   mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   SeekNumParticles(1).with_trial_add().run(&mc);
-  mc.add(MakeTrialTranslate({
-    {"weight", "1."},
-    {"tunable_param", "1."},
-    {"reference_index", "0"},
-    {"num_steps", "2"}}));
-  mc.add(MakeTrialRotate({
-    {"weight", "1."},
-    {"tunable_param", "20."},
-    {"reference_index", "0"},
-    {"num_steps", "2"}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "20."}}));
   mc.add(MakeTrialPivot({
     {"weight", "1."},
     {"tunable_param", "20."},

@@ -126,11 +126,7 @@ MonteCarlo test_lj_fh(const int num_steps,
   }
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate({
-    {"weight", "1."},
-    {"tunable_param", "1."},
-    {"reference_index", str(ref)},
-    {"num_steps", str(num_steps)}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   SeekNumParticles(min).with_trial_add().run(&mc);
   argtype transfer_args =
     { {"particle_type0", "0"},
@@ -241,6 +237,20 @@ TEST(MonteCarlo, lj_fh_LONG) {
   EXPECT_NEAR(lnpi3.value(1), -6.41488235897456, 0.025);
   EXPECT_NEAR(lnpi3.value(2), -0.00163919230786818, 0.005);
 }
+
+// HWH Test for fixing dccb translate issue
+//TEST(MonteCarlo, lj_fh_transition_VERY_LONG) {
+//  for (int num_steps : {1, 4}) {
+//    MonteCarlo mc = test_serialize(test_lj_fh(num_steps, "TM", 10000, false, 150, 151));
+//    mc.set(MakeThermoParams({{"beta", str(1./0.75)}, {"chemical_potential", "-4.05045075"}}));
+//    mc.run_until_complete();
+//    const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+//    INFO("num_steps: " << num_steps << " " << feasst_str(lnpi.values()));
+//    EXPECT_NEAR(lnpi.value(1) - lnpi.value(0), -241.79257 - -241.79008, 0.005);
+//    //EXPECT_NEAR(energy_av(0, mc), 0, 0.5);
+//    //EXPECT_NEAR(energy_av(1, mc), 0, 0.5);
+//  }
+//}
 
 TEST(MonteCarlo, lj_fh_liquid_LONG) {
   MonteCarlo mc = test_serialize(test_lj_fh(4, "TM", 1000, false, 100, 105));

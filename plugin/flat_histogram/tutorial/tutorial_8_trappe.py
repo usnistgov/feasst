@@ -59,7 +59,7 @@ def mc(thread, mn, mx):
             "min_sweeps": "1000"}))))
     for particle_type in range(mc.configuration().num_particle_types()):
         mc.add(fst.MakeTrialTranslate(fst.args({"particle_type": str(particle_type), "weight": "1.",
-            "tunable_param": "1.", "reference_index": ref, "num_steps": num})))
+            "tunable_param": "1."})))
         if mx > args.dccb_begin and mc.configuration().particle_type(particle_type).num_sites() == 2:
             mc.add(fst.MakeTrialGrow(fst.ArgsVector([
                 {"transfer": "true",  # "regrow": "true",  # regrow isn't very efficient
@@ -76,9 +76,8 @@ def mc(thread, mn, mx):
                  "reference_index": ref, "num_steps": num}])))
         else:
             mc.add(fst.MakeTrialRotate(fst.args({"particle_type": str(particle_type), "weight": "1.",
-                "tunable_param": "1.", "reference_index": ref, "num_steps": num})))
-            mc.add(fst.MakeTrialTransfer(fst.args({"particle_type": str(particle_type), "weight": "4",
-                "reference_index": ref, "num_steps": num})))
+                "tunable_param": "1."})))
+            mc.add(fst.MakeTrialTransfer(fst.args({"particle_type": str(particle_type), "weight": "4"})))
     mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
     mc.add(fst.MakeTuner(fst.args({"steps_per": str(steps_per), "stop_after_phase": "0"})))
     mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),

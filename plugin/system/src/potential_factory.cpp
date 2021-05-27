@@ -83,9 +83,9 @@ void PotentialFactory::revert(const Select& select) {
   }
 }
 
-void PotentialFactory::finalize(const Select& select) {
+void PotentialFactory::finalize(const Select& select, Configuration * config) {
   for (std::shared_ptr<Potential> potential : potentials_) {
-    potential->finalize(select);
+    potential->finalize(select, config);
   }
 }
 
@@ -124,9 +124,9 @@ void PotentialFactory::unload_cache(const PotentialFactory& factory) {
   }
 }
 
-void PotentialFactory::check() const {
+void PotentialFactory::check(const Configuration& config) const {
   for (const std::shared_ptr<Potential> potential : potentials_) {
-    potential->check();
+    potential->check(config);
   }
 }
 

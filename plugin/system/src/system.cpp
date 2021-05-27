@@ -82,7 +82,8 @@ double System::unoptimized_energy(const int config) {
   ASSERT(!std::isinf(en) && !std::isnan(en),
     "Energy(" << en << ") is infinite or not "
     << "a number. Are particles on top of each other?");
-  unoptimized_.finalize(configurations_[config].selection_of_all());
+  unoptimized_.finalize(configurations_[config].selection_of_all(),
+    &configurations_[config]);
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
   return en;
@@ -184,10 +185,10 @@ void System::finalize(const Select& select, const int config) {
     // finalize removal
     configurations_[config].remove_particles(select);
   }
-  unoptimized_.finalize(select);
-  optimized_.finalize(select);
+  unoptimized_.finalize(select, &configurations_[config]);
+  optimized_.finalize(select, &configurations_[config]);
   for (PotentialFactory& ref : references_) {
-    ref.finalize(select);
+    ref.finalize(select, &configurations_[config]);
   }
 }
 
@@ -204,11 +205,11 @@ void System::revert(const Select& select, const int config) {
   }
 }
 
-void System::check() const {
-  unoptimized_.check();
-  optimized_.check();
+void System::check(const int config) const {
+  unoptimized_.check(configurations_[config]);
+  optimized_.check(configurations_[config]);
   for (const PotentialFactory& ref : references_) {
-    ref.check();
+    ref.check(configurations_[config]);
   }
 }
 

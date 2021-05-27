@@ -106,7 +106,8 @@ class Potential {
   void revert(const Select& select) { visit_model_->revert(select); }
 
   /// Finalize changes to the configuration due to the last energy computation
-  void finalize(const Select& select) { visit_model_->finalize(select); }
+  void finalize(const Select& select, Configuration * config) {
+    visit_model_->finalize(select, config); }
 
   /// Return the cache.
   const Cache& cache() const { return cache_; }
@@ -120,7 +121,7 @@ class Potential {
 
   void synchronize_(const Potential& potential, const Select& perturbed);
 
-  void check() const;
+  void check(const Configuration& config) const;
 
   /// Serialize.
   void serialize(std::ostream& ostr) const;

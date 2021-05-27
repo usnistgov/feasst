@@ -38,7 +38,7 @@ TEST(EnergyMap, energy_map) {
     VisitModel visit(MakeVisitModelInner(map));
     visit.precompute(&config);
     model.compute(&config, &visit);
-    visit.finalize(config.selection_of_all());
+    visit.finalize(config.selection_of_all(), &config);
     const double en_lj_all = -16.790321304625856;
     EXPECT_NEAR(en_lj_all, visit.energy(), NEAR_ZERO);
     //INFO(visit.inner().energy_map().total_energy());

@@ -126,8 +126,8 @@ void Potential::precompute(Configuration * config) {
   }
 }
 
-void Potential::check() const {
-  visit_model_->check();
+void Potential::check(const Configuration& config) const {
+  visit_model_->check(config);
 }
 
 void Potential::serialize(std::ostream& ostr) const {

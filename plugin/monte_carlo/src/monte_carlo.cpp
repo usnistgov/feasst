@@ -81,13 +81,16 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
           ERROR(trial->class_name() << " should use a reference potential "
             << "without Ewald due to multiple stages which complicate revert");
         }
-        if (trial->stage(stage).rosenbluth().num() > 1) {
-          if (trial->description() == "TrialTranslate" ||
-              trial->description() == "TrialRotate") {
-            ERROR(trial->description() << " cannot be used with Ewald and "
-              << "multiple steps.");
-          }
-        }
+      }
+    }
+  }
+
+  // Error check DCCB
+  for (int stage = 0; stage < trial->num_stages(); ++stage) {
+    if (trial->stage(stage).rosenbluth().num() > 1) {
+      if (trial->description() == "TrialTranslate" ||
+          trial->description() == "TrialRotate") {
+        ERROR(trial->description() << " cannot be used with multiple steps.");
       }
     }
   }

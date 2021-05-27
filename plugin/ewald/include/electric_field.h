@@ -43,7 +43,7 @@ class ElectricField : public ModelOneBody {
  private:
   int dimension_;
   double field_strength_;
-  double conversion_factor_;
+  double conversion_factor_ = 0.;
 };
 
 inline std::shared_ptr<ElectricField> MakeElectricField(

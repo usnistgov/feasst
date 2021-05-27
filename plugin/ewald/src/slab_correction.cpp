@@ -165,8 +165,8 @@ void SlabCorrection::compute(ModelOneBody * model,
   finalizable_ = true;
 }
 
-void SlabCorrection::finalize(const Select& select) {
-  VisitModel::finalize(select);
+void SlabCorrection::finalize(const Select& select, Configuration * config) {
+  VisitModel::finalize(select, config);
   dipole_ = dipole_new_;
   *stored_energy_() = stored_energy_new_;
   finalizable_ = false;

@@ -44,9 +44,9 @@ class VisitModelCell : public VisitModel {
       Configuration * config,
       const int group_index) override;
 
-  void finalize(const Select& select) override;
+  void finalize(const Select& select, Configuration * config) override;
 
-  void check() const override;
+  void check(const Configuration& config) const override;
 
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
@@ -60,11 +60,10 @@ class VisitModelCell : public VisitModel {
   Position opt_origin_, opt_rel_, opt_pbc_;
 
   // temporary and not serialized
-  Configuration * config_;
   Select one_site_select_;
   double opt_r2_;
 
-  void position_tracker_(const Select& select);
+  void position_tracker_(const Select& select, Configuration * config);
 };
 
 inline std::shared_ptr<VisitModelCell> MakeVisitModelCell(
