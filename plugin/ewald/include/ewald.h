@@ -10,29 +10,6 @@
 
 namespace feasst {
 
-// HWH Update: use a finalize-heavy instead of revert-heavy strategy
-// This means that new eik are calculated and stored separate from system wide properties,
-// and system-wide only updated upon finalize
-/* HWH
-  This implementation appears to work correctly.
-  However, it is not optimized and will be subject to change in future versions.
-
-  Ewald is not currently supported for use as a reference state for dual-cut
-  configurational bias.
-  While Ewald is supported for use as the full potential for dual-cut
-  configurational bias, Ewald cannot and should not be used as one of the
-  reference states because (1) it is slow and (2) see Ewald::compute() with
-  selections.
-
-  Note to HWH:
-  For reverting, there are a few aspects
-  1. The eik per-site properties are not reverted by the selection, so must be reverted manually
-  2. The structure factor must also be reverted, via perturb->system->potential interface.
-  3. Visitor needs to know if its a 'new' or 'old' configuration ? (what about transfers?)
-
-  HWH: If selection = all, don't do difference
-  HWH: If selection not all (how know? config?) then calc energy first before updating struct.
- */
 /**
   The Ewald summation accounts for the long-range nature of the electrostatic
   interaction by applying a Gaussian screening charge, computing a Fourier-space
@@ -42,6 +19,8 @@ namespace feasst {
   See "Computer simulation of liquids" by M. P. Allen and D. J. Tildesley.
   The LAMMPS and DL_POLY manuals also include thorough descriptions of the Ewald
   summation.
+
+  Ewald is not supported for use as a reference state for dual-cut.
  */
 class Ewald : public VisitModel {
  public:
@@ -69,39 +48,32 @@ class Ewald : public VisitModel {
     https://doi.org/10.1063/1.470043
    */
   void tolerance_to_alpha_ks(
-      /// Estimated tolerance for the energy.
-      /// This is relative to the energy exerted by two unit charges
-      /// separated by a distance of one unit.
-      const double tolerance,
-      const Configuration& config,
-      /// Return the alpha
-      double * alpha,
-      /// Return the maximum number of Fourier vectors in the x dimension.
-      int * kxmax,
-      /// as above but in y
-      int * kymax,
-      /// as above but in z
-      int * kzmax);
+    /// Estimated tolerance for the energy.
+    /// This is relative to the energy exerted by two unit charges
+    /// separated by a distance of one unit.
+    const double tolerance,
+    const Configuration& config,
+    /// Return the alpha
+    double * alpha,
+    /// Return the maximum number of Fourier vectors in the x dimension.
+    int * kxmax,
+    /// as above but in y
+    int * kymax,
+    /// as above but in z
+    int * kzmax);
 
+  // HWH move this to private? (or separate from box changes?)
   /// Precompute the wave vectors within cutoff, coefficients, and also resize
   /// the structure factors.
-  // HWH move this to private? and put within wave vectory storage? (or separate from box changes?)
   void update_wave_vectors(const Configuration& config);
 
-  /// Initialize custom site properties to store wave vector components
-  void init_wave_vector_storage(Configuration * config, const int group_index = 0);
-  void init_wave_vector_storage(Configuration * config, const Select& selection);
-
-  /// Update the site-stored eik properties of the selection, and also the
-  /// structure factor.
+  /// Compute new eiks and update the given structure factor.
   void update_struct_fact_eik(const Select& selection,
                               Configuration * config,
                               std::vector<double> * struct_fact_real,
                               std::vector<double> * struct_fact_imag);
 
-  /// Add "eik" to list of config's excluded properties during selection updates
-  // HWH do the same for VisitModelCell
-  // HWH add init_wave_vector_storage here
+  /// Process tolerance arguments and initialize wave vectors.
   void precompute(Configuration * config) override;
 
   /// Compute interactions of entire group in configuration from scratch.
@@ -126,8 +98,8 @@ class Ewald : public VisitModel {
     For 0, "old", first prepare to return the (previously computed) energy of
     the entire system, and then remove the structure factor contributions of
     the selection, without updating the selection's eik.
-    This assumes that there will be a follow up of exactly one 1, "move"
-    state which will update the eik.
+    This assumes that there will be a follow up of exactly one state 1, "move"
+    which will update the eik.
     Ewald is not currently supported with more than one step in TrialStage.
 
     For 1, "move", eik are updated and their contributions are added to the
@@ -151,9 +123,7 @@ class Ewald : public VisitModel {
 
   void change_volume(const double delta_volume, const int dimension) override;
 
-  void revert(const Select& select) override;
-
-  // HWH refactor Ewald for finalization (e.g., do not enter eiks until finalize?)
+  // update structure factors and eiks based on new calculations.
   void finalize(const Select& select, Configuration * config) override;
 
   int num_vectors() const { return static_cast<int>(wave_prefactor_.size()); }
@@ -171,6 +141,12 @@ class Ewald : public VisitModel {
 
   /// Return the net charge of the configuration.
   double net_charge(const Configuration& config) const;
+
+  // Return the eik vectors directly.
+  const std::vector<std::vector<std::vector<double> > >& eik() {
+    return const_cast<std::vector<std::vector<std::vector<double> > >&>(*eik_()); }
+
+  void synchronize_(const VisitModel& visit, const Select& perturbed) override;
 
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   Ewald(std::istream& istr);
@@ -196,26 +172,21 @@ class Ewald : public VisitModel {
   std::vector<double> * struct_fact_real_();
   std::vector<double> * struct_fact_imag_();
 
+  // new eik implementation, Ewald contains all eik information.
+  // eventually, this should be put in synchrinization data
+  // eik_[particle_index][site_index][eik_index]
+  std::vector<std::vector<std::vector<double> > > * eik_();
   // temporary
+  std::vector<std::vector<std::vector<double> > > eik_new_;
+
+  // not temporary (for sizing)
   std::vector<double> struct_fact_real_new_;
   std::vector<double> struct_fact_imag_new_;
+  // temporary
   double stored_energy_new_ = 0.;
 
   // temporary
-  // HWH not sure this is the best way to store and revert eiks
-  // HWH but a refactor would require argument SelectParticle * select
-  // HWH to put eiks in selection and no longer exclude them from update.
-  std::vector<std::vector<Properties> > old_eiks_;
-  bool revertable_ = false;
   bool finalizable_ = false;
-  Configuration * old_config_;
-  const Select * old_select_;
-
-//  void store_energy_struct_fact_() {
-//    stored_energy_old_ = stored_energy_;
-//    struct_fact_real_old_ = struct_fact_real_;
-//    struct_fact_imag_old_ = struct_fact_imag_;
-//  }
 
   std::vector<std::string> eik_gen_();
 
@@ -251,10 +222,6 @@ class Ewald : public VisitModel {
                          const std::vector<double>& struct_fact_imag);
 
   double sign_(const Select& select, const int pindex);
-
-  // temporary
-  std::string eikrx0_str_ = "eikrx0";
-  int find_eikrx0_(const Site& site);
 };
 
 inline std::shared_ptr<Ewald> MakeEwald(argtype args = argtype()) {

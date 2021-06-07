@@ -262,6 +262,7 @@ void VisitModel::serialize_visit_model_(std::ostream& ostr) const {
   feasst_serialize(energy_, ostr);
   feasst_serialize_fstdr(inner_, ostr);
   feasst_serialize_fstobj(data_, ostr);
+  feasst_serialize_fstobj(manual_data_, ostr);
 }
 
 VisitModel::VisitModel(std::istream& istr) {
@@ -278,6 +279,7 @@ VisitModel::VisitModel(std::istream& istr) {
     }
   }
   feasst_deserialize_fstobj(&data_, istr);
+  feasst_deserialize_fstobj(&manual_data_, istr);
 }
 
 void VisitModel::compute(

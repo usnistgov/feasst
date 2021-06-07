@@ -121,8 +121,9 @@ class VisitModel {
 
   // Synchronize with another object of the same type.
   // Typically used with prefetch.
-  void synchronize_(const VisitModel& visit, const Select& perturbed);
+  virtual void synchronize_(const VisitModel& visit, const Select& perturbed);
   const SynchronizeData& data() const { return data_; }
+  const SynchronizeData& manual_data() const { return manual_data_; }
 
   /// Change the volume.
   virtual void change_volume(const double delta_volume, const int dimension) {}
@@ -152,7 +153,8 @@ class VisitModel {
   void init_relative_(const Domain& domain, Position * relative,
                       Position * pbc);
 
-  SynchronizeData data_;
+  SynchronizeData data_;  // all data is copied at synchronization
+  SynchronizeData manual_data_;  // data is manually copied
 
  private:
   double energy_ = 0.;

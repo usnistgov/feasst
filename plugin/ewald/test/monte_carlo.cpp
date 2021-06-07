@@ -107,6 +107,8 @@ TEST(MonteCarlo, spce_gce_LONG) {
 // Fast test to be run with valgrind
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  //mc.set(spce({{"kmax_squared", "2"}}));
   mc.set(spce());
   mc.get_system()->add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
   const double beta = 1/kelvin2kJpermol(525);
@@ -118,8 +120,10 @@ TEST(MonteCarlo, spce) {
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(5e2)}, {"file_name", "tmp/spce"}}));
+  //mc.add(MakeCheckEnergyAndTune({{"steps_per", "1"}, {"tolerance", str(1e-6)}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(5e2)}, {"tolerance", str(1e-6)}}));
   mc.attempt(1e3);
+  //EXPECT_GT(mc.configuration().num_particles(), 0);
 }
 
 TEST(MonteCarlo, spce_NVT_BENCHMARK_LONG) {

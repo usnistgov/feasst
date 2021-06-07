@@ -105,9 +105,8 @@ class Particle : public PropertiedEntity,
 
   /// Replace the properties of site by index.
   void replace_properties(const int site_index,
-      const Properties& replacement,
-      const std::vector<std::string>& exclude) {
-    sites_[site_index].set_properties(replacement, exclude); }
+      const Properties& replacement) {
+    sites_[site_index].set_properties(replacement); }
 
   /// Add the property of a site.
   void add_site_property(const std::string name,

@@ -9,8 +9,7 @@ namespace feasst {
 
 typedef std::vector<std::vector<std::vector<std::vector<
   std::vector<double> > > > > vec5;
-typedef std::vector<std::vector<std::vector<std::vector<std::vector<
-  std::vector<double> > > > > > vec6;
+typedef std::vector<vec5> vec6;
 typedef std::vector<std::pair<int, std::vector<double> > > vpv;
 typedef std::vector<std::pair<int, vpv> > vpvpv;
 typedef std::vector<std::pair<int, vpvpv> > vpvpvpv;
@@ -44,6 +43,12 @@ class SynchronizeData {
   /// Get 2D data.
   std::vector<std::vector<double> > * get_dble_2D() { return &dble_2D_; }
 
+  /// Return 3D data.
+  const std::vector<std::vector<std::vector<double> > >& dble_3D() const { return dble_3D_; }
+
+  /// Get 3D data.
+  std::vector<std::vector<std::vector<double> > > * get_dble_3D() { return &dble_3D_; }
+
   /// Return 5D data.
   const vec5& dble_5D() const { return dble_5D_; }
 
@@ -75,6 +80,7 @@ class SynchronizeData {
   std::vector<double> dble_1D_;
   std::vector<int64_t> int64_1D_;
   std::vector<std::vector<double> > dble_2D_;
+  std::vector<std::vector<std::vector<double> > > dble_3D_;
   vec5 dble_5D_;
   vec6 dble_6D_;
   vpvpvpvpv vpvpvpvpv_;

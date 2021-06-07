@@ -71,27 +71,6 @@ std::string Properties::str() const {
   return ss.str();
 }
 
-void PropertiedEntity::set_properties(const Properties& properties,
-    const std::vector<std::string>& exclude) {
-  const std::vector<std::string>& name = properties_.names();
-  const std::vector<double>& values = properties.values();
-  ASSERT(name.size() == values.size(),
-    "the same number of properties must exist to equate them");
-  for (int index = 0; index < static_cast<int>(name.size()); ++index) {
-    bool is_not_excl = true;
-    for (const std::string& excl : exclude) {
-      const std::string beginning = name[index].substr(0, excl.size());
-      if (beginning == excl) {
-        is_not_excl = false;
-        DEBUG("excluded " << excl << " " << name[index]);
-      }
-    }
-    if (is_not_excl) {
-      set_property(index, values[index]);
-    }
-  }
-}
-
 bool Properties::is_equal(const Properties& properties,
     const double tolerance) const {
   return feasst::is_equal(values_, properties.values_, tolerance);

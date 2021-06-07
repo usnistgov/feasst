@@ -346,19 +346,15 @@ void Configuration::init_selection_(Select * group_select) const {
 }
 
 void Configuration::update_positions(const Select& select,
-                                     const bool no_wrap,
-                                     const bool no_exclude) {
+                                     const bool no_wrap) {
   int pindex = 0;
   for (int particle_index : select.particle_indices()) {
     int sindex = 0;
     for (int site_index : select.site_indices(pindex)) {
       // DEBUG(select.site_properties()[pindex][sindex].str());
-      const std::vector<std::string> * excluded = &excluded_properties_;
-      if (no_exclude) excluded = &excl_prop_non_usr_;
       replace_properties_(particle_index,
                           site_index,
-                          select.site_properties()[pindex][sindex],
-                          *excluded);
+                          select.site_properties()[pindex][sindex]);
       replace_position_(particle_index,
                         site_index,
                         select.site_positions()[pindex][sindex]);
@@ -547,12 +543,6 @@ bool Configuration::is_equal(const Configuration& configuration,
   return true;
 }
 
-void Configuration::add_excluded_property(const std::string name) {
-  if (!find_in_list(name, excluded_properties_)) {
-    excluded_properties_.push_back(name);
-  }
-}
-
 int Configuration::max_sites_in_any_particle() const {
   int mx = 0;
   for (int type = 0; type < num_particle_types(); ++type) {
@@ -718,7 +708,7 @@ void Configuration::synchronize_(const Configuration& config,
     const Select& perturbed) {
   DEBUG(perturbed.str());
   Select sync_sel(perturbed, config.particles_);
-  update_positions(sync_sel, true, true);
+  update_positions(sync_sel, true);
 //  for (int spindex = 0; spindex < perturbed.num_particles(); ++spindex) {
 //    const int part_index = perturbed.particle_index(spindex);
 //    one_site_select_.set_particle(0, part_index);

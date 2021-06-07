@@ -267,9 +267,7 @@ class Configuration {
   /// Update the positions and properties from a selection.
   void update_positions(const Select& select,
     /// If true, do not wrap. If false, defer to default behavior.
-    const bool no_wrap = false,
-    /// If true, do not exclude properties.
-    const bool no_exclude = false);
+    const bool no_wrap = false);
 
   /// Copy the existing particles in a given config by replacing positions.
   /// Types must match config in the same order.
@@ -426,9 +424,6 @@ class Configuration {
       const int site_index) {
     particles_.set_site_property(index, value, particle_index, site_index); }
 
-  /// Add an property excluded from Configuration::update_positions()
-  void add_excluded_property(const std::string name);
-
   /// Change select to a given particle type.
   void set_particle_type(const int particle_type,
                          const Select& select);
@@ -511,13 +506,8 @@ class Configuration {
   /// Replace properties of site in particle.
   void replace_properties_(const int particle_index,
                            const int site_index,
-                           const Properties& prop,
-                           const std::vector<std::string>& exclude) {
-    particles_.replace_properties(particle_index, site_index, prop, exclude); }
-
-  /// Store the excluded properties used in replace_properties_ (optimization).
-  std::vector<std::string> excluded_properties_;
-  std::vector<std::string> excl_prop_non_usr_ = excluded_properties_;
+                           const Properties& prop) {
+    particles_.replace_properties(particle_index, site_index, prop); }
 
   /// Update position trackers of a particle (e.g., cell, neighbor, etc).
   void position_tracker_(const int particle_index, const int site_index);

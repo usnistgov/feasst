@@ -65,7 +65,7 @@ void PerturbReptate::finalize(System * system) {
     config->set_site_type(part.type(), 0, site_type);
   }
   // HWH this may no longer be necessary now that cells aren't in config
-  config->update_positions(entire, false, true);
+  config->update_positions(entire, false);
 }
 
 }  // namespace feasst

@@ -23,10 +23,11 @@ TEST(Ewald, ewald) {
 
   ModelEmpty model;  // any place holder model is fine because its not used
   model.compute(&config, ewald.get());
-  ewald->finalize(Select(), &config);
+  ewald->finalize(config.selection_of_all(), &config);
   // ewald.update_eik(config.selection_of_all(), &config);
 
-  const std::vector<double> eik = config.particle(0).site(0).properties().values();
+  //const std::vector<double> eik = config.particle(0).site(0).properties().values();
+  const std::vector<double>& eik = ewald->eik()[0][0];
   EXPECT_NEAR(eik[0], 1, NEAR_ZERO);
   EXPECT_NEAR(eik[1], -0.069470287276879206, NEAR_ZERO);
   EXPECT_NEAR(eik[2], -0.99034775837133582, NEAR_ZERO);
@@ -110,6 +111,38 @@ TEST(Ewald, change_volume) {
     system.change_volume(1);
     CATCH_PHRASE("not implemented");
   }
+}
+
+TEST(Ewald, synchronize) {
+  System s1 = spce({{"table_size", str(1e3)}});
+  s1.get_configuration()->add_particle_of_type(0);
+  s1.precompute();
+  s1.energy();
+  System s2 = test_serialize(s1);
+  Select part(0, s1.configuration().particle(0));
+  Position disp({0.5, 0.5, 0.5});
+  s1.get_configuration()->displace_particle(part, disp);
+  s1.energy();
+
+  std::stringstream ss;
+  s1.potential(0).visit_model().serialize(ss);
+  //INFO(ss.str());
+  Ewald ewald1(ss);
+//  INFO(s1.potential(0).visit_model().manual_data().dble_3D().size());
+//  INFO(ewald1.manual_data().dble_3D().size());
+//  std::stringstream ss2;
+
+
+  EXPECT_NEAR(s1.configuration().particle(0).site(0).position().coord(0), 0.5, NEAR_ZERO);
+//  INFO(ewald1.eik().size());
+  EXPECT_NEAR(ewald1.eik()[0][0][2], 0.95105651629515364, NEAR_ZERO);
+  EXPECT_NEAR(s1.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 0.95105651629515364, NEAR_ZERO);
+  EXPECT_NEAR(s2.configuration().particle(0).site(0).position().coord(0), 0., NEAR_ZERO);
+  EXPECT_NEAR(s2.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 1, NEAR_ZERO);
+  s2.synchronize_(s1, part);
+  EXPECT_NEAR(s2.configuration().particle(0).site(0).position().coord(0), 0.5, NEAR_ZERO);
+  EXPECT_NEAR(s1.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 0.95105651629515364, NEAR_ZERO);
+  EXPECT_NEAR(s2.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 0.95105651629515364, NEAR_ZERO);
 }
 
 }  // namespace feasst

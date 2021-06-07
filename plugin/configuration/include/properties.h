@@ -110,11 +110,6 @@ class PropertiedEntity {
   void set_properties(const Properties& properties) {
     properties_ = properties; }
 
-  /// Set the properties.
-  void set_properties(const Properties& properties,
-    /// exclude properties beginning with any characters in exclude
-    const std::vector<std::string>& exclude);
-
   void serialize(std::ostream& ostr) const { properties_.serialize(ostr); }
   explicit PropertiedEntity(std::istream& istr) {
     properties_ = Properties(istr); }
