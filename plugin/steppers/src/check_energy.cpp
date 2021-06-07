@@ -30,6 +30,7 @@ void CheckEnergy::update(Criteria * criteria,
      << "current_energy: " << current_energy << " "
      << "diff: " << energy - current_energy
   );
+  accumulator_.accumulate(energy - current_energy);
   ASSERT(std::abs(energy - current_energy) < tolerance_,
     MAX_PRECISION <<
     "Energy check failure. There is a problem with the potentials. " <<

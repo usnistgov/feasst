@@ -263,6 +263,8 @@ class MonteCarlo {
   bool thermo_params_set_ = false;
   bool system_set_ = false;
   bool criteria_set_ = false;
+
+  bool duplicate_stepper_file_name_(const std::string file_name);
 };
 
 inline std::shared_ptr<MonteCarlo> MakeMonteCarlo() {

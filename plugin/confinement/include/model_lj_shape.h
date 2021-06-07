@@ -13,11 +13,11 @@ class ModelLJShapeEnergyAtCutoff;
 /**
   Note that the input shape of this model represents the shape of the cavity.
 
-  \f$
-  U_{LJ}(r) = \epsilon \left( \frac{\sigma}{r} \right)^\alpha
-  U_{LJ}^{CS}(r) = \left\{
+  \f$U_{LJ}(r) = \epsilon \left( \frac{\sigma}{r} \right)^\alpha\f$
+
+  \f$U_{LJ}^{CS}(r) = \left\{
     \begin{array}{lr}
-      U_{LJ}(r) - U_{LJ}(r_c) & : r < r_c
+      U_{LJ}(r) - U_{LJ}(r_c) & : r < r_c \\
       0 & : r \ge r_c
     \end{array}
   \right. \f$

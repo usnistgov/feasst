@@ -174,8 +174,8 @@ TEST(MonteCarlo, NVT_SRSW) {
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeLogAndMovie({{"steps_per", str(1e3)}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e3)}, {"tolerance", str(1e-9)}}));
   const int nMol = 500;
   const double rho = 1e-3, length = std::pow(static_cast<double>(nMol)/rho, 1./3.);
   mc.get_system()->get_configuration()->set_side_lengths(
@@ -189,6 +189,7 @@ TEST(MonteCarlo, NVT_SRSW) {
   }
   // HWH temperature not set
   DEBUG("pe " << pe.average());
+  EXPECT_LE(mc.modify(0).modify(0).accumulator().average(), 1e-13);
 }
 
 TEST(MonteCarlo, GCMC) {

@@ -119,8 +119,25 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
   // modify_factory_.initialize(criteria_, &system_, &trial_factory_);
 }
 
+bool MonteCarlo::duplicate_stepper_file_name_(const std::string file_name) {
+  if (!file_name.empty()) {
+    for (const std::shared_ptr<Analyze> an : analyze_factory_.analyzers()) {
+      if (an->file_name() == file_name) return true;
+    }
+    for (const std::shared_ptr<Modify> mod : modify_factory_.modifiers()) {
+      if (mod->file_name() == file_name) return true;
+    }
+  }
+  return false;
+}
+
 void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
   ASSERT(criteria_set_, "set Criteria before Analyze");
+  ASSERT(!duplicate_stepper_file_name_(analyze->file_name()),
+    "Analyze " << analyze->class_name() << " should not have the same " <<
+    "file_name as an already existing Stepper file name");
+
+  // process multistate
   DEBUG("class name? " << analyze->class_name());
   if (analyze->is_multistate() && analyze->class_name() != "AnalyzeFactory") {
     int steps_per_write = 1;
@@ -164,6 +181,9 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
 // copied from above
 void MonteCarlo::add(std::shared_ptr<Modify> modify) {
   ASSERT(criteria_set_, "set Criteria before Modify");
+  ASSERT(!duplicate_stepper_file_name_(modify->file_name()),
+    "Modify " << modify->class_name() << " should not have the same " <<
+    "file_name as an already existing Stepper file name");
   DEBUG("class name? " << modify->class_name());
   if (modify->is_multistate() && modify->class_name() != "ModifyFactory") {
     int steps_per_write = 1;
