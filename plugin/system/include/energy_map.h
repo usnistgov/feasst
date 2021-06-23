@@ -107,7 +107,7 @@ class EnergyMap {
     /// If 1, use newly computed map.
     const int new_map = 0) const;
 
-  virtual void check() const {}
+  virtual void check(const Configuration& config) const {}
 
   //virtual const std::vector<double>& map(const int part1, const int part2,
   //  const int site1, const int site2) const;

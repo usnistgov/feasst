@@ -88,9 +88,9 @@ void TrialStage::attempt(System * system,
     rosenbluth_.compute(system->thermo_params().beta(), random, old);
     DEBUG("old " << old << " num " << rosenbluth_.num());
     if (old != 1) {
-      if (select_->is_ghost()) {
-        system->get_configuration()->revive(rosenbluth_.stored(0));
-      }
+//      if (select_->is_ghost()) {
+//        system->get_configuration()->revive(rosenbluth_.stored(0));
+//      }
       if (rosenbluth_.chosen_step() != -1) {
         DEBUG("updating positions " << rosenbluth_.chosen().str());
         DEBUG("pos0 " << rosenbluth_.chosen().site_positions()[0][0].str());

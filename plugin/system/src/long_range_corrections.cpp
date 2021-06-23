@@ -40,6 +40,11 @@ void LongRangeCorrections::compute(
   DEBUG("sel: " << selection.str());
   DEBUG("num sites of type in selection: " << feasst_str(select_types_));
   double en = 0.;
+  double factor = -1;
+  DEBUG(selection.trial_state());
+  if (selection.trial_state() == 3) {
+    factor = 1.;
+  }
   for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
     DEBUG("type1 " << type1);
     const double num_type1 = num_of_site_type_[type1];
@@ -54,8 +59,8 @@ void LongRangeCorrections::compute(
       DEBUG("num_type2 " << num_type2);
       DEBUG("num_type2_sel " << num_type2_sel);
       en += (num_type1*num_type2_sel +
-             num_type1_sel*num_type2 -
-             num_type1_sel*num_type2_sel)
+             num_type1_sel*num_type2 +
+             factor*num_type1_sel*num_type2_sel)
         *energy_(type1, type2, config, model_params);
     }
   }

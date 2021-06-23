@@ -193,10 +193,6 @@ void System::finalize(const Select& select, const int config) {
 }
 
 void System::revert(const Select& select, const int config) {
-  if (select.trial_state() == 3) {
-    // revert addition
-    configurations_[config].remove_particles(select);
-  }
   DEBUG("ref_used_last_ " << ref_used_last_);
   if (ref_used_last_ != -1) {
     references_[ref_used_last_].revert(select);

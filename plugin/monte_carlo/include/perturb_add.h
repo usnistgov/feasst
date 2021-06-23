@@ -12,8 +12,15 @@ namespace feasst {
  */
 class PerturbAdd : public Perturb {
  public:
+  /**
+    args:
+    - delay_add: If true, don't add particle until finalize (default: true).
+   */
   explicit PerturbAdd(argtype args = argtype());
   explicit PerturbAdd(argtype * args);
+
+  /// Return if the particle isn't added until finalized.
+  bool delay_add() const { return delay_add_; }
 
   //initialize ghost selection in TrialSelect?
   void precompute(TrialSelect * select, System * system) override {
@@ -47,6 +54,8 @@ class PerturbAdd : public Perturb {
   virtual ~PerturbAdd() {}
 
  private:
+  bool delay_add_;
+
   // temporary
   Position empty_;
   PerturbAnywhere anywhere_;

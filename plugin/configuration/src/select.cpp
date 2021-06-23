@@ -391,6 +391,16 @@ void Select::set_trial_state(const int state) {
   trial_state_ = state;
 }
 
+bool Select::has_positions() const {
+  const int num_sites = site_indices_.size();
+  TRACE("num_sites " << num_sites);
+  TRACE("nump " << site_positions_.size());
+  if (num_sites == 0 || num_sites == static_cast<int>(site_positions_.size())) {
+    return true;
+  }
+  return false;
+}
+
 void Select::serialize(std::ostream& sstr) const {
   feasst_serialize_version(183, sstr);
   feasst_serialize(particle_indices_, sstr);

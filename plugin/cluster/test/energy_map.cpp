@@ -51,7 +51,7 @@ TEST(EnergyMap, energy_map) {
                   visit.inner().energy_map().total_energy(),
                   1e-13);
     }
-    visit.inner().energy_map().check();
+    visit.inner().energy_map().check(config);
     // find neighbors within 3 of first particle manually
     std::vector<int> neighs, neighs_rcut = {1, 5, 8, 11, 14, 25};
     // {1, 4, 5, 8, 9, 11, 13, 14, 15, 21, 25, 27, 28}; // rcut 3

@@ -26,7 +26,7 @@ void PerturbMove::revert(System * system) {
       // don't wrap if reverting
       false);
     DEBUG("mobile orig " << revert_select()->mobile_original().str());
-    system->revert(revert_select()->mobile_original());
+    //system->revert(revert_select()->mobile_original());
   }
 }
 

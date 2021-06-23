@@ -117,7 +117,7 @@ class VisitModel {
     inner_->precompute(config); }
 
   virtual void check(const Configuration& config) const {
-    inner_->check(); }
+    inner_->check(config); }
 
   // Synchronize with another object of the same type.
   // Typically used with prefetch.

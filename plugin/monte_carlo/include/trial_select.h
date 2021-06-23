@@ -88,9 +88,6 @@ class TrialSelect {
   /// particles of that type.
   double probability() const { return probability_; }
 
-  /// Set the probability of selection.
-  void set_probability(const double prob = 1) { probability_ = prob; }
-
   /// Call after old configuration but before new.
   virtual void mid_stage() {}
 
@@ -146,6 +143,9 @@ class TrialSelect {
   Select mobile_;
   Select anchor_;
   std::map<std::string, Accumulator> printable_;
+
+  /// Set the probability of selection.
+  void set_probability_(const double prob = 1) { probability_ = prob; }
 
   void serialize_trial_select_(std::ostream& ostr) const;
   TrialSelect(std::istream& istr);

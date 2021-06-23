@@ -76,7 +76,7 @@ bool SelectCluster::select(const Select& perturbed,
   const int num = select_particle_->random_particle(config, &first_node, random);
   if (num <= 0) return false;
   const int first_particle = first_node.particle_index(0);
-  set_probability(1./static_cast<double>(num));
+  set_probability_(1./static_cast<double>(num));
   select_cluster(first_particle, *system);
   printable_["cluster_size"].accumulate(mobile_.num_particles());
   remove_unphysical_sites(config);

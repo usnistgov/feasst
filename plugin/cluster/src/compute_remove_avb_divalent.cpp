@@ -70,7 +70,6 @@ void ComputeRemoveAVBDivalent::perturb_and_acceptance(
   const double volume_av = neighbor.volume(config.dimension());
 //  DEBUG("num_neigh " << num_neigh);
   const double volume = config.domain().volume();
-  //set_probability(volume_av/static_cast<double>(num_neighbors + 1 + delta_ab));
   const ThermoParams& params = system->thermo_params();
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   acceptance->add_to_ln_metropolis_prob(

@@ -41,7 +41,7 @@ class EnergyMapAll : public EnergyMap {
     const int given_site_index,
     Select * neighbors,
     const int new_map = 0) const override;
-  void check() const override;
+  void check(const Configuration& config) const override;
   void synchronize_(const EnergyMap& map, const Select& perturbed) override;
 
   // serialization

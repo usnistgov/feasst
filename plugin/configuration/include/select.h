@@ -167,6 +167,9 @@ class Select {
   /// Construct with positions.
   Select(const int particle_index, const Particle& particle);
 
+  /// Return true if select has positions.
+  bool has_positions() const;
+
   // HWH move this to private to perform upon load_positions
   void resize_positions();
 

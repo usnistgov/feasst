@@ -68,7 +68,7 @@ bool SelectParticleAVBDivalent::select(const Select& perturbed,
     mobile_.set_particle(0,
       random->const_element(neighbors_.particle_indices()));
     const double volume_av = neighbor.volume(config.dimension());
-    set_probability(num_neigh/volume_av);
+    set_probability_(num_neigh/volume_av);
   }
   DEBUG("probability: " << probability());
   DEBUG("mobile: " << mobile_.str());

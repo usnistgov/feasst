@@ -52,10 +52,11 @@ inline void test_revert(System * system) {
   add.precompute(tsel_ghost.get(), system);
   tsel_ghost->sel(system, random.get());
   add.add(system, tsel_ghost.get(), random.get(), position);
-  EXPECT_EQ(system->configuration().num_particles(), 3);
-  const double tri_distance = sqrt(1.25*1.25 + 1.25*1.25);
-  const double peTri = 4*(pow(tri_distance, -12) - pow(tri_distance, -6));
-  EXPECT_NEAR(2*pe_original + peTri, system->energy(), NEAR_ZERO);
+  EXPECT_EQ(system->configuration().num_particles(), 2);
+//  const double tri_distance = sqrt(1.25*1.25 + 1.25*1.25);
+//  const double peTri = 4*(pow(tri_distance, -12) - pow(tri_distance, -6));
+//  EXPECT_NEAR(2*pe_original + peTri, system->energy(), NEAR_ZERO);
+  EXPECT_NEAR(pe_original, system->energy(), NEAR_ZERO);
 
 //  if (inner->is_energy_map_queryable()) {
 //    EXPECT_NEAR(2.*pe_original + peTri, inner->energy_map()->total_energy(), 10*NEAR_ZERO);
@@ -99,7 +100,8 @@ inline void test_revert(System * system) {
   tsel_ghost->sel(system, random.get());
   add.perturb(system, tsel_ghost.get(), random.get());
   const double en2 = system->energy();
-  system->finalize(tsel_ghost->mobile());
+  add.finalize(system);
+  //system->finalize(tsel_ghost->mobile());
   EXPECT_EQ(2, system->configuration().num_particles());
   EXPECT_GT(std::abs(en2 - pe_original), NEAR_ZERO);
 //  INFO("en2 " << en2);

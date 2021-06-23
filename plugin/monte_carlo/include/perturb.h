@@ -92,12 +92,6 @@ class Perturb {
   /// Finalize the system for an accepted perturbation.
   virtual void finalize(System * system);
 
-  /// Return the probability.
-  double probability() const { return probability_; }
-
-  /// Set the probability.
-  void set_probability(const double prob = 1) { probability_ = prob; }
-
   /// Print status header.
   virtual std::string status_header() const;
 

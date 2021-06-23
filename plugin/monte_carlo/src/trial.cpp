@@ -96,6 +96,7 @@ void Trial::revert(System * system) {
   for (int index = num_stages() - 1; index >= 0; --index) {
     stages_[index]->revert(system);
   }
+  system->revert(acceptance_.perturbed());
 }
 
 void Trial::revert(const int index,
@@ -116,7 +117,9 @@ void Trial::finalize(System * system) {
   for (int index = num_stages() - 1; index >= 0; --index) {
     stages_[index]->finalize(system);
   }
+  DEBUG("finalize perturbed");
   system->finalize(acceptance_.perturbed());
+  DEBUG("done finalizing perturbed");
 }
 
 bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
@@ -126,6 +129,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   DEBUG("num particles: " << system->configuration().num_particles());
   DEBUG("num ghosts: " << system->configuration().particles().num() -
                          system->configuration().num_particles());
+  DEBUG("existing: " << system->configuration().group_select(0).str());
   DEBUG("num of type 0: " << system->configuration().num_particles_of_type(0));
   DEBUG("current_energy: " << criteria->current_energy());
   DEBUG("all: " << system->configuration().selection_of_all().str());

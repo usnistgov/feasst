@@ -535,7 +535,7 @@ double EnergyMapNeighbor::total_energy() const {
   return 0.5*en;
 }
 
-void EnergyMapNeighbor::check() const {
+void EnergyMapNeighbor::check(const Configuration& config) const {
   // see if all neighbors are double counted
   for (int part1 = 0; part1 < static_cast<int>(const_map_().size()); ++part1) {
     const map4type& m4 = const_map_()[part1];

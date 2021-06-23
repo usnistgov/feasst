@@ -35,9 +35,11 @@ std::shared_ptr<Trial> MakeTrialRotate(argtype args) {
 std::shared_ptr<Trial> MakeTrialAdd(argtype args) {
   auto trial = std::make_shared<Trial>(&args);
   trial->set_description("TrialAdd");
+  auto perturb = std::make_shared<PerturbAdd>(&args);
+  ASSERT(perturb->delay_add(), "TrialComputeAdd assumes delay_add is true");
   trial->add_stage(
     std::make_shared<TrialSelectParticle>(&args),
-    std::make_shared<PerturbAdd>(&args),
+    perturb,
     &args);
   trial->set(std::make_shared<TrialComputeAdd>(&args));
   check_all_used(args);

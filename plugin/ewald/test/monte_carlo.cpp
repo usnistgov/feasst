@@ -108,8 +108,8 @@ TEST(MonteCarlo, spce_gce_LONG) {
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  //mc.set(spce({{"kmax_squared", "2"}}));
   mc.set(spce());
+  //mc.set(spce());
   mc.get_system()->add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
   const double beta = 1/kelvin2kJpermol(525);
   mc.set(MakeThermoParams({
@@ -147,7 +147,9 @@ TEST(MonteCarlo, spce_NVT_BENCHMARK_LONG) {
 TEST(MonteCarlo, rpm) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "123"}})); WARN("temporary");
   mc.set(rpm({{"cubic_box_length", "20"}}));
+  //mc.set(rpm({{"cubic_box_length", "20"}, {"kmax_squared", "3"}})); WARN("temp");
   { Configuration * config = mc.get_system()->get_configuration();
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);

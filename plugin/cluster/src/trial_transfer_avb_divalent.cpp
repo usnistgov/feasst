@@ -30,9 +30,12 @@ std::shared_ptr<Trial> MakeTrialAddAVBDivalent(argtype args) {
   argtype sel0_args, parsed_args = args;
   sel0_args.insert({"ghost", "true"});
   sel0_args.insert({"particle_type", particle_type});
+  parsed_args.insert({"delay_add", "false"});
+  auto perturb0 = std::make_shared<PerturbAdd>(&parsed_args);
+  ASSERT(!perturb0->delay_add(), "ComputeAddAVBDivalent assumes not delay_add");
   trial->add_stage(
     MakeTrialSelectParticle(sel0_args),
-    std::make_shared<PerturbAdd>(&parsed_args),
+    perturb0,
     &parsed_args);
   check_all_used(parsed_args);
 
@@ -42,9 +45,12 @@ std::shared_ptr<Trial> MakeTrialAddAVBDivalent(argtype args) {
   sel1_args.insert({"ghost", "true"});
   sel1_args.insert({"particle_type", particle_type_a});
   sel1_args.insert({"neighbor_index", neighbor});
+  parsed_args.insert({"delay_add", "false"});
+  auto perturb1 = std::make_shared<PerturbAddAVB>(&parsed_args);
+  ASSERT(!perturb1->delay_add(), "ComputeAddAVBDivalent assumes not delay_add");
   trial->add_stage(
     MakeSelectParticleAVBDivalent(sel1_args),
-    std::make_shared<PerturbAddAVB>(&parsed_args),
+    perturb1,
     &parsed_args);
   check_all_used(parsed_args);
 
@@ -54,9 +60,12 @@ std::shared_ptr<Trial> MakeTrialAddAVBDivalent(argtype args) {
   sel2_args.insert({"ghost", "true"});
   sel2_args.insert({"particle_type", particle_type_b});
   sel2_args.insert({"neighbor_index", neighbor});
+  parsed_args.insert({"delay_add", "false"});
+  auto perturb2 = std::make_shared<PerturbAddAVB>(&parsed_args);
+  ASSERT(!perturb2->delay_add(), "ComputeAddAVBDivalent assumes not delay_add");
   trial->add_stage(
     MakeSelectParticleAVBDivalent(sel2_args),
-    std::make_shared<PerturbAddAVB>(&parsed_args),
+    perturb2,
     &parsed_args);
   check_all_used(parsed_args);
 

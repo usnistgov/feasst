@@ -74,12 +74,15 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
 
   // Error check Ewald
   for (const std::shared_ptr<Potential> pot : system_.potentials().potentials()) {
-    if (pot->visit_model().class_name() == "Ewald") {
+    if (pot->visit_model().class_name() == "Ewald" ||
+        pot->visit_model().class_name() == "LongRangeCorrections") {
       for (int stage = 0; stage < trial->num_stages(); ++stage) {
-        // Require reference potentials for multi-stage trials with Ewald.
+        // Require reference potentials for multi-stage trials.
         if (trial->num_stages() > 1 && trial->stage(stage).reference() == -1) {
-          ERROR(trial->class_name() << " should use a reference potential "
-            << "without Ewald due to multiple stages which complicate revert");
+          ERROR(trial->class_name() << " " << trial->description()
+            << " should use a reference potential "
+            << "without Ewald or LongRangeCorrections due to multiple stages "
+            << "which complicate revert");
         }
       }
     }

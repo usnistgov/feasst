@@ -41,7 +41,7 @@ bool TrialSelectBond::select(const Select& perturbed,
   int particle_index = -1;
   if (perturbed.num_sites() > 0) {
     particle_index = perturbed.particle_indices().back();
-    set_probability(1.);
+    set_probability_(1.);
   } else {
     // select random particle of correct type
     const int group_index = config->particle_type_to_group_create(particle_type());
@@ -50,7 +50,7 @@ bool TrialSelectBond::select(const Select& perturbed,
     const int index = random->uniform(0, num - 1);
     const Select& select = config->group_select(group_index);
     particle_index = select.particle_index(index);
-    set_probability(1./static_cast<double>(num));
+    set_probability_(1./static_cast<double>(num));
   }
   mobile_.set_particle(0, particle_index);
   anchor_.set_particle(0, particle_index);

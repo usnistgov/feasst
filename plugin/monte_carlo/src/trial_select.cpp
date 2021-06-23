@@ -26,7 +26,7 @@ TrialSelect::TrialSelect(argtype * args) {
     }
   }
 
-  set_probability();
+  set_probability_();
 }
 
 int TrialSelect::particle_type() const {

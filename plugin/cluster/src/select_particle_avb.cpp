@@ -148,18 +148,18 @@ bool SelectParticleAVB::select(const Select& perturbed,
   if (is_ghost() && grand_canonical_ && inside_ && !is_second_target_) {
     select_mobile_.ghost_particle(
       system->get_configuration(), &empty_, &mobile_);
-    set_probability(volume_av/static_cast<double>(num_neighbors + 1));
+    set_probability_(volume_av/static_cast<double>(num_neighbors + 1));
     if (target_mobile_same_type_) {
       // ghost will be added during perturb. Not yet added, so n/(n+1) factor.
-      set_probability(probability()
+      set_probability_(probability()
         *static_cast<double>(num)/static_cast<double>(num + 1));
     }
 
   // GCE remove
   } else if (!is_ghost() && grand_canonical_ && inside_ && !is_second_target_) {
-    set_probability(static_cast<double>(num_neighbors)/volume_av);
+    set_probability_(static_cast<double>(num_neighbors)/volume_av);
     if (target_mobile_same_type_) {
-      set_probability(probability()
+      set_probability_(probability()
         *static_cast<double>(num)/static_cast<double>(num - 1));
     }
 
@@ -179,14 +179,14 @@ bool SelectParticleAVB::select(const Select& perturbed,
       --num_out;
     }
     // ComputeAVB2 will add p_bias term
-    set_probability(static_cast<double>(num_neighbors)
+    set_probability_(static_cast<double>(num_neighbors)
       /static_cast<double>(num_out + 1)
       *volume_out/volume_av);
 
   // AVB2 out->in
   } else if (!is_ghost() && !grand_canonical_ && !inside_ && !is_second_target_) {
     // ComputeAVB2 will add p_bias term
-    set_probability(static_cast<double>(num_out)
+    set_probability_(static_cast<double>(num_out)
       /static_cast<double>(num_neighbors + 1)
       *volume_av/volume_out);
 
@@ -205,7 +205,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
                      neighbors_.particle_indices())) {
       mobile_not_in_both_targets_ = 0;
     }
-    set_probability(static_cast<double>(num_neighbors)
+    set_probability_(static_cast<double>(num_neighbors)
       /static_cast<double>(neighbors_.num_particles() +
                            mobile_not_in_both_targets_));
 

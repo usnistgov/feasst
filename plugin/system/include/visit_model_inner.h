@@ -104,9 +104,9 @@ class VisitModelInner {
 
   bool is_energy_map_queryable() const;
 
-  void check() const {
+  void check(const Configuration& config) const {
     if (energy_map_) {
-      energy_map_->check();
+      energy_map_->check(config);
     }
   }
 

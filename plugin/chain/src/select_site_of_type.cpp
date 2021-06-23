@@ -101,7 +101,7 @@ bool SelectSiteOfType::select(const Select& perturbed,
     &mobile_,
     random);
   if (num <= 0) return false;
-  set_probability(1./static_cast<double>(num));
+  set_probability_(1./static_cast<double>(num));
   mobile_original_ = mobile_;
   return true;
 }

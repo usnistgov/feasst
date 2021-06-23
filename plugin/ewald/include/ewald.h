@@ -69,9 +69,10 @@ class Ewald : public VisitModel {
 
   /// Compute new eiks and update the given structure factor.
   void update_struct_fact_eik(const Select& selection,
-                              Configuration * config,
-                              std::vector<double> * struct_fact_real,
-                              std::vector<double> * struct_fact_imag);
+    const Configuration& config,
+    std::vector<double> * struct_fact_real,
+    std::vector<double> * struct_fact_imag,
+    std::vector<std::vector<std::vector<double> > > * eik_new) const;
 
   /// Process tolerance arguments and initialize wave vectors.
   void precompute(Configuration * config) override;
@@ -143,8 +144,11 @@ class Ewald : public VisitModel {
   double net_charge(const Configuration& config) const;
 
   // Return the eik vectors directly.
-  const std::vector<std::vector<std::vector<double> > >& eik() {
-    return const_cast<std::vector<std::vector<std::vector<double> > >&>(*eik_()); }
+  const std::vector<std::vector<std::vector<double> > >& eik() const {
+    //return const_cast<std::vector<std::vector<std::vector<double> > >&>(*eik_()); }
+    return manual_data_.dble_3D(); }
+
+  void check(const Configuration& config) const;
 
   void synchronize_(const VisitModel& visit, const Select& perturbed) override;
 
@@ -221,7 +225,9 @@ class Ewald : public VisitModel {
   double fourier_energy_(const std::vector<double>& struct_fact_real,
                          const std::vector<double>& struct_fact_imag);
 
-  double sign_(const Select& select, const int pindex);
+  double sign_(const Select& select, const int pindex) const;
+
+  void resize_eik_(const Configuration& config);
 };
 
 inline std::shared_ptr<Ewald> MakeEwald(argtype args = argtype()) {

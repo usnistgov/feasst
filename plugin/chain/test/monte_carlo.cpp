@@ -106,6 +106,7 @@ TEST(MonteCarlo, TrialGrow) {
 //    mc.set(MakeRandomMT19937({{"seed", "123"}}));
     mc.set(lennard_jones({{"cubic_box_length", str(box_length)},
                           {"particle", data}}));
+    mc.add_to_reference(MakePotential(MakeLennardJones()));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
     mc.set(MakeMetropolis());
     SeekNumParticles(3)
@@ -126,7 +127,7 @@ TEST(MonteCarlo, TrialGrow) {
        {"mobile_site", "2"},
        {"anchor_site", "0"},
        {"anchor_site2", "1"}});
-    mc.add(MakeTrialGrow(grow_args, {{"num_steps", "4"}}));
+    mc.add(MakeTrialGrow(grow_args, {{"num_steps", "4"}, {"reference_index", "0"}}));
     EXPECT_EQ(4, mc.trial(0).stage(0).rosenbluth().num());
     EXPECT_EQ(5, mc.trial(0).stage(1).rosenbluth().num());
     mc.add(MakeLogAndMovie({{"steps_per", str(1e0)}, {"file_name", "tmp/lj"}}));
@@ -328,7 +329,7 @@ TEST(MonteCarlo, multisite_neighbors) {
   mc.add(MakeLogAndMovie({{"steps_per", "100"}, {"file_name", "tmp/dimer"}}));
   for (int i = 0; i < 1e1; ++i) {
     mc.attempt(1);
-    neigh->check();
+    neigh->check(mc.configuration());
   }
   EXPECT_NEAR(mc.criteria().current_energy(), neigh->total_energy(), 1e-12);
 }

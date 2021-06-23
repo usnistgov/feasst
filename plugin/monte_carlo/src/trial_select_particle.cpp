@@ -174,7 +174,7 @@ bool TrialSelectParticle::select(const Select& perturbed,
     } else {
       ghost_particle(system->get_configuration(), &mobile_);
     }
-    set_probability(1.);
+    set_probability_(1.);
   } else {
     int num = -1;
     if (exclude_perturbed_) {
@@ -185,7 +185,7 @@ bool TrialSelectParticle::select(const Select& perturbed,
     }
     DEBUG("num " << num);
     if (num <= 0) return false;
-    set_probability(1./static_cast<double>(num));
+    set_probability_(1./static_cast<double>(num));
   }
   DEBUG("selected " << mobile_.str());
   remove_unphysical_sites(system->configuration());

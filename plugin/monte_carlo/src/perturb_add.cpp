@@ -8,6 +8,7 @@ PerturbAdd::PerturbAdd(argtype args) : PerturbAdd(&args) {
 }
 PerturbAdd::PerturbAdd(argtype * args) : Perturb(args) {
   class_name_ = "PerturbAdd";
+  delay_add_ = boolean("delay_add", args, true);
   disable_tunable_();
 }
 
@@ -34,9 +35,7 @@ void PerturbAdd::add(
   DEBUG("is_position_held " << is_position_held);
   DEBUG(select->mobile().str());
   Configuration* config = system->get_configuration();
-  config->revive(select->mobile());
-
-  // obtain probability
+  if (!delay_add_) config->revive(select->mobile());
   const int particle_type = config->select_particle(
     select->mobile().particle_index(0)
   ).type();
@@ -44,9 +43,6 @@ void PerturbAdd::add(
   for (const Select& ghost : config->ghosts()) {
     DEBUG("ghost " << ghost.str());
   }
-  select->set_probability(
-    1./static_cast<double>(config->num_particles_of_type(particle_type)));
-
   if (center.dimension() == 0) {
     anywhere_.perturb(system, select, random, is_position_held);
   } else {
@@ -63,16 +59,23 @@ void PerturbAdd::add(
 void PerturbAdd::revert(System * system) {
   DEBUG("revert_possible " << revert_possible());
   if (revert_possible()) {
-    DEBUG(revert_select()->mobile().str());
-    DEBUG("nump " << system->configuration().num_particles());
-    system->revert(revert_select()->mobile());
+//    DEBUG(revert_select()->mobile().str());
+//    DEBUG("nump " << system->configuration().num_particles());
+//    system->revert(revert_select()->mobile());
+    if (!delay_add_) {
+      system->get_configuration()->remove_particles(revert_select()->mobile());
+    }
   }
 }
 
 void PerturbAdd::finalize(System * system) {
   DEBUG("finalize_possible " << finalize_possible());
   if (finalize_possible()) {
-    //system->finalize(finalize_select()->mobile());
+//    INFO("finalizing mobile " << finalize_select()->mobile().str());
+//    system->finalize(finalize_select()->mobile());
+    if (delay_add_) {
+      system->get_configuration()->revive(finalize_select()->mobile());
+    }
   }
 }
 
@@ -91,12 +94,14 @@ PerturbAdd::PerturbAdd(std::istream& istr)
   ASSERT(class_name_ == "PerturbAdd", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(730 == version, "mismatch version: " << version);
+  feasst_deserialize(&delay_add_, istr);
 }
 
 void PerturbAdd::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_(ostr);
   feasst_serialize_version(730, ostr);
+  feasst_serialize(delay_add_, ostr);
 }
 
 }  // namespace feasst

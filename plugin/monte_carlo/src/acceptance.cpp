@@ -1,7 +1,13 @@
+#include <cmath>
 #include "utils/include/debug.h"
 #include "monte_carlo/include/acceptance.h"
 
 namespace feasst {
+
+double Acceptance::ln_metropolis_prob() const {
+  ASSERT(!std::isinf(ln_metropolis_prob_), "ln_metropolis_prob_ is inf");
+  return ln_metropolis_prob_;
+}
 
 void Acceptance::reset() {
   set_ln_metropolis_prob();

@@ -37,6 +37,7 @@ TrialMorphExpanded::TrialMorphExpanded(
     bool add = false;
     bool remove = false;
     int num_removed = 0;
+    int num_added = 0;
     int noskipgstage = 0;
     int noskipsstage = 0;
     for (int stage = 0; stage < static_cast<int>(seq.size()); ++stage) {
@@ -47,6 +48,7 @@ TrialMorphExpanded::TrialMorphExpanded(
         if (step > 0) ptypem1 = grow_seq[step-1][stage];
         if (ptypem1 == -1) {
           add = true;
+          ++num_added;
           grow_args.insert({"particle_type" + str(noskipgstage), str(ptype0)});
         } else {
           ASSERT(!add, "cant have add and morph in same stage");
@@ -86,6 +88,7 @@ TrialMorphExpanded::TrialMorphExpanded(
       }
     }
     if (add) {
+      grow_args.insert({"shift", str(num_added)});
       DEBUG(str(grow_args));
       grow_.push_back(MakeTrialAddMultiple(grow_args));
       DEBUG(str(grow_args));

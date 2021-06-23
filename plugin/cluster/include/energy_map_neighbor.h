@@ -50,7 +50,7 @@ class EnergyMapNeighbor : public EnergyMap {
   void revert(const Select& select) override;
   void finalize(const Select& select) override;
   double total_energy() const override;
-  void check() const override;
+  void check(const Configuration& config) const override;
   void select_cluster(const NeighborCriteria& neighbor_criteria,
                       const Configuration& config,
                       const int particle_node,

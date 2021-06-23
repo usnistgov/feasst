@@ -16,6 +16,14 @@ bool used(const std::string& key, const argtype& args) {
   return false;
 }
 
+std::string str(const std::string& key, const argtype& args) {
+  auto pair = args.find(key);
+  if (pair != args.end()) {
+    return pair->second;
+  }
+  return std::string();
+}
+
 std::string str(const std::string& key, argtype * args) {
   auto pair = args->find(key);
   ASSERT(pair != args->end(), "key(" << key << ") is required for args but " <<

@@ -8,16 +8,20 @@ namespace feasst {
 
 // HWH optimize -> update cell list in finalize only?
 /**
-  Add a particle to the system.
+  Add a particle within the AV of an existing particle.
  */
 class PerturbAddAVB : public Perturb {
  public:
   /**
     args:
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
+    - delay_add: If true, don't add particle until finalize (default: true).
    */
   PerturbAddAVB(argtype args = argtype());
   PerturbAddAVB(argtype * args);
+
+  /// Return if the particle isn't added until finalized.
+  bool delay_add() const { return delay_add_; }
 
   void precompute(TrialSelect * select, System * system) override {
     select->set_ghost(true); }
@@ -40,6 +44,7 @@ class PerturbAddAVB : public Perturb {
   virtual ~PerturbAddAVB() {}
 
  private:
+  bool delay_add_;
   std::shared_ptr<PerturbMoveAVB> move_;
 };
 

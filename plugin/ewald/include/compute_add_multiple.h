@@ -67,7 +67,12 @@ If the new state is the perspective,
  */
 class ComputeAddMultiple : public TrialCompute {
  public:
-  ComputeAddMultiple();
+  /**
+    args:
+    - shift: macrostate shift (default: -1).
+   */
+  explicit ComputeAddMultiple(argtype args = argtype());
+  explicit ComputeAddMultiple(argtype * args);
 
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -84,6 +89,7 @@ class ComputeAddMultiple : public TrialCompute {
 
  protected:
   void serialize_compute_add_multiple_(std::ostream& ostr) const;
+  int shift_;
 
  private:
   std::vector<int> delta_;

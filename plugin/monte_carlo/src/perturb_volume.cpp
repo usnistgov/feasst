@@ -56,7 +56,7 @@ void PerturbVolume::revert(System * system) {
   if (revert_possible()) {
     DEBUG(revert_select()->mobile().str());
     DEBUG("nump " << system->configuration().num_particles());
-    system->revert(revert_select()->mobile());
+//    system->revert(revert_select()->mobile());
     change_volume(-volume_change_, system, revert_select()->mobile());
   }
 }

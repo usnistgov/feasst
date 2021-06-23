@@ -15,7 +15,7 @@ class Acceptance {
   Acceptance() { reset(); }
 
   /// Return the natural logarithm of the Metropolis acceptance probability.
-  double ln_metropolis_prob() const { return ln_metropolis_prob_; }
+  double ln_metropolis_prob() const;
 
   /// Set the above quantity.
   void set_ln_metropolis_prob(const double prob = 0) {

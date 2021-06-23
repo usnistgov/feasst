@@ -99,6 +99,8 @@ GDB or LLDB: Debugging
 
 gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces.
 The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
+Often, the optimization flags (e.g., -O3) can obfuscate the backtrace.
+If that is the case, recompile without optimization (using cmake).
 
 In bash
 

@@ -30,6 +30,7 @@ void ComputeAddAVB::perturb_and_acceptance(
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
+  acceptance->add_to_macrostate_shift(1);
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   DEBUG("old en " << criteria->current_energy());
   DEBUG("new en " << MAX_PRECISION << acceptance->energy_new());
@@ -38,6 +39,7 @@ void ComputeAddAVB::perturb_and_acceptance(
     const TrialSelect& select = (*stages)[0]->trial_select();
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
+    acceptance->set_macrostate_shift_type(particle_type);
     const ThermoParams& params = system->thermo_params();
     DEBUG("selprob " << select.probability() << " betamu " << params.beta_mu(particle_type));
     DEBUG("lnselprob " << std::log(select.probability()));

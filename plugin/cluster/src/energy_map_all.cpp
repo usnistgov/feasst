@@ -71,23 +71,25 @@ void EnergyMapAll::resize_(
 }
 
 void EnergyMapAll::revert(const Select& select) {
-  const int pmax = select.particle_indices().back();
-  const int smax = select.site_indices().back().back();
-  resize_(pmax, smax, pmax, smax);
-  for (int sel_index = 0; sel_index < select.num_particles(); ++sel_index) {
-    const int p1 = select.particle_index(sel_index);
-    for (const int s1 : select.site_indices(sel_index)) {
-      for (int p2 = 0; p2 < static_cast<int>(map()[p1].size()); ++p2) {
-        for (int s2 = 0; s2 < static_cast<int>(map()[p1][p2][s1].size()); ++s2) {
-          if (select.trial_state() == 3) {
-            // revert addition
-            (*map_())[p1][p2][s1][s2] = std::vector<double>(2 + dimen(), default_value());
-            (*map_())[p2][p1][s2][s1] = std::vector<double>(2 + dimen(), default_value());
-            (*map_new_())[p1][p2][s1][s2] = std::vector<double>(2 + dimen(), default_value());
-            (*map_new_())[p2][p1][s2][s1] = std::vector<double>(2 + dimen(), default_value());
-          } else {
-            (*map_new_())[p1][p2][s1][s2] = map()[p1][p2][s1][s2];
-            (*map_new_())[p2][p1][s2][s1] = map()[p2][p1][s2][s1];
+  if (select.num_particles() > 0) {
+    const int pmax = select.particle_indices().back();
+    const int smax = select.site_indices().back().back();
+    resize_(pmax, smax, pmax, smax);
+    for (int sel_index = 0; sel_index < select.num_particles(); ++sel_index) {
+      const int p1 = select.particle_index(sel_index);
+      for (const int s1 : select.site_indices(sel_index)) {
+        for (int p2 = 0; p2 < static_cast<int>(map()[p1].size()); ++p2) {
+          for (int s2 = 0; s2 < static_cast<int>(map()[p1][p2][s1].size()); ++s2) {
+            if (select.trial_state() == 3) {
+              // revert addition
+              (*map_())[p1][p2][s1][s2] = std::vector<double>(2 + dimen(), default_value());
+              (*map_())[p2][p1][s2][s1] = std::vector<double>(2 + dimen(), default_value());
+              (*map_new_())[p1][p2][s1][s2] = std::vector<double>(2 + dimen(), default_value());
+              (*map_new_())[p2][p1][s2][s1] = std::vector<double>(2 + dimen(), default_value());
+            } else {
+              (*map_new_())[p1][p2][s1][s2] = map()[p1][p2][s1][s2];
+              (*map_new_())[p2][p1][s2][s1] = map()[p2][p1][s2][s1];
+            }
           }
         }
       }
@@ -96,6 +98,7 @@ void EnergyMapAll::revert(const Select& select) {
 }
 
 void EnergyMapAll::finalize(const Select& select) {
+  //INFO("finalizing: " << select.str());
   if (select.num_particles() > 0) {
     const int pmax = select.particle_indices().back();
     const int smax = select.site_indices().back().back();
@@ -188,11 +191,32 @@ bool EnergyMapAll::is_cluster_(
   return false;
 }
 
-void EnergyMapAll::check() const {
+void EnergyMapAll::check(const Configuration& config) const {
   if (!is_equal(map(), map_new(), NEAR_ZERO)) {
     DEBUG(feasst_str(map()));
     DEBUG(feasst_str(map_new()));
     ERROR("maps are not equal");
+  }
+
+  // check if ghost particles are in the neighbor list
+  for (const int part : config.group_select(0).particle_indices()) {
+    for (const Select& ghost : config.ghosts()) {
+      for (int ghost_part : ghost.particle_indices()) {
+        if (ghost_part < static_cast<int>(map()[part].size())) {
+          for (int n_site = 0; n_site < static_cast<int>(map()[part][ghost_part].size()); ++n_site) {
+            for (int g_site = 0; g_site < static_cast<int>(map()[part][ghost_part][n_site].size()); ++g_site) {
+              if (map()[part][ghost_part][n_site][g_site][0] != 0) {
+                INFO("existing particles: " << config.group_select(0).str());
+                for (const Select& ghost2 : config.ghosts()) {
+                  INFO("ghosts: " << ghost2.str());
+                }
+                FATAL("ghost particle " << ghost_part << " in map for p " << part << " s " << n_site);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 

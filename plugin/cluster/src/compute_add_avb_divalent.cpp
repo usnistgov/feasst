@@ -38,6 +38,7 @@ void ComputeAddAVBDivalent::perturb_and_acceptance(
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
+//  acceptance->add_to_macrostate_shift(1);
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   DEBUG("old en " << criteria->current_energy());
   DEBUG("new en " << MAX_PRECISION << acceptance->energy_new());
@@ -72,10 +73,15 @@ void ComputeAddAVBDivalent::perturb_and_acceptance(
   const int num_neigh = static_cast<int>(neighbors_.num_sites());
   const double volume = config.domain().volume();
   const ThermoParams& params = system->thermo_params();
-  //set_probability(volume_av/static_cast<double>(num_neighbors + 1 + delta_ab));
+  DEBUG("volume " << volume);
+  DEBUG("volume_av " << volume_av);
+  DEBUG("num_neigh " << num_neigh);
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
+  double prob = 1./config.num_particles_of_type(particle_type0);
+  DEBUG("prob " << prob);
+  DEBUG("nt " << config.num_particles_of_type(particle_type0));
   acceptance->add_to_ln_metropolis_prob(
-    std::log(volume/(config.num_particles_of_type(particle_type0)))
+    std::log(volume*prob)
     + std::log(volume_av/static_cast<double>(num_neigh))
     + std::log(volume_av/static_cast<double>(num_neigh - 1))
     + params.beta_mu(particle_type0)

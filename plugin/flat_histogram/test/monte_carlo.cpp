@@ -114,12 +114,16 @@ MonteCarlo test_lj_fh(const int num_steps,
     int sweeps = 10,
     bool test_multi = false,
     const int min = 1,
-    const int max = 5) {
+    const int max = 5,
+    bool dont_use_multi = false) {
   MonteCarlo mc;
-  // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   int ref = -1;
   if (num_steps == 1) {
     mc.set(lennard_jones());
+    if (test_multi) {
+      ref = 0;
+      mc.add_to_reference(MakePotential(MakeDontVisitModel()));
+    }
   } else {
     ref = 0;
     mc.set(lennard_jones({{"dual_cut", "1."}}));
@@ -137,7 +141,15 @@ MonteCarlo test_lj_fh(const int num_steps,
     transfer_args.insert({"particle_type1", "0"});
     transfer_args.insert({"shift", "-2"});
   }
-  mc.add(MakeTrialTransferMultiple(transfer_args));
+  if (dont_use_multi) {
+    ASSERT(!test_multi, "er");
+    mc.add(MakeTrialTransfer({ {"particle_type", "0"},
+      {"reference_index", str(ref)},
+      {"num_steps", str(num_steps)},
+      {"weight", "4"}}));
+  } else {
+    mc.add(MakeTrialTransferMultiple(transfer_args));
+  }
   EXPECT_EQ(mc.trial(0).weight(), 1);
   EXPECT_EQ(mc.trial(1).weight(), 2);
   EXPECT_EQ(mc.trial(2).weight(), 2);
@@ -213,6 +225,40 @@ TEST(MonteCarlo, lj_fh) {
       EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.11);
       EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.15);
       EXPECT_LE(mc.system().configuration().num_particles(), 5);
+    }
+  }
+}
+
+TEST(MonteCarlo, lj_fh_with0) {
+  for (int num_steps : {1, 2}) {
+    for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
+      for (const bool dont_use_multi : {true, false}) {
+        MonteCarlo mc = test_serialize(test_lj_fh(num_steps, bias_name, 10, false, 0, 5, dont_use_multi));
+        //mc.attempt(1e4);
+        //mc.attempt(1e5); // note more than 1e4 steps required for TM
+        mc.run_until_complete();
+        // INFO(mc.criteria().write());
+
+        // compare with known values of lnpi
+        //const LnProbability * lnpi = &criteria->bias().ln_prob();
+        const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+        //INFO(feasst_str(lnpi.values()));
+        EXPECT_NEAR(lnpi.value(0), -18.707570324988800000, 0.55);
+        EXPECT_NEAR(lnpi.value(1), -14.037373358321800000, 0.75);
+        EXPECT_NEAR(lnpi.value(2), -10.050312091655200000, 0.6);
+        EXPECT_NEAR(lnpi.value(3), -6.458920624988570000, 0.55);
+        EXPECT_NEAR(lnpi.value(4), -3.145637424988510000, 0.55);
+        EXPECT_NEAR(lnpi.value(5), -0.045677458321876000, 0.55);
+
+        // compare with known values of energy
+        EXPECT_NEAR(energy_av(0, mc), 0, 1e-14);
+        EXPECT_NEAR(energy_av(1, mc), -0.000605740233333333, 1e-8);
+        EXPECT_NEAR(energy_av(2, mc), -0.030574223333333334, 0.05);
+        EXPECT_NEAR(energy_av(3, mc), -0.089928316, 0.08);
+        EXPECT_NEAR(energy_av(4, mc), -0.1784570533333333, 0.11);
+        EXPECT_NEAR(energy_av(5, mc), -0.29619201333333334, 0.15);
+        EXPECT_LE(mc.system().configuration().num_particles(), 5);
+      }
     }
   }
 }

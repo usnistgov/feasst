@@ -442,6 +442,8 @@ void Configuration::revive(const Select& selection) {
     DEBUG("reviving particle_index: " << particle_index);
     const Particle& part = select_particle(particle_index);
     const int type = part.type();
+    ASSERT(find_in_list(particle_index, ghosts_[type].particle_indices()),
+      "attempting to revive a particle that isn't a ghost");
     ++num_particles_of_type_[type];
     DEBUG("ghost particles " << ghosts_[type].num_particles());
     ghosts_[type].remove_particle(particle_index);

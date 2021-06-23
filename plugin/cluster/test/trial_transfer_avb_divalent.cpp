@@ -52,6 +52,7 @@ TEST(TrialTransferAVBDivalent, add_remove) {
     {"particle_type_b", "1"}});
   add->precompute(metropolis.get(), &system);
   add->attempt(metropolis.get(), &system, ran.get());
+  config.check();
   if (config.num_particles() != 3) return;
   EXPECT_EQ(config.particle(0).type(), 0);
   EXPECT_EQ(config.particle(1).type(), 1);

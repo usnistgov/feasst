@@ -42,6 +42,7 @@ TEST(PerturbAddAVB, gce_add) {
   EXPECT_TRUE(sel2.is_ghost());
   sel2.sel(&system, ran.get());
   add2.perturb(&system, &sel2, ran.get());
+  add2.finalize(&system);
 
   EXPECT_EQ(sel2.mobile().particle_index(0), 1);
   EXPECT_EQ(sel2.mobile().site_index(0, 0), 0);

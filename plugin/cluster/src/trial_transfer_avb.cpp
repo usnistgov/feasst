@@ -19,9 +19,11 @@ std::shared_ptr<Trial> MakeTrialAddAVB(argtype * args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialAddAVB");
   args->insert({"grand_canonical", "true"});
+  auto perturb = std::make_shared<PerturbAddAVB>(args);
+  ASSERT(perturb->delay_add(), "ComputeAddAVB assumes delay_add is true");
   trial->add_stage(
     std::make_shared<SelectParticleAVB>(args),
-    std::make_shared<PerturbAddAVB>(args),
+    perturb,
     args);
   trial->set(MakeComputeAddAVB());
   return trial;

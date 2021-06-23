@@ -36,6 +36,12 @@ typedef std::map<std::string, argtype> arglist;
 /// Return true if
 bool used(const std::string& key, const argtype& args);
 
+/**
+  Read an argument, but do not remove it.
+  WARNING: This should typically only be used for error checking.
+ */
+std::string str(const std::string& key, const argtype& args);
+
 /// Read an argument and remove it
 std::string str(const std::string& key, argtype * args);
 
@@ -57,7 +63,7 @@ int integer(const std::string& key, argtype * args);
 int integer(const std::string& key, argtype * args,
   const int dflt);
 
-/// Read an argument and remove it from args, then return as double.
+/// Read an argument and remove it from args, then return as a boolean.
 bool boolean(const std::string& key, argtype * args);
 
 /// Same as above, but with a default value should key not be in args.
