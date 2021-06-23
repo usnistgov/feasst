@@ -1,11 +1,13 @@
 #include <cmath>  // exp
+#include <fstream>
 #include <algorithm>
-#include "flat_histogram/include/transition_matrix.h"
+#include "utils/include/progress_report.h"
 #include "utils/include/utils.h"  // is_equal
 #include "utils/include/serialize.h"
-#include "math/include/utils_math.h"
 #include "utils/include/debug.h"
+#include "math/include/utils_math.h"
 #include "math/include/accumulator.h"
+#include "flat_histogram/include/transition_matrix.h"
 
 namespace feasst {
 
@@ -52,6 +54,13 @@ void TransitionMatrix::update_or_revert(
   TRACE("colmat " << feasst_str(collection_.matrix()));
   update_blocks_(macrostate_old, macrostate_new,
                  ln_metropolis_prob, is_accepted, revert);
+  if (!is_block_ && !dump_file_.empty()) {
+    std::ofstream file;
+    file.open(dump_file_, std::ofstream::out | std::ofstream::app);
+    file << macrostate_old << " " << macrostate_new << " "
+         //<< ln_metropolis_prob << std::endl;
+         << MAX_PRECISION << ln_metropolis_prob << std::endl;
+  }
 }
 
 void TransitionMatrix::update_blocks_(
@@ -268,6 +277,22 @@ TransitionMatrix::TransitionMatrix(const Bias& bias) {
   std::stringstream ss;
   bias.serialize(ss);
   *this = TransitionMatrix(ss);
+}
+
+void TransitionMatrix::read_dump_file(const std::string dump_file) {
+  std::ifstream file(dump_file);
+  int macro_old, macro_new;
+  double ln_prob;
+  ProgressReport prog({{"num", feasst::str(1e8)}});
+  while (!file.eof()) {
+    std::string line;
+    file >> macro_old >> macro_new >> ln_prob;
+    if (!file.eof()) {
+      DEBUG("old " << macro_old << " new " << macro_new << " lnp " << ln_prob);
+      update_or_revert(macro_old, macro_new, ln_prob, false, false);
+      prog.check();
+    }
+  }
 }
 
 }  // namespace feasst

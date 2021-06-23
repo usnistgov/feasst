@@ -27,7 +27,8 @@ class PerturbTranslate : public PerturbMove {
       System * system,
       TrialSelect * select);
 
-  /// Move the selected particles using the tuning parameter.
+  /// Move the selected particles.
+  /// The particles are translated by +/- a maximum of the Tunable parameter.
   void move(System * system, TrialSelect * select, Random * random) override;
 
   // serialize

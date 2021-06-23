@@ -352,3 +352,4 @@ To Do List
 * Reptate with non-unit bond lengths
 * Rename ewald plugin to charge
 * Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.
+* Add more documentation for Trials (TrialStage: Perturb/Select, TrialCompute. When finialize? reference?)

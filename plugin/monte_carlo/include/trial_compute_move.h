@@ -89,19 +89,19 @@ and allows the use of dual-cut CB (https://doi.org/10.1080/002689798167881).
 |                                     |                                        |
 |[reverse event]                      |[reverse probability, :math:`\pi_{no}`] |
 +-------------------------------------+----------------------------------------+
-|Select molecule of type t            |:math:`1/N_t`                           |
+|Select particle of type t            |:math:`1/N_t`                           |
 |                                     |                                        |
-|[Select molecule of type t]          |:math:`[1/N_t]`                         |
+|[Select particle of type t]          |:math:`[1/N_t]`                         |
 +-------------------------------------+----------------------------------------+
-|Generate k new positions about x_o   |:math:`1/\delta^{Dk}`                 |
+|Generate k positions about x_o.      |:math:`k/\delta^D`                      |
+|Probability :math:`x_n` is in k.     |                                        |
 |                                     |                                        |
-|[Generate j old positions about x_n] |:math:`[1/\delta^{Dj}]`               |
+|[Generate j positions about x_n.     |:math:`[j/\delta^D]`                    |
+|Probability :math:`x_o` is in j.]    |                                        |
 +-------------------------------------+----------------------------------------+
-|Pick one of k new positions (n) with |:math:`P_k(U_n)`                        |
-|probability P(U_n).                  |                                        |
+|Pick x_n in k positions.             |:math:`P_k`                             |
 |                                     |                                        |
-|[Pick one of j old positions (o) with|:math:`P_j(U_o)`                        |
-|probability P(U_o).                  |                                        |
+|[Pick x_o j positions.               |:math:`P_j`                             |
 +-------------------------------------+----------------------------------------+
 |Accept                               |:math:`min(1, \chi)`                    |
 |                                     |                                        |
@@ -110,7 +110,7 @@ and allows the use of dual-cut CB (https://doi.org/10.1080/002689798167881).
 
 Applying (local) detailed balance yields
 
-:math:`\chi = \frac{P_j(U_o)}{P_k(U_n)} e^{-\beta(U_n - U_o)}`
+:math:`\chi = \frac{P_j}{P_k} e^{-\beta(U_n - U_o)}`
 
 Note that the number of new and old positions must be equal, :math:`j = k`.
 In this case, the j and k indices are retained to distinguish between positions
@@ -118,7 +118,7 @@ generated about the old or new position.
 
 If the probability of picking a position is chosen as the typical Rosenbluth
 
-:math:`P_m(U) = e^{-\beta U}/\sum_i^m e^{-\beta U_i}`
+:math:`P_m = e^{-\beta U}/\sum_i^m e^{-\beta U_i}`
 
 Thus, the acceptance is given by
 
@@ -139,6 +139,7 @@ volume in a dense system).
 
 :math:`\chi = \frac{\sum_i^k e^{-\beta U^r_i}}{\sum_i^j e^{-\beta U_i^r}}e^{-\beta[(U_n-U_n^r) - (U_o-U_o^r)]}`
 
+Note that these equations consider only a single-site particle.
 \endrst
  */
 class TrialComputeMove : public TrialCompute {

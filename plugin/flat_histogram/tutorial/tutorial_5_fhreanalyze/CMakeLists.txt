@@ -32,5 +32,5 @@ if(OPENMP_FOUND)
 endif()
 
 include_directories("${CMAKE_PREFIX_PATH}/include")
-add_executable (tutorial tutorial_8_trappe.cpp)
-target_link_libraries (tutorial LINK_PUBLIC feasst)
+add_executable (reanalyze reanalyze.cpp)
+target_link_libraries (reanalyze LINK_PUBLIC feasst)
