@@ -169,6 +169,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "prefetch/include/prefetch.h"
 #include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/increment_phase.h"
 #include "steppers/include/seek_modify.h"
 #include "steppers/include/tuner.h"
 #include "steppers/include/check_properties.h"
@@ -475,6 +476,7 @@ using namespace std;
 %shared_ptr(feasst::Pool);
 %shared_ptr(feasst::Prefetch);
 %shared_ptr(feasst::CheckEnergyAndTune);
+%shared_ptr(feasst::IncrementPhase);
 %shared_ptr(feasst::SeekModify);
 %shared_ptr(feasst::Tuner);
 %shared_ptr(feasst::CheckProperties);
@@ -724,6 +726,7 @@ using namespace std;
 %include monte_carlo/include/monte_carlo.h
 %include prefetch/include/prefetch.h
 %include steppers/include/check_energy_and_tune.h
+%include steppers/include/increment_phase.h
 %include steppers/include/seek_modify.h
 %include steppers/include/tuner.h
 %include steppers/include/check_properties.h

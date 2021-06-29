@@ -20,6 +20,7 @@
    PairDistributionInner
    CheckEnergy
    CheckEnergyAndTune
+   IncrementPhase
    SeekModify
    Tuner
    CheckProperties

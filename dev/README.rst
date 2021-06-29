@@ -353,3 +353,5 @@ To Do List
 * Rename ewald plugin to charge
 * Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.
 * Add more documentation for Trials (TrialStage: Perturb/Select, TrialCompute. When finialize? reference?)
+* Early tutorials are in ipynb, but transition out of that into .py, include .py on the website
+* Rename Accumulator::num_block to block_size.

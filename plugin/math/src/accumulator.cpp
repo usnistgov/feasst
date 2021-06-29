@@ -10,7 +10,7 @@ namespace feasst {
 
 Accumulator::Accumulator(argtype args) {
   reset();
-  set_block(integer("num_block", &args, 1e5));
+  set_block_size(integer("block_size", &args, 1e5));
   check_all_used(args);
 }
 
@@ -39,13 +39,13 @@ void Accumulator::accumulate(double value) {
   if (min_ > value) min_ = value;
 
   // accumulate block averages
-  if (num_blocks_ != 0) {
+  if (block_size_ != 0) {
     sum_block_ += value;
-    if (std::abs(std::fmod(num_values_, num_blocks_)) < 0.1) {
+    if (std::abs(std::fmod(num_values_, block_size_)) < 0.1) {
       if (block_averages_ == NULL) {
         block_averages_ = std::make_shared<Accumulator>();
       }
-      block_averages_->accumulate(sum_block_/num_blocks_);
+      block_averages_->accumulate(sum_block_/block_size_);
       sum_block_ = 0.;
     }
   }
@@ -55,7 +55,7 @@ void Accumulator::reset() {
   sum_ = 0;
   num_values_ = 0;
   sum_squared_ = 0;
-  set_block();
+  set_block_size();
   sum_block_ = 0;
   max_ = -NEAR_INFINITY;
   min_ = NEAR_INFINITY;
@@ -83,7 +83,7 @@ double Accumulator::stdev() const {
 }
 
 double Accumulator::block_stdev() const {
-  if (num_blocks_ != 0) {
+  if (block_size_ != 0) {
     if (block_averages_ != NULL) {
       if (block_averages_->num_values() > 1) {
         return block_averages_->std()/
@@ -96,10 +96,6 @@ double Accumulator::block_stdev() const {
 
 double Accumulator::stdev_of_av() const {
   return std()/std::sqrt(num_values());
-}
-
-void Accumulator::set_block(const double num_block) {
-  num_blocks_ = num_block;
 }
 
 void Accumulator::set_moments(const int num_moments) {
@@ -141,7 +137,7 @@ void Accumulator::serialize(std::ostream& ostr) const {
   feasst_serialize(max_, ostr);
   feasst_serialize(min_, ostr);
   feasst_serialize(val_moment_, ostr);
-  feasst_serialize(num_blocks_, ostr);
+  feasst_serialize(block_size_, ostr);
   feasst_serialize(sum_block_, ostr);
   feasst_serialize(block_averages_, ostr);
 }
@@ -155,7 +151,7 @@ Accumulator::Accumulator(std::istream& istr) {
   feasst_deserialize(&max_, istr);
   feasst_deserialize(&min_, istr);
   feasst_deserialize(&val_moment_, istr);
-  feasst_deserialize(&num_blocks_, istr);
+  feasst_deserialize(&block_size_, istr);
   feasst_deserialize(&sum_block_, istr);
   // feasst_deserialize(block_averages_, istr);
   // HWH for unknown reasons, the above does not work.

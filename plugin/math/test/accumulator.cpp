@@ -6,7 +6,7 @@ namespace feasst {
 
 TEST(Accumulator, constructor) {
   Accumulator a;
-  a.set_block(5);
+  a.set_block_size(5);
   EXPECT_NEAR(-NEAR_INFINITY, a.max(), 1);
   EXPECT_NEAR(NEAR_INFINITY, a.min(), 1);
 
@@ -47,8 +47,8 @@ TEST(Accumulator, constructor) {
 }
 
 TEST(Accumulator, is_equivalent) {
-  auto a = MakeAccumulator({{"num_block", "1"}});
-  auto b = MakeAccumulator({{"num_block", "1"}});
+  auto a = MakeAccumulator({{"block_size", "1"}});
+  auto b = MakeAccumulator({{"block_size", "1"}});
   std::vector<double> avals = {5, 6, 4, 5.5, 4, 6, 5.1};
   std::vector<double> bvals = {8, 9, 7, 6.8, 10, 5};
   for (const double v : avals) a->accumulate(v);

@@ -27,7 +27,7 @@ class Accumulator {
  public:
   /**
     args:
-    - num_block: number of values per block (default: 1e5).
+    - block_size: number of values per block (default: 1e5).
    */
   explicit Accumulator(argtype args = argtype());
 
@@ -53,12 +53,11 @@ class Accumulator {
    * Flyvbjerg, Error estimates on averages of correlated data,
    * http://dx.doi.org/10.1063/1.457480
    */
-  void set_block(
-    /// number of values per block
-    const double num_block = 1e5);
+  void set_block_size(const double block_size = 1e5) {
+    block_size_ = block_size; }
 
   /// Return number of values per block.
-  double num_block() const { return num_blocks_; }
+  double block_size() const { return block_size_; }
 
   /// Return standard deviation of the block averages (0 if not enough blocks).
   double block_stdev() const;
@@ -130,7 +129,7 @@ class Accumulator {
   std::vector<long double> val_moment_;
 
   // block averaging variables
-  double num_blocks_;
+  double block_size_;
   long double sum_block_;         //!< sum of all values accumulated
 
   /// accumulate averages of each block

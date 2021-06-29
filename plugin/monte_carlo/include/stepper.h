@@ -41,7 +41,7 @@ class Stepper {
       multistate is enabled (default: true).
       Thus, steps_per_write refers now to the writing of all states.
       Individual states no longer write.
-    - num_block: number of updated per block in accumulator.
+    - block_size: size of block in accumulator.
       If not provided, use default value in Accumulator.
     - num_moments: number of moments in accumulator.
       If not provided, use default value in Accumulator.
