@@ -12,6 +12,7 @@ namespace feasst {
 class CriteriaWriter : public AnalyzeWriteOnly {
  public:
   explicit CriteriaWriter(argtype args = argtype());
+  explicit CriteriaWriter(argtype * args);
   std::string write(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
@@ -22,6 +23,8 @@ class CriteriaWriter : public AnalyzeWriteOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<CriteriaWriter>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<CriteriaWriter>(args); }
   CriteriaWriter(std::istream& istr);
 };
 

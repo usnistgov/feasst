@@ -4,11 +4,21 @@
 namespace feasst {
 
 MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
-    argtype args) : Macrostate(histogram, &args) {
+    argtype * args) : Macrostate(histogram, args) {
   num_ = ConstrainNumParticles(
-    {{"type", str("particle_type", &args, "-1")}});
+    {{"type", str("particle_type", args, "-1")}});
   ASSERT(num_.type() >= -1, "particle_type: " << num_.type());
+}
+MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
+    argtype args) : MacrostateNumParticles(histogram, &args) {
   check_all_used(args);
+}
+MacrostateNumParticles::MacrostateNumParticles(argtype args) :
+    MacrostateNumParticles(Histogram(&args), &args) {
+  check_all_used(args);
+}
+std::shared_ptr<Macrostate> MacrostateNumParticles::create(argtype * args) const {
+  return std::make_shared<MacrostateNumParticles>(args);
 }
 
 double MacrostateNumParticles::value(const System& system,

@@ -12,7 +12,7 @@
 namespace feasst {
 
 Configuration::Configuration(argtype args) {
-  domain_ = std::make_shared<Domain>();
+  domain_ = std::make_shared<Domain>(&args);
   particle_types_.unique_particles();
   unique_types_.unique_types();
   // reset_unique_indices_();

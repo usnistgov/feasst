@@ -14,7 +14,8 @@ class MapProfileTrials {
 
 static MapProfileTrials mapper_ = MapProfileTrials();
 
-ProfileTrials::ProfileTrials(argtype args) : Analyze(&args) {
+ProfileTrials::ProfileTrials(argtype * args) : Analyze(args) {}
+ProfileTrials::ProfileTrials(argtype args) : ProfileTrials(&args) {
   check_all_used(args);
 }
 

@@ -1,0 +1,27 @@
+# usage: /path/to/feasst/build/bin/fst < tutorial.txt
+
+# high temperature gcmc to generate initial configuration
+RandomMT19937 seed time
+Configuration cubic_box_length 8 particle_type /feasst/forcefield/data.lj
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+ThermoParams beta 0.1 chemical_potential 10
+Metropolis
+TrialTranslate tunable_param 2. tunable_target_acceptance 0.2
+TrialAdd particle_type 0
+Run until_num_particles 50
+
+# nvt equilibration
+RemoveTrial name TrialAdd
+ThermoParams beta 1.2
+set_variable steps_per 1e5
+Tune steps_per steps_per
+CheckEnergy steps_per steps_per tolerance 1e-8
+Run num_attempts 1e6
+
+# nvt production
+RemoveModify name Tune
+Log steps_per steps_per file_name lj.txt
+Movie steps_per steps_per file_name lj.xyz
+Energy steps_per_write steps_per file_name en.txt
+Run num_attempts 1e6

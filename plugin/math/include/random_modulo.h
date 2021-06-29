@@ -23,10 +23,13 @@ namespace feasst {
 class RandomModulo : public Random {
  public:
   explicit RandomModulo(argtype args = argtype());
+  explicit RandomModulo(argtype * args);
 
   // serialize
   std::shared_ptr<Random> create(std::istream& istr) const override {
     return std::make_shared<RandomModulo>(istr); }
+  std::shared_ptr<Random> create(argtype * args) const override {
+    return std::make_shared<RandomModulo>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit RandomModulo(std::istream& istr);
   virtual ~RandomModulo() {}

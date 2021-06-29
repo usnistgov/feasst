@@ -27,6 +27,8 @@ class CriteriaMayer : public Criteria {
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<CriteriaMayer>(istr); }
+  std::shared_ptr<Criteria> create(argtype * args) const override {
+    return std::make_shared<CriteriaMayer>(); }
   void serialize(std::ostream& ostr) const override;
   CriteriaMayer(std::istream& istr);
   ~CriteriaMayer() {}

@@ -19,7 +19,7 @@
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/movie.h"
-#include "steppers/include/tuner.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/check.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_physicality.h"
@@ -85,7 +85,7 @@ TEST(MonteCarlo, chain) {
   mc.add(MakeCheckEnergy({
     {"steps_per", str(steps_per)},
     {"tolerance", "1e-10"}}));
-  mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
+  mc.add(MakeTune({{"steps_per", str(steps_per)}}));
   mc.add(MakeCheckRigidBonds({{"steps_per", str(steps_per)}}));
   mc.attempt(3e2);
 

@@ -13,9 +13,11 @@ class MapNumParticles {
 
 static MapNumParticles mapper_ = MapNumParticles();
 
-NumParticles::NumParticles(argtype args) : Analyze(&args) {
-  particle_type_ = integer("particle_type", &args, -1);
-  group_ = integer("group", &args, -1);
+NumParticles::NumParticles(argtype * args) : Analyze(args) {
+  particle_type_ = integer("particle_type", args, -1);
+  group_ = integer("group", args, -1);
+}
+NumParticles::NumParticles(argtype args) : NumParticles(&args) {
   check_all_used(args);
 }
 

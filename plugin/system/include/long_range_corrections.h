@@ -65,6 +65,9 @@ class LongRangeCorrections : public VisitModel {
   std::shared_ptr<VisitModel> create(std::istream& istr) const override {
     return std::make_shared<LongRangeCorrections>(istr);
   }
+  std::shared_ptr<VisitModel> create(argtype * args) const override {
+    return std::make_shared<LongRangeCorrections>();
+  }
   explicit LongRangeCorrections(std::istream& istr);
 
  private:

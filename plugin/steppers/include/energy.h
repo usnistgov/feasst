@@ -13,6 +13,7 @@ namespace feasst {
 class Energy : public Analyze {
  public:
   explicit Energy(argtype args = argtype());
+  explicit Energy(argtype * args);
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -37,6 +38,8 @@ class Energy : public Analyze {
   std::string class_name() const override { return std::string("Energy"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Energy>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<Energy>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit Energy(std::istream& istr);
   explicit Energy(const Analyze& energy);

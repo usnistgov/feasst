@@ -14,15 +14,14 @@ bool find_in_list(const T value, const std::vector<T> &list,
   ) {
   const int size = static_cast<int>(list.size());
   if (size == 0) return false;
-  bool in = false;
   *index = -1;
   for (int i = 0; i < size; ++i) {
     if (list[i] == value) {
-      in = true;
       *index = i;
+      return true;
     }
   }
-  return in;
+  return false;
 }
 
 /// Same as above, but do not return the index.
@@ -39,15 +38,14 @@ bool find_in_list(const T1 value, const std::vector<std::pair<T1,T2> >& list,
   ) {
   const int size = static_cast<int>(list.size());
   if (size == 0) return false;
-  bool in = false;
   *index = -1;
   for (int i = 0; i < size; ++i) {
     if (list[i].first == value) {
-      in = true;
       *index = i;
+      return true;
     }
   }
-  return in;
+  return false;
 }
 
 /// Resize two dimensional vector to size xs, ys.

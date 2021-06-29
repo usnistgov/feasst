@@ -9,7 +9,9 @@
 
 namespace feasst {
 
-Stepper::Stepper(argtype args) : Stepper(&args) {}
+Stepper::Stepper(argtype args) : Stepper(&args) {
+  check_all_used(args);
+}
 Stepper::Stepper(argtype * args) {
   set_steps_per_write(integer("steps_per_write", args, 1));
   set_steps_per_update(integer("steps_per_update", args, 1));

@@ -65,11 +65,19 @@ std::shared_ptr<Criteria> Criteria::create(std::istream& istr) const {
   FATAL("not implemented");
 }
 
+std::shared_ptr<Criteria> Criteria::create(argtype * args) const {
+  FATAL("not implemented");
+}
+
 std::shared_ptr<Criteria> Criteria::deserialize(std::istream& istr) {
   return template_deserialize(deserialize_map(), istr,
     // true argument denotes rewinding to reread class name
     // this allows derived class constructor to read class name.
     true);
+}
+
+std::shared_ptr<Criteria> Criteria::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
 }
 
 bool Criteria::is_equal(const Criteria& criteria,

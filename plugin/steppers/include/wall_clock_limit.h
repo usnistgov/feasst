@@ -16,7 +16,8 @@ class WallClockLimit : public AnalyzeUpdateOnly {
     args:
     - max_hours: maximum number of wall clock hours until job termination.
    */
-  WallClockLimit(argtype args = argtype());
+  explicit WallClockLimit(argtype args = argtype());
+  explicit WallClockLimit(argtype * args);
 
   void update(const Criteria& criteria,
       const System& system,
@@ -27,6 +28,8 @@ class WallClockLimit : public AnalyzeUpdateOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<WallClockLimit>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<WallClockLimit>(args); }
   WallClockLimit(std::istream& istr);
 
  private:

@@ -13,13 +13,13 @@ class MapMovie {
 
 static MapMovie mapper_ = MapMovie();
 
-Movie::Movie(argtype args) : AnalyzeWriteOnly(&args) {
+Movie::Movie(argtype * args) : AnalyzeWriteOnly(args) {
   set_append();
   ASSERT(!file_name().empty(), "file name is required");
-  args.insert({"append", "true"}); // always append
-  xyz_ = FileXYZ(&args);
-  check_all_used(args);
+  args->insert({"append", "true"}); // always append
+  xyz_ = FileXYZ(args);
 }
+Movie::Movie(argtype args) : Movie(&args) { check_all_used(args); }
 
 void Movie::initialize(Criteria * criteria,
     System * system,

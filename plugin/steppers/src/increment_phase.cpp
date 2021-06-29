@@ -12,8 +12,10 @@ class MapIncrementPhase {
 
 static MapIncrementPhase mapper_energy_check_ = MapIncrementPhase();
 
-IncrementPhase::IncrementPhase(argtype args) : ModifyUpdateOnly(&args) {
-  num_trials_ = integer("num_trials", &args, -1);
+IncrementPhase::IncrementPhase(argtype * args) : ModifyUpdateOnly(args) {
+  num_trials_ = integer("num_trials", args, -1);
+}
+IncrementPhase::IncrementPhase(argtype args) : IncrementPhase(&args) {
   check_all_used(args);
 }
 

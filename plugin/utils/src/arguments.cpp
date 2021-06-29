@@ -8,14 +8,6 @@
 
 namespace feasst {
 
-bool used(const std::string& key, const argtype& args) {
-  const auto pair = args.find(key);
-  if (pair != args.end()) {
-    return true;
-  }
-  return false;
-}
-
 std::string str(const std::string& key, const argtype& args) {
   auto pair = args.find(key);
   if (pair != args.end()) {
@@ -32,6 +24,15 @@ std::string str(const std::string& key, argtype * args) {
   args->erase(pair);
   return second;
 }
+
+//argtype get(const std::string& key, arglist * args) {
+//  auto pair = args->find(key);
+//  ASSERT(pair != args->end(), "key(" << key << ") is required for args but " <<
+//    "not found");// << str(*args));
+//  const argtype second = pair->second;
+//  args->erase(pair);
+//  return second;
+//}
 
 std::string str(const std::string& key, argtype * args,
     const std::string dflt) {
@@ -104,7 +105,28 @@ void append(const std::string& key, argtype * args, const std::string& append) {
 }
 
 void check_all_used(const argtype& args) {
-  ASSERT(args.size() == 0, "unused: " << str(args));
+  if (args.size() != 0) {
+    DEBUG(args.size());
+    DEBUG(args.begin()->first);
+    DEBUG(args.begin()->second);
+    ASSERT(args.size() == 1 && args.begin()->first.empty() &&
+      args.begin()->second.empty(),
+      "unused argument(s): " << str(args) << ". If the arguments are unused " <<
+      "then that means the objects did not expect the first keyword " <<
+      "supplied in each argument pair. Thus, there was likely a typo or " <<
+      "the keyword is intended for a different class.");
+  }
+}
+
+std::string str(const arglist& args) {
+  std::stringstream out;
+  out << "{{";
+  for (const auto& arg : args) {
+    out << "{\"" << arg.first << "\",";
+    out << str(arg.second) << "},";
+  }
+  out << "}}";
+  return out.str();
 }
 
 }  // namespace feasst

@@ -44,6 +44,8 @@ class Log : public AnalyzeWriteOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Log>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<Log>(args); }
   Log(std::istream& istr);
 };
 

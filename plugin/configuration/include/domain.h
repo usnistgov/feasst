@@ -62,6 +62,7 @@ class Domain {
     - yz: set the tilt along the y-z direction (default: 0).
    */
   explicit Domain(argtype args = argtype());
+  explicit Domain(argtype * args);
 
   /// Get the side lengths.
   const Position& side_lengths() const { return side_lengths_; }

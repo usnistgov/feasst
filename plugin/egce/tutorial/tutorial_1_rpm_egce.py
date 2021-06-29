@@ -45,7 +45,7 @@ def mc(thread, mn, mx):
     mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": "1",
         "reference_index": ref, "num_steps": num_steps})))
     mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
-    mc.add(fst.MakeTuner(fst.args({"steps_per": str(steps_per), "stop_after_phase": "0"})))
+    mc.add(fst.MakeTune(fst.args({"steps_per": str(steps_per), "stop_after_phase": "0"})))
     mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),
                                          "file_name": "clones" + str(thread),
                                          "file_name_append_phase": "True"})))

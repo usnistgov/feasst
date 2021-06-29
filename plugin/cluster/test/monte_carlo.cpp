@@ -12,7 +12,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
-#include "steppers/include/tuner.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/energy.h"
@@ -60,7 +60,7 @@ TEST(MonteCarlo, cluster) {
     const int steps_per = 1e2;
     mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergy({{"steps_per", "1"}}));
-    mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
+    mc.add(MakeTune({{"steps_per", str(steps_per)}}));
     // conduct the trials
     const VisitModelInner& inner = mc.system().potential(0).visit_model().inner();
     for (int trial = 0; trial < 1e4; ++trial) {

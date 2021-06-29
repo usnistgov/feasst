@@ -196,8 +196,10 @@ class Random {
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const = 0;
   virtual std::shared_ptr<Random> create(std::istream& istr) const = 0;
+  virtual std::shared_ptr<Random> create(argtype * args) const = 0;
   std::map<std::string, std::shared_ptr<Random> >& deserialize_map();
   std::shared_ptr<Random> deserialize(std::istream& istr);
+  std::shared_ptr<Random> factory(const std::string name, argtype * args);
   virtual ~Random() {}
 
  protected:

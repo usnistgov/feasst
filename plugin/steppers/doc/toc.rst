@@ -22,7 +22,7 @@
    CheckEnergyAndTune
    IncrementPhase
    SeekModify
-   Tuner
    CheckProperties
    CriteriaUpdater
+   Tune
    Movie

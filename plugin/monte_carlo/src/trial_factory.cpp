@@ -24,16 +24,23 @@ static MapTrialFactory mapper_ = MapTrialFactory();
 
 void TrialFactory::add(std::shared_ptr<Trial> trial) {
   trials_.push_back(trial);
+  update_cumul_prob_();
+}
 
-  // update probability of selection
+void TrialFactory::update_cumul_prob_() {
   std::vector<double> weights;
   for (std::shared_ptr<Trial> trial : trials_) {
     weights.push_back(trial->weight());
   }
-  cumulative_probability_ = cumulative_probability(weights);
+  cumulative_probability_ = feasst::cumulative_probability(weights);
   //std::stringstream ss;
   //ss << trials_.back()->class_name()"trial" << num() - 1;
   // timer_.add(trials_.back()->class_name());
+}
+
+void TrialFactory::remove(const int index) {
+  trials_.erase(trials_.begin() + index);
+  update_cumul_prob_();
 }
 
 int TrialFactory::random_index(Random * random) {

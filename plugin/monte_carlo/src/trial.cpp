@@ -189,11 +189,19 @@ std::shared_ptr<Trial> Trial::create(std::istream& istr) const {
   return std::make_shared<Trial>(istr);
 }
 
+std::shared_ptr<Trial> Trial::create(argtype * args) const {
+  FATAL("not implemented");
+}
+
 std::shared_ptr<Trial> Trial::deserialize(std::istream& istr) {
   return template_deserialize(deserialize_map(), istr,
     // true argument denotes rewinding to reread class name
     // this allows derived class constructor to read class name.
     true);
+}
+
+std::shared_ptr<Trial> Trial::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
 }
 
 void Trial::refresh_stages_ptr_() {

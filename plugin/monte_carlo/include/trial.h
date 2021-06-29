@@ -146,8 +146,10 @@ class Trial {
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Trial> create(std::istream& istr) const;
+  virtual std::shared_ptr<Trial> create(argtype * args) const;
   std::map<std::string, std::shared_ptr<Trial> >& deserialize_map();
   std::shared_ptr<Trial> deserialize(std::istream& istr);
+  std::shared_ptr<Trial> factory(const std::string name, argtype * args);
   explicit Trial(std::istream& istr);
   virtual ~Trial() {}
 

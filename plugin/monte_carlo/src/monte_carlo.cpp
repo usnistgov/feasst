@@ -2,9 +2,13 @@
 #include <fstream>
 #include "utils/include/serialize.h"
 #include "utils/include/checkpoint.h"
-#include "math/include/random_mt19937.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trials.h"
+#include "monte_carlo/include/action.h"
+
+// for parsing factories
+#include "math/include/random_mt19937.h"
+#include "monte_carlo/include/metropolis.h"
 
 namespace feasst {
 
@@ -19,11 +23,133 @@ MonteCarlo::MonteCarlo(std::shared_ptr<Random> random) {
 
 MonteCarlo::MonteCarlo() : MonteCarlo(std::make_shared<RandomMT19937>()) {}
 
+void MonteCarlo::parse_(arglist * args) {
+  DEBUG("first " << args->begin()->first);
+  std::cout << "{" << args->begin()->first << ","
+            << str(args->begin()->second) << "}," << std::endl;
+
+  // parse all derived classes of Random
+  std::shared_ptr<Random> ran =
+    parse(dynamic_cast<Random*>(MakeRandomMT19937().get()), args);
+  if (ran) {
+    DEBUG("parsing Random");
+    set(ran);
+    return;
+  }
+
+  // parse Checkpoint
+  if (args->begin()->first == "Checkpoint") {
+    DEBUG("parsing Checkpoint");
+    set(MakeCheckpoint(args->begin()->second));
+    args->erase(args->begin());
+    return;
+  }
+
+  // parse Configuration
+  if (args->begin()->first == "Configuration") {
+    DEBUG("parsing Configuration");
+    add(MakeConfiguration(args->begin()->second));
+    args->erase(args->begin());
+    return;
+  }
+
+  // parse Potential
+  if (args->begin()->first == "Potential") {
+    DEBUG("parsing Potential");
+    add(MakePotential(args->begin()->second));
+    args->erase(args->begin());
+    return;
+  }
+
+  // parse ThermoParams
+  if (args->begin()->first == "ThermoParams") {
+    DEBUG("parsing ThermoParams");
+    set(MakeThermoParams(args->begin()->second));
+    args->erase(args->begin());
+    return;
+  }
+
+  // parse all derived classes of Criteria
+  std::shared_ptr<Criteria> crit =
+    parse(dynamic_cast<Criteria*>(MakeMetropolis().get()), args);
+  if (crit) {
+    DEBUG("parsing Criteria");
+    set(crit);
+    return;
+  }
+
+  // parse all derived classes of Trial
+  std::shared_ptr<Trial> trial =
+    parse(dynamic_cast<Trial*>(MakeTrial().get()), args);
+  if (trial) {
+    DEBUG("parsing Trial");
+    add(trial);
+    return;
+  }
+
+  // parse all derived classes of Analyze
+  std::shared_ptr<Analyze> an =
+    parse(dynamic_cast<Analyze*>(std::make_shared<Analyze>().get()), args);
+  if (an) {
+    DEBUG("parsing Analyze");
+    add(an);
+    return;
+  }
+
+  // parse all derived classes of Modify
+  std::shared_ptr<Modify> mod =
+    parse(dynamic_cast<Modify*>(std::make_shared<Modify>().get()), args);
+  if (mod) {
+    DEBUG("parsing Modify");
+    add(mod);
+    return;
+  }
+
+  // parse all derived classes of Action
+  std::shared_ptr<Action> act =
+    parse(dynamic_cast<Action*>(std::make_shared<Action>().get()), args);
+  if (act) {
+    DEBUG("parsing Action");
+    perform(act);
+    return;
+  }
+
+}
+
+MonteCarlo::MonteCarlo(arglist args) : MonteCarlo() {
+  args_ = args;
+  int size = static_cast<int>(args_.size());
+  int previous_size = size;
+  while (size > 0) {
+    previous_size = size;
+    DEBUG("size " << size);
+    parse_(&args_);
+    size = static_cast<int>(args_.size());
+    ASSERT(previous_size - 1 == size,
+      "Unrecognized argument: " << args_.begin()->first);
+  }
+}
+
+void MonteCarlo::perform(std::shared_ptr<Action> action) {
+  action_ = action;
+  action_->perform(this);
+//  action_->perform(&system_, criteria_, &trial_factory_, &analyze_factory_,
+//               &modify_factory_, checkpoint_, random_);
+}
+
 void MonteCarlo::seed_random(const int seed) {
   random_->seed(seed);
 }
 
+void MonteCarlo::add(std::shared_ptr<Configuration> config) {
+  system_.add(*config);
+  config_set_ = true;
+  if (potential_set_) system_set_ = true;
+  ASSERT(!criteria_set_, "add config before criteria");
+}
+
 void MonteCarlo::add(const Configuration& config) {
+  WARN("Use MakeConfiguration instead of Configuration");
   system_.add(config);
   config_set_ = true;
   if (potential_set_) system_set_ = true;
@@ -254,6 +380,8 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(modify_factory_, ostr);
   feasst_serialize(checkpoint_, ostr);
   feasst_serialize_fstdr(random_, ostr);
+  feasst_serialize_fstdr(action_, ostr);
+  feasst_serialize(args_, ostr);
   feasst_serialize(config_set_, ostr);
   feasst_serialize(potential_set_, ostr);
   feasst_serialize(thermo_params_set_, ostr);
@@ -293,6 +421,15 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
       random_ = random_->deserialize(istr);
     }
   }
+  // HWH for unknown reasons, this function template does not work.
+  //feasst_deserialize_fstdr(action_, istr);
+  { int existing;
+    istr >> existing;
+    if (existing != 0) {
+      action_ = action_->deserialize(istr);
+    }
+  }
+  feasst_deserialize(&args_, istr);
   feasst_deserialize(&config_set_, istr);
   feasst_deserialize(&potential_set_, istr);
   feasst_deserialize(&thermo_params_set_, istr);

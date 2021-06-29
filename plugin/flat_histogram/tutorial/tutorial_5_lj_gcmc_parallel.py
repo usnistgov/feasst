@@ -57,9 +57,9 @@ def mc(thread, mn, mx):
     return mc
 
 windows=fst.WindowExponential(fst.args({
-  "alpha": "2.5",
-  "num": str(args.num_procs),
-  "maximum": str(args.max_particles)})).boundaries()
+    "alpha": "2.5",
+    "num": str(args.num_procs),
+    "maximum": str(args.max_particles)})).boundaries()
 print(windows)
 
 if args.task == 0:

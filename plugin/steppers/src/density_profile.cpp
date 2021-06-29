@@ -20,10 +20,12 @@ class MapDensityProfile {
 
 static MapDensityProfile mapper_ = MapDensityProfile();
 
-DensityProfile::DensityProfile(argtype args) : Analyze(&args) {
-  dimension_ = integer("dimension", &args, 0);
-  dr_ = dble("dr", &args, 0.1);
-  center_ = dble("center", &args, 0.);
+DensityProfile::DensityProfile(argtype * args) : Analyze(args) {
+  dimension_ = integer("dimension", args, 0);
+  dr_ = dble("dr", args, 0.1);
+  center_ = dble("center", args, 0.);
+}
+DensityProfile::DensityProfile(argtype args) : DensityProfile(&args) {
   check_all_used(args);
 }
 

@@ -17,6 +17,7 @@ namespace feasst {
 
 class Checkpoint;
 class Random;
+class Action;
 
 // HWH consider a constructor-based initialization of MonteCarlo..
 // HWH something where order doesn't need to be enforced?
@@ -31,19 +32,53 @@ class MonteCarlo {
   /// Construct with Random number generator.
   MonteCarlo(std::shared_ptr<Random> random);
 
-  /// Construct a MonteCarlo object with RandomMT19937.
+  /// Construct with RandomMT19937.
   MonteCarlo();
+
+  /*
+    Objects are processed with the following (derived-)names and arguments.
+    - Random (default: RandomMT19937).
+    - Configuration (multiple)
+    - Potential (multiple)
+    - ThermoParams
+    - Criteria
+    - Trial (multiple)
+    - Analyze (multiple)
+    - Modify (multiple)
+    - Action
+    Those not labeled multiple will override any previous object of same type,
+    while those labeled multiple will not override but rather add more.
+
+    For example, in C++:
+
+    auto mc = MakeMonteCarlo({{
+      {"RandomMT19937", {{"seed", "123"}}},
+      ...
+    }});
+
+    Or in Python:
+
+    mc = fst.MakeMonteCarlo(fst.arglist([[
+      "RandomMT19937", {"seed": "123"},
+      ...
+    ]]));
+
+   */
+  explicit MonteCarlo(arglist args);
 
   /// Set the random number generator.
   void set(std::shared_ptr<Random> random) { random_ = random; }
 
   /// Return the random number generator.
-  //const Random& random() const { return const_cast<Random&>(*random_); }
+  const Random& random() const { return const_cast<Random&>(*random_); }
 
   /// Seed random number generator.
   void seed_random(const int seed);
 
   /// The first action with a Monte Carlo object is to set the Configuration.
+  void add(std::shared_ptr<Configuration> config);
+
+  // HWH depreciated interface. WARN.
   void add(const Configuration& config);
 
   /// The configuration may be accessed read-only.
@@ -116,6 +151,9 @@ class MonteCarlo {
   /// with weight of 2 and TrialRemove with weight of 2.
   void add(std::shared_ptr<Trial> trial);
 
+  /// Remove a trial by index.
+  void remove_trial(const int index) { trial_factory_.remove(index); }
+
   /// Access the trials on a read-only basis.
   const TrialFactory& trials() const { return trial_factory_; }
 
@@ -153,6 +191,9 @@ class MonteCarlo {
   /// change the System, Criteria and Trials.
   void add(const std::shared_ptr<Modify> modify);
 
+  /// Remove a modify by index.
+  void remove_modify(const int index) { modify_factory_.remove(index); }
+
   /// Return an Modify by index.
   const Modify& modify(const int index) const {
     return modify_factory_.modify(index); }
@@ -169,6 +210,9 @@ class MonteCarlo {
 
   /// Attempt one trial, with subsequent analysers and modifiers.
   // void attempt() { attempt_(1, &trial_factory_, random_.get()); }
+
+  /// Perform an Action
+  void perform(std::shared_ptr<Action> action);
 
   /// Attempt a number of Monte Carlo trials.
   void attempt(const int num_trials = 1) {
@@ -253,6 +297,8 @@ class MonteCarlo {
   ModifyFactory modify_factory_;
   std::shared_ptr<Checkpoint> checkpoint_;
   std::shared_ptr<Random> random_;
+  std::shared_ptr<Action> action_;
+  arglist args_;
 
 //  Timer timer_;
 //  int timer_other_, timer_trial_, timer_analyze_, timer_modify_;
@@ -265,11 +311,15 @@ class MonteCarlo {
   bool criteria_set_ = false;
 
   bool duplicate_stepper_file_name_(const std::string file_name);
+  void parse_(arglist * args);
 };
 
 inline std::shared_ptr<MonteCarlo> MakeMonteCarlo() {
   return std::make_shared<MonteCarlo>();
 }
+
+inline std::shared_ptr<MonteCarlo> MakeMonteCarlo(arglist args) {
+  return std::make_shared<MonteCarlo>(args); }
 
 /// Construct MonteCarlo from file.
 std::shared_ptr<MonteCarlo> MakeMonteCarlo(const std::string file_name);

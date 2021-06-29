@@ -16,6 +16,10 @@ std::shared_ptr<Model> Model::deserialize(std::istream& istr) {
     true);
 }
 
+std::shared_ptr<Model> Model::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
+}
+
 double Model::energy(
   const double squared_distance,
   const int type1,
@@ -25,7 +29,11 @@ double Model::energy(
 void Model::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Model> Model::create(std::istream& istr) const {
-  FATAL("not implemented"); }
+  FATAL("not implemented");
+}
+std::shared_ptr<Model> Model::create(argtype * args) const {
+  FATAL("not implemented");
+}
 
 Model::Model(std::istream& istr) {
   istr >> class_name_;

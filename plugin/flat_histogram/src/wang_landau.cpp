@@ -115,10 +115,6 @@ WangLandau::WangLandau(std::istream& istr) : Bias(istr) {
   feasst_deserialize(&(min_flatness_), istr);
 }
 
-std::shared_ptr<Bias> WangLandau::create(std::istream& istr) const {
-  return std::make_shared<WangLandau>(istr);
-}
-
 void WangLandau::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_bias_(ostr);

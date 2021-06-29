@@ -136,8 +136,11 @@ class VisitModel {
   }
   virtual std::shared_ptr<VisitModel> create(std::istream& istr) const {
     return std::make_shared<VisitModel>(istr); }
+  virtual std::shared_ptr<VisitModel> create(argtype * args) const {
+    return std::make_shared<VisitModel>(); }
   std::map<std::string, std::shared_ptr<VisitModel> >& deserialize_map();
   std::shared_ptr<VisitModel> deserialize(std::istream& istr);
+  std::shared_ptr<VisitModel> factory(const std::string name, argtype * args);
   explicit VisitModel(std::istream& istr);
   virtual ~VisitModel() {}
 

@@ -27,10 +27,8 @@ TEST(MonteCarlo, beta_expanded) {
   const double beta_max = 1.2;
   const int beta_num = 5;
   const std::string delta_beta = str((beta_max - beta_min)/(beta_num-1));
-  mc.set(MakeFlatHistogram(
-    MakeMacrostateBeta(
-      Histogram({{"width", delta_beta}, {"max", str(beta_max)}, {"min", str(beta_min)}})),
-    MakeWLTM({{"collect_flatness", "18"}, {"min_flatness", "22"}, {"min_sweeps", "10"}})));
+  mc.set(MakeFlatHistogram({{"Macrostate", "MacrostateBeta"}, {"width", delta_beta}, {"max", str(beta_max)}, {"min", str(beta_min)},
+    {"Bias", "WLTM"}, {"collect_flatness", "18"}, {"min_flatness", "22"}, {"min_sweeps", "10"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."},{"tunable_param", "1."}}));
   SeekNumParticles(10).with_trial_add().with_metropolis().run(&mc);
   mc.add(MakeTrialBeta({{"fixed_beta_change", delta_beta}}));

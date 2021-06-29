@@ -48,6 +48,7 @@ class PairDistribution : public Modify {
     - dr: radial distribution bin size (default: 0.1).
    */
   explicit PairDistribution(argtype args = argtype());
+  explicit PairDistribution(argtype * args);
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -73,6 +74,8 @@ class PairDistribution : public Modify {
   std::string class_name() const override { return std::string("PairDistribution"); }
   std::shared_ptr<Modify> create(std::istream& istr) const override {
     return std::make_shared<PairDistribution>(istr); }
+  std::shared_ptr<Modify> create(argtype * args) const override {
+    return std::make_shared<PairDistribution>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit PairDistribution(std::istream& istr);
   explicit PairDistribution(const Modify& pair_distribution);

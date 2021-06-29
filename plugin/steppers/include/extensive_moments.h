@@ -23,6 +23,7 @@ class ExtensiveMoments : public Analyze {
     - max_order: maximum order cutoff for the powers (default: 3).
    */
   explicit ExtensiveMoments(argtype args = argtype());
+  explicit ExtensiveMoments(argtype * args);
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -52,6 +53,8 @@ class ExtensiveMoments : public Analyze {
   std::string class_name() const override { return std::string("ExtensiveMoments"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<ExtensiveMoments>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<ExtensiveMoments>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit ExtensiveMoments(std::istream& istr);
   explicit ExtensiveMoments(const Analyze& extensive_moments);

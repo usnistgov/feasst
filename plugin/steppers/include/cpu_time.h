@@ -13,6 +13,7 @@ namespace feasst {
 class CPUTime : public AnalyzeWriteOnly {
  public:
   explicit CPUTime(argtype args = argtype());
+  explicit CPUTime(argtype * args);
 
   void initialize(Criteria * criteria,
       System * system,
@@ -27,6 +28,8 @@ class CPUTime : public AnalyzeWriteOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<CPUTime>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<CPUTime>(args); }
   CPUTime(std::istream& istr);
 
  private:

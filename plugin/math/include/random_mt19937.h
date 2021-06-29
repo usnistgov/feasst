@@ -16,6 +16,7 @@ namespace feasst {
 class RandomMT19937 : public Random {
  public:
   explicit RandomMT19937(argtype args = argtype());
+  explicit RandomMT19937(argtype * args);
 
   /// Use http://www.cplusplus.com/reference/random/normal_distribution/
   double standard_normal() override { return std_normal_(generator_); }
@@ -23,6 +24,8 @@ class RandomMT19937 : public Random {
   // serialize
   std::shared_ptr<Random> create(std::istream& istr) const override {
     return std::make_shared<RandomMT19937>(istr); }
+  std::shared_ptr<Random> create(argtype * args) const override {
+    return std::make_shared<RandomMT19937>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit RandomMT19937(std::istream& istr);
   virtual ~RandomMT19937() {}

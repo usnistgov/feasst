@@ -25,10 +25,12 @@ class MapRandomMT19937 {
 
 static MapRandomMT19937 mapper_ = MapRandomMT19937();
 
-RandomMT19937::RandomMT19937(argtype args) : Random(&args) {
+RandomMT19937::RandomMT19937(argtype * args) : Random(args) {
   class_name_ = "RandomMT19937";
   std_normal_ = std::normal_distribution<double>(0., 1.);
-  parse_seed_(&args);
+  parse_seed_(args);
+}
+RandomMT19937::RandomMT19937(argtype args) : RandomMT19937(&args) {
   check_all_used(args);
 }
 

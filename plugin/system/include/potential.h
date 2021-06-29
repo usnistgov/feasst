@@ -22,8 +22,6 @@ namespace feasst {
 class Potential {
  public:
   /**
-    Construct with the default visitor and default model (emtpy).
-
     args:
     - group_index: set the index of the group in the configuration which
       contributes to this potential (default: 0, representing entire config).
@@ -35,7 +33,7 @@ class Potential {
     - table_size: set size of tabular potential (default: 0).
       Do not use table if size <= 0.
    */
-  explicit Potential(argtype args = argtype());
+  explicit Potential(argtype * args);
 
   /// Return the index of the group
   int group_index() const { return group_index_; }
@@ -44,15 +42,22 @@ class Potential {
   int cell_index() const;
 
   /// Construct with model and default visitor.
-  explicit Potential(std::shared_ptr<Model> model,
-                     argtype args = argtype());
+  Potential(std::shared_ptr<Model> model, argtype args = argtype());
+
+  /**
+    args:
+    - Model: derived class Model name (default: ModelEmpty).
+    - VisitModel: derived class VisitModel name (default: VisitModel).
+    - All arguments described in the first constructor.
+   */
+  explicit Potential(argtype args = argtype());
 
   /// Return the model.
   const Model& model() const { return const_cast<Model&>(*model_); }
 
   /// Construct with visitor and default model.
-  explicit Potential(std::shared_ptr<VisitModel> visit_model,
-                     argtype args = argtype());
+  Potential(std::shared_ptr<VisitModel> visit_model,
+            argtype args = argtype());
 
   /// Return the method used to compute.
   const VisitModel& visit_model() const {
@@ -142,8 +147,7 @@ class Potential {
   int table_size_;
 };
 
-inline std::shared_ptr<Potential> MakePotential(
-    argtype args = argtype()) {
+inline std::shared_ptr<Potential> MakePotential(argtype args = argtype()) {
   return std::make_shared<Potential>(args);
 }
 

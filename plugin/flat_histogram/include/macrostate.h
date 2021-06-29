@@ -19,6 +19,7 @@ namespace feasst {
  */
 class Macrostate {
  public:
+  // HWH consider depreciating this interface?
   /**
     args:
     - soft_max : optionally, set a soft maximum (default: last histogram bin).
@@ -28,6 +29,11 @@ class Macrostate {
    */
   Macrostate(const Histogram& histogram, argtype args = argtype());
   Macrostate(const Histogram& histogram, argtype * args);
+
+  /**
+    A flattened version of the above constructor that takes Histogram arguments.
+   */
+  explicit Macrostate(argtype args = argtype());
 
   /**
     Set the bins of the macrostate by providing a Histogram.
@@ -73,8 +79,10 @@ class Macrostate {
 
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Macrostate> create(std::istream& istr) const;
+  virtual std::shared_ptr<Macrostate> create(argtype * args) const;
   std::map<std::string, std::shared_ptr<Macrostate> >& deserialize_map();
   std::shared_ptr<Macrostate> deserialize(std::istream& istr);
+  std::shared_ptr<Macrostate> factory(const std::string name, argtype * args);
   explicit Macrostate(std::istream& istr);
   virtual ~Macrostate() {}
 

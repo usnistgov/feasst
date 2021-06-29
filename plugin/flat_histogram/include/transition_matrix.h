@@ -71,6 +71,8 @@ class TransitionMatrix : public Bias {
   void read_dump_file(const std::string dump_file);
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
+  std::shared_ptr<Bias> create(argtype * args) const override {
+    return std::make_shared<TransitionMatrix>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit TransitionMatrix(std::istream& istr);
   explicit TransitionMatrix(const Bias& bias);

@@ -257,6 +257,10 @@ std::shared_ptr<VisitModel> VisitModel::deserialize(std::istream& istr) {
     true);
 }
 
+std::shared_ptr<VisitModel> VisitModel::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
+}
+
 void VisitModel::serialize_visit_model_(std::ostream& ostr) const {
   feasst_serialize_version(545, ostr);
   feasst_serialize(energy_, ostr);

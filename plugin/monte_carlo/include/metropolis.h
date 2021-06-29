@@ -26,7 +26,8 @@ class Metropolis : public Criteria {
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<Metropolis>(istr); }
-
+  std::shared_ptr<Criteria> create(argtype * args) const override {
+    return std::make_shared<Metropolis>(); }
   void serialize(std::ostream& ostr) const override;
   Metropolis(std::istream& istr);
   ~Metropolis() {}

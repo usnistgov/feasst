@@ -3,6 +3,7 @@
 #define FEASST_FLAT_HISTOGRAM_FLAT_HISTOGRAM_H_
 
 #include <memory>
+#include "utils/include/arguments.h"
 #include "math/include/accumulator.h"
 #include "monte_carlo/include/criteria.h"
 #include "flat_histogram/include/macrostate.h"
@@ -25,9 +26,20 @@ class FlatHistogram : public Criteria {
   // Only used for reweighting
   FlatHistogram();
 
-  /// Constructor
+  /// Construct with a macrostate and a bias
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
       std::shared_ptr<Bias> bias);
+
+  /**
+    This is a flattened constructor which takes arguments for macrostate, the
+    macrostate histogram and the bias, as well as the following two arguments.
+
+    args:
+    - macrostate: MacrostateNumParticles, MacrostateEnergy, etc
+    - bias: WangLandau, TransitionMatrix, WLTM, etc.
+   */
+  explicit FlatHistogram(argtype args);
+  explicit FlatHistogram(argtype * args);
 
   /// Same as above, but with an added Constraint.
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
@@ -86,6 +98,8 @@ class FlatHistogram : public Criteria {
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<FlatHistogram>(istr); }
+  std::shared_ptr<Criteria> create(argtype * args) const override {
+    return std::make_shared<FlatHistogram>(args); }
   void serialize(std::ostream& ostr) const override;
   FlatHistogram(std::istream& istr);
   FlatHistogram(const Criteria& criteria);
@@ -101,6 +115,9 @@ class FlatHistogram : public Criteria {
 
   // temporary
   Acceptance empty_;
+
+  void init_(std::shared_ptr<Macrostate> macrostate,
+    std::shared_ptr<Bias> bias);
 };
 
 inline std::shared_ptr<FlatHistogram> MakeFlatHistogram() {
@@ -111,6 +128,10 @@ inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(
     std::shared_ptr<Macrostate> macrostate,
     std::shared_ptr<Bias> bias) {
   return std::make_shared<FlatHistogram>(macrostate, bias);
+}
+
+inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(argtype args) {
+  return std::make_shared<FlatHistogram>(args);
 }
 
 inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(

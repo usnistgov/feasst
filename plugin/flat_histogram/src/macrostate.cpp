@@ -2,6 +2,8 @@
 #include "utils/include/serialize.h"
 #include "flat_histogram/include/macrostate.h"
 #include "math/include/utils_math.h"
+#include "flat_histogram/include/macrostate_num_particles.h"
+#include "flat_histogram/include/macrostate_energy.h"
 
 namespace feasst {
 
@@ -24,6 +26,11 @@ Macrostate::Macrostate(const Histogram& histogram, argtype * args) {
   DEBUG("soft min " << soft_min_);
   DEBUG("soft max " << soft_max_);
   DEBUG("edges " << feasst_str(histogram_.edges()));
+}
+
+Macrostate::Macrostate(argtype args) :
+    Macrostate(Histogram(&args), &args) {
+  check_all_used(args);
 }
 
 bool Macrostate::is_allowed(const System& system,
@@ -75,6 +82,14 @@ Macrostate::Macrostate(std::istream& istr) {
   feasst_deserialize_fstobj(&histogram_, istr);
   feasst_deserialize(&soft_max_, istr);
   feasst_deserialize(&soft_min_, istr);
+}
+
+std::shared_ptr<Macrostate> Macrostate::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
+}
+
+std::shared_ptr<Macrostate> Macrostate::create(argtype * args) const {
+  FATAL("not implemented");
 }
 
 }  // namespace feasst

@@ -26,7 +26,8 @@ class WLTM : public Bias {
       Also, increment the phase when this occurs.
     - min_sweeps: Number of sweeps required for completion.
    */
-  WLTM(argtype args = argtype());
+  explicit WLTM(argtype args = argtype());
+  explicit WLTM(argtype * args);
   void update_or_revert(
     const int macrostate_old,
     const int macrostate_new,
@@ -46,6 +47,8 @@ class WLTM : public Bias {
   std::string write_per_bin_header() const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
   std::shared_ptr<Bias> create(std::istream& istr) const override;
+  std::shared_ptr<Bias> create(argtype * args) const override {
+    return std::make_shared<WLTM>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit WLTM(std::istream& istr);
   virtual ~WLTM() {}

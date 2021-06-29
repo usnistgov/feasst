@@ -39,4 +39,16 @@ TEST(Serialize, argtype) {
   EXPECT_EQ(args2["0"], "12");
 }
 
+TEST(Serialize, arglist) {
+  const arglist& args = {{{"hi", {{"0", "12"}}}}};
+  std::stringstream ss;
+  feasst_serialize(args, ss);
+  EXPECT_EQ(ss.str(), "1 1 hi 1 1 0 1 12 ");
+  arglist args2;
+  feasst_deserialize(&args2, ss);
+  //INFO(str(args2));
+  EXPECT_EQ(args2[0].first, "hi");
+  EXPECT_EQ(args2[0].second["0"], "12");
+}
+
 }  // namespace feasst

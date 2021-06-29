@@ -30,11 +30,14 @@ class MapRandomModulo {
 
 static MapRandomModulo mapper_ = MapRandomModulo();
 
-RandomModulo::RandomModulo(argtype args) : Random(&args) {
+RandomModulo::RandomModulo(argtype * args) : Random(args) {
   class_name_ = "RandomModulo";
   M_ = std::pow(2, 31) - 1;
   a_ = std::pow(7, 5);
-  parse_seed_(&args);
+  parse_seed_(args);
+}
+RandomModulo::RandomModulo(argtype args) : RandomModulo(&args) {
+  check_all_used(args);
 }
 
 void RandomModulo::serialize(std::ostream& ostr) const {

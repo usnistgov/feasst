@@ -24,6 +24,17 @@ inline std::shared_ptr<Trial> MakeTrialMove(
   return trial;
 }
 
+class TrialMove : public Trial {
+ public:
+  TrialMove(std::shared_ptr<TrialSelect> select,
+            std::shared_ptr<PerturbMove> perturb,
+            argtype * args);
+  explicit TrialMove(std::istream& istr);
+  virtual ~TrialMove() {}
+ protected:
+  void serialize_trial_move_(std::ostream& ostr) const;
+};
+
 }  // namespace feasst
 
 #endif  // FEASST_MONTE_CARLO_TRIAL_MOVE_H_

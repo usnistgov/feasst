@@ -15,6 +15,7 @@ namespace feasst {
 class ProfileTrials : public Analyze {
  public:
   explicit ProfileTrials(argtype args = argtype());
+  explicit ProfileTrials(argtype * args);
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -38,6 +39,8 @@ class ProfileTrials : public Analyze {
   std::string class_name() const override { return std::string("ProfileTrials"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<ProfileTrials>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<ProfileTrials>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit ProfileTrials(std::istream& istr);
 

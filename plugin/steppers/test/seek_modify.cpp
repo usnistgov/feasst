@@ -21,8 +21,8 @@ TEST(SeekModify, seek) {
   mc.add(MakeWallClockLimit({{"max_hours", "1e-9"}}));
   EXPECT_EQ(0, SeekModify().index("CheckEnergy", mc)[0]);
   EXPECT_EQ(0, SeekModify().index("CheckEnergy", mc)[1]);
-  EXPECT_EQ(0, SeekModify().index("Tuner", mc)[0]);
-  EXPECT_EQ(1, SeekModify().index("Tuner", mc)[1]);
+  EXPECT_EQ(0, SeekModify().index("Tune", mc)[0]);
+  EXPECT_EQ(1, SeekModify().index("Tune", mc)[1]);
   EXPECT_EQ(-1, SeekModify().index("MagicalUnicorn", mc)[0]);
   EXPECT_EQ(-1, SeekModify().index("MagicalUnicorn", mc)[0]);
 }

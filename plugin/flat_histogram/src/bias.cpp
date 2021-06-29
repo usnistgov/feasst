@@ -39,11 +39,19 @@ std::shared_ptr<Bias> Bias::create(std::istream& istr) const {
   FATAL("not implemented");
 }
 
+std::shared_ptr<Bias> Bias::create(argtype * args) const {
+  FATAL("not implemented");
+}
+
 std::shared_ptr<Bias> Bias::deserialize(std::istream& istr) {
   return template_deserialize(deserialize_map(), istr,
     // true argument denotes rewinding to reread class name
     // this allows derived class constructor to read class name.
     true);
+}
+
+std::shared_ptr<Bias> Bias::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
 }
 
 void Bias::serialize_bias_(std::ostream& ostr) const {

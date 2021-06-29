@@ -20,7 +20,8 @@ class Chirality2D : public Analyze {
     - bond2: index of the second bond (default: 1).
     - sign_error: error if chirality of sign and != 0 (default 0).
    */
-  Chirality2D(argtype args = argtype());
+  explicit Chirality2D(argtype args = argtype());
+  explicit Chirality2D(argtype * args);
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -47,6 +48,8 @@ class Chirality2D : public Analyze {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Chirality2D>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<Chirality2D>(args); }
   Chirality2D(std::istream& istr);
 
  private:

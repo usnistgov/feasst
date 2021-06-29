@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
   monte_carlo->add(MakeCheckEnergy({
     {"steps_per", str(steps_per)},
     {"tolerance", str(1e-8)}}));
-  monte_carlo->add(MakeTuner({
+  monte_carlo->add(MakeTune({
     {"steps_per", str(steps_per)}}));
 
   // equilibrate

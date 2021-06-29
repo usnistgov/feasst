@@ -1,6 +1,8 @@
 '''
-  This utility automatically generates the swig interface file.
-  It also generates some of the rst files needed for documentation.
+  This utility automatically generates three kinds of files.
+  The first is the swig python interface file, py/feasst.i.
+  The second are all of the plugin/[module]/doc rst files for documentation.
+  The third is the feasst.h file used for the C++ interface.
 '''
 usage='/path/to/feasst/py/run.sh /path/to/feasst/dev/tools/depend.py -s /path/to/feasst'
 
@@ -162,7 +164,9 @@ using namespace std;\n\
 %include \"std_map.i\"\n\
 %template(args) std::map<std::string, std::string>;\n\
 %template(ArgsVector) std::vector<std::map<std::string, std::string> >;\n\
+%template(arglist) std::vector<std::pair<std::string, std::map<std::string, std::string> > >;\n\
 ")
+#%template(arglist) std::map<std::string, std::map<std::string, std::string> >;\n\
 
     if 'system' in include_plugin:
         swig_file.write("%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;\n")
@@ -236,3 +240,37 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
               else:
                   fle.write('\n')
                   fle.write('.. doxygenfile:: ' + funcfile + '.h\n   :project: FEASST\n')
+
+# write the C++ interface feasst.h
+with pyfeasst.cd(args.source_dir+'/plugin/'):
+  with open('feasst/include/feasst.h', 'w') as fsth:
+    for dep in deps:
+      fsth.write('#include \"' + dep[0] + '\"\n')
+    # create an object in each plugin to force initialization of deserialize_map
+    select_classes = list()
+    if 'beta_expanded' in include_plugin: select_classes.append("ComputeBeta")
+#    if 'chain' in include_plugin: select_classes.append("")
+#    if 'cluster' in include_plugin: select_classes.append("")
+#    if 'configuration' in include_plugin: select_classes.append("")
+#    if 'confinement' in include_plugin: select_classes.append("")
+#    if 'egce' in include_plugin: select_classes.append("")
+#    if 'ewald' in include_plugin: select_classes.append("")
+#    if 'example' in include_plugin: select_classes.append("")
+#    if 'flat_histogram' in include_plugin: select_classes.append("")
+#    if 'math' in include_plugin: select_classes.append("")
+#    if 'mayer' in include_plugin: select_classes.append("")
+#    if 'models' in include_plugin: select_classes.append("")
+#    if 'monte_carlo' in include_plugin: select_classes.append("")
+#    if 'morph' in include_plugin: select_classes.append("")
+#    if 'opt_lj' in include_plugin: select_classes.append("")
+    #if 'patch' in include_plugin: select_classes.append("")
+    #if 'prefetch' in include_plugin: select_classes.append("")
+    #if '' in include_plugin: select_classes.append("")
+    #if '' in include_plugin: select_classes.append("")
+    #if '' in include_plugin: select_classes.append("")
+    if 'steppers' in include_plugin: select_classes.append("Tune")
+    for icl in select_classes:
+      fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")
+    #for cls in classes:
+    #  for icl in cls:
+    #    fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")

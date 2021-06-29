@@ -121,7 +121,7 @@ std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int
     }
   }
   mc->add(feasst::MakeCheckEnergy({{"steps_per", steps_per}, {"tolerance", "0.0001"}}));
-  mc->add(feasst::MakeTuner({{"steps_per", steps_per}, {"stop_after_phase", "0"}}));
+  mc->add(feasst::MakeTune({{"steps_per", steps_per}, {"stop_after_phase", "0"}}));
   mc->add(feasst::MakeLogAndMovie({{"steps_per", steps_per},
                                    {"file_name", "clones" + feasst::str(thread)},
                                    {"file_name_append_phase", "True"}}));

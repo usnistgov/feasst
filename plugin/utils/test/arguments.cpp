@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "utils/include/utils.h"
 #include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "math/include/constants.h"
@@ -68,20 +69,47 @@ TEST(Arguments, dble) {
   EXPECT_NEAR(3.1415, dble("key1", &args), NEAR_ZERO);
 }
 
-TEST(Arguments, arglist) {
-  arglist argls = {{ {"set1", {{"key1", "val1"}} },
-                             {"set2", {{"key2", "val2"}} } }};
-  auto set = argls.find("set2");
-  auto pair = set->second.find("key2");
-  EXPECT_NE(set->second.end(), pair);
-  EXPECT_TRUE(pair->second == "val2");
-}
+//TEST(Arguments, arglist) {
+//  arglist argls = {{ {"set1", {{"key1", "val1"}} },
+//                             {"set2", {{"key2", "val2"}} } }};
+//  auto set = argls.find("set2");
+//  auto pair = set->second.find("key2");
+//  EXPECT_NE(set->second.end(), pair);
+//  EXPECT_TRUE(pair->second == "val2");
+//}
 
 TEST(Arguments, boolean) {
   for (const std::string arg : {"1", "true", "True"}) {
     argtype args = {{"bananas", arg}};
     EXPECT_TRUE(boolean("bananas", &args));
   }
+}
+
+//TEST(Arguments, parse) {
+//  arglist args = {{{"Random", {{"seed", "time"}}}}};
+//  EXPECT_EQ(1, args.size());
+//  argtype random_args = get("Random", &args);
+//  EXPECT_EQ(0, args.size());
+//  EXPECT_EQ(1, random_args.size());
+//  EXPECT_EQ("time", str("seed", &random_args));
+//  EXPECT_EQ(0, random_args.size());
+//}
+
+TEST(Arguments, str) {
+  argtype arg = {{"hi", "you"}};
+  EXPECT_EQ("{{\"hi\",\"you\"},}", str(arg));
+  arglist args = {{{"major_key1", {{"minor_key1", "value1"}}}}};
+  EXPECT_EQ("{{{\"major_key1\",{{\"minor_key1\",\"value1\"},}},}}", str(args));
+}
+
+TEST(Utils, find_in_list) {
+  arglist args = {{
+    {"major_key", {{"minor_key", "value1"}}},
+    {"major_key", {{"minor_key", "value1"}}}
+  }};
+  int find;
+  find_in_list(std::string("major_key"), args, &find);
+  EXPECT_EQ(0, find);
 }
 
 }  // namespace feasst

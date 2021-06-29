@@ -7,39 +7,49 @@
 #include "configuration/include/configuration.h"
 #include "system/include/potential.h"
 #include "system/include/model_empty.h"
+#include "system/include/model_two_body.h"
 #include "system/include/model_two_body_table.h"
 
 namespace feasst {
 
-Potential::Potential(argtype args) {
-  model_ = std::make_shared<ModelEmpty>();
-  visit_model_ = std::make_shared<VisitModel>();
-
-  group_index_ = integer("group_index", &args, 0);
-  if (used("cell_index", args)) {
+Potential::Potential(argtype * args) {
+  group_index_ = integer("group_index", args, 0);
+  if (used("cell_index", *args)) {
     ASSERT(group_index_ == 0, "cell_index overrides group_index");
-    group_index_ = integer("cell_index", &args);
+    group_index_ = integer("cell_index", args);
   }
-  prevent_cache_ = boolean("prevent_cache", &args, false);
-  table_size_ = integer("table_size", &args, 0);
-  check_all_used(args);
+  prevent_cache_ = boolean("prevent_cache", args, false);
+  table_size_ = integer("table_size", args, 0);
 }
 
 Potential::Potential(std::shared_ptr<Model> model,
-                     argtype args) : Potential(args) {
+                     argtype args) : Potential(&args) {
   model_ = model;
+  visit_model_ = std::make_shared<VisitModel>();
+  check_all_used(args);
 }
 
 Potential::Potential(std::shared_ptr<VisitModel> visit_model,
-                     argtype args) : Potential(args) {
+                     argtype args) : Potential(&args) {
+  model_ = std::make_shared<ModelEmpty>();
   visit_model_ = visit_model;
+  check_all_used(args);
 }
 
 Potential::Potential(
     std::shared_ptr<Model> model,
     std::shared_ptr<VisitModel> visit_model,
-    argtype args) : Potential(model, args) {
+    argtype args) : Potential(&args) {
+  model_ = model;
   visit_model_ = visit_model;
+  check_all_used(args);
+}
+
+Potential::Potential(argtype args) : Potential(&args) {
+  model_ = ModelTwoBody().factory(str("Model", &args, "ModelEmpty"), &args);
+  visit_model_ =
+    VisitModel().factory(str("VisitModel", &args, "VisitModel"), &args);
+  check_all_used(args);
 }
 
 void Potential::set(const ModelParams& model_params) {

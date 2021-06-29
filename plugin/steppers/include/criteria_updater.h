@@ -12,6 +12,7 @@ namespace feasst {
 class CriteriaUpdater : public ModifyUpdateOnly {
  public:
   explicit CriteriaUpdater(argtype args = argtype());
+  explicit CriteriaUpdater(argtype * args);
   void update(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override { criteria->update(); }
@@ -22,6 +23,8 @@ class CriteriaUpdater : public ModifyUpdateOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Modify> create(std::istream& istr) const override {
     return std::make_shared<CriteriaUpdater>(istr); }
+  std::shared_ptr<Modify> create(argtype * args) const override {
+    return std::make_shared<CriteriaUpdater>(args); }
   CriteriaUpdater(std::istream& istr);
 };
 

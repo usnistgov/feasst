@@ -13,10 +13,13 @@ class MapMeanSquaredDisplacement {
 
 static MapMeanSquaredDisplacement mapper_energy_check_ = MapMeanSquaredDisplacement();
 
+MeanSquaredDisplacement::MeanSquaredDisplacement(argtype * args)
+  : Analyze(args) {
+  updates_per_origin_ = integer("updates_per_origin", args, 1000);
+  group_index_ = integer("group_index", args, 0);
+}
 MeanSquaredDisplacement::MeanSquaredDisplacement(argtype args)
-  : Analyze(&args) {
-  updates_per_origin_ = integer("updates_per_origin", &args, 1000);
-  group_index_ = integer("group_index", &args, 0);
+  : MeanSquaredDisplacement(&args) {
   check_all_used(args);
 }
 

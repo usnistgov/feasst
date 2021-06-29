@@ -11,12 +11,18 @@ namespace feasst {
  */
 class MacrostateBeta : public Macrostate {
  public:
-  MacrostateBeta(const Histogram& histogram, const argtype& args = argtype());
+  // HWH consider depreciating this interface
+  MacrostateBeta(const Histogram& histogram, argtype args = argtype());
+  MacrostateBeta(const Histogram& histogram, argtype * args);
+  explicit MacrostateBeta(argtype args = argtype());
+  explicit MacrostateBeta(argtype * args) :
+    MacrostateBeta(Histogram(args), args) {}
   double value(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override {
     return system.thermo_params().beta(); }
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
+  std::shared_ptr<Macrostate> create(argtype * args) const override;
   void serialize(std::ostream& ostr) const override;
   MacrostateBeta(std::istream& istr);
   virtual ~MacrostateBeta() {}
@@ -26,8 +32,13 @@ class MacrostateBeta : public Macrostate {
 };
 
 inline std::shared_ptr<MacrostateBeta> MakeMacrostateBeta(
-    const Histogram& histogram, const argtype& args = argtype()) {
+    const Histogram& histogram, argtype args = argtype()) {
   return std::make_shared<MacrostateBeta>(histogram, args);
+}
+
+inline std::shared_ptr<MacrostateBeta> MakeMacrostateBeta(
+    argtype args = argtype()) {
+  return std::make_shared<MacrostateBeta>(args);
 }
 
 }  // namespace feasst

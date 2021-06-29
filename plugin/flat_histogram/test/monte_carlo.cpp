@@ -14,12 +14,12 @@
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/check_energy_and_tune.h"
-#include "steppers/include/tuner.h"
 #include "steppers/include/log_and_movie.h"
 #include "ewald/include/ewald.h"
 #include "ewald/include/charge_screened.h"
@@ -57,9 +57,15 @@ TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
                                 {{"particle_type", install_dir() + "/forcefield/data.atom"}}));
   monte_carlo.add(MakePotential(MakeDontVisitModel()));
   monte_carlo.set(MakeThermoParams({{"beta", str(1./1.2)}, {"chemical_potential", "-3"}}));
-  auto criteria = MakeFlatHistogram(
-      MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"min", "0"}, {"max", "50"}})),
-      MakeTransitionMatrix({{"min_sweeps", "100"}}));
+//  auto criteria = MakeFlatHistogram(
+//      MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"min", "0"}, {"max", "50"}})),
+//      MakeTransitionMatrix({{"min_sweeps", "100"}}));
+//  auto criteria = MakeFlatHistogram(
+//      MakeMacrostateNumParticles({{"width", "1"}, {"min", "0"}, {"max", "50"}}),
+//      MakeTransitionMatrix({{"min_sweeps", "100"}}));
+  auto criteria = MakeFlatHistogram({
+    {"Macrostate", "MacrostateNumParticles"}, {"width", "1"}, {"min", "0"}, {"max", "50"},
+    {"Bias", "TransitionMatrix"}, {"min_sweeps", "100"}});
   monte_carlo.set(criteria);
   monte_carlo.add(MakeTrialTransfer({{"particle_type", "0"}}));
   monte_carlo.add(MakeCriteriaUpdater({{"steps_per", str(1e5)}}));
@@ -95,7 +101,7 @@ TEST(MonteCarlo, hard_sphere_LONG) {
   const std::string steps_per = "100";
   mc.add(MakeCheckEnergy({{"steps_per", steps_per}, {"tolerance", "0.0001"}}));
   mc.add(MakeCheckPhysicality({{"steps_per", "1"}}));
-  mc.add(MakeTuner({{"steps_per", steps_per}, {"stop_after_phase", "0"}}));
+  mc.add(MakeTune({{"steps_per", steps_per}, {"stop_after_phase", "0"}}));
   mc.add(MakeLogAndMovie({{"steps_per", steps_per},
                           {"file_name", "hs_fh"},
                           {"file_name_append_phase", "True"}}));

@@ -87,7 +87,7 @@ def mc(target_acceptance=0.25,
     monte_carlo.add(feasst.MakeCheckEnergy(feasst.args(
         {"steps_per" : str(steps_per),
          "tolerance" : str(1e-8)})))
-    monte_carlo.add(feasst.MakeTuner(feasst.args(
+    monte_carlo.add(feasst.MakeTune(feasst.args(
         {"steps_per" : str(steps_per)})))
 
     #equilibrate

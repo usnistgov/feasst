@@ -13,16 +13,22 @@ namespace feasst {
  */
 class MacrostateEnergy : public Macrostate {
  public:
+  // HWH consider depreciating this interface?
   /**
    args:
    - particle_type: number of particles of type. If -1 (default), count all
      types.
   */
-  MacrostateEnergy(const Histogram& histogram, const argtype& args = argtype());
+  MacrostateEnergy(const Histogram& histogram, argtype args = argtype());
+  MacrostateEnergy(const Histogram& histogram, argtype * args);
+  explicit MacrostateEnergy(argtype args = argtype());
+  explicit MacrostateEnergy(argtype * args) :
+    MacrostateEnergy(Histogram(args), args) {}
   double value(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override;
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
+  std::shared_ptr<Macrostate> create(argtype * args) const override;
   void serialize(std::ostream& ostr) const override;
   MacrostateEnergy(std::istream& istr);
   virtual ~MacrostateEnergy() {}
@@ -32,8 +38,13 @@ class MacrostateEnergy : public Macrostate {
 };
 
 inline std::shared_ptr<MacrostateEnergy> MakeMacrostateEnergy(
-    const Histogram& histogram, const argtype& args = argtype()) {
+    const Histogram& histogram, argtype args = argtype()) {
   return std::make_shared<MacrostateEnergy>(histogram, args);
+}
+
+inline std::shared_ptr<MacrostateEnergy> MakeMacrostateEnergy(
+    argtype args = argtype()) {
+  return std::make_shared<MacrostateEnergy>(args);
 }
 
 }  // namespace feasst

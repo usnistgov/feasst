@@ -7,15 +7,17 @@
 
 namespace feasst {
 
-WLTM::WLTM(argtype args) {
+WLTM::WLTM(argtype * args) {
   class_name_ = "WLTM";
-  collect_flatness_ = integer("collect_flatness", &args);
-  wang_landau_ = std::make_shared<WangLandau>(&args);
+  collect_flatness_ = integer("collect_flatness", args);
+  wang_landau_ = std::make_shared<WangLandau>(args);
   min_flatness_ = wang_landau_->min_flatness();
   ASSERT(collect_flatness_ < min_flatness_,
     "collect_flatness:" << collect_flatness_ << " should be less than " <<
     "transition_flatness:" << min_flatness_);
-  transition_matrix_ = std::make_shared<TransitionMatrix>(&args);
+  transition_matrix_ = std::make_shared<TransitionMatrix>(args);
+}
+WLTM::WLTM(argtype args) : WLTM(&args) {
   check_all_used(args);
 }
 

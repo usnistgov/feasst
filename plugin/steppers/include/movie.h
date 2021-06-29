@@ -14,7 +14,8 @@ namespace feasst {
  */
 class Movie : public AnalyzeWriteOnly {
  public:
-  Movie(argtype args = argtype());
+  explicit Movie(argtype args = argtype());
+  explicit Movie(argtype * args);
 
   /// Write the sample VMD files and the initial configuration.
   void initialize(Criteria * criteria,
@@ -31,6 +32,8 @@ class Movie : public AnalyzeWriteOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Movie>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<Movie>(args); }
   Movie(std::istream& istr);
 
  private:

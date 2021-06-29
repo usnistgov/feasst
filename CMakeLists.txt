@@ -9,7 +9,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 
 # manually list the plugins
 # Note: for developement and testing, reducing plugins decreases compile time
-#set(FEASST_PLUGINS "utils")
+set(FEASST_PLUGINS "utils")
 #set(FEASST_PLUGINS "utils;math")
 #set(FEASST_PLUGINS "utils;math;configuration")
 #set(FEASST_PLUGINS "utils;math;configuration;system")
@@ -415,14 +415,14 @@ if (USE_GTEST)
 endif(USE_GTEST)
 
 # build feasst library
-add_library (feasst INTERFACE)
+add_library (feasstlib INTERFACE)
 foreach (PLUGIN ${FEASST_PLUGINS})
-  target_link_libraries(feasst INTERFACE feasst${PLUGIN})
+  target_link_libraries(feasstlib INTERFACE feasst${PLUGIN})
 endforeach (PLUGIN)
-target_link_libraries(feasst INTERFACE ${EXTRA_LIBS})
+target_link_libraries(feasstlib INTERFACE ${EXTRA_LIBS})
 
 # install library inside the binary "build" directory
-file (WRITE ${CMAKE_BINARY_DIR}/feasst.h "")
+#file (WRITE ${CMAKE_BINARY_DIR}/feasst.h "")
 foreach (PLUGIN ${FEASST_PLUGINS})
   target_include_directories(feasst${PLUGIN} INTERFACE
       $<BUILD_INTERFACE:${FEASST_PLUGIN_DIR}/${PLUGIN}/include>
@@ -431,10 +431,14 @@ foreach (PLUGIN ${FEASST_PLUGINS})
   install(FILES ${feasst_headers} DESTINATION include/${PLUGIN}/include)
   file(GLOB feasst_headers RELATIVE "${FEASST_PLUGIN_DIR}" "${FEASST_PLUGIN_DIR}/${PLUGIN}/include/*.h")
   # generate header feasst.h
-  foreach (HEADER ${feasst_headers})
-    file (APPEND ${CMAKE_BINARY_DIR}/feasst.h "#include \"${HEADER}\"\n")
-  endforeach (HEADER)
+#  foreach (HEADER ${feasst_headers})
+#    file (APPEND ${CMAKE_BINARY_DIR}/feasst.h "#include \"${HEADER}\"\n")
+#  endforeach (HEADER)
 endforeach (PLUGIN)
+#message(${CMAKE_SOURCE_DIR}/plugin/feasst/include/feasst.h)
+#message(${CMAKE_CURRENT_BINARY_DIR}/feasst.h)
+configure_file(
+  ${CMAKE_SOURCE_DIR}/plugin/feasst/include/feasst.h ${CMAKE_CURRENT_BINARY_DIR}/feasst.h COPYONLY)
 foreach (PLUGIN ${FEASST_PLUGINS})
   message(feasst${PLUGIN})
   install(TARGETS feasst${PLUGIN}
@@ -443,7 +447,7 @@ foreach (PLUGIN ${FEASST_PLUGINS})
       LIBRARY DESTINATION lib
       RUNTIME DESTINATION bin)
 endforeach (PLUGIN)
-install(TARGETS feasst
+install(TARGETS feasstlib
     EXPORT feasst-targets
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
@@ -454,8 +458,18 @@ install(EXPORT feasst-targets
 install(FILES ${CMAKE_BINARY_DIR}/feasst.h
     DESTINATION include)
 
+# make feasst text interpreter
+add_executable (fst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/feasst.cpp)
+target_link_libraries (fst LINK_PUBLIC feasstlib)
+
 # SWIG
 if (USE_SWIG)
+  if(POLICY CMP0078)
+    cmake_policy(SET CMP0078 NEW)
+  endif()
+  if(POLICY CMP0086)
+    cmake_policy(SET CMP0086 NEW)
+  endif()
   if (SET_PYTHON_PATH)
   else (SET_PYTHON_PATH)
     FIND_PACKAGE(PythonLibs 3)
@@ -487,12 +501,15 @@ if (USE_SWIG)
       SWIG_ADD_LIBRARY(feasst LANGUAGE python SOURCES "${CMAKE_SOURCE_DIR}/py/feasst.i")
     endif ()
     SWIG_LINK_LIBRARIES(feasst ${EXTRA_LIBS})
-    SWIG_LINK_LIBRARIES(feasst feasst)
+    SWIG_LINK_LIBRARIES(feasst feasstlib)
     if (APPLE)
-      set_target_properties(_feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+      set_target_properties(feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
     endif (APPLE)
-    add_dependencies(_feasst build-time-make-directory)
-
+    if (${CMAKE_VERSION} VERSION_LESS "3.16.0")
+      add_dependencies(_feasst build-time-make-directory)
+    else ()
+      add_dependencies(feasst build-time-make-directory)
+    endif ()
     # put pyfeasst into build
     configure_file(${CMAKE_SOURCE_DIR}/py/pyfeasst.py ${CMAKE_SOURCE_DIR}/build/pyfeasst.py @ONLY)
 

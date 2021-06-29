@@ -3,19 +3,35 @@
 #include "math/include/constants.h"
 #include "math/include/random.h"
 #include "flat_histogram/include/flat_histogram.h"
+#include "flat_histogram/include/wang_landau.h"
+#include "flat_histogram/include/transition_matrix.h"
+#include "flat_histogram/include/wltm.h"
+#include "flat_histogram/include/macrostate_energy.h"
+#include "flat_histogram/include/wang_landau.h"
 
 namespace feasst {
+
+void FlatHistogram::init_(std::shared_ptr<Macrostate> macrostate,
+    std::shared_ptr<Bias> bias) {
+  macrostate_ = macrostate;
+  bias_ = bias;
+  bias_->resize(macrostate_->histogram());
+}
 
 FlatHistogram::FlatHistogram() : Criteria() {
   class_name_ = "FlatHistogram";
 }
-
 FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
     std::shared_ptr<Bias> bias)
   : FlatHistogram() {
-  macrostate_ = macrostate;
-  bias_ = bias;
-  bias_->resize(macrostate_->histogram());
+  init_(macrostate, bias);
+}
+FlatHistogram::FlatHistogram(argtype * args) {
+  init_(MacrostateEnergy().factory(str("Macrostate", args), args),
+        MakeWangLandau({{"min_flatness", "1"}})->factory(str("Bias", args), args));
+}
+FlatHistogram::FlatHistogram(argtype args) : FlatHistogram(&args) {
+  check_all_used(args);
 }
 
 FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,

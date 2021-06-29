@@ -19,6 +19,7 @@ class DensityProfile : public Analyze {
     - center: specify the center of a single bin (default: 0.).
    */
   explicit DensityProfile(argtype args = argtype());
+  explicit DensityProfile(argtype * args);
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -46,6 +47,8 @@ class DensityProfile : public Analyze {
   std::string class_name() const override { return std::string("DensityProfile"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<DensityProfile>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<DensityProfile>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit DensityProfile(std::istream& istr);
   explicit DensityProfile(const Analyze& density_profile);

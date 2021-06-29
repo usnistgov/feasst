@@ -13,6 +13,7 @@ namespace feasst {
 class Volume : public Analyze {
  public:
   explicit Volume(argtype args = argtype());
+  explicit Volume(argtype * args);
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -36,6 +37,8 @@ class Volume : public Analyze {
   std::string class_name() const override { return std::string("Volume"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Volume>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<Volume>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit Volume(std::istream& istr);
 };

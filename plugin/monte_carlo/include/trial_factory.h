@@ -20,6 +20,9 @@ class TrialFactory : public Trial {
   /// Add a trial.
   void add(std::shared_ptr<Trial> trial);
 
+  /// Remove a trial by index.
+  void remove(const int index);
+
   /// Return the number of trials.
   int num() const { return static_cast<int>(trials_.size()); }
 
@@ -50,6 +53,10 @@ class TrialFactory : public Trial {
 
   /// Return the index of the last trial attempted.
   int last_index() const { return last_index_; }
+
+  /// Return the cumulative probability of each trial.
+  const std::vector<double>& cumulative_probability() const {
+    return cumulative_probability_; }
 
   /// Revert changes to system by trial index.
   void revert(const int index, const bool accepted, const bool auto_rejected,
@@ -97,6 +104,8 @@ class TrialFactory : public Trial {
   // not to be serialized
   int last_index_ = -1;
 //  Timer timer_;
+
+  void update_cumul_prob_();
 };
 
 inline std::shared_ptr<TrialFactory> MakeTrialFactory() {

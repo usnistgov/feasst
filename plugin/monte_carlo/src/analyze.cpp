@@ -16,11 +16,19 @@ std::shared_ptr<Analyze> Analyze::create(std::istream& istr) const {
   FATAL("not implemented");
 }
 
+std::shared_ptr<Analyze> Analyze::create(argtype * args) const {
+  FATAL("not implemented");
+}
+
 std::shared_ptr<Analyze> Analyze::deserialize(std::istream& istr) {
   return template_deserialize(deserialize_map(),
     istr,
     // rewind reading of class name
     true);
+}
+
+std::shared_ptr<Analyze> Analyze::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
 }
 
 void Analyze::check_update_(const Criteria& criteria,

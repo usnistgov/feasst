@@ -16,6 +16,9 @@ class ModifyFactory : public Modify {
   /// Add a Modify object.
   void add(std::shared_ptr<Modify> modify) { modifiers_.push_back(modify); }
 
+  /// Remove a Modify
+  void remove(const int index) { modifiers_.erase(modifiers_.begin() + index); }
+
   /// Return the number.
   int num() const { return static_cast<int>(modifiers_.size()); }
 

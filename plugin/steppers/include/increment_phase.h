@@ -17,6 +17,7 @@ class IncrementPhase : public ModifyUpdateOnly {
       been attempted. Do nothing if -1 (default: -1).
   */
   explicit IncrementPhase(argtype args = argtype());
+  explicit IncrementPhase(argtype * args);
 
   void update(Criteria * criteria,
       System * system,
@@ -28,6 +29,8 @@ class IncrementPhase : public ModifyUpdateOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Modify> create(std::istream& istr) const override {
     return std::make_shared<IncrementPhase>(istr); }
+  std::shared_ptr<Modify> create(argtype * args) const override {
+    return std::make_shared<IncrementPhase>(args); }
   explicit IncrementPhase(std::istream& istr);
 
  private:

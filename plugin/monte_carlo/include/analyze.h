@@ -46,8 +46,10 @@ class Analyze : public Stepper {
   // serialization
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Analyze> create(std::istream& istr) const;
+  virtual std::shared_ptr<Analyze> create(argtype * args) const;
   std::map<std::string, std::shared_ptr<Analyze> >& deserialize_map();
   std::shared_ptr<Analyze> deserialize(std::istream& istr);
+  std::shared_ptr<Analyze> factory(const std::string name, argtype * args);
   explicit Analyze(std::istream& istr) : Stepper(istr) {}
   virtual ~Analyze() {}
   std::string class_name() const override { return std::string("Analyze"); }

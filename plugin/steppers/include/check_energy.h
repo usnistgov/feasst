@@ -19,6 +19,7 @@ class CheckEnergy : public ModifyUpdateOnly {
       and recomputed energy (default: 1e-10).
   */
   explicit CheckEnergy(argtype args = argtype());
+  explicit CheckEnergy(argtype * args);
 
   void update(Criteria * criteria,
       System * system,
@@ -30,6 +31,8 @@ class CheckEnergy : public ModifyUpdateOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Modify> create(std::istream& istr) const override {
     return std::make_shared<CheckEnergy>(istr); }
+  std::shared_ptr<Modify> create(argtype * args) const override {
+    return std::make_shared<CheckEnergy>(args); }
   explicit CheckEnergy(std::istream& istr);
 
  private:

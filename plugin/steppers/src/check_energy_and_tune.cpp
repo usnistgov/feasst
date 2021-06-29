@@ -1,6 +1,6 @@
 #include "utils/include/serialize.h"
 #include "steppers/include/check_energy.h"
-#include "steppers/include/tuner.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/check_energy_and_tune.h"
 
 namespace feasst {
@@ -11,7 +11,7 @@ CheckEnergyAndTune::CheckEnergyAndTune(argtype args) : ModifyFactory() {
 
   // remove tolerance and apply the same args to Tune
   str("tolerance", &args, "?");
-  add(MakeTuner(args));
+  add(MakeTune(args));
 }
 
 }  // namespace feasst

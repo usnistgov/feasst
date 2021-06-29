@@ -22,7 +22,8 @@ class MeanSquaredDisplacement : public Analyze {
       origin (default: 1000).
     - group_index: group_index associated with configuration (default: 0).
   */
-  MeanSquaredDisplacement(argtype args = argtype());
+  explicit MeanSquaredDisplacement(argtype args = argtype());
+  explicit MeanSquaredDisplacement(argtype * args);
 
   void initialize(Criteria * criteria,
       System * system,
@@ -42,6 +43,8 @@ class MeanSquaredDisplacement : public Analyze {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<MeanSquaredDisplacement>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<MeanSquaredDisplacement>(args); }
   MeanSquaredDisplacement(std::istream& istr);
 
  private:

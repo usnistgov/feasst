@@ -23,7 +23,7 @@
 #include "monte_carlo/test/monte_carlo_benchmark.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
-#include "steppers/include/tuner.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
@@ -45,7 +45,7 @@ namespace feasst {
 //  mc.add(feasst::MakeTrialTranslate(
 //    {{"tunable_param", "2."}, {"tunable_target_acceptance", "0.2"}}));
 //  const int steps_per = 1e3;
-//  mc.add(feasst::MakeTuner({{"steps_per", feasst::str(steps_per)}}));
+//  mc.add(feasst::MakeTune({{"steps_per", feasst::str(steps_per)}}));
 //  mc.seek_num_particles(50);
 //  mc.add(feasst::MakeLog({{"steps_per", feasst::str(steps_per)}}));
 //  mc.add(feasst::MakeMovie(
@@ -70,7 +70,7 @@ TEST(MonteCarlo, serialize) {
   EXPECT_EQ(mc2.analyze(0).analyze(1).class_name(), "Movie");
   EXPECT_EQ(mc2.modify(0).class_name(), "ModifyFactory");
   EXPECT_EQ(mc2.modify(0).modify(0).class_name(), "CheckEnergy");
-  EXPECT_EQ(mc2.modify(0).modify(1).class_name(), "Tuner");
+  EXPECT_EQ(mc2.modify(0).modify(1).class_name(), "Tune");
 }
 
 TEST(MonteCarlo, NVT_NO_FEASST_BENCHMARK_LONG) {
@@ -147,7 +147,7 @@ TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.add(Configuration(MakeDomain({{"cubic_box_length", "12"}}),
                        {{"particle_type", "../forcefield/data.lj"}}));
-  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential({{"model", "LennardJones"}}));
 //  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
   mc.set(MakeThermoParams({{"beta", "1.2"}}));
   mc.set(MakeMetropolis());
@@ -286,7 +286,7 @@ TEST(MonteCarlo, GCMC_binary_tune) {
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "1"}}));
   const std::string steps_per = str(int(1e2));
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeTuner({{"steps_per", steps_per}}));
+  mc.add(MakeTune({{"steps_per", steps_per}}));
   mc.attempt(1e4);
   EXPECT_GT(mc.trial(0).stage(0).perturb().tunable().value(), 2.5);
   EXPECT_GT(mc.trial(1).stage(0).perturb().tunable().value(), 2.5);
@@ -312,13 +312,158 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
   mc.add(MakeTrialVolume({{"tunable_param", "0.5"}}));
   const std::string steps_per = str(int(1e2));
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/ideal_gas"}}));
-  mc.add(MakeTuner({{"steps_per", steps_per}}));
+  mc.add(MakeTune({{"steps_per", steps_per}}));
   mc.attempt(1e3);
   mc.add(MakeVolume({{"steps_per_write", steps_per},
                      {"file_name", "tmp/ideal_gas_volume"}}));
   mc.attempt(1e6);
   const Accumulator& vol = mc.analyzers()[mc.num_analyzers()-1]->accumulator();
   EXPECT_NEAR(vol.average(), volume, 4*vol.block_stdev());
+}
+
+TEST(MonteCarlo, arglist_unrecognized) {
+  TRY(
+    MakeMonteCarlo({{{"Banana", {{}}}}});
+    CATCH_PHRASE("Unrecognized argument: Banana");
+  );
+  TRY(
+    MakeMonteCarlo({{{"Metropolis", {{}}}}});
+    CATCH_PHRASE("set System before Criteria");
+  );
+  TRY(
+    MakeMonteCarlo({{{"RandomMT19937", {{"this_is_not", "an_expected_argument"}}}}});
+    CATCH_PHRASE("unused argument");
+  );
+  TRY(
+    MakeMonteCarlo({{{"Checkpoint", {{"this_is_not", "an_expected_argument"}}}}});
+    CATCH_PHRASE("unused argument");
+  );
+  TRY(
+    MakeMonteCarlo({{{"Configuration", {{"this_is_not", "an_expected_argument"}}}}});
+    CATCH_PHRASE("unused argument");
+  );
+  TRY(
+    MakeMonteCarlo({{
+      {"Configuration", {{}}},
+      {"Potential", {{"this_is_not", "an_expected_argument"}}}
+    }});
+    CATCH_PHRASE("unused argument");
+  );
+  TRY(
+    MakeMonteCarlo({{
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Potential", {{"Model", "LennardJones"}}},
+      {"ThermoParams", {{"this_is_not", "an_expected_argument"}}},
+    }});
+    CATCH_PHRASE("unused argument");
+  );
+  TRY(
+    MakeMonteCarlo({{
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Potential", {{"Model", "LennardJones"}}},
+      {"ThermoParams", {{"beta", "1"}}},
+      {"Metropolis", {{"this_is_not", "an_expected_argument"}}},
+    }});
+    CATCH_PHRASE("unused argument");
+  );
+  TRY(
+    MakeMonteCarlo({{
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Potential", {{"Model", "LennardJones"}}},
+      {"ThermoParams", {{"beta", "1"}}},
+      {"Metropolis", {{}}},
+      {"TrialTranslate", {{"this_is_not", "an_expected_argument"}}},
+    }});
+    CATCH_PHRASE("unused argument");
+  );
+  TRY(
+    MakeMonteCarlo({{
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Potential", {{"Model", "LennardJones"}}},
+      {"ThermoParams", {{"beta", "1"}}},
+      {"Metropolis", {{}}},
+      {"TrialTranslate", {{}}},
+      {"Energy", {{"this_is_not", "an_expected_argument"}}},
+    }});
+    CATCH_PHRASE("unused argument");
+  );
+  TRY(
+    MakeMonteCarlo({{
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Potential", {{"Model", "LennardJones"}}},
+      {"ThermoParams", {{"beta", "1"}}},
+      {"Metropolis", {{}}},
+      {"TrialTranslate", {{}}},
+      {"Energy", {{}}},
+      {"Tune", {{"this_is_not", "an_expected_argument"}}},
+    }});
+    CATCH_PHRASE("unused argument");
+  );
+  TRY(
+    MakeMonteCarlo({{
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Potential", {{"Model", "LennardJones"}}},
+      {"ThermoParams", {{"beta", "1"}}},
+      {"Metropolis", {{}}},
+      {"TrialTranslate", {{}}},
+      {"Energy", {{}}},
+      {"Tune", {{}}},
+      {"Run", {{"this_is_not", "an_expected_argument"}}},
+    }});
+    CATCH_PHRASE("unused argument");
+  );
+}
+
+TEST(MonteCarlo, argslist_order) {
+  auto mc = MakeMonteCarlo({{
+    {"RandomModulo", {{"seed", "123"}}},
+    {"Configuration", {{"cubic_box_length", "8"},
+                       {"particle_type0", "../forcefield/data.lj"},
+                       {"particle_type1", "../forcefield/data.atom"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"ThermoParams", {{"beta", "0.1"}}},
+    {"ThermoParams", {{"beta", "1.2"}}},
+  }});
+  EXPECT_EQ(1.2, mc->thermo_params().beta());
+}
+
+TEST(MonteCarlo, arglist) {
+  auto mc = MakeMonteCarlo({{
+    {"Checkpoint", {{"file_name", "tmp/lj.fst"}}},
+    {"RandomModulo", {{"seed", "123"}}},
+    {"Configuration", {{"cubic_box_length", "8"},
+                       {"particle_type0", "../forcefield/data.lj"},
+                       {"particle_type1", "../forcefield/data.atom"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
+    {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential", "10"}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"tunable_param", "0.2"},
+                        {"tunable_target_acceptance", "0.2"}}},
+    {"TrialAdd", {{"particle_type", "0"}}},
+    {"Log", {{"steps_per", str(1e2)}, {"file_name", "tmp/lj.txt"}}},
+    {"Movie", {{"steps_per", str(1e2)}, {"file_name", "tmp/lj.xyz"}}},
+    {"CheckEnergy", {{"steps_per", str(1e2)}, {"tolerance", "1e-8"}}},
+    {"Tune", {{"steps_per", str(1e2)}}},
+    {"Run", {{"until_num_particles", "50"}}},
+    {"ThermoParams", {{"beta", "1.2"}}},
+    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Run", {{"num_attempts", str(1e3)}}},
+    {"RemoveModify", {{"name", "Tune"}}},
+    {"Run", {{"num_attempts", str(1e3)}}},
+    {"WriteCheckpoint", {{}}},
+  }});
+  EXPECT_EQ(mc->random().class_name(), "RandomModulo");
+  EXPECT_EQ(2, mc->configuration().num_particle_types());
+  EXPECT_EQ(2, mc->system().unoptimized().num());
+  EXPECT_EQ(1.2, mc->thermo_params().beta());
+  EXPECT_EQ(1, mc->trials().num());
+  EXPECT_EQ("TrialTranslate", mc->trial(0).class_name());
+  //EXPECT_EQ("TrialAdd", mc->trial(1).class_name());
+  EXPECT_EQ(1, mc->num_modifiers());
+  EXPECT_EQ("CheckEnergy", mc->modify(0).class_name());
+  EXPECT_LT(100, mc->trials().num_attempts());
+  EXPECT_EQ(50, mc->configuration().num_particles());
 }
 
 }  // namespace feasst

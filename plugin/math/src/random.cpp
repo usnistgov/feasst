@@ -79,6 +79,10 @@ std::shared_ptr<Random> Random::deserialize(std::istream& istr) {
     true);
 }
 
+std::shared_ptr<Random> Random::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
+}
+
 Random::Random(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);

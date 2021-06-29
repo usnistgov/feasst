@@ -20,8 +20,9 @@ class ModelEmpty : public ModelOneBody {
       const ModelParams& model_params) override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
-    return std::make_shared<ModelEmpty>(istr);
-  }
+    return std::make_shared<ModelEmpty>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<ModelEmpty>(); }
   void serialize(std::ostream& ostr) const override;
   explicit ModelEmpty(std::istream& istr);
   virtual ~ModelEmpty() {}

@@ -39,6 +39,8 @@ class LennardJones : public ModelTwoBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<LennardJones>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<LennardJones>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit LennardJones(std::istream& istr);
   virtual ~LennardJones() {}

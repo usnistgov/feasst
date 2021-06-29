@@ -11,7 +11,7 @@ TEST(TrialTranslate, serialize) {
 //  TrialTranslate trial2(ss);
 //  trial2.serialize(ss);
 //  INFO(ss.str());
-  Trial trial2 = test_serialize(*trial);
+  std::shared_ptr<Trial> trial2 = test_serialize<TrialTranslate, Trial>(*trial);
 }
 
 }  // namespace feasst

@@ -20,6 +20,7 @@ class NumParticles : public Analyze {
       Can only be specified if particle_type is -1.
    */
   explicit NumParticles(argtype args = argtype());
+  explicit NumParticles(argtype * args);
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -44,6 +45,8 @@ class NumParticles : public Analyze {
     return std::string("NumParticles"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<NumParticles>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<NumParticles>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit NumParticles(std::istream& istr);
 

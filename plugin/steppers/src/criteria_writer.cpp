@@ -3,7 +3,8 @@
 
 namespace feasst {
 
-CriteriaWriter::CriteriaWriter(argtype args) : AnalyzeWriteOnly(&args) {
+CriteriaWriter::CriteriaWriter(argtype * args) : AnalyzeWriteOnly(args) {}
+CriteriaWriter::CriteriaWriter(argtype args) : CriteriaWriter(&args) {
   check_all_used(args);
 }
 

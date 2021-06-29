@@ -4,7 +4,14 @@
 namespace feasst {
 
 MacrostateBeta::MacrostateBeta(const Histogram& histogram,
-    const argtype& args) : Macrostate(histogram, args) {
+    argtype * args) : Macrostate(histogram, args) {}
+MacrostateBeta::MacrostateBeta(const Histogram& histogram,
+    argtype args) : Macrostate(histogram, args) {
+  check_all_used(args);
+}
+MacrostateBeta::MacrostateBeta(argtype args) :
+    MacrostateBeta(Histogram(&args), &args) {
+  check_all_used(args);
 }
 
 class MapMacrostateBeta {
@@ -20,6 +27,10 @@ static MapMacrostateBeta mapper_ = MapMacrostateBeta();
 
 std::shared_ptr<Macrostate> MacrostateBeta::create(std::istream& istr) const {
   return std::make_shared<MacrostateBeta>(istr);
+}
+
+std::shared_ptr<Macrostate> MacrostateBeta::create(argtype * args) const {
+  return std::make_shared<MacrostateBeta>(args);
 }
 
 MacrostateBeta::MacrostateBeta(std::istream& istr)

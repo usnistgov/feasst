@@ -3,11 +3,11 @@
 
    SelectSiteOfType
    SelectPerturbed
-   SelectBranch
-   PerturbReptate
    SelectSegment
    SelectEndSegment
    SelectReptate
+   SelectBranch
+   PerturbReptate
    CheckRigidBonds
    AnalyzeBonds
    trials

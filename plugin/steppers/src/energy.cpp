@@ -13,7 +13,8 @@ class MapEnergy {
 
 static MapEnergy mapper_ = MapEnergy();
 
-Energy::Energy(argtype args) : Analyze(&args) {
+Energy::Energy(argtype * args) : Analyze(args) {}
+Energy::Energy(argtype args) : Energy(&args) {
   check_all_used(args);
 }
 
