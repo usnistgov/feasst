@@ -1,5 +1,7 @@
 #include <iostream>
-#include <omp.h>
+#ifdef _OPENMP
+  #include <omp.h>
+#endif // _OPENMP
 #include <cmath>
 #include <vector>
 #include <fstream>
@@ -129,6 +131,7 @@ void serial(RandomBenchmark * random) {
   std::cout << "acceptance " << num_accepted / static_cast<double>(num_trials) << std::endl;
 }
 
+#ifdef _OPENMP
 // Conduct a parallel prefetch Metropolis Monte Carlo simulation.
 void parallel(RandomBenchmark * random) {
   std::vector<std::vector<double> > xyz = read_xyz();
@@ -259,3 +262,4 @@ void parallel(RandomBenchmark * random) {
 //  parallel(&random);
 //}
 
+#endif // _OPENMP

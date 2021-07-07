@@ -148,7 +148,7 @@ class Ewald : public VisitModel {
     //return const_cast<std::vector<std::vector<std::vector<double> > >&>(*eik_()); }
     return manual_data_.dble_3D(); }
 
-  void check(const Configuration& config) const;
+  void check(const Configuration& config) const override;
 
   void synchronize_(const VisitModel& visit, const Select& perturbed) override;
 

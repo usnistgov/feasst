@@ -21,7 +21,7 @@ class Run : public Action {
    */
   explicit Run(argtype args = argtype());
   explicit Run(argtype * args);
-  void perform(MonteCarlo * mc);
+  void perform(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<Run>(istr); }
   std::shared_ptr<Action> create(argtype * args) const override {
@@ -53,7 +53,7 @@ class RemoveTrial : public Action {
    */
   explicit RemoveTrial(argtype args = argtype());
   explicit RemoveTrial(argtype * args);
-  void perform(MonteCarlo * mc);
+  void perform(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<RemoveTrial>(istr); }
   std::shared_ptr<Action> create(argtype * args) const override {
@@ -85,7 +85,7 @@ class RemoveModify : public Action {
    */
   explicit RemoveModify(argtype args = argtype());
   explicit RemoveModify(argtype * args);
-  void perform(MonteCarlo * mc);
+  void perform(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<RemoveModify>(istr); }
   std::shared_ptr<Action> create(argtype * args) const override {
@@ -113,7 +113,7 @@ class WriteCheckpoint : public Action {
    */
   explicit WriteCheckpoint(argtype args = argtype());
   explicit WriteCheckpoint(argtype * args);
-  void perform(MonteCarlo * mc);
+  void perform(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<WriteCheckpoint>(istr); }
   std::shared_ptr<Action> create(argtype * args) const override {
