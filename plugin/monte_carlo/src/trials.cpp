@@ -29,6 +29,7 @@ TrialTranslate::TrialTranslate(argtype * args) :
             std::make_shared<PerturbTranslate>(args),
             args) {
   class_name_ = "TrialTranslate";
+  set_description("TrialTranslate");
 }
 TrialTranslate::TrialTranslate(argtype args) : TrialTranslate(&args) {
   check_all_used(args);
@@ -66,6 +67,7 @@ static MapTrialAdd mapperAdd_ = MapTrialAdd();
 
 TrialAdd::TrialAdd(argtype * args) : Trial(args) {
   class_name_ = "TrialAdd";
+  set_description("TrialAdd");
   auto perturb = std::make_shared<PerturbAdd>(args);
   ASSERT(perturb->delay_add(), "TrialComputeAdd assumes delay_add is true");
   add_stage(std::make_shared<TrialSelectParticle>(args), perturb, args);
