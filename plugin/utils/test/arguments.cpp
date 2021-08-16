@@ -112,4 +112,15 @@ TEST(Utils, find_in_list) {
   EXPECT_EQ(0, find);
 }
 
+TEST(Utils, add_if_not_used) {
+  argtype args;
+  EXPECT_EQ(args.size(), 0);
+  add_if_not_used("hi", &args, "you");
+  EXPECT_EQ(args.size(), 1);
+  EXPECT_EQ(args["hi"], "you");
+  add_if_not_used("hi", &args, "you all");
+  EXPECT_EQ(args.size(), 1);
+  EXPECT_EQ(args["hi"], "you");
+}
+
 }  // namespace feasst

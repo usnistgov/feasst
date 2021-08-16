@@ -20,6 +20,7 @@
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trials.h"
+#include "monte_carlo/include/run.h"
 #include "monte_carlo/test/monte_carlo_benchmark.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
@@ -464,6 +465,10 @@ TEST(MonteCarlo, arglist) {
   EXPECT_EQ("CheckEnergy", mc->modify(0).class_name());
   EXPECT_LT(100, mc->trials().num_attempts());
   EXPECT_EQ(50, mc->configuration().num_particles());
+  mc->perform(MakeRemoveTrial({{"all", "true"}}));
+  mc->perform(MakeRemoveModify({{"all", "true"}}));
+  EXPECT_EQ(0, mc->trials().num());
+  EXPECT_EQ(0, mc->num_modifiers());
 }
 
 }  // namespace feasst

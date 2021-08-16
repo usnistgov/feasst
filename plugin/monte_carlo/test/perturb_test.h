@@ -50,6 +50,7 @@ inline void test_revert(System * system) {
   // precompute adds argument {"ghost", "true"} to tsel
   PerturbAdd add;
   add.precompute(tsel_ghost.get(), system);
+  add.before_select();
   tsel_ghost->sel(system, random.get());
   add.add(system, tsel_ghost.get(), random.get(), position);
   EXPECT_EQ(system->configuration().num_particles(), 2);

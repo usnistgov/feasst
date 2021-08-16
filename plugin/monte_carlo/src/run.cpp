@@ -58,6 +58,7 @@ RemoveTrial::RemoveTrial(argtype * args) {
   class_name_ = "RemoveTrial";
   index_ = integer("index", args, -1);
   name_ = str("name", args, "");
+  all_ = boolean("all", args, false);
 }
 RemoveTrial::RemoveTrial(argtype args) : RemoveTrial(&args) {
   check_all_used(args);
@@ -78,6 +79,7 @@ RemoveTrial::RemoveTrial(std::istream& istr) : Action(istr) {
   ASSERT(version == 3854, "mismatch version: " << version);
   feasst_deserialize(&index_, istr);
   feasst_deserialize(&name_, istr);
+  feasst_deserialize(&all_, istr);
 }
 
 void RemoveTrial::serialize(std::ostream& ostr) const {
@@ -86,6 +88,7 @@ void RemoveTrial::serialize(std::ostream& ostr) const {
   feasst_serialize_version(3854, ostr);
   feasst_serialize(index_, ostr);
   feasst_serialize(name_, ostr);
+  feasst_serialize(all_, ostr);
 }
 
 void RemoveTrial::perform(MonteCarlo * mc) {
@@ -102,12 +105,19 @@ void RemoveTrial::perform(MonteCarlo * mc) {
   if (index_ >= 0) {
     mc->remove_trial(index_);
   }
+  if (all_) {
+    for (int i = 0; mc->trials().num() > 0; ++i) {
+      mc->remove_trial(0);
+      ASSERT(i < 1e5, "too many trials. Infinite loop?");
+    }
+  }
 }
 
 RemoveModify::RemoveModify(argtype * args) {
   class_name_ = "RemoveModify";
   index_ = integer("index", args, -1);
   name_ = str("name", args, "");
+  all_ = boolean("all", args, false);
 }
 RemoveModify::RemoveModify(argtype args) : RemoveModify(&args) {
   check_all_used(args);
@@ -128,6 +138,7 @@ RemoveModify::RemoveModify(std::istream& istr) : Action(istr) {
   ASSERT(version == 2045, "mismatch version: " << version);
   feasst_deserialize(&index_, istr);
   feasst_deserialize(&name_, istr);
+  feasst_deserialize(&all_, istr);
 }
 
 void RemoveModify::serialize(std::ostream& ostr) const {
@@ -136,6 +147,7 @@ void RemoveModify::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2045, ostr);
   feasst_serialize(index_, ostr);
   feasst_serialize(name_, ostr);
+  feasst_serialize(all_, ostr);
 }
 
 void RemoveModify::perform(MonteCarlo * mc) {
@@ -156,6 +168,12 @@ void RemoveModify::perform(MonteCarlo * mc) {
   if (index_ >= 0) {
     DEBUG("removing " << index_);
     mc->remove_modify(index_);
+  }
+  if (all_) {
+    for (int i = 0; mc->num_modifiers() > 0; ++i) {
+      mc->remove_modify(0);
+      ASSERT(i < 1e5, "Infinite loop?");
+    }
   }
 }
 

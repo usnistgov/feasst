@@ -50,6 +50,7 @@ class RemoveTrial : public Action {
       If -1, do nothing. (default: -1).
     - name: remove first trial with this class name, if not empty.
       (default: empty).
+    - all: remove all trials (default: false)
    */
   explicit RemoveTrial(argtype args = argtype());
   explicit RemoveTrial(argtype * args);
@@ -65,6 +66,7 @@ class RemoveTrial : public Action {
  private:
   int index_;
   std::string name_;
+  bool all_;
 };
 
 inline std::shared_ptr<RemoveTrial> MakeRemoveTrial(argtype args = argtype()) {
@@ -82,6 +84,7 @@ class RemoveModify : public Action {
       If -1, do nothing. (default: -1).
     - name: remove first modify with this class name, if not empty.
       (default: empty).
+    - all: remove all modifiers (default: false)
    */
   explicit RemoveModify(argtype args = argtype());
   explicit RemoveModify(argtype * args);
@@ -97,6 +100,7 @@ class RemoveModify : public Action {
  private:
   int index_;
   std::string name_;
+  bool all_;
 };
 
 inline std::shared_ptr<RemoveModify> MakeRemoveModify(argtype args = argtype()) {

@@ -130,7 +130,7 @@ class Select {
     return site_indices_[particle_index][site_index]; }
 
   // Return the particle index given selection index.
-  int particle_index(const int index) const { return particle_indices_[index]; }
+  int particle_index(const int index) const;
 
   /// Replace current indices with those given. Return true if replace is done
   /// quickly due to match in existing size.

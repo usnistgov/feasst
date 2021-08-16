@@ -13,8 +13,11 @@
 #include "monte_carlo/include/trial_select_angle.h"
 #include "cluster/include/select_particle_avb.h"
 #include "cluster/include/perturb_move_avb.h"
+#include "cluster/include/perturb_add_avb.h"
 #include "cluster/include/compute_avb2.h"
 #include "cluster/include/compute_avb4.h"
+#include "cluster/include/compute_add_avb.h"
+#include "cluster/include/compute_remove_avb.h"
 #include "cluster/include/trial_avb2.h"
 #include "cluster/include/trial_avb4.h"
 #include "chain/include/select_end_segment.h"
@@ -90,9 +93,21 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
         } else if (trial_type == "regrow") {
           perturb = MakePerturbAnywhere();
         } else if (trial_type == "add_avb") {
-          FATAL("add_avb not impl");
+          iargs.insert({"particle_type", particle_type});
+          iargs.insert({"site", site});
+          iargs.insert({"grand_canonical", "true"});
+          select = std::make_shared<SelectParticleAVB>(&iargs);
+          auto add_avb = std::make_shared<PerturbAddAVB>(&iargs);
+          ASSERT(add_avb->delay_add(), "ComputeAddAVB assumes delay_add");
+          perturb = add_avb;
+          compute = std::make_shared<ComputeAddAVB>();
         } else if (trial_type == "remove_avb") {
-          FATAL("remove avb not impl");
+          iargs.insert({"particle_type", particle_type});
+          iargs.insert({"site", site});
+          iargs.insert({"grand_canonical", "true"});
+          select = std::make_shared<SelectParticleAVB>(&iargs);
+          perturb = std::make_shared<PerturbRemove>();
+          compute = std::make_shared<ComputeRemoveAVB>();
         } else if (trial_type == "regrow_avb2_in" ||
                    trial_type == "regrow_avb2_out") {
           //argtype args_sel, args_mv, args_comp;

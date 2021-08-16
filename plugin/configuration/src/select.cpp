@@ -401,6 +401,13 @@ bool Select::has_positions() const {
   return false;
 }
 
+int Select::particle_index(const int index) const {
+  ASSERT(index < static_cast<int>(particle_indices_.size()),
+    "selection particle index: " << index << " >= size of particle indices: "
+    << particle_indices_.size());
+  return particle_indices_[index];
+}
+
 void Select::serialize(std::ostream& sstr) const {
   feasst_serialize_version(183, sstr);
   feasst_serialize(particle_indices_, sstr);

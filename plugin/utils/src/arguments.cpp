@@ -129,4 +129,11 @@ std::string str(const arglist& args) {
   return out.str();
 }
 
+void add_if_not_used(const std::string& key, argtype * args,
+  const std::string& value) {
+  if (!used(key, *args)) {
+    args->insert({key, value});
+  }
+}
+
 }  // namespace feasst

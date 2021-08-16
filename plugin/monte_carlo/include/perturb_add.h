@@ -26,6 +26,8 @@ class PerturbAdd : public Perturb {
   void precompute(TrialSelect * select, System * system) override {
     select->set_ghost(true); }
 
+  void before_select() override;
+
   void perturb(
       System * system,
       TrialSelect * select,

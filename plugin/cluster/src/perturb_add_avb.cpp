@@ -39,6 +39,7 @@ void PerturbAddAVB::perturb(
     system->get_configuration()->revive(select->mobile());
   }
   move_->move(system, select, random);
+  move_->set_revert_possible(true, select);
   set_revert_possible(true, select);
   set_finalize_possible(true, select);
   // setting trial state should go last so other perturbs do not overwrite
@@ -51,6 +52,7 @@ void PerturbAddAVB::revert(System * system) {
 //    DEBUG(revert_select()->mobile().str());
 //    DEBUG("nump " << system->configuration().num_particles());
     //system->revert(revert_select()->mobile());
+    move_->revert(system);
     if (!delay_add_) {
       system->get_configuration()->remove_particles(revert_select()->mobile());
     }

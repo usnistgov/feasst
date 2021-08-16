@@ -127,6 +127,10 @@ std::shared_ptr<T> parse(T * obj, arglist * args) {
   return new_obj;
 }
 
+/// If an argument is not used, add it.
+void add_if_not_used(const std::string& key, argtype * args,
+  const std::string& value);
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_ARGUMENTS_H_

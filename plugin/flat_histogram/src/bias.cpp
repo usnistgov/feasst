@@ -9,7 +9,12 @@ namespace feasst {
 
 std::string Bias::write_per_bin(const int bin) const {
   std::stringstream ss;
-  ss << MAX_PRECISION << ln_prob().value(bin);
+  ss << MAX_PRECISION << ln_prob().value(bin) << ",";
+  if (bin == 0) {
+    ss << "NaN";
+  } else {
+    ss << ln_prob().value(bin) - ln_prob().value(bin - 1);
+  }
   return ss.str();
 }
 

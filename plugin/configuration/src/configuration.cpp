@@ -11,16 +11,19 @@
 
 namespace feasst {
 
-Configuration::Configuration(argtype args) {
-  domain_ = std::make_shared<Domain>(&args);
+Configuration::Configuration(argtype args) : Configuration(&args) {
+  check_all_used(args);
+}
+Configuration::Configuration(argtype * args) {
+  domain_ = std::make_shared<Domain>(args);
   particle_types_.unique_particles();
   unique_types_.unique_types();
   // reset_unique_indices_();
   add(MakeGroup());  // add empty group which represents all particles
 
   DEBUG("parse physical constants");
-  if (used("physical_constants", args)) {
-    std::stringstream ss(str("physical_constants", &args));
+  if (used("physical_constants", *args)) {
+    std::stringstream ss(str("physical_constants", args));
     set_physical_constants(MakeCODATA2014()->deserialize(ss));
   }
 
@@ -28,14 +31,14 @@ Configuration::Configuration(argtype args) {
   DEBUG("parse types");
   // if only one particle type, allow drop the subscript
   start.assign("particle_type");
-  if (used(start, args)) {
-    add_particle_type(str(start, &args));
+  if (used(start, *args)) {
+    add_particle_type(str(start, args));
   } else {
     int type = num_particle_types();
     std::stringstream key;
     key << start << type;
-    while (used(key.str(), args)) {
-      add_particle_type(str(key.str(), &args));
+    while (used(key.str(), *args)) {
+      add_particle_type(str(key.str(), args));
       ++type;
       ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
       key.str("");
@@ -43,12 +46,21 @@ Configuration::Configuration(argtype args) {
     }
   }
 
-  if (boolean("set_cutoff_min_to_sigma", &args, false)) {
+  DEBUG("parse adding particles of type");
+  for (int type = 0; type < num_particle_types(); ++type) {
+    std::stringstream key;
+    key << "add_particles_of_type" << type;
+    const int num = integer(key.str(), args, 0);
+    for (int i = 0; i < num; ++i) { 
+      add_particle_of_type(type);
+    }
+  }
+
+  if (boolean("set_cutoff_min_to_sigma", args, false)) {
     unique_types_.set_cutoff_min_to_sigma();
   }
 
-  init_wrap(boolean("wrap", &args, true));
-  check_all_used(args);
+  init_wrap(boolean("wrap", args, true));
 }
 
 void Configuration::add_particle_type(const std::string file_name,
@@ -286,9 +298,13 @@ bool Configuration::are_all_sites_physical() const {
 
 void Configuration::update_positions(
     const std::vector<std::vector<double> > coords) {
-  ASSERT(static_cast<int>(coords.size()) == num_sites(), "size error");
+  ASSERT(static_cast<int>(coords.size()) == num_sites(), "the number of " <<
+    "coordinates provided: " << coords.size() << " does not match the number "
+    << " of sites: " << num_sites());
   DEBUG("dimension: " << dimension());
-  ASSERT(static_cast<int>(coords[0].size()) == dimension(), "size error");
+  ASSERT(static_cast<int>(coords[0].size()) == dimension(), "the dimensions: " <<
+    coords[0].size() << " of the coordinates do not match the dimensions: " <<
+    dimension() << " of the configuration.");
   Position position;
   int iter_site = 0;
   for (int part_index : group_selects_[0].particle_indices()) {

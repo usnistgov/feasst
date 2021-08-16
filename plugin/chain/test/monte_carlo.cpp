@@ -157,7 +157,7 @@ TEST(MonteCarlo, TrialGrow) {
 MonteCarlo cg7mab2(const std::string& data, const int num, const int steps_per = 1) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(Configuration(MakeDomain({{"cubic_box_length", "30"}}),
+  mc.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "30"}}),
     {{"particle_type", "../plugin/chain/forcefield/" + data},
      {"set_cutoff_min_to_sigma", "true"}}));
   mc.add(MakePotential(MakeHardSphere()));
@@ -224,9 +224,8 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  Configuration config(MakeDomain({{"side_length0", "6"}, {"side_length1", "6"}}),
-    {{"particle_type", "../plugin/chain/forcefield/data.heterotrimer2d"}});
-  mc.add(config);
+  mc.add(MakeConfiguration(MakeDomain({{"side_length0", "6"}, {"side_length1", "6"}}),
+    {{"particle_type", "../plugin/chain/forcefield/data.heterotrimer2d"}}));
   EXPECT_EQ(2, mc.configuration().dimension());
   mc.add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

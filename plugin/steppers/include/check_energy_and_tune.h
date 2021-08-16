@@ -8,7 +8,7 @@
 
 namespace feasst {
 
-/// Combine CheckEnergy and Tuner.
+/// Combine CheckEnergy and Tune.
 class CheckEnergyAndTune : public ModifyFactory {
  public:
   explicit CheckEnergyAndTune(argtype args = argtype());

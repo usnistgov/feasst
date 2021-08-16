@@ -289,4 +289,13 @@ TEST(Configuration, change_volume) {
   EXPECT_NEAR(config->particle(1).site(2).position().coord(1), 1.93943773860353, 2e-15);
 }
 
+TEST(Configuration, add_particles_of_type) {
+  auto config = MakeConfiguration({{"particle_type0", install_dir() + "/forcefield/data.lj"},
+    {"particle_type1", install_dir() + "/forcefield/data.atom"},
+    {"add_particles_of_type1", "2"}});
+  EXPECT_EQ(2, config->num_particles());
+  EXPECT_EQ(1, config->particle(0).type());
+  EXPECT_EQ(1, config->particle(1).type());
+}
+
 }  // namespace feasst

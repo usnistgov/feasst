@@ -32,7 +32,9 @@ void TrialFactory::update_cumul_prob_() {
   for (std::shared_ptr<Trial> trial : trials_) {
     weights.push_back(trial->weight());
   }
-  cumulative_probability_ = feasst::cumulative_probability(weights);
+  if (weights.size() > 0) {
+    cumulative_probability_ = feasst::cumulative_probability(weights);
+  }
   //std::stringstream ss;
   //ss << trials_.back()->class_name()"trial" << num() - 1;
   // timer_.add(trials_.back()->class_name());

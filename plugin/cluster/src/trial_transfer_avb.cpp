@@ -15,6 +15,7 @@ std::shared_ptr<Trial> MakeTrialAddAVB(argtype args) {
   return trial;
 }
 
+// Note that changes here should also be incorported into TrialGrow
 std::shared_ptr<Trial> MakeTrialAddAVB(argtype * args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialAddAVB");

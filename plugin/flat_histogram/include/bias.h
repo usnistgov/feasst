@@ -58,7 +58,7 @@ class Bias {
   virtual std::string write_per_bin(const int bin) const;
 
   virtual std::string write_per_bin_header() const {
-    return std::string("ln_prob"); }
+    return std::string("ln_prob,delta_ln_prob"); }
 
   /// Return true if completion requirements are met.
   bool is_complete() const { return is_complete_; }

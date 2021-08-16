@@ -54,9 +54,11 @@ class Configuration {
 
   /**
     args:
-    - particle_type[i]: add the i-th type of particle to the configuration.
+    - particle_type[i]: add the i-th type of particle.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       If only one particle type, the "[i]" is optional.
+    - add_particles_of_type[i]: add this many of i-th type particles.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
     - wrap: wrap particle centers within domain (default: true).
     - physical_constants: optional class_name of PhysicalConstants.
     - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
@@ -65,6 +67,7 @@ class Configuration {
     - Domain arguments may also be parsed here.
    */
   explicit Configuration(argtype args = argtype());
+  explicit Configuration(argtype * args);
 
   /// Same as above, but also set the domain.
   explicit Configuration(std::shared_ptr<Domain> domain,

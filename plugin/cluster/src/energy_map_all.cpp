@@ -247,6 +247,7 @@ void EnergyMapAll::neighbors(
   neighbors->clear();
   const Site& site0 = config.select_particle(target_particle).site(target_site);
   const int site_type0 = site0.type();
+  DEBUG("site_type0 " << site_type0);
   DEBUG("target_particle " << target_particle);
   DEBUG("sz " << map().size());
   const vec4 * map4 = const_cast<vec4 * const>(&map()[target_particle]);
@@ -257,8 +258,8 @@ void EnergyMapAll::neighbors(
     const Site& site1 = config.select_particle(ipart).site(given_site_index);
     const int site_type1 = site1.type();
     const std::vector<double> & map1 = (*map4)[ipart][target_site][given_site_index];
-    if (neighbor_criteria.is_accepted(map1[0], map1[1],
-                                       site_type0, site_type1)) {
+    DEBUG("site_type1 " << site_type1);
+    if (neighbor_criteria.is_accepted(map1[0], map1[1], site_type0, site_type1)) {
       neighbors->add_site(ipart, given_site_index);
     }
   }

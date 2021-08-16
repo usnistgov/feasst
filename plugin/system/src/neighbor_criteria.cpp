@@ -12,11 +12,11 @@ namespace feasst {
 NeighborCriteria::NeighborCriteria(argtype args) {
   reference_potential_ = integer("reference_potential", &args, -1);
   potential_index_ = integer("potential_index", &args, 0);
-  energy_maximum_ = dble("energy_maximum", &args, -NEAR_ZERO);
+  energy_maximum_ = dble("energy_maximum", &args, std::numeric_limits<double>::max());
   DEBUG("energy_maximum " << energy_maximum_);
-  ASSERT(energy_maximum_ < 0.,
-    "energy_maximum:" << energy_maximum_ << " must be less than zero. " <<
-    "Otherwise, self interactions and particles outside of cutoff will be added");
+//  ASSERT(energy_maximum_ < 0.,
+//    "energy_maximum:" << energy_maximum_ << " must be less than zero. " <<
+//    "Otherwise, self interactions and particles outside of cutoff will be added");
   minimum_distance_sq_ = std::pow(dble("minimum_distance", &args, 0), 2);
   maximum_distance_sq_ = std::pow(
     dble("maximum_distance", &args, std::sqrt(NEAR_INFINITY)), 2);
@@ -35,10 +35,13 @@ bool NeighborCriteria::is_accepted(const double energy,
                                    const int site_type1) const {
   const bool is_distance = squared_distance > minimum_distance_sq_ &&
                            squared_distance < maximum_distance_sq_;
+  DEBUG("is_distance " << is_distance);
   const bool is_energy = energy < energy_maximum_;
+  DEBUG("is_energy " << is_energy << " energy: " << energy << " mx: " << energy_maximum_);
   const bool is_type = site_type0_ == -1 ||
    ( (site_type0_ == site_type0 && site_type1_ == site_type1) ||
      (site_type0_ == site_type1 && site_type1_ == site_type0));
+  DEBUG("is_type " << is_type);
   if (is_distance && is_energy && is_type) {
     return true;
   }

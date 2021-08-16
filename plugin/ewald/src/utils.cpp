@@ -37,12 +37,11 @@ double kelvin2kJpermol(const double kelvin, const Configuration& config) {
 System spce(argtype args) {
   System system;
   double dual_cut = dble("dual_cut", &args, -1);
-  const std::string cubic_box_length = str("cubic_box_length", &args, "20");
-  {
-    Configuration config(MakeDomain({{"cubic_box_length", cubic_box_length}}),
-      {{"particle_type", install_dir() + "/" + str("particle", &args, "forcefield/data.spce")},
-       {"physical_constants", str("physical_constants", &args, "CODATA2018")}}
-    );
+  add_if_not_used("cubic_box_length", &args, "20");
+  add_if_not_used("physical_constants", &args, "CODATA2018");
+  add_if_not_used("particle_type", &args,
+    install_dir() + "/forcefield/data.spce");
+  { Configuration config(&args);
     if (used("xyz_file", args)) {
       FileXYZ().load(str("xyz_file", &args), &config);
     }
@@ -70,7 +69,9 @@ System spce(argtype args) {
                            {{"table_size", str("table_size", &args, str(1e6))}}));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
   system.add(MakePotential(MakeChargeSelf()));
-  system.add(MakePotential(MakeLongRangeCorrections()));
+  if (boolean("lrc", &args, true)) {
+    system.add(MakePotential(MakeLongRangeCorrections()));
+  }
 //  system.add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
     std::shared_ptr<Potential> ref;

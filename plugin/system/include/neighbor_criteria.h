@@ -22,7 +22,7 @@ class NeighborCriteria {
     - reference_potential: index of reference potentials (default: -1).
       If -1, use full potentials.
     - potential_index: index of potential for pair interaction (default: 0).
-    - energy_maximum: maximum energy to be in cluster (default: -NEAR_ZERO).
+    - energy_maximum: maximum energy to be in cluster (default: largest double precision).
     - minimum_distance: minimum separation distance (default: 0).
     - maximum_distance: maximum separation distance (default: NEAR_INFINITY).
     - site_type0: consider only interactions between a specific site type.

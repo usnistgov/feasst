@@ -61,10 +61,10 @@ def mc(thread, mn, mx):
     return mc
 
 windows=fst.WindowExponential(fst.args({
-  "alpha": "1.75",
-  "num": str(args.num_procs),
-  "maximum": "265",
-  "extra_overlap": "2"})).boundaries()
+    "alpha": "1.75",
+    "num": str(args.num_procs),
+    "maximum": "265",
+    "extra_overlap": "2"})).boundaries()
 print(windows)
 
 if args.task == 0:

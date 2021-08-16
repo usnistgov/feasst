@@ -18,19 +18,20 @@ double kelvin2kJpermol(const double kelvin);
 double kelvin2kJpermol(const double kelvin, const Configuration& config);
 
 /**
-Prepare a MonteCarlo for a typical SPC/E simulation.
+  Return a system for a typical SPC/E simulation.
 
-args:
-- cubic_box_length: default 20
-- particle: default forcefield/data.spce
-- alphaL: Ewald alpha parameter (default: 5.6)
-- kmax_squared: maximum squared wave vector (default: 38)
-- physical_constants: as described in Configuration (default: CODATA2018)
-- xyz_file: optionally load xyz file.
-- dual_cut: add cell list with this width and also create a short-range
-  reference potential with this cutoff.
-  Ignore if -1 (default: -1).
-- table_size: size of tabular potential to speed up erfc (default: 1e6).
+  args:
+  - Configuration args (defaults; cubic_box_length: 20,
+    particle_type: /path/to/feasst/forcefield/data.spce)
+  - lrc: use long range corrections (default: true)
+  - alphaL: Ewald alpha parameter (default: 5.6)
+  - kmax_squared: maximum squared wave vector (default: 38)
+  - physical_constants: as described in Configuration (default: CODATA2018)
+  - xyz_file: optionally load xyz file.
+  - dual_cut: add cell list with this width and also create a short-range
+    reference potential with this cutoff.
+    Ignore if -1 (default: -1).
+  - table_size: size of tabular potential to speed up erfc (default: 1e6).
  */
 System spce(argtype args = argtype());
 
