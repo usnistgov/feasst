@@ -29,6 +29,11 @@ LongRangeCorrections::LongRangeCorrections(std::istream& istr)
   ASSERT(874 == version, version);
 }
 
+void LongRangeCorrections::precompute(Configuration * config) {
+  VisitModel::precompute(config);
+  ASSERT(config->domain().dimension() == 3, "LongRangeCorrections assumes 3D");
+}
+
 void LongRangeCorrections::compute(
     ModelOneBody * model,
     const ModelParams& model_params,

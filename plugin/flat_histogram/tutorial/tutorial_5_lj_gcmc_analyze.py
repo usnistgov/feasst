@@ -6,7 +6,7 @@ import pyfeasst
 
 num_procs = 12
 clones = fst.MakeClones('checkpoint', num_procs)
-beta = clones.clone(0).criteria().beta()
+beta = clones.clone(0).thermo_params().beta()
 volume = clones.clone(0).configuration().domain().volume()
 plt.plot(clones.ln_prob().values(), label='T*='+str(1./beta))
 sat=list()

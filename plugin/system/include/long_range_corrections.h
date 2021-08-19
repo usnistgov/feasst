@@ -50,6 +50,7 @@ class Configuration;
 class LongRangeCorrections : public VisitModel {
  public:
   LongRangeCorrections() { class_name_ = "LongRangeCorrections"; }
+  void precompute(Configuration * config) override;
   void compute(
       ModelOneBody * model,
       const ModelParams& model_params,
