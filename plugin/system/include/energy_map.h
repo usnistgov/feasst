@@ -54,12 +54,8 @@ class EnergyMap {
   /// for inclusion.
   virtual bool is_queryable() const { return true; }
 
-  /// Return the interaction energy.
-  double query(
-      const int part1_index,
-      const int site1_index,
-      const int part2_index,
-      const int site2_index);
+  /// Return the interaction energy of given site.
+  virtual double energy(const int part1_index, const int site1_index) const;
 
   /// Precompute
   void precompute(Configuration * config);

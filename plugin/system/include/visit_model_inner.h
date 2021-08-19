@@ -67,16 +67,7 @@ class VisitModelInner {
       energy_map_->clear(part1_index, site1_index, part2_index, site2_index);
     }
   }
-  void query_ixn(
-      const int part1_index,
-      const int site1_index,
-      const int part2_index,
-      const int site2_index) {
-    if (energy_map_) {
-      energy_ += energy_map_->query(part1_index, site1_index,
-                                    part2_index, site2_index);
-    }
-  }
+  void query_ixn(const Select& select);
 
   double energy() const { return energy_; }
 

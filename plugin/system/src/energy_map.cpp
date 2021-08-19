@@ -59,14 +59,6 @@ double EnergyMap::update(
   return energy;
 }
 
-double EnergyMap::query(
-    const int part1_index,
-    const int site1_index,
-    const int part2_index,
-    const int site2_index) {
-  return (*smap_(part1_index, site1_index, part2_index, site2_index))[0];
-}
-
 void EnergyMap::precompute(Configuration * config) {
   site_max_ = config->max_sites_in_any_particle();
   DEBUG("site_max_ " << site_max_);
@@ -145,6 +137,10 @@ void EnergyMap::neighbors(
 }
 
 void EnergyMap::synchronize_(const EnergyMap& map, const Select& perturbed) {
+  FATAL("not implemented");
+}
+
+double EnergyMap::energy(const int part1_index, const int site1_index) const {
   FATAL("not implemented");
 }
 

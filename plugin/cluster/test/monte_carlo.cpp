@@ -38,16 +38,20 @@ TEST(MonteCarlo, cluster) {
   //for (auto single_particle_translate : {true}) {
   for (auto single_particle_translate : {true, false}) {
     MonteCarlo mc;
-    // mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
-    mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
+    mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
+    mc.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "8"}}),
                                   {{"particle_type", "../forcefield/data.lj"}}));
+    for (int i = 0; i < 3; ++i) {
+      mc.get_system()->get_configuration()->add_particle_of_type(0);
+    }
+    mc.get_system()->get_configuration()->update_positions({{0, 0, 0}, {2, 0, 0}, {4, 0, 0}});
     mc.add(MakePotential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
     mc.set(MakeThermoParams({{"beta", "40"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
     if (single_particle_translate) mc.add(MakeTrialTranslate());
-    SeekNumParticles(3).with_trial_add().run(&mc);
+    //SeekNumParticles(3).with_trial_add().run(&mc);
     mc.add(MakeNeighborCriteria({{"energy_maximum", "-0.5"}}));
     auto scluster = MakeSelectCluster({{"neighbor_index", "0"}});
     scluster->select_cluster(0, mc.system());

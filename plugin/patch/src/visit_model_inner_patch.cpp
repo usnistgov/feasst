@@ -19,12 +19,6 @@ void VisitModelInnerPatch::compute(
     const bool is_old_config,
     Position * relative,
     Position * pbc) {
-  // HWH copy-pasted from base class.. make this a function?
-  if (is_old_config && is_energy_map_queryable()) {
-    DEBUG("using old map");
-    query_ixn(part1_index, site1_index, part2_index, site2_index);
-    return;
-  }
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
   const Particle& part2 = config->select_particle(part2_index);

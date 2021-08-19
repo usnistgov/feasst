@@ -35,8 +35,7 @@ typedef std::vector<map3type> map4type;
 class EnergyMapNeighbor : public EnergyMap {
  public:
   EnergyMapNeighbor(const argtype& args = argtype());
-  // HWH not queryable because have to find_in_list(part2...
-  bool is_queryable() const override { return false; }
+  double energy(const int part1_index, const int site1_index) const override;
   double update(
       const double energy,
       const int part1_index,
@@ -211,6 +210,7 @@ class EnergyMapNeighbor : public EnergyMap {
 
   // temporary and not serialized
   bool finalizable_ = false;
+  std::vector<std::vector<double> > energy_;
 };
 
 inline std::shared_ptr<EnergyMapNeighbor> MakeEnergyMapNeighbor(

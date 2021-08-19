@@ -31,6 +31,8 @@
 #include "steppers/include/profile_trials.h"
 #include "steppers/include/volume.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
+//#include "cluster/include/energy_map_neighbor.h"
+//#include "cluster/include/energy_map_all.h"
 
 namespace feasst {
 
@@ -81,12 +83,19 @@ TEST(MonteCarlo, NVT_NO_FEASST_BENCHMARK_LONG) {
 }
 
 TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
-  for (const bool opt : {false}) {
-  //for (const bool opt : {true}) {
-  //for (const bool opt : {true, false}) {
+  for (const std::string type : {"opt", "not"}) {
+  //for (const std::string type : {"neighbor"}) {
+  //for (const std::string type : {"all"}) {
+  //for (const std::string type : {"opt", "neighbor", "all"}) {
+    INFO("type: " << type);
     MonteCarlo mc;
     mc.set(MakeRandomMT19937({{"seed", "123"}}));
     mc.set(lennard_jones({{"lrc", "false"}}));
+//    if (type == "all") {
+//      mc.set(0, MakePotential(MakeLennardJones(), MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+//    } else if (type == "neighbor") {
+//      mc.set(0, MakePotential(MakeLennardJones(), MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
+//    }
     FileXYZ().load("../plugin/monte_carlo/test/data/bench.xyz",
                    mc.get_system()->get_configuration());
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
@@ -97,11 +106,14 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
   //  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
     //mc.set(0, Potential(MakeLennardJones(),
     //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-    if (opt) mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
-                                               MakeVisitModelOptLJ()));
+    if (type == "opt") {
+      mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
+                                        MakeVisitModelOptLJ()));
+    }
     //SeekNumParticles(50).with_trial_add().add(MakeProgressReport()).run(&mc);
     // mc.seek_num_particles(250);
-    mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
+    mc.attempt(1e6);  // 4.5s with 50 (see opt_lj for 3s)
+    //mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
     // mc.seek_num_particles(450);
     // mc.attempt(1e5);  // 15 sec with 450 on slow computer
     //mc.attempt(1e3);

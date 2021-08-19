@@ -104,4 +104,14 @@ VisitModelInner::VisitModelInner(std::istream& istr) {
   }
 }
 
+void VisitModelInner::query_ixn(const Select& select) {
+  ASSERT(select.num_particles() <= 1, "not implemented");
+  for (int pindex = 0; pindex < select.num_particles(); ++pindex) {
+    const int part1_index = select.particle_index(pindex);
+    for (const int site1_index : select.site_indices(pindex)) {
+      energy_ += energy_map_->energy(part1_index, site1_index);
+    }
+  }
+}
+
 }  // namespace feasst

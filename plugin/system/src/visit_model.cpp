@@ -106,13 +106,18 @@ void VisitModel::compute(
       selection.trial_state() == 2) {
     is_old_config = true;
   }
-  // HWH Implement query of old energy map
-//  if (is_old_config) {
-//    if (get_inner_()->energy_map()) {
-//      if (get_inner_()->energy_map()->is_queryable()) {
-//      }
-//    }
-//  }
+
+  // If possible, query energy map of old configuration instead of pair loop
+  if (is_old_config) {
+    if (selection.num_particles() == 1) {
+      if (get_inner_()->is_energy_map_queryable()) {
+        get_inner_()->query_ixn(selection);
+        set_energy(inner().energy());
+        return;
+      }
+    }
+  }
+
   // If only one particle in selection, simply exclude part1==part2
   if (selection.num_particles() == 1) {
     for (int select1_index = 0;

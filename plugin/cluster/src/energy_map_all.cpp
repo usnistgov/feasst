@@ -289,4 +289,14 @@ void EnergyMapAll::synchronize_(const EnergyMap& emap, const Select& perturbed) 
   }
 }
 
+double EnergyMapAll::energy(const int part1_index, const int site1_index) const {
+  double energy = 0.;
+  for (const std::vector<std::vector<std::vector<double> > >& map3 : map()[part1_index]) {
+    for (const std::vector<double>& map : map3[site1_index]) {
+      energy += map[0];
+    }
+  }
+  return energy;
+}
+
 }  // namespace feasst

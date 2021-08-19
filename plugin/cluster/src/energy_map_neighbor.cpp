@@ -150,6 +150,10 @@ void EnergyMapNeighbor::remove_from_map_nvt_(const Select& select) {
               // for removed part2, also remove perturbed indices
               for (const auto& mn1 : mn2.second) {
                 const int site2 = mn1.first;
+                *find_or_add_(site1, find_or_add_(part1, &energy_)) -= mn1.second[0];
+                *find_or_add_(site2, find_or_add_(part2, &energy_)) -= mn1.second[0];
+                //energy_[part1][site1] -= mn1.second[0];
+                //energy_[part2][site2] -= mn1.second[0];
                 map2type * map2inv = find_or_add_(part1,
                                      find_or_add_(site2,
                                      find_or_add_(part2, map_())));
@@ -181,6 +185,10 @@ void EnergyMapNeighbor::remove_from_map_nvt_(const Select& select) {
                                   back_inserter(diff2));
               for (const auto& missing1 : diff2) {
                 const int site2 = missing1.first;
+                *find_or_add_(site1, find_or_add_(part1, &energy_)) -= missing1.second[0];
+                *find_or_add_(site2, find_or_add_(part2, &energy_)) -= missing1.second[0];
+                //energy_[part1][site1] -= missing1.second[0];
+                //energy_[part2][site2] -= missing1.second[0];
                 int fsindex = -1;
                 bool found = find_in_list(site2, *map2, &fsindex);
                 ASSERT(found, "err");
@@ -233,6 +241,10 @@ void EnergyMapNeighbor::add_to_map_nvt_() {
         // for newly added part2, also add perturbed indices of each site
         for (const auto& mn1 : mn2.second) {
           const int site2 = mn1.first;
+          *find_or_add_(site1, find_or_add_(part1, &energy_)) += mn1.second[0];
+          *find_or_add_(site2, find_or_add_(part2, &energy_)) += mn1.second[0];
+          //energy_[part1][site1] += mn1.second[0];
+          //energy_[part2][site2] += mn1.second[0];
           map2type * map2inv = find_or_add_(part1,
                                find_or_add_(site2,
                                find_or_add_(part2, map_())));
@@ -260,6 +272,10 @@ void EnergyMapNeighbor::add_to_map_nvt_() {
           DEBUG("adding site2: " << site2);
           map1type * map1 = find_or_add_(site2, map2);
           *map1 = mn1.second;
+          *find_or_add_(site1, find_or_add_(part1, &energy_)) += mn1.second[0];
+          *find_or_add_(site2, find_or_add_(part2, &energy_)) += mn1.second[0];
+          //energy_[part1][site1] += mn1.second[0];
+          //energy_[part2][site2] += mn1.second[0];
           std::sort(map2->begin(), map2->end());
 
           // for newly added site2, also add perturbed index
@@ -297,6 +313,10 @@ void EnergyMapNeighbor::remove_particle_from_map_(const Select& select) {
             for (const std::pair<int, map1type>& map1 : map2.second) {
               const int site2 = map1.first;
               DEBUG("site2 " << site2);
+              *find_or_add_(site1, find_or_add_(part1, &energy_)) -= map1.second[0];
+              *find_or_add_(site2, find_or_add_(part2, &energy_)) -= map1.second[0];
+              //energy_[part1][site1] -= map1.second[0];
+              //energy_[part2][site2] -= map1.second[0];
               map2type * map2inv = find_or_add_(part1,
                                    find_or_add_(site2,
                                    find_or_add_(part2, map_())));
@@ -337,7 +357,13 @@ void EnergyMapNeighbor::add_particle_to_map_() {
           DEBUG("site2 " << site2);
           map1type * map1 = find_or_add_(site1, map2);
           *map1 = mn1.second;
-
+          //DEBUG("en sz " << energy_.size());
+          //DEBUG("en sz " << energy_[part1].size());
+          //DEBUG("en sz " << energy_[part2].size());
+          *find_or_add_(site1, find_or_add_(part1, &energy_)) += mn1.second[0];
+          *find_or_add_(site2, find_or_add_(part2, &energy_)) += mn1.second[0];
+          //energy_[part1][site1] += mn1.second[0];
+          //energy_[part2][site2] += mn1.second[0];
           // HWH copied from above.. make function
           // perturb indices and add
           map2type * map2inv = find_or_add_(part1,
@@ -367,9 +393,6 @@ void EnergyMapNeighbor::finalize(const Select& select) {
 
   if (select.trial_state() == -1 || select.trial_state() == 1) {
     remove_from_map_nvt_(select);
-  }
-
-  if (select.trial_state() == -1 || select.trial_state() == 1) {
     add_to_map_nvt_();
   } else if (select.trial_state() == 2) {
     remove_particle_from_map_(select);
@@ -542,6 +565,10 @@ void EnergyMapNeighbor::check(const Configuration& config) const {
     const map4type& m4 = const_map_()[part1];
     for (int site1 = 0; site1 < static_cast<int>(m4.size()); ++site1) {
       const map3type& m3 = m4[site1];
+      if (part1 < static_cast<int>(energy_.size())) {
+        const double en = energy(part1, site1);
+        ASSERT(std::abs(energy_[part1][site1] - en) < 1e-10, "er");
+      }
       for (int pneigh = 0; pneigh < static_cast<int>(m3.size()); ++pneigh) {
         const int part2 = m3[pneigh].first;
         const map2type& m2 = m3[pneigh].second;
@@ -662,6 +689,16 @@ std::vector<std::pair<int, mn4type> > * EnergyMapNeighbor::map_new_() {
 
 const std::vector<std::pair<int, mn4type> >& EnergyMapNeighbor::const_map_new_() const {
   return const_cast<std::vector<std::pair<int, mn4type> >&>(data_.get_const_vpvpvpvpv());
+}
+
+double EnergyMapNeighbor::energy(const int part1_index, const int site1_index) const {
+  DEBUG("energy of part " << part1_index << " site " << site1_index);
+  if (part1_index < static_cast<int>(energy_.size())) {
+    if (site1_index < static_cast<int>(energy_[part1_index].size())) {
+      return energy_[part1_index][site1_index];
+    }
+  }
+  return 0.;
 }
 
 }  // namespace feasst

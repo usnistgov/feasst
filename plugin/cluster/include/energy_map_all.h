@@ -23,6 +23,7 @@ namespace feasst {
 class EnergyMapAll : public EnergyMap {
  public:
   EnergyMapAll(const argtype& args = argtype());
+  double energy(const int part1_index, const int site1_index) const override;
   void revert(const Select& select) override;
   void finalize(const Select& select) override;
   void select_cluster(const NeighborCriteria& neighbor_criteria,
