@@ -39,8 +39,8 @@ namespace feasst {
 
 TEST(MonteCarlo, ShapeUnion) {
   MonteCarlo mc;
-  mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
-    {{"particle_type", "../forcefield/data.lj"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+    {"particle_type", "../forcefield/data.lj"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeShapeUnion(
     MakeSphere(
@@ -79,8 +79,8 @@ std::shared_ptr<Shape> porous_network() {
 
 TEST(MonteCarlo, ShapeUnion_LONG) {
   MonteCarlo mc;
-  mc.add(Configuration(MakeDomain({{"cubic_box_length", "20"}}),
-    {{"particle_type", "../forcefield/data.lj"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "20"},
+    {"particle_type", "../forcefield/data.lj"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(porous_network())));
   mc.set(MakeThermoParams({{"beta", "1.5"}, {"chemical_potential", "1."}}));
@@ -97,7 +97,7 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
 TEST(MonteCarlo, ShapeTable_LONG) {
   MonteCarlo mc;
   auto domain = MakeDomain({{"cubic_box_length", "20"}});
-  mc.add(Configuration(domain, {{"particle_type", "../forcefield/data.lj"}}));
+  mc.add(MakeConfiguration(domain, {{"particle_type", "../forcefield/data.lj"}}));
   mc.add(MakePotential(MakeLennardJones()));
   auto pore = porous_network();
   mc.add(MakePotential(MakeModelHardShape(pore)));
@@ -149,8 +149,8 @@ TEST(MonteCarlo, ShapeTable_LONG) {
 TEST(MonteCarlo, SineSlab) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(Configuration(MakeDomain({{"cubic_box_length", "16"}}),
-    {{"particle_type", "../forcefield/data.lj"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "16"},
+    {"particle_type", "../forcefield/data.lj"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeSlabSine(
     MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),
@@ -318,9 +318,9 @@ TEST(HardShape, henry_LONG) {
 
 TEST(DensityProfile, ig_hard_slab) {
   MonteCarlo mc;
-  mc.add(Configuration(MakeDomain({{"cubic_box_length", "10"}}),
-    {{"particle_type0", "../forcefield/data.hard_sphere"},
-     {"particle_type1", "../forcefield/data.lj"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "10"},
+    {"particle_type0", "../forcefield/data.hard_sphere"},
+    {"particle_type1", "../forcefield/data.lj"}}));
   mc.add(MakePotential(MakeHardSphere()));
   mc.add(MakePotential(MakeModelHardShape(MakeSlab({
     {"dimension", "2"},
@@ -342,7 +342,7 @@ TEST(DensityProfile, ig_hard_slab) {
   for (int type = 0; type < mc.configuration().num_site_types(); ++type) {
     EXPECT_NEAR(profile2.profile()[0][type][1], 0., NEAR_ZERO);
     EXPECT_NEAR(profile2.profile()[50][type][0], 0., NEAR_ZERO);
-    EXPECT_NEAR(profile2.profile()[50][type][1], 0.02, 0.01);
+    EXPECT_NEAR(profile2.profile()[50][type][1], 0.02, 0.015);
   }
 }
 

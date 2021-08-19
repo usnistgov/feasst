@@ -154,7 +154,8 @@ class Random {
     as described in Frenkel and Smit, Alg 43, page 578
     and Allen and Tildesley, Section G.3.
     The maximal length is 3 sigma beyond the mean.
-    Only currently implemented for 3 dimensions. */
+    Only currently implemented for 3 dimensions.
+   */
   double harmonic_bond_length(const double equilibrium_length,
     const double spring_constant,
     const int dimension);
@@ -162,9 +163,11 @@ class Random {
   /**
     Same as above, but generalized for arbitrary exponential powers.
     betaU ~ spring_constant*(length - equilibrium_length)**exponent
-    In this implementation, the maximum bond length is twice the equilibrium.
-    If exponent == 2, use harmonic_bond_length. */
-  double bond_length(const double equilibrium_length,
+    If exponent == 2, use harmonic_bond_length.
+   */
+  double bond_length(
+    const double equilibrium_length,
+    const double maximum_length,
     const double spring_constant,
     const int exponent,
     const int dimension);

@@ -51,7 +51,7 @@ Configuration::Configuration(argtype * args) {
     std::stringstream key;
     key << "add_particles_of_type" << type;
     const int num = integer(key.str(), args, 0);
-    for (int i = 0; i < num; ++i) { 
+    for (int i = 0; i < num; ++i) {
       add_particle_of_type(type);
     }
   }
@@ -326,8 +326,9 @@ void Configuration::update_positions(
 
 void Configuration::displace(const Select& selection,
                              const Position &displacement) {
-  for (const int& particle_index : selection.particle_indices()) {
-    for (const int& site_index : selection.site_indices(particle_index)) {
+  for (int sp = 0; sp < selection.num_particles(); ++sp) {
+    const int particle_index = selection.particle_index(sp);
+    for (const int& site_index : selection.site_indices(sp)) {
       displace_site_(particle_index, site_index, displacement);
     }
   }

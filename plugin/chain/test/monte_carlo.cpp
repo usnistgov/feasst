@@ -36,6 +36,7 @@
 #include "chain/include/trial_grow_linear.h"
 #include "chain/include/analyze_bonds.h"
 #include "chain/test/system_chain.h"
+#include "mayer/include/mayer_sampling.h"
 
 namespace feasst {
 
@@ -300,7 +301,7 @@ TEST(MonteCarlo, heterotrimer2d_VERY_LONG) {
 
 TEST(MonteCarlo, multisite_neighbors) {
   MonteCarlo mc;
-  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   //mc.set(MakeRandomMT19937({{"seed", "1610132694"}}));
   mc.set(lennard_jones({{"particle", "forcefield/data.dimer"},
                         {"cubic_box_length", "6"},
@@ -331,6 +332,109 @@ TEST(MonteCarlo, multisite_neighbors) {
     neigh->check(mc.configuration());
   }
   EXPECT_NEAR(mc.criteria().current_energy(), neigh->total_energy(), 1e-12);
+}
+
+void add_cg4_potential(MonteCarlo * mc) {
+  mc->add(MakePotential(MakeSquareWell()));
+  { // intra is HardSphere with 90% reduced sigma
+    ModelParams params = mc->configuration().model_params();
+    for (int type = 0; type < params.sigma().size(); ++type) {
+      params.set("sigma", type, 0.9*params.sigma().value(type));
+    }
+    auto pot = MakePotential(MakeHardSphere(), MakeVisitModelIntra());
+    pot->set(params);
+    mc->add(pot);
+  }
+}
+
+TEST(MonteCarlo, cg4_flexible_LONG) {
+  MonteCarlo mc;
+  mc.add(MakeConfiguration({
+    {"cubic_box_length", "30"},
+    {"particle_type0", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex"},
+    {"add_particles_of_type0", "1"},
+  }));
+  EXPECT_EQ(1, mc.configuration().num_particles());
+  EXPECT_EQ(1, mc.configuration().num_particles_of_type(0));
+  add_cg4_potential(&mc);
+  const double temperature = 0.7092;
+  mc.set(MakeThermoParams({{"beta", str(1./temperature)}}));
+  mc.set(MakeMetropolis());
+//  mc.add(MakeTrialTranslate({{"reference_index", "0"}, {"tunable_param", "1"}}));
+//  mc.add(MakeTrialRotate({{"reference_index", "0"}, {"tunable_param", "40"}}));
+  //mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}}}));
+  mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}, {"potential_acceptance", "1"}}}));
+  mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "2"}, {"anchor_site", "0"}}}));
+  mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "3"}, {"anchor_site", "0"}}}));
+  std::string steps_per = "1e4";
+  mc.add(MakeLog({{"steps_per", steps_per}, {"file_name", "tmp/cg4.txt"}}));
+  mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/cg4.xyz"}}));
+  mc.add(MakeTune({{"steps_per", steps_per}}));
+  auto bonds = MakeAnalyzeBonds({{"bond_bin_width", "0.05"}});
+  mc.add(bonds);
+  mc.attempt(1e6);
+
+  // check that bonds extend to 7, and bonded particles do not overlap within 0.9sigma_ij
+  //for (int type = 1; type < 2; ++type) {
+  for (int type = 1; type < 4; ++type) {
+    //INFO("type " << type);
+    //INFO(bonds->bond(0).str());
+    //INFO(bonds->bond_hist(type-1).str());
+    EXPECT_NEAR(bonds->bond_hist(type-1).max(), 7.025, 1e-13);
+    const double sigij = mc.system().potential(1).model_params().sigma().mixed_value(0, type);
+    //INFO("sigij " << sigij);
+    if (type == 1) {
+      EXPECT_NEAR(0.9*3.91815, sigij, 0.00001);
+    }
+    int bin = bonds->bond_hist(type-1).bin(sigij);
+    EXPECT_EQ(0, bonds->bond_hist(type-1).histogram()[bin - 1]);
+    EXPECT_NE(0, bonds->bond_hist(type-1).histogram()[bin + 1]);
+    bin = bonds->bond_hist(type-1).size() - 1;
+    EXPECT_NEAR(0.5, bonds->bond_hist(type-1).histogram()[bin]/
+                     bonds->bond_hist(type-1).histogram()[bin - 1], 0.05);
+  }
+}
+
+// HWH test that distributions are also unchanged whether or not potential_acceptance is used
+
+TEST(MayerSampling, b2_cg4_flexible_LONG) {
+  MonteCarlo mc;
+  mc.add(MakeConfiguration({
+    {"cubic_box_length", "30"},
+    {"particle_type0", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex"},
+    {"particle_type1", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex_duplicate"},
+    {"add_particles_of_type0", "1"},
+    {"add_particles_of_type1", "1"},
+  }));
+  EXPECT_EQ(2, mc.configuration().num_particles());
+  EXPECT_EQ(1, mc.configuration().num_particles_of_type(0));
+  add_cg4_potential(&mc);
+  mc.add_to_reference(MakePotential(MakeHardSphere()));
+  const double temperature = 0.5309;
+  //const double temperature = 0.7092;
+  mc.set(MakeThermoParams({{"beta", str(1./temperature)}}));
+  auto mayer = MakeMayerSampling();
+  mc.set(mayer);
+  mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
+    {"tunable_param", "1"}, {"particle_type", "1"}}));
+  mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
+    {"tunable_param", "40"}}));
+  for (const std::string ptype : {"0", "1"}) {
+    for (const std::string msite : {"1", "2", "3"}) {
+      mc.add(MakeTrialGrow({{{"particle_type", ptype}, {"bond", "1"},
+        {"mobile_site", msite}, {"anchor_site", "0"},
+        {"potential_acceptance", "1"}, {"new_only", "true"}}}));
+    }
+  }
+  std::string steps_per = "1e4";
+  mc.add(MakeLog({{"steps_per", steps_per}, {"file_name", "tmp/cg4.txt"}}));
+  mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/cg4.xyz"}}));
+  mc.add(MakeTune({{"steps_per", steps_per}}));
+  auto bonds = MakeAnalyzeBonds({{"bond_bin_width", "0.05"}});
+  mc.add(bonds);
+  mc.attempt(1e6);
+//  EXPECT_NEAR(100, mayer->second_virial_ratio(), 0.15);
+//  INFO(bonds->bond_hist(0).str());
 }
 
 }  // namespace feasst

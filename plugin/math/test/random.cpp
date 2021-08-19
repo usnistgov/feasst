@@ -203,7 +203,7 @@ TEST(Random, bond_length) {
   //  hist2.set_width_center(0.01, equilibrum_length);
     //({{"width", "0.1"}, {"max", "6"}});;
     for (int i = 0; i < num; ++i) {
-      const double ran1 = random->bond_length(equilibrum_length, spring_constant, 2, 3);
+      const double ran1 = random->bond_length(equilibrum_length, 2*equilibrum_length, spring_constant, 2, 3);
       const double ran2 = random->harmonic_bond_length(equilibrum_length, spring_constant, 3);
   //    hist1.add(ran1);
   //    hist2.add(ran2);

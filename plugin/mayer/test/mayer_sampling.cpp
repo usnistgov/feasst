@@ -1,0 +1,173 @@
+#include <cmath>
+#include "utils/test/utils.h"
+#include "math/include/random_mt19937.h"
+#include "configuration/include/domain.h"
+#include "system/include/utils.h"
+#include "system/include/hard_sphere.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/model_two_body_factory.h"
+#include "models/include/square_well.h"
+#include "steppers/include/log.h"
+#include "steppers/include/movie.h"
+#include "steppers/include/tune.h"
+#include "monte_carlo/include/trials.h"
+#include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/run.h"
+#include "mayer/include/mayer_sampling.h"
+#include "ewald/include/coulomb.h"
+#include "ewald/include/utils.h"
+
+namespace feasst {
+
+TEST(MayerSampling, ljb2) {
+  System system = two_particle_system();
+  system.add_to_reference(MakePotential(MakeHardSphere()));
+  auto translate = MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"}, {"weight", "0.75"}});
+  //auto translate = MakeTrialTranslate({{"tunable_param", "0.5"}});
+  /// HWH notes: does this need a max?
+  const int nTrialsEq = 1e4, nTrials = 1e4;
+  //const int nTrialsEq = 1e6, nTrials = 1e6;
+  Configuration * config = system.get_configuration();
+  config->set_model_param("cutoff", 0, NEAR_INFINITY);
+  EXPECT_EQ(config->model_params().cutoff().value(0), NEAR_INFINITY);
+  const double boxl = 2*(config->model_params().cutoff().value(0));
+  config->set_side_lengths(Position().set_vector({boxl, boxl, boxl}));
+  std::cout << "boxl " << boxl << std::endl;
+  system.set(MakeThermoParams({{"beta", "1."},
+    {"chemical_potential", "-2.775"}}));
+  MayerSampling criteria;
+  criteria.set_current_energy(system.energy());
+  RandomMT19937 random;
+  for (int iTrial = 0; iTrial < nTrialsEq + nTrials; ++iTrial) {
+    translate->attempt(&criteria, &system, &random);
+  }
+  const double b2 = 2./3.*PI*criteria.second_virial_ratio();
+  std::cout << "b2 " << b2 << std::endl;
+  EXPECT_NEAR(-5.3, b2, 15);
+  EXPECT_GT(std::abs(2.0944-b2), 0.0001); // HS value
+
+  std::shared_ptr<Criteria> crit2 = test_serialize<MayerSampling, Criteria>(criteria);
+  EXPECT_EQ(system.thermo_params().beta(), 1.);
+}
+
+MayerSampling ljb2(const int trials) {
+  MonteCarlo mc;
+  { // initialize system
+    System lj = lennard_jones({{"cubic_box_length", "1000"}});
+    Configuration * config = lj.get_configuration();
+    config->set_model_param("cutoff", 0, config->domain().side_length(0)/2.);
+    config->add_particle_of_type(0);
+    config->add_particle_of_type(0);
+    mc.set(lj);
+  }
+  mc.add_to_reference(MakePotential(MakeHardSphere()));
+  mc.set(MakeThermoParams({{"beta", "1."}, {"chemical_potential", "-2.775"}}));
+  mc.set(MakeMayerSampling());
+  mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"}, {"weight", "0.75"}}));
+  MonteCarlo mc2 = test_serialize(mc);
+  mc2.attempt(trials);
+  std::stringstream ss;
+  mc2.criteria().serialize(ss);
+  MayerSampling mayer(ss);
+  return mayer;
+}
+
+TEST(MonteCarlo, ljb2) {
+  MayerSampling mayer = ljb2(1e4);
+  const double b2 = 2./3.*PI*mayer.second_virial_ratio();
+  INFO("b2 " << b2);
+  EXPECT_NEAR(-5.3, b2, 20);
+  EXPECT_GT(std::abs(2.0944 - b2), 0.0001); // HS value
+}
+
+TEST(MonteCarlo, ljb2_LONG) {
+  MayerSampling mayer = ljb2(1e7);
+  const double b2 = 2./3.*PI*mayer.second_virial_ratio();
+  INFO("b2 " << b2);
+  EXPECT_NEAR(-5.3, b2, 0.2);
+  EXPECT_GT(std::abs(2.0944 - b2), 0.0001); // HS value
+}
+
+// Check SPCE
+
+TEST(MayerSampling, cg4_rigid_LONG) {
+  MonteCarlo mc;
+  mc.add(MakeConfiguration({{"cubic_box_length", "1000"},
+    {"particle_type0", install_dir() + "/plugin/chain/forcefield/data.cg4_mab"},
+    {"particle_type1", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_duplicate"},
+    {"add_particles_of_type0", "1"},
+    {"add_particles_of_type1", "1"},
+  }));
+  EXPECT_EQ(2, mc.configuration().num_particles());
+  EXPECT_EQ(1, mc.configuration().num_particles_of_type(0));
+  mc.add(MakePotential(MakeSquareWell()));
+  mc.add_to_reference(MakePotential(MakeHardSphere()));
+  const double temperature = 0.7092;
+  mc.set(MakeThermoParams({{"beta", str(1./temperature)}}));
+  mc.set(MakeMayerSampling());
+  mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
+    {"tunable_param", "1"}, {"particle_type", "1"}}));
+  mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
+    {"tunable_param", "40"}}));
+  std::string steps_per = "1e4";
+  mc.add(MakeLog({{"steps_per", steps_per}, {"file_name", "tmp/cg4.txt"}}));
+  mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/cg4.xyz"}}));
+  mc.add(MakeTune({{"steps_per", steps_per}}));
+  MonteCarlo mc2 = test_serialize(mc);
+  mc2.attempt(1e6);
+  std::stringstream ss;
+  mc2.criteria().serialize(ss);
+  MayerSampling mayer(ss);
+  EXPECT_NEAR(0.46, mayer.second_virial_ratio(), 0.15);
+}
+
+// Table 2 of https://pubs.acs.org/doi/pdf/10.1021/jp0710685
+// Fig 1 of https://doi.org/10.1063/1.5016165
+TEST(MayerSampling, SPCE_LONG) {
+  MonteCarlo mc;
+  { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
+    config->add_particle_type(install_dir() + "/forcefield/data.spce");
+    config->add_particle_type(install_dir() + "/forcefield/data.spce", "2");
+    for (int stype = 0; stype < config->num_site_types(); ++stype) {
+      config->set_model_param("cutoff", stype, config->domain().side_length(0)/2.);
+    }
+    config->add_particle_of_type(0);
+//    config->add_particle_of_type(0);
+    config->add_particle_of_type(1);
+    mc.add(config);
+  }
+  mc.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(), MakeCoulomb()})));
+  mc.add_to_reference(MakePotential(MakeHardSphere()));
+  //const double temperature = 373; // kelvin
+  //const double temperature = 300; // kelvin
+  //const double temperature = 400; // kelvin
+  const double temperature = 1e3; //400; // kelvin
+  mc.set(MakeThermoParams({{"beta", str(1./kelvin2kJpermol(temperature))}}));
+  auto mayer = MakeMayerSampling();
+  mc.set(mayer);
+  //mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
+  //  {"tunable_param", "1"}}));
+  mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
+    {"tunable_param", "1"}, {"particle_type", "1"}}));
+  mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
+    {"tunable_param", "40"}}));
+  std::string steps_per = "1e5";
+  mc.add(MakeLog({{"steps_per", steps_per}, {"file_name", "tmp/spce.txt"}}));
+  mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/spce.xyz"}}));
+  mc.add(MakeTune({{"steps_per", steps_per}}));
+  mc.attempt(1e6);
+  mc.perform(MakeRemoveModify({{"name", "Tune"}}));
+  mc.attempt(1e7);
+  mayer = MakeMayerSampling();
+  mc.set(mayer);
+  mc.attempt(1e8);
+  double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().sigma().value(0), 3); // A^3
+  INFO("b2hs(A^3) " << b2hs);
+  b2hs *= 1e-30*1e3*mc.configuration().physical_constants().avogadro_constant();
+  INFO("b2hs(L/mol) " << b2hs);
+  INFO("b2spce/b2hs " << mayer->second_virial_ratio());
+  INFO("b2spce(L/mol) " << b2hs*mayer->second_virial_ratio());
+  EXPECT_NEAR(-1.8049, b2hs*mayer->second_virial_ratio(), 0.06);
+}
+
+}  // namespace feasst

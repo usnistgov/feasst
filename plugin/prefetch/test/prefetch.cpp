@@ -138,8 +138,8 @@ TEST(Prefetch, AVB) {
   const int steps_per = 1e2;
   auto monte_carlo = MakePrefetch({{"synchronize", "true"},
                                    {"steps_per_check", str(steps_per)}});
-  monte_carlo->add(Configuration(MakeDomain({{"cubic_box_length", "6"}}),
-                                {{"particle_type", "../forcefield/data.lj"}}));
+  monte_carlo->add(MakeConfiguration({{"cubic_box_length", "6"},
+                                      {"particle_type", "../forcefield/data.lj"}}));
   monte_carlo->add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   //monte_carlo->add(MakePotential(MakeLennardJones()));

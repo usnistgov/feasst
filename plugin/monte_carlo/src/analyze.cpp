@@ -89,7 +89,12 @@ void AnalyzeWriteOnly::set_steps_per_update(const int steps) {
 }
 
 AnalyzeUpdateOnly::AnalyzeUpdateOnly(argtype * args) : Analyze(args) {
-  // disable update
+  ASSERT(steps_per_write() == 1, "AnalyzeUpdateOnly doesn't the argument " <<
+    "steps_per_write");
+  ASSERT(file_name().empty(), "AnalyzeUpdateOnly doesn't the argument " <<
+    "file_name");
+
+  // disable write
   Analyze::set_steps_per_write(-1);
 
   // parse

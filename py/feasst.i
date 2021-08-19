@@ -256,7 +256,7 @@
 #include "ewald/include/charge_screened_intra.h"
 #include "ewald/include/ewald.h"
 #include "ewald/include/check_net_charge.h"
-#include "mayer/include/criteria_mayer.h"
+#include "mayer/include/mayer_sampling.h"
 #include "confinement/include/model_lj_shape.h"
 #include "confinement/include/trial_anywhere.h"
 #include "confinement/include/model_square_well_shape.h"
@@ -558,7 +558,7 @@ using namespace std;
 %shared_ptr(feasst::ChargeScreenedIntra);
 %shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::CheckNetCharge);
-%shared_ptr(feasst::CriteriaMayer);
+%shared_ptr(feasst::MayerSampling);
 %shared_ptr(feasst::ModelLJShape);
 %shared_ptr(feasst::ModelLJShapeEnergyAtCutoff);
 %shared_ptr(feasst::ModelSquareWellShape);
@@ -826,7 +826,7 @@ using namespace std;
 %include ewald/include/charge_screened_intra.h
 %include ewald/include/ewald.h
 %include ewald/include/check_net_charge.h
-%include mayer/include/criteria_mayer.h
+%include mayer/include/mayer_sampling.h
 %include confinement/include/model_lj_shape.h
 %include confinement/include/trial_anywhere.h
 %include confinement/include/model_square_well_shape.h

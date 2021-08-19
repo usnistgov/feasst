@@ -33,11 +33,14 @@ double Coulomb::energy(
     const int type2,
     const ModelParams& model_params) {
   const double distance = std::sqrt(squared_distance);
-  //INFO("distance " << distance);
-  if (std::abs(distance) < NEAR_ZERO) return NEAR_INFINITY;
+  TRACE("distance " << distance);
+  if (std::abs(distance) < NEAR_ZERO) {
+    TRACE("near inf");
+    return NEAR_INFINITY;
+  }
   const double mixed_charge = model_params.mixed_charge()[type1][type2];
-  //INFO("mixed_charge " << mixed_charge);
-  //INFO("conversion_factor_ " << conversion_factor_);
+  //TRACE("mixed_charge " << mixed_charge);
+  //TRACE("conversion_factor_ " << conversion_factor_);
   return mixed_charge*conversion_factor_/distance;
 }
 

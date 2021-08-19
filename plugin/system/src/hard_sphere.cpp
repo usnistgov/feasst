@@ -34,6 +34,7 @@ double HardSphere::energy(
   TRACE("sigma2 " << sigma*sigma);
   TRACE("r2 " << squared_distance);
   if (squared_distance <= sigma*sigma) {
+    TRACE("near inf");
     return NEAR_INFINITY;
   }
   return 0.;

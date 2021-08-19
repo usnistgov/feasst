@@ -2,20 +2,26 @@
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/random.h"
-#include "mayer/include/criteria_mayer.h"
+#include "mayer/include/mayer_sampling.h"
 
 namespace feasst {
 
-bool CriteriaMayer::is_accepted(const Acceptance& acceptance,
+bool MayerSampling::is_accepted(const Acceptance& acceptance,
     const System& system,
     Random * random) {
   const double energy_new = acceptance.energy_new();
   const double beta = system.thermo_params().beta();
   const double f12 = std::exp(-beta*energy_new) - 1.;
   bool is_accepted;
-  DEBUG("energy new " << energy_new << " f12 " << f12);
-  if (!acceptance.reject() and
-      (random->uniform() < std::abs(f12)/std::abs(f12old_)) ) {
+  if (!acceptance.reject() &&
+      (random->uniform() < std::abs(f12)/std::abs(f12old_))) {
+//    if (std::abs(energy_new) < 1e-12) {
+//      INFO("*** MayerSampling ***");
+//      INFO("energy new " << energy_new);
+//      INFO("f12 " << f12);
+//      INFO("f12old " << f12old_);
+//      INFO("acceptance " << std::abs(f12)/std::abs(f12old_));
+//    }
     set_current_energy(energy_new);
     f12old_ = f12;
     is_accepted = true;
@@ -35,16 +41,16 @@ bool CriteriaMayer::is_accepted(const Acceptance& acceptance,
   return is_accepted;
 }
 
-class MapCriteriaMayer {
+class MapMayerSampling {
  public:
-  MapCriteriaMayer() {
-    CriteriaMayer().deserialize_map()["CriteriaMayer"] = MakeCriteriaMayer();
+  MapMayerSampling() {
+    MayerSampling().deserialize_map()["MayerSampling"] = MakeMayerSampling();
   }
 };
 
-static MapCriteriaMayer mapper_ = MapCriteriaMayer();
+static MapMayerSampling mapper_ = MapMayerSampling();
 
-void CriteriaMayer::serialize(std::ostream& ostr) const {
+void MayerSampling::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_criteria_(ostr);
   feasst_serialize_version(3251, ostr);
@@ -54,7 +60,7 @@ void CriteriaMayer::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(mayer_ref_, ostr);
 }
 
-CriteriaMayer::CriteriaMayer(std::istream& istr) : Criteria(istr) {
+MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 3251, "unrecognized verison: " << version);
   feasst_deserialize(&f12old_, istr);
@@ -63,8 +69,14 @@ CriteriaMayer::CriteriaMayer(std::istream& istr) : Criteria(istr) {
   feasst_deserialize_fstobj(&mayer_ref_, istr);
 }
 
-double CriteriaMayer::second_virial() const {
-  return (2./3.)*PI*mayer_.average()/mayer_ref_.average();
+double MayerSampling::second_virial_ratio() const {
+  return mayer_.average()/mayer_ref_.average();
 }
+
+//MayerSampling::MayerSampling(const Criteria& criteria) {
+//  std::stringstream ss;
+//  criteria.serialize(ss);
+//  *this = MayerSampling(ss);
+//}
 
 }  // namespace feasst

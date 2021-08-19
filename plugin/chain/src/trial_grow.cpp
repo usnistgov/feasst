@@ -75,7 +75,7 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
     DEBUG("trial_type: " << trial_type);
     std::shared_ptr<Trial> trial = MakeTrial();
     trial->set_description("TrialGrow" + trial_type);
-    std::shared_ptr<TrialCompute> compute = MakeTrialComputeMove();
+    std::shared_ptr<TrialCompute> compute;
     for (int iarg = 0; iarg < num_args; ++iarg) {
       DEBUG("iarg: " << iarg);
       argtype iargs = args[iarg];
@@ -92,6 +92,7 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
           compute = MakeTrialComputeRemove();
         } else if (trial_type == "regrow") {
           perturb = MakePerturbAnywhere();
+          compute = MakeTrialComputeMove();
         } else if (trial_type == "add_avb") {
           iargs.insert({"particle_type", particle_type});
           iargs.insert({"site", site});
@@ -161,14 +162,14 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
             {"particle_type", particle_type},
             {"mobile_site", str("mobile_site", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)}});
-          perturb = MakePerturbDistance();
+          perturb = std::make_shared<PerturbDistance>(&iargs);
         } else if (angle) {
           select = MakeTrialSelectAngle({
             {"particle_type", particle_type},
             {"mobile_site", str("mobile_site", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)},
             {"anchor_site2", str("anchor_site2", &iargs)}});
-          perturb = MakePerturbDistanceAngle();
+          perturb = std::make_shared<PerturbDistanceAngle>(&iargs);
         } else if (branch) {
           select = MakeSelectBranch({
             {"particle_type", particle_type},
@@ -176,20 +177,26 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
             {"mobile_site2", str("mobile_site2", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)},
             {"anchor_site2", str("anchor_site2", &iargs)}});
-          perturb = MakePerturbBranch();
+          perturb = std::make_shared<PerturbBranch>(&iargs);
         } else {
           FATAL("unrecognized args: " << str(iargs) << ". " <<
                 "Requires bond, angle, branch, etc");
         }
+        if (!compute) {
+          compute = std::make_shared<TrialComputeMove>(&iargs);
+        }
       }
       argtype dflt_args = default_args;
       argtype stage_args = {{"num_steps", str("num_steps", &iargs, str("num_steps", &dflt_args, "1"))},
-        {"reference_index", str("reference_index", &iargs, str("reference_index", &dflt_args, "-1"))}};
+        {"reference_index", str("reference_index", &iargs, str("reference_index", &dflt_args, "-1"))},
+        {"new_only", str("new_only", &iargs, str("new_only", &dflt_args, "false"))},
+      };
       check_all_used(iargs);
       trial->add_stage(select, perturb, &stage_args);
       check_all_used(stage_args);
     }
     trial->set(compute);
+    DEBUG("compute " << compute->class_name());
     factory->add(trial);
   }
   return factory;

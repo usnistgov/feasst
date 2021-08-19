@@ -113,8 +113,8 @@ void check_all_used(const argtype& args) {
       args.begin()->second.empty(),
       "unused argument(s): " << str(args) << ". If the arguments are unused " <<
       "then that means the objects did not expect the first keyword " <<
-      "supplied in each argument pair. Thus, there was likely a typo or " <<
-      "the keyword is intended for a different class.");
+      "supplied in the above argument pair(s). Thus, there was likely a " <<
+      "typo or the keyword is intended for a different class.");
   }
 }
 

@@ -1,0 +1,47 @@
+# LAMMPS-inspired data file
+#  simple 4-bead model of a monoclonal antibody
+#
+#          fc(2)
+#          |
+# angle1   |bond 1    angle 2
+#          |
+#          1(hinge)
+#        /   \
+# bond 2/     \ bond 3
+#      /       \
+#   fab1(3)  fab2(4)
+#
+#         angle 3
+
+4 sites
+3 bonds
+
+4 site types
+3 bond types
+
+Site Properties
+
+0 epsilon 1 sigma 1.5193 cutoff 1.9193
+1 epsilon 1 sigma 6.317 cutoff 6.717
+2 epsilon 1 sigma 5.959 cutoff 6.359
+3 epsilon 1 sigma 5.959 cutoff 6.359
+
+Sites
+
+0 0 0 0 0
+1 1 1.143916068509  -1.288647742564 -3.869708505471
+2 2 -0.641101163030 -4.793842809930 3.299147771189
+3 3 -3.479503614010 3.374862925364  -0.422063969007
+
+Bond Properties
+
+0 maximum_length 7.0 spring_constant 0.0
+1 maximum_length 7.0 spring_constant 0.0
+2 maximum_length 7.0 spring_constant 0.0
+
+Bonds
+
+0 0 0 1
+1 1 0 2
+2 2 0 3
+

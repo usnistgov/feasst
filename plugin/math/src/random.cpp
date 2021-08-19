@@ -259,16 +259,17 @@ double Random::harmonic_bond_length(const double equilibrium_length,
 }
 
 double Random::bond_length(const double equilibrium_length,
+    const double maximum_length,
     const double spring_constant,
     const int exponent,
     const int dimension) {
   ASSERT(dimension == 3,
     "dimension: " << dimension << " but only implemented in 3D.");
-  const double max_length = 2*equilibrium_length;
-  const double max_length_sq = std::pow(max_length, 2);
+  //const double max_length = 2*equilibrium_length;
+  const double max_length_sq = std::pow(maximum_length, 2);
   int attempt = 0;
   while (attempt < 1e6) {
-    const double length = max_length*uniform();
+    const double length = maximum_length*uniform();
     const double exp_neg_delta_U = std::exp(-spring_constant*
       std::pow(length - equilibrium_length, exponent));
     if (uniform() < length*length/max_length_sq*exp_neg_delta_U) return length;

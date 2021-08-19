@@ -38,7 +38,7 @@ TEST(MonteCarlo, cluster) {
   //for (auto single_particle_translate : {true}) {
   for (auto single_particle_translate : {true, false}) {
     MonteCarlo mc;
-    mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
+    //mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
     mc.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "8"}}),
                                   {{"particle_type", "../forcefield/data.lj"}}));
     for (int i = 0; i < 3; ++i) {
@@ -104,7 +104,7 @@ TEST(MonteCarlo, GCMCmap) {
   for (std::string mapstr : {"all", "neighbor"}) {
     INFO(mapstr);
     MonteCarlo mc;
-    mc.set(MakeRandomMT19937({{"seed", "123"}}));
+    //mc.set(MakeRandomMT19937({{"seed", "123"}}));
     mc.set(lennard_jones({{"lrc", "false"}}));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
@@ -145,8 +145,8 @@ MonteCarlo mc_avb_test(
     const bool avb4 = false) {
   MonteCarlo monte_carlo;
   // monte_carlo.set(MakeRandomMT19937({{"seed", "default"}}));
-  monte_carlo.add(Configuration(MakeDomain({{"cubic_box_length", "6"}}),
-                                {{"particle_type", "../forcefield/data.lj"}}));
+  monte_carlo.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "6"}}),
+                                    {{"particle_type", "../forcefield/data.lj"}}));
   if (avb) {
     monte_carlo.add(MakePotential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

@@ -52,11 +52,15 @@ double LennardJones::energy(
   TRACE("type1 " << type1);
   TRACE("type2 " << type2);
   const double sigma = model_params.mixed_sigma()[type1][type2];
+  TRACE("sigma " << sigma);
   const double sigma_squared = sigma*sigma;
-  if (squared_distance < hard_sphere_threshold_sq_*sigma_squared) {
+  if (squared_distance == 0 ||
+      squared_distance < hard_sphere_threshold_sq_*sigma_squared) {
+    TRACE("near inf");
     return NEAR_INFINITY;
   }
   const double epsilon = model_params.mixed_epsilon()[type1][type2];
+  TRACE("epsilon " << epsilon);
   const double rinv2 = sigma_squared/squared_distance;
   const double rinv6 = rinv2*rinv2*rinv2;
   const double en = 4.*epsilon*rinv6*(rinv6 - 1.);

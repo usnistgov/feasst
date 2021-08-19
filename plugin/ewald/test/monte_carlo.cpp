@@ -180,5 +180,4 @@ TEST(MonteCarlo, rpm) {
   test_serialize(mc);
 }
 
-
 }  // namespace feasst

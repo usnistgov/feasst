@@ -212,6 +212,10 @@ void FileLMP::read_properties_(const std::string property_type,
     const int num_properties = (properties.size() - 1)/2;
     const int type = stoi(properties[0]);
     DEBUG("type: " << type);
+    ASSERT(type < num_types, "type: " << type << " is too large for the number "
+      << "of types: " << num_types << " of property: " << property_type 
+      << " . Properties are listed from indices of 0 to n-1, not 1 to n. "
+      << "See /path/to/feasst/forcefield/README.rst for more details.");
     for (int index = 0; index < num_properties; ++index) {
       const std::string name = properties[2*index + 1];
       const double value = stod(properties[2*index + 2]);

@@ -81,6 +81,10 @@ class System {
   const Potential& potential(const int index) const {
     return unoptimized_.potential(index); }
 
+  // Return an unoptimized potential.
+  Potential * get_potential(const int index) {
+    return unoptimized_.get_potential(index); }
+
   /// Add an optimized potential.
   void add_to_optimized(std::shared_ptr<Potential> potential);
 

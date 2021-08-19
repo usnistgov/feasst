@@ -1,6 +1,6 @@
-CriteriaMayer
+MayerSampling
 =====================================================
 
-.. doxygenclass:: feasst::CriteriaMayer
+.. doxygenclass:: feasst::MayerSampling
    :project: FEASST
    :members:

@@ -1,4 +1,4 @@
 
 .. toctree::
 
-   CriteriaMayer
+   MayerSampling

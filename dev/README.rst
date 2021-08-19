@@ -353,7 +353,6 @@ To Do List
 * Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.
 * Add more documentation for Trials (TrialStage: Perturb/Select, TrialCompute. When finialize? reference?)
 * Early tutorials are in ipynb, but transition out of that into .py, include .py on the website
-* Rename Accumulator::num_block to block_size.
 * When swig4 finally works, can use multimap for dictionaries with more than one of same first key
 * Rename Movie->XYZ
 * Rename Stepper. Rename steps_per to trials_per, so as not to be confused with CB steps. Or rename num_steps to num_cb_steps. reference_index to cb_reference.
