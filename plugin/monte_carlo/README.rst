@@ -10,7 +10,11 @@ Monte Carlo randomly samples the system using trials which may be accepted or re
 :cpp:class:`System <feasst::System>` contains :cpp:class:`Configurations <feasst::Configuration>` and :cpp:class:`Potentials <feasst::Potential>`.
 :cpp:class:`Configurations <feasst::Configuration>` contain :cpp:class:`Particles <feasst::Particle>` and the :cpp:class:`Domain <feasst::Doman>`.
 The interaction :cpp:class:`Potentials <feasst::Potential>` contain :cpp:class:`Models <feasst::Model>` and :cpp:class:`VisitModels <feasst::VisitModel>`.
-The acceptance :cpp:class:`Criteria <feasst::Criteria>` may be either :cpp:class:`Metropolis <feasst::Metropolis>` or :cpp:class:`flat histogram <feasst::FlatHistogram>`.
+The acceptance :cpp:class:`Criteria <feasst::Criteria>` may be either :cpp:class:`Metropolis <feasst::Metropolis>` or :cpp:class:`FlatHistogram <feasst::FlatHistogram>`.
+
+A :cpp:class:`Trial <feasst::Trial>` contains the following objects.
+
+.. figure:: doc/trial.svg
 
 Tutorial
 =========

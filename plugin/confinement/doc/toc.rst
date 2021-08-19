@@ -4,6 +4,7 @@
    ModelLJShape
    trial_anywhere
    ModelSquareWellShape
+   Background
    AlwaysReject
    HenryCoefficient
    ModelHardShape

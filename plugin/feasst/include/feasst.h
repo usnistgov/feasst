@@ -237,6 +237,7 @@
 #include "confinement/include/model_lj_shape.h"
 #include "confinement/include/trial_anywhere.h"
 #include "confinement/include/model_square_well_shape.h"
+#include "confinement/include/background.h"
 #include "confinement/include/always_reject.h"
 #include "confinement/include/henry_coefficient.h"
 #include "confinement/include/model_hard_shape.h"

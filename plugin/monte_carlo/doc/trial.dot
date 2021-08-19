@@ -1,0 +1,32 @@
+digraph parallel {
+  bgcolor=transparent
+  trial [label="Trial"];
+  stages [label="Stages"];
+  compute [label="TrialCompute"];
+  acceptance [label="Acceptance"];
+  rosenbluth [label="Rosenbluth"];
+  select [label="TrialSelect"];
+  selectpart [label="TrialSelectParticle"];
+  selectbond [label="TrialSelectBond"];
+  perturb [label="Perturb"];
+  move [label="PerturbMove"];
+  trans [label="PerturbTranslate"];
+  rot [label="PerturbRotate"];
+  add [label="PerturbAdd"];
+
+  trial->stages
+  trial->acceptance
+  trial->compute
+
+  stages->rosenbluth
+  stages->select
+  stages->perturb
+
+  select -> selectpart [style="dashed"]
+  select -> selectbond [style="dashed"]
+
+  perturb -> add [style="dashed"]
+  perturb -> move [style="dashed"]
+  move -> trans [style="dashed"]
+  move -> rot [style="dashed"]
+}
