@@ -43,10 +43,6 @@ class LennardJonesCutShift : public LennardJonesAlpha {
       const int type2,
       const ModelParams& model_params) override;
 
-  /// Initialize WCA cutoff distances for types 1 and 2 in model parameters.
-  void set_wca(const int site_type1, const int site_type2,
-      ModelParams * params) const;
-
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<LennardJonesCutShift>(istr); }
 

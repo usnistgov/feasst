@@ -13,7 +13,9 @@
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
 #include "steppers/include/num_particles.h"
-#include "models/include/lennard_jones_cut_shift.h"
+#include "steppers/include/log_and_movie.h"
+//#include "models/include/lennard_jones_cut_shift.h"
+#include "models/include/lennard_jones_force_shift.h"
 #include "steppers/include/check_energy.h"
 
 namespace feasst {
@@ -33,7 +35,8 @@ TEST(MonteCarlo, trimer) {
       mc.add(config);
     }
 
-    auto lj_wca = MakeLennardJonesCutShift();
+    auto lj_wca = MakeLennardJonesForceShift();
+    //auto lj_wca = MakeLennardJonesCutShift();
     ModelParams params = mc.system().configuration().model_params();
     lj_wca->set_wca(0, 1, &params);
     lj_wca->set_wca(1, 1, &params);
@@ -47,9 +50,8 @@ TEST(MonteCarlo, trimer) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
-  mc.add(MakeCheckEnergy(
-   {{"steps_per", "100"},
-    {"tolerance", "1e-10"}}));
+  mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer"}, {"steps_per", "1e2"}}));
+  mc.add(MakeCheckEnergy({{"steps_per", "100"}, {"tolerance", "1e-10"}}));
   mc.attempt(1e3);
 }
 

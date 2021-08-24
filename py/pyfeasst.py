@@ -57,15 +57,15 @@ def read_checkpoint(filename):
 #    return os.path.dirname(os.path.realpath(feasst.__file__)) + '/forcefield/' + filename
 
 # return equilibrium objective function
-def equilibrium_objective(gce, beta_mu_rw):
+def equilibrium_objective(gce, beta_mu_rw, num_smooth):
     delta_conjugate = beta_mu_rw - gce.original_conjugate()
     gce.reweight(delta_conjugate)
-    return gce.ln_prob().equilibrium_objective()
+    return gce.ln_prob().equilibrium_objective(num_smooth)
 
 # find equilibrium
-def find_equilibrium(gce, beta_mu_guess=-1):
+def find_equilibrium(gce, beta_mu_guess=-1, num_smooth=10):
     from scipy.optimize import minimize
-    res = minimize(lambda beta_mu_rw: equilibrium_objective(gce, beta_mu_rw[0]), beta_mu_guess, tol=1e-8)
+    res = minimize(lambda beta_mu_rw: equilibrium_objective(gce, beta_mu_rw[0], num_smooth), beta_mu_guess, tol=1e-8)
     beta_mu_equilibrium = res["x"][-1]
     gce.reweight(beta_mu_equilibrium - gce.original_conjugate())
     return gce

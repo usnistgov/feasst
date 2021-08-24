@@ -64,6 +64,10 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
     str("regrow_avb4", &args[0]);
     trial_types.push_back("regrow_avb4");
   }
+  if (used("translate", args[0])) {
+    str("translate", &args[0]);
+    trial_types.push_back("translate");
+  }
   if (trial_types.size() == 0) trial_types.push_back("partial_regrow");
   const std::string site = str("site", &args[0], "-1");
 
@@ -84,7 +88,9 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
       if (iarg == 0 && trial_type != "partial_regrow") {
         argtype sel_args = {{"particle_type", particle_type}, {"site", site}};
         select = MakeTrialSelectParticle(sel_args);
-        if (trial_type == "add") {
+        if (trial_type == "translate") {
+          perturb = std::make_shared<PerturbTranslate>(&iargs);
+        } else if (trial_type == "add") {
           perturb = MakePerturbAdd();
           compute = MakeTrialComputeAdd();
         } else if (trial_type == "remove") {
@@ -188,7 +194,10 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
         }
       }
       argtype dflt_args = default_args;
-      argtype stage_args = {{"num_steps", str("num_steps", &iargs, str("num_steps", &dflt_args, "1"))},
+      const std::string num_steps = str("num_steps", &iargs, str("num_steps", &dflt_args, "1"));
+      ASSERT(trial_type != "translate" || num_steps == "1",
+        "For " << trial_type << ", num_steps must be 1");
+      argtype stage_args = {{"num_steps", num_steps},
         {"reference_index", str("reference_index", &iargs, str("reference_index", &dflt_args, "-1"))},
         {"new_only", str("new_only", &iargs, str("new_only", &dflt_args, "false"))},
       };

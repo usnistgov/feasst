@@ -8,6 +8,7 @@
 #include "system/include/model_two_body_factory.h"
 #include "models/include/square_well.h"
 #include "steppers/include/log.h"
+#include "steppers/include/log_and_movie.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tune.h"
 #include "monte_carlo/include/trials.h"
@@ -16,6 +17,8 @@
 #include "mayer/include/mayer_sampling.h"
 #include "ewald/include/coulomb.h"
 #include "ewald/include/utils.h"
+#include "models/include/lennard_jones_force_shift.h"
+#include "chain/include/check_rigid_bonds.h"
 
 namespace feasst {
 
@@ -129,7 +132,9 @@ TEST(MayerSampling, SPCE_LONG) {
     config->add_particle_type(install_dir() + "/forcefield/data.spce");
     config->add_particle_type(install_dir() + "/forcefield/data.spce", "2");
     for (int stype = 0; stype < config->num_site_types(); ++stype) {
-      config->set_model_param("cutoff", stype, config->domain().side_length(0)/2.);
+      config->set_model_param("cutoff", stype, 10000.);
+      // HWH Why is there dependence on the cutoff? If large, it drifts too far away
+      //config->set_model_param("cutoff", stype, config->domain().side_length(0)/2.);
     }
     config->add_particle_of_type(0);
 //    config->add_particle_of_type(0);
@@ -141,7 +146,8 @@ TEST(MayerSampling, SPCE_LONG) {
   //const double temperature = 373; // kelvin
   //const double temperature = 300; // kelvin
   //const double temperature = 400; // kelvin
-  const double temperature = 1e3; //400; // kelvin
+  //const double temperature = 1e3; // kelvin
+  const double temperature = 773; // kelvin
   mc.set(MakeThermoParams({{"beta", str(1./kelvin2kJpermol(temperature))}}));
   auto mayer = MakeMayerSampling();
   mc.set(mayer);
@@ -163,11 +169,68 @@ TEST(MayerSampling, SPCE_LONG) {
   mc.attempt(1e8);
   double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().sigma().value(0), 3); // A^3
   INFO("b2hs(A^3) " << b2hs);
-  b2hs *= 1e-30*1e3*mc.configuration().physical_constants().avogadro_constant();
+  b2hs *= 1e-30*1e3*mc.configuration().physical_constants().avogadro_constant(); // L/mol
   INFO("b2hs(L/mol) " << b2hs);
   INFO("b2spce/b2hs " << mayer->second_virial_ratio());
   INFO("b2spce(L/mol) " << b2hs*mayer->second_virial_ratio());
-  EXPECT_NEAR(-1.8049, b2hs*mayer->second_virial_ratio(), 0.06);
+  EXPECT_NEAR(-0.08596, b2hs*mayer->second_virial_ratio(), 0.006);
+}
+
+// https://dx.doi.org/10.1063/1.4918557
+TEST(MayerSampling, trimer_LONG) {
+  MonteCarlo mc;
+  { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
+    config->add_particle_type(install_dir() + "/forcefield/data.trimer_0.4L");
+    config->add_particle_type(install_dir() + "/forcefield/data.trimer_0.4L", "2");
+    config->add_particle_of_type(0);
+    config->add_particle_of_type(1);
+    const double rwca = std::pow(2, 1./6.);
+    config->set_model_param("cutoff", 0, 1, rwca);
+    config->set_model_param("cutoff", 0, 3, rwca);
+    config->set_model_param("cutoff", 1, 2, rwca);
+    config->set_model_param("cutoff", 2, 3, rwca);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[0][0], 3, 1e-14);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[0][1], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[0][2], 3, 1e-14);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[0][3], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[1][1], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[1][2], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[1][3], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[2][2], 3, 1e-14);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[2][3], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().mixed_cutoff()[3][3], rwca, 1e-14);
+    mc.add(config);
+  }
+  mc.add(MakePotential(MakeLennardJonesForceShift()));
+  auto ref = MakePotential(MakeHardSphere());
+  auto params = ref->model_params(mc.system().configuration());
+  for (int i = 0; i < mc.system().configuration().num_site_types(); ++i) {
+    for (int j = 0; j < mc.system().configuration().num_site_types(); ++j) {
+      params.set("sigma", i, j, 0.);
+    }
+  }
+  params.set("sigma", 0, 0, 1.);
+  params.set("sigma", 0, 2, 1.);
+  params.set("sigma", 2, 2, 1.);
+  ref->set(params);
+  mc.add_to_reference(ref);
+  mc.set(MakeThermoParams({{"beta", str(1./0.815)}}));
+  auto mayer = MakeMayerSampling();
+  mc.set(mayer);
+  mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
+    {"tunable_param", "1"}, {"particle_type", "1"}}));
+  mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
+    {"tunable_param", "40"}}));
+  const std::string steps_per = "1e4";
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/trib"}}));
+  mc.add(MakeCheckRigidBonds({{"steps_per", steps_per}}));
+  mc.attempt(1e6);
+  double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().sigma().value(0), 3); // A^3
+  INFO(mayer->second_virial_ratio());
+  INFO(b2hs*mayer->second_virial_ratio());
+  INFO("mayer: " << mayer->mayer().str());
+  INFO("mayer_ref: " << mayer->mayer_ref().str());
+  EXPECT_NEAR(0, mayer->mayer().average(), 4*mayer->mayer().block_stdev());
 }
 
 }  // namespace feasst

@@ -224,6 +224,15 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
     }
   }
 
+  // Don't allow new_only with TrialTransfer.
+  if (trial->num_stages() > 0) {
+    if (trial->stage(0).is_new_only()) {
+      if (trial->stage(0).perturb().class_name() == "PerturbRemove") {
+        FATAL("PerturbRemove not implemented with new_only due to trial_state");
+      }
+    }
+  }
+
   // flatten TrialFactory by adding the individual trials instead.
   if (trial->class_name() == "TrialFactory") {
     DEBUG("flattening");

@@ -22,6 +22,9 @@ namespace feasst {
     first stage (default: false).
   - regrow_avb2: if true, regrow using AVB2 in the first stage (default: false).
   - regrow_avb4: if true, regrow using AVB4 in the first stage (default: false).
+  - translate: if true (default: false), translate site (which is required arg
+    for TrialSelectParticle).
+    In addition, must have number of stages equal to number of sites.
 
   The following options may be used in any argtype, including the first for
   particle regrowth.
@@ -37,8 +40,8 @@ namespace feasst {
   Note that only one of bond, angle or branch may be true for a given stage.
  */
 std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
-  /// Optionally, the following arguments for num_steps and reference_index
-  /// are applied to every growth.
+  /// Optionally, set the default values for the following arguments:
+  /// num_steps, reference_index and new_only.
   /// Any option applied by the above args overwrites this option.
   const argtype& default_args = argtype());
 

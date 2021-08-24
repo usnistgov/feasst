@@ -9,6 +9,7 @@
 #include "system/include/utils.h"
 #include "system/include/visit_model_intra_map.h"
 #include "models/include/square_well.h"
+#include "models/include/lennard_jones_force_shift.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -435,6 +436,64 @@ TEST(MayerSampling, b2_cg4_flexible_LONG) {
   mc.attempt(1e6);
 //  EXPECT_NEAR(100, mayer->second_virial_ratio(), 0.15);
 //  INFO(bonds->bond_hist(0).str());
+}
+
+// https://dx.doi.org/10.1063/1.4918557
+TEST(MayerSampling, trimer_grow_LONG) {
+  MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
+    config->add_particle_type(install_dir() + "/forcefield/data.trimer_0.4L");
+//    config->add_particle_type(install_dir() + "/forcefield/data.trimer_0.4L", "2");
+    config->add_particle_of_type(0);
+    config->add_particle_of_type(0);
+    //config->add_particle_of_type(1);
+    const double rwca = std::pow(2, 1./6.);
+    config->set_model_param("cutoff", 0, 1, rwca);
+    config->set_model_param("cutoff", 1, 1, rwca);
+//    config->set_model_param("cutoff", 0, 3, rwca);
+//    config->set_model_param("cutoff", 1, 2, rwca);
+//    config->set_model_param("cutoff", 2, 3, rwca);
+    mc.add(config);
+  }
+  mc.add(MakePotential(MakeLennardJonesForceShift()));
+  auto ref = MakePotential(MakeHardSphere());
+  auto params = ref->model_params(mc.system().configuration());
+  //params.set("sigma", 1, 0);
+  params.set("sigma", 0, 1, 0);
+  params.set("sigma", 1, 1, 0);
+  ref->set(params);
+  mc.add_to_reference(ref);
+  mc.set(MakeThermoParams({{"beta", str(1./0.815)}}));
+  auto mayer = MakeMayerSampling();
+  mc.set(mayer);
+//  mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
+//    {"tunable_param", "1"}, {"particle_type", "0"}}));
+//    //{"tunable_param", "1"}, {"particle_type", "1"}}));
+//  mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
+//    {"tunable_param", "40"}}));
+  for (const std::string ptype : {"0"}) {
+  //for (const std::string ptype : {"0", "1"}) {
+    mc.add(MakeTrialGrow({
+      {{"particle_type", ptype}, {"translate", "true"}, {"site", "0"}},
+      {{"bond", "0"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+      {{"angle", "0"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}},
+    }, {{"reference_index", "0"}, {"new_only", "true"}}));
+//    mc.add(MakeTrialGrow({
+//      {{"particle_type", ptype}, {"bond", "0"}, {"mobile_site", "0"}, {"anchor_site", "1"}},
+//      {{"angle", "0"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}},
+//    }, {{"reference_index", "0"}, {"new_only", "true"}}));
+  }
+  const std::string steps_per = "1e4";
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/trib"}}));
+  mc.add(MakeCheckRigidBonds({{"steps_per", steps_per}}));
+  mc.attempt(1e6);
+  double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().sigma().value(0), 3); // A^3
+  INFO(mayer->second_virial_ratio());
+  INFO(b2hs*mayer->second_virial_ratio());
+  INFO("mayer: " << mayer->mayer().str());
+  INFO("mayer_ref: " << mayer->mayer_ref().str());
+  EXPECT_NEAR(0, mayer->mayer().average(), 4*mayer->mayer().block_stdev());
 }
 
 }  // namespace feasst

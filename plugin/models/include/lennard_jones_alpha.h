@@ -24,6 +24,10 @@ class LennardJonesAlpha : public LennardJones {
   /// Return the value of alpha.
   const double& alpha() const { return alpha_; }
 
+  /// Initialize WCA cutoff distances for types 1 and 2 in model parameters.
+  void set_wca(const int site_type1, const int site_type2,
+      ModelParams * params) const;
+
   double energy(
       const double squared_distance,
       const int type1,

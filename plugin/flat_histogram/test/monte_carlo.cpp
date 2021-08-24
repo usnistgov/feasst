@@ -97,7 +97,7 @@ TEST(MonteCarlo, hard_sphere_LONG) {
           Histogram({{"width", "1"}, {"max", "40"}, {"min", "0"}})), bias));
   const std::string is_new_only = "true";
   mc.add(MakeTrialTranslate({{"new_only", is_new_only}, {"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeTrialTransfer({{"new_only", is_new_only}, {"weight", "4"}, {"particle_type", "0"}}));
+  mc.add(MakeTrialTransfer({{"weight", "4"}, {"particle_type", "0"}}));
   const std::string steps_per = "100";
   mc.add(MakeCheckEnergy({{"steps_per", steps_per}, {"tolerance", "0.0001"}}));
   mc.add(MakeCheckPhysicality({{"steps_per", "1"}}));

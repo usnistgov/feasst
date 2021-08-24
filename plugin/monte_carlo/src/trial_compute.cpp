@@ -15,22 +15,22 @@ void TrialCompute::compute_rosenbluth(
     Acceptance * acceptance,
     std::vector<TrialStage*> * stages,
     Random * random) {
-//  // Attempt at optimizing energy for TrialRemove led to issues
-//  if (old == 1 && (*stages)[0]->is_new_only()) {
-//    for (TrialStage* stage : *stages) {
-//      stage->set_mobile_physical(true, system);
+  const bool is_new_only = (*stages)[0]->is_new_only();
+  if (old == 1 && is_new_only) {
+    for (TrialStage* stage : *stages) {
+      stage->set_mobile_physical(true, system);
 //      stage->get_trial_select()->set_trial_state(2);
-//    }
-//    return;
-//  }
+    }
+    return;
+  }
   double ln_rosenbluth = 0.;
   double energy_change = 0.;
   bool reference_used = false;
   for (TrialStage* stage : *stages) {
-    DEBUG("*** Attempting stage ***");
+    DEBUG("*** Attempting stage. old: " << old << " ***");
     stage->attempt(system, acceptance, criteria, old, random);
     if (stage->rosenbluth().chosen_step() == -1) {
-      if (!stage->is_new_only()) {
+      if (!is_new_only) {
         acceptance->set_reject(true);
         DEBUG("auto reject");
         for (TrialStage* stage : *stages) {
@@ -50,7 +50,10 @@ void TrialCompute::compute_rosenbluth(
       DEBUG("adding to old energy " << energy);
     } else {
       energy = stage->rosenbluth().chosen_energy();
+      DEBUG("energy new " << acceptance->energy_new());
+      DEBUG("energy " << energy);
       acceptance->add_to_energy_new(energy);
+      DEBUG("energy new updated " << acceptance->energy_new());
       ln_rosenbluth += stage->rosenbluth().ln_total_rosenbluth();
       DEBUG("adding to new energy " << energy);
     }
@@ -81,6 +84,7 @@ void TrialCompute::compute_rosenbluth(
         (-en_full + energy_change));
     } else {
       acceptance->set_energy_new(en_full);
+      DEBUG("updated energy_new " << acceptance->energy_new());
       acceptance->add_to_ln_metropolis_prob(-1.*system->thermo_params().beta()*
         (en_full - energy_change));
     }

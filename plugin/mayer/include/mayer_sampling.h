@@ -15,7 +15,7 @@ class Random;
  */
 class MayerSampling : public Criteria {
  public:
-  MayerSampling() : Criteria() {}
+  MayerSampling();
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
@@ -41,7 +41,6 @@ class MayerSampling : public Criteria {
   ~MayerSampling() {}
 
  private:
-  const std::string class_name_ = "MayerSampling";
   double f12old_ = -1.;
   double f12ref_ = -1.;
   Accumulator mayer_;

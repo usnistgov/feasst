@@ -24,10 +24,10 @@ class Ensemble {
            const double conjugate = 0.) { init_(macrostates, ln_prob); }
 
   /// Same as above, but taken from FlatHistogram.
-  Ensemble(const FlatHistogram& flat_hist);
+  explicit Ensemble(const FlatHistogram& flat_hist);
 
   /// Same as above, but taken from spliced Clones.
-  Ensemble(const Clones& clones);
+  explicit Ensemble(const Clones& clones);
 
   /// Return the stored macrostate distribution from the original simulation.
   const LnProbability& ln_prob_original() const { return ln_prob_original_; }

@@ -53,7 +53,7 @@ std::vector<int> LnProbability::minima(
 }
 
 double LnProbability::equilibrium_objective(int num_smooth) const {
-  const std::vector<int> mins = minima();
+  const std::vector<int> mins = minima(num_smooth);
   const int size = static_cast<int>(mins.size());
   if (size == 0) {
     return std::pow(values_.front() - values_.back(), 2);

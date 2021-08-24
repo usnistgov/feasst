@@ -6,6 +6,10 @@
 
 namespace feasst {
 
+MayerSampling::MayerSampling() : Criteria() {
+  class_name_ = "MayerSampling";
+}
+
 bool MayerSampling::is_accepted(const Acceptance& acceptance,
     const System& system,
     Random * random) {
@@ -13,15 +17,13 @@ bool MayerSampling::is_accepted(const Acceptance& acceptance,
   const double beta = system.thermo_params().beta();
   const double f12 = std::exp(-beta*energy_new) - 1.;
   bool is_accepted;
+  DEBUG("*** MayerSampling ***");
+  DEBUG("energy new " << energy_new);
+  DEBUG("f12 " << f12);
+  DEBUG("f12old " << f12old_);
+  DEBUG("acceptance " << std::abs(f12)/std::abs(f12old_));
   if (!acceptance.reject() &&
       (random->uniform() < std::abs(f12)/std::abs(f12old_))) {
-//    if (std::abs(energy_new) < 1e-12) {
-//      INFO("*** MayerSampling ***");
-//      INFO("energy new " << energy_new);
-//      INFO("f12 " << f12);
-//      INFO("f12old " << f12old_);
-//      INFO("acceptance " << std::abs(f12)/std::abs(f12old_));
-//    }
     set_current_energy(energy_new);
     f12old_ = f12;
     is_accepted = true;

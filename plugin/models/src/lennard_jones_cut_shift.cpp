@@ -44,13 +44,6 @@ void LennardJonesCutShift::precompute(const ModelParams& existing) {
   shift_.set_model(NULL); // remove model immediately
 }
 
-void LennardJonesCutShift::set_wca(const int site_type1, const int site_type2,
-    ModelParams * params) const {
-  const double sigma = params->mixed_sigma()[site_type1][site_type2];
-  const double r_wca = std::pow(2, 1./alpha())*sigma;
-  params->set("cutoff", site_type1, site_type2, r_wca);
-}
-
 double LennardJonesCutShift::energy(
     const double squared_distance,
     const int type1,

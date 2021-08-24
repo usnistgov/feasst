@@ -70,4 +70,11 @@ double LennardJonesAlpha::du_dr(
                                     + std::pow(rinv, alpha() + 1));
 }
 
+void LennardJonesAlpha::set_wca(const int site_type1, const int site_type2,
+    ModelParams * params) const {
+  const double sigma = params->mixed_sigma()[site_type1][site_type2];
+  const double r_wca = std::pow(2, 1./alpha())*sigma;
+  params->set("cutoff", site_type1, site_type2, r_wca);
+}
+
 }  // namespace feasst
