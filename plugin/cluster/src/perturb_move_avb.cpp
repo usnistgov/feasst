@@ -80,16 +80,15 @@ void PerturbMoveAVB::move(
   DEBUG("displace: " << displace_.str());
   // move from anchor_pos reference to mobile reference
   displace_.add(anchor_pos);
+  DEBUG("displace + anchor: " << displace_.str());
   DEBUG("mobile: " << select->mobile().str());
-  const Position& mobile_pos = config.select_particle(
-    select->mobile().particle_index(0)).site(
-    select->mobile().site_index(0, 0)).position();
+  const Position& mobile_pos = select->mobile().site_positions()[0][0];
   DEBUG("mobile_pos " << mobile_pos.str());
   displace_.subtract(mobile_pos);
-//  displace_.subtract(config.select_particle(select->mobile().particle_index(0)).site(
-//    select->mobile().site_index(0, 0)).position());
-  DEBUG("displace " << displace_.str());
+  DEBUG("displace + anchor - mobile" << displace_.str());
+  DEBUG("old pos " << config.select_particle(select->mobile().particle_index(0)).site(0).position().str());
   translate_.move(displace_, system, select);
+  DEBUG("new pos " << config.select_particle(select->mobile().particle_index(0)).site(0).position().str());
 }
 
 PerturbMoveAVB::PerturbMoveAVB(std::istream& istr)

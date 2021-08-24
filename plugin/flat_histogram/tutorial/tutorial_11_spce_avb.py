@@ -10,7 +10,7 @@ parser.add_argument("--num_hours", type=float, help="number of hours before rest
 parser.add_argument("--max_particles", type=int, help="maximum number of particles", default=265)
 parser.add_argument("--min_particles", type=int, help="minimum number of particles", default=0)
 parser.add_argument("--dccb_begin", type=int, help="number of molecules before DCCB", default=200)
-parser.add_argument("--avb_end", type=int, help="do not use AVB if the max number of molecules is greater", default=150)
+parser.add_argument("--avb_end", type=int, help="do not use AVB if the max number of molecules is greater", default=200)
 args = parser.parse_args()
 print("args:", args)
 
@@ -33,7 +33,6 @@ def initialize_neighbor_list(mc):
     mc.set(1, fst.MakePotential(lj_and_coul,
         fst.MakeVisitModel(fst.MakeVisitModelInner(fst.MakeEnergyMapNeighborCriteria(neigh_crit))),
         fst.args({"table_size": "1e6"})))
-    mc.add_to_reference(fst.MakePotential(fst.MakeDontVisitModel()))
 
 def mc(thread, mn, mx):
     steps_per=int(1e5)
@@ -41,7 +40,7 @@ def mc(thread, mn, mx):
     mc = fst.MakeMonteCarlo()
     spce_args = {"physical_constants": "CODATA2010", "cubic_box_length": "20",
         "alphaL": "5.6", "kmax_squared": "38"}
-    if dccb:
+    if dccb or avb:
         spce_args["dual_cut"] = "3.16555789"
     mc.set(fst.spce(fst.args(spce_args)))
     if avb:
@@ -72,17 +71,15 @@ def mc(thread, mn, mx):
             mc.add(fst.MakeTrialGrow(fst.ArgsVector(grow),
                                      fst.args({"reference_index": "0", "num_steps": "4"})))
     if avb:
-        avb_012 = [{"transfer_avb": "true", "site": "0", "neighbor_index": "0", "target_particle_type": "0", "target_site": "0"}] + copy.deepcopy(regrow12)
-        avb_021 = [{"transfer_avb": "true", "site": "0", "neighbor_index": "0", "target_particle_type": "0", "target_site": "0"}] + copy.deepcopy(regrow21)
-        regrow_avb2_012 = [{"regrow_avb2": "true", "site": "0", "neighbor_index": "0", "target_particle_type": "0", "target_site": "0"}] + copy.deepcopy(regrow12)
-        regrow_avb2_021 = [{"regrow_avb2": "true", "site": "0", "neighbor_index": "0", "target_particle_type": "0", "target_site": "0"}] + copy.deepcopy(regrow21)
-        regrow_avb4_012 = [{"regrow_avb4": "true", "site": "0", "neighbor_index": "0", "target_particle_type": "0", "target_site": "0"}] + copy.deepcopy(regrow12)
-        regrow_avb4_021 = [{"regrow_avb4": "true", "site": "0", "neighbor_index": "0", "target_particle_type": "0", "target_site": "0"}] + copy.deepcopy(regrow21)
-        for grow in [avb_012, avb_021, regrow_avb2_012, regrow_avb2_021, regrow_avb4_012, regrow_avb4_021]:
-            grow[0]["weight"] = "0.5"
-            grow[0]["particle_type"] = "0"
-            mc.add(fst.MakeTrialGrow(fst.ArgsVector(grow),
-                                     fst.args({"num_steps": "1", "reference_index": "0"})))
+        for avbtype in ["transfer_avb", "regrow_avb2", "regrow_avb4"]:
+          avb = [{avbtype: "true", "site": "0", "neighbor_index": "0", "target_particle_type": "0", "target_site": "0"}]
+          avb_012 = copy.deepcopy(avb) + copy.deepcopy(regrow12)
+          avb_021 = copy.deepcopy(avb) + copy.deepcopy(regrow21)
+          for grow in [avb_012, avb_021]:
+              grow[0]["weight"] = "0.5"
+              grow[0]["particle_type"] = "0"
+              mc.add(fst.MakeTrialGrow(fst.ArgsVector(grow),
+                                       fst.args({"num_steps": "4", "reference_index": "0"})))
     mc.add(fst.MakeCheckEnergyAndTune(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
     mc.add(fst.MakeCheckRigidBonds(fst.args({"steps_per": str(steps_per)})))
     mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per), "file_name": "clones" + str(thread)})))

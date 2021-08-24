@@ -11,17 +11,15 @@ namespace feasst {
  */
 class PerturbRemove : public Perturb {
  public:
-  PerturbRemove();
+  explicit PerturbRemove(
+    std::shared_ptr<Perturb> perturb = MakePerturbAnywhere());
 
   void perturb(
       System * system,
       TrialSelect * select,
       Random * random,
       const bool is_position_held = true) override;
-  void before_select() override {
-    Perturb::before_select();
-    anywhere_.before_select();
-  }
+  void before_select() override;
   void finalize(System * system) override;
   void revert(System * system) override;
 
@@ -32,8 +30,7 @@ class PerturbRemove : public Perturb {
   virtual ~PerturbRemove() {}
 
  private:
-  // temporary
-  PerturbAnywhere anywhere_;
+  std::shared_ptr<Perturb> move_;
 };
 
 inline std::shared_ptr<PerturbRemove> MakePerturbRemove() {

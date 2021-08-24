@@ -113,10 +113,6 @@ bool SelectParticleAVB::select(const Select& perturbed,
         return false;
       }
     }
-    if (!grand_canonical_) {
-      DEBUG("loading positions");
-      mobile_.load_positions(config.particles());
-    }
   } else if (!inside_) {
     // only select that is outside: AVB2 out->in
     DEBUG("outside");
@@ -127,8 +123,9 @@ bool SelectParticleAVB::select(const Select& perturbed,
       random);
     DEBUG("num_out: " << num_out);
     if (num_out == 0) return false;
-    mobile_.load_positions(config.particles());
   }
+  DEBUG("loading coordinates " << mobile_.num_particles());
+  mobile_.load_positions(config.particles());
 
   // precompute volume terms
   const double volume = config.domain().volume();

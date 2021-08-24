@@ -3,8 +3,9 @@
 
 namespace feasst {
 
-PerturbRemove::PerturbRemove() {
+PerturbRemove::PerturbRemove(std::shared_ptr<Perturb> perturb) {
   class_name_ = "PerturbRemove";
+  move_ = perturb;
   disable_tunable_();
 }
 
@@ -28,14 +29,19 @@ void PerturbRemove::perturb(
   set_finalize_possible(true, select);
 
   if (is_position_held) {
-    anywhere_.set_revert_possible(false, NULL);
+    move_->set_revert_possible(false, NULL);
   } else {
-    anywhere_.perturb(system, select, random, is_position_held);
-    anywhere_.set_revert_possible(true, select);
+    move_->perturb(system, select, random, is_position_held);
+    move_->set_revert_possible(true, select);
   }
 
   // setting trial state should go last so other perturbs do not overwrite
   select->set_trial_state(2);
+}
+
+void PerturbRemove::before_select() {
+  Perturb::before_select();
+  move_->before_select();
 }
 
 void PerturbRemove::finalize(System * system) {
@@ -45,10 +51,8 @@ void PerturbRemove::finalize(System * system) {
 }
 
 void PerturbRemove::revert(System * system) {
-  DEBUG("anywhere_.revert_possible() " << anywhere_.revert_possible());
-  if (anywhere_.revert_possible()) {
-    anywhere_.revert(system);
-  }
+  DEBUG("move_->revert_possible() " << move_->revert_possible());
+  move_->revert(system);
 }
 
 std::shared_ptr<Perturb> PerturbRemove::create(std::istream& istr) const {
@@ -60,12 +64,21 @@ PerturbRemove::PerturbRemove(std::istream& istr)
   ASSERT(class_name_ == "PerturbRemove", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(143 == version, "mismatch version: " << version);
+  // HWH for unknown reasons, this function template does not work.
+  // feasst_deserialize_fstdr(move_, istr);
+  { int existing;
+    istr >> existing;
+    if (existing != 0) {
+      move_ = move_->deserialize(istr);
+    }
+  }
 }
 
 void PerturbRemove::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_(ostr);
   feasst_serialize_version(143, ostr);
+  feasst_serialize_fstdr(move_, ostr);
 }
 
 }  // namespace feasst

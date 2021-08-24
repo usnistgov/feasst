@@ -59,6 +59,7 @@ void PerturbRotate::move(System * system,
     TrialSelect * select,
     Random * random) {
   ASSERT(select->mobile().num_sites() > 0, "selection error");
+  ASSERT(select->mobile().site_positions().size() > 0, "requires coordinates");
   const Position& pivot = select->mobile().site_positions()[0][pivot_site_];
   move(system, select, random, pivot);
 }

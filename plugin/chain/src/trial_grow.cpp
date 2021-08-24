@@ -107,7 +107,8 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
           iargs.insert({"site", site});
           iargs.insert({"grand_canonical", "true"});
           select = std::make_shared<SelectParticleAVB>(&iargs);
-          perturb = std::make_shared<PerturbRemove>();
+          perturb = std::make_shared<PerturbRemove>(
+            MakePerturbMoveAVB({{{"inside", "true"}}}));
           compute = std::make_shared<ComputeRemoveAVB>();
         } else if (trial_type == "regrow_avb2_in" ||
                    trial_type == "regrow_avb2_out") {

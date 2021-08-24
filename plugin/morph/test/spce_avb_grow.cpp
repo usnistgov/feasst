@@ -12,6 +12,7 @@
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/tune.h"
+#include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "flat_histogram/include/transition_matrix.h"
@@ -43,7 +44,7 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
   if (avb_type == "none") avb = false;
   DEBUG(bias->class_name());
   MonteCarlo mc;
-  // mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   argtype spce_args = {{"physical_constants", "CODATA2010"},
                        {"cubic_box_length", "20"},
                        {"alphaL", "5.6"},
@@ -82,6 +83,7 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     bias);
   mc.set(criteria);
+//  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0."}}));
 //  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
 //  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   if (avb) {
@@ -92,7 +94,7 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
         {{"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
         {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}},
       },
-      {{"num_steps", "1"}, {"reference_index", "0"}}
+      {{"num_steps", "2"}, {"reference_index", "0"}}
     ));
   }
   if (avb_type != "transfer_avb") {
@@ -104,7 +106,8 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
   }
   SeekNumParticles(min).with_thermo_params({{"beta", "1"}, {"chemical_potential", "1"}}).with_metropolis().run(&mc);
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
+  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
+  //mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeCheckRigidBonds({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({
@@ -166,7 +169,7 @@ TEST(MonteCarlo, spce_fh2_LONG) {
   //for (std::string avb_type : {"none"}) {
   //for (std::string avb_type : {"transfer_avb", "regrow_avb2", "regrow_avb4"}) {
   for (std::string avb_type : {"none", "transfer_avb", "regrow_avb2", "regrow_avb4"}) {
-    DEBUG(avb_type);
+    INFO(avb_type);
     test_spce_avb_grow_fh(MakeTransitionMatrix({{"min_sweeps", "100"}}), avb_type);
   }
 }
@@ -179,7 +182,7 @@ TEST(TrialGrow, transfer_avb_spce) {
                         {"kmax_squared", "38"},
                         {"add_particles_of_type0", "1"}});
   //system.get_configuration()->add_particle_of_type(0);
-  auto ncrit = MakeNeighborCriteria({{"maximum_distance", "10"}, {"minimum_distance", "3.2"}, {"site_type0", "0"}, {"site_type1", "0"}, {"potential_index", "1"}});
+  auto ncrit = MakeNeighborCriteria({{"maximum_distance", "10"}, {"minimum_distance", "2.5"}, {"site_type0", "0"}, {"site_type1", "0"}, {"potential_index", "1"}});
   system.add(ncrit);
   auto pot = MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighborCriteria(ncrit))));
@@ -193,7 +196,7 @@ TEST(TrialGrow, transfer_avb_spce) {
   //ran = MakeRandomMT19937({{"seed", "123"}});
   //ran = MakeRandomMT19937({{"seed", "1591972002"}});
   //ran = MakeRandomMT19937({{"seed", "1628624844"}});
-  ran = MakeRandomMT19937({{"seed", "1628878165"}});
+  //ran = MakeRandomMT19937({{"seed", "1628878165"}});
   auto metropolis = MakeMetropolis();
   system.set(MakeThermoParams({
     {"beta", "0.1"},
@@ -208,7 +211,7 @@ TEST(TrialGrow, transfer_avb_spce) {
       {{"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
       {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}},
     },
-    {{"num_steps", "1"}, {"reference_index", "0"}}
+    {{"num_steps", "2"}, {"reference_index", "0"}}
   );
   grow->precompute(metropolis.get(), &system);
   double en_old = metropolis->current_energy();

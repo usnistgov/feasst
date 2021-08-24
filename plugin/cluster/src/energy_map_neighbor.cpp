@@ -402,6 +402,7 @@ void EnergyMapNeighbor::finalize(const Select& select) {
     FATAL("unrecognized trial state: " << select.trial_state());
   }
   map_new_()->clear();
+  DEBUG("map: " << map_str());
 }
 
 void EnergyMapNeighbor::select_cluster(
