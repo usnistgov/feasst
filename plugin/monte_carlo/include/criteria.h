@@ -20,10 +20,17 @@ class Constraint;
  */
 class Criteria {
  public:
-  Criteria();
+  /**
+    args:
+    - num_iterations_to_complete: set the number of iterations for a simulation
+      to be considered complete (default: 20).
+   */
+  explicit Criteria(argtype args = argtype());
+  explicit Criteria(argtype * args);
 
   /// Same as above, but also add a constraint.
-  Criteria(std::shared_ptr<Constraint> constraint);
+  explicit Criteria(std::shared_ptr<Constraint> constraint,
+                    argtype args = argtype());
 
   /// Add a constraint.
   void add(std::shared_ptr<Constraint> constraint) {
@@ -62,9 +69,6 @@ class Criteria {
   /// Return a human-readable output of all data (not as brief as status).
   virtual std::string write() const;
 
-  /// Return true if completion requirements are met.
-  virtual bool is_complete() const { return false; }
-
   /// Return the simulation phase index used to differentiate production
   /// and initialization, etc.
   virtual int phase() const { return phase_; }
@@ -72,9 +76,24 @@ class Criteria {
   /// Increment the simulation phase.
   virtual void increment_phase() { ++phase_; }
 
-  // HWH consider using this to set number of trials in Metropolis
-  /// Set the number of iterations.
-  virtual void set_num_iterations(const int iteration);
+  /// Return the number of iterations for a simulation to be complete.
+  /// Iterations are defined by the Derived class.
+  /// For example, one Metropolis iteration is 1000 trials.
+  /// FlatHistogram iterations depend on the Bias.
+  /// For TransitionMatrix, one iteration is a sweep.
+  virtual int num_iterations_to_complete() const {
+    return num_iterations_to_complete_; }
+
+  /// Set the number of iterations for a simulation to be complete.
+  virtual void set_num_iterations_to_complete(const int num) {
+    num_iterations_to_complete_ = num; }
+
+  /// Return the current number of iterations.
+  virtual int num_iterations() const { return const_num_iterations_(); }
+
+  /// Return true if the number of iterations for completion has been reached.
+  virtual bool is_complete() const {
+    return num_iterations() >= num_iterations_to_complete(); }
 
   /// Return the state index for multistate simulations (default: 0).
   virtual int state() const { return 0; }
@@ -124,7 +143,7 @@ class Criteria {
   std::map<std::string, std::shared_ptr<Criteria> >& deserialize_map();
   std::shared_ptr<Criteria> deserialize(std::istream& istr);
   std::shared_ptr<Criteria> factory(const std::string name, argtype * args);
-  Criteria(std::istream& istr);
+  explicit Criteria(std::istream& istr);
   virtual ~Criteria() {}
 
  protected:
@@ -132,14 +151,20 @@ class Criteria {
   void serialize_criteria_(std::ostream& ostr) const;
   bool was_accepted_ = false;
   SynchronizeData data_;
+  void check_num_iterations_(const int num_attemps_per_iteration);
 
  private:
-  double * current_energy_() { return &((*data_.get_dble_1D())[0]); }
   double previous_energy_ = 0.;
   int phase_ = 0;
   int expanded_state_;
   int num_expanded_states_;
+  int num_iterations_to_complete_;
   std::vector<std::shared_ptr<Constraint> > constraints_;
+
+  double * current_energy_() { return &((*data_.get_dble_1D())[0]); }
+  int * num_attempt_since_last_iteration_() { return &((*data_.get_int_1D())[0]); }
+  int * num_iterations_() { return &((*data_.get_int_1D())[1]); }
+  int const_num_iterations_() const { return data_.int_1D()[1]; }
 };
 
 }  // namespace feasst

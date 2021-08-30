@@ -15,7 +15,12 @@ class Random;
  */
 class MayerSampling : public Criteria {
  public:
-  MayerSampling();
+  /**
+    args:
+    - num_attempts_per_iteration: set the number of MonteCarlo trials,
+      or attempts (as measured by number of calls to is_accepted) default: 1e9.
+   */
+  explicit MayerSampling(argtype args = argtype());
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
@@ -43,6 +48,7 @@ class MayerSampling : public Criteria {
  private:
   double f12old_ = -1.;
   double f12ref_ = -1.;
+  int num_attempts_per_iteration_;
   Accumulator mayer_;
   Accumulator mayer_ref_;
 };

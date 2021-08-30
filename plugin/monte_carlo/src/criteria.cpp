@@ -9,12 +9,20 @@
 
 namespace feasst {
 
-Criteria::Criteria() {
+Criteria::Criteria(argtype args) : Criteria(&args) {
+  check_all_used(args);
+}
+Criteria::Criteria(argtype * args) {
   set_expanded_state();
   data_.get_dble_1D()->resize(1);
+  data_.get_int_1D()->resize(2);
+  *num_iterations_() = 0;
+  *num_attempt_since_last_iteration_() = 0;
+  num_iterations_to_complete_ = integer("num_iterations_to_complete", args, 0);
 }
 
-Criteria::Criteria(std::shared_ptr<Constraint> constraint) : Criteria() {
+Criteria::Criteria(std::shared_ptr<Constraint> constraint, argtype args)
+  : Criteria(args) {
   add(constraint);
 }
 
@@ -113,6 +121,7 @@ void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize(previous_energy_, ostr);
   feasst_serialize(expanded_state_, ostr);
   feasst_serialize(num_expanded_states_, ostr);
+  feasst_serialize(num_iterations_to_complete_, ostr);
   feasst_serialize(phase_, ostr);
   feasst_serialize_fstdr(constraints_, ostr);
   feasst_serialize_fstobj(data_, ostr);
@@ -125,6 +134,7 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize(&previous_energy_, istr);
   feasst_deserialize(&expanded_state_, istr);
   feasst_deserialize(&num_expanded_states_, istr);
+  feasst_deserialize(&num_iterations_to_complete_, istr);
   feasst_deserialize(&phase_, istr);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize_fstdr(constraints_, istr);
@@ -162,8 +172,12 @@ bool Criteria::is_allowed(const System& system, const Acceptance& acceptance) {
   return true;
 }
 
-void Criteria::set_num_iterations(const int iteration) {
-  FATAL("not implemented");
+void Criteria::check_num_iterations_(const int num_attempts_per_iteration) {
+  *num_attempt_since_last_iteration_() += 1;
+  if (*num_attempt_since_last_iteration_() >= num_attempts_per_iteration) {
+    *num_iterations_() += 1;
+    *num_attempt_since_last_iteration_() = 0;
+  }
 }
 
 }  // namespace feasst

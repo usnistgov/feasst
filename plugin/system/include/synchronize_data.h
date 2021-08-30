@@ -25,16 +25,22 @@ class SynchronizeData {
  public:
   SynchronizeData() {}
 
-  /// Return 1D data.
+  /// Return 1D double precision data.
   const std::vector<double>& dble_1D() const { return dble_1D_; }
 
-  /// Return 1D data.
+  /// Return 1D 32-bit integer data.
+  const std::vector<int>& int_1D() const { return int_1D_; }
+
+  /// Return 1D 64-bit integer data.
   const std::vector<int64_t>& int64_1D() const { return int64_1D_; }
 
-  /// Get 1D data.
+  /// Get 1D double precision data.
   std::vector<double> * get_dble_1D() { return &dble_1D_; }
 
-  /// Get 1D data.
+  /// Get 1D 32-bit integer data.
+  std::vector<int> * get_int_1D() { return &int_1D_; }
+
+  /// Get 1D 64-bit integer data.
   std::vector<int64_t> * get_int64_1D() { return &int64_1D_; }
 
   /// Return 2D data.
@@ -78,6 +84,7 @@ class SynchronizeData {
 
  private:
   std::vector<double> dble_1D_;
+  std::vector<int> int_1D_;
   std::vector<int64_t> int64_1D_;
   std::vector<std::vector<double> > dble_2D_;
   std::vector<std::vector<std::vector<double> > > dble_3D_;

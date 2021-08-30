@@ -6,13 +6,17 @@
 
 namespace feasst {
 
-MayerSampling::MayerSampling() : Criteria() {
+MayerSampling::MayerSampling(argtype args) : Criteria(&args) {
   class_name_ = "MayerSampling";
+  num_attempts_per_iteration_ =
+    integer("num_attempts_per_iteration", &args, 1e9);
+  check_all_used(args);
 }
 
 bool MayerSampling::is_accepted(const Acceptance& acceptance,
     const System& system,
     Random * random) {
+  check_num_iterations_(num_attempts_per_iteration_);
   const double energy_new = acceptance.energy_new();
   const double beta = system.thermo_params().beta();
   const double f12 = std::exp(-beta*energy_new) - 1.;
@@ -59,6 +63,7 @@ void MayerSampling::serialize(std::ostream& ostr) const {
   feasst_serialize_version(3251, ostr);
   feasst_serialize(f12old_, ostr);
   feasst_serialize(f12ref_, ostr);
+  feasst_serialize(num_attempts_per_iteration_, ostr);
   feasst_serialize_fstobj(mayer_, ostr);
   feasst_serialize_fstobj(mayer_ref_, ostr);
 }
@@ -68,6 +73,7 @@ MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
   ASSERT(version == 3251, "unrecognized verison: " << version);
   feasst_deserialize(&f12old_, istr);
   feasst_deserialize(&f12ref_, istr);
+  feasst_deserialize(&num_attempts_per_iteration_, istr);
   feasst_deserialize_fstobj(&mayer_, istr);
   feasst_deserialize_fstobj(&mayer_ref_, istr);
 }

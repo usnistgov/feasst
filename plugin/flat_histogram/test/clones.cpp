@@ -129,7 +129,7 @@ TEST(Clones, lj_fh_LONG) {
   for (int sweeps = 20; sweeps <= 1000; sweeps+=10) {
     DEBUG("sweeps: " << sweeps);
     auto clones3 = MakeClones("tmp/clone", 2, 0, ".fst");
-    clones3->set_num_iterations(sweeps);
+    clones3->set_num_iterations_to_complete(sweeps);
     clones3->initialize_and_run_until_complete(
       {{"omp_batch", str(1e3)}, {"ln_prob_file", "tmp/clones_fh.txt"}});
   }

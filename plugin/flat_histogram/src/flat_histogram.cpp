@@ -27,6 +27,8 @@ FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
   init_(macrostate, bias);
 }
 FlatHistogram::FlatHistogram(argtype * args) {
+  ASSERT(!used("num_iterations_to_complete", *args),
+    "FlatHistogram does not use the argument num_iterations_to_complete");
   init_(MacrostateEnergy().factory(str("Macrostate", args), args),
         MakeWangLandau({{"min_flatness", "1"}})->factory(str("Bias", args), args));
 }

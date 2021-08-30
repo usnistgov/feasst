@@ -90,7 +90,7 @@ class Clones {
     argtype init_args = argtype());
 
   /// Set the number of Criteria iterations of all clones.
-  void set_num_iterations(const int iterations);
+  void set_num_iterations_to_complete(const int iterations);
 
   /// Return the FlatHistogram of a given clone index.
   FlatHistogram flat_histogram(const int index) const;

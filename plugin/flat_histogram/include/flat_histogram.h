@@ -54,9 +54,12 @@ class FlatHistogram : public Criteria {
   const Bias& bias() const { return const_cast<Bias&>(*bias_); }
   void set_bias(std::shared_ptr<Bias> bias) { bias_ = bias; }
 
-  /// Set the number of iterations in the Bias.
-  void set_num_iterations(const int iteration) override {
-    bias_->set_num_iterations(iteration); }
+  int num_iterations_to_complete() const override {
+    return bias_->num_iterations_to_complete(); }
+  void set_num_iterations_to_complete(const int num) override {
+    bias_->set_num_iterations_to_complete(num); }
+  int num_iterations() const override { return bias_->num_iterations(); }
+  bool is_complete() const override { return bias_->is_complete(); }
 
   void before_attempt(const System& system) override;
 
@@ -65,7 +68,6 @@ class FlatHistogram : public Criteria {
     Random * random) override;
 
   std::string write() const override;
-  bool is_complete() const override { return bias_->is_complete(); }
   int phase() const override { return bias_->phase(); }
   void increment_phase() override { bias_->increment_phase(); }
 

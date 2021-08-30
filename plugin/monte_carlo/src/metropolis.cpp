@@ -5,8 +5,11 @@
 
 namespace feasst {
 
-Metropolis::Metropolis() : Criteria() {
+Metropolis::Metropolis(argtype args) : Criteria(&args) {
   class_name_ = "Metropolis";
+  num_attempts_per_iteration_ =
+    integer("num_attempts_per_iteration", &args, 1e9);
+  check_all_used(args);
 }
 
 Metropolis::Metropolis(std::shared_ptr<Constraint> constraint) : Metropolis() {
@@ -16,6 +19,7 @@ Metropolis::Metropolis(std::shared_ptr<Constraint> constraint) : Metropolis() {
 bool Metropolis::is_accepted(const Acceptance& acceptance,
     const System& system,
     Random * random) {
+  check_num_iterations_(num_attempts_per_iteration_);
   if ( (!acceptance.reject()) &&
        (is_allowed(system, acceptance)) &&
        (random->uniform() < std::exp(acceptance.ln_metropolis_prob())) ) {
@@ -41,12 +45,14 @@ static MapMetropolis mapper_ = MapMetropolis();
 Metropolis::Metropolis(std::istream& istr) : Criteria(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 278, "version mismatch: " << version);
+  feasst_deserialize(&num_attempts_per_iteration_, istr);
 }
 
 void Metropolis::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_criteria_(ostr);
   feasst_serialize_version(278, ostr);
+  feasst_serialize(num_attempts_per_iteration_, ostr);
 }
 
 }  // namespace feasst

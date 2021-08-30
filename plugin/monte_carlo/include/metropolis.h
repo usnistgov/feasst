@@ -15,10 +15,15 @@ class Random;
  */
 class Metropolis : public Criteria {
  public:
-  Metropolis();
+  /**
+    args:
+    - num_attempts_per_iteration: set the number of MonteCarlo trials,
+      or attempts (as measured by number of calls to is_accepted) default: 1e9.
+   */
+  explicit Metropolis(argtype args = argtype());
 
   /// Same as above, but with an added constraint.
-  Metropolis(std::shared_ptr<Constraint> constraint);
+  explicit Metropolis(std::shared_ptr<Constraint> constraint);
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
@@ -29,8 +34,11 @@ class Metropolis : public Criteria {
   std::shared_ptr<Criteria> create(argtype * args) const override {
     return std::make_shared<Metropolis>(); }
   void serialize(std::ostream& ostr) const override;
-  Metropolis(std::istream& istr);
+  explicit Metropolis(std::istream& istr);
   ~Metropolis() {}
+
+ private:
+  int num_attempts_per_iteration_;
 };
 
 inline std::shared_ptr<Metropolis> MakeMetropolis() {

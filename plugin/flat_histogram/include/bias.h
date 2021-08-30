@@ -60,9 +60,6 @@ class Bias {
   virtual std::string write_per_bin_header() const {
     return std::string("ln_prob,delta_ln_prob"); }
 
-  /// Return true if completion requirements are met.
-  bool is_complete() const { return is_complete_; }
-
   /// Return the simulation phase index used to differentiate production
   /// and initialization, etc.
   virtual int phase() const { return phase_; }
@@ -70,11 +67,17 @@ class Bias {
   /// Increment the simulation phase.
   virtual void increment_phase() { ++phase_; }
 
-  /// Set the number of iterations required for completion.
+  /// Return the number of iterations required for completion.
   /// In TransitionMatrix and WLTM, this is the minimum number of sweeps.
   /// In WangLandau, this is the minimum number of flatness checks.
   /// Afterward, check again for completeness.
-  virtual void set_num_iterations(const int iteration) = 0;
+  virtual int num_iterations_to_complete() const = 0;
+
+  /// Set the number of iterations required for completion.
+  virtual void set_num_iterations_to_complete(const int iteration) = 0;
+
+  virtual int num_iterations() const = 0;
+  bool is_complete() const { return is_complete_; }
 
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;

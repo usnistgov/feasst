@@ -373,9 +373,9 @@ std::shared_ptr<Clones> MakeClones(const std::string prepend,
   return MakeClones(file_names);
 }
 
-void Clones::set_num_iterations(const int iterations) {
+void Clones::set_num_iterations_to_complete(const int iterations) {
   for (int index = 0; index < num(); ++index) {
-    clones_[index]->get_criteria()->set_num_iterations(iterations);
+    clones_[index]->get_criteria()->set_num_iterations_to_complete(iterations);
   }
 }
 
