@@ -23,7 +23,7 @@
 
 Site Properties
 
-0 epsilon 1 sigma 1.5193 cutoff 1.9193
+0 epsilon 0 sigma 1.5193 cutoff 1.5193
 1 epsilon 1 sigma 6.317 cutoff 6.717
 2 epsilon 1 sigma 5.959 cutoff 6.359
 3 epsilon 1 sigma 5.959 cutoff 6.359
@@ -37,7 +37,7 @@ Sites
 
 Bond Properties
 
-0 length 4.236 spring_constant 0.0
+0 length 4.236
 1 length 4.86570
 2 length 5.85460
 

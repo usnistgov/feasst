@@ -59,8 +59,6 @@ void PerturbTranslate::move(System * system,
     &trajectory_
   );
   DEBUG("max move " << tunable().value());
-  ASSERT(tunable().value() > NEAR_ZERO, "tunable(" << tunable().value()
-    << ") is too small");
   move(trajectory_, system, select);
 }
 

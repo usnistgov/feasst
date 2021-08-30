@@ -99,9 +99,8 @@ class ModelParam {
   std::vector<std::vector<bool> > is_mixed_override_;
 
   /// Define mixing rules in the derived class.
-  /// The default is a simple average.
-  virtual double mix_(const double value1, const double value2) {
-    return 0.5*(value1 + value2); }
+  /// The default is a simple average, unless one of the values is zero.
+  virtual double mix_(const double value1, const double value2);
 
   // resize is_mixed_override_ by setting to false by default but not
   // overwriting any that were previously set to true.
@@ -109,9 +108,9 @@ class ModelParam {
 };
 
 /**
- The epsilon parameter is named "epsilon" in LMP-like data file Pair Coeffs.
- The epsilon parameter has the mixing rule:
- \f$ \epsilon_{ij} = \sqrt(\epsilon_i \epsilon_j) \f$
+ The epsilon parameter is named "epsilon" in LMP-like data file Site Properties.
+ The epsilon parameter has the default mixing rule:
+ \f$ \epsilon_{ij} = \sqrt{\epsilon_i \epsilon_j} \f$
  */
 class Epsilon : public ModelParam {
  public:
@@ -123,9 +122,15 @@ class Epsilon : public ModelParam {
 };
 
 /**
- The sigma parameter is named "sigma" in LMP-like data file Pair Coeffs.
- The sigma parameter has the mixing rule:
- \f$ \sigma_{ij} = 0.5*(\sigma_i + \sigma_j) \f$
+  The sigma parameter is named "sigma" in LMP-like data file Site Properties.
+  The sigma parameter has the default mixing rule:
+
+  \f$ \sigma_{ij} = \left\{
+    \begin{array}{lr}
+      0 & : \sigma_i \sigma_j = 0 \\
+      0.5(\sigma_i + \sigma_j) & : \sigma_i\sigma_j \neq 0
+    \end{array}
+  \right. \f$
  */
 class Sigma : public ModelParam {
  public:
@@ -134,9 +139,15 @@ class Sigma : public ModelParam {
 };
 
 /**
- The cut off parameter is named "cutoff" in LMP-like data file Pair Coeffs.
- The cut off parameter has the mixing rule:
- \f$ r^c_{ij} = 0.5*(r^c_i + r^c_j)\f$
+  The cut off parameter is named "cutoff" in LMP-like data file Site Properties.
+  The cut off parameter has the default mixing rule:
+
+  \f$ r^c_{ij} = \left\{
+    \begin{array}{lr}
+      0 & : r^c_i r^c_j = 0 \\
+      0.5(r^c_i + r^c_j) & : r^c_ir^c_j \neq 0
+    \end{array}
+  \right. \f$
  */
 class CutOff : public ModelParam {
  public:
@@ -145,8 +156,8 @@ class CutOff : public ModelParam {
 };
 
 /**
- The charge parameter is named "charge" in LMP-like data file Pair Coeffs.
- The charge parameter, q, has the mixing rule:
+ The charge parameter is named "charge" in LMP-like data file Site Properties.
+ The charge parameter, q, has the default mixing rule:
  \f$ q_{ij} = q_i q_j \f$
  */
 class Charge : public ModelParam {

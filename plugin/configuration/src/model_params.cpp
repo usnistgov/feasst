@@ -1,11 +1,12 @@
 
 #include <cmath>
 #include <algorithm>
-#include "configuration/include/model_params.h"
 #include "utils/include/debug.h"
-#include "math/include/utils_math.h"
 #include "utils/include/serialize.h"
 #include "utils/include/utils.h"  // resize
+#include "math/include/utils_math.h"
+#include "math/include/constants.h"
+#include "configuration/include/model_params.h"
 
 namespace feasst {
 
@@ -128,6 +129,14 @@ std::string ModelParam::str() const {
     }
   }
   return ss.str();
+}
+
+double ModelParam::mix_(const double value1, const double value2) {
+  if (std::abs(value1) < NEAR_ZERO ||
+      std::abs(value2) < NEAR_ZERO) {
+    return 0.;
+  }
+  return 0.5*(value1 + value2);
 }
 
 void ModelParams::add_() {

@@ -335,7 +335,14 @@ TEST(MonteCarlo, multisite_neighbors) {
   EXPECT_NEAR(mc.criteria().current_energy(), neigh->total_energy(), 1e-12);
 }
 
-void add_cg4_potential(MonteCarlo * mc) {
+void add_cg4_potential(MonteCarlo * mc, double eps_fc, double eps_fab) {
+  Configuration * config = mc->get_system()->get_configuration();
+  config->set_model_param("epsilon", 1, eps_fc);
+  config->set_model_param("epsilon", 2, eps_fab);
+  config->set_model_param("epsilon", 3, eps_fab);
+  INFO(mc->configuration().model_params().epsilon().str());
+  INFO(mc->configuration().model_params().sigma().str());
+  INFO(mc->configuration().model_params().cutoff().str());
   mc->add(MakePotential(MakeSquareWell()));
   { // intra is HardSphere with 90% reduced sigma
     ModelParams params = mc->configuration().model_params();
@@ -346,6 +353,18 @@ void add_cg4_potential(MonteCarlo * mc) {
     pot->set(params);
     mc->add(pot);
   }
+  // reference is HardSphere on center with diameter 10
+  ModelParams params = mc->configuration().model_params();
+  for (const std::string parm : {"cutoff", "sigma"}) {
+    for (const int center : {0, 4}) params.set(parm, center, 10.);
+    for (const int branch : {1, 2, 3, 5, 6, 7}) params.set(parm, branch, 0.);
+  }
+  INFO(params.epsilon().str());
+  INFO(params.sigma().str());
+  INFO(params.cutoff().str());
+  auto ref = MakePotential(MakeHardSphere());
+  ref->set(params);
+  mc->add_to_reference(ref);
 }
 
 TEST(MonteCarlo, cg4_flexible_LONG) {
@@ -357,7 +376,7 @@ TEST(MonteCarlo, cg4_flexible_LONG) {
   }));
   EXPECT_EQ(1, mc.configuration().num_particles());
   EXPECT_EQ(1, mc.configuration().num_particles_of_type(0));
-  add_cg4_potential(&mc);
+  add_cg4_potential(&mc, 1, 1);
   const double temperature = 0.7092;
   mc.set(MakeThermoParams({{"beta", str(1./temperature)}}));
   mc.set(MakeMetropolis());
@@ -397,11 +416,12 @@ TEST(MonteCarlo, cg4_flexible_LONG) {
 }
 
 // HWH test that distributions are also unchanged whether or not potential_acceptance is used
-
 TEST(MayerSampling, b2_cg4_flexible_LONG) {
   MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "1629905961"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({
-    {"cubic_box_length", "30"},
+    {"cubic_box_length", str(NEAR_INFINITY)},
     {"particle_type0", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex"},
     {"particle_type1", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex_duplicate"},
     {"add_particles_of_type0", "1"},
@@ -409,32 +429,45 @@ TEST(MayerSampling, b2_cg4_flexible_LONG) {
   }));
   EXPECT_EQ(2, mc.configuration().num_particles());
   EXPECT_EQ(1, mc.configuration().num_particles_of_type(0));
-  add_cg4_potential(&mc);
-  mc.add_to_reference(MakePotential(MakeHardSphere()));
-  const double temperature = 0.5309;
+  add_cg4_potential(&mc, 1, 1);
+  const double temperature = 0.4688;
+  //const double temperature = 0.5309;
   //const double temperature = 0.7092;
+  //add_cg4_potential(&mc, 1, 0);
+  //const double temperature = 0.2097;
+  //const double temperature = 0.2218;
+  //const double temperature = 0.2438;
+  //const double temperature = 0.2933;
+  //add_cg4_potential(&mc, 1, 1.5);
+  //const double temperature = 0.7090;
+  //add_cg4_potential(&mc, 1, 2);
+  //const double temperature = 0.8929;
+  //add_cg4_potential(&mc, 0, 1);
+  //const double temperature = 0.3769;
   mc.set(MakeThermoParams({{"beta", str(1./temperature)}}));
   auto mayer = MakeMayerSampling();
   mc.set(mayer);
-  mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
-    {"tunable_param", "1"}, {"particle_type", "1"}}));
-  mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
-    {"tunable_param", "40"}}));
   for (const std::string ptype : {"0", "1"}) {
-    for (const std::string msite : {"1", "2", "3"}) {
-      mc.add(MakeTrialGrow({{{"particle_type", ptype}, {"bond", "1"},
-        {"mobile_site", msite}, {"anchor_site", "0"},
-        {"potential_acceptance", "1"}, {"new_only", "true"}}}));
-    }
+    std::string param = "0";
+    if (ptype == "1") param = "1";
+    mc.add(MakeTrialGrow({
+      {{"particle_type", ptype}, {"translate", "true"}, {"site", "0"}, {"tunable_param", param}},
+      {{"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}, {"potential_acceptance", "1"}},
+      {{"bond", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"potential_acceptance", "1"}},
+      {{"bond", "true"}, {"mobile_site", "3"}, {"anchor_site", "0"}, {"potential_acceptance", "1"}}
+    }, {{"reference_index", "0"}, {"new_only", "true"}}));
   }
   std::string steps_per = "1e4";
   mc.add(MakeLog({{"steps_per", steps_per}, {"file_name", "tmp/cg4.txt"}}));
   mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/cg4.xyz"}}));
-  mc.add(MakeTune({{"steps_per", steps_per}}));
+  mc.add(MakeCheckEnergy({{"steps_per", steps_per}}));
+  //mc.add(MakeTune({{"steps_per", steps_per}}));
   auto bonds = MakeAnalyzeBonds({{"bond_bin_width", "0.05"}});
   mc.add(bonds);
-  mc.attempt(1e6);
-//  EXPECT_NEAR(100, mayer->second_virial_ratio(), 0.15);
+  mc.attempt(1e7);
+  INFO("mayer: " << mayer->mayer().str());
+  INFO("mayer_ref: " << mayer->mayer_ref().str());
+  EXPECT_NEAR(100, mayer->second_virial_ratio(), 0.15);
 //  INFO(bonds->bond_hist(0).str());
 }
 
@@ -486,6 +519,7 @@ TEST(MayerSampling, trimer_grow_LONG) {
   }
   const std::string steps_per = "1e4";
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/trib"}}));
+  mc.add(MakeCheckEnergy({{"steps_per", steps_per}}));
   mc.add(MakeCheckRigidBonds({{"steps_per", steps_per}}));
   mc.attempt(1e6);
   double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().sigma().value(0), 3); // A^3
