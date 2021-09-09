@@ -8,10 +8,14 @@
    ThermoParams
    BondThreeBody
    AngleSquareWell
+   RigidAngle
    BondTwoBody
-   BondVisitor
    BondSquareWell
+   RigidBond
    NeighborCriteria
+   BondFourBody
+   RigidDihedral
+   BondVisitor
    VisitModel
    ModelTwoBody
    LennardJones
@@ -19,9 +23,9 @@
    HardSphere
    IdealGas
    DontVisitModel
+   ModelThreeBody
    ModelOneBody
    ModelEmpty
-   ModelThreeBody
    VisitModelIntraMap
    VisitModelIntra
    VisitModelBond

@@ -35,14 +35,14 @@ void VisitModelInnerPatch::compute(
   if (squared_distance <= cutoff*cutoff) {
     // loop through bonds on center1
     const int part1_type = part1.type();
-    for (const int dir1_index : config->particle_type(part1_type).bond_neighbor()[site1_index]) {
+    for (const int dir1_index : config->particle_type(part1_type).bond_neighbors(site1_index)) {
       const Site& dir1 = part1.site(dir1_index);
       if (dir1.is_physical()) {
         const int dir1_type = dir1.type();
         if (config->unique_type(part1_type).site(dir1_type).is_director()) {
           // loop through bonds on center2
           const int part2_type = part2.type();
-          for (const int dir2_index : config->particle_type(part2_type).bond_neighbor()[site2_index]) {
+          for (const int dir2_index : config->particle_type(part2_type).bond_neighbors(site2_index)) {
             const Site& dir2 = part2.site(dir2_index);
             if (dir2.is_physical()) {
               const int dir2_type = dir2.type();

@@ -100,7 +100,14 @@ void Position::set_to_origin(const int dimension) {
 }
 
 double Position::cosine(const Position& position) const {
-  return dot_product(position)/distance()/position.distance();
+  const double dist = position.distance();
+  ASSERT(dist > NEAR_ZERO, "dist: " << dist << " is too small. "
+    << "May be caused by particles in an angle on top of each other.");
+  double cos = dot_product(position)/distance()/dist;
+  ASSERT(std::abs(cos) < 1 + NEAR_ZERO, "|cos: " << cos << "| > 1");
+  if (cos < -1) cos = -1.;
+  if (cos > 1) cos = 1.;
+  return cos;
 }
 
 void Position::divide(const double denominator) {
@@ -110,7 +117,9 @@ void Position::divide(const double denominator) {
 }
 
 void Position::normalize() {
-  divide(distance());
+  const double dist = distance();
+  ASSERT(std::abs(dist) > NEAR_ZERO, " cannot normalize a 0 vector: " << str());
+  divide(dist);
 }
 
 bool Position::is_equal(const Position& position,
@@ -299,6 +308,40 @@ Position Position::spherical() const {
     }
   }
   return spherical;
+}
+
+double Position::vertex_angle_radians(const Position& ri, const Position& rk) const {
+  Position rij = ri;
+  rij.subtract(*this);
+  Position rkj = rk;
+  rkj.subtract(*this);
+  double rad = std::acos(rij.cosine(rkj));
+  if (ri.dimension() == 2) {
+    // if the z-dimension of the cross product is positive, reverse
+    if (rij.coord(0)*rkj.coord(1) > rij.coord(1)*rkj.coord(0)) {
+      rad = 2.*PI - rad;
+    }
+  }
+  return rad;
+}
+
+double Position::torsion_angle_radians(const Position& rj, const Position& rk,
+    const Position& rl) const {
+  Position rij = *this;
+  rij.subtract(rj);
+  Position rjk = rj;
+  rjk.subtract(rk);
+  Position rkl = rk;
+  rkl.subtract(rl);
+  Position n1 = rkl.cross_product(rjk);
+  const double n1_mag = n1.distance();
+  ASSERT(std::abs(n1_mag) > NEAR_ZERO, "n1 is too small");
+  DEBUG("n1 " << n1.str());
+  Position n2 = rjk.cross_product(rij);
+  const double n2_mag = n2.distance();
+  ASSERT(std::abs(n2_mag) > NEAR_ZERO, "n2 is too small");
+  DEBUG("n2 " << n2.str());
+  return std::acos(n1.dot_product(n2)/n1_mag/n2_mag);
 }
 
 }  // namespace feasst

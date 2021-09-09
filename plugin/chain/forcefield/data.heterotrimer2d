@@ -24,13 +24,13 @@ Site Properties
 
 Sites
 
-0 0 0.0  0.0  0.0
-1 1 0.5 0.0  0.0
-2 2 0.0  0.5 0.0
+0 0 0.0 0.0 0.0
+1 1 0.5 0.0 0.0
+2 2 0.0 0.5 0.0
 
 Bond Properties
 
-0 length 0.5 delta 0.000001
+0 RigidBond length 0.5 delta 0.000001
 
 Bonds
 
@@ -39,8 +39,8 @@ Bonds
 
 Angle Properties
 
-0 theta0 270 delta 0.000001
+0 RigidAngle degrees 90 delta 0.000001
 
 Angles
 
-0 0 1 0 2
+0 0 2 0 1

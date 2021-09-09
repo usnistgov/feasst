@@ -1,0 +1,28 @@
+# LAMMPS-inspired data file
+
+3 sites
+
+2 site types
+
+Units
+
+length Angstrom
+energy kJ/mol
+charge elementary
+
+Site Labels
+
+0 O
+1 H
+
+Site Properties
+
+0 sigma 3.16555789 epsilon 0.650169581 cutoff 10 charge -0.8476
+1 sigma 0          epsilon 0           cutoff 10 charge 0.4238
+
+Sites
+
+0 0  0                    0                    0
+1 1  1.0                  0                    0
+2 1 -0.333313247568237000 0.942816142731718000 0
+

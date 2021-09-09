@@ -64,13 +64,13 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
 // 0 1 2 3 4 5 6                : 8 total
 //           5 6 7 8 9          : 7 total
 //                 8 9 10 11 12 : 6 total
-Clones make_clones(const int max, const int min) {
+Clones make_clones(const int max, const int min = 0, const int extra = 3) {
   Clones clones;
   std::vector<std::vector<int> > bounds = WindowExponential({
     {"maximum", str(max)},
     {"minimum", str(min)},
     {"num", "2"},
-    {"extra_overlap", "3"},
+    {"extra_overlap", str(extra)},
     {"alpha", "2"}}).boundaries();
   for (int index = 0; index < static_cast<int>(bounds.size()); ++index) {
     const std::vector<int> bound = bounds[index];
@@ -84,7 +84,7 @@ Clones make_clones(const int max, const int min) {
 }
 
 TEST(Clones, lj_fh) {
-  Clones clones2 = make_clones(12, 0);
+  Clones clones2 = make_clones(12);
   EXPECT_EQ(clones2.num(), 2);
   DEBUG("num " << clones2.clone(0).configuration().num_particles());
   DEBUG("num " << clones2.clone(1).configuration().num_particles());
@@ -122,7 +122,7 @@ double energy_av4(const int macro, const MonteCarlo& mc) {
 }
 
 TEST(Clones, lj_fh_LONG) {
-  Clones clones = make_clones(5, 1);
+  Clones clones = make_clones(5, 1, 0);
   Clones clones2 = test_serialize(clones);
   clones2.initialize_and_run_until_complete(
     {{"omp_batch", str(1e3)}, {"ln_prob_file", "tmp/clones_fh.txt"}});
@@ -145,11 +145,12 @@ TEST(Clones, lj_fh_LONG) {
   EXPECT_NEAR(energy_av4(1, clones4->clone(0)), -0.030574223333333334, 0.001);
   EXPECT_NEAR(energy_av4(2, clones4->clone(0)), -0.089928316, 0.002);
   EXPECT_NEAR(energy_av4(3, clones4->clone(0)), -0.1784570533333333, 0.004);
-  EXPECT_NEAR(energy_av4(0, clones4->clone(1)), -0.000605740233333333, 1e-8);
-  EXPECT_NEAR(energy_av4(1, clones4->clone(1)), -0.030574223333333334, 0.001);
-  EXPECT_NEAR(energy_av4(2, clones4->clone(1)), -0.089928316, 0.002);
-  EXPECT_NEAR(energy_av4(3, clones4->clone(1)), -0.1784570533333333, 0.004);
-  EXPECT_NEAR(energy_av4(4, clones4->clone(1)), -0.29619201333333334, 0.006);
+  // removed extra overlap
+  //EXPECT_NEAR(energy_av4(0, clones4->clone(1)), -0.000605740233333333, 1e-8);
+  //EXPECT_NEAR(energy_av4(1, clones4->clone(1)), -0.030574223333333334, 0.001);
+  //EXPECT_NEAR(energy_av4(2, clones4->clone(1)), -0.089928316, 0.002);
+  EXPECT_NEAR(energy_av4(0, clones4->clone(1)), -0.1784570533333333, 0.004);
+  EXPECT_NEAR(energy_av4(1, clones4->clone(1)), -0.29619201333333334, 0.006);
 }
 
 }  // namespace feasst

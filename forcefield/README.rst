@@ -34,7 +34,7 @@ Each site type may have a list of properties given by a label and value.
 
 The format for this section is as follows:
 
-[site index] [label_0] [value_0] ... [label_n] [value_n]
+[site type] [label_0] [value_0] ... [label_n] [value_n]
 
 Sites
 ======
@@ -51,3 +51,39 @@ Site Labels
 
 Site labels are used to attach a name to the site type, often used for visualization programs, etc.
 Note: these are not currently implemented.
+
+Bond, Angle and Dihedral Properties
+======================================
+
+The format for this section is as follows:
+
+[bond type] [bond class name] [label_0] [value_0] ... [label_n] [value_n]
+
+Class name examples: :cpp:class:`RigidBond <feasst::RigidBond>`, :cpp:class:`AngleHarmonic <feasst::AngleHarmonic>` and :cpp:class:`DihedralTraPPE <feasst::DihedralTraPPE>`.
+
+Bonds
+=======
+
+The format for this section is as follows:
+
+[bond index] [bond type] [site i] [site j]
+
+Angles
+======
+
+The format for this section is as follows:
+
+[angle index] [angle type] [site i] [site j] [site k]
+
+Note that j is the vertex of the defined angle.
+In 2D, angles are defined clockwise, such that angles ijk and kji are not the same.
+For more information on the angle definition, see :cpp:func:`vertex_angle_radians <feasst::Position::vertex_angle_radians()>`
+
+Dihedrals
+==========
+
+The format for this section is as follows:
+
+[dihedral index] [dihedral type] [site i] [site j] [site k] [site l]
+
+For more information on the dihedral definition, see :cpp:func:`torsion_angle_radians <feasst::Position::torsion_angle_radians()>`.

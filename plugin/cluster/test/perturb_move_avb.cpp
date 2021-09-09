@@ -10,6 +10,7 @@ namespace feasst {
 
 TEST(PerturbMoveAVB, move) {
   for (std::string mol : {"lj", "spce"}) {
+    INFO(mol);
     System system;
     {
       if (mol == "lj") {
@@ -21,7 +22,7 @@ TEST(PerturbMoveAVB, move) {
         system.add(config);
       } else if (mol == "spce") {
         Configuration config(MakeDomain({{"cubic_box_length", "20"}}),
-                             {{"particle_type", "../forcefield/data.spce"}});
+                             {{"particle_type", "../plugin/cluster/test/data/data.spce_no_bonds"}});
         config.add_particle_of_type(0);
         config.add_particle_of_type(0);
         config.update_positions({{0, 0, 0}, {1, 0, 0}, {-0.333313247568237, 0.942816142731718, 0},

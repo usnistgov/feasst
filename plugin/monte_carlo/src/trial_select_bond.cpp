@@ -11,6 +11,8 @@ TrialSelectBond::TrialSelectBond(argtype * args) : TrialSelect(args) {
   class_name_ = "TrialSelectBond";
   mobile_site_ = integer("mobile_site", args);
   anchor_site_ = integer("anchor_site", args);
+  ASSERT(mobile_site_ != anchor_site_, "the mobile site: " << mobile_site_ <<
+    " cannot be the same as the anchor_site_: " << anchor_site_);
 }
 
 class MapTrialSelectBond {

@@ -34,11 +34,6 @@ bool find(const std::string search_string, std::ifstream &file) {
   return find(search_string.c_str(), file);
 }
 
-void find_or_fail(const char* search_string, std::ifstream &file) {
-  ASSERT(find(search_string, file), "could not find " << search_string
-    << " in file");
-}
-
 bool file_exists(const std::string& file_name) {
   struct stat buf;
   if (stat(file_name.c_str(), &buf) != -1) return true;

@@ -86,7 +86,8 @@ double System::unoptimized_energy(const int config) {
     &configurations_[config]);
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  return en;
+  bonds_.compute_all(configurations_[config]);
+  return en + bonds_.energy();
 }
 
 PotentialFactory * System::potentials_() {
@@ -101,13 +102,18 @@ double System::energy(const int config) {
   finalize(config);
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  return en;
+  bonds_.compute_all(configurations_[config]);
+  DEBUG("bond en " << bonds_.energy());
+  return en + bonds_.energy();
 }
 
 double System::perturbed_energy(const Select& select, const int config) {
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  return potentials_()->select_energy(select, &configurations_[config]);
+  double en = potentials_()->select_energy(select, &configurations_[config]);
+  bonds_.compute_all(select, configurations_[config]);
+  DEBUG("bond en " << bonds_.energy());
+  return en + bonds_.energy();
 }
 
 double System::reference_energy(const int ref, const int config) {
@@ -127,6 +133,7 @@ double System::reference_energy(const Select& select,
 void System::serialize(std::ostream& sstr) const {
   feasst_serialize_version(7349, sstr);
   feasst_serialize_fstobj(configurations_, sstr);
+  feasst_serialize_fstobj(bonds_, sstr);
   unoptimized_.serialize(sstr);
   optimized_.serialize(sstr);
   feasst_serialize(is_optimized_, sstr);
@@ -140,6 +147,7 @@ System::System(std::istream& sstr) {
   const int version = feasst_deserialize_version(sstr);
   ASSERT(version == 7349, "unrecognized verison: " << version);
   feasst_deserialize_fstobj(&configurations_, sstr);
+  feasst_deserialize_fstobj(&bonds_, sstr);
   unoptimized_ = PotentialFactory(sstr);
   optimized_ = PotentialFactory(sstr);
   feasst_deserialize(&is_optimized_, sstr);

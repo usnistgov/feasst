@@ -2,6 +2,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/constants.h"
+#include "math/include/random.h"
 #include "system/include/angle_square_well.h"
 
 namespace feasst {
@@ -36,17 +37,21 @@ void AngleSquareWell::serialize(std::ostream& ostr) const {
   serialize_angle_square_well_(ostr);
 }
 
-double AngleSquareWell::energy(
-    const Position& relative01,
-    const Position& relative21,
-    const Angle& angle) const {
-  const double theta0 = degrees_to_radians(angle.property("theta0"));
-  const double delta = degrees_to_radians(angle.property("delta"));
-  const double theta = std::acos(relative01.cosine(relative21));
-  TRACE("theta " << theta);
-  if (std::abs(theta - theta0) > 0.5*delta) {
+double AngleSquareWell::energy(const double radians, const Bond& angle) const {
+  const double minimum = degrees_to_radians(angle.property("minimum"));
+  const double maximum = degrees_to_radians(angle.property("maximum"));
+  TRACE("radians " << radians);
+  ASSERT(!std::isnan(radians), "radians is nan");
+  if (radians < minimum || radians > maximum) {
     return NEAR_INFINITY;
   }
   return 0.;
 }
+
+double AngleSquareWell::random_angle_radians(const Angle& angle, const double beta,
+    const int dimension, Random * random) const {
+  return degrees_to_radians(random->uniform_real(angle.property("minimum"),
+                                                 angle.property("maximum")));
+}
+
 }  // namespace feasst

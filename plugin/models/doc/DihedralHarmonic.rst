@@ -1,6 +1,6 @@
-CheckRigidBonds
+DihedralHarmonic
 =====================================================
 
-.. doxygenclass:: feasst::CheckRigidBonds
+.. doxygenclass:: feasst::DihedralHarmonic
    :project: FEASST
    :members:

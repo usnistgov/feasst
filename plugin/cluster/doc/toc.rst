@@ -5,10 +5,10 @@
    EnergyMapNeighbor
    EnergyMapNeighborCriteria
    EnergyMapAllCriteria
-   SelectParticleAVB
-   SelectParticleAVBDivalent
-   SelectCluster
    PerturbPointReflect
+   SelectParticleAVB
+   SelectCluster
+   SelectParticleAVBDivalent
    trial_avb2
    trial_rigid_cluster
    trial_transfer_avb_divalent

@@ -219,17 +219,10 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
   double shift = 0.;
   int starting_lower_bin = 0;
   for (int fh_index = 0; fh_index < num() - 1; ++fh_index) {
+    DEBUG("fh_index " << fh_index);
     FlatHistogram fh_lower = flat_histogram(fh_index);
     FlatHistogram fh_upper = flat_histogram(fh_index + 1);
-
-    // determine if fh are TM and, if so, ignore the lowest macrostate of upper
-    // and highest macrostate of lower
-    const int index_upper_min = 0;
-    const double macro_upper_min = fh_upper.macrostate().value(index_upper_min);
-
-    // and same for lower, by simply introducing a truncation for the following
-    // bin loop
-    int truncate = 0;
+    const double macro_upper_min = fh_upper.macrostate().value(0);
 
     // Optionally, extract multistate_data
     std::vector<double> lower_data, upper_data;
@@ -239,16 +232,21 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
       upper_data = seek.multistate_data(analyze_name, clone(fh_index + 1), get);
     }
 
-    int upper_index = index_upper_min;
+    int upper_index = 0;
     std::vector<double> overlap_upper;
     std::vector<double> overlap_lower;
+    DEBUG("starting_lower_bin " << starting_lower_bin);
+    DEBUG("lower size " << fh_lower.bias().ln_prob().size());
     for (int bin = starting_lower_bin;
-         bin < fh_lower.bias().ln_prob().size() - truncate;
+         bin < fh_lower.bias().ln_prob().size();
          ++bin) {
+      DEBUG("bin " << bin);
       const double macro_lower = fh_lower.macrostate().value(bin);
       const double ln_prob_lower = fh_lower.bias().ln_prob().value(bin);
       if (std::abs(macro_lower - macro_upper_min) > NEAR_ZERO &&
-          upper_index == index_upper_min) {
+          upper_index == 0) {
+        DEBUG("macro_lower " << macro_lower);
+        DEBUG("macro_upper_min " << macro_upper_min);
         ln_prob.push_back(ln_prob_lower + shift);
         if (multistate_data) multistate_data->push_back(lower_data[bin]);
       } else {
@@ -271,7 +269,7 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
         edges.push_back(lower);
       }
     }
-    ASSERT(upper_index > index_upper_min, "No overlap.");
+    ASSERT(upper_index > 0, "No overlap when upper_index: " << upper_index);
 
     // average the ln_probs of the overlapping region
     Accumulator ln_prob_shift;
@@ -284,7 +282,7 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
     }
     shift += ln_prob_shift.average();
     DEBUG("total shift " << shift);
-    starting_lower_bin = static_cast<int>(overlap_lower.size() + truncate);
+    starting_lower_bin = static_cast<int>(overlap_lower.size());
   }
 
   // now add the non-overlapping part of the last clone

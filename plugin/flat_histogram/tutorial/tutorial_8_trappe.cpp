@@ -155,7 +155,6 @@ std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int
                                      {"file_name_append_phase", "True"}}));
   mc->set(feasst::MakeCheckpoint({{"file_name", "checkpoint" + feasst::str(thread) + ".fst"},
                                  {"num_hours_terminate", feasst::str(0.99*args.get_int("--num_procs")*args.get_double("--num_hours"))}}));
-  mc->add(feasst::MakeCheckRigidBonds({{"steps_per", steps_per}}));
   return mc;
 }
 

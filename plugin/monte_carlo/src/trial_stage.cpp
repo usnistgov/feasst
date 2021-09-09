@@ -51,13 +51,14 @@ void TrialStage::set_mobile_physical(const bool physical, System * system) {
 }
 
 void TrialStage::set_rosenbluth_energy_(const int step, System * system) {
+  DEBUG("select " << select_->mobile().str());
+  double energy;
   if (reference_ == -1) {
-    DEBUG("select " << select_->mobile().str());
-    rosenbluth_.set_energy(step, system->perturbed_energy(select_->mobile()));
+    energy = system->perturbed_energy(select_->mobile());
   } else {
-    rosenbluth_.set_energy(step,
-      system->reference_energy(select_->mobile(), reference_));
+    energy = system->reference_energy(select_->mobile(), reference_);
   }
+  rosenbluth_.set_energy(step, energy, select().exclude_energy());
 }
 
 void TrialStage::attempt(System * system,
@@ -70,6 +71,7 @@ void TrialStage::attempt(System * system,
   DEBUG("setting mobile physical: " << select_->mobile().str());
 
   if (rosenbluth_.num() == 1) {
+    select_->zero_exclude_energy();
     perturb_->perturb(system, select_.get(), random, old);
     set_rosenbluth_energy_(0, system);
     rosenbluth_.compute(system->thermo_params().beta(), random, old);
@@ -78,6 +80,7 @@ void TrialStage::attempt(System * system,
       // DEBUG(perturb_->class_name());
       bool is_position_held = false;
       if (step == 0 && old == 1) is_position_held = true;
+      select_->zero_exclude_energy();
       perturb_->perturb(system, select_.get(), random, is_position_held);
       DEBUG("updating state " << select_->mobile().trial_state());
       rosenbluth_.store(step, select_->mobile());

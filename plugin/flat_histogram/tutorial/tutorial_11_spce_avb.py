@@ -81,7 +81,6 @@ def mc(thread, mn, mx):
               mc.add(fst.MakeTrialGrow(fst.ArgsVector(grow),
                                        fst.args({"num_steps": "4", "reference_index": "0"})))
     mc.add(fst.MakeCheckEnergyAndTune(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
-    mc.add(fst.MakeCheckRigidBonds(fst.args({"steps_per": str(steps_per)})))
     mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per), "file_name": "clones" + str(thread)})))
     mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": str(steps_per)})))
     mc.add(fst.MakeCriteriaWriter(fst.args({

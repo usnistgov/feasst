@@ -8,9 +8,13 @@
 #include "monte_carlo/include/perturb_add.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "monte_carlo/include/perturb_anywhere.h"
+#include "monte_carlo/include/perturb_distance.h"
+#include "monte_carlo/include/perturb_distance_angle.h"
+#include "monte_carlo/include/perturb_dihedral.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
+#include "monte_carlo/include/trial_select_dihedral.h"
 #include "cluster/include/select_particle_avb.h"
 #include "cluster/include/perturb_move_avb.h"
 #include "cluster/include/perturb_add_avb.h"
@@ -147,7 +151,7 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
           FATAL("unreocgnized trial_type: " << trial_type);
         }
       } else {
-        bool bond = false, angle = false, branch = false;
+        bool bond = false, angle = false, dihedral = false, branch = false;
         if (used("bond", iargs)) {
           str("bond", &iargs);
           bond = true;
@@ -156,14 +160,19 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
           str("angle", &iargs);
           angle = true;
         }
+        if (used("dihedral", iargs)) {
+          str("dihedral", &iargs);
+          dihedral = true;
+        }
         if (used("branch", iargs)) {
           str("branch", &iargs);
           branch = true;
         }
-        ASSERT((bond && !(angle || branch)) ||
-               (angle && !(bond || branch)) ||
-               (branch && !(bond || angle)), "cannot have two of " <<
-          "bond: " << bond << " angle: " << angle << " branch: " << branch);
+        ASSERT((bond && !(angle || dihedral || branch)) ||
+               (angle && !(bond || dihedral || branch)) ||
+               (dihedral && !(bond || angle || branch)) ||
+               (branch && !(bond || angle || dihedral)), "cannot have two of " <<
+          "bond: " << bond << " angle: " << angle << " dihedral " << dihedral << " branch: " << branch);
         if (bond) {
           select = MakeTrialSelectBond({
             {"particle_type", particle_type},
@@ -177,6 +186,14 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
             {"anchor_site", str("anchor_site", &iargs)},
             {"anchor_site2", str("anchor_site2", &iargs)}});
           perturb = std::make_shared<PerturbDistanceAngle>(&iargs);
+        } else if (dihedral) {
+          select = MakeTrialSelectDihedral({
+            {"particle_type", particle_type},
+            {"mobile_site", str("mobile_site", &iargs)},
+            {"anchor_site", str("anchor_site", &iargs)},
+            {"anchor_site2", str("anchor_site2", &iargs)},
+            {"anchor_site3", str("anchor_site3", &iargs)}});
+          perturb = std::make_shared<PerturbDihedral>(&iargs);
         } else if (branch) {
           select = MakeSelectBranch({
             {"particle_type", particle_type},

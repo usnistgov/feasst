@@ -88,4 +88,10 @@ double MayerSampling::second_virial_ratio() const {
 //  *this = MayerSampling(ss);
 //}
 
+double MayerSampling::second_virial_ratio_block_stdev() const {
+  return std::sqrt(
+    pow(mayer_.block_stdev()/mayer_ref_.average(), 2) +
+    pow(second_virial_ratio()*mayer_ref_.block_stdev()/mayer_ref_.average(), 2));
+}
+
 }  // namespace feasst

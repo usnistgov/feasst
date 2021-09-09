@@ -32,13 +32,11 @@ TEST(Particle, bond) {
     CATCH_PHRASE("not found");
   );
   EXPECT_EQ(0, chain.bond(9, 8).type());
-  const int bond = chain.bond_list()[9][0];
-  EXPECT_EQ(8, chain.bond(bond).site(0));
-  EXPECT_EQ(8, chain.bond_neighbor()[9][0]);
-  EXPECT_EQ(9, chain.bond_neighbor()[8][1]);
-  EXPECT_EQ(7, chain.bond_neighbor()[8][0]);
-  EXPECT_EQ(0, chain.bond_neighbor()[1][0]);
-  EXPECT_EQ(2, chain.bond_neighbor()[1][1]);
+  EXPECT_EQ(8, chain.bond_neighbors(9)[0]);
+  EXPECT_EQ(9, chain.bond_neighbors(8)[1]);
+  EXPECT_EQ(7, chain.bond_neighbors(8)[0]);
+  EXPECT_EQ(0, chain.bond_neighbors(1)[0]);
+  EXPECT_EQ(2, chain.bond_neighbors(1)[1]);
 
   // serialize
   Particle chain2 = test_serialize(chain);
@@ -49,11 +47,9 @@ TEST(Particle, bond) {
 
 TEST(Particle, angle) {
   Particle spce = FileLMP().read("../forcefield/data.spce");
-  TRY(
-    spce.angle(0, 1, 2);
-    CATCH_PHRASE("not found");
-  );
   EXPECT_EQ(0, spce.angle(1, 0, 2).type());
+  EXPECT_EQ(0, spce.angle(1, 2, 0).type());
+  EXPECT_EQ(0, spce.angle(0, 1, 2).type());
   Particle spce2 = test_serialize(spce);
 }
 

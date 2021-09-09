@@ -1,4 +1,5 @@
 # LAMMPS-inspired data file
+# TRAPPE Ethane http://trappe.oit.umn.edu/
 
 2 sites
 1 bonds
@@ -17,16 +18,16 @@ Site Labels
 
 Site Properties
 
-0 sigma 3.675 epsilon 85 cutoff 14
+0 sigma 3.75 epsilon 98 cutoff 14
 
 Sites
 
 0 0  0                    0                    0
-1 0  1.33                 0                    0
+1 0  1.54                 0                    0
 
 Bond Properties
 
-0 length 1.33 delta 0.00001
+0 RigidBond length 1.54 delta 0.00001
 
 Bonds
 

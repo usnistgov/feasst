@@ -13,9 +13,13 @@ namespace feasst {
   not available.
   Select a single angle from two given anchor sites and one mobile site.
   The mobile site is directly bonded to the first anchor site, and the second
-  anchor site is bonded to the first mobile site.
+  anchor site is bonded to the first anchor site.
   The angle is defined as: anchor2 - anchor1 - mobile, where anchor1 is the
   vertex.
+
+  In 2D, angle i-j-k is not the same as angle k-j-i.
+  Thus, TrialSelectAngle sites in the order mobile-anchor-anchor2 must be in the
+  same order as in FileLMP.
  */
 class TrialSelectAngle : public TrialSelectBond {
  public:
@@ -26,8 +30,11 @@ class TrialSelectAngle : public TrialSelectBond {
   explicit TrialSelectAngle(argtype args = argtype());
   explicit TrialSelectAngle(argtype * args);
 
+  /// Return the second anchor site.
+  int anchor_site2() const { return anchor_site2_; }
+
   /// Same as TrialSelectBond, but also add the second anchor site, and add
-  /// angle_type as a property.
+  /// angle_type as an anchor property.
   void precompute(System * system) override;
 
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;

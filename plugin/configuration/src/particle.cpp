@@ -20,13 +20,17 @@ void Particle::check() {
 }
 
 void Particle::remove_non_unique_types() {
-  std::vector<std::string> names = {"site", "bond"};
+  std::vector<std::string> names = {"site", "bond", "angle", "dihedral"};
   for (std::string name : names) {
     int num = -1;
     if (name == "site") {
       num = num_sites();
     } else if (name == "bond") {
       num = num_bonds();
+    } else if (name == "angle") {
+      num = num_angles();
+    } else if (name == "dihedral") {
+      num = num_dihedrals();
     } else {
       ERROR("unrecognized");
     }
@@ -38,6 +42,10 @@ void Particle::remove_non_unique_types() {
         type = sites_[index].type();
       } else if (name == "bond") {
         type = bonds_[index].type();
+      } else if (name == "angle") {
+        type = angles_[index].type();
+      } else if (name == "dihedral") {
+        type = dihedrals_[index].type();
       } else {
         ERROR("unrecognized");
       }
@@ -53,6 +61,10 @@ void Particle::remove_non_unique_types() {
           sites_.erase(sites_.begin()  + index);
         } else if (name == "bond") {
           bonds_.erase(bonds_.begin()  + index);
+        } else if (name == "angle") {
+          angles_.erase(angles_.begin()  + index);
+        } else if (name == "dihedral") {
+          dihedrals_.erase(dihedrals_.begin()  + index);
         }
       }
     }
@@ -96,23 +108,20 @@ void Particle::replace_position(const int site_index,
 //  }
 //}
 
-void Particle::resize_list_(std::vector<std::vector<int> > * list) {
-  if (static_cast<int>(list->size()) < num_sites()) {
-    list->resize(num_sites());
-  }
-}
-
 void Particle::add_bond_(const Bond& bond, const int index,
     std::vector<std::vector<int> > * list) {
-  resize_list_(list);
+  list->resize(num_sites());
   for (const int site : bond.site_indices()) {
     (*list)[site].push_back(index);
   }
 }
 
-void Particle::add_bond_neighbor_(const Bond& bond,
-    std::vector<std::vector<int> > * list) {
-  resize_list_(list);
+void Particle::add_bond(const Bond& bond) {
+  const int bond_index = static_cast<int>(bonds_.size());
+  bonds_.push_back(bond);
+  add_bond_(bond, bond_index, &bond_list_);
+
+  bond_neighbors_.resize(num_sites());
   for (int site1_index = 0;
        site1_index < static_cast<int>(bond.site_indices().size()) - 1;
        ++site1_index) {
@@ -121,31 +130,76 @@ void Particle::add_bond_neighbor_(const Bond& bond,
          site2_index < static_cast<int>(bond.site_indices().size());
          ++site2_index) {
       const int site2 = bond.site_indices()[site2_index];
-      (*list)[site1].push_back(site2);
-      (*list)[site2].push_back(site1);
+      bond_neighbors_[site1].push_back(site2);
+      bond_neighbors_[site2].push_back(site1);
     }
   }
-}
 
-void Particle::add_bond(const Bond& bond) {
-  const int bond_index = static_cast<int>(bonds_.size());
-  bonds_.push_back(bond);
-  add_bond_(bond, bond_index, &bond_list_);
-  add_bond_neighbor_(bond, &bond_neighbor_);
 }
 
 void Particle::add_angle(const Angle& angle) {
   const int angle_index = static_cast<int>(angles_.size());
   angles_.push_back(angle);
   add_bond_(angle, angle_index, &angle_list_);
+
+  // update neighbors
+  angle_neighbors_.resize(num_sites());
+  for (int site1_index = 0;
+       site1_index < static_cast<int>(angle.site_indices().size()) - 2;
+       ++site1_index) {
+    const int site1 = angle.site_indices()[site1_index];
+    for (int site2_index = site1_index + 1;
+         site2_index < static_cast<int>(angle.site_indices().size()) - 1;
+         ++site2_index) {
+      const int site2 = angle.site_indices()[site2_index];
+      for (int site3_index = site2_index + 1;
+           site3_index < static_cast<int>(angle.site_indices().size());
+           ++site3_index) {
+        const int site3 = angle.site_indices()[site3_index];
+        angle_neighbors_[site1].push_back({site2, site3});
+        angle_neighbors_[site3].push_back({site2, site1});
+      }
+    }
+  }
+}
+
+void Particle::add_dihedral(const Dihedral& dihedral) {
+  const int dihedral_index = static_cast<int>(dihedrals_.size());
+  dihedrals_.push_back(dihedral);
+  add_bond_(dihedral, dihedral_index, &dihedral_list_);
+
+  // update neighbors
+  dihedral_neighbors_.resize(num_sites());
+  for (int site1_index = 0;
+       site1_index < static_cast<int>(dihedral.site_indices().size()) - 3;
+       ++site1_index) {
+    const int site1 = dihedral.site_indices()[site1_index];
+    for (int site2_index = site1_index + 1;
+         site2_index < static_cast<int>(dihedral.site_indices().size()) - 2;
+         ++site2_index) {
+      const int site2 = dihedral.site_indices()[site2_index];
+      for (int site3_index = site2_index + 1;
+           site3_index < static_cast<int>(dihedral.site_indices().size()) - 1;
+           ++site3_index) {
+        const int site3 = dihedral.site_indices()[site3_index];
+        for (int site4_index = site3_index + 1;
+             site4_index < static_cast<int>(dihedral.site_indices().size());
+             ++site4_index) {
+          const int site4 = dihedral.site_indices()[site4_index];
+          dihedral_neighbors_[site1].push_back({site2, site3, site4});
+          dihedral_neighbors_[site4].push_back({site3, site2, site1});
+        }
+      }
+    }
+  }
 }
 
 const Bond& Particle::bond(const int site_index1, const int site_index2) const {
   DEBUG("sites " << site_index1 << " " << site_index2);
   for (const int bond_index : bond_list_[site_index1]) {
     const Bond& bond = Particle::bond(bond_index);
-    if ( (site_index1 == bond.site(0) and (site_index2 == bond.site(1))) or
-         (site_index1 == bond.site(1) and (site_index2 == bond.site(0)))) {
+    if ( (site_index1 == bond.site(0) && (site_index2 == bond.site(1))) ||
+         (site_index1 == bond.site(1) && (site_index2 == bond.site(0)))) {
       return bond;
     }
   }
@@ -158,25 +212,45 @@ const Angle& Particle::angle(const int site_index1,
   DEBUG("sites " << site_index1 << " " << site_index2 << " " << site_index3);
   for (const int angle_index : angle_list_[site_index1]) {
     const Angle& angle = Particle::angle(angle_index);
-    if ( ( (site_index1 == angle.site(0)) and
-           (site_index2 == angle.site(1)) and
-           (site_index3 == angle.site(2)) ) or
-         ( (site_index1 == angle.site(2)) and
-           (site_index2 == angle.site(1)) and
-           (site_index3 == angle.site(0)) ) ) {
-      return angle;
+    if (find_in_list(site_index1, angle.site_indices())) {
+      if (find_in_list(site_index2, angle.site_indices())) {
+        if (find_in_list(site_index3, angle.site_indices())) {
+          return angle;
+        }
+      }
     }
   }
-  FATAL("angle between " << site_index1 << " - " << site_index2 << " - " <<
+  FATAL("angle between " << site_index1 << "," << site_index2 << "," <<
     site_index3 << " not found.");
+}
+
+const Dihedral& Particle::dihedral(const int site_index1, const int site_index2,
+    const int site_index3, const int site_index4) const {
+  DEBUG("sites " << site_index1 << " " << site_index2 << " "
+                 << site_index3 << " " << site_index4);
+  for (const int dihedral_index : dihedral_list_[site_index1]) {
+    const Dihedral& dihedral = Particle::dihedral(dihedral_index);
+    if (find_in_list(site_index1, dihedral.site_indices())) {
+      if (find_in_list(site_index2, dihedral.site_indices())) {
+        if (find_in_list(site_index3, dihedral.site_indices())) {
+          if (find_in_list(site_index4, dihedral.site_indices())) {
+            return dihedral;
+          }
+        }
+      }
+    }
+  }
+  FATAL("dihedral between " << site_index1 << " - " << site_index2 << " - " <<
+    site_index3 << " - " << site_index4 << " not found.");
 }
 
 void Particle::erase_bonds() {
   bonds_.clear();
   bond_list_.clear();
-  bond_neighbor_.clear();
+  bond_neighbors_.clear();
   angles_.clear();
   angle_list_.clear();
+  dihedrals_.clear();
 }
 
 int Particle::num_sites_of_type(const int type) const {
@@ -197,7 +271,7 @@ void Particle::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(bonds_, ostr);
   feasst_serialize_fstobj(angles_, ostr);
   feasst_serialize(bond_list_, ostr);
-  feasst_serialize(bond_neighbor_, ostr);
+  feasst_serialize(bond_neighbors_, ostr);
   feasst_serialize(angle_list_, ostr);
 }
 
@@ -210,8 +284,32 @@ Particle::Particle(std::istream& istr)
   feasst_deserialize_fstobj(&bonds_, istr);
   feasst_deserialize_fstobj(&angles_, istr);
   feasst_deserialize(&bond_list_, istr);
-  feasst_deserialize(&bond_neighbor_, istr);
+  feasst_deserialize(&bond_neighbors_, istr);
   feasst_deserialize(&angle_list_, istr);
+}
+
+const std::vector<int>& Particle::bond_neighbors(const int site) const {
+  ASSERT(site < num_sites(), "site:" << site << " > num_sites: " << num_sites());
+  if (site >= static_cast<int>(bond_neighbors_.size())) {
+    return empty_;
+  }
+  return bond_neighbors_[site];
+}
+
+const std::vector<std::vector<int> >& Particle::angle_neighbors(const int site) const {
+  ASSERT(site < num_sites(), "site:" << site << " > num_sites: " << num_sites());
+  if (site >= static_cast<int>(angle_neighbors_.size())) {
+    return empty2d_;
+  }
+  return angle_neighbors_[site];
+}
+
+const std::vector<std::vector<int> >& Particle::dihedral_neighbors(const int site) const {
+  ASSERT(site < num_sites(), "site:" << site << " > num_sites: " << num_sites());
+  if (site >= static_cast<int>(dihedral_neighbors_.size())) {
+    return empty2d_;
+  }
+  return dihedral_neighbors_[site];
 }
 
 }  // namespace feasst

@@ -35,9 +35,9 @@ Sites
 
 Bond Properties
 
-0 maximum_length 7.0 spring_constant 0.0
-1 maximum_length 7.0 spring_constant 0.0
-2 maximum_length 7.0 spring_constant 0.0
+0 BondSquareWell maximum 7.0 minimum 0.0
+1 BondSquareWell maximum 7.0 minimum 0.0
+2 BondSquareWell maximum 7.0 minimum 0.0
 
 Bonds
 

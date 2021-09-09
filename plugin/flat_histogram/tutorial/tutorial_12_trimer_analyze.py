@@ -4,7 +4,7 @@ import pandas as pd
 import feasst as fst
 import pyfeasst
 
-num_procs = 4
+num_procs = 12
 clones = fst.MakeClones('checkpoint', num_procs)
 beta = clones.clone(0).thermo_params().beta()
 volume = clones.clone(0).configuration().domain().volume()

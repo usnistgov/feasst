@@ -5,6 +5,7 @@
 #include <memory>
 #include <iostream>
 #include "monte_carlo/include/perturb_distance_angle.h"
+#include "system/include/rigid_angle.h"
 #include "chain/include/perturb_branch.h"
 
 namespace feasst {
@@ -48,6 +49,9 @@ class PerturbBranch : public PerturbMove {
                      const double x2, const double y2, const double z2,
                      double *x3, double *y3, double *z3, const double c143,
                      const double c243, Random * random) const;
+
+  // temporary
+  RigidAngle angle_;
 };
 
 inline std::shared_ptr<PerturbBranch> MakePerturbBranch(

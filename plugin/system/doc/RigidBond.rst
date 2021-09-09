@@ -1,5 +1,6 @@
-monte_carlo/include/trials
+RigidBond
 =====================================================
 
-.. doxygenfile:: monte_carlo/include/trials.h
+.. doxygenclass:: feasst::RigidBond
    :project: FEASST
+   :members:

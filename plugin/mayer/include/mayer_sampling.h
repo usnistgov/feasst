@@ -36,6 +36,16 @@ class MayerSampling : public Criteria {
   /// to the second virial coefficient of the reference potential.
   double second_virial_ratio() const;
 
+  /**
+    Return the block standard deviation of the second_virial_ratio.
+    This is computed using the error propogation formula variance formula:
+
+    \f$f = mayer/mayer_ref\f$
+
+    \f$\sigma_f = \sqrt{(\sigma_{mayer}/mayer_ref)^2 + (f\sigma_{mayer_ref}/mayer_ref)^2}\f$
+   */
+  double second_virial_ratio_block_stdev() const;
+
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<MayerSampling>(istr); }
   std::shared_ptr<Criteria> create(argtype * args) const override {

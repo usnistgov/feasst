@@ -10,14 +10,14 @@ Site Properties
 
 0 sigma 1.0 epsilon 1.0 cutoff 3.0
 
-Bond Properties
-
-0 length 1.0 delta 0.000001
-
 Sites
 
 0 0 -0.5 0.0 0.0
 1 0 0.5 0.0 0.0
+
+Bond Properties
+
+0 RigidBond length 1.0 delta 0.000001
 
 Bonds
 

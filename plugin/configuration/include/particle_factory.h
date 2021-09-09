@@ -45,7 +45,7 @@ class ParticleFactory {
   ParticleFactory& unique_types();
 
   /**
-    Check that no site, particle, bond or angle type is skipped.
+    Check that no site, particle, bond, angle or dihedral type is skipped.
     As particles and sites are added, a never before seen type must be only
     one higher than the previous maximum index.
     Types begin with 0.
@@ -59,9 +59,10 @@ class ParticleFactory {
     Note: for partial configurations by groups, these checks may not apply.
    */
   void check_types(int * num_site_types, int * num_particle_types,
-                   int * num_bond_types, int * num_angle_types) const;
+                   int * num_bond_types, int * num_angle_types,
+                   int * num_dihedral_types) const;
 
-  /// Check that no site, particle, bond or angle type is skipped.
+  /// Check that no site, particle, bond, angle or dihedral type is skipped.
   void check_types() const;
 
   /// Check that no site type is skipped. Return number of site types.
@@ -75,6 +76,9 @@ class ParticleFactory {
 
   /// Check that no angle type is skipped. Return number of angle types.
   int check_angle_types() const;
+
+  /// Check that no dihedral type is skipped. Return number of dihedral types.
+  int check_dihedral_types() const;
 
   /// Add particle by file.
   void add(const std::string file_name);
@@ -139,6 +143,12 @@ class ParticleFactory {
 
   /// Return the number of angles.
   int num_angles() const;
+
+  /// Return the number of dihedral types.
+  int num_dihedral_types() const { return check_dihedral_types(); }
+
+  /// Return the number of dihedrals.
+  int num_dihedrals() const;
 
   /// Change the site type of a given site in a particle.
   void set_site_type(const int particle,

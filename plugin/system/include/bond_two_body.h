@@ -10,12 +10,16 @@
 
 namespace feasst {
 
+class Random;
+
 class BondTwoBody {
  public:
   BondTwoBody() {}
-  virtual double energy(
-      const Position& relative,
-      const Bond& bond) const = 0;
+  virtual double energy(const Position& ri, const Position& rj,
+    const Bond& bond) const;
+  virtual double energy(const double distance, const Bond& bond) const = 0;
+  virtual double random_distance(const Bond& bond, const double beta,
+    const int dimen, Random * random) const = 0;
 
   // serialize
   std::string class_name() const { return class_name_; }

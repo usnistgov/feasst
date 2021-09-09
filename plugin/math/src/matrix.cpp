@@ -111,15 +111,17 @@ void Matrix::invert() {
 
 void RotationMatrix::check() const {
   Matrix::check();
-  ASSERT(matrix().size() == matrix()[0].size(), "not square");
-  ASSERT(std::abs(determinant() - 1.) < 10*NEAR_ZERO, "not unit determinant("
+  ASSERT(matrix().size() == matrix()[0].size(), str() << "not square");
+  ASSERT(std::abs(determinant() - 1.) < 10*NEAR_ZERO, str() << "not unit determinant("
     << determinant() << ")");
 }
 
 RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
     const double degree_angle) {
   Position unit_axis = axis;
-  unit_axis.normalize();
+  if (unit_axis.size() != 2) {
+    unit_axis.normalize();
+  }
   set_size(unit_axis.size(), unit_axis.size());
   axis_angle_opt(unit_axis, degree_angle);
   check();

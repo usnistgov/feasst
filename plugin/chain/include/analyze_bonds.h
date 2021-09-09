@@ -5,6 +5,8 @@
 #include <vector>
 #include "math/include/accumulator.h"
 #include "math/include/histogram.h"
+#include "system/include/rigid_angle.h"
+#include "system/include/rigid_dihedral.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
@@ -16,9 +18,14 @@ class AnalyzeBonds : public AnalyzeUpdateOnly {
  public:
   /**
     args:
+    - bond_bin_width: bin width for bond histogram (default: 1).
+    - bond_bin_center: center of first bin in bond histogram (default: 0).
     - angle_bin_width: bin width for angle histogram in units of degrees.
       (default: 1).
-    - bond_bin_width: bin width for bond histogram (default: 1).
+    - angle_bin_center: center of first bin in angle histogram (default: 0).
+    - dihedral_bin_width: bin width for dihedral histogram in units of degrees.
+      (default: 1).
+    - dihedral_bin_center: center of first bin in dihedral histogram (default: 0).
    */
   AnalyzeBonds(argtype args = argtype());
 
@@ -35,12 +42,19 @@ class AnalyzeBonds : public AnalyzeUpdateOnly {
   /// Return the average angle in degrees.
   const Accumulator& angle(const int type) const { return angle_[type]; }
 
+  /// Return the average dihedral in degrees.
+  const Accumulator& dihedral(const int type) const { return dihedral_[type]; }
+
   /// Return the histogram of bond in degrees.
   const Histogram& bond_hist(const int type) const { return bond_hist_[type]; }
 
   /// Return the histogram of angle in degrees.
   const Histogram& angle_hist(const int type) const {
     return angle_hist_[type]; }
+
+  /// Return the histogram of dihedral in degrees.
+  const Histogram& dihedral_hist(const int type) const {
+    return dihedral_hist_[type]; }
 
   std::string class_name() const override { return std::string("AnalyzeBonds"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
@@ -49,8 +63,12 @@ class AnalyzeBonds : public AnalyzeUpdateOnly {
   explicit AnalyzeBonds(std::istream& istr);
 
  private:
-  std::vector<Accumulator> bond_, angle_;
-  std::vector<Histogram> bond_hist_, angle_hist_;
+  std::vector<Accumulator> bond_, angle_, dihedral_;
+  std::vector<Histogram> bond_hist_, angle_hist_, dihedral_hist_;
+
+  // temporary and not serialized
+  RigidAngle angle_calc_;
+  RigidDihedral dihedral_calc_;
 };
 
 inline std::shared_ptr<AnalyzeBonds> MakeAnalyzeBonds(

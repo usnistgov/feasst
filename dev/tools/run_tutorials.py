@@ -12,6 +12,8 @@ def run_file(filename):
                 pyfeasst.bash_command("jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout=10000 --execute " + str(filename))
                 pyfeasst.bash_command("grep \"FAILED (fa\" " + str(filename) +" >> tutorial_failures.txt")
                 pyfeasst.bash_command("grep \"Error\" " + str(filename) +" >> tutorial_failures.txt")
+                pyfeasst.bash_command("grep \"ERROR\" " + str(filename) +" >> tutorial_failures.txt")
+                pyfeasst.bash_command("grep \"feasst::CustomException\" " + str(filename) +" >> tutorial_failures.txt")
 
 #for filename in Path(feasst.install_dir()).rglob('*.ipynb'): run_file(filename)
 pool = multiprocessing.Pool(4)

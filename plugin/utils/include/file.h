@@ -15,9 +15,6 @@ void skip_characters(const char comment, std::ifstream &file);
 bool find(const char* search_string, std::ifstream &file);
 bool find(const std::string search_string, std::ifstream &file);
 
-/// Same as find except terminate if search_string is not found.
-void find_or_fail(const char* search_string, std::ifstream &file);
-
 /// Return true if file exists.
 bool file_exists(const std::string& file_name);
 

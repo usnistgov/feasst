@@ -8,6 +8,7 @@
 #include "system/include/potential_factory.h"
 #include "system/include/thermo_params.h"
 #include "system/include/neighbor_criteria.h"
+#include "system/include/bond_visitor.h"
 
 namespace feasst {
 
@@ -233,6 +234,7 @@ class System {
 
  private:
   std::vector<Configuration> configurations_;
+  BondVisitor bonds_;
   // HWH should each config have its own set of the three potential factories?
   PotentialFactory unoptimized_;
   PotentialFactory optimized_;

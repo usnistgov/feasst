@@ -13,7 +13,7 @@ class ModelLJShapeEnergyAtCutoff;
 /**
   Note that the input shape of this model represents the shape of the cavity.
 
-  \f$U_{LJ}(r) = \epsilon \left( \frac{\sigma}{r} \right)^\alpha\f$
+  \f$U_{LJ}(r) = \epsilon \left( \frac{\sigma}{r + \Delta} \right)^\alpha\f$
 
   \f$U_{LJ}^{CS}(r) = \left\{
     \begin{array}{lr}
@@ -34,7 +34,8 @@ class ModelLJShape : public ModelOneBody,
 
   /**
     args:
-    - alpha: set the exponent (default: 3).
+    - alpha: set the exponent (default: 3.).
+    - delta: set the delta parameter (default: 0.).
     - disable_shift: disable shifting of the potential to zero (default: false).
    */
   ModelLJShape(
@@ -64,6 +65,7 @@ class ModelLJShape : public ModelOneBody,
 
  private:
   double alpha_;
+  double delta_;
   bool disable_shift_;
   std::shared_ptr<ModelLJShapeEnergyAtCutoff> shift_;
 };

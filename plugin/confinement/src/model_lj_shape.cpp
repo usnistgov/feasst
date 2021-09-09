@@ -25,7 +25,8 @@ ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
 ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
   argtype * args) : ModelOneBody(), ShapedEntity(shape) {
   class_name_ = "ModelLJShape";
-  alpha_ = dble("alpha", args, 3);
+  alpha_ = dble("alpha", args, 3.);
+  delta_ = dble("delta", args, 0.);
   disable_shift_ = boolean("disable_shift", args, false);
   shift_ = std::make_shared<ModelLJShapeEnergyAtCutoff>();
 }
@@ -35,6 +36,7 @@ void ModelLJShape::serialize(std::ostream& ostr) const {
   ShapedEntity::serialize(ostr);
   feasst_serialize_version(1412, ostr);
   feasst_serialize(alpha_, ostr);
+  feasst_serialize(delta_, ostr);
   feasst_serialize(disable_shift_, ostr);
   feasst_serialize_fstdr(shift_, ostr);
 }
@@ -44,6 +46,7 @@ ModelLJShape::ModelLJShape(std::istream& istr)
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 1412, "unrecognized verison: " << version);
   feasst_deserialize(&alpha_, istr);
+  feasst_deserialize(&delta_, istr);
   feasst_deserialize(&disable_shift_, istr);
   // HWH for unknown reasons, this function template does not work
   // feasst_deserialize_fstdr(shift_, istr);
@@ -61,7 +64,7 @@ double ModelLJShape::energy(const double epsilon,
   TRACE("epsilon: " << epsilon);
   TRACE("sigma: " << sigma);
   TRACE("distance: " << distance);
-  return epsilon * std::pow(sigma/distance, alpha_);
+  return epsilon * std::pow(sigma/(distance + delta_), alpha_);
 }
 
 void ModelLJShape::precompute(const ModelParams& existing) {

@@ -156,11 +156,18 @@ class Particle : public PropertiedEntity,
   void add_bond_property(const int bond, const std::string name,
     const double value) { bonds_[bond].add_property(name, value); }
 
+  /// Add bond model.
+  void add_bond_model(const int bond, const std::string model) {
+    bonds_[bond].set_model(model); }
+
   /// Erase all bonds from particle.
   void erase_bonds();
 
   /// Find the bond between the given site indices.
   const Bond& bond(const int site_index1, const int site_index2) const;
+
+  /// List the site indices bonded to the given site.
+  const std::vector<int>& bond_neighbors(const int site) const;
 
   //@}
   /** @name Angles
@@ -184,35 +191,50 @@ class Particle : public PropertiedEntity,
   void add_angle_property(const int angle, const std::string name,
     const double value) { angles_[angle].add_property(name, value); }
 
+  /// Add angle model.
+  void add_angle_model(const int angle, const std::string model) {
+    angles_[angle].set_model(model); }
+
   /// Find the angle between given sites 1-2-3, with 2 as the vertex.
-  const Angle& angle(const int site_index1,
-                     const int site_index2,
+  const Angle& angle(const int site_index1, const int site_index2,
                      const int site_index3) const;
 
-//  //@}
-//  /** @name Dihedrals
-//    Dihedrals between four sites in the particle
-//   */
-//  //@{
-//
-//  /// Return the number of dihedrals.
-//  int num_dihedrals() const { return static_cast<int>(dihedrals_.size()); }
-//
-//  /// Return the dihedral by index.
-//  const Dihedral& dihedral(const int index) const {
-//    return dihedrals_[index]; }
-//
-//  /// Return the dihedrals.
-//  const std::vector<Dihedral> dihedrals() const { return dihedrals_; }
-//
-//  /// Add a dihedral.
-//  void add_dihedral(const Dihedral& dihedral) {
-//    dihedrals_.push_back(dihedral); }
-//
-//  /// Set a dihedral.
-//  void set_dihedral(const int index, const Dihedral& dihedral) {
-//    dihedrals_[index] = dihedral; }
-//
+  /// List the site indices that form angles with the given site.
+  const std::vector<std::vector<int> >& angle_neighbors(const int site) const;
+
+  //@}
+  /** @name Dihedrals
+    Dihedrals between four sites in the particle
+   */
+  //@{
+
+  /// Return the number of dihedrals.
+  int num_dihedrals() const { return static_cast<int>(dihedrals_.size()); }
+
+  /// Return the dihedral by index.
+  const Dihedral& dihedral(const int index) const { return dihedrals_[index]; }
+
+  /// Return the dihedrals.
+  const std::vector<Dihedral> dihedrals() const { return dihedrals_; }
+
+  /// Add a dihedral.
+  void add_dihedral(const Dihedral& dihedral);
+
+  /// Add a property to a bond.
+  void add_dihedral_property(const int dihedral, const std::string name,
+    const double value) { dihedrals_[dihedral].add_property(name, value); }
+
+  /// Add dihedral model.
+  void add_dihedral_model(const int dihedral, const std::string model) {
+    dihedrals_[dihedral].set_model(model); }
+
+  /// Find the dihedral between given sites 1-2-3-4.
+  const Dihedral& dihedral(const int site_index1, const int site_index2,
+                           const int site_index3, const int site_index4) const;
+
+  /// List the site indices that form dihedrals with the given site.
+  const std::vector<std::vector<int> >& dihedral_neighbors(const int site) const;
+
 //  //@}
 //  /** @name Impropers
 //    Impropers between four sites in the particle
@@ -239,12 +261,6 @@ class Particle : public PropertiedEntity,
 
 //  ~Particle() { check(); }
 
-  const std::vector<std::vector<int> >& bond_list() const { return bond_list_; }
-  const std::vector<std::vector<int> >& bond_neighbor() const {
-    return bond_neighbor_; }
-  const std::vector<std::vector<int> >& angle_list() const {
-    return angle_list_; }
-
   // This interface is for optimization and not for typical use
   Site * get_site(const int index) { return &sites_[index]; }
 
@@ -255,22 +271,27 @@ class Particle : public PropertiedEntity,
   std::vector<Site> sites_;
   std::vector<Bond> bonds_;
   std::vector<Angle> angles_;
-//  std::vector<Dihedral> dihedrals_;
+  std::vector<Dihedral> dihedrals_;
 //  std::vector<Improper> impropers_;
 
   // the first dimension is the site index, the second is:
   // bond index
   std::vector<std::vector<int> > bond_list_;
   // the index of the other site
-  std::vector<std::vector<int> > bond_neighbor_;
+  std::vector<std::vector<int> > bond_neighbors_;
   // angle index
   std::vector<std::vector<int> > angle_list_;
+  std::vector<std::vector<std::vector<int> > > angle_neighbors_;
+  // dihedral index
+  std::vector<std::vector<int> > dihedral_list_;
+  std::vector<std::vector<std::vector<int> > > dihedral_neighbors_;
 
-  void resize_list_(std::vector<std::vector<int> > * list);
+  // temporary and not serialized
+  std::vector<int> empty_;
+  std::vector<std::vector<int> > empty2d_;
+
   void add_bond_(const Bond& bond, const int index,
     std::vector<std::vector<int> > * list);
-  void add_bond_neighbor_(const Bond& bond,
-                          std::vector<std::vector<int> > * list);
 };
 
 }  // namespace feasst

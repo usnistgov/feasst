@@ -33,7 +33,7 @@ class TrialSelect {
   int particle_type() const;
 
   /// Perform upkeep before select.
-  void before_select() { mobile_.reset_excluded_and_bond(); }
+  void before_select();
 
   /// Perform the selection as implemented in the derived class.
   /// Return false if the selection cannot be made. Otherwise, return true.
@@ -130,6 +130,11 @@ class TrialSelect {
   void add_or_set_property(const std::string name, const double value) {
     properties_.add_or_set(name, value); }
 
+  // HWH hackish interface to exclude bond energies from lnpmet
+  void zero_exclude_energy() { exclude_energy_ = 0.; }
+  void add_exclude_energy(const double energy);
+  double exclude_energy() const { return exclude_energy_; }
+
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<TrialSelect> create(std::istream& istr) const;
@@ -160,6 +165,7 @@ class TrialSelect {
   // not checkpointed
   double probability_;
   Select empty_;
+  double exclude_energy_;
 };
 
 }  // namespace feasst

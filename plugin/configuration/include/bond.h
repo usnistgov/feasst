@@ -30,6 +30,12 @@ class Bond : public PropertiedEntity, public TypedEntity {
   /// Add site index.
   void add_site_index(const int index) { site_indicies_.push_back(index); }
 
+  /// Set the bond model.
+  void set_model(const std::string model) { model_ = model; }
+
+  /// Return the bond model.
+  std::string model() const { return model_; }
+
   std::string class_name() { return class_name_; }
 
   void serialize(std::ostream& ostr) const;
@@ -41,6 +47,7 @@ class Bond : public PropertiedEntity, public TypedEntity {
 
  private:
   std::vector<int> site_indicies_;
+  std::string model_;
 };
 
 /**

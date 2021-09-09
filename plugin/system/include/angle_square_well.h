@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CONFIGURATION_ANGLE_SQUARE_WELL_H_
-#define FEASST_CONFIGURATION_ANGLE_SQUARE_WELL_H_
+#ifndef FEASST_SYSTEM_ANGLE_SQUARE_WELL_H_
+#define FEASST_SYSTEM_ANGLE_SQUARE_WELL_H_
 
 #include <memory>
 #include "system/include/bond_three_body.h"
@@ -8,16 +8,15 @@
 namespace feasst {
 
 /**
-  U(theta) = 0 when |theta-theta0| < delta/2, otherwise infinity.
-  where theta is in degrees
+  U(angle) = 0 when the angle is between the minimum and maximum specified in
+  AngleProperties, otherwise infinity.
  */
 class AngleSquareWell : public BondThreeBody {
  public:
-  explicit AngleSquareWell(const argtype& args = argtype()) {}
-  double energy(
-      const Position& relative01,
-      const Position& relative21,
-      const Angle& angle) const override;
+  AngleSquareWell() {}
+  double energy(const double radians, const Bond& angle) const override;
+  double random_angle_radians(const Angle& angle, const double beta,
+    const int dimension, Random * random) const override;
   std::shared_ptr<BondThreeBody> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit AngleSquareWell(std::istream& istr);
@@ -27,11 +26,10 @@ class AngleSquareWell : public BondThreeBody {
   void serialize_angle_square_well_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<AngleSquareWell> MakeAngleSquareWell(
-    const argtype &args = argtype()) {
-  return std::make_shared<AngleSquareWell>(args);
+inline std::shared_ptr<AngleSquareWell> MakeAngleSquareWell() {
+  return std::make_shared<AngleSquareWell>();
 }
 
 }  // namespace feasst
 
-#endif  // FEASST_CONFIGURATION_ANGLE_SQUARE_WELL_H_
+#endif  // FEASST_SYSTEM_ANGLE_SQUARE_WELL_H_

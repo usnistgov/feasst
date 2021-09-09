@@ -1,6 +1,9 @@
 
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
+#include "math/include/utils_math.h"
+#include "math/include/random.h"
+#include "math/include/constants.h"
 #include "system/include/bond_three_body.h"
 
 namespace feasst {
@@ -32,6 +35,69 @@ BondThreeBody::BondThreeBody(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(943 == version, "mismatch version: " << version);
+}
+
+double BondThreeBody::energy(const Position& ri, const Position& rj,
+    const Position& rk, const Bond& angle) const {
+  return energy(rj.vertex_angle_radians(ri, rk), angle);
+}
+
+double BondThreeBody::random_angle_radians(const Angle& angle,
+    const double beta, const int dimension, Random * random) const {
+  ASSERT(dimension == 2 || dimension == 3,
+    "unrecognized dimension: " << dimension);
+  double min_rad = 0.;
+  if (angle.has_property("minimum_degrees")) {
+    min_rad = degrees_to_radians(angle.property("minimum_degrees"));
+  }
+  int attempt = 0;
+  while (attempt < 1e6) {
+    const double radians = min_rad + (PI - min_rad)*random->uniform();
+    const double en = energy(radians, angle);
+    double jacobian = 1.;
+    if (dimension == 3) jacobian = std::sin(radians);
+    if (random->uniform() < jacobian*std::exp(-beta*en)) {
+      return radians;
+    }
+    ++attempt;
+  }
+  FATAL("max attempts reached");
+}
+
+void BondThreeBody::random_branch(
+    const Angle& a2a1m1,
+    const Angle& a2a1m2,
+    const Angle& m1a1m2,
+    const double beta,
+    double * radians_a2a1m1,
+    double * radians_a2a1m2,
+    double * radians_m1a1m2,
+    Random * random) const {
+  ASSERT(a2a1m1.model() == a2a1m2.model() &&
+         a2a1m1.model() == m1a1m2.model(), "Branch model mismatch: "
+    << a2a1m1.model() << " " << a2a1m2.model() << " " << m1a1m2.model());
+  const int dimen = 3;
+  Position unit_m1(dimen), unit_m2(dimen);
+  bool accept = false;
+  int attempt = 0;
+  while (!accept) {
+    random->unit_sphere_surface(&unit_m1);
+    random->unit_sphere_surface(&unit_m2);
+    const double tm1 = std::acos(unit_m1.coord(0));
+    const double tm2 = std::acos(unit_m2.coord(0));
+    const double tm12 = std::acos(unit_m1.dot_product(unit_m2));
+    if (random->uniform() < std::exp(-beta*(
+        energy(tm1, a2a1m1) +
+        energy(tm2, a2a1m2) +
+        energy(tm12, m1a1m2)))) {
+      accept = true;
+      *radians_a2a1m1 = tm1;
+      *radians_a2a1m2 = tm2;
+      *radians_m1a1m2 = tm12;
+    }
+    ++attempt;
+    if (attempt == 1e6) FATAL("max attempts reached");
+  }
 }
 
 }  // namespace feasst

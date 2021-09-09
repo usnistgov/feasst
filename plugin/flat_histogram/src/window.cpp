@@ -41,6 +41,17 @@ std::vector<std::vector<int> > Window::boundaries() const {
     }
     windows[index][1] = round(seg[index + 1]);
   }
+
+  // check that windows are large enough.
+  for (const std::vector<int> win : windows) {
+    ASSERT(win[1] - win[0] > 2*extra_overlap(),
+      "Windows are assumed to only overlap with the nearest neighbor, " <<
+      "but the chosen settings have windows from two or more away " <<
+      "overlapping as well. " <<
+      "Try changing the input arguments, such as decreasing num, " <<
+      "increasing maximum, decreasing minimum, or decreasing extra_overlap. " <<
+      "First window of issue: " << feasst_str(win));
+  }
   return windows;
 }
 

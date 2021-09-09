@@ -190,63 +190,63 @@ TEST(Random, standard_normal) {
   }
 }
 
-TEST(Random, bond_length) {
-  for (std::shared_ptr<Random> random : gens) {
-    random->seed_by_time();
-    double spring_constant = 100.;
-    const double equilibrum_length = 3.;
-    double sum1 = 0., sumsq1 = 0., sum2 = 0., sumsq2 = 0.;
-    const int num = 5e3;
-    const double num_dble = static_cast<double>(num);
-  //  Histogram hist1, hist2;
-  //  hist1.set_width_center(0.01, equilibrum_length);
-  //  hist2.set_width_center(0.01, equilibrum_length);
-    //({{"width", "0.1"}, {"max", "6"}});;
-    for (int i = 0; i < num; ++i) {
-      const double ran1 = random->bond_length(equilibrum_length, 2*equilibrum_length, spring_constant, 2, 3);
-      const double ran2 = random->harmonic_bond_length(equilibrum_length, spring_constant, 3);
-  //    hist1.add(ran1);
-  //    hist2.add(ran2);
-      sum1 += ran1; sumsq1 += ran1*ran1; sum2 += ran2; sumsq2 += ran2*ran2;
-    }
-    const double av1 = sum1/num_dble;
-    const double av2 = sum2/num_dble;
-    const double stdev1 = std::sqrt((sumsq1/num_dble-av1*av1));
-    const double stdev2 = std::sqrt((sumsq2/num_dble-av2*av2));
-    const double stdev_exp = 1./std::sqrt(2*spring_constant);
-    EXPECT_NEAR(av1, equilibrum_length, 8e-2);
-    EXPECT_NEAR(av2, equilibrum_length, 8e-2);
-    EXPECT_NEAR(stdev1, stdev_exp, 5e-2);
-    EXPECT_NEAR(stdev2, stdev_exp, 5e-2);
-  //  for (int bin = 0; bin < hist.size(); ++bin) {
-  //    std::cout << hist.center_of_bin(bin) << " " << hist.histogram()[bin] << std::endl;
-  //  }
-  }
-}
+//TEST(Random, bond_length) {
+//  for (std::shared_ptr<Random> random : gens) {
+//    random->seed_by_time();
+//    double spring_constant = 100.;
+//    const double equilibrum_length = 3.;
+//    double sum1 = 0., sumsq1 = 0., sum2 = 0., sumsq2 = 0.;
+//    const int num = 5e3;
+//    const double num_dble = static_cast<double>(num);
+//  //  Histogram hist1, hist2;
+//  //  hist1.set_width_center(0.01, equilibrum_length);
+//  //  hist2.set_width_center(0.01, equilibrum_length);
+//    //({{"width", "0.1"}, {"max", "6"}});;
+//    for (int i = 0; i < num; ++i) {
+//      const double ran1 = random->bond_length(equilibrum_length, 2*equilibrum_length, spring_constant, 2, 3);
+//      const double ran2 = random->harmonic_bond_length(equilibrum_length, spring_constant, 3);
+//  //    hist1.add(ran1);
+//  //    hist2.add(ran2);
+//      sum1 += ran1; sumsq1 += ran1*ran1; sum2 += ran2; sumsq2 += ran2*ran2;
+//    }
+//    const double av1 = sum1/num_dble;
+//    const double av2 = sum2/num_dble;
+//    const double stdev1 = std::sqrt((sumsq1/num_dble-av1*av1));
+//    const double stdev2 = std::sqrt((sumsq2/num_dble-av2*av2));
+//    const double stdev_exp = 1./std::sqrt(2*spring_constant);
+//    EXPECT_NEAR(av1, equilibrum_length, 8e-2);
+//    EXPECT_NEAR(av2, equilibrum_length, 8e-2);
+//    EXPECT_NEAR(stdev1, stdev_exp, 5e-2);
+//    EXPECT_NEAR(stdev2, stdev_exp, 5e-2);
+//  //  for (int bin = 0; bin < hist.size(); ++bin) {
+//  //    std::cout << hist.center_of_bin(bin) << " " << hist.histogram()[bin] << std::endl;
+//  //  }
+//  }
+//}
 
-TEST(Random, bond_angle) {
-  for (std::shared_ptr<Random> random : gens) {
-    random->seed_by_time();
-    double sum1 = 0., sumsq1 = 0., sum2 = 0., sumsq2 = 0.;
-    const int num = 2e3;
-    const double num_dble = static_cast<double>(num);
-    Position point(3);
-    for (int i = 0; i < num; ++i) {
-      const double ran1 = random->bond_angle(0, 0, 2, 3);
-      random->position_in_spherical_shell(0, 1., &point);
-      const double ran2 = point.spherical().coord(2);
-      sum1 += ran1; sumsq1 += ran1*ran1; sum2 += ran2; sumsq2 += ran2*ran2;
-    }
-    const double av1 = sum1/num_dble;
-    const double av2 = sum2/num_dble;
-    const double stdev1 = std::sqrt((sumsq1/num_dble-av1*av1));
-    const double stdev2 = std::sqrt((sumsq2/num_dble-av2*av2));
-    const double stdev_exp = 0.675;
-    EXPECT_NEAR(av1, PI/2, 8e-2);
-    EXPECT_NEAR(av2, PI/2, 8e-2);
-    EXPECT_NEAR(stdev1, stdev_exp, 5e-2);
-    EXPECT_NEAR(stdev2, stdev_exp, 5e-2);
-  }
-}
+//TEST(Random, bond_angle) {
+//  for (std::shared_ptr<Random> random : gens) {
+//    random->seed_by_time();
+//    double sum1 = 0., sumsq1 = 0., sum2 = 0., sumsq2 = 0.;
+//    const int num = 2e3;
+//    const double num_dble = static_cast<double>(num);
+//    Position point(3);
+//    for (int i = 0; i < num; ++i) {
+//      const double ran1 = random->bond_angle(0, 0, 2, 3);
+//      random->position_in_spherical_shell(0, 1., &point);
+//      const double ran2 = point.spherical().coord(2);
+//      sum1 += ran1; sumsq1 += ran1*ran1; sum2 += ran2; sumsq2 += ran2*ran2;
+//    }
+//    const double av1 = sum1/num_dble;
+//    const double av2 = sum2/num_dble;
+//    const double stdev1 = std::sqrt((sumsq1/num_dble-av1*av1));
+//    const double stdev2 = std::sqrt((sumsq2/num_dble-av2*av2));
+//    const double stdev_exp = 0.675;
+//    EXPECT_NEAR(av1, PI/2, 8e-2);
+//    EXPECT_NEAR(av2, PI/2, 8e-2);
+//    EXPECT_NEAR(stdev1, stdev_exp, 5e-2);
+//    EXPECT_NEAR(stdev2, stdev_exp, 5e-2);
+//  }
+//}
 
 }  // namespace feasst

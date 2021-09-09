@@ -32,6 +32,7 @@ std::shared_ptr<Perturb> PerturbBranch::create(std::istream& istr) const {
 }
 
 void PerturbBranch::precompute(TrialSelect * select, System * system) {
+  ASSERT(system->dimension() == 3, "assumes 3D");
   DEBUG("precomputing a2a1m1");
   a2a1m1_.precompute(select, system);
   DEBUG("precomputing a2a1m2");
@@ -180,61 +181,30 @@ void PerturbBranch::solve_branch_(
 void PerturbBranch::move(System * system,
                          TrialSelect * select,
                          Random * random) {
-  const double beta = system->thermo_params().beta();
-  const bool all_rigid = a2a1m1_.is_rigid() &&
-                         a2a1m2_.is_rigid() &&
-                         m1a1m2_.is_rigid();
-  const bool all_flexible = !a2a1m1_.is_rigid() &&
-                            !a2a1m2_.is_rigid() &&
-                            !m1a1m2_.is_rigid();
-  double theta_a2a1m1 = a2a1m1_.angle();
-  double theta_a2a1m2 = a2a1m2_.angle();
-  double theta_m1a1m2 = m1a1m2_.angle();
-  DEBUG("theta_a2a1m1: " << theta_a2a1m1);
-  DEBUG("theta_a2a1m2: " << theta_a2a1m2);
-  DEBUG("theta_m1a1m2: " << theta_m1a1m2);
-  if (all_flexible) {
-    const int dimen = system->configuration().dimension();
-    Position unit_m1(dimen), unit_m2(dimen);
-    bool accept = false;
-    int attempt = 0;
-    while (!accept) {
-      random->unit_sphere_surface(&unit_m1);
-      random->unit_sphere_surface(&unit_m2);
-      const double tm1 = std::acos(unit_m1.coord(0));
-      const double tm2 = std::acos(unit_m2.coord(0));
-      const double tm12 = std::acos(unit_m1.dot_product(unit_m2));
-      const double dtm1 = radians_to_degrees(tm1 - theta_a2a1m1);
-      const double dtm2 = radians_to_degrees(tm2 - theta_a2a1m2);
-      const double dtm12 = radians_to_degrees(tm12 - theta_m1a1m2);
-      if (random->uniform() < std::exp(-beta*(
-          a2a1m1_.spring_constant()*std::pow(dtm1, 2) +
-          a2a1m2_.spring_constant()*std::pow(dtm2, 2) +
-          m1a1m2_.spring_constant()*std::pow(dtm12, 2)))) {
-        DEBUG("dtm1 " << dtm1 << " dtm2 " << dtm2 << " dtm12 " << dtm12);
-        if (!a2a1m1_.is_freely_jointed() || dtm1 >= 0) {
-        if (!a2a1m2_.is_freely_jointed() || dtm2 >= 0) {
-        if (!m1a1m2_.is_freely_jointed() || dtm12 >= 0) {
-          accept = true;
-          theta_a2a1m1 = tm1;
-          theta_a2a1m2 = tm2;
-          theta_m1a1m2 = tm12;
-        }}}
-      }
-      ++attempt;
-      if (attempt == 1e6) FATAL("max attempts reached");
-    }
-  } else if (!all_rigid) {
-    FATAL("Angles must be either all rigid or all flexible."
-      << "a2a1m1 " << a2a1m1_.is_rigid() << " "
-      << "a2a1m2 " << a2a1m2_.is_rigid() << " "
-      << "m1a1m2 " << m1a1m2_.is_rigid());
-  }
-  const double dimen = system->configuration().dimension();
-  const double la1m1 = a2a1m1_.random_distance(random, beta, dimen);
-  const double la1m2 = a2a1m2_.random_distance(random, beta, dimen);
-  a2a1m1_.place_in_circle(la1m1, theta_a2a1m1, system, select, random);
-  place_in_branch(la1m2, theta_a2a1m2, theta_m1a1m2, system, select, random);
+  const Angle& a2a1m1 = system->configuration().unique_type(
+    select->particle_type()).angle(a2a1m1_.angle_type());
+  const Angle& a2a1m2 = system->configuration().unique_type(
+    select->particle_type()).angle(a2a1m2_.angle_type());
+  const Angle& m1a1m2 = system->configuration().unique_type(
+    select->particle_type()).angle(m1a1m2_.angle_type());
+  double radians_a2a1m1, radians_a2a1m2, radians_m1a1m2;
+  ASSERT(angle_.deserialize_map().count(a2a1m1.model()) == 1,
+    a2a1m1.model() << " not found");
+  const BondThreeBody * model = angle_.deserialize_map()[a2a1m1.model()].get();
+  model->random_branch(
+    a2a1m1, a2a1m2, m1a1m2,
+    system->thermo_params().beta(),
+    &radians_a2a1m1, &radians_a2a1m2, &radians_m1a1m2,
+    random);
+  double bond_energy = 0.;
+  bond_energy += model->energy(radians_a2a1m1, a2a1m1);
+  bond_energy += model->energy(radians_a2a1m2, a2a1m2);
+  bond_energy += model->energy(radians_m1a1m2, m1a1m2);
+  const double la1m1 = a2a1m1_.random_distance(*system, select, random, &bond_energy);
+  const double la1m2 = a2a1m2_.random_distance(*system, select, random, &bond_energy);
+  select->add_exclude_energy(bond_energy);
+  a2a1m1_.place_in_circle(la1m1, radians_a2a1m1, system, select, random);
+  place_in_branch(la1m2, radians_a2a1m2, radians_m1a1m2, system, select, random);
 }
 
 PerturbBranch::PerturbBranch(std::istream& istr)

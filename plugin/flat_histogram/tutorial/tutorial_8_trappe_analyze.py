@@ -5,7 +5,7 @@ import pyfeasst
 num_procs = 12
 clones = fst.MakeClones('checkpoint', num_procs)
 volume = clones.clone(0).configuration().domain().volume()
-beta = clones.clone(0).criteria().beta()
+beta = clones.clone(0).thermo_params().beta()
 gce = pyfeasst.find_equilibrium(fst.GrandCanonicalEnsemble(clones))
 
 # compute saturation pressure

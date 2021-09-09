@@ -3,17 +3,16 @@
 
    SelectSiteOfType
    SelectPerturbed
+   PerturbReptate
    SelectSegment
    SelectEndSegment
    SelectReptate
    SelectBranch
-   PerturbReptate
-   CheckRigidBonds
    AnalyzeBonds
    trials
    trial_grow
+   PerturbBranch
    PerturbPivot
    PerturbCrankshaft
    PerturbSiteType
    TrialGrowLinear
-   PerturbBranch

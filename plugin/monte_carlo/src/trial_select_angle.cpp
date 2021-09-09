@@ -9,6 +9,10 @@ TrialSelectAngle::TrialSelectAngle(argtype args) : TrialSelectAngle(&args) {
 TrialSelectAngle::TrialSelectAngle(argtype * args) : TrialSelectBond(args) {
   class_name_ = "TrialSelectAngle";
   anchor_site2_ = integer("anchor_site2", args);
+  ASSERT(anchor_site2_ != mobile_site(), "the mobile site: " << mobile_site() <<
+    " cannot be the same as the second anchor_site: " << anchor_site2_);
+  ASSERT(anchor_site2_ != anchor_site(), "the first anchor site: " << anchor_site() <<
+    " cannot be the same as the second anchor_site: " << anchor_site2_);
 }
 
 class MapTrialSelectAngle {

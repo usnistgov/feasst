@@ -16,11 +16,16 @@ class MapAnalyzeBonds {
 static MapAnalyzeBonds mapper_ = MapAnalyzeBonds();
 
 AnalyzeBonds::AnalyzeBonds(argtype args) : AnalyzeUpdateOnly(&args) {
-  Histogram bhist, ahist;
-  bhist.set_width_center(dble("bond_bin_width", &args, 1), 0.);
+  Histogram bhist, ahist, dhist;
+  bhist.set_width_center(dble("bond_bin_width", &args, 1),
+                         dble("bond_bin_center", &args, 0.));
   bond_hist_.push_back(bhist);
-  ahist.set_width_center(dble("angle_bin_width", &args, 1), 0.);
+  ahist.set_width_center(dble("angle_bin_width", &args, 1),
+                         dble("angle_bin_center", &args, 0.));
   angle_hist_.push_back(ahist);
+  dhist.set_width_center(dble("dihedral_bin_width", &args, 1),
+                         dble("dihedral_bin_center", &args, 0.));
+  dihedral_hist_.push_back(dhist);
   check_all_used(args);
 }
 
@@ -29,8 +34,10 @@ void AnalyzeBonds::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2390, ostr);
   feasst_serialize_fstobj(bond_, ostr);
   feasst_serialize_fstobj(angle_, ostr);
+  feasst_serialize_fstobj(dihedral_, ostr);
   feasst_serialize_fstobj(bond_hist_, ostr);
   feasst_serialize_fstobj(angle_hist_, ostr);
+  feasst_serialize_fstobj(dihedral_hist_, ostr);
 }
 
 AnalyzeBonds::AnalyzeBonds(std::istream& istr)
@@ -39,8 +46,10 @@ AnalyzeBonds::AnalyzeBonds(std::istream& istr)
   ASSERT(version == 2390, "version mismatch: " << version);
   feasst_deserialize_fstobj(&bond_, istr);
   feasst_deserialize_fstobj(&angle_, istr);
+  feasst_deserialize_fstobj(&dihedral_, istr);
   feasst_deserialize_fstobj(&bond_hist_, istr);
   feasst_deserialize_fstobj(&angle_hist_, istr);
+  feasst_deserialize_fstobj(&dihedral_hist_, istr);
 }
 
 void AnalyzeBonds::initialize(Criteria * criteria,
@@ -55,6 +64,10 @@ void AnalyzeBonds::initialize(Criteria * criteria,
     angle_.push_back(Accumulator());
     if (atype != 0) angle_hist_.push_back(angle_hist_[0]);
   }
+  for (int dtype = 0; dtype < config.num_dihedral_types(); ++dtype) {
+    dihedral_.push_back(Accumulator());
+    if (dtype != 0) dihedral_hist_.push_back(dihedral_hist_[0]);
+  }
 }
 
 void AnalyzeBonds::update(const Criteria& criteria,
@@ -67,26 +80,28 @@ void AnalyzeBonds::update(const Criteria& criteria,
     const Particle& part = config.select_particle(part_index);
     const int part_type = part.type();
     for (const Bond& bond : config.particle_type(part_type).bonds()) {
-      const Position& position0 = part.site(bond.site(0)).position();
-      const Position& position1 = part.site(bond.site(1)).position();
-      Position relative = position0;
-      relative.subtract(position1);
-      const double distance = relative.distance();
+      const Position& ri = part.site(bond.site(0)).position();
+      const Position& rj = part.site(bond.site(1)).position();
+      const double distance = ri.distance(rj);
       bond_[bond.type()].accumulate(distance);
       bond_hist_[bond.type()].add(distance);
     }
     for (const Angle& angle : config.particle_type(part_type).angles()) {
-      const Position& position0 = part.site(angle.site(0)).position();
-      const Position& position1 = part.site(angle.site(1)).position();
-      const Position& position2 = part.site(angle.site(2)).position();
-      Position relative01 = position0;
-      Position relative21 = position2;
-      relative01.subtract(position1);
-      relative21.subtract(position1);
-      const double theta = radians_to_degrees(
-        std::acos(relative01.cosine(relative21)));
+      const Position& ri = part.site(angle.site(0)).position();
+      const Position& rj = part.site(angle.site(1)).position();
+      const Position& rk = part.site(angle.site(2)).position();
+      const double theta = rj.vertex_angle_radians(ri, rk);
       angle_[angle.type()].accumulate(theta);
       angle_hist_[angle.type()].add(theta);
+    }
+    for (const Dihedral& dihedral : config.particle_type(part_type).dihedrals()) {
+      const Position& ri = part.site(dihedral.site(0)).position();
+      const Position& rj = part.site(dihedral.site(1)).position();
+      const Position& rk = part.site(dihedral.site(2)).position();
+      const Position& rl = part.site(dihedral.site(3)).position();
+      const double phi = ri.torsion_angle_radians(rj, rk, rl);
+      dihedral_[dihedral.type()].accumulate(phi);
+      dihedral_hist_[dihedral.type()].add(phi);
     }
   }
 }

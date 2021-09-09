@@ -123,9 +123,10 @@ std::string ModelParam::str() const {
   ss << name() << std::endl;
   for (int type1 = 0; type1 < size(); ++type1) {
     for (int type2 = 0; type2 < size(); ++type2) {
-      ss << type1 << "," << value(type1) << ",";
-      ss << type2 << "," << value(type2) << ",";
-      ss << mixed_value(type1, type2) << std::endl;
+      ss << "type" << type1 << "," << value(type1) << ",";
+      ss << "type" << type2 << "," << value(type2) << ",";
+      ss << "type" << type1 << "-" << type2 << "," << mixed_value(type1, type2)
+         << std::endl;
     }
   }
   return ss.str();

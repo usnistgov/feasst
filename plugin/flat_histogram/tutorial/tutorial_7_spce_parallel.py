@@ -6,22 +6,28 @@ print(fst.version())
 parser = argparse.ArgumentParser()
 parser.add_argument("--task", type=int, help="SLURM job array index", default=0)
 parser.add_argument("--num_procs", type=int, help="number of processors", default=12)
-parser.add_argument("--num_hours", type=float, help="number of hours before restart", default=1.)
+parser.add_argument("--num_hours", type=float, help="number of hours before restart", default=24.)
 parser.add_argument("--dccb_begin", type=int, help="number of molecules before DCCB", default=200)
+parser.add_argument("--molecule", type=str, help="type of particle", default=fst.install_dir() + "/forcefield/data.spce")
+parser.add_argument("--temperature", type=float, help="temperature in Kelvin", default=525)
+parser.add_argument("--max_molecules", type=int, help="maximum number of molecules", default=265)
+parser.add_argument("--cubic_box_length", type=float, help="length of cubic periodic boundary conditions", default=20)
+parser.add_argument("--beta_mu", type=float, help="beta times chemical potential", default=-8.14)
+parser.add_argument("--steps_per", type=int, help="number of MC trials per analysis", default=int(1e5))
 args = parser.parse_args()
 print("args:", args)
 
 def mc(thread, mn, mx):
-    steps_per=int(1e5)
     mc = fst.MakeMonteCarlo()
-    spce_args = {"physical_constants": "CODATA2010", "cubic_box_length": "20",
-        "alphaL": "5.6", "kmax_squared": "38"}
+    #mc.set(fst.MakeRandomMT19937(fst.args({"seed": "123"})))
+    spce_args = {"physical_constants": "CODATA2010", "cubic_box_length": str(args.cubic_box_length),
+        "alphaL": "5.6", "kmax_squared": "38", "particle_type": args.molecule}
     if mx > args.dccb_begin:
         spce_args["dual_cut"] = "3.16555789"
     mc.set(fst.spce(fst.args(spce_args)))
-    beta = 1./fst.kelvin2kJpermol(525, mc.configuration())
+    beta = 1./fst.kelvin2kJpermol(args.temperature, mc.configuration())
     mc.set(fst.MakeThermoParams(fst.args({"beta": str(beta),
-        "chemical_potential": str(-8.14/beta)})))
+        "chemical_potential": str(args.beta_mu/beta)})))
     mc.set(fst.MakeFlatHistogram(
         fst.MakeMacrostateNumParticles(
             fst.Histogram(fst.args({"width": "1", "max": str(mx), "min": str(mn)}))),
@@ -42,18 +48,17 @@ def mc(thread, mn, mx):
             grow[0]["particle_type"] = "0"
             mc.add(fst.MakeTrialGrow(fst.ArgsVector(grow),
                                      fst.args({"reference_index": "0", "num_steps": "4"})))
-        mc.add(fst.MakeCheckRigidBonds(fst.args({"steps_per": str(steps_per)})))
     else:
         mc.add(fst.MakeTrialRotate(fst.args({"weight": "1.", "tunable_param": "1."})))
         mc.add(fst.MakeTrialTransfer(fst.args({"particle_type": "0", "weight": "4"})))
-    mc.add(fst.MakeCheckEnergyAndTune(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
-    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per), "file_name": "clones" + str(thread)})))
-    mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": str(steps_per)})))
+    mc.add(fst.MakeCheckEnergyAndTune(fst.args({"steps_per": str(args.steps_per), "tolerance": "0.0001"})))
+    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(args.steps_per), "file_name": "clones" + str(thread)})))
+    mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": str(args.steps_per)})))
     mc.add(fst.MakeCriteriaWriter(fst.args({
-        "steps_per": str(steps_per),
+        "steps_per": str(args.steps_per),
         "file_name": "clones" + str(thread) + "_crit.txt"})))
     mc.add(fst.MakeEnergy(fst.args({
-        "steps_per_write": str(steps_per),
+        "steps_per_write": str(args.steps_per),
         "file_name": "en" + str(thread),
         "multistate": "true"})))
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(thread) + ".fst",
@@ -63,7 +68,7 @@ def mc(thread, mn, mx):
 windows=fst.WindowExponential(fst.args({
     "alpha": "1.75",
     "num": str(args.num_procs),
-    "maximum": "265",
+    "maximum": str(args.max_molecules),
     "extra_overlap": "2"})).boundaries()
 print(windows)
 

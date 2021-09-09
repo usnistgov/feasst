@@ -66,26 +66,27 @@ TEST(Ewald, system) {
       {"kmax_squared", "27"},
       {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
     system.add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
-    EXPECT_NEAR(-3967.8571557292207, system.energy(), 1e-10);
+    EXPECT_NEAR(-4061.7105206971828, system.energy(), 1e-10);
     EXPECT_NEAR(52.1324574151071, system.potential(0).stored_energy(), 1e-12);
     EXPECT_NEAR(-3819.2497119062596, system.potential(1).stored_energy(), 1e-10);
     EXPECT_NEAR(23363.573774608, system.potential(2).stored_energy(), 1e-10);
     EXPECT_NEAR(-23652.08040365018, system.potential(3).stored_energy(), 1e-12);
     EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
-    EXPECT_NEAR(94.615474949662257, system.potential(5).stored_energy(), 1e-12);
+    EXPECT_NEAR(0.7621099816966812, system.potential(5).stored_energy(), 1e-12);
   }
   {
     System system = spce({{"physical_constants", "CODATA2018"},
       {"kmax_squared", "27"},
       {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
     system.add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
-    EXPECT_NEAR(-3967.8571490184886, system.energy(), 1e-10);
+    EXPECT_EQ(system.potentials().num(), 6);
+    EXPECT_NEAR(-4061.7105138549323, system.energy(), 1e-10);
     EXPECT_NEAR(52.13245734204947, system.potential(0).stored_energy(), 1e-12);
     EXPECT_NEAR(-3819.2497053941993, system.potential(1).stored_energy(), 1e-10);
     EXPECT_NEAR(23363.573741866534, system.potential(2).stored_energy(), 1e-10);
     EXPECT_NEAR(-23652.080370504391, system.potential(3).stored_energy(), 1e-12);
     EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
-    EXPECT_NEAR(94.615474817068844, system.potential(5).stored_energy(), 1e-12);
+    EXPECT_NEAR(0.76210998062866941, system.potential(5).stored_energy(), 1e-12);
   }
 }
 

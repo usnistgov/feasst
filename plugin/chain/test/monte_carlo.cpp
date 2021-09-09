@@ -8,6 +8,7 @@
 #include "system/include/hard_sphere.h"
 #include "system/include/utils.h"
 #include "system/include/visit_model_intra_map.h"
+#include "system/include/dont_visit_model.h"
 #include "models/include/square_well.h"
 #include "models/include/lennard_jones_force_shift.h"
 #include "monte_carlo/include/trial.h"
@@ -16,6 +17,8 @@
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trial_compute_move.h"
+#include "monte_carlo/include/trial_select_dihedral.h"
+#include "monte_carlo/include/perturb_dihedral.h"
 #include "steppers/include/log.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
@@ -31,7 +34,6 @@
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/trial_avb2.h"
 #include "cluster/include/energy_map_neighbor.h"
-#include "chain/include/check_rigid_bonds.h"
 #include "chain/include/trials.h"
 #include "chain/include/trial_grow.h"
 #include "chain/include/trial_grow_linear.h"
@@ -88,16 +90,16 @@ TEST(MonteCarlo, chain) {
     {"steps_per", str(steps_per)},
     {"tolerance", "1e-10"}}));
   mc.add(MakeTune({{"steps_per", str(steps_per)}}));
-  mc.add(MakeCheckRigidBonds({{"steps_per", str(steps_per)}}));
   mc.attempt(3e2);
 
   MonteCarlo mc2 = test_serialize(mc);
-  EXPECT_EQ(mc2.analyzers().size(), 3);
+  EXPECT_EQ(mc2.analyzers().size(), 2);
 }
 
 // HWH this test is known to fail infrequently
 TEST(MonteCarlo, TrialGrow) {
   for (const std::string particle : {"lj", "spce"}) {
+    INFO(particle);
     double box_length = 8.;
     std::string data = "forcefield/data.dimer";
     if (particle == "spce") {
@@ -134,7 +136,6 @@ TEST(MonteCarlo, TrialGrow) {
     EXPECT_EQ(5, mc.trial(0).stage(1).rosenbluth().num());
     mc.add(MakeLogAndMovie({{"steps_per", str(1e0)}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e0)}, {"tolerance", str(1e-9)}}));
-    mc.add(MakeCheckRigidBonds({{"steps_per", str(1e0)}}));
     EXPECT_EQ(3, mc.trials().num());
     EXPECT_TRUE(mc.trial(0).stage(0).trial_select().is_ghost());   // add
     EXPECT_FALSE(mc.trial(1).stage(0).trial_select().is_ghost());  // remove
@@ -192,9 +193,6 @@ MonteCarlo cg7mab2(const std::string& data, const int num, const int steps_per =
   }
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/" + data}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-9)}}));
-  if (!is_found_in(data, "flex")) {
-    mc.add(MakeCheckRigidBonds({{"steps_per", str(steps_per)}}));
-  }
   return mc;
 }
 
@@ -222,12 +220,23 @@ TEST(MonteCarlo, cg7mab2_LONG) {
   }
 }
 
+TEST(System, Angles2D) {
+  MonteCarlo mc;
+  mc.add(MakeConfiguration({{"side_length0", "6"}, {"side_length1", "6"},
+    {"particle_type", "../plugin/chain/forcefield/data.heterotrimer2d"},
+    {"add_particles_of_type0", "1"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.set(MakeThermoParams({{"beta", "1"}}));
+  mc.set(MakeMetropolis());
+  INFO(mc.criteria().current_energy());
+}
+
 MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration(MakeDomain({{"side_length0", "6"}, {"side_length1", "6"}}),
-    {{"particle_type", "../plugin/chain/forcefield/data.heterotrimer2d"}}));
+  mc.add(MakeConfiguration({{"side_length0", "6"}, {"side_length1", "6"},
+    {"particle_type", "../plugin/chain/forcefield/data.heterotrimer2d"}}));
   EXPECT_EQ(2, mc.configuration().dimension());
   mc.add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
@@ -353,18 +362,20 @@ void add_cg4_potential(MonteCarlo * mc, double eps_fc, double eps_fab) {
     pot->set(params);
     mc->add(pot);
   }
-  // reference is HardSphere on center with diameter 10
-  ModelParams params = mc->configuration().model_params();
-  for (const std::string parm : {"cutoff", "sigma"}) {
-    for (const int center : {0, 4}) params.set(parm, center, 10.);
-    for (const int branch : {1, 2, 3, 5, 6, 7}) params.set(parm, branch, 0.);
-  }
-  INFO(params.epsilon().str());
-  INFO(params.sigma().str());
-  INFO(params.cutoff().str());
-  auto ref = MakePotential(MakeHardSphere());
-  ref->set(params);
-  mc->add_to_reference(ref);
+  // reference is HardSphere on all sites.
+  mc->add_to_reference(MakePotential(MakeHardSphere()));
+//  // reference is HardSphere on center with diameter 10
+//  ModelParams params = mc->configuration().model_params();
+//  for (const std::string parm : {"cutoff", "sigma"}) {
+//    for (const int center : {0, 4}) params.set(parm, center, 10.);
+//    for (const int branch : {1, 2, 3, 5, 6, 7}) params.set(parm, branch, 0.);
+//  }
+//  INFO(params.epsilon().str());
+//  INFO(params.sigma().str());
+//  INFO(params.cutoff().str());
+//  auto ref = MakePotential(MakeHardSphere());
+//  ref->set(params);
+//  mc->add_to_reference(ref);
 }
 
 TEST(MonteCarlo, cg4_flexible_LONG) {
@@ -411,7 +422,7 @@ TEST(MonteCarlo, cg4_flexible_LONG) {
     EXPECT_NE(0, bonds->bond_hist(type-1).histogram()[bin + 1]);
     bin = bonds->bond_hist(type-1).size() - 1;
     EXPECT_NEAR(0.5, bonds->bond_hist(type-1).histogram()[bin]/
-                     bonds->bond_hist(type-1).histogram()[bin - 1], 0.05);
+                     bonds->bond_hist(type-1).histogram()[bin - 1], 0.1);
   }
 }
 
@@ -420,18 +431,17 @@ TEST(MayerSampling, b2_cg4_flexible_LONG) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1629905961"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration({
-    {"cubic_box_length", str(NEAR_INFINITY)},
-    {"particle_type0", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex"},
-    {"particle_type1", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex_duplicate"},
-    {"add_particles_of_type0", "1"},
-    {"add_particles_of_type1", "1"},
-  }));
+  auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)},
+    {"particle_type0", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex"}});
+  config->add_particle_type(install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex", "2");
+  config->add_particle_of_type(0);
+  config->add_particle_of_type(1);
+  mc.add(config);
   EXPECT_EQ(2, mc.configuration().num_particles());
   EXPECT_EQ(1, mc.configuration().num_particles_of_type(0));
   add_cg4_potential(&mc, 1, 1);
-  const double temperature = 0.4688;
-  //const double temperature = 0.5309;
+  //const double temperature = 0.4688;
+  const double temperature = 0.5309;
   //const double temperature = 0.7092;
   //add_cg4_potential(&mc, 1, 0);
   //const double temperature = 0.2097;
@@ -467,7 +477,9 @@ TEST(MayerSampling, b2_cg4_flexible_LONG) {
   mc.attempt(1e7);
   INFO("mayer: " << mayer->mayer().str());
   INFO("mayer_ref: " << mayer->mayer_ref().str());
-  EXPECT_NEAR(100, mayer->second_virial_ratio(), 0.15);
+  INFO("b22 " << mayer->second_virial_ratio()
+    << " +/- " << mayer->second_virial_ratio_block_stdev());
+  EXPECT_NEAR(0, mayer->second_virial_ratio(), 8*mayer->second_virial_ratio_block_stdev());
 //  INFO(bonds->bond_hist(0).str());
 }
 
@@ -519,15 +531,217 @@ TEST(MayerSampling, trimer_grow_LONG) {
   }
   const std::string steps_per = "1e4";
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/trib"}}));
-  mc.add(MakeCheckEnergy({{"steps_per", steps_per}}));
-  mc.add(MakeCheckRigidBonds({{"steps_per", steps_per}}));
+  mc.add(MakeCheckEnergy({{"steps_per", steps_per}, {"tolerance", "1e-4"}}));
   mc.attempt(1e6);
   double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().sigma().value(0), 3); // A^3
-  INFO(mayer->second_virial_ratio());
   INFO(b2hs*mayer->second_virial_ratio());
   INFO("mayer: " << mayer->mayer().str());
   INFO("mayer_ref: " << mayer->mayer_ref().str());
+  INFO("b22 " << mayer->second_virial_ratio()
+    << " +/- " << mayer->second_virial_ratio_block_stdev());
   EXPECT_NEAR(0, mayer->mayer().average(), 4*mayer->mayer().block_stdev());
+}
+
+TEST(MonteCarlo, RigidBondAngleDihedral) {
+  for (const std::string data : {
+    "../forcefield/data.dimer",
+    "../forcefield/data.trimer_0.4L",
+    "../plugin/chain/test/data/data.tetramer_rigid",
+    }) {
+    INFO(data);
+    System system;
+    system.add(*MakeConfiguration({
+      {"cubic_box_length", "10"},
+      {"particle_type", data},
+      {"add_particles_of_type0", "1"}}));
+    system.set(MakeThermoParams({{"beta", "1"}}));
+    system.precompute();
+    auto random = MakeRandomMT19937();
+    BondVisitor vis;
+
+    std::shared_ptr<TrialSelect> select;
+    std::shared_ptr<Perturb> perturb;
+    if (data == "../forcefield/data.dimer") {
+      select = MakeTrialSelectBond({{"particle_type", "0"}, {"mobile_site", "1"},
+        {"anchor_site", "0"}});
+      perturb = MakePerturbDistance();
+    } else if (data == "../forcefield/data.trimer_0.4L") {
+      select = MakeTrialSelectAngle({{"particle_type", "0"}, {"mobile_site", "2"},
+        {"anchor_site", "0"}, {"anchor_site2", "1"}});
+      perturb = MakePerturbDistanceAngle();
+    } else if (data == "../plugin/chain/test/data/data.tetramer_rigid") {
+      select = MakeTrialSelectDihedral({{"particle_type", "0"}, {"mobile_site", "3"},
+        {"anchor_site", "2"}, {"anchor_site2", "1"}, {"anchor_site3", "0"}});
+      perturb = MakePerturbDihedral();
+    } else {
+      FATAL("unrecognized " << data);
+    }
+    select->precompute(&system);
+    select->sel(&system, random.get());
+    perturb->precompute(select.get(), &system);
+    perturb->perturb(&system, select.get(), random.get());
+    perturb->finalize(&system);
+    FileXYZ().write_for_vmd("tmp/rigid.xyz", system.configuration());
+    vis.compute_all(system.configuration());
+    EXPECT_EQ(0, vis.energy());
+  }
+}
+
+TEST(MonteCarlo, equipartition_LONG) {
+  for (const std::string data : {
+    "dimer_harmonic",
+    "trimer_rigid_angle",
+    "trimer_harmonic",
+    "tetramer_harmonic_no_dihedral",
+    "tetramer_harmonic_rigid_bond_angle",
+    "tetramer_rigid",
+    "tetramer_harmonic",
+    "tetramer_branched",
+    "pentamer_harmonic",
+    }) {
+    //for (const std::string num_steps : {"1"}) {
+    for (const std::string num_steps : {"1", "4"}) {
+      std::string ref = "-1";
+      if (num_steps == "4") ref = "0";
+      INFO("data " << data << " num_steps " << num_steps << " ref " << ref);
+      MonteCarlo mc;
+      //mc.set(MakeRandomMT19937({{"seed", "123"}}));
+      mc.add(MakeConfiguration({
+        {"particle_type0", "../plugin/chain/test/data/data." + data},
+        {"add_particles_of_type0", "1"},
+        {"cubic_box_length", "10"}}));
+      mc.add(MakePotential(MakeDontVisitModel()));
+      mc.add_to_reference(MakePotential(MakeDontVisitModel()));
+      mc.set(MakeThermoParams({{"beta", "1"}}));
+      mc.set(MakeMetropolis());
+      DEBUG("initial energy " << mc.criteria().current_energy());
+      if (data == "dimer_harmonic") {
+        mc.add(MakeTrialGrow({
+          {{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+        }, {{"num_steps", num_steps}, {"reference_index", ref}}));
+      } else if (data == "trimer_rigid_angle" || data == "trimer_harmonic") {
+        mc.add(MakeTrialGrow({
+          {{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+          {{"angle", "1"}, {"mobile_site", "2"}, {"anchor_site", "1"}, {"anchor_site2", "0"}},
+        }, {{"num_steps", num_steps}, {"reference_index", ref}}));
+      } else if (data == "tetramer_harmonic_no_dihedral") {
+        mc.add(MakeTrialGrow({
+          {{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+          {{"angle", "1"}, {"mobile_site", "2"}, {"anchor_site", "1"}, {"anchor_site2", "0"}},
+          {{"angle", "1"}, {"mobile_site", "3"}, {"anchor_site", "2"}, {"anchor_site2", "1"}},
+        }, {{"num_steps", num_steps}, {"reference_index", ref}}));
+      } else if (data == "tetramer_harmonic" ||
+                 data == "tetramer_harmonic_rigid_bond_angle" ||
+                 data == "tetramer_rigid") {
+        mc.add(MakeTrialGrow({
+          {{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+          {{"angle", "1"}, {"mobile_site", "2"}, {"anchor_site", "1"}, {"anchor_site2", "0"}},
+          {{"dihedral", "1"}, {"mobile_site", "3"}, {"anchor_site", "2"}, {"anchor_site2", "1"}, {"anchor_site3", "0"}},
+        }, {{"num_steps", num_steps}, {"reference_index", ref}}));
+      } else if (data == "tetramer_branched") {
+        mc.add(MakeTrialGrow({
+          {{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+          {{"branch", "1"}, {"mobile_site", "2"}, {"mobile_site2", "3"}, {"anchor_site", "0"}, {"anchor_site2", "1"}},
+        }, {{"num_steps", num_steps}, {"reference_index", ref}}));
+      } else if (data == "pentamer_harmonic") {
+        mc.add(MakeTrialGrow({
+          {{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+          {{"angle", "1"}, {"mobile_site", "2"}, {"anchor_site", "1"}, {"anchor_site2", "0"}},
+          {{"dihedral", "1"}, {"mobile_site", "3"}, {"anchor_site", "2"}, {"anchor_site2", "1"}, {"anchor_site3", "0"}},
+          {{"dihedral", "1"}, {"mobile_site", "4"}, {"anchor_site", "3"}, {"anchor_site2", "2"}, {"anchor_site3", "1"}},
+        }, {{"num_steps", num_steps}, {"reference_index", ref}}));
+      }
+      //const std::string steps_per = "1";
+      const std::string steps_per = "1e3";
+      mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/harmonic"}}));
+      mc.add(MakeCheckEnergy({{"steps_per", steps_per}}));
+      auto en = MakeEnergy({{"steps_per_write", steps_per}});
+      mc.add(en);
+      auto bonds = MakeAnalyzeBonds({{"bond_bin_width", "0.05"}});
+      // auto bonds = MakeAnalyzeBonds({{"bond_bin_width", "0.05"}, {"steps_per", "1e3"}});
+      mc.add(bonds);
+      mc.attempt(1e6);
+      //INFO(bonds->bond_hist(0).str());
+      //INFO(bonds->bond(0).average() << " +/- " << 3*bonds->bond(0).block_stdev());
+      DEBUG(bonds->bond(0).str());
+      double z_fac = 30;
+      if (num_steps != "1") {
+        z_fac *= 3;
+        if (data == "tetramer_branched") { z_fac *= 2; }
+      }
+      double l_expect = 1.00167;
+      if (data == "tetramer_harmonic_rigid_bond_angle" || data == "tetramer_rigid") {
+        l_expect = 1.;
+      }
+      EXPECT_NEAR(l_expect, bonds->bond(0).average(), z_fac*bonds->bond(0).block_stdev());
+      DEBUG(en->accumulator().str());
+      double en_expect;
+      if (data == "dimer_harmonic") {
+        en_expect = 0.5;
+      } else if (data == "trimer_rigid_angle") {
+        en_expect = 1.;
+      } else if (data == "trimer_harmonic") {
+        en_expect = 1.5;
+      } else if (data == "tetramer_harmonic_rigid_bond_angle") {
+        en_expect = 0.5;
+      } else if (data == "tetramer_harmonic_no_dihedral") {
+        en_expect = 2.5;
+      } else if (data == "tetramer_harmonic") {
+        en_expect = 3.0;
+      } else if (data == "tetramer_rigid") {
+        en_expect = 0.0;
+      } else if (data == "tetramer_branched") {
+        en_expect = 3.0;
+      } else if (data == "pentamer_harmonic") {
+        en_expect = 4.5;
+      } else {
+        FATAL("unrecognized data: " << data);
+      }
+      EXPECT_NEAR(en_expect, en->accumulator().average(), z_fac*en->accumulator().block_stdev());
+    }
+  }
+}
+
+TEST(MonteCarlo, single_butane) {
+  MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.add(MakeConfiguration({
+    {"particle_type0", "../forcefield/data.n-butane"},
+    {"add_particles_of_type0", "1"},
+    {"cubic_box_length", "100"}}));
+  mc.add(MakePotential(MakeLennardJones(),
+                       MakeVisitModelIntra({{"cutoff",  "4"}})));
+  mc.set(MakeThermoParams({{"beta", "1"}}));
+  mc.set(MakeMetropolis());
+  DEBUG("initial energy " << mc.criteria().current_energy());
+  mc.add(MakeTrialGrow({
+    {{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+    {{"angle", "1"}, {"mobile_site", "2"}, {"anchor_site", "1"}, {"anchor_site2", "0"}},
+    {{"dihedral", "1"}, {"mobile_site", "3"}, {"anchor_site", "2"}, {"anchor_site2", "1"}, {"anchor_site3", "0"}}}));
+  //const std::string steps_per = "1";
+  const std::string steps_per = "1e3";
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/butane"}}));
+  mc.add(MakeCheckEnergy({{"steps_per", steps_per}}));
+  auto en = MakeEnergy({{"steps_per_write", steps_per}});
+  mc.add(en);
+  const int bins = 20;
+  auto bonds = MakeAnalyzeBonds({
+      {"bond_bin_width", "0.05"}, {"angle_bin_width", "0.05"},
+      {"dihedral_bin_width", str(PI/bins)}, {"dihedral_bin_center", str(PI/bins/2)}});
+  // auto bonds = MakeAnalyzeBonds({{"bond_bin_width", "0.05"}, {"steps_per", "1e3"}});
+  mc.add(bonds);
+  mc.attempt(1e3);
+  //INFO(bonds->bond_hist(0).str());
+  //INFO(bonds->bond(0).average() << " +/- " << 3*bonds->bond(0).block_stdev());
+//  INFO(bonds->bond(0).str());
+//  INFO(bonds->bond_hist(0).str());
+//  INFO(bonds->angle(0).str());
+//  INFO(bonds->angle_hist(0).str());
+//  INFO(bonds->dihedral(0).str());
+//  INFO(bonds->dihedral_hist(0).str());
+//  std::ofstream ss("tmp/butane_dihedral.txt");
+//  ss << bonds->dihedral_hist(0).str();
+  EXPECT_NEAR(bonds->dihedral_hist(0).histogram()[19], 700, 70);
 }
 
 }  // namespace feasst

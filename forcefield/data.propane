@@ -1,0 +1,50 @@
+# LAMMPS-inspired data file
+# TraPPE http://trappe.oit.umn.edu/
+
+3 sites
+2 bonds
+1 angles
+
+2 site types
+1 bond types
+1 angle types
+
+Units
+
+length Angstrom
+energy kJ/mol
+charge elementary
+
+Site Labels
+
+0 CH3
+1 CH2
+
+Site Properties
+
+0 sigma 3.75 epsilon 0.8148173365790174 cutoff 14.0 charge 0.0
+1 sigma 3.95 epsilon 0.3824652804350490 cutoff 14.0 charge 0.0
+
+Sites
+
+0 0 0.00 0.00 0.00
+1 1 1.54 0.00 0.00
+2 0 1.54 1.54 0.00
+
+Bond Properties
+
+0 RigidBond length 1.54 delta 0.000001
+
+Bonds
+
+0 0 0 1
+1 0 1 2
+
+Angle Properties
+
+0 AngleHarmonic equilibrium_degrees 114 k_energy_per_radian_sq 259.82695681728876
+
+Angles
+
+0 0 0 1 2
+

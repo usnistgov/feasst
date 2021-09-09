@@ -24,7 +24,6 @@
 #include "cluster/include/energy_map_all_criteria.h"
 #include "cluster/include/energy_map_neighbor_criteria.h"
 #include "chain/include/trial_grow.h"
-#include "chain/include/check_rigid_bonds.h"
 
 namespace feasst {
 
@@ -108,7 +107,6 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
   mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   //mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
-  mc.add(MakeCheckRigidBonds({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({
     {"steps_per", str(steps_per)},

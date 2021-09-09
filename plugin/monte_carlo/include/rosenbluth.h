@@ -27,8 +27,10 @@ class Rosenbluth {
   /// Store the selection for each step.
   void store(const int step, const Select& select) { stored_[step] = select; }
 
-  /// Set the energy of the step by step.
-  void set_energy(const int step, const double energy);
+  /// Set the energy and excluded energy of the step.
+  /// Exclude energy includes terms such as bond potentials where the bonds
+  /// where already selected according to the appropriate distribution.
+  void set_energy(const int step, const double energy, const double excluded);
 
   /// Compute Boltzmann factors and cumulative probabilities for all steps.
   /// Choose one of the steps based on the probabilities.
@@ -60,6 +62,7 @@ class Rosenbluth {
 
  private:
   std::vector<double> energy_;
+  std::vector<double> excluded_;
   std::vector<double> weight_;
   std::vector<double> cumulative_;
   std::vector<Select> stored_;

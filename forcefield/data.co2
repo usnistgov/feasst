@@ -1,0 +1,50 @@
+# LAMMPS-inspired data file
+# TRAPPE CO2 http://trappe.oit.umn.edu/
+
+3 sites
+2 bonds
+1 angles
+
+2 site types
+1 bond types
+1 angle types
+
+Units
+
+length Angstrom
+energy kJ/mol
+charge elementary
+
+Site Labels
+
+0 C
+1 O
+
+Site Properties
+
+0 sigma 2.80 epsilon 0.2244904906901375 cutoff 14.0 charge  0.7
+1 sigma 3.05 epsilon 0.6568425468341059 cutoff 14.0 charge -0.35
+
+Sites
+
+0 0  0    0 0
+1 1 -1.16 0 0
+2 1  1.16 0 0
+
+Bond Properties
+
+0 RigidBond length 1.16 delta 0.000001
+
+Bonds
+
+0 0 0 1
+1 0 0 2
+
+Angle Properties
+
+0 RigidAngle degrees 180.0 delta 0.0001
+
+Angles
+
+0 0 1 0 2
+

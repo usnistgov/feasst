@@ -42,6 +42,15 @@ TEST(WindowExponential, window) {
   EXPECT_EQ(bounds[2][1], 173);
   EXPECT_EQ(bounds[3][0], 169);
   EXPECT_EQ(bounds[3][1], 200);
+
+  TRY(
+    WindowExponential({
+      {"alpha", "1.75"},
+      {"num", "32"},
+      {"maximum", "56"},
+      {"extra_overlap", "2"}}).boundaries();
+    CATCH_PHRASE("Windows are assumed to only overlap with the nearest");
+  );
 }
 
 }  // namespace feasst

@@ -61,12 +61,12 @@ Sites
 
 Bond Properties
 
-0 length 3.113545752835420000 delta 0.0001
-1 length 3.435453968374820000 delta 0.0001
-2 length 3.597482242529290000 delta 0.0001
-3 length 6.090110029845180000 delta 0.0001
-4 length 6.856430936450300000 delta 0.0001
-5 length 7.750909487091100000 delta 0.0001
+0 RigidBond length 3.113545752835420000 delta 0.0001
+1 RigidBond length 3.435453968374820000 delta 0.0001
+2 RigidBond length 3.597482242529290000 delta 0.0001
+3 RigidBond length 6.090110029845180000 delta 0.0001
+4 RigidBond length 6.856430936450300000 delta 0.0001
+5 RigidBond length 7.750909487091100000 delta 0.0001
 
 Bonds
 
@@ -79,12 +79,12 @@ Bonds
 
 Angle Properties
 
-0 theta0 0.0 delta 0.0001
-1 theta0 0.0 delta 0.0001
-2 theta0 0.0 delta 0.0001
-3 theta0 107.151912989435000000 delta 0.0001
-4 theta0 122.309691348660000000 delta 0.0001
-5 theta0  98.303611187738500000 delta 0.0001
+0 RigidAngle degrees 0.0 delta 0.0001
+1 RigidAngle degrees 0.0 delta 0.0001
+2 RigidAngle degrees 0.0 delta 0.0001
+3 RigidAngle degrees 107.151912989435000000 delta 0.0001
+4 RigidAngle degrees 122.309691348660000000 delta 0.0001
+5 RigidAngle degrees  98.303611187738500000 delta 0.0001
 
 Angles
 

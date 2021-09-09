@@ -9,6 +9,7 @@ namespace feasst {
 
 void Rosenbluth::resize(const int num) {
   energy_.resize(num);
+  excluded_.resize(num);
   weight_.resize(num);
   cumulative_.resize(num);
   stored_.resize(num);
@@ -17,18 +18,20 @@ void Rosenbluth::resize(const int num) {
 void Rosenbluth::compute(const double beta, Random * random, const bool old) {
   if (num() == 1) {
     chosen_step_ = 0;
-    weight_[chosen_step_] = -beta*energy_[chosen_step_];
+    weight_[chosen_step_] =
+      -beta*(energy_[chosen_step_] - excluded_[chosen_step_]);
     ln_total_rosenbluth_ = weight_[chosen_step_];
     return;
   }
   // const double lnk = std::log(num());
   for (int step = 0; step < num(); ++step) {
-    weight_[step] = -beta*energy_[step];
+    weight_[step] = -beta*(energy_[step] - excluded_[step]);
     // weight_[step] = -beta*energy_[step] - lnk;
   }
   DEBUG("num " << num());
   DEBUG("weight " << feasst_str(weight_));
   DEBUG("energy " << feasst_str(energy_));
+  DEBUG("excluded " << feasst_str(excluded_));
   // tot = sum(e^-betaU)
   // ln_tot = ln(sum(e^-betaU)
   // shift by constant, C = -max + 10 to avoid overflow.
@@ -85,6 +88,7 @@ double Rosenbluth::chosen_energy() const {
 void Rosenbluth::serialize(std::ostream& ostr) const {
   feasst_serialize_version(507, ostr);
   feasst_serialize(energy_, ostr);
+  feasst_serialize(excluded_, ostr);
   feasst_serialize(weight_, ostr);
   feasst_serialize(cumulative_, ostr);
   feasst_serialize_fstobj(stored_, ostr);
@@ -94,16 +98,22 @@ Rosenbluth::Rosenbluth(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 507, "version: " << version);
   feasst_deserialize(&energy_, istr);
+  feasst_deserialize(&excluded_, istr);
   feasst_deserialize(&weight_, istr);
   feasst_deserialize(&cumulative_, istr);
   feasst_deserialize_fstobj(&stored_, istr);
 }
 
-void Rosenbluth::set_energy(const int step, const double energy) {
-  DEBUG("en: " << energy);
+void Rosenbluth::set_energy(const int step, const double energy,
+    const double excluded) {
+  DEBUG("energy: " << energy);
+  DEBUG("excluded: " << excluded);
   ASSERT(!std::isinf(energy), "energy: " << energy << " is inf.");
   ASSERT(!std::isnan(energy), "energy: " << energy << " is nan.");
+  ASSERT(!std::isinf(excluded), "excluded: " << excluded << " is inf.");
+  ASSERT(!std::isnan(excluded), "excluded: " << excluded << " is nan.");
   energy_[step] = energy;
+  excluded_[step] = excluded;
 }
 
 }  // namespace feasst

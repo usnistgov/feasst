@@ -8,6 +8,14 @@ Simulate linear chains
 
    doc/toc
 
+Tutorial
+=========
+
+.. toctree::
+   :glob:
+
+   tutorial/tutorial*
+
 FEASST plugin dependencies
 ============================
 

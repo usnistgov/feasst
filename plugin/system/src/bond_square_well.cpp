@@ -1,6 +1,7 @@
 #include <cmath>
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "math/include/random.h"
 #include "system/include/bond_square_well.h"
 
 namespace feasst {
@@ -35,15 +36,19 @@ void BondSquareWell::serialize(std::ostream& ostr) const {
   serialize_bond_square_well_(ostr);
 }
 
-double BondSquareWell::energy(
-    const Position& relative,
-    const Bond& bond) const {
-  const double length = bond.property("length");
-  const double delta = bond.property("delta");
-  if (std::abs(relative.distance() - length) > 0.5*delta) {
+double BondSquareWell::energy(const double distance, const Bond& bond) const {
+  const double maximum = bond.property("maximum");
+  const double minimum = bond.property("minimum");
+  if (distance < minimum || distance > maximum) {
     return NEAR_INFINITY;
   }
   return 0.;
+}
+
+double BondSquareWell::random_distance(const Bond& bond, const double beta,
+    const int dimen, Random * random) const {
+  return random->uniform_real(bond.property("minimum"),
+                              bond.property("maximum"));
 }
 
 }  // namespace feasst

@@ -6,7 +6,6 @@
 #include "steppers/include/energy.h"
 #include "system/include/dont_visit_model.h"
 #include "chain/include/trial_grow.h"
-#include "chain/include/check_rigid_bonds.h"
 #include "ewald/include/utils.h"
 
 namespace feasst {
@@ -31,7 +30,6 @@ TEST(TrialGrow, angle_distribution_LONG) {
     {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}},
     {{"reference_index", "0"}, {"num_steps", "4"}}));
   mc.add(MakeMovie({{"file_name", "tmp/ang"}}));
-  mc.add(MakeCheckRigidBonds({{"steps_per", str(1e3)}}));
   mc.add(MakeEnergy());
   mc.attempt(1e5);
   EXPECT_NEAR(mc.analyze(mc.num_analyzers()-1).accumulator().average(), -0.087910, 0.00001);

@@ -166,4 +166,13 @@ const EnergyMap& TrialSelect::map_(const System& system,
                          ).visit_model().inner().energy_map();
 }
 
+void TrialSelect::before_select() {
+  mobile_.reset_excluded_and_bond();
+  //exclude_energy_ = 0.;
+}
+
+void TrialSelect::add_exclude_energy(const double energy) {
+  exclude_energy_ = energy;
+}
+
 }  // namespace feasst

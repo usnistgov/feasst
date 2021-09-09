@@ -23,22 +23,22 @@ cd \$PWD
 
 #python tutorial_8_trappe.py \
 #  --task \$SLURM_ARRAY_TASK_ID \
-#  -p ../data.ethane \
-#  -p ../data.ethene \
+#  -p ~/feasst/forcefield/data.ethane \
+#  -p ~/feasst/forcefield/data.ethene \
 #  --num_hours $num_hours \
 #  --num_procs $num_procs
 
 ./tutorial \
   --task \$SLURM_ARRAY_TASK_ID \
-  --particle0 data.ethane \
-  --particle1 data.ethene \
+  --particle0 ~/feasst/forcefield/data.ethane \
+  --particle1 ~/feasst/forcefield/data.ethene \
   --num_hours $num_hours \
   --num_procs $num_procs
 
 ## cylinder example
 #./tutorial --task \$SLURM_ARRAY_TASK_ID \
-#  --particle0 data.ethane \
-#  --particle1 data.ethene \
+#  --particle0 ~/feasst/forcefield/data.ethane \
+#  --particle1 ~/feasst/forcefield/data.ethene \
 #  --num_hours $num_hours \
 #  --num_procs $num_procs \
 #  --lx 50 \

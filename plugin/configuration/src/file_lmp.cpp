@@ -40,9 +40,19 @@ void FileLMP::read_num_and_types_(const std::string file_name) {
     file >> read_num >> descript;
     if (descript.compare("angles") == 0) {
       num_angles_ = read_num;
-      file >> num_site_types_ >> descript;
-      ASSERT(descript.compare("site") == 0,
-        "unrecognized lammps DATA format for file " << file_name);
+      // read next line, if it is number of dihedrals, then record.
+      // Else, it is number of site types
+      file >> read_num >> descript;
+      if (descript.compare("dihedrals") == 0) {
+        num_dihedrals_ = read_num;
+        file >> num_site_types_ >> descript;
+        ASSERT(descript.compare("site") == 0,
+          "unrecognized lammps DATA format for file " << file_name);
+      } else if (descript == "site") {
+        num_site_types_ = read_num;
+      } else {
+        ASSERT(0, "unrecognized lammps DATA format for file " << file_name);
+      }
     } else if (descript.compare("site") == 0) {
       num_site_types_ = read_num;
     } else {
@@ -72,10 +82,11 @@ void FileLMP::read_num_and_types_(const std::string file_name) {
   if (num_angles_ != 0) {
     file >> num_angle_types_ >> descript >> descript;
   }
+  if (num_dihedrals_ != 0) {
+    file >> num_dihedral_types_ >> descript >> descript;
+  }
 
-  // HWH implement reading impropers and dihedrals
-  num_dihedrals_ = 0;
-  num_dihedral_types_ = 0;
+  // HWH implement reading impropers
   num_impropers_ = 0;
   num_improper_types_ = 0;
 }
@@ -90,7 +101,8 @@ Particle FileLMP::read(const std::string file_name) {
   read_num_and_types_(file_name);
 
   // read until Sites section
-  find_or_fail("Sites", file);
+  bool is_found = find("Sites", file);
+  if (!is_found) FATAL("Could not find Sites in " << file_name);
 
   // read Sites section
   int isite, itype;
@@ -114,7 +126,8 @@ Particle FileLMP::read(const std::string file_name) {
 
   // read Bonds section
   if (num_bonds_ > 0) {
-    find_or_fail("Bonds", file);
+    is_found = find("Bonds", file);
+    if (!is_found) FATAL("Could not find Bonds in " << file_name);
     int ibond, a1, a2;
     for (int bond_index = 0; bond_index < num_bonds_; ++bond_index) {
       file >> ibond >> itype >> a1 >> a2;
@@ -128,7 +141,8 @@ Particle FileLMP::read(const std::string file_name) {
 
   // read Angles section
   if (num_angles_ > 0) {
-    find_or_fail("Angles", file);
+    is_found = find("Angles", file);
+    if (!is_found) FATAL("Could not find Angles in " << file_name);
     int iangle, a1, a2, a3;
     for (int angle_index = 0; angle_index < num_angles_; ++angle_index) {
       file >> iangle >> itype >> a1 >> a2 >> a3;
@@ -141,25 +155,27 @@ Particle FileLMP::read(const std::string file_name) {
     }
   }
 
-//  // read Dihedrals section
-//  if (num_dihedrals_ > 0) {
-//    find_or_fail("Dihedrals", file);
-//    int idihedral, a1, a2, a3, a4;
-//    for (int dihedral_index = 0; dihedral_index < num_dihedrals_; ++dihedral_index) {
-//      file >> idihedral >> itype >> a1 >> a2 >> a3 >> a4;
-//      feasst::Dihedral dihedral;
-//      dihedral.add_site_index(a1);
-//      dihedral.add_site_index(a2);
-//      dihedral.add_site_index(a3);
-//      dihedral.add_site_index(a4);
-//      dihedral.set_type(itype);
-//      particle.add_dihedral(dihedral);
-//    }
-//  }
-//
+  // read Dihedrals section
+  if (num_dihedrals_ > 0) {
+    is_found = find("Dihedrals", file);
+    if (!is_found) FATAL("Could not find Dihedrals in " << file_name);
+    int idihedral, a1, a2, a3, a4;
+    for (int dihedral_index = 0; dihedral_index < num_dihedrals_; ++dihedral_index) {
+      file >> idihedral >> itype >> a1 >> a2 >> a3 >> a4;
+      feasst::Dihedral dihedral;
+      dihedral.add_site_index(a1);
+      dihedral.add_site_index(a2);
+      dihedral.add_site_index(a3);
+      dihedral.add_site_index(a4);
+      dihedral.set_type(itype);
+      particle.add_dihedral(dihedral);
+    }
+  }
+
 //  // read Impropers section
 //  if (num_impropers_ > 0) {
-//    find_or_fail("Impropers", file);
+//    is_found = find("Impropers", file);
+//    if (!is_found) FATAL("Could not find Impropers in " << file_name);
 //    int iimproper, a1, a2, a3, a4;
 //    for (int improper_index = 0; improper_index < num_impropers_; ++improper_index) {
 //      file >> iimproper >> itype >> a1 >> a2 >> a3 >> a4;
@@ -184,15 +200,23 @@ void FileLMP::read_properties(const std::string file_name,
 
   read_num_and_types_(file_name);
 
-  find_or_fail("Site Properties", file);
+  bool is_found = find("Site Properties", file);
+  if (!is_found) FATAL("Could not find \"Site Properties\" in " << file_name);
   read_properties_("site", num_site_types_, particle, file);
   if (num_bonds_ != 0) {
-    find_or_fail("Bond Properties", file);
+    is_found = find("Bond Properties", file);
+    if (!is_found) FATAL("Could not find \"Bond Properties\" in " << file_name);
     read_properties_("bond", num_bond_types_, particle, file);
   }
   if (num_angles_ != 0) {
-    find_or_fail("Angle Properties", file);
+    is_found = find("Angle Properties", file);
+    if (!is_found) FATAL("Could not find \"Angle Properties\" in " << file_name);
     read_properties_("angle", num_angle_types_, particle, file);
+  }
+  if (num_dihedrals_ != 0) {
+    is_found = find("Dihedral Properties", file);
+    if (!is_found) FATAL("Could not find \"Dihedral Properties\" in " << file_name);
+    read_properties_("dihedral", num_dihedral_types_, particle, file);
   }
 }
 
@@ -208,17 +232,28 @@ void FileLMP::read_properties_(const std::string property_type,
     DEBUG("read properties i " << i << ": " << line);
     std::vector<std::string> properties = split(line);
     ASSERT(properties.size() >= 3, "size error");
-    ASSERT(properties.size() % 2 == 1, "size error");
-    const int num_properties = (properties.size() - 1)/2;
     const int type = stoi(properties[0]);
+    int shift = 0;
+    if (property_type == "bond") {
+      shift = 1;
+      particle->add_bond_model(type, properties[1]);
+    } else if (property_type == "angle") {
+      shift = 1;
+      particle->add_angle_model(type, properties[1]);
+    } else if (property_type == "dihedral") {
+      shift = 1;
+      particle->add_dihedral_model(type, properties[1]);
+    }
+    ASSERT((properties.size() - shift) % 2 == 1, "size error");
+    const int num_properties = (properties.size() - 1 - shift)/2;
     DEBUG("type: " << type);
     ASSERT(type < num_types, "type: " << type << " is too large for the number "
-      << "of types: " << num_types << " of property: " << property_type 
+      << "of types: " << num_types << " of property: " << property_type
       << " . Properties are listed from indices of 0 to n-1, not 1 to n. "
       << "See /path/to/feasst/forcefield/README.rst for more details.");
     for (int index = 0; index < num_properties; ++index) {
-      const std::string name = properties[2*index + 1];
-      const double value = stod(properties[2*index + 2]);
+      const std::string name = properties[2*index + 1 + shift];
+      const double value = stod(properties[2*index + 2 + shift]);
       if (property_type == "site") {
         Site site = particle->site(type);
         DEBUG("adding " << name << " "  << value);
@@ -230,9 +265,9 @@ void FileLMP::read_properties_(const std::string property_type,
       } else if (property_type == "angle") {
         DEBUG("adding angle coeff of type " << type << " name " << name << " value " << value);
         particle->add_angle_property(type, name, value);
-//      } else if (property_type == "dihedral") {
-//        DEBUG("adding dihedral coeff of type " << type << " name " << name << " value " << value);
-//        particle->add_dihedral_property(type, name, value);
+      } else if (property_type == "dihedral") {
+        DEBUG("adding dihedral coeff of type " << type << " name " << name << " value " << value);
+        particle->add_dihedral_property(type, name, value);
 //      } else if (property_type == "improper") {
 //        DEBUG("adding improper coeff of type " << type << " name " << name << " value " << value);
 //        particle->add_improper_property(type, name, value);
