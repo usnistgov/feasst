@@ -11,7 +11,9 @@
     "\n",
     "Table 2 of https://www.doi.org/10.1021/jp0710685\n",
     "\n",
-    "Figure 1 of https://doi.org/10.1063/1.5016165"
+    "Figure 1 of https://doi.org/10.1063/1.5016165\n",
+    "\n",
+    "There appears to be something wrong with Mayer sampling using Coulomb potentials. The particles seem to diffuse very far away sometimes and are unable to find their way back."
    ]
   },
   {

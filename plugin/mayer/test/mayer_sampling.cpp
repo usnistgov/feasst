@@ -27,7 +27,7 @@ TEST(MayerSampling, ljb2) {
   auto translate = MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"}, {"weight", "0.75"}});
   //auto translate = MakeTrialTranslate({{"tunable_param", "0.5"}});
   /// HWH notes: does this need a max?
-  const int nTrialsEq = 1e4, nTrials = 1e4;
+  const int nTrialsEq = 1e4, nTrials = 2e4;
   //const int nTrialsEq = 1e6, nTrials = 1e6;
   Configuration * config = system.get_configuration();
   config->set_model_param("cutoff", 0, NEAR_INFINITY);

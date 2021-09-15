@@ -35,9 +35,11 @@ void PerturbPivot::serialize(std::ostream& ostr) const {
   serialize_perturb_pivot_(ostr);
 }
 
-void PerturbPivot::move(System * system,
+void PerturbPivot::move(const bool is_position_held,
+                        System * system,
                         TrialSelect * select,
                         Random * random) {
+  if (is_position_held) return;
   const Position& pivot = select->anchor_position(0, 0, *system);
   DEBUG("piv " << pivot.str());
   PerturbRotate::move(system, select, random, pivot);

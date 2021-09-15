@@ -521,8 +521,8 @@ TEST(MayerSampling, trimer_grow_LONG) {
   //for (const std::string ptype : {"0", "1"}) {
     mc.add(MakeTrialGrow({
       {{"particle_type", ptype}, {"translate", "true"}, {"site", "0"}},
-      {{"bond", "0"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
-      {{"angle", "0"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}},
+      {{"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+      {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}},
     }, {{"reference_index", "0"}, {"new_only", "true"}}));
 //    mc.add(MakeTrialGrow({
 //      {{"particle_type", ptype}, {"bond", "0"}, {"mobile_site", "0"}, {"anchor_site", "1"}},
@@ -540,6 +540,32 @@ TEST(MayerSampling, trimer_grow_LONG) {
   INFO("b22 " << mayer->second_virial_ratio()
     << " +/- " << mayer->second_virial_ratio_block_stdev());
   EXPECT_NEAR(0, mayer->mayer().average(), 4*mayer->mayer().block_stdev());
+}
+
+TEST(TrialGrow, reptate) {
+  MonteCarlo mc;
+  mc.add(MakeConfiguration({{"cubic_box_length", "20"},
+    {"particle_type0", "../plugin/chain/forcefield/data.chain5"},
+    {"add_particles_of_type0", "1"}}));
+  mc.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"cutoff", "1"}})));
+  mc.set(MakeThermoParams({{"beta", "1"}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialGrow({
+    {{"reptate", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}, {"particle_type", "0"}},
+    {{"reptate", "true"}, {"mobile_site", "1"}, {"anchor_site", "2"}},
+    {{"reptate", "true"}, {"mobile_site", "2"}, {"anchor_site", "3"}},
+    {{"reptate", "true"}, {"mobile_site", "3"}, {"anchor_site", "4"}},
+    {{"bond", "true"}, {"mobile_site", "4"}, {"anchor_site", "3"}}}));
+  Particle chain = mc.configuration().particle(0);
+  mc.add(MakeMovie({{"file_name", "tmp/reptate.xyz"}}));
+  mc.add(MakeCheckEnergy());
+  while (mc.trial(0).acceptance() <= 0) {
+    mc.attempt(1);
+  }
+  for (int site = 0; site < 4; ++site) {
+    EXPECT_TRUE(chain.site(site+1).position().is_equal(mc.configuration().particle(0).site(site).position(), NEAR_ZERO));
+  }
+  mc.attempt(10);
 }
 
 TEST(MonteCarlo, RigidBondAngleDihedral) {

@@ -24,7 +24,7 @@ Thus, whether in the canonical ensemble or otherwise, the probability
 distribution,
 
 \rst
-:math:`\pi_i \propto e^{-\beta U_i}`
+:math:`\pi_i \propto \exp(-\beta U_i)`
 
 because the other thermodynamic variables such as number of particles,
 or volume do not change.
@@ -49,9 +49,9 @@ And the reverse transition probability is from new to old, :math:`\pi_{no}`.
 |                                     |                                        |
 |[Move to old position]               |:math:`[1/v]`                           |
 +-------------------------------------+----------------------------------------+
-|Accept                               |:math:`min(1, \chi)`                    |
+|Accept                               |:math:`\min(1, \chi)`                   |
 |                                     |                                        |
-|[Accept]                             |:math:`[min(1, 1/\chi)]`                |
+|[Accept]                             |:math:`[\min(1, 1/\chi)]`               |
 +-------------------------------------+----------------------------------------+
 
 where :math:`\chi` is the acceptance probability that we can now derive by
@@ -67,16 +67,16 @@ state, :math:`\pi_{no}`.
 
 Substituting the probability distribution and transition probabilities yields
 
-:math:`\frac{e^{-\beta U_o}min(1, \chi)}{N_t v} =
-\frac{e^{-\beta U_n}min(1, 1/\chi)}{N_t v}`
+:math:`\frac{\min(1, \chi)\exp(-\beta U_o)}{N_t v} =
+\frac{\min(1, 1/\chi)\exp(-\beta U_n)}{N_t v}`
 
-:math:`\frac{min(1, \chi)}{min(1, 1/\chi)} = e^{-\beta(U_n - U_o)} =
-e^{-\beta\Delta U}`
+:math:`\frac{\min(1, \chi)}{\min(1, 1/\chi)} = \exp[-\beta(U_n - U_o)] =
+\exp(-\beta\Delta U)`
 
 The left hand side is :math:`\chi` for both cases of :math:`\chi <= 1`
 and :math:`\chi > 1`. Thus,
 
-:math:`\chi = e^{-\beta\Delta U}`
+:math:`\chi = \exp(-\beta\Delta U)`
 
 For configurational bias, consider multiple trial positions and select one.
 This can lead to higher acceptance probability or larger displacements,
@@ -93,38 +93,40 @@ and allows the use of dual-cut CB (https://doi.org/10.1080/002689798167881).
 |                                     |                                        |
 |[Select particle of type t]          |:math:`[1/N_t]`                         |
 +-------------------------------------+----------------------------------------+
-|Generate k positions about x_o.      |:math:`k/\delta^D`                      |
+|Generate k positions about           |:math:`k/\delta^D`                      |
+|:math:`x_o`.                         |                                        |
 |Probability :math:`x_n` is in k.     |                                        |
 |                                     |                                        |
-|[Generate j positions about x_n.     |:math:`[j/\delta^D]`                    |
+|[Generate j positions about          |:math:`[j/\delta^D]`                    |
+|:math:`x_n`.                         |                                        |
 |Probability :math:`x_o` is in j.]    |                                        |
 +-------------------------------------+----------------------------------------+
-|Pick x_n in k positions.             |:math:`P_k`                             |
+|Pick :math:`x_n` in k positions.     |:math:`P_k`                             |
 |                                     |                                        |
-|[Pick x_o j positions.               |:math:`P_j`                             |
+|[Pick :math:`x_o` in j positions.]   |:math:`P_j`                             |
 +-------------------------------------+----------------------------------------+
-|Accept                               |:math:`min(1, \chi)`                    |
+|Accept                               |:math:`\min(1, \chi)`                   |
 |                                     |                                        |
-|[Accept]                             |:math:`[min(1, 1/\chi)]`                |
+|[Accept]                             |:math:`[\min(1, 1/\chi)]`               |
 +-------------------------------------+----------------------------------------+
 
 Applying (local) detailed balance yields
 
-:math:`\chi = \frac{P_j}{P_k} e^{-\beta(U_n - U_o)}`
+:math:`\chi = \frac{P_j}{P_k} \exp[-\beta(U_n - U_o)]`
 
 Note that the number of new and old positions must be equal, :math:`j = k`.
 In this case, the j and k indices are retained to distinguish between positions
 generated about the old or new position.
 
-If the probability of picking a position is chosen as the typical Rosenbluth
+If the probability of picking a position is chosen as the typical Rosenbluth factor,
 
-:math:`P_m = e^{-\beta U}/\sum_i^m e^{-\beta U_i}`
+:math:`P_m = \exp(-\beta U)/\sum_i^m \exp(-\beta U_i)`.
 
 Thus, the acceptance is given by
 
-:math:`\chi = \frac{\sum_i^k e^{-\beta U_i}}{e^{-\beta U_n}}\frac{e^{-\beta U_o}}{\sum_i^j e^{-\beta U_i}}e^{-\beta(U_n - U_o)}`
+:math:`\chi = \frac{\sum_i^k \exp(-\beta U_i)}{\exp(-\beta U_n)}\frac{\exp(-\beta U_o)}{\sum_i^j \exp(-\beta U_i)}\exp(-\beta(U_n - U_o))`
 
-:math:`\chi = \frac{\sum_i^k e^{-\beta U_i}}{\sum_i^j e^{-\beta U_i}}`
+:math:`\chi = \frac{\sum_i^k \exp(-\beta U_i)}{\sum_i^j \exp(-\beta U_i)}`.
 
 Note that the sum over j is for randomly generated positions within :math:`\delta` of the new position,
 while the sum over k is for randomly generated positions within :math:`\delta` of the old position.
@@ -135,9 +137,9 @@ reference potential, :math:`U^r`, that is ideally much faster to compute than
 the full potential but still contains sampling-relevant terms (e.g., excluded
 volume in a dense system).
 
-:math:`P_m(U) = e^{-\beta U^r}/\sum_i^m e^{-\beta U_i^r}`
+:math:`P_m(U) = \exp(-\beta U^r)/\sum_i^m \exp(-\beta U_i^r)`
 
-:math:`\chi = \frac{\sum_i^k e^{-\beta U^r_i}}{\sum_i^j e^{-\beta U_i^r}}e^{-\beta[(U_n-U_n^r) - (U_o-U_o^r)]}`
+:math:`\chi = \frac{\sum_i^k \exp(-\beta U^r_i)}{\sum_i^j \exp(-\beta U_i^r)}\exp\{-\beta[(U_n-U_n^r) - (U_o-U_o^r)]\}`
 
 Note that these equations consider only a single-site particle.
 \endrst

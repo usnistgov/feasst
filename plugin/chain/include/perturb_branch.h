@@ -31,9 +31,10 @@ class PerturbBranch : public PerturbMove {
     TrialSelect * select,
     Random * random);
 
-  void move(System * system,
-      TrialSelect * select,
-      Random * random) override;
+  void move(const bool is_position_held,
+    System * system,
+    TrialSelect * select,
+    Random * random) override;
 
   // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;

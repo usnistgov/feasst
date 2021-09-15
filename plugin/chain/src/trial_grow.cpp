@@ -8,6 +8,7 @@
 #include "monte_carlo/include/perturb_add.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "monte_carlo/include/perturb_anywhere.h"
+#include "monte_carlo/include/perturb_to_anchor.h"
 #include "monte_carlo/include/perturb_distance.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
 #include "monte_carlo/include/perturb_dihedral.h"
@@ -151,42 +152,28 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
           FATAL("unreocgnized trial_type: " << trial_type);
         }
       } else {
-        bool bond = false, angle = false, dihedral = false, branch = false;
-        if (used("bond", iargs)) {
-          str("bond", &iargs);
-          bond = true;
-        }
-        if (used("angle", iargs)) {
-          str("angle", &iargs);
-          angle = true;
-        }
-        if (used("dihedral", iargs)) {
-          str("dihedral", &iargs);
-          dihedral = true;
-        }
-        if (used("branch", iargs)) {
-          str("branch", &iargs);
-          branch = true;
-        }
-        ASSERT((bond && !(angle || dihedral || branch)) ||
-               (angle && !(bond || dihedral || branch)) ||
-               (dihedral && !(bond || angle || branch)) ||
-               (branch && !(bond || angle || dihedral)), "cannot have two of " <<
-          "bond: " << bond << " angle: " << angle << " dihedral " << dihedral << " branch: " << branch);
-        if (bond) {
+        int used = 0;
+        if (boolean("bond", &iargs, false)) {
+          ++used;
           select = MakeTrialSelectBond({
             {"particle_type", particle_type},
             {"mobile_site", str("mobile_site", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)}});
           perturb = std::make_shared<PerturbDistance>(&iargs);
-        } else if (angle) {
+        }
+        if (boolean("angle", &iargs, false)) {
+          ASSERT(used == 0, "cannot have more than one");
+          ++used;
           select = MakeTrialSelectAngle({
             {"particle_type", particle_type},
             {"mobile_site", str("mobile_site", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)},
             {"anchor_site2", str("anchor_site2", &iargs)}});
           perturb = std::make_shared<PerturbDistanceAngle>(&iargs);
-        } else if (dihedral) {
+        }
+        if (boolean("dihedral", &iargs, false)) {
+          ASSERT(used == 0, "cannot have more than one");
+          ++used;
           select = MakeTrialSelectDihedral({
             {"particle_type", particle_type},
             {"mobile_site", str("mobile_site", &iargs)},
@@ -194,7 +181,10 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
             {"anchor_site2", str("anchor_site2", &iargs)},
             {"anchor_site3", str("anchor_site3", &iargs)}});
           perturb = std::make_shared<PerturbDihedral>(&iargs);
-        } else if (branch) {
+        }
+        if (boolean("branch", &iargs, false)) {
+          ASSERT(used == 0, "cannot have more than one");
+          ++used;
           select = MakeSelectBranch({
             {"particle_type", particle_type},
             {"mobile_site", str("mobile_site", &iargs)},
@@ -202,10 +192,18 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
             {"anchor_site", str("anchor_site", &iargs)},
             {"anchor_site2", str("anchor_site2", &iargs)}});
           perturb = std::make_shared<PerturbBranch>(&iargs);
-        } else {
-          FATAL("unrecognized args: " << str(iargs) << ". " <<
-                "Requires bond, angle, branch, etc");
         }
+        if (boolean("reptate", &iargs, false)) {
+          ASSERT(used == 0, "cannot have more than one");
+          ++used;
+          select = MakeTrialSelectBond({
+            {"particle_type", particle_type},
+            {"mobile_site", str("mobile_site", &iargs)},
+            {"anchor_site", str("anchor_site", &iargs)}});
+          perturb = std::make_shared<PerturbToAnchor>(&iargs);
+        }
+        ASSERT(used == 1, "args: " << str(iargs) <<
+          ". Requires one of bond, angle, dihedral, branch, reptate, etc");
         if (!compute) {
           compute = std::make_shared<TrialComputeMove>(&iargs);
         }

@@ -35,8 +35,11 @@ void PerturbCrankshaft::serialize(std::ostream& ostr) const {
   serialize_perturb_crankshaft_(ostr);
 }
 
-void PerturbCrankshaft::move(System * system, TrialSelect * select,
+void PerturbCrankshaft::move(const bool is_position_held,
+    System * system, TrialSelect * select,
     Random * random) {
+  WARN("fix this for bond energy");
+  if (is_position_held) return;
   const Position& pivot = select->mobile().site_positions()[0].front();
   axis_ = select->mobile().site_positions()[0].back();
   axis_.subtract(pivot);

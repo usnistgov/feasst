@@ -40,27 +40,49 @@ double PerturbDihedral::random_dihedral_radians(const System& system,
     const TrialSelect * select, Random * random, double * bond_energy) {
   const Dihedral& dihedral = system.configuration().unique_type(
     select->particle_type()).dihedral(dihedral_type_);
-  const double beta = system.thermo_params().beta();
   ASSERT(dihedral_.deserialize_map().count(dihedral.model()) == 1,
     dihedral.model() << " not found");
   const BondFourBody * model = dihedral_.deserialize_map()[dihedral.model()].get();
+  const double beta = system.thermo_params().beta();
   const double radians = model->random_dihedral_radians(dihedral, beta, system.dimension(), random);
   *bond_energy += model->energy(radians, dihedral);
   DEBUG("bond_energy " << *bond_energy);
   return radians;
 }
 
-void PerturbDihedral::move(System * system,
+double PerturbDihedral::old_dihedral_energy(const System& system,
+    const TrialSelect * select) {
+  const Dihedral& dihedral = system.configuration().unique_type(
+    select->particle_type()).dihedral(dihedral_type_);
+  ASSERT(dihedral_.deserialize_map().count(dihedral.model()) == 1,
+    dihedral.model() << " not found");
+  const BondFourBody * model = dihedral_.deserialize_map()[dihedral.model()].get();
+  return model->energy(
+    select->mobile().site_positions()[0][0],
+    select->anchor_position(0, 0, system),
+    select->anchor_position(0, 1, system),
+    select->anchor_position(0, 2, system),
+    dihedral);
+}
+
+void PerturbDihedral::move(const bool is_position_held,
+    System * system,
     TrialSelect * select,
     Random * random) {
   DEBUG(class_name());
   double bond_energy = 0.;
-  const double distance = random_distance(*system, select, random, &bond_energy);
-  const double angle = random_angle_radians(*system, select, random, &bond_energy);
-  const double dihedral = random_dihedral_radians(*system, select, random, &bond_energy);
-  select->add_exclude_energy(bond_energy);
+  if (is_position_held) {
+    bond_energy += old_bond_energy(*system, select);
+    bond_energy += old_angle_energy(*system, select);
+    bond_energy += old_dihedral_energy(*system, select);
+  } else {
+    const double distance = random_distance(*system, select, random, &bond_energy);
+    const double angle = random_angle_radians(*system, select, random, &bond_energy);
+    const double dihedral = random_dihedral_radians(*system, select, random, &bond_energy);
+    place_dihedral(distance, angle, dihedral, system, select);
+  }
   DEBUG("bond_energy dist+ang+dih " << bond_energy);
-  place_dihedral(distance, angle, dihedral, system, select);
+  select->add_exclude_energy(bond_energy);
 }
 
 void PerturbDihedral::place_dihedral(const double distance,

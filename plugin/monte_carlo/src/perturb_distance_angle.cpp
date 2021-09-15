@@ -37,36 +37,51 @@ void PerturbDistanceAngle::precompute(TrialSelect * select, System * system) {
 }
 
 double PerturbDistanceAngle::random_angle_radians(const System& system,
-    const TrialSelect* select,
-    Random * random) {
-  FATAL("not implemented");
-}
-double PerturbDistanceAngle::random_angle_radians(const System& system,
     const TrialSelect* select, Random * random, double * bond_energy) {
   const Angle& angle = system.configuration().unique_type(
     select->particle_type()).angle(angle_type_);
-  const double beta = system.thermo_params().beta();
   ASSERT(angle_.deserialize_map().count(angle.model()) == 1,
     angle.model() << " not found");
   const BondThreeBody * model = angle_.deserialize_map()[angle.model()].get();
+  const double beta = system.thermo_params().beta();
   const double radians = model->random_angle_radians(angle, beta, system.dimension(), random);
   *bond_energy += model->energy(radians, angle);
   DEBUG("bond_energy " << *bond_energy);
   return radians;
 }
 
-void PerturbDistanceAngle::move(System * system,
+double PerturbDistanceAngle::old_angle_energy(const System& system,
+    const TrialSelect * select) {
+  const Angle& angle = system.configuration().unique_type(
+    select->particle_type()).angle(angle_type_);
+  ASSERT(angle_.deserialize_map().count(angle.model()) == 1,
+    angle.model() << " not found");
+  const BondThreeBody * model = angle_.deserialize_map()[angle.model()].get();
+  return model->energy(
+    select->mobile().site_positions()[0][0],
+    select->anchor_position(0, 0, system),
+    select->anchor_position(0, 1, system),
+    angle);
+}
+
+void PerturbDistanceAngle::move(const bool is_position_held,
+    System * system,
     TrialSelect * select,
     Random * random) {
-  DEBUG(class_name());
   double bond_energy = 0.;
-  const double distance = random_distance(*system, select, random, &bond_energy);
-  DEBUG("bond_energy " << bond_energy);
-  const double angle = random_angle_radians(*system, select, random, &bond_energy);
-  DEBUG("final angle pert bond_energy " << bond_energy);
+  if (is_position_held) {
+    bond_energy += old_bond_energy(*system, select);
+    bond_energy += old_angle_energy(*system, select);
+  } else {
+    DEBUG(class_name());
+    const double distance = random_distance(*system, select, random, &bond_energy);
+    DEBUG("bond_energy " << bond_energy);
+    const double angle = random_angle_radians(*system, select, random, &bond_energy);
+    DEBUG("final angle pert bond_energy " << bond_energy);
+    DEBUG("angle: " << angle);
+    place_in_circle(distance, angle, system, select, random);
+  }
   select->add_exclude_energy(bond_energy);
-  DEBUG("angle: " << angle);
-  place_in_circle(distance, angle, system, select, random);
 }
 
 void PerturbDistanceAngle::place_in_circle(const double distance,

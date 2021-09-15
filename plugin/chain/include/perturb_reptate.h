@@ -19,8 +19,8 @@ class PerturbReptate : public PerturbDistance {
   PerturbReptate(argtype * args) : PerturbDistance(args) {
     class_name_ = "PerturbReptate";
   }
-  void move(System * system, TrialSelect * select, Random * random) override {
-    PerturbDistance::move(system, select, random);
+  void move(const bool is_position_held, System * system, TrialSelect * select, Random * random) override {
+    PerturbDistance::move(is_position_held, system, select, random);
     set_finalize_possible(true, select);
   }
 

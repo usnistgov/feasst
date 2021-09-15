@@ -41,9 +41,11 @@ void PerturbRotateCOM::serialize(std::ostream& ostr) const {
   serialize_perturb_rotate_com_(ostr);
 }
 
-void PerturbRotateCOM::move(System * system,
+void PerturbRotateCOM::move(const bool is_position_held,
+    System * system,
     TrialSelect * select,
     Random * random) {
+  if (is_position_held) return;
   const Position pivot = select->mobile().geometric_center();
   DEBUG("piv " << pivot.str());
   PerturbRotate::move(system, select, random, pivot);

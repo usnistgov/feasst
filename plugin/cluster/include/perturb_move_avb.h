@@ -22,7 +22,8 @@ class PerturbMoveAVB : public PerturbMove {
   explicit PerturbMoveAVB(argtype args = argtype());
   explicit PerturbMoveAVB(argtype * args);
 
-  void move(System * system,
+  void move(const bool is_position_held,
+            System * system,
             TrialSelect * select,
             Random * random) override;
 

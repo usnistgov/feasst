@@ -38,6 +38,9 @@ class PerturbDistance : public PerturbMove {
   /// Return the bond type.
   double bond_type() const { return bond_type_; }
 
+  /// Return the current energy of the existing, old bond.
+  double old_bond_energy(const System& system, const TrialSelect * select);
+
   /// Return the randomly selected distance from the bond potential.
   double random_distance(const System& system,
     const TrialSelect* select,
@@ -45,7 +48,8 @@ class PerturbDistance : public PerturbMove {
     double * bond_energy  // return the bond energy for Rosenbluth exclusion
   );
 
-  void move(System * system,
+  void move(const bool is_position_held,
+      System * system,
       TrialSelect * select,
       Random * random) override;
 
@@ -65,9 +69,11 @@ class PerturbDistance : public PerturbMove {
   // temporary
   RigidBond bond_;
 
-  void move_once_(System * system,
-      TrialSelect * select,
-      Random * random);
+  void move_once_(const bool is_position_held,
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    double * bond_energy);
 };
 
 inline std::shared_ptr<PerturbDistance> MakePerturbDistance(

@@ -1,5 +1,7 @@
 #include "utils/test/utils.h"
+#include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
+#include "system/include/ideal_gas.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "steppers/include/movie.h"
@@ -34,6 +36,23 @@ TEST(TrialGrow, angle_distribution_LONG) {
   mc.attempt(1e5);
   EXPECT_NEAR(mc.analyze(mc.num_analyzers()-1).accumulator().average(), -0.087910, 0.00001);
   //INFO(mc.analyze(mc.num_analyzers()-1).accumulator().average());
+}
+
+TEST(TrialGrow, bond_harmonic) {
+  MonteCarlo mc;
+  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "10"},
+    {"particle_type0", "../plugin/chain/test/data/data.dimer_harmonic"},
+    {"add_particles_of_type0", "1"}}));
+  mc.add(MakePotential(MakeIdealGas()));
+  mc.set(MakeThermoParams({{"beta", "1"}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialGrow({
+    {{"bond", "true"}, {"particle_type", "0"}, {"mobile_site", "1"}, {"anchor_site", "0"}}}));
+  mc.add(MakeMovie({{"file_name", "tmp/bond"}}));
+  while (mc.trial(0).num_success() < 2) {
+    mc.attempt(1);
+  }
 }
 
 }  // namespace feasst

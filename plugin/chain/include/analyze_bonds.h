@@ -27,7 +27,7 @@ class AnalyzeBonds : public AnalyzeUpdateOnly {
       (default: 1).
     - dihedral_bin_center: center of first bin in dihedral histogram (default: 0).
    */
-  AnalyzeBonds(argtype args = argtype());
+  explicit AnalyzeBonds(argtype args = argtype());
 
   void update(const Criteria& criteria,
     const System& system,

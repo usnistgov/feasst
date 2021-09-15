@@ -8,14 +8,14 @@ void PerturbMove::perturb(
     TrialSelect * select,
     Random * random,
     const bool is_position_held) {
+  move(is_position_held, system, select, random);
   if (is_position_held) {
     select->set_trial_state(0);
-    return;
+  } else {
+    select->set_trial_state(1);
+    set_revert_possible(true, select);
+    set_finalize_possible(true, select);
   }
-  move(system, select, random);
-  set_revert_possible(true, select);
-  set_finalize_possible(true, select);
-  select->set_trial_state(1);
 }
 
 void PerturbMove::revert(System * system) {

@@ -4,6 +4,7 @@
 #include "math/include/random_modulo.h"
 #include "math/include/random_mt19937.h"
 #include "math/include/histogram.h"
+#include "math/include/accumulator.h"
 
 namespace feasst {
 
@@ -248,5 +249,78 @@ TEST(Random, standard_normal) {
 //    EXPECT_NEAR(stdev2, stdev_exp, 5e-2);
 //  }
 //}
+
+// Compute the average bond length for a potential U(L)=600(L-1)^2
+TEST(Random, harmonic_bond_brute) {
+  const double k = 600;
+  const double l0 = 1;
+  auto ran = MakeRandomMT19937();
+  double old_dist = l0;
+  Position xn({{"x", feasst::str(old_dist)}, {"y", "0"}, {"z", "0"}});
+  Position old_x = xn;
+  Accumulator length;
+  double old_en = 0.;
+  const double max_move = 0.1;
+  int accepted = 0;
+  const int num_attempts = 3e5;
+  //const int num_attempts = 1e7;
+  for (int i = 0; i < num_attempts; ++i) {
+    //ran->position_in_spherical_shell(0.5, 1.5, &xn);
+    for (int dim = 0; dim < xn.dimension(); ++dim) {
+      xn.set_coord(dim, old_x.coord(dim) + max_move*(2*ran->uniform() - 1));
+    }
+    const double dist = xn.distance(), dx = dist - l0;
+    const double en = k*dx*dx;
+    const double delta_en = en - old_en;
+    if (ran->uniform() < std::exp(-delta_en)) {
+      old_dist = dist;
+      old_en = en;
+      old_x = xn;
+      ++accepted;
+    }
+    length.accumulate(old_dist);
+  }
+  INFO("acceptance " << static_cast<double>(accepted)/num_attempts);
+  INFO(length.str());
+  EXPECT_NEAR(1.+1./k, length.average(), 5*length.block_stdev());
+}
+
+// Compute the average bond angle for a potential U(theta)=600(theta-PI/2)^2
+TEST(Random, harmonic_angle_brute) {
+  const double k = 600;
+  const double theta0 = PI/2;
+  double old_theta = theta0;
+  auto ran = MakeRandomMT19937();
+  Position xa1({{"x", "0"}, {"y", "1"}, {"z", "0"}});
+  Position xa0({{"x", "0"}, {"y", "0"}, {"z", "0"}});
+  Position xn({{"x", "1"}, {"y", "0"}, {"z", "0"}});
+  Position old_x = xn;
+  Accumulator angle;
+  double old_en = 0.;
+  const double max_move = 1;
+  int accepted = 0;
+  const int num_attempts = 3e5;
+  //const int num_attempts = 1e7;
+  for (int i = 0; i < num_attempts; ++i) {
+    //ran->position_in_spherical_shell(0.5, 1.5, &xn);
+    for (int dim = 0; dim < xn.dimension(); ++dim) {
+      xn.set_coord(dim, old_x.coord(dim) + max_move*(2*ran->uniform() - 1));
+    }
+    const double theta = xa0.vertex_angle_radians(xn, xa1);
+    const double dtheta = theta - theta0;
+    const double en = k*dtheta*dtheta;
+    const double delta_en = en - old_en;
+    if (ran->uniform() < std::exp(-delta_en)) {
+      old_theta = theta;
+      old_en = en;
+      old_x = xn;
+      ++accepted;
+    }
+    angle.accumulate(old_theta);
+  }
+  INFO("acceptance " << static_cast<double>(accepted)/num_attempts);
+  INFO(angle.str() << " PI/2 " << PI/2);
+  EXPECT_NEAR(PI/2, angle.average(), 5*angle.block_stdev());
+}
 
 }  // namespace feasst

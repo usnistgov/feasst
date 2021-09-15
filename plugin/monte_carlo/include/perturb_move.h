@@ -17,7 +17,11 @@ class PerturbMove : public Perturb {
   explicit PerturbMove(argtype * args) : Perturb(args) {}
 
   /// Move the selection of the system.
-  virtual void move(System * system, TrialSelect * select, Random * random) = 0;
+  virtual void move(
+    const bool is_position_held,
+    System * system,
+    TrialSelect * select,
+    Random * random) = 0;
 
   // The perturbation move is simplified such that the move of the selection of
   // the system is all that remains to be implemented.

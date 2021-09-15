@@ -48,9 +48,11 @@ void PerturbPointReflect::move(
   system->get_configuration()->update_positions(select->mobile());
 }
 
-void PerturbPointReflect::move(System * system,
-                            TrialSelect * select,
-                            Random * random) {
+void PerturbPointReflect::move(const bool is_position_held,
+    System * system,
+    TrialSelect * select,
+    Random * random) {
+  if (is_position_held) return;
   random->position_in_cube(
     system->dimension(),
     tunable().value(),

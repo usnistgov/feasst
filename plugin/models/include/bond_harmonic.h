@@ -22,8 +22,8 @@ class BondHarmonic : public BondTwoBody {
   /**
     Return a randomly selected bond length with harmonic potential as described
     in Frenkel and Smit, Alg 43, page 578 and Allen and Tildesley, Section G.3.
-   
-    \f$P(l)dl \propto l**2\exp[-\beta U(length)]dl\f$
+
+    \f$P(l)dl \propto l**2\exp[-\beta U(l)]dl\f$
 
     The maximal length is 3 sigma beyond the mean.
     If 2D, use the accept-reject method

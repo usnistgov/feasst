@@ -46,7 +46,7 @@ void TrialSelect::precompute(System * system) {
 
 const Position& TrialSelect::anchor_position(const int particle_index,
     const int site_index,
-    const System& system) {
+    const System& system) const {
   const int part = anchor_.particle_index(particle_index);
   const int site = anchor_.site_index(particle_index, site_index);
   DEBUG("site " << site);

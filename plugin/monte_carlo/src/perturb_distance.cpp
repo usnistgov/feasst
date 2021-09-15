@@ -35,40 +35,64 @@ void PerturbDistance::precompute(TrialSelect * select, System * system) {
   bond_type_ = feasst::round(select->property("bond_type"));
 }
 
-void PerturbDistance::move(System * system,
+void PerturbDistance::move(const bool is_position_held,
+                           System * system,
                            TrialSelect * select,
                            Random * random) {
+  double bond_energy = 0.;
+  DEBUG("moving");
   if (potential_acceptance_ == -1) {
-    move_once_(system, select, random);
+    move_once_(is_position_held, system, select, random, &bond_energy);
+    select->add_exclude_energy(bond_energy);
     return;
   }
   int max_attempt = 1e6;
   const double beta = system->thermo_params().beta();
   for (int attempt = 0; attempt < max_attempt; ++attempt) {
-    move_once_(system, select, random);
+    move_once_(is_position_held, system, select, random, &bond_energy);
     Potential * poten = system->get_potential(potential_acceptance_);
     const double energy = poten->select_energy(select->mobile(),
                                                system->get_configuration());
-    if (random->uniform() < std::exp(-beta*energy)) {
+    if (is_position_held || random->uniform() < std::exp(-beta*energy)) {
+      select->add_exclude_energy(bond_energy);
       return;
     }
   }
   FATAL("max_attempt: " << max_attempt << " reached");
 }
 
-void PerturbDistance::move_once_(System * system,
+double PerturbDistance::old_bond_energy(const System& system,
+    const TrialSelect * select) {
+  // the following five lines were copy-pasted from random_distance
+  const Bond& bond = system.configuration().unique_types().particle(
+    select->particle_type()).bond(bond_type_);
+  ASSERT(bond_.deserialize_map().count(bond.model()) == 1,
+    bond.model() << " not found");
+  const BondTwoBody * model = bond_.deserialize_map()[bond.model()].get();
+  return model->energy(
+    select->mobile().site_positions()[0][0],
+    select->anchor_position(0, 0, system),
+    bond);
+}
+
+void PerturbDistance::move_once_(const bool is_position_held,
+    System * system,
     TrialSelect * select,
-    Random * random) {
+    Random * random,
+    double * bond_energy) {
   DEBUG(class_name());
+  if (is_position_held) {
+    *bond_energy = old_bond_energy(*system, select);
+    return;
+  }
   Position * site = select->get_mobile()->get_site_position(0, 0);
+  const Position& anchor_pos = select->anchor_position(0, 0, *system);
   DEBUG("mobile " << select->mobile().str());
   DEBUG("old pos " << site->str());
   random->unit_sphere_surface(site);
-  double bond_energy = 0.;
-  site->multiply(random_distance(*system, select, random, &bond_energy));
-  DEBUG("final dist pert bond_energy " << bond_energy);
-  select->add_exclude_energy(bond_energy);
-  site->add(select->anchor_position(0, 0, *system));
+  site->multiply(random_distance(*system, select, random, bond_energy));
+  DEBUG("final dist pert bond_energy " << *bond_energy);
+  site->add(anchor_pos);
   DEBUG("new pos " << site->str());
   system->get_configuration()->update_positions(select->mobile());
 }
@@ -101,10 +125,10 @@ double PerturbDistance::random_distance(const System& system,
     double * bond_energy) {
   const Bond& bond = system.configuration().unique_types().particle(
     select->particle_type()).bond(bond_type_);
-  const double beta = system.thermo_params().beta();
   ASSERT(bond_.deserialize_map().count(bond.model()) == 1,
     bond.model() << " not found");
   const BondTwoBody * model = bond_.deserialize_map()[bond.model()].get();
+  const double beta = system.thermo_params().beta();
   const double dist = model->random_distance(bond, beta, system.dimension(), random);
   *bond_energy += model->energy(dist, bond);
   DEBUG("bond_energy " << *bond_energy);

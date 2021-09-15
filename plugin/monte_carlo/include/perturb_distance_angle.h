@@ -32,10 +32,10 @@ class PerturbDistanceAngle : public PerturbDistance {
   /// Return the angle.
   double angle_type() const { return angle_type_; }
 
+  /// Return the current energy of the existing, old angle.
+  double old_angle_energy(const System& system, const TrialSelect * select);
+
   /// Return the randomly selected angle from the potential.
-  double random_angle_radians(const System& system,
-    const TrialSelect * select,
-    Random * random);
   double random_angle_radians(const System& system,
     const TrialSelect * select,
     Random * random,
@@ -48,7 +48,8 @@ class PerturbDistanceAngle : public PerturbDistance {
     TrialSelect * select,
     Random * random);
 
-  void move(System * system,
+  void move(const bool is_position_held,
+    System * system,
     TrialSelect * select,
     Random * random) override;
 

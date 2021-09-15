@@ -74,7 +74,7 @@ class TrialSelect {
     const int particle_index,
     /// anchor index
     const int site_index,
-    const System& system);
+    const System& system) const;
 
   /// Set the state of the trial for the mobile select (e.g., old, move, add).
   /// See Select::trial_state

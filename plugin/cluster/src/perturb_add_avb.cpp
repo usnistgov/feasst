@@ -38,7 +38,7 @@ void PerturbAddAVB::perturb(
   if (!delay_add_) {
     system->get_configuration()->revive(select->mobile());
   }
-  move_->move(system, select, random);
+  move_->move(is_position_held, system, select, random);
   move_->set_revert_possible(true, select);
   set_revert_possible(true, select);
   set_finalize_possible(true, select);

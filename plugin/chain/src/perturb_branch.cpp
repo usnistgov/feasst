@@ -178,7 +178,8 @@ void PerturbBranch::solve_branch_(
   *z3 = A*ans1 + B;
 }
 
-void PerturbBranch::move(System * system,
+void PerturbBranch::move(const bool is_position_held,
+                         System * system,
                          TrialSelect * select,
                          Random * random) {
   const Angle& a2a1m1 = system->configuration().unique_type(
@@ -191,20 +192,30 @@ void PerturbBranch::move(System * system,
   ASSERT(angle_.deserialize_map().count(a2a1m1.model()) == 1,
     a2a1m1.model() << " not found");
   const BondThreeBody * model = angle_.deserialize_map()[a2a1m1.model()].get();
-  model->random_branch(
-    a2a1m1, a2a1m2, m1a1m2,
-    system->thermo_params().beta(),
-    &radians_a2a1m1, &radians_a2a1m2, &radians_m1a1m2,
-    random);
   double bond_energy = 0.;
-  bond_energy += model->energy(radians_a2a1m1, a2a1m1);
-  bond_energy += model->energy(radians_a2a1m2, a2a1m2);
-  bond_energy += model->energy(radians_m1a1m2, m1a1m2);
-  const double la1m1 = a2a1m1_.random_distance(*system, select, random, &bond_energy);
-  const double la1m2 = a2a1m2_.random_distance(*system, select, random, &bond_energy);
+  if (is_position_held) {
+    const Position& a1 = select->anchor_position(0, 0, *system);
+    const Position& a2 = select->anchor_position(0, 1, *system);
+    const Position& m1 = select->mobile().site_positions()[0][0];
+    const Position& m2 = select->mobile().site_positions()[0][1];
+    bond_energy += model->energy(a2, a1, m1, a2a1m1);
+    bond_energy += model->energy(a2, a1, m2, a2a1m2);
+    bond_energy += model->energy(m1, a1, m2, m1a1m2);
+  } else {
+    model->random_branch(
+      a2a1m1, a2a1m2, m1a1m2,
+      system->thermo_params().beta(),
+      &radians_a2a1m1, &radians_a2a1m2, &radians_m1a1m2,
+      random);
+    bond_energy += model->energy(radians_a2a1m1, a2a1m1);
+    bond_energy += model->energy(radians_a2a1m2, a2a1m2);
+    bond_energy += model->energy(radians_m1a1m2, m1a1m2);
+    const double la1m1 = a2a1m1_.random_distance(*system, select, random, &bond_energy);
+    const double la1m2 = a2a1m2_.random_distance(*system, select, random, &bond_energy);
+    a2a1m1_.place_in_circle(la1m1, radians_a2a1m1, system, select, random);
+    place_in_branch(la1m2, radians_a2a1m2, radians_m1a1m2, system, select, random);
+  }
   select->add_exclude_energy(bond_energy);
-  a2a1m1_.place_in_circle(la1m1, radians_a2a1m1, system, select, random);
-  place_in_branch(la1m2, radians_a2a1m2, radians_m1a1m2, system, select, random);
 }
 
 PerturbBranch::PerturbBranch(std::istream& istr)

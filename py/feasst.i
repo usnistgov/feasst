@@ -134,6 +134,7 @@
 #include "monte_carlo/include/perturb_move.h"
 #include "cluster/include/perturb_point_reflect.h"
 #include "monte_carlo/include/perturb_translate.h"
+#include "monte_carlo/include/perturb_to_anchor.h"
 #include "monte_carlo/include/perturb_distance.h"
 #include "chain/include/perturb_reptate.h"
 #include "monte_carlo/include/trial_select_particle.h"
@@ -206,9 +207,9 @@
 #include "cluster/include/compute_remove_avb.h"
 #include "cluster/include/compute_gca.h"
 #include "cluster/include/compute_add_avb_divalent.h"
-#include "cluster/include/compute_remove_avb_divalent.h"
 #include "morph/include/compute_morph.h"
 #include "monte_carlo/include/trial_compute_volume.h"
+#include "cluster/include/compute_remove_avb_divalent.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial_compute_move.h"
@@ -448,6 +449,7 @@ using namespace std;
 %shared_ptr(feasst::PerturbMove);
 %shared_ptr(feasst::PerturbPointReflect);
 %shared_ptr(feasst::PerturbTranslate);
+%shared_ptr(feasst::PerturbToAnchor);
 %shared_ptr(feasst::PerturbDistance);
 %shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::TrialSelectParticle);
@@ -520,9 +522,9 @@ using namespace std;
 %shared_ptr(feasst::ComputeRemoveAVB);
 %shared_ptr(feasst::ComputeGCA);
 %shared_ptr(feasst::ComputeAddAVBDivalent);
-%shared_ptr(feasst::ComputeRemoveAVBDivalent);
 %shared_ptr(feasst::ComputeMorph);
 %shared_ptr(feasst::TrialComputeVolume);
+%shared_ptr(feasst::ComputeRemoveAVBDivalent);
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialComputeAdd);
 %shared_ptr(feasst::TrialComputeMove);
@@ -722,6 +724,7 @@ using namespace std;
 %include monte_carlo/include/perturb_move.h
 %include cluster/include/perturb_point_reflect.h
 %include monte_carlo/include/perturb_translate.h
+%include monte_carlo/include/perturb_to_anchor.h
 %include monte_carlo/include/perturb_distance.h
 %include chain/include/perturb_reptate.h
 %include monte_carlo/include/trial_select_particle.h
@@ -794,9 +797,9 @@ using namespace std;
 %include cluster/include/compute_remove_avb.h
 %include cluster/include/compute_gca.h
 %include cluster/include/compute_add_avb_divalent.h
-%include cluster/include/compute_remove_avb_divalent.h
 %include morph/include/compute_morph.h
 %include monte_carlo/include/trial_compute_volume.h
+%include cluster/include/compute_remove_avb_divalent.h
 %include monte_carlo/include/trial_compute_remove.h
 %include monte_carlo/include/trial_compute_add.h
 %include monte_carlo/include/trial_compute_move.h

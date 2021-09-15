@@ -28,6 +28,9 @@ class PerturbDihedral : public PerturbDistanceAngle {
   /// Return the dihedral angle type.
   double dihedral_type() const { return dihedral_type_; }
 
+  /// Return the current energy of the existing, old dihedral.
+  double old_dihedral_energy(const System& system, const TrialSelect * select);
+
   /// Return the randomly selected angle from the potential.
   /// If the spring constant is -1 (rigid), simply return the angle.
   double random_dihedral_radians(const System& system,
@@ -42,7 +45,8 @@ class PerturbDihedral : public PerturbDistanceAngle {
     System * system,
     TrialSelect * select);
 
-  void move(System * system,
+  void move(const bool is_position_held,
+    System * system,
     TrialSelect * select,
     Random * random) override;
 

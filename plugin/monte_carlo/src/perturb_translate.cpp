@@ -50,9 +50,11 @@ void PerturbTranslate::move(
   system->get_configuration()->update_positions(select->mobile());
 }
 
-void PerturbTranslate::move(System * system,
+void PerturbTranslate::move(const bool is_position_held,
+                            System * system,
                             TrialSelect * select,
                             Random * random) {
+  if (is_position_held) return;
   random->position_in_cube(
     system->dimension(),
     2.*tunable().value(), // 2 factor accounts for +/- delta

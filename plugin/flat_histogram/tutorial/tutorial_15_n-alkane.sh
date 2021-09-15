@@ -20,38 +20,20 @@ echo "ID is \$SLURM_JOB_ID"
 
 cd \$PWD
 
-python tutorial_15_n-alkane.py \
-  --particle ~/feasst/forcefield/data.propane \
-  --temperature 344 \
-  --max_particles 180 \
-  --beta_mu -7 \
-  --task \$SLURM_ARRAY_TASK_ID \
-  --num_hours $num_hours \
-  --num_procs $num_procs
-
-#python tutorial_15_n-alkane.py \
-#  --particle ~/feasst/forcefield/data.n-butane \
-#  --temperature 392 \
-#  --max_particles 136 \
-#  --beta_mu -7 \
-#  --task \$SLURM_ARRAY_TASK_ID \
-#  --num_hours $num_hours \
-#  --num_procs $num_procs
-#
-#python tutorial_15_n-alkane.py \
-#  --particle ~/feasst/forcefield/data.n-decane \
-#  --temperature 600 \
-#  --max_particles 56 \
-#  --beta_mu -7 \
-#  --task \$SLURM_ARRAY_TASK_ID \
-#  --num_hours $num_hours \
-#  --num_procs $num_procs
+python tutorial_15_n-alkane.py --particle $data --temperature $temperature  --max_particles $max_particles --lx $box_length --ly $box_length --lz $box_length --beta_mu $beta_mu --cutoff $cutoff --task \$SLURM_ARRAY_TASK_ID --num_hours $num_hours --num_procs $num_procs
 
 echo "Job is done"
 echo "Time is \$(date)"
 _EOF_
 
-sbatch --array=0-15%1 launch.cmd
+sbatch --array=0-3%1 launch.cmd
 }
+
+data=data.ethane; temperature=300; max_particles=225; box_length=30; beta_mu=-7.1126; cutoff=15 ## https://mmlapps.nist.gov/srs/ETHANE/ethane_sat.htm
+#data=~/feasst/forcefield/data.propane; temperature=312; max_particles=200; box_length=30; beta_mu=-7.1126; cutoff=14;
+#data=~/feasst/forcefield/data.propane; temperature=344; max_particles=180; box_length=28; beta_mu=-7; cutoff=14;
+#data=~/feasst/forcefield/data.n-butane; temperature=350; max_particles=575; box_length=45; beta_mu=-6; cutoff=12; # https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n
+#data=~/feasst/forcefield/data.n-octane; temperature=560; max_particles=180; box_length=35; beta_mu=-6; cutoff=15; # https://mmlapps.nist.gov/srs/OCTANE/octane_sat.htm
+#data=~/feasst/forcefield/data.n-decane; temperature=560; max_particles=120; beta_mu=-7; box_length=36;
 
 launch_node

@@ -55,9 +55,11 @@ void PerturbRotate::move(const Position& pivot,
   system->get_configuration()->update_positions(select->mobile());
 }
 
-void PerturbRotate::move(System * system,
+void PerturbRotate::move(const bool is_position_held,
+    System * system,
     TrialSelect * select,
     Random * random) {
+  if (is_position_held) return;
   ASSERT(select->mobile().num_sites() > 0, "selection error");
   ASSERT(select->mobile().site_positions().size() > 0, "requires coordinates");
   const Position& pivot = select->mobile().site_positions()[0][pivot_site_];
