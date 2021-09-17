@@ -17,7 +17,7 @@
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/flat_histogram.h"
-#include "ewald/include/utils.h"
+#include "charge/include/utils.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/energy_map_neighbor.h"
 #include "cluster/include/trial_avb2.h"

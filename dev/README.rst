@@ -325,7 +325,6 @@ To Do List
 * VisitModels may prefer to update select properties (e.g., cell, eik)
 * Jupyter notebook output should go to cells, not terminal that runs jupyter.
 * lint file_[xyz,lmp]
-* regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
 * put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list
 * config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
@@ -334,7 +333,6 @@ To Do List
 * Document utils lj, spce, rpm in tutorials
 * Add a FAQ for common compile errors: "no known conversion from brace-enclosed initializer list to argtype" often means that a parameter was not converted to a string.
 * Make a CachedRandom and CachedPotential for prefetch and avoid if statements that could slow down serial simulations.
-* remove tutorial/fh.py
 * Analyze/ModifyFactory optimization: use steps_per in factory to limit number of checks
 * implement timer for profiles (with hierarchies by class... tried this, but its too slow. Time only infrequently?)
 * implement a timer to auto-balance trial weights based on cpu time.
@@ -348,8 +346,8 @@ To Do List
 * in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?
 * EnergyMapNeighborCriteria should be able to take index of energy map stored by System
 * Optimize TrialRemove for new_only by not computing interactions with neighbors
-* Rename ewald plugin to charge
 * Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.
+* (repeat) regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
 * Add more documentation for Trials (TrialStage: Perturb/Select, TrialCompute. When finialize? reference?)
 * Early tutorials are in ipynb, but transition out of that into .py, include .py on the website
 * When swig4 finally works, can use multimap for dictionaries with more than one of same first key

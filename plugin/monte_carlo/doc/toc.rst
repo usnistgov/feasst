@@ -11,9 +11,9 @@
    Perturb
    PerturbVolume
    PerturbMove
-   PerturbTranslate
-   PerturbToAnchor
    PerturbDistance
+   PerturbToAnchor
+   PerturbTranslate
    TrialSelectParticle
    TrialSelectBond
    TrialSelectAngle

@@ -30,10 +30,10 @@
 #include "confinement/include/always_reject.h"
 #include "confinement/include/henry_coefficient.h"
 #include "confinement/include/trial_anywhere.h"
-#include "ewald/include/ewald.h"
-#include "ewald/include/charge_screened.h"
-#include "ewald/include/charge_screened_intra.h"
-#include "ewald/include/charge_self.h"
+#include "charge/include/ewald.h"
+#include "charge/include/charge_screened.h"
+#include "charge/include/charge_screened_intra.h"
+#include "charge/include/charge_self.h"
 
 namespace feasst {
 
@@ -279,7 +279,7 @@ TEST(Ewald, henry_coefficient_LONG) {
   Configuration config(
     MakeDomain({{"cubic_box_length", "20"}}), {
       {"particle_type0", "../forcefield/spce.fstprt"},
-      //{"particle_type0", "../plugin/ewald/forcefield/rpm_plus.fstprt"},
+      //{"particle_type0", "../plugin/charge/forcefield/rpm_plus.fstprt"},
       {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab20x20.fstprt"}});
   for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
     config.set_model_param("cutoff", site_type, 2.5);

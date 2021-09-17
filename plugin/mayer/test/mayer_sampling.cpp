@@ -15,8 +15,8 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/run.h"
 #include "mayer/include/mayer_sampling.h"
-#include "ewald/include/coulomb.h"
-#include "ewald/include/utils.h"
+#include "charge/include/coulomb.h"
+#include "charge/include/utils.h"
 #include "models/include/lennard_jones_force_shift.h"
 
 namespace feasst {

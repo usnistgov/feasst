@@ -87,10 +87,14 @@
 #include "system/include/rigid_dihedral.h"
 #include "system/include/bond_visitor.h"
 #include "system/include/visit_model.h"
+#include "charge/include/slab_correction.h"
 #include "system/include/model_two_body.h"
 #include "system/include/lennard_jones.h"
 #include "models/include/yukawa.h"
 #include "models/include/square_well.h"
+#include "charge/include/charge_screened_intra.h"
+#include "charge/include/coulomb.h"
+#include "charge/include/charge_screened.h"
 #include "example/include/model_example.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/hard_sphere.h"
@@ -98,6 +102,8 @@
 #include "system/include/dont_visit_model.h"
 #include "system/include/model_three_body.h"
 #include "system/include/model_one_body.h"
+#include "charge/include/electric_field.h"
+#include "charge/include/charge_self.h"
 #include "system/include/model_empty.h"
 #include "system/include/visit_model_intra_map.h"
 #include "system/include/visit_model_intra.h"
@@ -120,6 +126,7 @@
 #include "monte_carlo/include/acceptance.h"
 #include "configuration/include/visit_particles.h"
 #include "configuration/include/configuration.h"
+#include "charge/include/ewald.h"
 #include "system/include/potential.h"
 #include "system/include/potential_factory.h"
 #include "system/include/system.h"
@@ -133,10 +140,10 @@
 #include "morph/include/perturb_particle_type.h"
 #include "monte_carlo/include/perturb_move.h"
 #include "cluster/include/perturb_point_reflect.h"
-#include "monte_carlo/include/perturb_translate.h"
-#include "monte_carlo/include/perturb_to_anchor.h"
 #include "monte_carlo/include/perturb_distance.h"
 #include "chain/include/perturb_reptate.h"
+#include "monte_carlo/include/perturb_to_anchor.h"
+#include "monte_carlo/include/perturb_translate.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "chain/include/select_segment.h"
 #include "chain/include/select_end_segment.h"
@@ -160,6 +167,7 @@
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/analyze.h"
+#include "charge/include/check_net_charge.h"
 #include "chain/include/analyze_bonds.h"
 #include "steppers/include/density_profile.h"
 #include "monte_carlo/include/analyze_factory.h"
@@ -183,6 +191,7 @@
 #include "steppers/include/check_energy.h"
 #include "monte_carlo/include/modify_factory.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "charge/include/utils.h"
 #include "prefetch/include/prefetch.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/increment_phase.h"
@@ -191,6 +200,7 @@
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/tune.h"
 #include "monte_carlo/include/seek_num_particles.h"
+#include "charge/include/trial_transfer_multiple.h"
 #include "cluster/include/trial_avb2.h"
 #include "cluster/include/trial_rigid_cluster.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
@@ -199,6 +209,8 @@
 #include "chain/include/trial_grow.h"
 #include "morph/include/trial_morph.h"
 #include "morph/include/trial_morph_expanded.h"
+#include "charge/include/trial_remove_multiple.h"
+#include "charge/include/trial_add_multiple.h"
 #include "cluster/include/trial_avb4.h"
 #include "beta_expanded/include/trial_beta.h"
 #include "beta_expanded/include/compute_beta.h"
@@ -207,9 +219,11 @@
 #include "cluster/include/compute_remove_avb.h"
 #include "cluster/include/compute_gca.h"
 #include "cluster/include/compute_add_avb_divalent.h"
-#include "morph/include/compute_morph.h"
-#include "monte_carlo/include/trial_compute_volume.h"
 #include "cluster/include/compute_remove_avb_divalent.h"
+#include "morph/include/compute_morph.h"
+#include "charge/include/compute_add_multiple.h"
+#include "charge/include/compute_remove_multiple.h"
+#include "monte_carlo/include/trial_compute_volume.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial_compute_move.h"
@@ -252,20 +266,6 @@
 #include "math/include/solver_brent_dekker.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 #include "opt_lj/include/visit_model_opt_rpm.h"
-#include "ewald/include/slab_correction.h"
-#include "ewald/include/trial_remove_multiple.h"
-#include "ewald/include/trial_add_multiple.h"
-#include "ewald/include/charge_self.h"
-#include "ewald/include/charge_screened.h"
-#include "ewald/include/utils.h"
-#include "ewald/include/trial_transfer_multiple.h"
-#include "ewald/include/coulomb.h"
-#include "ewald/include/compute_remove_multiple.h"
-#include "ewald/include/electric_field.h"
-#include "ewald/include/compute_add_multiple.h"
-#include "ewald/include/charge_screened_intra.h"
-#include "ewald/include/ewald.h"
-#include "ewald/include/check_net_charge.h"
 #include "mayer/include/mayer_sampling.h"
 #include "confinement/include/model_lj_shape.h"
 #include "confinement/include/trial_anywhere.h"
@@ -394,10 +394,14 @@ using namespace std;
 %shared_ptr(feasst::RigidDihedral);
 %shared_ptr(feasst::BondVisitor);
 %shared_ptr(feasst::VisitModel);
+%shared_ptr(feasst::SlabCorrection);
 %shared_ptr(feasst::ModelTwoBody);
 %shared_ptr(feasst::LennardJones);
 %shared_ptr(feasst::Yukawa);
 %shared_ptr(feasst::SquareWell);
+%shared_ptr(feasst::ChargeScreenedIntra);
+%shared_ptr(feasst::Coulomb);
+%shared_ptr(feasst::ChargeScreened);
 %shared_ptr(feasst::ModelExample);
 %shared_ptr(feasst::ModelTwoBodyFactory);
 %shared_ptr(feasst::HardSphere);
@@ -405,6 +409,8 @@ using namespace std;
 %shared_ptr(feasst::DontVisitModel);
 %shared_ptr(feasst::ModelThreeBody);
 %shared_ptr(feasst::ModelOneBody);
+%shared_ptr(feasst::ElectricField);
+%shared_ptr(feasst::ChargeSelf);
 %shared_ptr(feasst::ModelEmpty);
 %shared_ptr(feasst::VisitModelIntraMap);
 %shared_ptr(feasst::VisitModelIntra);
@@ -435,6 +441,7 @@ using namespace std;
 %shared_ptr(feasst::VisitParticles);
 %shared_ptr(feasst::LoopOneBody);
 %shared_ptr(feasst::Configuration);
+%shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::Potential);
 %shared_ptr(feasst::PotentialFactory);
 %shared_ptr(feasst::System);
@@ -448,10 +455,10 @@ using namespace std;
 %shared_ptr(feasst::PerturbParticleType);
 %shared_ptr(feasst::PerturbMove);
 %shared_ptr(feasst::PerturbPointReflect);
-%shared_ptr(feasst::PerturbTranslate);
-%shared_ptr(feasst::PerturbToAnchor);
 %shared_ptr(feasst::PerturbDistance);
 %shared_ptr(feasst::PerturbReptate);
+%shared_ptr(feasst::PerturbToAnchor);
+%shared_ptr(feasst::PerturbTranslate);
 %shared_ptr(feasst::TrialSelectParticle);
 %shared_ptr(feasst::SelectSegment);
 %shared_ptr(feasst::SelectEndSegment);
@@ -476,6 +483,7 @@ using namespace std;
 %shared_ptr(feasst::Analyze);
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
+%shared_ptr(feasst::CheckNetCharge);
 %shared_ptr(feasst::AnalyzeBonds);
 %shared_ptr(feasst::DensityProfile);
 %shared_ptr(feasst::AnalyzeFactory);
@@ -522,9 +530,11 @@ using namespace std;
 %shared_ptr(feasst::ComputeRemoveAVB);
 %shared_ptr(feasst::ComputeGCA);
 %shared_ptr(feasst::ComputeAddAVBDivalent);
-%shared_ptr(feasst::ComputeMorph);
-%shared_ptr(feasst::TrialComputeVolume);
 %shared_ptr(feasst::ComputeRemoveAVBDivalent);
+%shared_ptr(feasst::ComputeMorph);
+%shared_ptr(feasst::ComputeAddMultiple);
+%shared_ptr(feasst::ComputeRemoveMultiple);
+%shared_ptr(feasst::TrialComputeVolume);
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialComputeAdd);
 %shared_ptr(feasst::TrialComputeMove);
@@ -568,16 +578,6 @@ using namespace std;
 %shared_ptr(feasst::SolverBrentDekker);
 %shared_ptr(feasst::VisitModelOptLJ);
 %shared_ptr(feasst::VisitModelOptRPM);
-%shared_ptr(feasst::SlabCorrection);
-%shared_ptr(feasst::ChargeSelf);
-%shared_ptr(feasst::ChargeScreened);
-%shared_ptr(feasst::Coulomb);
-%shared_ptr(feasst::ComputeRemoveMultiple);
-%shared_ptr(feasst::ElectricField);
-%shared_ptr(feasst::ComputeAddMultiple);
-%shared_ptr(feasst::ChargeScreenedIntra);
-%shared_ptr(feasst::Ewald);
-%shared_ptr(feasst::CheckNetCharge);
 %shared_ptr(feasst::MayerSampling);
 %shared_ptr(feasst::ModelLJShape);
 %shared_ptr(feasst::ModelLJShapeEnergyAtCutoff);
@@ -677,10 +677,14 @@ using namespace std;
 %include system/include/rigid_dihedral.h
 %include system/include/bond_visitor.h
 %include system/include/visit_model.h
+%include charge/include/slab_correction.h
 %include system/include/model_two_body.h
 %include system/include/lennard_jones.h
 %include models/include/yukawa.h
 %include models/include/square_well.h
+%include charge/include/charge_screened_intra.h
+%include charge/include/coulomb.h
+%include charge/include/charge_screened.h
 %include example/include/model_example.h
 %include system/include/model_two_body_factory.h
 %include system/include/hard_sphere.h
@@ -688,6 +692,8 @@ using namespace std;
 %include system/include/dont_visit_model.h
 %include system/include/model_three_body.h
 %include system/include/model_one_body.h
+%include charge/include/electric_field.h
+%include charge/include/charge_self.h
 %include system/include/model_empty.h
 %include system/include/visit_model_intra_map.h
 %include system/include/visit_model_intra.h
@@ -710,6 +716,7 @@ using namespace std;
 %include monte_carlo/include/acceptance.h
 %include configuration/include/visit_particles.h
 %include configuration/include/configuration.h
+%include charge/include/ewald.h
 %include system/include/potential.h
 %include system/include/potential_factory.h
 %include system/include/system.h
@@ -723,10 +730,10 @@ using namespace std;
 %include morph/include/perturb_particle_type.h
 %include monte_carlo/include/perturb_move.h
 %include cluster/include/perturb_point_reflect.h
-%include monte_carlo/include/perturb_translate.h
-%include monte_carlo/include/perturb_to_anchor.h
 %include monte_carlo/include/perturb_distance.h
 %include chain/include/perturb_reptate.h
+%include monte_carlo/include/perturb_to_anchor.h
+%include monte_carlo/include/perturb_translate.h
 %include monte_carlo/include/trial_select_particle.h
 %include chain/include/select_segment.h
 %include chain/include/select_end_segment.h
@@ -750,6 +757,7 @@ using namespace std;
 %include monte_carlo/include/trial.h
 %include monte_carlo/include/trial_factory.h
 %include monte_carlo/include/analyze.h
+%include charge/include/check_net_charge.h
 %include chain/include/analyze_bonds.h
 %include steppers/include/density_profile.h
 %include monte_carlo/include/analyze_factory.h
@@ -773,6 +781,7 @@ using namespace std;
 %include steppers/include/check_energy.h
 %include monte_carlo/include/modify_factory.h
 %include monte_carlo/include/monte_carlo.h
+%include charge/include/utils.h
 %include prefetch/include/prefetch.h
 %include steppers/include/check_energy_and_tune.h
 %include steppers/include/increment_phase.h
@@ -781,6 +790,7 @@ using namespace std;
 %include steppers/include/criteria_updater.h
 %include steppers/include/tune.h
 %include monte_carlo/include/seek_num_particles.h
+%include charge/include/trial_transfer_multiple.h
 %include cluster/include/trial_avb2.h
 %include cluster/include/trial_rigid_cluster.h
 %include cluster/include/trial_transfer_avb_divalent.h
@@ -789,6 +799,8 @@ using namespace std;
 %include chain/include/trial_grow.h
 %include morph/include/trial_morph.h
 %include morph/include/trial_morph_expanded.h
+%include charge/include/trial_remove_multiple.h
+%include charge/include/trial_add_multiple.h
 %include cluster/include/trial_avb4.h
 %include beta_expanded/include/trial_beta.h
 %include beta_expanded/include/compute_beta.h
@@ -797,9 +809,11 @@ using namespace std;
 %include cluster/include/compute_remove_avb.h
 %include cluster/include/compute_gca.h
 %include cluster/include/compute_add_avb_divalent.h
-%include morph/include/compute_morph.h
-%include monte_carlo/include/trial_compute_volume.h
 %include cluster/include/compute_remove_avb_divalent.h
+%include morph/include/compute_morph.h
+%include charge/include/compute_add_multiple.h
+%include charge/include/compute_remove_multiple.h
+%include monte_carlo/include/trial_compute_volume.h
 %include monte_carlo/include/trial_compute_remove.h
 %include monte_carlo/include/trial_compute_add.h
 %include monte_carlo/include/trial_compute_move.h
@@ -842,20 +856,6 @@ using namespace std;
 %include math/include/solver_brent_dekker.h
 %include opt_lj/include/visit_model_opt_lj.h
 %include opt_lj/include/visit_model_opt_rpm.h
-%include ewald/include/slab_correction.h
-%include ewald/include/trial_remove_multiple.h
-%include ewald/include/trial_add_multiple.h
-%include ewald/include/charge_self.h
-%include ewald/include/charge_screened.h
-%include ewald/include/utils.h
-%include ewald/include/trial_transfer_multiple.h
-%include ewald/include/coulomb.h
-%include ewald/include/compute_remove_multiple.h
-%include ewald/include/electric_field.h
-%include ewald/include/compute_add_multiple.h
-%include ewald/include/charge_screened_intra.h
-%include ewald/include/ewald.h
-%include ewald/include/check_net_charge.h
 %include mayer/include/mayer_sampling.h
 %include confinement/include/model_lj_shape.h
 %include confinement/include/trial_anywhere.h

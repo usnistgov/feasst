@@ -8,7 +8,7 @@
 #include "steppers/include/energy.h"
 #include "system/include/dont_visit_model.h"
 #include "chain/include/trial_grow.h"
-#include "ewald/include/utils.h"
+#include "charge/include/utils.h"
 
 namespace feasst {
 

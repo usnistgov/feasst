@@ -18,9 +18,9 @@
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/wang_landau.h"
-#include "ewald/include/check_net_charge.h"
-#include "ewald/include/utils.h"
-#include "ewald/include/charge_screened.h"
+#include "charge/include/check_net_charge.h"
+#include "charge/include/utils.h"
+#include "charge/include/charge_screened.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/energy_map_neighbor.h"
 #include "cluster/include/energy_map_neighbor_criteria.h"
@@ -233,9 +233,9 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
 //    const double q_plus = config->model_params().charge().value(0);
 //    const double q_minus = config->model_params().charge().value(1);
 //    config->add_particle_type(install_dir() +
-//      "/plugin/ewald/forcefield/rpm_plus.fstprt", "0.5");
+//      "/plugin/charge/forcefield/rpm_plus.fstprt", "0.5");
 //    config->add_particle_type(install_dir() +
-//      "/plugin/ewald/forcefield/rpm_minus.fstprt", "0.5");
+//      "/plugin/charge/forcefield/rpm_minus.fstprt", "0.5");
 //    config->set_model_param("charge", 2, 0.5*q_plus);
 //    config->set_model_param("charge", 3, 0.5*q_minus);
 //    config->set_model_param("cutoff", 2, 6);
@@ -537,14 +537,14 @@ TEST(MonteCarlo, rpm_divalent_morph_LONG) {
     const double q_plus = config->model_params().charge().value(0);
     const double q_minus = config->model_params().charge().value(1);
     config->add_particle_type(install_dir() +
-      "/plugin/ewald/forcefield/rpm_plus.fstprt", "0.5");
+      "/plugin/charge/forcefield/rpm_plus.fstprt", "0.5");
     config->add_particle_type(install_dir() +
-      "/plugin/ewald/forcefield/rpm_minus.fstprt", "0.5");
+      "/plugin/charge/forcefield/rpm_minus.fstprt", "0.5");
     config->set_model_param("charge", 2, 0.5*q_plus);
     config->set_model_param("charge", 3, 0.5*q_minus);
     config->set_model_param("cutoff", 2, 7.5);
     config->set_model_param("cutoff", 3, 7.5);
-    //mc.get_system()->precompute();  // update ewald
+    //mc.get_system()->precompute();  // update charge
   }
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};

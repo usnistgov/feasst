@@ -5,7 +5,7 @@
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "morph/include/perturb_particle_type.h"
-#include "ewald/include/utils.h"
+#include "charge/include/utils.h"
 
 namespace feasst {
 

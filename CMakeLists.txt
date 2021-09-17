@@ -15,12 +15,12 @@ set(FEASST_PLUGINS "utils")
 #set(FEASST_PLUGINS "utils;math;configuration;system")
 #set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;models;monte_carlo")
 #set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;cluster")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;ewald;flat_histogram;cluster")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;ewald;flat_histogram;cluster;beta_expanded")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;ewald;flat_histogram;cluster;beta_expanded;chain")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;ewald;flat_histogram;cluster;beta_expanded;chain;morph")
-set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;models;patch;mayer;example;shape;confinement;chain;flat_histogram;ewald;morph;cluster;prefetch;egce;beta_expanded")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;models;patch;mayer;example;shape;confinement;chain;flat_histogram;ewald;morph;cluster;prefetch;egce;beta_expanded;xtc")
+#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;charge;flat_histogram;cluster")
+#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;charge;flat_histogram;cluster;beta_expanded")
+#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;charge;flat_histogram;cluster;beta_expanded;chain")
+#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;charge;flat_histogram;cluster;beta_expanded;chain;morph")
+set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded")
+#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;xtc")
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
 
@@ -111,9 +111,9 @@ if (${_index} GREATER -1)
 endif()
 
 # Ewald
-list (FIND FEASST_PLUGINS "ewald" _index)
+list (FIND FEASST_PLUGINS "charge" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstewald feasstmonte_carlo)
+  target_link_libraries(feasstcharge feasstmonte_carlo)
 endif()
 
 # Example
@@ -211,7 +211,7 @@ list (FIND FEASST_PLUGINS "morph" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstmorph feasstchain)
   target_link_libraries(feasstmorph feasstflat_histogram)
-  target_link_libraries(feasstmorph feasstewald)
+  target_link_libraries(feasstmorph feasstcharge)
 endif()
 
 # prefetch
@@ -230,7 +230,7 @@ endif()
 list (FIND FEASST_PLUGINS "ph" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstph feasstchain)
-  target_link_libraries(feasstph feasstewald)
+  target_link_libraries(feasstph feasstcharge)
 endif()
 
 # cluster
