@@ -28,35 +28,47 @@ Features
 :doc:`/plugin/README` contains the list of features available.
 Some features include but are not limited to the following:
 
-Simulation techniques
+Monte Carlo simulation techniques
 
-* Metropolis Monte Carlo
-* Wang-Landau Monte Carlo
-* Transition-matrix Monte Carlo
-* Mayer-sampling Monte Carlo
-* Configurational bias
+* Metropolis
+* Wang-Landau
+* Transition-matrix
+* Mayer-sampling
 
 Thermodynamic ensembles
 
 * Microcanonical ensemble
 * Canonical ensemble
 * Grand canonical ensemble
-* Expanded ensembles
+* Temperature and growth expanded ensembles
 
-Intermolecular interactions
+Monte Carlo trials
+
+* Translation, rotation, crankshaft, pivot
+* Rigid cluster rotation and translation
+* Configurational bias transfers and partial regrowth
+* Dual-cut configurational bias
+* Aggregation volume bias
+* Reptation
+* Branches
+
+Interaction potentials
 
 * Hard spheres
-* Lennard-Jones with Yukawa, LRC, cut and force shift
+* Lennard-Jones with LRC, cut and force shift
 * Patchy particles
-* Charged interactions with the Ewald summation
-* Confinement
+* Yukawa and charged interactions
+* Ewald summation and 2D slab correction
+* Bonds, angles and dihedrals
+* TraPPE small molecules and n-alkanes
+* Slab, cylindrical and spherical confinement
 * Cell list and neighbor list
 
 Modern software
 
 * Interface with C++ or as a Python module
-* OpenMP parallelization
-* Checkpointing to save and restart simulations
+* OpenMP parallelization and prefetching
+* Checkpoint files to save, restart and analyze simulations
 
 Tutorial
 ================================================================================

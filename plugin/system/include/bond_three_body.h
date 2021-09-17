@@ -23,20 +23,29 @@ class Random;
 class BondThreeBody {
  public:
   BondThreeBody() {}
+
+  /// Return the energy of interaction between ri, rj and rk.
   virtual double energy(const Position& ri, const Position& rj,
     const Position& rk, const Bond& angle) const;
+
+  /// Return the energy of interaction given an angle in radians.
   virtual double energy(const double radians, const Bond& angle) const = 0;
 
   /**
     Return a randomly selected bond angle.
 
-    \f$P(\theta) \propto \sin\theta\exp[-\beta U(\theta)]\f$
+    In three dimensions, \f$P(\theta) \propto \sin\theta\exp[-\beta U(\theta)]\f$
+
+    In two dimensions, \f$P(\theta) \propto \theta\exp[-\beta U(\theta)]\f$
    */
   virtual double random_angle_radians(const Angle& angle, const double beta,
     const int dimension, Random * random) const;
 
   /**
-    Return three random angles for forming a branch.
+\rst
+Return three random angles to form a branch.
+
+::
 
     anchor2 -> 1         1(a2)
     mobile1 -> 2         |
@@ -44,6 +53,8 @@ class BondThreeBody {
     anchor1 -> 4       /   \L34(distance)
                   2(m1)     3(m2, the site to be placed in this function)
                        t243(branch_angle)
+
+\endrst
    */
   virtual void random_branch(
     const Angle& a2a1m1,

@@ -26,5 +26,8 @@ tail -1 summary_long.log >> summary.log
 
 echo "********** pytutorial **********" >> summary.log
 python ../dev/tools/run_tutorials.py >> summary_long.log 2>&1
-tail -1 tutorial_failures.txt >> summary.log
+for fl in `find ../ -name 'tutorial_failures.txt'`; do
+  cat $fl >> summary.log
+done
+#tail -1 tutorial_failures.txt >> summary.log
 

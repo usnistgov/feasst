@@ -7,11 +7,6 @@ First, you take take the most relevant VisitModel and copy it.
 Then you hard-code the model inside the VisitModel.
 Finally, you use this optimized model and make sure to check it against the unoptimized version when initializing your System Potentials.
 
-.. toctree::
-   :glob:
-
-   tutorial/tutorial*
-
 FEASST plugin dependencies
 ============================
 

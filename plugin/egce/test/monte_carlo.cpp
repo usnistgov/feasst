@@ -369,9 +369,9 @@ void compare_lnpi_en(const MonteCarlo& mc, const int min) {
   ++index;
   EXPECT_NEAR(en[index]->accumulator().average(), -1.30701, 0.03);
   ++index;
-  EXPECT_NEAR(en[index]->accumulator().average(), -1.57156, 0.03);
+  EXPECT_NEAR(en[index]->accumulator().average(), -1.57156, 0.04);
   ++index;
-  EXPECT_NEAR(en[index]->accumulator().average(), -2.60241, 0.045);
+  EXPECT_NEAR(en[index]->accumulator().average(), -2.60241, 0.05);
   ++index;
   EXPECT_NEAR(en[index]->accumulator().average(), -2.98115, 0.05);
   ++index;

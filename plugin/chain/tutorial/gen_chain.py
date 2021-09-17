@@ -14,7 +14,7 @@ Site Properties\n\
 \n\
 Bond Properties\n\
 \n\
-0 length 1.0 delta 0.00001\n\
+0 RigidBond length 1.0 delta 0.00001\n\
 \n\
 Sites\n\
 \n\

@@ -111,7 +111,7 @@ TEST(MonteCarlo, hard_sphere_LONG) {
                              {"file_name_append_phase", "True"}}));
   mc.run_until_complete();
   INFO(feasst_str(bias->ln_prob().values()));
-  EXPECT_NEAR(bias->ln_prob().value(0), -41.16903361558974, 0.15);
+  EXPECT_NEAR(bias->ln_prob().value(0), -41.16903361558974, 0.25);
   //EXPECT_NEAR(bias->ln_prob().value(0), -41.3327752, 0.05);
 }
 
@@ -330,7 +330,7 @@ TEST(MonteCarlo, lj_fh_multi_LONG) {
   mc.run_until_complete();
   INFO(mc.criteria().write());
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
-  EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.02);
+  EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.0225);
   EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.02);
   EXPECT_NEAR(lnpi.value(2), -0.00163919230786818, 0.005);
   EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);

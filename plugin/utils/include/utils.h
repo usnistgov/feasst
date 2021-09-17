@@ -9,8 +9,9 @@ namespace feasst {
 
 /// Return true if value is found in list, and the index of that value in list.
 template<class T>
-bool find_in_list(const T value, const std::vector<T> &list,
-  int * index  //!< last index in list where value was found
+bool find_in_list(const T value,  /// search for this value
+  const std::vector<T> &list,  /// list to search for value
+  int * index  /// return the last index in list where value was found
   ) {
   const int size = static_cast<int>(list.size());
   if (size == 0) return false;
@@ -33,9 +34,9 @@ bool find_in_list(const T value, const std::vector<T> &list) {
 
 /// Same as above, but use the first element of pair in list.
 template<class T1, class T2>
-bool find_in_list(const T1 value, const std::vector<std::pair<T1,T2> >& list,
-  int * index  //!< last index in list where value was found
-  ) {
+bool find_in_list(const T1 value,
+    const std::vector<std::pair<T1,T2> >& list,
+    int * index) {
   const int size = static_cast<int>(list.size());
   if (size == 0) return false;
   *index = -1;

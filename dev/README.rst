@@ -313,7 +313,6 @@ To Do List
 * implement gibbs ensemble
 * Make utils:lj,spce,etc derived classes of System ?
 * Create benchmarking profile to compare among versions
-* specify units in LMP data files?
 * fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
 * consider optimization of Ewald: init ewald storage on particle types, precompute property index.
 * when selecting from cpdf, use lnp instead of p?

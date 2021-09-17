@@ -13,16 +13,18 @@ namespace feasst {
   not available.
   Select two mobile sites bonded to anchor 1, that also forms a third angle with
   anchor 2.
-\rst
-Thus, the bonded topology appears as:
-    anchor2
-       |
-    anchor1
-    /     \
-mobile1   mobile2
+
+  Thus, the bonded topology appears as:
+
+::
+
+        anchor2
+           |
+        anchor1
+        /     \
+    mobile1   mobile2
 
 In the source code, these are often shortened as anchor1->a1, mobile2->m2, etc.
-\endrst
  */
 class SelectBranch : public TrialSelectAngle {
  public:

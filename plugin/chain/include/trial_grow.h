@@ -112,7 +112,8 @@ excluded from the energy in the acceptance probability.
 
 \endrst
  */
-std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
+std::shared_ptr<TrialFactory> MakeTrialGrow(
+  std::vector<argtype> args,  /// list of arguments, one for each stage.
   /// Optionally, set the default values for the following TrialStage arguments:
   /// num_steps, reference_index and new_only.
   /// Any option applied by the above args overwrites this option.

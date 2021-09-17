@@ -6,23 +6,25 @@
 
 namespace feasst {
 
-/// HWH Note: This relatively new class hasn't been tested.
 /**
   For a periodically repeated slab 3 to 5 times larger than the thickness
   of the slab,
 
-  /f$U = \frac{2\pi}{V} M_z^2/f$
+  \f$U = \frac{2\pi}{V} M_z^2\f$
 
-  /f$M_z = \sum^N_{i=i}q_i z_i/f$
+  \f$M_z = \sum^N_{i=i}q_i z_i\f$
 
   where z is the position in the slab dimension, q is the charge and V is the
   volume.
 
   I.C. Yeh and M.L. Berkowitz, J. Chem. Phys., 111, 3155, 1999.
+
   E.R. Smith, Proc. R. Soc. London A, 375, 475-505, 1981.
+
   P.S. Crozier, R.L. Rowley, E. Spohr and D. Henderson, J. Chem. Phys., 112, 925309257, 2000.
 
   The non-neutral terms are not yet implemented:
+
   V. Ballenegger, A. Arnold and J. J. Cerda, J. Chem. Phys. 131, 094107 (2009).
  */
 class SlabCorrection : public VisitModel {
