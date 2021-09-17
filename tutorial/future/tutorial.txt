@@ -2,7 +2,7 @@
 
 # high temperature gcmc to generate initial configuration
 RandomMT19937 seed time
-Configuration cubic_box_length 8 particle_type /feasst/forcefield/data.lj
+Configuration cubic_box_length 8 particle_type /feasst/forcefield/lj.fstprt
 Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
 ThermoParams beta 0.1 chemical_potential 10

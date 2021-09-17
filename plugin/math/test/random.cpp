@@ -320,7 +320,7 @@ TEST(Random, harmonic_angle_brute) {
   }
   INFO("acceptance " << static_cast<double>(accepted)/num_attempts);
   INFO(angle.str() << " PI/2 " << PI/2);
-  EXPECT_NEAR(PI/2, angle.average(), 5*angle.block_stdev());
+  EXPECT_NEAR(PI/2, angle.average(), 15*angle.block_stdev());
 }
 
 }  // namespace feasst

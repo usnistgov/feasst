@@ -20,7 +20,7 @@ System two_particle_system(argtype args = argtype());
 
   args:
   - cubic_box_length: default 8
-  - particle: default forcefield/data.lj
+  - particle: default forcefield/lj.fstprt
   - lrc: use long range corrections (default: true)
   - dual_cut: Add a reference potential using this short cutoff with a cell
     list.

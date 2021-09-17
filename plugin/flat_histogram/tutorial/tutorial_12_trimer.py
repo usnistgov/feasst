@@ -15,7 +15,7 @@ print("args:", args)
 
 def config():
     config = fst.MakeConfiguration(fst.args({"cubic_box_length": "8",
-        "particle_type": fst.install_dir() + "/forcefield/data.trimer_0.4L"}))
+        "particle_type": fst.install_dir() + "/forcefield/trimer_0.4L.fstprt"}))
     wca_cutoff = 2**(1./6.)
     config.set_model_param("cutoff", 0, 1, wca_cutoff)
     config.set_model_param("cutoff", 1, 1, wca_cutoff)

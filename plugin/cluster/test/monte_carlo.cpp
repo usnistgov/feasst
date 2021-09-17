@@ -40,7 +40,7 @@ TEST(MonteCarlo, cluster) {
     MonteCarlo mc;
     //mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
     mc.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "8"}}),
-                                  {{"particle_type", "../forcefield/data.lj"}}));
+                                  {{"particle_type", "../forcefield/lj.fstprt"}}));
     for (int i = 0; i < 3; ++i) {
       mc.get_system()->get_configuration()->add_particle_of_type(0);
     }
@@ -146,7 +146,7 @@ MonteCarlo mc_avb_test(
   MonteCarlo monte_carlo;
   // monte_carlo.set(MakeRandomMT19937({{"seed", "default"}}));
   monte_carlo.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "6"}}),
-                                    {{"particle_type", "../forcefield/data.lj"}}));
+                                    {{"particle_type", "../forcefield/lj.fstprt"}}));
   if (avb) {
     monte_carlo.add(MakePotential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

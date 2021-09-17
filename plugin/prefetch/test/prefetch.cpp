@@ -63,7 +63,7 @@ TEST(Prefetch, MUVT) {
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc->add(MakeLogAndMovie({{"steps_per", str(1e1)}, {"file_name", "tmp/lj"}}));
   mc->add(MakeCheckEnergyAndTune({{"steps_per", str(1e1)}}));
-  //mc_lj(mc.get(), 8, "../forcefield/data.lj", 1e1, true, false);
+  //mc_lj(mc.get(), 8, "../forcefield/lj.fstprt", 1e1, true, false);
   // mc->set(MakeRandomMT19937({{"seed", "default"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578665877"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578667496"}}));
@@ -139,7 +139,7 @@ TEST(Prefetch, AVB) {
   auto monte_carlo = MakePrefetch({{"synchronize", "true"},
                                    {"steps_per_check", str(steps_per)}});
   monte_carlo->add(MakeConfiguration({{"cubic_box_length", "6"},
-                                      {"particle_type", "../forcefield/data.lj"}}));
+                                      {"particle_type", "../forcefield/lj.fstprt"}}));
   monte_carlo->add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   //monte_carlo->add(MakePotential(MakeLennardJones()));

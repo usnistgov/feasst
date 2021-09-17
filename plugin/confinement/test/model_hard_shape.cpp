@@ -15,7 +15,7 @@ TEST(ModelHardShape, half_space) {
   });
   ModelHardShape model(std::make_shared<HalfSpace>(half_space));
   auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "8"}}),
-    {{"particle_type", "../forcefield/data.atom"}});
+    {{"particle_type", "../forcefield/atom.fstprt"}});
   config->add_particle_of_type(0);
   const ModelParams model_params = config->model_params();
   EXPECT_LT(1e100, model.energy_no_wrap(config->particle(0).site(0), *config, model_params));

@@ -16,7 +16,7 @@ TEST(SelectParticleAVB, serialize) {
     System system;
     {
       Configuration config(MakeDomain({{"cubic_box_length", "8"}}),
-                           {{"particle_type", "../forcefield/data.lj"}});
+                           {{"particle_type", "../forcefield/lj.fstprt"}});
       config.add_particle_of_type(0);
       config.add_particle_of_type(0);
       config.add_particle_of_type(0);

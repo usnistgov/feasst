@@ -40,7 +40,7 @@ namespace feasst {
 TEST(MonteCarlo, ShapeUnion) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_box_length", "8"},
-    {"particle_type", "../forcefield/data.lj"}}));
+    {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeShapeUnion(
     MakeSphere(
@@ -80,7 +80,7 @@ std::shared_ptr<Shape> porous_network() {
 TEST(MonteCarlo, ShapeUnion_LONG) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_box_length", "20"},
-    {"particle_type", "../forcefield/data.lj"}}));
+    {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(porous_network())));
   mc.set(MakeThermoParams({{"beta", "1.5"}, {"chemical_potential", "1."}}));
@@ -97,7 +97,7 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
 TEST(MonteCarlo, ShapeTable_LONG) {
   MonteCarlo mc;
   auto domain = MakeDomain({{"cubic_box_length", "20"}});
-  mc.add(MakeConfiguration(domain, {{"particle_type", "../forcefield/data.lj"}}));
+  mc.add(MakeConfiguration(domain, {{"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   auto pore = porous_network();
   mc.add(MakePotential(MakeModelHardShape(pore)));
@@ -150,7 +150,7 @@ TEST(MonteCarlo, SineSlab) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({{"cubic_box_length", "16"},
-    {"particle_type", "../forcefield/data.lj"}}));
+    {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeSlabSine(
     MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),
@@ -171,9 +171,9 @@ System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
   System system;
   Configuration config(
     MakeDomain({{"cubic_box_length", "5"}}), {
-      {"particle_type0", "../forcefield/data.dimer"},
-      {"particle_type1", install_dir() + "/plugin/confinement/forcefield/data.slab5x5"},
-      {"particle_type2", "../forcefield/data.lj"}});
+      {"particle_type0", "../forcefield/dimer.fstprt"},
+      {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab5x5.fstprt"},
+      {"particle_type2", "../forcefield/lj.fstprt"}});
   EXPECT_EQ(3, config.num_site_types());
   for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
     config.set_model_param("cutoff", site_type, 2.5);
@@ -278,9 +278,9 @@ TEST(Ewald, henry_coefficient_LONG) {
   System system;
   Configuration config(
     MakeDomain({{"cubic_box_length", "20"}}), {
-      {"particle_type0", "../forcefield/data.spce"},
-      //{"particle_type0", "../plugin/ewald/forcefield/data.rpm_plus"},
-      {"particle_type1", install_dir() + "/plugin/confinement/forcefield/data.slab20x20"}});
+      {"particle_type0", "../forcefield/spce.fstprt"},
+      //{"particle_type0", "../plugin/ewald/forcefield/rpm_plus.fstprt"},
+      {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab20x20.fstprt"}});
   for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
     config.set_model_param("cutoff", site_type, 2.5);
   }
@@ -305,7 +305,7 @@ TEST(HardShape, henry_LONG) {
   for (const double length : {10, 20}) {
     System system;
     system.add(Configuration(MakeDomain({{"cubic_box_length", str(length)}}),
-      {{"particle_type0", "../forcefield/data.hard_sphere"}}));
+      {{"particle_type0", "../forcefield/hard_sphere.fstprt"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
       {"dimension", "2"},
       {"bound0", "3"},
@@ -319,8 +319,8 @@ TEST(HardShape, henry_LONG) {
 TEST(DensityProfile, ig_hard_slab) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_box_length", "10"},
-    {"particle_type0", "../forcefield/data.hard_sphere"},
-    {"particle_type1", "../forcefield/data.lj"}}));
+    {"particle_type0", "../forcefield/hard_sphere.fstprt"},
+    {"particle_type1", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeHardSphere()));
   mc.add(MakePotential(MakeModelHardShape(MakeSlab({
     {"dimension", "2"},

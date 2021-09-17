@@ -22,9 +22,9 @@ inline System chain(const double alpha,
                     const int kmax_squared) {
   System system;
   { Configuration config(MakeDomain({{"cubic_box_length", "20"}}), {
-      {"particle_type0", "../forcefield/data.chain10_3types"},
-      {"particle_type1", "../plugin/ewald/forcefield/data.rpm_minus"},
-      {"particle_type2", "../plugin/ewald/forcefield/data.rpm_plus"},
+      {"particle_type0", "../forcefield/chain10_3types.fstprt"},
+      {"particle_type1", "../plugin/ewald/forcefield/rpm_minus.fstprt"},
+      {"particle_type2", "../plugin/ewald/forcefield/rpm_plus.fstprt"},
     });
 //    config.add_particle_of_type(0);
     config.add_particle_of_type(1);

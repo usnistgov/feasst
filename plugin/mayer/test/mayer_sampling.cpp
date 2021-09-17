@@ -95,8 +95,8 @@ TEST(MonteCarlo, ljb2_LONG) {
 TEST(MayerSampling, cg4_rigid_LONG) {
   MonteCarlo mc;
   auto config = MakeConfiguration({{"cubic_box_length", "1000"},
-    {"particle_type0", install_dir() + "/plugin/chain/forcefield/data.cg4_mab"}});
-  config->add_particle_type(install_dir() + "/plugin/chain/forcefield/data.cg4_mab", "2");
+    {"particle_type0", install_dir() + "/plugin/chain/forcefield/cg4_mab.fstprt"}});
+  config->add_particle_type(install_dir() + "/plugin/chain/forcefield/cg4_mab.fstprt", "2");
   config->add_particle_of_type(0);
   config->add_particle_of_type(1);
   mc.add(config);
@@ -129,8 +129,8 @@ TEST(MayerSampling, cg4_rigid_LONG) {
 //TEST(MayerSampling, SPCE_LONG) {
 //  MonteCarlo mc;
 //  { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
-//    config->add_particle_type(install_dir() + "/forcefield/data.spce");
-//    config->add_particle_type(install_dir() + "/forcefield/data.spce", "2");
+//    config->add_particle_type(install_dir() + "/forcefield/spce.fstprt");
+//    config->add_particle_type(install_dir() + "/forcefield/spce.fstprt", "2");
 //    for (int stype = 0; stype < config->num_site_types(); ++stype) {
 //      config->set_model_param("cutoff", stype, 100.);
 //      // HWH Why is there dependence on the cutoff? If large, it drifts too far away
@@ -190,8 +190,8 @@ TEST(MayerSampling, cg4_rigid_LONG) {
 TEST(MayerSampling, trimer_LONG) {
   MonteCarlo mc;
   { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
-    config->add_particle_type(install_dir() + "/forcefield/data.trimer_0.4L");
-    config->add_particle_type(install_dir() + "/forcefield/data.trimer_0.4L", "2");
+    config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt");
+    config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt", "2");
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);
     const double rwca = std::pow(2, 1./6.);

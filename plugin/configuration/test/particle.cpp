@@ -26,7 +26,7 @@ TEST(Particle, check) {
 }
 
 TEST(Particle, bond) {
-  Particle chain = FileLMP().read("../forcefield/data.chain10");
+  Particle chain = FileLMP().read("../forcefield/chain10.fstprt");
   TRY(
     chain.bond(9, 10);
     CATCH_PHRASE("not found");
@@ -46,7 +46,7 @@ TEST(Particle, bond) {
 }
 
 TEST(Particle, angle) {
-  Particle spce = FileLMP().read("../forcefield/data.spce");
+  Particle spce = FileLMP().read("../forcefield/spce.fstprt");
   EXPECT_EQ(0, spce.angle(1, 0, 2).type());
   EXPECT_EQ(0, spce.angle(1, 2, 0).type());
   EXPECT_EQ(0, spce.angle(0, 1, 2).type());

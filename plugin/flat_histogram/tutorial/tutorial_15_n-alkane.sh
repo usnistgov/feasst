@@ -29,11 +29,11 @@ _EOF_
 sbatch --array=0-3%1 launch.cmd
 }
 
-data=data.ethane; temperature=300; max_particles=225; box_length=30; beta_mu=-7.1126; cutoff=15 ## https://mmlapps.nist.gov/srs/ETHANE/ethane_sat.htm
-#data=~/feasst/forcefield/data.propane; temperature=312; max_particles=200; box_length=30; beta_mu=-7.1126; cutoff=14;
-#data=~/feasst/forcefield/data.propane; temperature=344; max_particles=180; box_length=28; beta_mu=-7; cutoff=14;
-#data=~/feasst/forcefield/data.n-butane; temperature=350; max_particles=575; box_length=45; beta_mu=-6; cutoff=12; # https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n
-#data=~/feasst/forcefield/data.n-octane; temperature=560; max_particles=180; box_length=35; beta_mu=-6; cutoff=15; # https://mmlapps.nist.gov/srs/OCTANE/octane_sat.htm
-#data=~/feasst/forcefield/data.n-decane; temperature=560; max_particles=120; beta_mu=-7; box_length=36;
+data=ethane.fstprt; temperature=300; max_particles=225; box_length=30; beta_mu=-7.1126; cutoff=15 ## https://mmlapps.nist.gov/srs/ETHANE/ethane_sat.htm
+#data=~/feasst/forcefield/propane.fstprt; temperature=312; max_particles=200; box_length=30; beta_mu=-7.1126; cutoff=14;
+#data=~/feasst/forcefield/propane.fstprt; temperature=344; max_particles=180; box_length=28; beta_mu=-7; cutoff=14;
+#data=~/feasst/forcefield/n-butane.fstprt; temperature=350; max_particles=575; box_length=45; beta_mu=-6; cutoff=12; # https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n
+#data=~/feasst/forcefield/n-octane.fstprt; temperature=560; max_particles=180; box_length=35; beta_mu=-6; cutoff=15; # https://mmlapps.nist.gov/srs/OCTANE/octane_sat.htm
+#data=~/feasst/forcefield/n-decane.fstprt; temperature=560; max_particles=120; beta_mu=-7; box_length=36;
 
 launch_node

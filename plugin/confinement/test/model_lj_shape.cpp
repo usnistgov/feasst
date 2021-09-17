@@ -15,7 +15,7 @@ TEST(ModelLJShape, half_space) {
   });
   ModelLJShape model(std::make_shared<HalfSpace>(half_space));
   auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "8"}}),
-    {{"particle_type", "../forcefield/data.atom"}});
+    {{"particle_type", "../forcefield/atom.fstprt"}});
   config->add_particle_of_type(0);
   const ModelParams model_params = config->model_params();
   model.precompute(model_params);

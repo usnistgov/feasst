@@ -13,8 +13,8 @@ namespace feasst {
 
 TEST(ModelTwoBodyTable, spce) {
   Configuration config(MakeDomain({{"cubic_box_length", "20"}}),
-                       {{"particle_type0", "../plugin/ewald/forcefield/data.rpm_plus"},
-                        {"particle_type1", "../plugin/ewald/forcefield/data.rpm_minus"}});
+                       {{"particle_type0", "../plugin/ewald/forcefield/rpm_plus.fstprt"},
+                        {"particle_type1", "../plugin/ewald/forcefield/rpm_minus.fstprt"}});
   config.add_particle_of_type(0);
   config.add_particle_of_type(1);
   config.update_positions({{0, 0, 0}, {0, 0, 2}});

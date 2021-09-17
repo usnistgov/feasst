@@ -8,7 +8,7 @@ using namespace feasst;
 System lj_system(const double cutoff) {
   System system;
   std::stringstream particle;
-  particle << install_dir() << "/forcefield/data.lj";
+  particle << install_dir() << "/forcefield/lj.fstprt";
   Configuration config(
       MakeDomain({{"cubic_box_length", str(2.*cutoff)}}),
       {{"particle_type", particle.str()}});

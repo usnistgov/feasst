@@ -26,7 +26,7 @@ TEST(ChargeScreenedIntra, SRSW_refconfig) {
 
 TEST(ChargeScreenedIntra, SRSW_refconfig_bond) {
   auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "20"}}),
-                                  {{"particle_type", "../forcefield/data.spce"}});
+                                  {{"particle_type", "../forcefield/spce.fstprt"}});
   config->add_model_param("alpha", 5.6/config->domain().min_side_length());
   config->add_particle_of_type(0);
   auto model = MakeChargeScreenedIntra();

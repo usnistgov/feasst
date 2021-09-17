@@ -23,8 +23,8 @@ TEST(LongRangeCorrections, LRC) {
 
 TEST(LongRangeCorrections, many_types) {
   Configuration config(MakeDomain({{"cubic_box_length", "8.5"}}),
-    {{"particle_type0", "../forcefield/data.atom"},
-     {"particle_type1", "../forcefield/data.lj"}});
+    {{"particle_type0", "../forcefield/atom.fstprt"},
+     {"particle_type1", "../forcefield/lj.fstprt"}});
   for (int i = 0; i < 4; ++i) config.add_particle_of_type(0);
   for (int i = 0; i < 3; ++i) config.add_particle_of_type(1);
   ModelEmpty empty;

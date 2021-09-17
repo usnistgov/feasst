@@ -7,7 +7,7 @@ namespace feasst {
 
 TEST(LennardJones, analytical) {
   Configuration config;
-  config.add_particle_type("../forcefield/data.lj");
+  config.add_particle_type("../forcefield/lj.fstprt");
   auto model = std::make_shared<LennardJones>();
   EXPECT_NEAR(-0.005479441744238780, model->energy(3.*3., 0, 0, config.model_params()), NEAR_ZERO);
 }

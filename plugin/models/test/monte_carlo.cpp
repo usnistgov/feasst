@@ -25,7 +25,7 @@ TEST(MonteCarlo, trimer) {
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
   { { auto config = MakeConfiguration(
         MakeDomain({{"cubic_box_length", "12"}}),
-        {{"particle_type", "../forcefield/data.trimer"}});
+        {{"particle_type", "../forcefield/trimer.fstprt"}});
       config->add_particle_of_type(0);
       config->add_particle_of_type(0);
       TrialSelectParticle sel;

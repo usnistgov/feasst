@@ -12,7 +12,7 @@ namespace feasst {
 
 TEST(VisitModelCell, cells) {
   Configuration config(MakeDomain({{"cubic_box_length", "7"}}),
-    {{"particle_type0", "../forcefield/data.spce"}});
+    {{"particle_type0", "../forcefield/spce.fstprt"}});
   config.add(MakeGroup({{"site_type", "0"}}));
   config.add_particle_of_type(0);
 
@@ -65,7 +65,7 @@ TEST(VisitModelCell, cells) {
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, simple_lj) {
   Configuration config(MakeDomain({{"cubic_box_length", "15"}}),
-    {{"particle_type", "../forcefield/data.lj"}});
+    {{"particle_type", "../forcefield/lj.fstprt"}});
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   Select select(config.newest_particle_index(), config.newest_particle());

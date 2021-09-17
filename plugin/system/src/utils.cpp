@@ -22,7 +22,7 @@ System two_particle_system(argtype args) {
 
 System lennard_jones(argtype args) {
   const double box_length = dble("cubic_box_length", &args, 8);
-  const std::string data = str("particle", &args, "forcefield/data.lj");
+  const std::string data = str("particle", &args, "forcefield/lj.fstprt");
   const bool lrc = boolean("lrc", &args, true);
   const double dual_cut = dble("dual_cut", &args, -1.);
   std::shared_ptr<Domain> domain;

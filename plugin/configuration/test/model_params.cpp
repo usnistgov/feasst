@@ -7,13 +7,13 @@ namespace feasst {
 
 TEST(ModelParams, size) {
   feasst::Configuration config;
-  config.add_particle_type("../forcefield/data.chain10");
+  config.add_particle_type("../forcefield/chain10.fstprt");
   EXPECT_EQ(1, config.model_params().size());
 }
 
 TEST(ModelParams, max) {
   feasst::Configuration config;
-  config.add_particle_type("../forcefield/data.spce");
+  config.add_particle_type("../forcefield/spce.fstprt");
   EXPECT_EQ(2, config.model_params().size());
   EXPECT_EQ(config.model_params().epsilon().mixed_max(), 0.650169581);
   EXPECT_EQ(config.model_params().charge().mixed_max(), 0.8476*0.8476);
@@ -46,7 +46,6 @@ TEST(ModelParams, max) {
 
   ModelParams params2 = test_serialize(params);
   EXPECT_EQ(params.mixed_charge(), params2.mixed_charge());
- 
   INFO(params2.str());
 }
 

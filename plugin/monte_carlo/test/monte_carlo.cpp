@@ -40,7 +40,7 @@ namespace feasst {
 //  MonteCarlo mc(
 //    MakeRandomMT19937({{"seed", "time"}}),
 //    Configuration(feasst::MakeDomain({{"cubic_box_length", "8"}}),
-//      {{"particle_type", install_dir() + "/forcefield/data.lj")}}));
+//      {{"particle_type", install_dir() + "/forcefield/lj.fstprt")}}));
 //  mc.add(feasst::Potential(feasst::MakeLennardJones()));
 //  mc.add(feasst::Potential(feasst::MakeLongRangeCorrections()));
 //  mc.add(feasst::MakeMetropolis(
@@ -125,7 +125,7 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
 //TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
 //  MonteCarlo mc;
 //  mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
-//                       {{"particle_type", "../forcefield/data.lj"}}));
+//                       {{"particle_type", "../forcefield/lj.fstprt"}}));
 //  mc.add(MakePotential(MakeLennardJones()));
 //  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
 //  mc.set(MakeRandomMT19937({{"seed", "default"}}));
@@ -159,7 +159,7 @@ TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "12"}}),
-                           {{"particle_type", "../forcefield/data.lj"}}));
+                           {{"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential({{"Model", "LennardJones"}}));
 //  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
   mc.set(MakeThermoParams({{"beta", "1.2"}}));
@@ -290,7 +290,7 @@ TEST(MonteCarlo, ConstrainNumParticles) {
 TEST(MonteCarlo, GCMC_binary_tune) {
   MonteCarlo mc;
   mc.set(lennard_jones());
-  mc.get_system()->get_configuration()->add_particle_type("../forcefield/data.lj", "2");
+  mc.get_system()->get_configuration()->add_particle_type("../forcefield/lj.fstprt", "2");
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential0", "-6"}, {"chemical_potential1", "-8"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}, {"particle_type", "0"}}));
@@ -313,7 +313,7 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
   MonteCarlo mc;
   {
     Configuration config(MakeDomain({{"cubic_box_length", "3"}}),
-      {{"particle_type", "../forcefield/data.spce"}});
+      {{"particle_type", "../forcefield/spce.fstprt"}});
     for (int i = 0; i < num; ++i) config.add_particle_of_type(0);
     mc.add(config);
   }
@@ -364,7 +364,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
   );
   TRY(
     MakeMonteCarlo({{
-      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/lj.fstprt"}}},
       {"Potential", {{"Model", "LennardJones"}}},
       {"ThermoParams", {{"this_is_not", "an_expected_argument"}}},
     }});
@@ -372,7 +372,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
   );
   TRY(
     MakeMonteCarlo({{
-      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/lj.fstprt"}}},
       {"Potential", {{"Model", "LennardJones"}}},
       {"ThermoParams", {{"beta", "1"}}},
       {"Metropolis", {{"this_is_not", "an_expected_argument"}}},
@@ -381,7 +381,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
   );
   TRY(
     MakeMonteCarlo({{
-      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/lj.fstprt"}}},
       {"Potential", {{"Model", "LennardJones"}}},
       {"ThermoParams", {{"beta", "1"}}},
       {"Metropolis", {{}}},
@@ -391,7 +391,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
   );
   TRY(
     MakeMonteCarlo({{
-      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/lj.fstprt"}}},
       {"Potential", {{"Model", "LennardJones"}}},
       {"ThermoParams", {{"beta", "1"}}},
       {"Metropolis", {{}}},
@@ -402,7 +402,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
   );
   TRY(
     MakeMonteCarlo({{
-      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/lj.fstprt"}}},
       {"Potential", {{"Model", "LennardJones"}}},
       {"ThermoParams", {{"beta", "1"}}},
       {"Metropolis", {{}}},
@@ -414,7 +414,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
   );
   TRY(
     MakeMonteCarlo({{
-      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/data.lj"}}},
+      {"Configuration", {{"cubic_box_length", "8"}, {"particle_type", "../forcefield/lj.fstprt"}}},
       {"Potential", {{"Model", "LennardJones"}}},
       {"ThermoParams", {{"beta", "1"}}},
       {"Metropolis", {{}}},
@@ -431,8 +431,8 @@ TEST(MonteCarlo, argslist_order) {
   auto mc = MakeMonteCarlo({{
     {"RandomModulo", {{"seed", "123"}}},
     {"Configuration", {{"cubic_box_length", "8"},
-                       {"particle_type0", "../forcefield/data.lj"},
-                       {"particle_type1", "../forcefield/data.atom"}}},
+                       {"particle_type0", "../forcefield/lj.fstprt"},
+                       {"particle_type1", "../forcefield/atom.fstprt"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"ThermoParams", {{"beta", "0.1"}}},
     {"ThermoParams", {{"beta", "1.2"}}},
@@ -445,8 +445,8 @@ TEST(MonteCarlo, arglist) {
     {"Checkpoint", {{"file_name", "tmp/lj.fst"}}},
     {"RandomModulo", {{"seed", "123"}}},
     {"Configuration", {{"cubic_box_length", "8"},
-                       {"particle_type0", "../forcefield/data.lj"},
-                       {"particle_type1", "../forcefield/data.atom"}}},
+                       {"particle_type0", "../forcefield/lj.fstprt"},
+                       {"particle_type1", "../forcefield/atom.fstprt"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
     {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential", "10"}}},

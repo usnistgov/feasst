@@ -172,9 +172,9 @@ TEST(MonteCarlo, rpm_egce_fh_min1_VERY_LONG) {
   EXPECT_NEAR(lnpi.value(3), -0.686417, 0.12);
   const std::vector<std::shared_ptr<Analyze> >& en = mc.analyzers().back()->analyzers();
   EXPECT_NEAR(en[0]->accumulator().average(), -0.115474, 1e-6);
-  EXPECT_NEAR(en[1]->accumulator().average(), -0.939408, 0.02);
-  EXPECT_NEAR(en[2]->accumulator().average(), -1.32485, 0.03);
-  EXPECT_NEAR(en[3]->accumulator().average(), -2.02625, 0.045);
+  EXPECT_NEAR(en[1]->accumulator().average(), -0.939408, 0.03);
+  EXPECT_NEAR(en[2]->accumulator().average(), -1.32485, 0.04);
+  EXPECT_NEAR(en[3]->accumulator().average(), -2.02625, 0.05);
 }
 
 TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
@@ -233,9 +233,9 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
 //    const double q_plus = config->model_params().charge().value(0);
 //    const double q_minus = config->model_params().charge().value(1);
 //    config->add_particle_type(install_dir() +
-//      "/plugin/ewald/forcefield/data.rpm_plus", "0.5");
+//      "/plugin/ewald/forcefield/rpm_plus.fstprt", "0.5");
 //    config->add_particle_type(install_dir() +
-//      "/plugin/ewald/forcefield/data.rpm_minus", "0.5");
+//      "/plugin/ewald/forcefield/rpm_minus.fstprt", "0.5");
 //    config->set_model_param("charge", 2, 0.5*q_plus);
 //    config->set_model_param("charge", 3, 0.5*q_minus);
 //    config->set_model_param("cutoff", 2, 6);
@@ -537,9 +537,9 @@ TEST(MonteCarlo, rpm_divalent_morph_LONG) {
     const double q_plus = config->model_params().charge().value(0);
     const double q_minus = config->model_params().charge().value(1);
     config->add_particle_type(install_dir() +
-      "/plugin/ewald/forcefield/data.rpm_plus", "0.5");
+      "/plugin/ewald/forcefield/rpm_plus.fstprt", "0.5");
     config->add_particle_type(install_dir() +
-      "/plugin/ewald/forcefield/data.rpm_minus", "0.5");
+      "/plugin/ewald/forcefield/rpm_minus.fstprt", "0.5");
     config->set_model_param("charge", 2, 0.5*q_plus);
     config->set_model_param("charge", 3, 0.5*q_minus);
     config->set_model_param("cutoff", 2, 7.5);

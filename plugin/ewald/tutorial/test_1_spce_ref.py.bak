@@ -7,7 +7,7 @@ import spce
 class TestEwaldSPCEREF(unittest.TestCase):
     def test(self):
         config = feasst.Configuration(feasst.args({"particle_type":
-                                                   feasst.install_dir() + "/forcefield/data.spce"}))
+                                                   feasst.install_dir() + "/forcefield/spce.fstprt"}))
         feasst.FileXYZ().load(feasst.install_dir() +
                               "/plugin/system/test/data/spce_sample_config_periodic1.xyz", config)
         system = spce.system(config)

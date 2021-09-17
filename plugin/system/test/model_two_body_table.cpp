@@ -11,8 +11,8 @@ namespace feasst {
 
 TEST(ModelTwoBodyTable, lj) {
   Configuration config(MakeDomain({{"cubic_box_length", "8"}}),
-                       {{"particle_type0", "../forcefield/data.lj"},
-                        {"particle_type1", "../forcefield/data.atom"}});
+                       {{"particle_type0", "../forcefield/lj.fstprt"},
+                        {"particle_type1", "../forcefield/atom.fstprt"}});
   config.add_particle_of_type(0);
   config.add_particle_of_type(1);
   config.update_positions({{0, 0, 0}, {0, 0, 2}});

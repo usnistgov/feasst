@@ -41,7 +41,7 @@ def lj_system(box_length, cutoff):
     system = feasst.System()
     config = feasst.Configuration(
         feasst.MakeDomain(feasst.args({"cubic_box_length": str(box_length)})),
-        feasst.args({"particle_type": feasst.install_dir() + '/forcefield/data.lj'}))
+        feasst.args({"particle_type": feasst.install_dir() + "/forcefield/lj.fstprt"}))
     config.set_model_param("cutoff", 0, cutoff)
     system.add(config)
     system.add(feasst.Potential(feasst.MakeLennardJones()))

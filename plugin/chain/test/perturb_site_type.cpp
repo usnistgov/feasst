@@ -8,7 +8,7 @@ TEST(PerturbSiteType, serialize) {
   System sys;
   {
     Configuration config(MakeDomain({{"cubic_box_length", "20"}}),
-      {{"particle_type", "../forcefield/data.chain10_3types"}});
+      {{"particle_type", "../forcefield/chain10_3types.fstprt"}});
     config.add_particle_of_type(0);
     sys.add(config);
   }

@@ -19,7 +19,7 @@ echo "ID is \$SLURM_JOB_ID"
 echo "TASK is \$SLURM_ARRAY_TASK_ID"
 
 cd \$PWD
-python tutorial_7_spce_parallel.py --task \$SLURM_ARRAY_TASK_ID --num_procs 12 --num_hours 24 --molecule ~/feasst/forcefield/data.co2 --temperature 290 --max_molecules 300 --cubic_box_length 28
+python tutorial_7_spce_parallel.py --task \$SLURM_ARRAY_TASK_ID --num_procs 12 --num_hours 24 --molecule ~/feasst/forcefield/co2.fstprt --temperature 290 --max_molecules 300 --cubic_box_length 28
 
 if [ \$? == 0 ]; then
   echo "Job is done"

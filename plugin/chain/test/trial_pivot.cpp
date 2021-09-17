@@ -15,7 +15,7 @@ TEST(TrialPivot, chain10) {
   System system;
   {
     Configuration config(MakeDomain({{"cubic_box_length", "12"}}),
-                         {{"particle_type", "../forcefield/data.chain10"}});
+                         {{"particle_type", "../forcefield/chain10.fstprt"}});
     config.add_particle_of_type(0);
     system.add(config);
   }

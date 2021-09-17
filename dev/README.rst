@@ -343,13 +343,11 @@ To Do List
 * System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).
 * Consider using new state instead of old state in acceptance derivations
 * Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.
-* Rename data and xyz files, document them more cleary (second line in xyz, and error if data not read correctly).
+* Rename xyz files, and/or document more cleary (second line in xyz).
 * Rename plugin chain->config_bias ?
 * in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?
 * EnergyMapNeighborCriteria should be able to take index of energy map stored by System
 * Optimize TrialRemove for new_only by not computing interactions with neighbors
-* Make a 'file extension' for fst data files (fstdata)
-* Reptate with non-unit bond lengths
 * Rename ewald plugin to charge
 * Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.
 * Add more documentation for Trials (TrialStage: Perturb/Select, TrialCompute. When finialize? reference?)

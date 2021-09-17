@@ -13,8 +13,8 @@ TEST(PerturbParticleType, serialize) {
   System sys;
   {
     Configuration config(MakeDomain({{"cubic_box_length", "8"}}),
-      {{"particle_type0", "../forcefield/data.lj"}});
-    config.add_particle_type("../forcefield/data.lj", "sig0.25");
+      {{"particle_type0", "../forcefield/lj.fstprt"}});
+    config.add_particle_type("../forcefield/lj.fstprt", "sig0.25");
     config.set_model_param("sigma", 1, 0.25);
     config.set_model_param("cutoff", 1, 1.0);
     config.add_particle_of_type(0);

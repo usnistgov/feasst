@@ -7,7 +7,7 @@ namespace feasst {
 
 TEST(LennardJonesCutShift, analytical) {
   Configuration config;
-  config.add_particle_type("../forcefield/data.lj");
+  config.add_particle_type("../forcefield/lj.fstprt");
   auto shift = std::make_shared<LennardJonesCutShift>();
   shift->precompute(config.model_params());
   EXPECT_NEAR(0., shift->energy(3*3, 0, 0, config.model_params()), NEAR_ZERO);
@@ -16,7 +16,7 @@ TEST(LennardJonesCutShift, analytical) {
 
 TEST(LennardJonesCutShift, wca) {
   Configuration config;
-  config.add_particle_type("../forcefield/data.lj");
+  config.add_particle_type("../forcefield/lj.fstprt");
   auto wca = std::make_shared<LennardJonesCutShift>();
   ModelParams wca_params = config.model_params();
   EXPECT_NEAR(3., config.model_params().mixed_cutoff()[0][0], NEAR_ZERO);
@@ -30,7 +30,7 @@ TEST(LennardJonesCutShift, wca) {
 
 TEST(LennardJonesCutShift, serialize) {
   Configuration config;
-  config.add_particle_type("../forcefield/data.spce");
+  config.add_particle_type("../forcefield/spce.fstprt");
   auto shift = MakeLennardJonesCutShift({{"alpha", "12"},
                                          {"hard_sphere_threshold", "0.3"}});
   shift->precompute(config.model_params());

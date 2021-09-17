@@ -18,7 +18,7 @@ def mc(thread, mn, mx):
     mc = fst.MakeMonteCarlo()
     mc.add(fst.Configuration(
       fst.MakeDomain(fst.args({"cubic_box_length": str(args.cubic_box_length)})),
-      fst.args({"particle_type0": fst.install_dir() + "/forcefield/data.hard_sphere"})))
+      fst.args({"particle_type0": fst.install_dir() + "/forcefield/hard_sphere.fstprt"})))
     mc.add(fst.MakePotential(fst.MakeHardSphere()))
 #    mc.add_to_optimized(fst.MakePotential(fst.MakeHardSphere(), fst.MakeVisitModelCell(fst.args({"min_length": "1"}))))
     mc.set(fst.MakeThermoParams(fst.args({"beta": "1",

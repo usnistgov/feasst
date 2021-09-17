@@ -9,15 +9,15 @@
 namespace feasst {
 
 TEST(MacrostateMorph, lj) {
-  System system = lennard_jones({{"particle", "forcefield/data.lj"}});
+  System system = lennard_jones({{"particle", "forcefield/lj.fstprt"}});
   Configuration * config = system.get_configuration();
-  config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.25");
+  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.25");
   config->set_model_param("sigma", 1, 0.25);
   config->set_model_param("cutoff", 1, 1.0);
-  config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5");
+  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
   config->set_model_param("sigma", 1, 0.5);
   config->set_model_param("cutoff", 1, 1.0);
-  config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.75");
+  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.75");
   config->set_model_param("sigma", 1, 0.75);
   config->set_model_param("cutoff", 1, 1.0);
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};

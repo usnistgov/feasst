@@ -101,10 +101,10 @@ TEST(MonteCarlo, TrialGrow) {
   for (const std::string particle : {"lj", "spce"}) {
     INFO(particle);
     double box_length = 8.;
-    std::string data = "forcefield/data.dimer";
+    std::string data = "forcefield/dimer.fstprt";
     if (particle == "spce") {
       box_length=20;
-      data = "forcefield/data.spce";
+      data = "forcefield/spce.fstprt";
     }
     MonteCarlo mc;
 //    mc.set(MakeRandomMT19937({{"seed", "123"}}));
@@ -198,11 +198,11 @@ MonteCarlo cg7mab2(const std::string& data, const int num, const int steps_per =
 
 TEST(MonteCarlo, cg7mab2) {
   for (const std::string data : {
-      "data.cg7mab2",
-      "data.cg7mab2closed",
-      "data.cg7mab2extended",
-      "data.cg7mab2flex",
-      "data.cg7mab2fullangflex",
+      "cg7mab2.fstprt",
+      "cg7mab2closed.fstprt",
+      "cg7mab2extended.fstprt",
+      "cg7mab2flex.fstprt",
+      "cg7mab2fullangflex.fstprt",
     }) {
     cg7mab2(data, 1).attempt(1e2);
   }
@@ -210,11 +210,11 @@ TEST(MonteCarlo, cg7mab2) {
 
 TEST(MonteCarlo, cg7mab2_LONG) {
   for (const std::string data : {
-      "data.cg7mab2",
-      "data.cg7mab2closed",
-      "data.cg7mab2extended",
-      "data.cg7mab2flex",
-      "data.cg7mab2fullangflex",
+      "cg7mab2.fstprt",
+      "cg7mab2closed.fstprt",
+      "cg7mab2extended.fstprt",
+      "cg7mab2flex.fstprt",
+      "cg7mab2fullangflex.fstprt",
     }) {
     cg7mab2(data, 10, 1e4).attempt(1e6);
   }
@@ -223,7 +223,7 @@ TEST(MonteCarlo, cg7mab2_LONG) {
 TEST(System, Angles2D) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"side_length0", "6"}, {"side_length1", "6"},
-    {"particle_type", "../plugin/chain/forcefield/data.heterotrimer2d"},
+    {"particle_type", "../plugin/chain/forcefield/heterotrimer2d.fstprt"},
     {"add_particles_of_type0", "1"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.set(MakeThermoParams({{"beta", "1"}}));
@@ -236,7 +236,7 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({{"side_length0", "6"}, {"side_length1", "6"},
-    {"particle_type", "../plugin/chain/forcefield/data.heterotrimer2d"}}));
+    {"particle_type", "../plugin/chain/forcefield/heterotrimer2d.fstprt"}}));
   EXPECT_EQ(2, mc.configuration().dimension());
   mc.add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
@@ -313,7 +313,7 @@ TEST(MonteCarlo, multisite_neighbors) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   //mc.set(MakeRandomMT19937({{"seed", "1610132694"}}));
-  mc.set(lennard_jones({{"particle", "forcefield/data.dimer"},
+  mc.set(lennard_jones({{"particle", "forcefield/dimer.fstprt"},
                         {"cubic_box_length", "6"},
                         {"lrc", "false"}}));
   SeekNumParticles(5)
@@ -382,7 +382,7 @@ TEST(MonteCarlo, cg4_flexible_LONG) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({
     {"cubic_box_length", "30"},
-    {"particle_type0", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex"},
+    {"particle_type0", install_dir() + "/plugin/chain/forcefield/cg4_mab_flex.fstprt"},
     {"add_particles_of_type0", "1"},
   }));
   EXPECT_EQ(1, mc.configuration().num_particles());
@@ -432,8 +432,8 @@ TEST(MayerSampling, b2_cg4_flexible_LONG) {
   //mc.set(MakeRandomMT19937({{"seed", "1629905961"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)},
-    {"particle_type0", install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex"}});
-  config->add_particle_type(install_dir() + "/plugin/chain/forcefield/data.cg4_mab_flex", "2");
+    {"particle_type0", install_dir() + "/plugin/chain/forcefield/cg4_mab_flex.fstprt"}});
+  config->add_particle_type(install_dir() + "/plugin/chain/forcefield/cg4_mab_flex.fstprt", "2");
   config->add_particle_of_type(0);
   config->add_particle_of_type(1);
   mc.add(config);
@@ -488,8 +488,8 @@ TEST(MayerSampling, trimer_grow_LONG) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
-    config->add_particle_type(install_dir() + "/forcefield/data.trimer_0.4L");
-//    config->add_particle_type(install_dir() + "/forcefield/data.trimer_0.4L", "2");
+    config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt");
+//    config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L", "2.fstprt");
     config->add_particle_of_type(0);
     config->add_particle_of_type(0);
     //config->add_particle_of_type(1);
@@ -545,7 +545,7 @@ TEST(MayerSampling, trimer_grow_LONG) {
 TEST(TrialGrow, reptate) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_box_length", "20"},
-    {"particle_type0", "../plugin/chain/forcefield/data.chain5"},
+    {"particle_type0", "../plugin/chain/forcefield/chain5.fstprt"},
     {"add_particles_of_type0", "1"}}));
   mc.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"cutoff", "1"}})));
   mc.set(MakeThermoParams({{"beta", "1"}}));
@@ -570,9 +570,9 @@ TEST(TrialGrow, reptate) {
 
 TEST(MonteCarlo, RigidBondAngleDihedral) {
   for (const std::string data : {
-    "../forcefield/data.dimer",
-    "../forcefield/data.trimer_0.4L",
-    "../plugin/chain/test/data/data.tetramer_rigid",
+    "../forcefield/dimer.fstprt",
+    "../forcefield/trimer_0.4L.fstprt",
+    "../plugin/chain/test/data/tetramer_rigid.fstprt",
     }) {
     INFO(data);
     System system;
@@ -587,15 +587,15 @@ TEST(MonteCarlo, RigidBondAngleDihedral) {
 
     std::shared_ptr<TrialSelect> select;
     std::shared_ptr<Perturb> perturb;
-    if (data == "../forcefield/data.dimer") {
+    if (data == "../forcefield/dimer.fstprt") {
       select = MakeTrialSelectBond({{"particle_type", "0"}, {"mobile_site", "1"},
         {"anchor_site", "0"}});
       perturb = MakePerturbDistance();
-    } else if (data == "../forcefield/data.trimer_0.4L") {
+    } else if (data == "../forcefield/trimer_0.4L.fstprt") {
       select = MakeTrialSelectAngle({{"particle_type", "0"}, {"mobile_site", "2"},
         {"anchor_site", "0"}, {"anchor_site2", "1"}});
       perturb = MakePerturbDistanceAngle();
-    } else if (data == "../plugin/chain/test/data/data.tetramer_rigid") {
+    } else if (data == "../plugin/chain/test/data/tetramer_rigid.fstprt") {
       select = MakeTrialSelectDihedral({{"particle_type", "0"}, {"mobile_site", "3"},
         {"anchor_site", "2"}, {"anchor_site2", "1"}, {"anchor_site3", "0"}});
       perturb = MakePerturbDihedral();
@@ -633,7 +633,7 @@ TEST(MonteCarlo, equipartition_LONG) {
       MonteCarlo mc;
       //mc.set(MakeRandomMT19937({{"seed", "123"}}));
       mc.add(MakeConfiguration({
-        {"particle_type0", "../plugin/chain/test/data/data." + data},
+        {"particle_type0", "../plugin/chain/test/data/" + data + ".fstprt"},
         {"add_particles_of_type0", "1"},
         {"cubic_box_length", "10"}}));
       mc.add(MakePotential(MakeDontVisitModel()));
@@ -732,7 +732,7 @@ TEST(MonteCarlo, single_butane) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({
-    {"particle_type0", "../forcefield/data.n-butane"},
+    {"particle_type0", "../forcefield/n-butane.fstprt"},
     {"add_particles_of_type0", "1"},
     {"cubic_box_length", "100"}}));
   mc.add(MakePotential(MakeLennardJones(),

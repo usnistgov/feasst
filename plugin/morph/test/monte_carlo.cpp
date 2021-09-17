@@ -48,7 +48,7 @@ void test_morph(const System& system) {
 TEST(MonteCarlo, TrialMorph) {
   System system = lennard_jones();
   Configuration * config = system.get_configuration();
-  config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5");
+  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
   config->set_model_param("sigma", 1, 0.5);
   config->set_model_param("cutoff", 1, 1.0);
   test_morph(system);
@@ -61,7 +61,7 @@ MonteCarlo test_morph_expanded_lj(
   {
     System system = lennard_jones();
     Configuration * config = system.get_configuration();
-    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5");
+    config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
     config->set_model_param("sigma", 1, 0.5);
     config->set_model_param("cutoff", 1, 1.0);
     config->add_particle_of_type(0);
@@ -161,16 +161,16 @@ TEST(MonteCarlo, TrialMorph_RPM) {
 MonteCarlo test_morph_expanded(const std::string steps_per) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1234"}}));
-  { System system = lennard_jones({{"particle", "forcefield/data.lj"},
+  { System system = lennard_jones({{"particle", "forcefield/lj.fstprt"},
       {"lrc", "false"}});
     Configuration * config = system.get_configuration();
-    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.25");
+    config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.25");
     config->set_model_param("sigma", 1, 0.25);
     config->set_model_param("cutoff", 1, 1.0);
-    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5");
+    config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
     config->set_model_param("sigma", 1, 0.5);
     config->set_model_param("cutoff", 1, 1.0);
-    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.75");
+    config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.75");
     config->set_model_param("sigma", 1, 0.75);
     config->set_model_param("cutoff", 1, 1.0);
     config->add_particle_of_type(0);
@@ -240,13 +240,13 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "1234"}}));
   { System system = lennard_jones({{"lrc", "false"}});
-  //{ System system = lennard_jones({{"particle", "forcefield/data.lj"}});
+  //{ System system = lennard_jones({{"particle", "forcefield/lj.fstprt"}});
     Configuration * config = system.get_configuration();
-    config->add_particle_type(install_dir() + "/forcefield/data.lj", "b");
-    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5");
+    config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "b");
+    config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
     config->set_model_param("sigma", 1, 0.5);
     config->set_model_param("cutoff", 1, 1.0);
-    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5b");
+    config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5b");
     config->set_model_param("sigma", 1, 0.5);
     config->set_model_param("cutoff", 1, 1.0);
 //    config->add_particle_of_type(0);

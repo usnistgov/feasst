@@ -22,7 +22,7 @@ double kelvin2kJpermol(const double kelvin, const Configuration& config);
 
   args:
   - Configuration args (defaults; cubic_box_length: 20,
-    particle_type: /path/to/feasst/forcefield/data.spce)
+    particle_type: /path/to/feasst/forcefield/spce.fstprt)
   - lrc: use long range corrections (default: true)
   - alphaL: Ewald alpha parameter (default: 5.6)
   - kmax_squared: maximum squared wave vector (default: 38)
@@ -40,8 +40,8 @@ Prepare a MonteCarlo for a typical RPM simulation.
 
 args:
 - cubic_box_length: default 12
-- particle0: default plugin/ewald/forcefield/data.rpm_plus
-- particle1: default plugin/ewald/forcefield/data.rpm_minus
+- particle0: default plugin/ewald/forcefield/rpm_plus.fstprt
+- particle1: default plugin/ewald/forcefield/rpm_minus.fstprt
 - cutoff: (default: None, use particle file)
 - alphaL: Ewald alpha parameter (default: 5.6)
 - kmax_squared: maximum squared wave vector (default: 38)

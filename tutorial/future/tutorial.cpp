@@ -6,7 +6,7 @@ static feasst::ArgumentParse args("A canonical ensemble Metropolis Monte Carlo s
   {"--length", "cubic periodic boundary length", "8"},
   {"--num", "number of particles", "50"},
   {"--data", "LMP forcefield data file",
-    feasst::install_dir() + "/forcefield/data.lj"},
+    feasst::install_dir() + "/forcefield/lj.fstprt"},
   {"--beta", "inverse temperature", "1.2"},
   {"--steps_per", "number of trials per analysis or check", "1e5"},
   {"--equilibrate", "number of trials for equilibration", "1e6"},

@@ -8,7 +8,7 @@ namespace feasst {
 
 inline Configuration config() {
   Configuration config(MakeDomain({{"cubic_box_length", "12"}}),
-    {{"particle_type0", "../forcefield/data.chain10"}});
+    {{"particle_type0", "../forcefield/chain10.fstprt"}});
   config.add_particle_of_type(0);
   return config;
 }

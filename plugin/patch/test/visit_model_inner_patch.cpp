@@ -10,7 +10,7 @@ namespace feasst {
 
 TEST(VisitModelInnerPatch, patch_one) {
   Configuration config;
-  config.add_particle_type("../plugin/patch/forcefield/data.patch_one");
+  config.add_particle_type("../plugin/patch/forcefield/patch_one.fstprt");
   config.set_model_param("cutoff", 0, 3.);
   config.set_model_param("cutoff", 1, 3.);
   FileXYZ().load("../plugin/patch/test/data/patch5.xyz", &config);
@@ -33,7 +33,7 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
   System system;
   { Configuration config(
       MakeDomain({{"cubic_box_length", "10"}}),
-      {{"particle_type", "../plugin/patch/forcefield/data.patch_one"}}
+      {{"particle_type", "../plugin/patch/forcefield/patch_one.fstprt"}}
     );
     config.add(MakeGroup({{"site_type", "0"}}));
     config.add_particle_of_type(0);

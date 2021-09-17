@@ -9,7 +9,7 @@ namespace feasst {
 
 TEST(VisitModelIntra, energy) {
   Configuration config(MakeDomain({{"cubic_box_length", "10"}}),
-    {{"particle_type", "../forcefield/data.chain10"}});
+    {{"particle_type", "../forcefield/chain10.fstprt"}});
   config.add_particle_of_type(0);
   LennardJones model;
   // don't compute intraparticle interactions between bonded sites.

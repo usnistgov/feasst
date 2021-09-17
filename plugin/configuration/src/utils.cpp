@@ -6,7 +6,7 @@
 namespace feasst {
 
 Configuration lj_sample4() {
-  auto config = MakeConfiguration({{"particle_type", "../forcefield/data.lj"}});
+  auto config = MakeConfiguration({{"particle_type", "../forcefield/lj.fstprt"}});
   FileXYZ().load(
     "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz",
     config.get());
@@ -14,7 +14,7 @@ Configuration lj_sample4() {
 }
 
 Configuration spce_sample1() {
-  auto config = MakeConfiguration({{"particle_type", "../forcefield/data.spce"}});
+  auto config = MakeConfiguration({{"particle_type", "../forcefield/spce.fstprt"}});
   FileXYZ().load(
     "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz",
     config.get());
@@ -25,7 +25,7 @@ Configuration two_particle_configuration(argtype args) {
   const double cubic_box_length = dble("cubic_box_length", &args, 6.);
   Configuration config(
     MakeDomain({{"cubic_box_length", feasst::str(cubic_box_length)}}),
-    {{"particle_type", "../forcefield/data.atom"}});
+    {{"particle_type", "../forcefield/atom.fstprt"}});
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   config.update_positions({{0, 0, 0}, {1.25, 0, 0}});

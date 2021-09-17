@@ -14,7 +14,7 @@ echo "ID is \$SLURM_JOB_ID"
 
 cd \$PWD
 
-python tutorial_8_trappe.py -p ~/feasst/forcefield/data.ethane --lx 30 --ly 30 --lz 30 --temperature 300 --num_procs 12 --max_particles 223 --beta_mu -7
+python tutorial_8_trappe.py -p ~/feasst/forcefield/ethane.fstprt --lx 30 --ly 30 --lz 30 --temperature 300 --num_procs 12 --max_particles 223 --beta_mu -7
 
 echo "Job is done"
 echo "Time is \$(date)"

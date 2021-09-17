@@ -5,7 +5,7 @@
 namespace feasst {
 
 TEST(Group, remove_sites) {
-  Particle particle = FileLMP().read("../forcefield/data.spce");
+  Particle particle = FileLMP().read("../forcefield/spce.fstprt");
   EXPECT_EQ(3, particle.num_sites());
 
   Particle oxygen(particle);
@@ -42,7 +42,7 @@ TEST(Group, serialize) {
   std::stringstream ss2;
   grp2.serialize(ss2);
   EXPECT_EQ(ss.str(), ss2.str());
-  Particle particle = FileLMP().read("../forcefield/data.spce");
+  Particle particle = FileLMP().read("../forcefield/spce.fstprt");
   EXPECT_EQ(grp->site_indices(particle), grp2.site_indices(particle));
   std::vector<int> indices = {1, 2};
   EXPECT_EQ(grp->site_indices(particle), indices);

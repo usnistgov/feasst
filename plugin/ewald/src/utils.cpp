@@ -40,7 +40,7 @@ System spce(argtype args) {
   add_if_not_used("cubic_box_length", &args, "20");
   add_if_not_used("physical_constants", &args, "CODATA2018");
   add_if_not_used("particle_type", &args,
-    install_dir() + "/forcefield/data.spce");
+    install_dir() + "/forcefield/spce.fstprt");
   { Configuration config(&args);
     if (used("xyz_file", args)) {
       FileXYZ().load(str("xyz_file", &args), &config);
@@ -94,8 +94,8 @@ System rpm(argtype args) {
     str("cubic_box_length", &args, "12");
   {
     Configuration config(MakeDomain({{"cubic_box_length", cubic_box_length}}),
-      {{"particle_type0", install_dir() + "/" + str("particle0", &args, "plugin/ewald/forcefield/data.rpm_plus")},
-       {"particle_type1", install_dir() + "/" + str("particle1", &args, "plugin/ewald/forcefield/data.rpm_minus")}}
+      {{"particle_type0", install_dir() + "/" + str("particle0", &args, "plugin/ewald/forcefield/rpm_plus.fstprt")},
+       {"particle_type1", install_dir() + "/" + str("particle1", &args, "plugin/ewald/forcefield/rpm_minus.fstprt")}}
     );
 
     if (used("cutoff", args)) {

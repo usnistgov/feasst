@@ -42,7 +42,7 @@ TEST(TrialGrow, bond_harmonic) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({{"cubic_box_length", "10"},
-    {"particle_type0", "../plugin/chain/test/data/data.dimer_harmonic"},
+    {"particle_type0", "../plugin/chain/test/data/dimer_harmonic.fstprt"},
     {"add_particles_of_type0", "1"}}));
   mc.add(MakePotential(MakeIdealGas()));
   mc.set(MakeThermoParams({{"beta", "1"}}));

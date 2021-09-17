@@ -12,28 +12,28 @@ namespace feasst {
 
 TEST(Configuration, type_to_file_name) {
   Configuration config({
-    {"particle_type0", "../forcefield/data.atom"},
-    {"particle_type1", "../forcefield/data.lj"},
-    {"particle_type2", "../forcefield/data.spce"},
+    {"particle_type0", "../forcefield/atom.fstprt"},
+    {"particle_type1", "../forcefield/lj.fstprt"},
+    {"particle_type2", "../forcefield/spce.fstprt"},
   });
   TRY(
     auto config2 = config;
-    config2.add_particle_type("../forcefield/data.atom");
+    config2.add_particle_type("../forcefield/atom.fstprt");
     CATCH_PHRASE("already provided");
   );
   EXPECT_EQ(3, config.num_particle_types());
-  EXPECT_EQ("../forcefield/data.atom", config.type_to_file_name(0));
-  EXPECT_EQ("../forcefield/data.lj", config.type_to_file_name(1));
-  EXPECT_EQ("../forcefield/data.spce", config.type_to_file_name(2));
+  EXPECT_EQ("../forcefield/atom.fstprt", config.type_to_file_name(0));
+  EXPECT_EQ("../forcefield/lj.fstprt", config.type_to_file_name(1));
+  EXPECT_EQ("../forcefield/spce.fstprt", config.type_to_file_name(2));
 
-  config.add_particle_type("../forcefield/data.lj", "2");
+  config.add_particle_type("../forcefield/lj.fstprt", "2");
   EXPECT_EQ(4, config.num_particle_types());
-  EXPECT_EQ("../forcefield/data.lj2", config.type_to_file_name(3));
+  EXPECT_EQ("../forcefield/lj.fstprt2", config.type_to_file_name(3));
 }
 
 TEST(Configuration, coordinates_and_wrapping) {
   Configuration config(MakeDomain({{"cubic_box_length", "5"}}),
-    {{"particle_type0", "../forcefield/data.atom"}});
+    {{"particle_type0", "../forcefield/atom.fstprt"}});
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   Position pos;
@@ -69,7 +69,7 @@ TEST(Configuration, coordinates_and_wrapping) {
 }
 
 TEST(Configuration, particle_types_lj) {
-  auto config = MakeConfiguration({{"particle_type0", "../forcefield/data.lj"}});
+  auto config = MakeConfiguration({{"particle_type0", "../forcefield/lj.fstprt"}});
   config->check();
   EXPECT_EQ(1, config->particle_types().num());
   EXPECT_EQ(1, config->particle_types().num());
@@ -87,7 +87,7 @@ TEST(Configuration, particle_types_lj) {
 }
 
 TEST(Configuration, particle_types_spce) {
-  auto config = MakeConfiguration({{"particle_type0", "../forcefield/data.spce"}});
+  auto config = MakeConfiguration({{"particle_type0", "../forcefield/spce.fstprt"}});
   config->check();
   EXPECT_EQ(2, config->particle_types().num_site_types());
   EXPECT_EQ(3, config->particle_types().num_sites());
@@ -136,12 +136,12 @@ TEST(Configuration, group) {
     config_err.add(MakeGroup({{"site_type", "0"}}));
     CATCH_PHRASE("add groups after particle types");
   );
-  config->add_particle_type("../forcefield/data.spce");
-  config->add_particle_type("../forcefield/data.lj");
+  config->add_particle_type("../forcefield/spce.fstprt");
+  config->add_particle_type("../forcefield/lj.fstprt");
   TRY(
     Configuration config_err(*config);
     config_err.add_particle_of_type(0);
-    config_err.add_particle_type("../forcefield/data.lj");
+    config_err.add_particle_type("../forcefield/lj.fstprt");
     CATCH_PHRASE("types cannot be added after particles");
   );
   config->add(MakeGroup({{"site_type", "0"}, {"particle_type", "0"}}), "O");
@@ -243,7 +243,7 @@ TEST(Configuration, copy_particles) {
 
 TEST(Configuration, change_volume) {
   auto config = MakeConfiguration({{"cubic_box_length", "10"},
-    {"particle_type", install_dir() + "/forcefield/data.spce"}});
+    {"particle_type", install_dir() + "/forcefield/spce.fstprt"}});
   config->add_particle_of_type(0);
   config->add_particle_of_type(0);
   Select second;
@@ -290,8 +290,8 @@ TEST(Configuration, change_volume) {
 }
 
 TEST(Configuration, add_particles_of_type) {
-  auto config = MakeConfiguration({{"particle_type0", install_dir() + "/forcefield/data.lj"},
-    {"particle_type1", install_dir() + "/forcefield/data.atom"},
+  auto config = MakeConfiguration({{"particle_type0", install_dir() + "/forcefield/lj.fstprt"},
+    {"particle_type1", install_dir() + "/forcefield/atom.fstprt"},
     {"add_particles_of_type1", "2"}});
   EXPECT_EQ(2, config->num_particles());
   EXPECT_EQ(1, config->particle(0).type());
@@ -299,7 +299,7 @@ TEST(Configuration, add_particles_of_type) {
 }
 
 TEST(Configuration, dihedrals) {
-  auto config = MakeConfiguration({{"particle_type", "../forcefield/data.n-decane"}, {"add_particles_of_type0", "1"}});
+  auto config = MakeConfiguration({{"particle_type", "../forcefield/n-decane.fstprt"}, {"add_particles_of_type0", "1"}});
   EXPECT_EQ(1, config->num_particles());
   EXPECT_EQ(7, config->particle_type(0).num_dihedrals());
   EXPECT_EQ(1, config->unique_type(0).num_dihedrals());
