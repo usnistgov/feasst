@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>LongRangeCorrections &mdash; FEASST v0.16.0 documentation</title>
+  <title>LongRangeCorrections &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -120,10 +120,14 @@
 <li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RigidAngle.html">RigidAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RigidBond.html">RigidBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondFourBody.html">BondFourBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LennardJones.html">LennardJones</a></li>
@@ -131,14 +135,15 @@
 <li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
@@ -159,14 +164,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -290,7 +295,20 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst20LongRangeCorrectionsE">
 <span class="target" id="classfeasst_1_1LongRangeCorrections"></span><em class="property">class </em><code class="sig-name descname">LongRangeCorrections</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst20LongRangeCorrectionsE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>See Allen and Tildesley or Frenkel and Smit. </p>
+<dd><p>These are the long range corrections assuming a 12-6 Lennard-Jones potential and that the radial distribution function is one beyond the cutoff.</p>
+<p>See Allen and Tildesley or Frenkel and Smit.</p>
+<p><span class="math notranslate nohighlight">\( U_{LRC} = \sum_i \sum_j U_{LRC}^{ij} = \sum_i \sum_j C_{ij} n_i n_j\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are particle types i and j, <span class="math notranslate nohighlight">\(n\)</span> are the number of sites of the given type, and the constant, C_{ij} is given by</p>
+<p><span class="math notranslate nohighlight">\(C_{ij} = \frac{8\epsilon_{ij}\pi\sigma_{ij}^3}{3 V}\left[\frac{1}{3}\left(\frac{\sigma_{ij}}{r^c_{ij}}\right)^9 - \left(\frac{\sigma_{ij}}{r^c_{ij}}\right)^3\right]\)</span></p>
+<p>which depends only on the <a class="reference internal" href="LennardJones.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a> parameters.</p>
+<p>Only trials that change the number of sites of a type contribute to changes in energy.</p>
+<p>If a selection of sites are to be deleted, the energetic contribution of the selection may be computed as:</p>
+<p><span class="math notranslate nohighlight">\(U_{with} - U_{without} \propto n_i n_j - (n_i-n_i^s)(n_j-n_j^2)\)</span></p>
+<p><span class="math notranslate nohighlight">\(U_{with} - U_{without} \propto n_i^s n_j + n_i n_j^s - n_i^s n_j^s\)</span></p>
+<p>where the superscript s refers to the number of sites in the selection.</p>
+<p>If a selection is to be added, the energetic contribution of the selection may be computed as:</p>
+<p><span class="math notranslate nohighlight">\(U_{with} - U_{without} \propto (n_i+n_i^s)(n_j+n_j^s) - n_i n_j\)</span></p>
+<p><span class="math notranslate nohighlight">\(U_{with} - U_{without} \propto n_i^s n_j + n_i n_j^s + n_i^s n_j^s\)</span> </p>
 </dd></dl>
 
 </div>

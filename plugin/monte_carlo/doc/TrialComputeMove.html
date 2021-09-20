@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>TrialComputeMove &mdash; FEASST v0.16.0 documentation</title>
+  <title>TrialComputeMove &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="monte_carlo/include/trial_move" href="trial_move.html" />
+    <link rel="next" title="TrialMove" href="TrialMove.html" />
     <link rel="prev" title="TrialComputeAdd" href="TrialComputeAdd.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -115,19 +115,26 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Run.html">Run</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -138,20 +145,18 @@
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trials.html">monte_carlo/include/trials</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_move.html">monte_carlo/include/trial_move</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 </ul>
 </li>
 </ul>
@@ -166,14 +171,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -301,7 +306,7 @@
 <p>Derivation of the acceptance criteria follows Lecture 9 of Prof. David Kofke’s Molecular Simulation course CE 530.</p>
 <p><a class="reference external" href="http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html">http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html</a></p>
 <p>For this type of move, the potential energy of the system, U, is the only thermodynamic variable which changes. Thus, whether in the canonical ensemble or otherwise, the probability distribution,</p>
-<p><p><p><span class="math notranslate nohighlight">\(\pi_i \propto e^{-\beta U_i}\)</span></p>
+<p><p><p><span class="math notranslate nohighlight">\(\pi_i \propto \exp(-\beta U_i)\)</span></p>
 <p>because the other thermodynamic variables such as number of particles,
 or volume do not change.</p>
 <p>The following table describes the transition probabilities associated with
@@ -323,8 +328,8 @@ And the reverse transition probability is from new to old, <span class="math not
 <p>[reverse probability, <span class="math notranslate nohighlight">\(\pi_{no}\)</span>]</p>
 </td>
 </tr>
-<tr class="row-even"><td><p>Select molecule of type t</p>
-<p>[Select molecule of type t]</p>
+<tr class="row-even"><td><p>Select particle of type t</p>
+<p>[Select particle of type t]</p>
 </td>
 <td><p><span class="math notranslate nohighlight">\(1/N_t\)</span></p>
 <p><span class="math notranslate nohighlight">\([1/N_t]\)</span></p>
@@ -340,8 +345,8 @@ And the reverse transition probability is from new to old, <span class="math not
 <tr class="row-even"><td><p>Accept</p>
 <p>[Accept]</p>
 </td>
-<td><p><span class="math notranslate nohighlight">\(min(1, \chi)\)</span></p>
-<p><span class="math notranslate nohighlight">\([min(1, 1/\chi)]\)</span></p>
+<td><p><span class="math notranslate nohighlight">\(\min(1, \chi)\)</span></p>
+<p><span class="math notranslate nohighlight">\([\min(1, 1/\chi)]\)</span></p>
 </td>
 </tr>
 </tbody>
@@ -355,13 +360,85 @@ state, <span class="math notranslate nohighlight">\(\pi_n\)</span> times the pro
 state, <span class="math notranslate nohighlight">\(\pi_{no}\)</span>.</p>
 <p><span class="math notranslate nohighlight">\(\pi_o \pi_{on} = \pi_n \pi_{no}\)</span></p>
 <p>Substituting the probability distribution and transition probabilities yields</p>
-<p><span class="math notranslate nohighlight">\(\frac{e^{-\beta U_o}min(1, \chi)}{N_t v} =
-\frac{e^{-\beta U_n}min(1, 1/\chi)}{N_t v}\)</span></p>
-<p><span class="math notranslate nohighlight">\(min(1, \chi)/min(1, 1/\chi) = e^{-\beta(U_n - U_o)} =
-e^{-\beta\Delta U}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\frac{\min(1, \chi)\exp(-\beta U_o)}{N_t v} =
+\frac{\min(1, 1/\chi)\exp(-\beta U_n)}{N_t v}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\frac{\min(1, \chi)}{\min(1, 1/\chi)} = \exp[-\beta(U_n - U_o)] =
+\exp(-\beta\Delta U)\)</span></p>
 <p>The left hand side is <span class="math notranslate nohighlight">\(\chi\)</span> for both cases of <span class="math notranslate nohighlight">\(\chi &lt;= 1\)</span>
 and <span class="math notranslate nohighlight">\(\chi &gt; 1\)</span>. Thus,</p>
-<p><span class="math notranslate nohighlight">\(\chi = e^{-\beta\Delta U}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\chi = \exp(-\beta\Delta U)\)</span></p>
+<p>For configurational bias, consider multiple trial positions and select one.
+This can lead to higher acceptance probability or larger displacements,
+<span class="math notranslate nohighlight">\(\delta\)</span>, in each of D dimensions.
+It is also parallelizable (<a class="reference external" href="https://doi.org/10.1103/PhysRevE.51.1560">https://doi.org/10.1103/PhysRevE.51.1560</a>)
+and allows the use of dual-cut CB (<a class="reference external" href="https://doi.org/10.1080/002689798167881">https://doi.org/10.1080/002689798167881</a>).</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 52%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Forward event</p>
+<p>[reverse event]</p>
+</td>
+<td><p>Probability, <span class="math notranslate nohighlight">\(\pi_{on}\)</span></p>
+<p>[reverse probability, <span class="math notranslate nohighlight">\(\pi_{no}\)</span>]</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Select particle of type t</p>
+<p>[Select particle of type t]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/N_t\)</span></p>
+<p><span class="math notranslate nohighlight">\([1/N_t]\)</span></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Generate k positions about
+<span class="math notranslate nohighlight">\(x_o\)</span>.
+Probability <span class="math notranslate nohighlight">\(x_n\)</span> is in k.</p>
+<p>[Generate j positions about
+<span class="math notranslate nohighlight">\(x_n\)</span>.
+Probability <span class="math notranslate nohighlight">\(x_o\)</span> is in j.]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(k/\delta^D\)</span></p>
+<p><span class="math notranslate nohighlight">\([j/\delta^D]\)</span></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Pick <span class="math notranslate nohighlight">\(x_n\)</span> in k positions.</p>
+<p>[Pick <span class="math notranslate nohighlight">\(x_o\)</span> in j positions.]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(P_k\)</span></p>
+<p><span class="math notranslate nohighlight">\(P_j\)</span></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Accept</p>
+<p>[Accept]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(\min(1, \chi)\)</span></p>
+<p><span class="math notranslate nohighlight">\([\min(1, 1/\chi)]\)</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Applying (local) detailed balance yields</p>
+<p><span class="math notranslate nohighlight">\(\chi = \frac{P_j}{P_k} \exp[-\beta(U_n - U_o)]\)</span></p>
+<p>Note that the number of new and old positions must be equal, <span class="math notranslate nohighlight">\(j = k\)</span>.
+In this case, the j and k indices are retained to distinguish between positions
+generated about the old or new position.</p>
+<p>If the probability of picking a position is chosen as the typical Rosenbluth factor,</p>
+<p><span class="math notranslate nohighlight">\(P_m = \exp(-\beta U)/\sum_i^m \exp(-\beta U_i)\)</span>.</p>
+<p>Thus, the acceptance is given by</p>
+<p><span class="math notranslate nohighlight">\(\chi = \frac{\sum_i^k \exp(-\beta U_i)}{\exp(-\beta U_n)}\frac{\exp(-\beta U_o)}{\sum_i^j \exp(-\beta U_i)}\exp(-\beta(U_n - U_o))\)</span></p>
+<p><span class="math notranslate nohighlight">\(\chi = \frac{\sum_i^k \exp(-\beta U_i)}{\sum_i^j \exp(-\beta U_i)}\)</span>.</p>
+<p>Note that the sum over j is for randomly generated positions within <span class="math notranslate nohighlight">\(\delta\)</span> of the new position,
+while the sum over k is for randomly generated positions within <span class="math notranslate nohighlight">\(\delta\)</span> of the old position.
+This means that the sum over j includes the old position.</p>
+<p>For dual-cut configurational bias, the new trials are instead chosen from a
+reference potential, <span class="math notranslate nohighlight">\(U^r\)</span>, that is ideally much faster to compute than
+the full potential but still contains sampling-relevant terms (e.g., excluded
+volume in a dense system).</p>
+<p><span class="math notranslate nohighlight">\(P_m(U) = \exp(-\beta U^r)/\sum_i^m \exp(-\beta U_i^r)\)</span></p>
+<p><span class="math notranslate nohighlight">\(\chi = \frac{\sum_i^k \exp(-\beta U^r_i)}{\sum_i^j \exp(-\beta U_i^r)}\exp\{-\beta[(U_n-U_n^r) - (U_o-U_o^r)]\}\)</span></p>
+<p>Note that these equations consider only a single-site particle.</p>
 </p>
  </p>
 <p>Subclassed by <a class="reference internal" href="../../cluster/doc/ComputeAVB2.html#classfeasst_1_1ComputeAVB2"><span class="std std-ref">feasst::ComputeAVB2</span></a>, <a class="reference internal" href="../../cluster/doc/ComputeAVB4.html#classfeasst_1_1ComputeAVB4"><span class="std std-ref">feasst::ComputeAVB4</span></a></p>
@@ -384,7 +461,7 @@ and <span class="math notranslate nohighlight">\(\chi &gt; 1\)</span>. Thus,</p>
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="trial_move.html" class="btn btn-neutral float-right" title="monte_carlo/include/trial_move" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="TrialMove.html" class="btn btn-neutral float-right" title="TrialMove" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="TrialComputeAdd.html" class="btn btn-neutral float-left" title="TrialComputeAdd" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

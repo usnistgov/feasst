@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Group &mdash; FEASST v0.16.0 documentation</title>
+  <title>Group &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -119,7 +119,6 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
@@ -142,14 +141,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -280,8 +279,8 @@
 <dt id="_CPPv4N6feasst5Group5GroupE7argtype">
 <span class="target" id="classfeasst_1_1Group_1af42a8c40dd14029d63db5651f4f58fca"></span><code class="sig-name descname">Group</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Group5GroupE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>add_site_type: add a site type. If none, all sites included.</p></li>
-<li><p>add_particle_type: add a particle type. If none, all particles included.</p></li>
+<li><p>site_type[i]: add the i-th site type. If none, all sites included. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one site type, the “[i]” is optional.</p></li>
+<li><p>particle_type[i]: add the i-th particle type. If none, all included. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional.</p></li>
 <li><p>dynamic: set true if groups should be updated (default: true).</p></li>
 <li><p>spatial: set true if group is based on location (default: false). </p></li>
 </ul>
@@ -292,6 +291,12 @@
 <dt id="_CPPv4NK6feasst5Group10site_typesEv">
 <span class="target" id="classfeasst_1_1Group_1a88e888cb9a17d14bcd21a28315f71cbc"></span><em class="property">const</em> std::vector&lt;int&gt; <code class="sig-name descname">site_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group10site_typesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the list of site types in the group. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Group14particle_typesEv">
+<span class="target" id="classfeasst_1_1Group_1ad624aa7d6c1593acfb98a772575bb12b"></span><em class="property">const</em> std::vector&lt;int&gt; <code class="sig-name descname">particle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group14particle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the list of particle types in the group. </p>
 </dd></dl>
 
 <dl class="cpp function">

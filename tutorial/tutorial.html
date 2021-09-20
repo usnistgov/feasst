@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Tutorial &mdash; FEASST v0.16.0 documentation</title>
+  <title>Tutorial &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -115,7 +115,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -529,31 +529,27 @@ version: v0.7.0-90-g6cb364c4ae hwh/branch
 </pre></div>
 </div>
 </div>
-<p>The second step is to add a <a class="reference internal" href="../plugin/configuration/README.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box of length 8 is defined with a single type of particle as described in <code class="docutils literal notranslate"><span class="pre">forcefield/data.lj</span></code>. See <a class="reference internal" href="../forcefield/README.html"><span class="doc">Forcefield</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
+<p>The second step is to add a <a class="reference internal" href="../plugin/configuration/README.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box of length 8 is defined with a single type of particle as described in <code class="docutils literal notranslate"><span class="pre">forcefield/lj.fstprt</span></code>. See <a class="reference internal" href="../forcefield/README.html"><span class="doc">Forcefield</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">})),</span>
-     <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
+     <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
 </pre></div>
 </div>
 </div>
 <p>FEASST arguments are input as a dictionary of strings with limited type checking. Thus, care must be taken to input strings which follow the documentation.</p>
-<!--- HWH add exercise: If there is a typo in the arguments, this may result in a FEASST      exception which will print to the terminal and crash the notebook kernel.
-You can test this now by changing the `cubic_box_length` argument to an incorrect argument such as `cubic_box_length1`, you should seen an error like the following:
-
-> terminate called after throwing an instance of 'feasst::CustomException'
->   what():  Throw on proc 0 : # Assertion `find_in_list(pair.first, used_keys_)` failed0 plugin/utils/src/arguments.cpp:66: Key arg(cubic_box_length1) ) is not recognized. Check for any typos in your provided keyword arguments and check documentation. All keywords provided in args must be used, otherwise, a simple typo in keyword arguments would go unnoticed. If you are a developer, check that you have processed all possible keywords in the appropriate constructor.
----><p>Next, initializing the <a class="reference internal" href="../plugin/system/doc/Potential.html"><span class="doc">Potential</span></a> proceeds as follows:</p>
+<p>If there is a typo in the arguments, this may result in an exception which will print to the terminal and crash the notebook kernel. You can test this now by changing the <code class="docutils literal notranslate"><span class="pre">cubic_box_length</span></code> argument to a non-existent argument such as <code class="docutils literal notranslate"><span class="pre">cubic_box_len</span></code>.</p>
+<p>Next, initializing the <a class="reference internal" href="../plugin/system/doc/Potential.html"><span class="doc">Potential</span></a> proceeds as follows:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
 </pre></div>
 </div>
 </div>
@@ -570,7 +566,7 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </pre></div>
 </div>
 </div>
-<p>A <a class="reference internal" href="../plugin/monte_carlo/doc/trials.html"><span class="doc">TrialTranslate</span></a> is then introduced which attempts to translate a random particle by a random distance which is bound in each dimension by a <code class="docutils literal notranslate"><span class="pre">tunable_param</span></code>. This parameter may be adjusted to obtain a desired acceptance ratio, <code class="docutils literal notranslate"><span class="pre">tunable_target_acceptance</span></code>, with the help of <a class="reference internal" href="../plugin/steppers/doc/Tuner.html"><span class="doc">Tuner</span></a>.</p>
+<p>A <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a> is then introduced which attempts to translate a random particle by a random distance which is bound in each dimension by a <code class="docutils literal notranslate"><span class="pre">tunable_param</span></code>. This parameter may be adjusted to obtain a desired acceptance ratio, <code class="docutils literal notranslate"><span class="pre">tunable_target_acceptance</span></code>, with the help of <a class="reference internal" href="../plugin/steppers/doc/Tune.html"><span class="doc">Tune</span></a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -578,12 +574,12 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_target_acceptance&quot;</span><span class="p">:</span> <span class="s2">&quot;0.2&quot;</span><span class="p">})))</span>
-<span class="n">steps_per</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTuner</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
+<span class="n">steps_per</span> <span class="o">=</span> <span class="s2">&quot;1e3&quot;</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTune</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="n">steps_per</span><span class="p">})))</span>
 </pre></div>
 </div>
 </div>
-<p>With the help of <a class="reference internal" href="../plugin/monte_carlo/doc/trials.html"><span class="doc">TrialTranslate</span></a>, we can now initialize the number of particles.</p>
+<p>With the help of <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a>, we can now initialize the number of particles.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -596,7 +592,7 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </pre></div>
 </div>
 </div>
-<p>A grand canonical simulation is performed here by utilizing a temporary <a class="reference internal" href="../plugin/monte_carlo/doc/trials.html"><span class="doc">TrialAdd</span></a>, which is why chemical potential was input to <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
+<p>A grand canonical simulation is performed here by utilizing a temporary <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialAdd</span></a>, which is why chemical potential was input to <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
 <p>Additional <a class="reference internal" href="../plugin/monte_carlo/doc/Analyze.html"><span class="doc">Analyze</span></a> or <a class="reference internal" href="../plugin/monte_carlo/doc/Modify.html"><span class="doc">Modify</span></a> may be added at any time to perform some task contingent upon the number of attempted trials.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -620,7 +616,7 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%time</span>
+<span></span><span class="o">%</span><span class="k">time</span>  # Note: any line starting with % is only to be used with ipynb
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -640,10 +636,13 @@ Wall time: 798 ms
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span></span><span class="c1"># Note: any line starting with % is only to be used with ipynb</span>
+<span class="c1"># import matplotlib.pyplot as plt  # uncomment this line if using plain python, not ipynb</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;attempt&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 </pre></div>
 </div>
 </div>

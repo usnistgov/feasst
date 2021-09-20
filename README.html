@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>README &mdash; FEASST v0.16.0 documentation</title>
+  <title>README &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -120,7 +120,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#build-from-docker">Build from Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contact">Contact</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#project-lead">Project lead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bug-reporting">Bug reporting</a></li>
@@ -135,7 +134,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -250,7 +249,6 @@
 </style>
 <div class="section" id="readme">
 <h1>README<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h1>
-<a class="reference external image-reference" href="https://www.codefactor.io/repository/github/hhatch/feasst/overview/main"><img alt="CodeFactor" src="https://www.codefactor.io/repository/github/hhatch/feasst/badge/main" /></a>
 <p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
 open-source, modular program to conduct molecular and particle-based
 simulations with flat-histogram Monte Carlo methods.</p>
@@ -267,35 +265,47 @@ simulations with flat-histogram Monte Carlo methods.</p>
 <a class="reference external image-reference" href="https://pages.nist.gov/feasst"><img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" /></a>
 <p><a class="reference internal" href="plugin/README.html"><span class="doc">Plugins</span></a> contains the list of features available.
 Some features include but are not limited to the following:</p>
-<p>Simulation techniques</p>
+<p>Monte Carlo simulation techniques</p>
 <ul class="simple">
-<li><p>Metropolis Monte Carlo</p></li>
-<li><p>Wang-Landau Monte Carlo</p></li>
-<li><p>Transition-matrix Monte Carlo</p></li>
-<li><p>Mayer-sampling Monte Carlo</p></li>
-<li><p>Configurational bias</p></li>
+<li><p>Metropolis</p></li>
+<li><p>Wang-Landau</p></li>
+<li><p>Transition-matrix</p></li>
+<li><p>Mayer-sampling</p></li>
 </ul>
 <p>Thermodynamic ensembles</p>
 <ul class="simple">
 <li><p>Microcanonical ensemble</p></li>
 <li><p>Canonical ensemble</p></li>
 <li><p>Grand canonical ensemble</p></li>
-<li><p>Expanded ensembles</p></li>
+<li><p>Temperature and growth expanded ensembles</p></li>
 </ul>
-<p>Intermolecular interactions</p>
+<p>Monte Carlo trials</p>
+<ul class="simple">
+<li><p>Translation, rotation, crankshaft, pivot</p></li>
+<li><p>Rigid cluster rotation and translation</p></li>
+<li><p>Configurational bias transfers and partial regrowth</p></li>
+<li><p>Dual-cut configurational bias</p></li>
+<li><p>Aggregation volume bias</p></li>
+<li><p>Reptation</p></li>
+<li><p>Branches</p></li>
+</ul>
+<p>Interaction potentials</p>
 <ul class="simple">
 <li><p>Hard spheres</p></li>
-<li><p>Lennard-Jones with Yukawa, LRC, cut and force shift</p></li>
+<li><p>Lennard-Jones with LRC, cut and force shift</p></li>
 <li><p>Patchy particles</p></li>
-<li><p>Charged interactions with the Ewald summation</p></li>
-<li><p>Confinement</p></li>
+<li><p>Yukawa and charged interactions</p></li>
+<li><p>Ewald summation and 2D slab correction</p></li>
+<li><p>Bonds, angles and dihedrals</p></li>
+<li><p>TraPPE small molecules and n-alkanes</p></li>
+<li><p>Slab, cylindrical and spherical confinement</p></li>
 <li><p>Cell list and neighbor list</p></li>
 </ul>
 <p>Modern software</p>
 <ul class="simple">
 <li><p>Interface with C++ or as a Python module</p></li>
-<li><p>OpenMP parallelization</p></li>
-<li><p>Checkpointing to save and restart simulations</p></li>
+<li><p>OpenMP parallelization and prefetching</p></li>
+<li><p>Checkpoint files to save, restart and analyze simulations</p></li>
 </ul>
 </div>
 <div class="section" id="tutorial">
@@ -341,7 +351,7 @@ pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</sp
 
 cmake -DUSE_SWIG<span class="o">=</span>ON ..
 <span class="c1"># alternatively, for manually setting the python path</span>
-<span class="c1"># cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.so ..</span>
+<span class="c1"># cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.[so/dylib] ..</span>
 
 make -j4
 make install -j4
@@ -426,45 +436,6 @@ Otherwise, install SWIG 3.</p>
 <li><p>OpenMP functions apparently do not work unless the cray programming environment is disabled.</p></li>
 </ul>
 </div>
-</div>
-</div>
-<div class="section" id="build-from-docker">
-<h2>Build from Docker<a class="headerlink" href="#build-from-docker" title="Permalink to this headline">¶</a></h2>
-<p>The Docker is no longer being updated and contains a very old version of the code.
-Installation via <a class="reference external" href="docker.io">Docker</a> is an alternative if you are experiencing installation issues.
-Unfortunately there is a performance penalty using this method.</p>
-<p>First, install docker</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Ubuntu: <cite>apt install docker</cite></p></li>
-<li><p>macOS: download and install Docker Desktop.</p></li>
-<li><p>CentOS: <cite>yum install docker</cite></p></li>
-</ul>
-</div></blockquote>
-<p>On a mac, run Docker.app, login, startup and skip this step.
-Otherwise, start docker and create a <a class="reference external" href="https://docs.docker.com/install/linux/linux-postinstall/">docker group</a> to avoid root.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo service docker start
-sudo groupadd docker
-sudo usermod -aG docker <span class="nv">$USER</span>
-newgrp docker
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
-docker build -t hhatch/feasst:firsttry feasst/
-</pre></div>
-</div>
-<p>Alternatively you could pull feasst from docker hub (version may be old):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull hhatch/feasst:firsttry
-</pre></div>
-</div>
-<p>Then you can interactively run feasst via</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/scripts:/mnt/scripts -it hhatch/feasst:firsttry
-<span class="nb">cd</span> /mnt/scripts
-</pre></div>
-</div>
-<p>Or with <cite>~/notebooks</cite></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/notebooks:/mnt/notebooks -i -t -p <span class="m">8888</span>:8888 hhatch/feasst:firsttry /bin/bash -c <span class="s2">&quot;jupyter notebook --notebook-dir=/mnt/notebooks --ip=&#39;*&#39; --port=8888 --no-browser --allow-root&quot;</span>
-</pre></div>
 </div>
 </div>
 <div class="section" id="contact">

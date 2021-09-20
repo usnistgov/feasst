@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>FileVMD &mdash; FEASST v0.16.0 documentation</title>
+  <title>FileVMD &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -119,7 +119,6 @@
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
@@ -142,14 +141,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -283,6 +282,16 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst7FileXYZ7FileXYZE7argtype">
+<span class="target" id="classfeasst_1_1FileXYZ_1afb674ee0645c99d13209bb95a30e658c"></span><code class="sig-name descname">FileXYZ</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7FileXYZ7FileXYZE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>group_index: print the coordinates of this group index only (default: 0).</p></li>
+<li><p>append: append file output if set to true. Do not append if false (default: “false”). </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst7FileXYZ4loadEKNSt6stringEP13Configuration">
 <span class="target" id="classfeasst_1_1FileXYZ_1a562170c34ad189dd96eb8f1b3171dcc3"></span>void <code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em>, <a class="reference internal" href="Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7FileXYZ4loadEKNSt6stringEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Load the xyz file with file_name into the configuration. Note that this function does not read the domain tilts xy, xz and yz. This function also does not read the site types. Thus, particles should be added to the system in the desired order. If no particles in the configuration, use the first particle type. </p>
@@ -299,12 +308,6 @@
 </dl>
 </p>
 <p>Write the configuration to file_name in xyz format. If the simulation is 2D, simply writes z as 0. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst7FileXYZ10set_appendEKi">
-<span class="target" id="classfeasst_1_1FileXYZ_1a0695d5fb74b79f85441236f95f7007ed"></span>void <code class="sig-name descname">set_append</code><span class="sig-paren">(</span><em class="property">const</em> int <em>append</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7FileXYZ10set_appendEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>By default, do not append. </p>
 </dd></dl>
 
 </div>

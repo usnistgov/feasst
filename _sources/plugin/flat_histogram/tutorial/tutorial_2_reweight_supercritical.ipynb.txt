@@ -1323,14 +1323,18 @@
     "    -1.568214)\n",
     "\n",
     "# plot macrostate and energy\n",
+    "# Note: any line starting with % is only to be used with ipynb\n",
+    "# import matplotlib.pyplot as plt  # uncomment this line if using plain python, not ipynb\n",
     "%matplotlib inline\n",
     "%config InlineBackend.figure_format = 'svg'\n",
     "import matplotlib.pyplot as plt\n",
     "ax = dfsrsw.plot('N', 'lnPI')\n",
     "ax.axvline(310, color='black')\n",
+    "# plt.show()  # uncomment this line if using plain python, not ipynb\n",
     "ax = dfsrsw.plot('N', 'energy')\n",
     "ax.axvline(310, color='black')\n",
-    "ax.axhline(-1250, color='black')"
+    "ax.axhline(-1250, color='black')\n",
+    "# plt.show()  # uncomment this line if using plain python, not ipynb"
    ]
   },
   {
@@ -1342,7 +1346,7 @@
     "\n",
     "## Grand canonical ensemble averages\n",
     "\n",
-    "For a macrostate of the number of particles, $N$, the canonical ensemble average of some extensive quantity, $A$, from the a flat histogram simulation is computed as follows:\n",
+    "For a macrostate of the number of particles, $N$, the canonical ensemble average of some extensive quantity, $A$, from a flat histogram simulation is computed as follows:\n",
     "\n",
     "$$\\langle A\\rangle_{NVT}(N) = \\frac{\\sum_{i=0}^{N_{trial}} A(i) \\delta(n_i - N)}{\\sum_{i=0}^{N_{trial}} \\delta(n_i - N)},$$\n",
     "\n",
@@ -2904,9 +2908,11 @@
     "# plot\n",
     "ax = dfsrsw.plot('N', 'lnPIrw')\n",
     "ax.axvline(N_muvt_rw, color='black')\n",
+    "# plt.show()  # uncomment this line if using plain python, not ipynb\n",
     "ax = dfsrsw.plot('N', 'energy')\n",
     "ax.axvline(N_muvt_rw, color='black')\n",
-    "ax.axhline(U_muvt_rw, color='black')"
+    "ax.axhline(U_muvt_rw, color='black')\n",
+    "# plt.show()  # uncomment this line if using plain python, not ipynb"
    ]
   },
   {
@@ -2935,7 +2941,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.6.10"
+   "version": "3.8.5"
   }
  },
  "nbformat": 4,

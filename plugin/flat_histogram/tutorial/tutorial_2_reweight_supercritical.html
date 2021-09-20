@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.16.0 documentation</title>
+  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -137,14 +137,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -530,14 +530,18 @@ properties continuously in <span class="math notranslate nohighlight">\(N\)</spa
     <span class="o">-</span><span class="mf">1.568214</span><span class="p">)</span>
 
 <span class="c1"># plot macrostate and energy</span>
+<span class="c1"># Note: any line starting with % is only to be used with ipynb</span>
+<span class="c1"># import matplotlib.pyplot as plt  # uncomment this line if using plain python, not ipynb</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;lnPI&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">310</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">310</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="o">-</span><span class="mi">1250</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 </pre></div>
 </div>
 </div>
@@ -565,7 +569,7 @@ properties continuously in <span class="math notranslate nohighlight">\(N\)</spa
 <p>Note that this macrostate distribution has only one maximum and therefore only one stable phase. The next tutorial will consider a lower temperature with phase separation.</p>
 <div class="section" id="Grand-canonical-ensemble-averages">
 <h2>Grand canonical ensemble averages<a class="headerlink" href="#Grand-canonical-ensemble-averages" title="Permalink to this headline">¶</a></h2>
-<p>For a macrostate of the number of particles, <span class="math notranslate nohighlight">\(N\)</span>, the canonical ensemble average of some extensive quantity, <span class="math notranslate nohighlight">\(A\)</span>, from the a flat histogram simulation is computed as follows:</p>
+<p>For a macrostate of the number of particles, <span class="math notranslate nohighlight">\(N\)</span>, the canonical ensemble average of some extensive quantity, <span class="math notranslate nohighlight">\(A\)</span>, from a flat histogram simulation is computed as follows:</p>
 <div class="math notranslate nohighlight">
 \[\langle A\rangle_{NVT}(N) = \frac{\sum_{i=0}^{N_{trial}} A(i) \delta(n_i - N)}{\sum_{i=0}^{N_{trial}} \delta(n_i - N)},\]</div>
 <p>where <span class="math notranslate nohighlight">\(\delta\)</span> is the Dirac delta function. Instead of only utilizing the canonical ensemble averages at only discrete values of the macrostate, one should instead compute a grand canonical ensemble average using the macrostate probability distribution, <span class="math notranslate nohighlight">\(\Pi\)</span>, and all of the canonical ensemble averages in the range <span class="math notranslate nohighlight">\(N \epsilon (N_{min}, N_{max})\)</span>, or <span class="math notranslate nohighlight">\((0, 370)\)</span> in this example.</p>
@@ -647,9 +651,11 @@ U = -1241.6148817462106
 <span class="c1"># plot</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;lnPIrw&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">N_muvt_rw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">N_muvt_rw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">U_muvt_rw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 </pre></div>
 </div>
 </div>

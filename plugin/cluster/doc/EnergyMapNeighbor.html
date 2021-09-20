@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>EnergyMapNeighbor &mdash; FEASST v0.16.0 documentation</title>
+  <title>EnergyMapNeighbor &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -121,7 +121,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a><ul class="current">
@@ -140,7 +140,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -270,9 +270,9 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst17EnergyMapNeighbor12is_queryableEv">
-<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a571192e22ef989da6cf4fd5842f5c31e"></span>bool <code class="sig-name descname">is_queryable</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor12is_queryableEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return true if the total interaction energy is stored (e.g., no criteria for inclusion. </p>
+<dt id="_CPPv4NK6feasst17EnergyMapNeighbor6energyEKiKi">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a184eb6018d1ad24cb6528e830c4349e2"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>part1_index</em>, <em class="property">const</em> int <em>site1_index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor6energyEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the interaction energy of given site. </p>
 </dd></dl>
 
 <dl class="cpp function">

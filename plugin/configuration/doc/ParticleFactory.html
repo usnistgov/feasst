@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ParticleFactory &mdash; FEASST v0.16.0 documentation</title>
+  <title>ParticleFactory &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -119,7 +119,6 @@
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">ParticleFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
@@ -142,14 +141,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -295,9 +294,9 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst15ParticleFactory11check_typesEPiPiPiPi">
-<span class="target" id="classfeasst_1_1ParticleFactory_1afebfc265f25da638e9340f0946c9cf5b"></span>void <code class="sig-name descname">check_types</code><span class="sig-paren">(</span>int *<em>num_site_types</em>, int *<em>num_particle_types</em>, int *<em>num_bond_types</em>, int *<em>num_angle_types</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory11check_typesEPiPiPiPi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site, particle, bond or angle type is skipped. As particles and sites are added, a never before seen type must be only one higher than the previous maximum index. Types begin with 0.</p>
+<dt id="_CPPv4NK6feasst15ParticleFactory11check_typesEPiPiPiPiPi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1ac64acc5fe77cf26a7c7b838af07eeb95"></span>void <code class="sig-name descname">check_types</code><span class="sig-paren">(</span>int *<em>num_site_types</em>, int *<em>num_particle_types</em>, int *<em>num_bond_types</em>, int *<em>num_angle_types</em>, int *<em>num_dihedral_types</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory11check_typesEPiPiPiPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site, particle, bond, angle or dihedral type is skipped. As particles and sites are added, a never before seen type must be only one higher than the previous maximum index. Types begin with 0.</p>
 <p>For example, a particle with sites of type {0, 2} is invalid because the second site of type “2” appears without a previous type “1” site.</p>
 <p>In another example, a particle with sites of type {1,2} is invalid because the site type doesn’t begin with 0.</p>
 <p>Note: for partial configurations by groups, these checks may not apply. </p>
@@ -306,7 +305,7 @@
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst15ParticleFactory11check_typesEv">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a65dfce0c22230a2d274c9c3d04ceb961"></span>void <code class="sig-name descname">check_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory11check_typesEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site, particle, bond or angle type is skipped. </p>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site, particle, bond, angle or dihedral type is skipped. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -331,6 +330,12 @@
 <dt id="_CPPv4NK6feasst15ParticleFactory17check_angle_typesEv">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a65ab979b865e84ac7173b838ff40cf2f"></span>int <code class="sig-name descname">check_angle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory17check_angle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no angle type is skipped. Return number of angle types. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst15ParticleFactory20check_dihedral_typesEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a6471fc7feffbf297a69167af65e31d63"></span>int <code class="sig-name descname">check_dihedral_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory20check_dihedral_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no dihedral type is skipped. Return number of dihedral types. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -382,8 +387,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst15ParticleFactory18replace_propertiesEKiKiRK10PropertiesRKNSt6vectorINSt6stringEEE">
-<span class="target" id="classfeasst_1_1ParticleFactory_1a7d402646e03333adbe40228b28c8118c"></span>void <code class="sig-name descname">replace_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv4N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>replacement</em>, <em class="property">const</em> std::vector&lt;std::string&gt; &amp;<em>exclude</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory18replace_propertiesEKiKiRK10PropertiesRKNSt6vectorINSt6stringEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst15ParticleFactory18replace_propertiesEKiKiRK10Properties">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a2a6de482779450fba34bac1f81427bd9"></span>void <code class="sig-name descname">replace_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv4N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory18replace_propertiesEKiKiRK10Properties" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Replace properties of the site by index. </p>
 </dd></dl>
 
@@ -446,6 +451,18 @@
 <dt id="_CPPv4NK6feasst15ParticleFactory10num_anglesEv">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a29cc6254ce5c085897088beb5d623cc6"></span>int <code class="sig-name descname">num_angles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory10num_anglesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of angles. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst15ParticleFactory18num_dihedral_typesEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1aec370e40fe442ea0942ae0896520a102"></span>int <code class="sig-name descname">num_dihedral_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory18num_dihedral_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of dihedral types. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst15ParticleFactory13num_dihedralsEv">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a8861ac9997f07ab38dadc5cf6d6b3f87"></span>int <code class="sig-name descname">num_dihedrals</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory13num_dihedralsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of dihedrals. </p>
 </dd></dl>
 
 <dl class="cpp function">

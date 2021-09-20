@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Configuration &mdash; FEASST v0.16.0 documentation</title>
+  <title>Configuration &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -119,7 +119,6 @@
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
@@ -142,14 +141,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -285,10 +284,12 @@
 <dt id="_CPPv4N6feasst13Configuration13ConfigurationE7argtype">
 <span class="target" id="classfeasst_1_1Configuration_1a519e1a947b0896eb298e94ae52fc9d95"></span><code class="sig-name descname">Configuration</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13ConfigurationE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>particle_type[i]: add the i-th type of particle to the configuration. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional.</p></li>
+<li><p>particle_type[i]: add the i-th type of particle. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional.</p></li>
+<li><p>add_particles_of_type[i]: add this many of i-th type particles. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
 <li><p>wrap: wrap particle centers within domain (default: true).</p></li>
 <li><p>physical_constants: optional class_name of <a class="reference internal" href="PhysicalConstants.html#classfeasst_1_1PhysicalConstants"><span class="std std-ref">PhysicalConstants</span></a>.</p></li>
-<li><p>set_cutoff_min_to_sigma: if true and cutoff &lt; sigma, cutoff = sigma (default: false). This is typically used for <a class="reference internal" href="../../system/doc/HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> models that didn’t specify cutoff. </p></li>
+<li><p>set_cutoff_min_to_sigma: if true and cutoff &lt; sigma, cutoff = sigma (default: false). This is typically used for <a class="reference internal" href="../../system/doc/HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> models that didn’t specify cutoff.</p></li>
+<li><p><a class="reference internal" href="Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> arguments may also be parsed here. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -338,6 +339,12 @@
 <dt id="_CPPv4NK6feasst13Configuration15num_angle_typesEv">
 <span class="target" id="classfeasst_1_1Configuration_1a9b6e5d22c9ec7c6150091d25f3f11b46"></span>int <code class="sig-name descname">num_angle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration15num_angle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of angle types. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13Configuration18num_dihedral_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1ad93b7933c78803bc672b4db7dbdf51a2"></span>int <code class="sig-name descname">num_dihedral_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration18num_dihedral_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of dihedral types. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -585,13 +592,12 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration16update_positionsERK6SelectKbKb">
-<span class="target" id="classfeasst_1_1Configuration_1aabb1974d99f34293e1b3508d10e8f678"></span>void <code class="sig-name descname">update_positions</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> bool <em>no_wrap</em> = false, <em class="property">const</em> bool <em>no_exclude</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsERK6SelectKbKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst13Configuration16update_positionsERK6SelectKb">
+<span class="target" id="classfeasst_1_1Configuration_1ac681e3bb12949b6be2dc88d2aa3cda7a"></span>void <code class="sig-name descname">update_positions</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> bool <em>no_wrap</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsERK6SelectKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update the positions and properties from a selection. </p>
 <p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">no_wrap</span></code>: If true, do not wrap. If false, defer to default behavior. </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">no_exclude</span></code>: If true, do not exclude properties. </p></li>
 </ul>
 </dd>
 </dl>
@@ -679,6 +685,18 @@
 <dt id="_CPPv4N6feasst13Configuration9init_wrapEKb">
 <span class="target" id="classfeasst_1_1Configuration_1a0c81b70efb596f202348787bb3fec0d0"></span>void <code class="sig-name descname">init_wrap</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>wrap</em> = true<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration9init_wrapEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set whether or not to wrap particles. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13Configuration14num_cell_listsEv">
+<span class="target" id="classfeasst_1_1Configuration_1a9dd6aa978fa12db7ac1f4d73e01e4c20"></span>int <code class="sig-name descname">num_cell_lists</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14num_cell_listsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of cell lists. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst13Configuration24increment_num_cell_listsEv">
+<span class="target" id="classfeasst_1_1Configuration_1ad406c522878c6ebbe9f043a025acc6e5"></span>void <code class="sig-name descname">increment_num_cell_lists</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration24increment_num_cell_listsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Increment the number of cell lists. </p>
 </dd></dl>
 
 </div>
@@ -771,12 +789,6 @@
 <dt id="_CPPv4N6feasst13Configuration17set_site_propertyEKiKdKiKi">
 <span class="target" id="classfeasst_1_1Configuration_1af1e91b10e51d85021839b4142c723f44"></span>void <code class="sig-name descname">set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17set_site_propertyEKiKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the property of a site in a particle by index. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration21add_excluded_propertyEKNSt6stringE">
-<span class="target" id="classfeasst_1_1Configuration_1a97bce7f3a5c240017b0457d755023e41"></span>void <code class="sig-name descname">add_excluded_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration21add_excluded_propertyEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add an property excluded from <a class="reference internal" href="#classfeasst_1_1Configuration_1a530bd77e401f43e9777f25f96b3a9ea5"><span class="std std-ref">Configuration::update_positions()</span></a> </p>
 </dd></dl>
 
 <dl class="cpp function">

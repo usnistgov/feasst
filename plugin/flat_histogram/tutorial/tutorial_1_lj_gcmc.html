@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST v0.16.0 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -137,14 +137,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -509,8 +509,8 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Grand-canonical-ensemble-transition-matrix-Monte-Carlo">
 <h1>Grand canonical ensemble transition-matrix Monte Carlo<a class="headerlink" href="#Grand-canonical-ensemble-transition-matrix-Monte-Carlo" title="Permalink to this headline">¶</a></h1>
-<p>In this example, flat histogram methods are employed for a small macrostate range from 0 to 5 particles. Flat histogram acceptance criteria and Monte Carlo are defined using <code class="docutils literal notranslate"><span class="pre">fh.py</span></code>. To begin, the system is initialized with the minimum number of particles by setting Metropolis acceptance criteria with favorable conditions for adding particles. The Metropolis criteria are then replaced with the flat histogram criteria. At this point, typical analysis from the previous tutorials are added. In
-addition, we also add checkpoint files, criteria status, and average energy of a given macrostate. Finally, the simulation is run until the requested number of iterations of the flat histogram algorithm are complete.</p>
+<p>In this example, flat histogram methods are employed for a small macrostate range from 0 to 5 particles. To begin, the system is initialized with the minimum number of particles by setting Metropolis acceptance criteria with favorable conditions for adding particles. The Metropolis criteria are then replaced with the flat histogram criteria. At this point, typical analysis from the previous tutorials are added. In addition, we also add checkpoint files, criteria status, and average energy of a
+given macrostate. Finally, the simulation is run until the requested number of iterations of the flat histogram algorithm are complete.</p>
 <p>A small macrostate range allows the simulation to run quickly with good sampling, and thus it is an ideal starting point to test the simulations. To begin, read the previous SRSW values from file for comparison.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -520,12 +520,13 @@ addition, we also add checkpoint files, criteria status, and average energy of a
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
-<span class="n">ln_prob_srsw</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">LnProbability</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../test/data/stat150.csv&quot;</span><span class="p">)[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
+<span class="n">srsw_file</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/flat_histogram/test/data/stat150.csv&quot;</span>
+<span class="n">ln_prob_srsw</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">LnProbability</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">srsw_file</span><span class="p">)[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
 <span class="n">ln_prob_srsw</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span> <span class="c1"># normalize to account for a smaller macrostate range</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ln_prob_srsw</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ln_prob_srsw&quot;</span><span class="p">})</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ln_prob_srsw_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.04</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;u_srsw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../test/data/stat150.csv&quot;</span><span class="p">)[</span><span class="s2">&quot;energy&quot;</span><span class="p">]</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;u_srsw_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../test/data/stat150.csv&quot;</span><span class="p">)[</span><span class="s2">&quot;energystd&quot;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;u_srsw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">srsw_file</span><span class="p">)[</span><span class="s2">&quot;energy&quot;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;u_srsw_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">srsw_file</span><span class="p">)[</span><span class="s2">&quot;energystd&quot;</span><span class="p">]</span>
 <span class="n">df</span>
 </pre></div>
 </div>
@@ -629,7 +630,7 @@ addition, we also add checkpoint files, criteria status, and average energy of a
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaWriter</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj_fh.txt&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeEnergy</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj_en.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;steps_per_update&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
         <span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span> <span class="s2">&quot;multistate&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckpoint</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="n">checkpoint_file_name</span><span class="p">,</span> <span class="s2">&quot;num_hours&quot;</span><span class="p">:</span> <span class="s2">&quot;0.001&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckpoint</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="n">checkpoint_file_name</span><span class="p">,</span> <span class="s2">&quot;num_hours&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0001&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">()</span>
 
 <span class="k">class</span> <span class="nc">TestFlatHistogramLJ</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -668,7 +669,8 @@ addition, we also add checkpoint files, criteria status, and average energy of a
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%time</span>
+<span></span><span class="c1"># Note: any line starting with % is only to be used with ipynb</span>
+<span class="o">%</span><span class="k">time</span>
 <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>

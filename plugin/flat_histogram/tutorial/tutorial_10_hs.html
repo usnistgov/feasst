@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Analysis of a hard sphere simulation &mdash; FEASST v0.16.0 documentation</title>
+  <title>Analysis of a hard sphere simulation &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -137,14 +137,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -510,7 +510,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Analysis-of-a-hard-sphere-simulation">
 <h1>Analysis of a hard sphere simulation<a class="headerlink" href="#Analysis-of-a-hard-sphere-simulation" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -521,7 +521,7 @@ div.rendered_html tbody tr:hover {
 <span class="kn">import</span> <span class="nn">pyfeasst</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 
-<span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;tutorial_10_hs.py&#39;</span><span class="p">,</span> <span class="s1">&#39;--num_procs&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;--max_particles&#39;</span><span class="p">,</span> <span class="s1">&#39;100&#39;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">)</span>
+<span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;tutorial_10_hs.py&#39;</span><span class="p">,</span> <span class="s1">&#39;--num_procs&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;--max_particles&#39;</span><span class="p">,</span> <span class="s1">&#39;100&#39;</span><span class="p">,</span> <span class="s1">&#39;--min_sweeps&#39;</span><span class="p">,</span> <span class="s1">&#39;20&#39;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">)</span>
 <span class="n">proc</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ln_prob.txt&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="n">ln_prob</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">LnProbability</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">DoubleVector</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
@@ -545,91 +545,75 @@ div.rendered_html tbody tr:hover {
     <span class="n">gce</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">pressure</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">()</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;P_FST&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pressure</span>
-<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dens&#39;</span><span class="p">,</span> <span class="s1">&#39;P_MC&#39;</span><span class="p">,</span> <span class="s1">&#39;P_FST&#39;</span><span class="p">,</span> <span class="s1">&#39;+/-&#39;</span><span class="p">]]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;tutorial_10_hs.csv&#39;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;P_MC&#39;</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;P_FST&#39;</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dens&#39;</span><span class="p">,</span> <span class="s1">&#39;P_MC&#39;</span><span class="p">,</span> <span class="s1">&#39;P_FST&#39;</span><span class="p">,</span> <span class="s1">&#39;+/-&#39;</span><span class="p">]])</span>
 
 <span class="c1"># plt.plot(df[&#39;dens&#39;], df[&#39;P_FST&#39;], label=&#39;fst&#39;)</span>
 <span class="c1"># plt.plot(df[&#39;dens&#39;], df[&#39;P_MC&#39;], linestyle=&#39;dashed&#39;, label=&#39;srsw&#39;)</span>
 <span class="c1"># plt.xlabel(&#39;density&#39;)</span>
 <span class="c1"># plt.ylabel(&#39;pressure&#39;)</span>
 <span class="c1"># plt.legend()</span>
+
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+    dens      P_MC     P_FST       +/-
+0  0.025  0.026352  0.026376  0.000000
+1  0.050  0.055593  0.055662  0.000000
+2  0.075  0.088023  0.088048  0.000002
+3  0.100  0.123969  0.123898  0.000001
+4  0.125  0.163795  0.163772  0.000002
+5  0.150  0.207877  0.207817  0.000003
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>dens</th>
-      <th>P_MC</th>
-      <th>P_FST</th>
-      <th>+/-</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.025</td>
-      <td>0.026352</td>
-      <td>0.026362</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.050</td>
-      <td>0.055593</td>
-      <td>0.055614</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.075</td>
-      <td>0.088023</td>
-      <td>0.088043</td>
-      <td>0.000002</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.100</td>
-      <td>0.123969</td>
-      <td>0.123991</td>
-      <td>0.000001</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.125</td>
-      <td>0.163795</td>
-      <td>0.163832</td>
-      <td>0.000002</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>0.150</td>
-      <td>0.207877</td>
-      <td>0.207900</td>
-      <td>0.000003</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Use chemical potential from Carnahan-Starling to compare expected average density</span>
+<span class="c1"># http://www.sklogwiki.org/SklogWiki/index.php/Carnahan-Starling_equation_of_state</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">cubic_box_length</span><span class="o">=</span><span class="mi">8</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">PI</span><span class="o">/</span><span class="mi">6</span><span class="o">*</span><span class="n">rho</span>
+<span class="n">betamu_ex</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">eta</span><span class="o">-</span><span class="mi">9</span><span class="o">*</span><span class="n">eta</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">eta</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">eta</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span>
+<span class="n">betamu</span> <span class="o">=</span> <span class="n">betamu_ex</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;betamu&#39;</span><span class="p">,</span> <span class="n">betamu</span><span class="p">)</span>
+<span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;tutorial_10_hs.py&#39;</span><span class="p">,</span> <span class="s1">&#39;--num_procs&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;--max_particles&#39;</span><span class="p">,</span> <span class="s1">&#39;115&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;--cubic_box_length&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">cubic_box_length</span><span class="p">),</span> <span class="s1">&#39;--min_sweeps&#39;</span><span class="p">,</span> <span class="s1">&#39;20&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;--mu&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">betamu</span><span class="p">)],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ln_prob.txt&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">ln_prob</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">LnProbability</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">DoubleVector</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">gce</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">GrandCanonicalEnsemble</span><span class="p">(</span>
+    <span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)})),</span>
+    <span class="n">ln_prob</span><span class="p">,</span>
+    <span class="n">betamu</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;target density&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;density&#39;</span><span class="p">,</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="n">cubic_box_length</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">rho</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="n">cubic_box_length</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+betamu -1.838854233754734
+target density 0.1
+density 0.09997942215978713
+</pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>

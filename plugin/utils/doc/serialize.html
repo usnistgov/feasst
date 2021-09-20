@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>utils/include/serialize &mdash; FEASST v0.16.0 documentation</title>
+  <title>utils/include/serialize &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -136,14 +136,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -350,15 +350,27 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt4pairIiNSt6vectorI1TEEEERNSt7ostreamE">
-<span class="target" id="namespacefeasst_1a047f80be0520adde49614aced73b513a"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::pair&lt;int, std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt4pairIiNSt6vectorI1TEEEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a>&gt;&gt; &amp;<em>container</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt4pairIiNSt6vectorI1TEEEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Serialize pair of int and vector. </p>
+<dt id="_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T1NSt6vectorI2T2EEEERNSt7ostreamE">
+<span class="target" id="namespacefeasst_1aa7ceff18ac89a9b17e113c96723176df"></span>template&lt;typename <code class="sig-name descname">T1</code>, typename <code class="sig-name descname">T2</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::pair&lt;<a class="reference internal" href="#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T1NSt6vectorI2T2EEEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T1">T1</a>, std::vector&lt;<a class="reference internal" href="#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T1NSt6vectorI2T2EEEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T2">T2</a>&gt;&gt; &amp;<em>container</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T1NSt6vectorI2T2EEEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize pair of T1 and T2 vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt4pairIiNSt6vectorI1TEEEERNSt7istreamE">
-<span class="target" id="namespacefeasst_1ac81018c7f4d2ef45c4330096dace058b"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::pair&lt;int, std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt4pairIiNSt6vectorI1TEEEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T">T</a>&gt;&gt; *<em>container</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt4pairIiNSt6vectorI1TEEEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>deserialize pair of int and vector. </p>
+<dt id="_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T1NSt6vectorI2T2EEEERNSt7istreamE">
+<span class="target" id="namespacefeasst_1af7754f1d6f5a4df07bfb23e715969b80"></span>template&lt;typename <code class="sig-name descname">T1</code>, typename <code class="sig-name descname">T2</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::pair&lt;<a class="reference internal" href="#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T1NSt6vectorI2T2EEEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T1">T1</a>, std::vector&lt;<a class="reference internal" href="#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T1NSt6vectorI2T2EEEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T2">T2</a>&gt;&gt; *<em>container</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T1NSt6vectorI2T2EEEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>deserialize pair of T1 and T2 vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T12T2EERNSt7ostreamE">
+<span class="target" id="namespacefeasst_1a548d043e4fcc98e5725f6e865b5d9aec"></span>template&lt;typename <code class="sig-name descname">T1</code>, typename <code class="sig-name descname">T2</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::pair&lt;<a class="reference internal" href="#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T12T2EERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T1">T1</a>, <a class="reference internal" href="#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T12T2EERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T2">T2</a>&gt; &amp;<em>container</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T12T2EERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize pair of T1 and T2. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T12T2EERNSt7istreamE">
+<span class="target" id="namespacefeasst_1a5783fd39c8d0dfee50c186190fec04b0"></span>template&lt;typename <code class="sig-name descname">T1</code>, typename <code class="sig-name descname">T2</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::pair&lt;<a class="reference internal" href="#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T12T2EERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T1">T1</a>, <a class="reference internal" href="#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T12T2EERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T2">T2</a>&gt; *<em>container</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T12T2EERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>deserialize pair of T1 and T2. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -545,6 +557,12 @@
 <dt id="_CPPv4N6feasst6feasst25feasst_deserialize_endcapEKNSt6stringERNSt7istreamE">
 <span class="target" id="namespacefeasst_1a3c34bf38b7df5a7fced1be23f5597cb1"></span>void <code class="sig-name descname">feasst_deserialize_endcap</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst25feasst_deserialize_endcapEKNSt6stringERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Read end notification to aid debugging. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst16template_factoryENSt10shared_ptrI1TEERNSt3mapINSt6stringENSt10shared_ptrI1TEEEENSt6stringEP7argtype">
+<span class="target" id="namespacefeasst_1a67d243abaae33cffd0eb514dc4a68ef6"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />std::shared_ptr&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16template_factoryENSt10shared_ptrI1TEERNSt3mapINSt6stringENSt10shared_ptrI1TEEEENSt6stringEP7argtype" title="feasst::feasst::template_factory::T">T</a>&gt; <code class="sig-name descname">template_factory</code><span class="sig-paren">(</span>std::map&lt;std::string, std::shared_ptr&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16template_factoryENSt10shared_ptrI1TEERNSt3mapINSt6stringENSt10shared_ptrI1TEEEENSt6stringEP7argtype" title="feasst::feasst::template_factory::T">T</a>&gt;&gt; &amp;<em>map</em>, std::string <em>class_name</em>, <a class="reference internal" href="arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16template_factoryENSt10shared_ptrI1TEERNSt3mapINSt6stringENSt10shared_ptrI1TEEEENSt6stringEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A factory method to construct objects from argtype. </p>
 </dd></dl>
 
 </div>

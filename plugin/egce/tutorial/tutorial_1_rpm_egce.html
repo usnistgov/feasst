@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM &mdash; FEASST v0.16.0 documentation</title>
+  <title>Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -121,7 +121,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a><ul class="current">
@@ -140,7 +140,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -507,7 +507,7 @@ div.rendered_html tbody tr:hover {
 <h1>Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM<a class="headerlink" href="#Expanded-grand-canonical-ensemble-transition-matrix-Monte-Carlo-with-RPM" title="Permalink to this headline">¶</a></h1>
 <p>In this example, the RPM model is simulated with expanded grand canonical ensembles. See <a class="reference external" href="https://doi.org/10.1063/1.5123683">https://doi.org/10.1063/1.5123683</a></p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -556,7 +556,7 @@ div.rendered_html tbody tr:hover {
         <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">()</span>
 
         <span class="n">lnpi_previous</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.2994315780357</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">1.2994315780357</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">],</span>
             <span class="p">[</span><span class="o">-</span><span class="mf">1.08646312498868</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span>
             <span class="p">[</span><span class="o">-</span><span class="mf">0.941850889679828</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]]</span>
         <span class="n">energy_previous</span> <span class="o">=</span> <span class="p">[</span>
@@ -604,11 +604,11 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%time</span>
+<span></span><span class="o">%</span><span class="k">time</span>
 
 <span class="k">def</span> <span class="nf">suite</span><span class="p">():</span>
     <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
@@ -635,8 +635,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 24.4 s, sys: 51.5 ms, total: 24.4 s
-Wall time: 24.3 s
+CPU times: user 2 µs, sys: 0 ns, total: 2 µs
+Wall time: 3.58 µs
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -646,13 +646,13 @@ Wall time: 24.3 s
 <div class="highlight"><pre>
 
 ----------------------------------------------------------------------
-Ran 1 test in 24.298s
+Ran 1 test in 17.687s
 
 OK
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">

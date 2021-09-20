@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>LennardJonesCutShift &mdash; FEASST v0.16.0 documentation</title>
+  <title>LennardJonesCutShift &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -113,6 +113,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="AngleHarmonic.html">AngleHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BondHarmonic.html">BondHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DihedralHarmonic.html">DihedralHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DihedralTraPPE.html">DihedralTraPPE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Yukawa.html">Yukawa</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SquareWell.html">SquareWell</a></li>
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesAlpha.html">LennardJonesAlpha</a></li>
@@ -130,14 +134,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -262,8 +266,8 @@
 <dt id="_CPPv4N6feasst20LennardJonesCutShiftE">
 <span class="target" id="classfeasst_1_1LennardJonesCutShift"></span><em class="property">class </em><code class="sig-name descname">LennardJonesCutShift</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="LennardJonesAlpha.html#_CPPv4N6feasst17LennardJonesAlphaE" title="feasst::LennardJonesAlpha">LennardJonesAlpha</a><a class="headerlink" href="#_CPPv4N6feasst20LennardJonesCutShiftE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{LJ}\)</span> is described in <a class="reference internal" href="../../system/doc/LennardJones.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a>. This class implements the cut and shifted (CS) version which ensures <span class="math notranslate nohighlight">\(U(r_c)=0\)</span>.</p>
-<p><span class="math notranslate nohighlight">\( U_{LJ}^{CS}(r) = \left\{ \begin{array}{lr} U_{LJ}(r) - U_{LJ}(r_c) &amp; : r &lt; r_c \\ 0 &amp; r \ge r_c \end{array} \right. \)</span></p>
-<p>For a Weeks-Chandler-Anderson (WCA) potential, use this class. The cutoffs are computed by <a class="reference internal" href="#classfeasst_1_1LennardJonesCutShift_1ad5a97a24250501d88ae0d2094a79728c"><span class="std std-ref">LennardJonesCutShift::set_wca</span></a>. Thus, one workflow is as follows:</p>
+<p><span class="math notranslate nohighlight">\( U_{LJ}^{CS}(r) = \left\{ \begin{array}{lr} U_{LJ}(r) - U_{LJ}(r_c) &amp; : r &lt; r_c \\ 0 &amp; : r \ge r_c \end{array} \right. \)</span></p>
+<p>For a Weeks-Chandler-Anderson (WCA) potential, use this class. The cutoffs are computed by <a class="reference internal" href="LennardJonesAlpha.html#classfeasst_1_1LennardJonesAlpha_1ad56cde59c86321673ada43b3a94c134c"><span class="std std-ref">LennardJonesCutShift::set_wca</span></a>. Thus, one workflow is as follows:</p>
 <p><a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1ModelParams"><span class="std std-ref">ModelParams</span></a> wca_params = configuration.model_params(); // copy model params LennardJonesCutShift::set_wca(type1, type2, wca_params); // set cutoff wca-&gt;precompute(wca_params); // compute shifts, etc Potential::set_model_params(wca_params); // use wca_params. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -271,12 +275,6 @@
 <dt id="_CPPv4N6feasst20LennardJonesCutShift10precomputeERK11ModelParams">
 <span class="target" id="classfeasst_1_1LennardJonesCutShift_1a2efb4f9631eece313577b1b6127f90a0"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>existing</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20LennardJonesCutShift10precomputeERK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Precompute the shift factor for optimization, given existing model parameters. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst20LennardJonesCutShift7set_wcaEKiKiP11ModelParams">
-<span class="target" id="classfeasst_1_1LennardJonesCutShift_1ad5a97a24250501d88ae0d2094a79728c"></span>void <code class="sig-name descname">set_wca</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_type1</em>, <em class="property">const</em> int <em>site_type2</em>, <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> *<em>params</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20LennardJonesCutShift7set_wcaEKiKiP11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize WCA cutoff distances for types 1 and 2 in model parameters. </p>
 </dd></dl>
 
 <dl class="cpp function">

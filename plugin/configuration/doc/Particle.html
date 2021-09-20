@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Particle &mdash; FEASST v0.16.0 documentation</title>
+  <title>Particle &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -119,7 +119,6 @@
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
@@ -142,14 +141,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -394,8 +393,8 @@
 <p class="breathe-sectiondef-title rubric">Properties</p>
 <p>Change the properties of the sites in the particle </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Particle18replace_propertiesEKiRK10PropertiesRKNSt6vectorINSt6stringEEE">
-<span class="target" id="classfeasst_1_1Particle_1ac4cb9deae2c1a7faa0c6abdb10c165cb"></span>void <code class="sig-name descname">replace_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv4N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>replacement</em>, <em class="property">const</em> std::vector&lt;std::string&gt; &amp;<em>exclude</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle18replace_propertiesEKiRK10PropertiesRKNSt6vectorINSt6stringEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle18replace_propertiesEKiRK10Properties">
+<span class="target" id="classfeasst_1_1Particle_1a2c2d5b574be869707e503dfc1a11896f"></span>void <code class="sig-name descname">replace_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv4N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle18replace_propertiesEKiRK10Properties" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Replace the properties of site by index. </p>
 </dd></dl>
 
@@ -452,6 +451,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst8Particle14add_bond_modelEKiKNSt6stringE">
+<span class="target" id="classfeasst_1_1Particle_1acd2f623e209ddd6025d7a2aaf4f81e00"></span>void <code class="sig-name descname">add_bond_model</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bond</em>, <em class="property">const</em> std::string <em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle14add_bond_modelEKiKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add bond model. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst8Particle11erase_bondsEv">
 <span class="target" id="classfeasst_1_1Particle_1afc927689451e3999eb06274c5ad9e0c6"></span>void <code class="sig-name descname">erase_bonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle11erase_bondsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Erase all bonds from particle. </p>
@@ -461,6 +466,12 @@
 <dt id="_CPPv4NK6feasst8Particle4bondEKiKi">
 <span class="target" id="classfeasst_1_1Particle_1a6ad5c324d8468dac77a06967d209bd75"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a> &amp;<code class="sig-name descname">bond</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index1</em>, <em class="property">const</em> int <em>site_index2</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle4bondEKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Find the bond between the given site indices. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Particle14bond_neighborsEKi">
+<span class="target" id="classfeasst_1_1Particle_1a0c7b8ef5678a5a10dab2de0d1d5d2afc"></span><em class="property">const</em> std::vector&lt;int&gt; &amp;<code class="sig-name descname">bond_neighbors</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle14bond_neighborsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>List the site indices bonded to the given site. </p>
 </dd></dl>
 
 </div>
@@ -498,9 +509,73 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst8Particle15add_angle_modelEKiKNSt6stringE">
+<span class="target" id="classfeasst_1_1Particle_1a425682b6ff5646411a4fdc2333597b25"></span>void <code class="sig-name descname">add_angle_model</code><span class="sig-paren">(</span><em class="property">const</em> int <em>angle</em>, <em class="property">const</em> std::string <em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle15add_angle_modelEKiKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add angle model. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst8Particle5angleEKiKiKi">
 <span class="target" id="classfeasst_1_1Particle_1a58437d25a141d3fa8a9fb3369fcb6e8d"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst5AngleE" title="feasst::Angle">Angle</a> &amp;<code class="sig-name descname">angle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index1</em>, <em class="property">const</em> int <em>site_index2</em>, <em class="property">const</em> int <em>site_index3</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle5angleEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Find the angle between given sites 1-2-3, with 2 as the vertex. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Particle15angle_neighborsEKi">
+<span class="target" id="classfeasst_1_1Particle_1a84f09085405b56064b31fa1013889fd2"></span><em class="property">const</em> std::vector&lt;std::vector&lt;int&gt;&gt; &amp;<code class="sig-name descname">angle_neighbors</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle15angle_neighborsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>List the site indices that form angles with the given site. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Dihedrals</p>
+<p>Dihedrals between four sites in the particle </p>
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Particle13num_dihedralsEv">
+<span class="target" id="classfeasst_1_1Particle_1a910aea5263172c1c8a3e8f6003e58481"></span>int <code class="sig-name descname">num_dihedrals</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle13num_dihedralsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of dihedrals. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Particle8dihedralEKi">
+<span class="target" id="classfeasst_1_1Particle_1a1eb4d478e4a5fcf0b638601853f5b743"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst8DihedralE" title="feasst::Dihedral">Dihedral</a> &amp;<code class="sig-name descname">dihedral</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle8dihedralEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the dihedral by index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Particle9dihedralsEv">
+<span class="target" id="classfeasst_1_1Particle_1af832acd4c397155e4a27d790a0b318d1"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Bond.html#_CPPv4N6feasst8DihedralE" title="feasst::Dihedral">Dihedral</a>&gt; <code class="sig-name descname">dihedrals</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle9dihedralsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the dihedrals. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst8Particle12add_dihedralERK8Dihedral">
+<span class="target" id="classfeasst_1_1Particle_1a89716b9127c21b42e2539b5aecdeb5bf"></span>void <code class="sig-name descname">add_dihedral</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst8DihedralE" title="feasst::Dihedral">Dihedral</a> &amp;<em>dihedral</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle12add_dihedralERK8Dihedral" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a dihedral. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst8Particle21add_dihedral_propertyEKiKNSt6stringEKd">
+<span class="target" id="classfeasst_1_1Particle_1aa883275698921921f80734d39c44bd85"></span>void <code class="sig-name descname">add_dihedral_property</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dihedral</em>, <em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle21add_dihedral_propertyEKiKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a property to a bond. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst8Particle18add_dihedral_modelEKiKNSt6stringE">
+<span class="target" id="classfeasst_1_1Particle_1a122e1b35c7a132d518a80300c1215ef3"></span>void <code class="sig-name descname">add_dihedral_model</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dihedral</em>, <em class="property">const</em> std::string <em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle18add_dihedral_modelEKiKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add dihedral model. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Particle8dihedralEKiKiKiKi">
+<span class="target" id="classfeasst_1_1Particle_1aab235b9960785f32c0c2868bb85a5229"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst8DihedralE" title="feasst::Dihedral">Dihedral</a> &amp;<code class="sig-name descname">dihedral</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index1</em>, <em class="property">const</em> int <em>site_index2</em>, <em class="property">const</em> int <em>site_index3</em>, <em class="property">const</em> int <em>site_index4</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle8dihedralEKiKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Find the dihedral between given sites 1-2-3-4. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Particle18dihedral_neighborsEKi">
+<span class="target" id="classfeasst_1_1Particle_1a44eee74718de60d314d8f6402494cd5d"></span><em class="property">const</em> std::vector&lt;std::vector&lt;int&gt;&gt; &amp;<code class="sig-name descname">dihedral_neighbors</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle18dihedral_neighborsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>List the site indices that form dihedrals with the given site. </p>
 </dd></dl>
 
 </div>

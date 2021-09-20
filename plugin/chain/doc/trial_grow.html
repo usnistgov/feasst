@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>chain/include/trial_grow &mdash; FEASST v0.16.0 documentation</title>
+  <title>chain/include/trial_grow &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="PerturbPivot" href="PerturbPivot.html" />
+    <link rel="next" title="PerturbBranch" href="PerturbBranch.html" />
     <link rel="prev" title="chain/include/trials" href="trials.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -121,33 +121,33 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CheckRigidBonds.html">CheckRigidBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="trials.html">chain/include/trials</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">chain/include/trial_grow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -278,7 +278,7 @@
 <span class="target" id="namespacefeasst_1a3e52227b53625de05287257abf155b85"></span>std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a>&gt; <code class="sig-name descname">MakeTrialGrow</code><span class="sig-paren">(</span>std::vector&lt;<a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>&gt; <em>args</em>, <em class="property">const</em> <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> &amp;<em>default_args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst13MakeTrialGrowENSt6vectorI7argtypeEERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">default_args</span></code>: Optionally, the following arguments for num_steps and reference_index are applied to every growth. Any option applied by the above args overwrites this option. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default_args</span></code>: list of arguments, one for each stage. Optionally, set the default values for the following <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> arguments: num_steps, reference_index and new_only. Any option applied by the above args overwrites this option. </p></li>
 </ul>
 </dd>
 </dl>
@@ -293,17 +293,94 @@
 <li><p>transfer_avb: if true, same as transfer but with AVB Add/Remove for the first stage (default: false).</p></li>
 <li><p>regrow_avb2: if true, regrow using AVB2 in the first stage (default: false).</p></li>
 <li><p>regrow_avb4: if true, regrow using AVB4 in the first stage (default: false).</p></li>
+<li><p>translate: if true (default: false), translate site (which is required arg for <a class="reference internal" href="../../monte_carlo/doc/TrialSelectParticle.html#classfeasst_1_1TrialSelectParticle"><span class="std std-ref">TrialSelectParticle</span></a>). In addition, must have number of stages equal to number of sites.</p></li>
 </ul>
 </p>
-<p>The following options may be used in any argtype, including the first for particle regrowth.<ul class="simple">
-<li><p>num_steps: number of <a class="reference internal" href="../../monte_carlo/doc/Rosenbluth.html#classfeasst_1_1Rosenbluth"><span class="std std-ref">Rosenbluth</span></a> steps (see <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a>).</p></li>
-<li><p>reference_index: reference potential for DCCB (see <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a>).</p></li>
-<li><p>bond: if used, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistance.html#classfeasst_1_1PerturbDistance"><span class="std std-ref">PerturbDistance</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
-<li><p>angle: if used, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistanceAngle.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">PerturbDistanceAngle</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
-<li><p>branch: if used, adds <a class="reference internal" href="SelectBranch.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a> and <a class="reference internal" href="PerturbBranch.html#classfeasst_1_1PerturbBranch"><span class="std std-ref">PerturbBranch</span></a>. Requires arguments described in <a class="reference internal" href="SelectBranch.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a>, <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> and <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a>.</p></li>
+<p>The following options may be used in any argtype. If used in the first, then its a partial regrowth move.<ul class="simple">
+<li><p>bond: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistance.html#classfeasst_1_1PerturbDistance"><span class="std std-ref">PerturbDistance</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>angle: if true, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistanceAngle.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">PerturbDistanceAngle</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>dihedral: if true, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectDihedral.html#classfeasst_1_1TrialSelectDihedral"><span class="std std-ref">TrialSelectDihedral</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDihedral.html#classfeasst_1_1PerturbDihedral"><span class="std std-ref">PerturbDihedral</span></a>. Requires arguments described in SelectDihedral, <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> and <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a>.</p></li>
+<li><p>branch: if true, adds <a class="reference internal" href="SelectBranch.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a> and <a class="reference internal" href="PerturbBranch.html#classfeasst_1_1PerturbBranch"><span class="std std-ref">PerturbBranch</span></a>. Requires arguments described in <a class="reference internal" href="SelectBranch.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a>, <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> and <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a>.</p></li>
+<li><p>reptate: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbToAnchor.html#classfeasst_1_1PerturbToAnchor"><span class="std std-ref">PerturbToAnchor</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> arguments: num_steps, reference_index, new_only, etc.</p></li>
 </ul>
 </p>
-<p>Note that only one of bond, angle or branch may be true for a given stage. </p>
+<p>Note that only one of bond, angle or branch may be true for a given stage.</p>
+<p>Derivation of the acceptance criteria follows the procedure described in <a class="reference internal" href="../../monte_carlo/doc/TrialComputeMove.html#classfeasst_1_1TrialComputeMove"><span class="std std-ref">TrialComputeMove</span></a> and first described in Lecture 9 of Prof. David Kofke’s Molecular Simulation course CE 530</p>
+<p><a class="reference external" href="http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html">http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html</a></p>
+<p>For bonds, angles and dihedrals, the relevant forward and reverse probabilities are as follows: <p><table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 52%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Forward event</p>
+<p>[reverse event]</p>
+</td>
+<td><p>Probability, <span class="math notranslate nohighlight">\(\pi_{on}\)</span></p>
+<p>[reverse probability, <span class="math notranslate nohighlight">\(\pi_{no}\)</span>]</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Select particle of type t</p>
+<p>[Select particle of type t]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/N_t\)</span></p>
+<p><span class="math notranslate nohighlight">\([1/N_t]\)</span></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Select bond from given site indices</p>
+<p>[Select bond from given site indices]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1\)</span></p>
+<p><span class="math notranslate nohighlight">\(1\)</span></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Select new length/angle <span class="math notranslate nohighlight">\(b_n\)</span></p>
+<p>[Select old length/angle <span class="math notranslate nohighlight">\(b_o\)</span>]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(P(b_n)\)</span></p>
+<p><span class="math notranslate nohighlight">\(P(b_o)\)</span></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Select new orientation</p>
+<p>[Select old orientation]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/\omega\)</span></p>
+<p><span class="math notranslate nohighlight">\(1/\omega\)</span></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Accept</p>
+<p>[Accept]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(\min(1, \chi)\)</span></p>
+<p><span class="math notranslate nohighlight">\([\min(1, 1/\chi)]\)</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Applying (local) detailed balance yields</p>
+<p><span class="math notranslate nohighlight">\(\chi = \frac{P(b_o)}{P(b_n)}\exp[-\beta(U_n - U_o)]\)</span>.</p>
+<p>For example, the probabililty of selecting a bond length/angle, b, by an
+entirely random placement in space is given by</p>
+<p><span class="math notranslate nohighlight">\(P \propto 1\)</span>.</p>
+<p>In this case,</p>
+<p><span class="math notranslate nohighlight">\(\chi = \exp[-\beta(U_n - U_o)]\)</span></p>
+<p>where the energies include all intramolecular and intermolecular terms.
+For strong bonds, this becomes highly inefficient because most trials will be
+rejected due to the intramolecular term, which is inexpensive to compute,
+but the intermolecular term has to be computed for each trial and is expensive.
+This is described as scheme one on page 347 of Frenkel and Smit’s Understanding
+Molecular Simulation.</p>
+<p>The second, more efficient scheme is to select the bond/angle by taking the
+intramolecular bond energy, <span class="math notranslate nohighlight">\(U^b\)</span>, into account during the selection.</p>
+<p><span class="math notranslate nohighlight">\(P \propto \exp(-\beta U^b)\)</span>.</p>
+<p>In this case,</p>
+<p><span class="math notranslate nohighlight">\(\chi = \frac{P(b_o)}{P(b_n)}\exp\{-\beta[(U_n-U^b_n) - (U_o-U^b_o)]\}\)</span>.</p>
+<p>Because <span class="math notranslate nohighlight">\(U^b\)</span> is already taken into account during selection of the
+bond/angle using this Rosenbluth form for <span class="math notranslate nohighlight">\(P(l)\)</span>, <span class="math notranslate nohighlight">\(U^b\)</span> is
+excluded from the energy in the acceptance probability.</p>
+</p>
+ </p>
 </dd></dl>
 
 </div>
@@ -317,7 +394,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="PerturbPivot.html" class="btn btn-neutral float-right" title="PerturbPivot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="PerturbBranch.html" class="btn btn-neutral float-right" title="PerturbBranch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="trials.html" class="btn btn-neutral float-left" title="chain/include/trials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

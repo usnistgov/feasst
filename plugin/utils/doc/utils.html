@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>utils/include/utils &mdash; FEASST v0.16.0 documentation</title>
+  <title>utils/include/utils &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -136,14 +136,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -275,7 +275,8 @@
 <dd><p>Return true if value is found in list, and the index of that value in list. </p>
 <p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">index</span></code>: last index in list where value was found </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">list</span></code>: search for this value </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">index</span></code>: list to search for value return the last index in list where value was found </p></li>
 </ul>
 </dd>
 </dl>
@@ -292,13 +293,6 @@
 <dt id="_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi">
 <span class="target" id="namespacefeasst_1aecba0facf02ccf75218b8781db2bac78"></span>template&lt;class <code class="sig-name descname">T1</code>, class <code class="sig-name descname">T2</code>&gt;<br />bool <code class="sig-name descname">find_in_list</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi" title="feasst::feasst::find_in_list::T1">T1</a> <em>value</em>, <em class="property">const</em> std::vector&lt;std::pair&lt;<a class="reference internal" href="#_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi" title="feasst::feasst::find_in_list::T1">T1</a>, <a class="reference internal" href="#_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi" title="feasst::feasst::find_in_list::T2">T2</a>&gt;&gt; &amp;<em>list</em>, int *<em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above, but use the first element of pair in list. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">index</span></code>: last index in list where value was found </p></li>
-</ul>
-</dd>
-</dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">

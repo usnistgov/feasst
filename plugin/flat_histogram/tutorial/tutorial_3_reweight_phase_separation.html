@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Analysis of a two-phase (phase separated) simulation &mdash; FEASST v0.16.0 documentation</title>
+  <title>Analysis of a two-phase (phase separated) simulation &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -137,14 +137,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -526,10 +526,13 @@ div.rendered_html tbody tr:hover {
 <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">1.2</span>
 
 <span class="c1"># plot macrostate and energy</span>
+<span class="c1"># Note: any line starting with % is only to be used with ipynb</span>
+<span class="c1"># import matplotlib.pyplot as plt  # uncomment this line if using plain python, not ipynb</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;lnPI&#39;</span><span class="p">)</span>
+<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 </pre></div>
 </div>
 </div>
@@ -566,6 +569,9 @@ div.rendered_html tbody tr:hover {
 <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">minima</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;low density phase&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;high density phase</span><span class="se">\n</span><span class="s1">(more probable)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\ln\Pi$&#39;</span><span class="p">)</span>
+<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 </pre></div>
 </div>
 </div>
@@ -575,7 +581,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Text(200, -40, &#39;high density phase\n(more probable)&#39;)
+Text(0, 0.5, &#39;$\\ln\\Pi$&#39;)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -596,6 +602,9 @@ Text(200, -40, &#39;high density phase\n(more probable)&#39;)
 <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;saturated vapor&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;saturated liquid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\ln\Pi$&#39;</span><span class="p">)</span>
+<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 </pre></div>
 </div>
 </div>
@@ -605,7 +614,7 @@ Text(200, -40, &#39;high density phase\n(more probable)&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Text(225, -40, &#39;saturated liquid&#39;)
+Text(0, 0.5, &#39;$\\ln\\Pi$&#39;)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -616,8 +625,8 @@ Text(225, -40, &#39;saturated liquid&#39;)
 </div>
 <p>Compare chemical potential and equilibrium properties with published results.</p>
 <p><a class="reference external" href="https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-long-range">https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-long-range</a></p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -625,20 +634,33 @@ Text(225, -40, &#39;saturated liquid&#39;)
 <span class="n">mins</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">mins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">166</span><span class="p">)</span>
 
-<span class="c1"># pressure</span>
 <span class="n">volume</span> <span class="o">=</span> <span class="mi">8</span><span class="o">**</span><span class="mi">3</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.07722559602858005</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">beta</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="n">pressure</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">beta</span><span class="o">/</span><span class="n">volume</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pressure:&#39;</span><span class="p">,</span> <span class="n">pressure</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.07722559602858005</span> <span class="o">-</span> <span class="n">pressure</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
 
 <span class="c1"># pressure of both phases are equivalent</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1e-5</span><span class="p">)</span>
 
-<span class="c1"># density of vapor</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.1003523021979188</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="n">vapor_density</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span> <span class="c1"># phase 0 is vapor</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;vapor_density:&#39;</span><span class="p">,</span> <span class="n">vapor_density</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.1003523021979188</span> <span class="o">-</span> <span class="n">vapor_density</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
 
-<span class="c1"># density of liquid</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.5631867734067794</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="n">liquid_density</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span> <span class="c1"># phase 1 is liquid</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liquid_density:&#39;</span><span class="p">,</span> <span class="n">liquid_density</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.5631867734067794</span> <span class="o">-</span> <span class="n">liquid_density</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pressure: 0.077225595915682
+vapor_density: 0.10035230188742573
+liquid_density: 0.563186772959535
+</pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>

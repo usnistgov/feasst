@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   DensityProfile
    LogAndMovie
    AnalyzeData
    WallClockLimit
@@ -19,8 +20,9 @@
    PairDistributionInner
    CheckEnergy
    CheckEnergyAndTune
+   IncrementPhase
    SeekModify
-   Tuner
    CheckProperties
    CriteriaUpdater
+   Tune
    Movie

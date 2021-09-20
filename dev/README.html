@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Developer guidelines &mdash; FEASST v0.16.0 documentation</title>
+  <title>Developer guidelines &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -107,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Developer guidelines</a><ul>
@@ -350,7 +350,9 @@ make unittest -j12
 <div class="section" id="gdb-or-lldb-debugging">
 <h3>GDB or LLDB: Debugging<a class="headerlink" href="#gdb-or-lldb-debugging" title="Permalink to this headline">¶</a></h3>
 <p>gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces.
-The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.</p>
+The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
+Often, the optimization flags (e.g., -O3) can obfuscate the backtrace.
+If that is the case, recompile without optimization (using cmake).</p>
 <p>In bash</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gdb <span class="o">[</span>program executable name<span class="o">]</span>
 r <span class="o">[</span>flags<span class="o">]</span>
@@ -432,6 +434,8 @@ breathe_domain_by_extension = {“h” : “cc”}</p>
 </dl>
 <p>pip install sphinx_rtd_theme nbsphinx</p>
 <p>run sphinx: make html</p>
+<p>apt install graphviz graphviz-dev
+pip install pygraphviz</p>
 </div>
 <div class="section" id="sphinx-breathe-doxygen-notes">
 <h3>Sphinx/Breathe/Doxygen notes<a class="headerlink" href="#sphinx-breathe-doxygen-notes" title="Permalink to this headline">¶</a></h3>
@@ -546,6 +550,8 @@ compatibility.</p></li>
 <ul class="simple">
 <li><p>line counts [find . -name ‘<em>.cpp’ -o -name ‘</em>.h’ | xargs wc -l | sort -n]</p></li>
 <li><p>tutorial errors [ find . -name ‘tutorial_failures.txt’ | xargs cat ]</p></li>
+<li><p>tutorial errors [ for fl in <cite>find . -name ‘tutorial_failures.txt’</cite>; do echo $fl; cat $fl; done ]</p></li>
+<li><p>clear tutorial errors [ for fl in <cite>find . -name ‘tutorial_failures.txt’</cite>; do echo $fl; rm $fl; done ]</p></li>
 <li><p>clean docs before running depend.py again [ for dir in <cite>ls –color=never -d *</cite>; do rm $dir/doc/<a href="#id1"><span class="problematic" id="id2">*</span></a>rst; done ]</p></li>
 <li><p>find difference in serialization string: [ diff -u f1 f2 <a href="#id3"><span class="problematic" id="id4">|</span></a>colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]</p></li>
 </ul>
@@ -556,7 +562,6 @@ compatibility.</p></li>
 <li><p>implement gibbs ensemble</p></li>
 <li><p>Make utils:lj,spce,etc derived classes of System ?</p></li>
 <li><p>Create benchmarking profile to compare among versions</p></li>
-<li><p>specify units in LMP data files?</p></li>
 <li><p>fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu</p></li>
 <li><p>consider optimization of Ewald: init ewald storage on particle types, precompute property index.</p></li>
 <li><p>when selecting from cpdf, use lnp instead of p?</p></li>
@@ -569,7 +574,6 @@ compatibility.</p></li>
 <li><p>VisitModels may prefer to update select properties (e.g., cell, eik)</p></li>
 <li><p>Jupyter notebook output should go to cells, not terminal that runs jupyter.</p></li>
 <li><p>lint file_[xyz,lmp]</p></li>
-<li><p>regrow but within near existing, for ‘free dof, e.g. azimuthal in  angle, sphere in bond, etc’</p></li>
 <li><p>put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list</p></li>
 <li><p>config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald</p></li>
 <li><p>Rename TrialSelect-&gt;SelectTrial, TrialCompute-&gt;ComputeTrial. Rename Compute-&gt;Decide?.</p></li>
@@ -578,8 +582,6 @@ compatibility.</p></li>
 <li><p>Document utils lj, spce, rpm in tutorials</p></li>
 <li><p>Add a FAQ for common compile errors: “no known conversion from brace-enclosed initializer list to argtype” often means that a parameter was not converted to a string.</p></li>
 <li><p>Make a CachedRandom and CachedPotential for prefetch and avoid if statements that could slow down serial simulations.</p></li>
-<li><p>remove tutorial/fh.py</p></li>
-<li><p>Tuner-&gt;Tune</p></li>
 <li><p>Analyze/ModifyFactory optimization: use steps_per in factory to limit number of checks</p></li>
 <li><p>implement timer for profiles (with hierarchies by class… tried this, but its too slow. Time only infrequently?)</p></li>
 <li><p>implement a timer to auto-balance trial weights based on cpu time.</p></li>
@@ -588,13 +590,18 @@ compatibility.</p></li>
 <li><p>System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).</p></li>
 <li><p>Consider using new state instead of old state in acceptance derivations</p></li>
 <li><p>Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.</p></li>
-<li><p>Rename data and xyz files, document them more cleary (second line in xyz, and error if data not read correctly).</p></li>
-<li><p>Make ModelTwoBodyTable that tabulates interaction from min(hs)-max(rc) distance for each distinct pair of site types, and can easily be added as optimized Potential</p></li>
+<li><p>Rename xyz files, and/or document more cleary (second line in xyz).</p></li>
 <li><p>Rename plugin chain-&gt;config_bias ?</p></li>
-<li><p>maybe mc.add(criteria) is preferable to mc.set. Same with sys?</p></li>
 <li><p>in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?</p></li>
 <li><p>EnergyMapNeighborCriteria should be able to take index of energy map stored by System</p></li>
 <li><p>Optimize TrialRemove for new_only by not computing interactions with neighbors</p></li>
+<li><p>Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.</p></li>
+<li><p>(repeat) regrow but within near existing, for ‘free dof, e.g. azimuthal in  angle, sphere in bond, etc’</p></li>
+<li><p>Add more documentation for Trials (TrialStage: Perturb/Select, TrialCompute. When finialize? reference?)</p></li>
+<li><p>Early tutorials are in ipynb, but transition out of that into .py, include .py on the website</p></li>
+<li><p>When swig4 finally works, can use multimap for dictionaries with more than one of same first key</p></li>
+<li><p>Rename Movie-&gt;XYZ</p></li>
+<li><p>Rename Stepper. Rename steps_per to trials_per, so as not to be confused with CB steps. Or rename num_steps to num_cb_steps. reference_index to cb_reference.</p></li>
 </ul>
 </div>
 </div>

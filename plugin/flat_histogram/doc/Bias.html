@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Bias &mdash; FEASST v0.16.0 documentation</title>
+  <title>Bias &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -144,14 +144,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -316,12 +316,6 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst4Bias11is_completeEv">
-<span class="target" id="classfeasst_1_1Bias_1a9ec7cfe76e4c1951b13b0f6759091348"></span>bool <code class="sig-name descname">is_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Bias11is_completeEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return true if completion requirements are met. </p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt id="_CPPv4NK6feasst4Bias5phaseEv">
 <span class="target" id="classfeasst_1_1Bias_1a69147e97d93d0ff601e2cd5dd62226c1"></span><em class="property">virtual</em> int <code class="sig-name descname">phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Bias5phaseEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the simulation phase index used to differentiate production and initialization, etc. </p>
@@ -334,9 +328,15 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4Bias18set_num_iterationsEKi">
-<span class="target" id="classfeasst_1_1Bias_1ae05fbd42b7fec6a1b6912dcd2ca25294"></span><em class="property">virtual</em> void <code class="sig-name descname">set_num_iterations</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iteration</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias18set_num_iterationsEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set the number of iterations required for completion. In <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> and <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, this is the minimum number of sweeps. In <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, this is the minimum number of flatness checks. Afterward, check again for completeness. </p>
+<dt id="_CPPv4NK6feasst4Bias26num_iterations_to_completeEv">
+<span class="target" id="classfeasst_1_1Bias_1a6d03104cf70eca99b6af9498ce0fd3ff"></span><em class="property">virtual</em> int <code class="sig-name descname">num_iterations_to_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst4Bias26num_iterations_to_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of iterations required for completion. In <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> and <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, this is the minimum number of sweeps. In <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, this is the minimum number of flatness checks. Afterward, check again for completeness. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst4Bias30set_num_iterations_to_completeEKi">
+<span class="target" id="classfeasst_1_1Bias_1a3a3ee3e0be0a1bf1b96ee7e06b7ecfe7"></span><em class="property">virtual</em> void <code class="sig-name descname">set_num_iterations_to_complete</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iteration</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias30set_num_iterations_to_completeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the number of iterations required for completion. </p>
 </dd></dl>
 
 </div>

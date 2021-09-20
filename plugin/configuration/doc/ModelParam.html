@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ModelParam &mdash; FEASST v0.16.0 documentation</title>
+  <title>ModelParam &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -119,7 +119,6 @@
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
@@ -142,14 +141,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -274,7 +273,7 @@
 <dt id="_CPPv4N6feasst10ModelParamE">
 <span class="target" id="classfeasst_1_1ModelParam"></span><em class="property">class </em><code class="sig-name descname">ModelParam</code><a class="headerlink" href="#_CPPv4N6feasst10ModelParamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../system/doc/Model.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a> parameters depend upon site types, such as epsilon, sigma, etc. These parameters may also be mixed between two different site types. Each model parameter has an assumed mixing behavior. </p>
-<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1Charge"><span class="std std-ref">feasst::Charge</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1CosPatchAngle"><span class="std std-ref">feasst::CosPatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1CutOff"><span class="std std-ref">feasst::CutOff</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyAtCutoff"><span class="std std-ref">feasst::EnergyAtCutoff</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyDerivAtCutoff"><span class="std std-ref">feasst::EnergyDerivAtCutoff</span></a>, <a class="reference internal" href="#classfeasst_1_1Epsilon"><span class="std std-ref">feasst::Epsilon</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1PatchAngle"><span class="std std-ref">feasst::PatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1Sigma"><span class="std std-ref">feasst::Sigma</span></a></p>
+<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1Charge"><span class="std std-ref">feasst::Charge</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1CosPatchAngle"><span class="std std-ref">feasst::CosPatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1CutOff"><span class="std std-ref">feasst::CutOff</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyAtCutoff"><span class="std std-ref">feasst::EnergyAtCutoff</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyDerivAtCutoff"><span class="std std-ref">feasst::EnergyDerivAtCutoff</span></a>, <a class="reference internal" href="#classfeasst_1_1Epsilon"><span class="std std-ref">feasst::Epsilon</span></a>, <a class="reference internal" href="../../confinement/doc/ModelLJShape.html#classfeasst_1_1ModelLJShapeEnergyAtCutoff"><span class="std std-ref">feasst::ModelLJShapeEnergyAtCutoff</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1PatchAngle"><span class="std std-ref">feasst::PatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1Sigma"><span class="std std-ref">feasst::Sigma</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -385,25 +384,27 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst7EpsilonE">
 <span class="target" id="classfeasst_1_1Epsilon"></span><em class="property">class </em><code class="sig-name descname">Epsilon</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst7EpsilonE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The epsilon parameter is named “epsilon” in LMP-like data file Pair Coeffs. The epsilon parameter has the mixing rule: <span class="math notranslate nohighlight">\( \epsilon_{ij} = \sqrt(\epsilon_i \epsilon_j) \)</span> </p>
+<dd><p>The epsilon parameter is named “epsilon” in LMP-like data file <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The epsilon parameter has the default mixing rule: <span class="math notranslate nohighlight">\( \epsilon_{ij} = \sqrt{\epsilon_i \epsilon_j} \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst5SigmaE">
 <span class="target" id="classfeasst_1_1Sigma"></span><em class="property">class </em><code class="sig-name descname">Sigma</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst5SigmaE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The sigma parameter is named “sigma” in LMP-like data file Pair Coeffs. The sigma parameter has the mixing rule: <span class="math notranslate nohighlight">\( \sigma_{ij} = 0.5*(\sigma_i + \sigma_j) \)</span> </p>
+<dd><p>The sigma parameter is named “sigma” in LMP-like data file <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The sigma parameter has the default mixing rule:</p>
+<p><span class="math notranslate nohighlight">\( \sigma_{ij} = \left\{ \begin{array}{lr} 0 &amp; : \sigma_i \sigma_j = 0 \\ 0.5(\sigma_i + \sigma_j) &amp; : \sigma_i\sigma_j \neq 0 \end{array} \right. \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst6CutOffE">
 <span class="target" id="classfeasst_1_1CutOff"></span><em class="property">class </em><code class="sig-name descname">CutOff</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6CutOffE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The cut off parameter is named “cutoff” in LMP-like data file Pair Coeffs. The cut off parameter has the mixing rule: <span class="math notranslate nohighlight">\( r^c_{ij} = 0.5*(r^c_i + r^c_j)\)</span> </p>
+<dd><p>The cut off parameter is named “cutoff” in LMP-like data file <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The cut off parameter has the default mixing rule:</p>
+<p><span class="math notranslate nohighlight">\( r^c_{ij} = \left\{ \begin{array}{lr} 0 &amp; : r^c_i r^c_j = 0 \\ 0.5(r^c_i + r^c_j) &amp; : r^c_ir^c_j \neq 0 \end{array} \right. \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst6ChargeE">
 <span class="target" id="classfeasst_1_1Charge"></span><em class="property">class </em><code class="sig-name descname">Charge</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6ChargeE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The charge parameter is named “charge” in LMP-like data file Pair Coeffs. The charge parameter, q, has the mixing rule: <span class="math notranslate nohighlight">\( q_{ij} = q_i q_j \)</span> </p>
+<dd><p>The charge parameter is named “charge” in LMP-like data file <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The charge parameter, q, has the default mixing rule: <span class="math notranslate nohighlight">\( q_{ij} = q_i q_j \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">

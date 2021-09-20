@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>LennardJonesAlpha &mdash; FEASST v0.16.0 documentation</title>
+  <title>LennardJonesAlpha &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -113,6 +113,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="AngleHarmonic.html">AngleHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BondHarmonic.html">BondHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DihedralHarmonic.html">DihedralHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DihedralTraPPE.html">DihedralTraPPE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Yukawa.html">Yukawa</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SquareWell.html">SquareWell</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">LennardJonesAlpha</a></li>
@@ -130,14 +134,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -278,6 +282,12 @@
 <dt id="_CPPv4NK6feasst17LennardJonesAlpha5alphaEv">
 <span class="target" id="classfeasst_1_1LennardJonesAlpha_1a48f7957f815ddf112dd4da2da2c1b8fd"></span><em class="property">const</em> double &amp;<code class="sig-name descname">alpha</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17LennardJonesAlpha5alphaEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the value of alpha. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst17LennardJonesAlpha7set_wcaEKiKiP11ModelParams">
+<span class="target" id="classfeasst_1_1LennardJonesAlpha_1ad56cde59c86321673ada43b3a94c134c"></span>void <code class="sig-name descname">set_wca</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_type1</em>, <em class="property">const</em> int <em>site_type2</em>, <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> *<em>params</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17LennardJonesAlpha7set_wcaEKiKiP11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize WCA cutoff distances for types 1 and 2 in model parameters. </p>
 </dd></dl>
 
 <dl class="cpp function">

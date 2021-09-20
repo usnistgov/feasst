@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Potential &mdash; FEASST v0.16.0 documentation</title>
+  <title>Potential &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -120,10 +120,14 @@
 <li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RigidAngle.html">RigidAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RigidBond.html">RigidBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondFourBody.html">BondFourBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LennardJones.html">LennardJones</a></li>
@@ -131,14 +135,15 @@
 <li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
@@ -159,14 +164,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -294,10 +299,9 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst9Potential9PotentialE7argtype">
-<span class="target" id="classfeasst_1_1Potential_1a7b558333b70dc9b84088ef2ecd12e6c3"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Construct with the default visitor and default model (emtpy).</p>
-<p>args:<ul class="simple">
+<dt id="_CPPv4N6feasst9Potential9PotentialEP7argtype">
+<span class="target" id="classfeasst_1_1Potential_1a7ca84211f96da8a5c3762148a60075d6"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
 <li><p>group_index: set the index of the group in the configuration which contributes to this potential (default: 0, representing entire config).</p></li>
 <li><p>cell_index: set the index of the cell, only to be used with <a class="reference internal" href="VisitModelCell.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">VisitModelCell</span></a>. This also overrides group_index.</p></li>
 <li><p>prevent_cache: set this to true in order to prevent the use of cache (default: False)</p></li>
@@ -322,6 +326,17 @@
 <dt id="_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEE7argtype">
 <span class="target" id="classfeasst_1_1Potential_1a057a26ddae6b8400560b0ac686c1dbf0"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a>&gt; <em>model</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct with model and default visitor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst9Potential9PotentialE7argtype">
+<span class="target" id="classfeasst_1_1Potential_1a7b558333b70dc9b84088ef2ecd12e6c3"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p><a class="reference internal" href="Model.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a>: derived class <a class="reference internal" href="Model.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a> name (default: <a class="reference internal" href="ModelEmpty.html#classfeasst_1_1ModelEmpty"><span class="std std-ref">ModelEmpty</span></a>).</p></li>
+<li><p><a class="reference internal" href="VisitModel.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>: derived class <a class="reference internal" href="VisitModel.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a> name (default: <a class="reference internal" href="VisitModel.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>).</p></li>
+<li><p>All arguments described in the first constructor. </p></li>
+</ul>
+</p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -421,8 +436,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst9Potential8finalizeERK6Select">
-<span class="target" id="classfeasst_1_1Potential_1a56f1cab92e54d50f61a1eed714a62ca7"></span>void <code class="sig-name descname">finalize</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential8finalizeERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Potential8finalizeERK6SelectP13Configuration">
+<span class="target" id="classfeasst_1_1Potential_1a868a68b165da7d6f17a30bc5b842c92e"></span>void <code class="sig-name descname">finalize</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential8finalizeERK6SelectP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Finalize changes to the configuration due to the last energy computation. </p>
 </dd></dl>
 

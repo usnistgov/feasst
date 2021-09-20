@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Chain &mdash; FEASST v0.16.0 documentation</title>
+  <title>Chain &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -121,33 +121,38 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Chain</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectPerturbed.html">SelectPerturbed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/PerturbReptate.html">PerturbReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/CheckRigidBonds.html">CheckRigidBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/trials.html">chain/include/trials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/trial_grow.html">chain/include/trial_grow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tutorial">Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_0_freely_jointed.html">Simulation of a single freely-jointed chain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_1_ideal_ua_chain.html">Simulation of a single chain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_2_ideal_ua_chain20.html">Simulation of a single 20-bead linear chain</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -269,21 +274,30 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectPerturbed.html">SelectPerturbed</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbReptate.html">PerturbReptate</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/CheckRigidBonds.html">CheckRigidBonds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trials.html">chain/include/trials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trial_grow.html">chain/include/trial_grow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbBranch.html">PerturbBranch</a></li>
 </ul>
+</div>
+<div class="section" id="tutorial">
+<h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_0_freely_jointed.html">Simulation of a single freely-jointed chain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_1_ideal_ua_chain.html">Simulation of a single chain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_2_ideal_ua_chain20.html">Simulation of a single 20-bead linear chain</a></li>
+</ul>
+</div>
 </div>
 <div class="section" id="feasst-plugin-dependencies">
 <h2>FEASST plugin dependencies<a class="headerlink" href="#feasst-plugin-dependencies" title="Permalink to this headline">¶</a></h2>

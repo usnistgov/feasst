@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>PerturbDistanceAngle &mdash; FEASST v0.16.0 documentation</title>
+  <title>PerturbDistanceAngle &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Example" href="../../example/README.html" />
-    <link rel="prev" title="PerturbRemove" href="PerturbRemove.html" />
+    <link rel="next" title="PerturbDihedral" href="PerturbDihedral.html" />
+    <link rel="prev" title="TrialTranslate" href="TrialTranslate.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -115,19 +115,26 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Run.html">Run</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -138,20 +145,18 @@
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trials.html">monte_carlo/include/trials</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_move.html">monte_carlo/include/trial_move</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">PerturbDistanceAngle</a></li>
 </ul>
 </li>
 </ul>
@@ -166,14 +171,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -297,7 +302,8 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst20PerturbDistanceAngleE">
 <span class="target" id="classfeasst_1_1PerturbDistanceAngle"></span><em class="property">class </em><code class="sig-name descname">PerturbDistanceAngle</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="PerturbDistance.html#_CPPv4N6feasst15PerturbDistanceE" title="feasst::PerturbDistance">PerturbDistance</a><a class="headerlink" href="#_CPPv4N6feasst20PerturbDistanceAngleE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Put first site in selection, i, in a sphere about the first site in anchor, j, and at an angle i,j,k (vertex: j) about the second site in anchor, j. For angle potentials, the equilibrium angle and spring constant are as described in <a class="reference internal" href="../../math/doc/Random.html#classfeasst_1_1Random_1a5f22befd1e54feb91b59cfdc3a000c1d"><span class="std std-ref">Random::bond_angle</span></a> Currently implemented for harmonic bonds (exponent: 2), but could add an optional exponent model parameter to generalize this. </p>
+<dd><p>Put first site in selection, i, in a truncated conical shell that is formed by the intersection of a spherical shell about the first site in the anchor, and a conical shell with axis of symmetry along the vector connecting the first anchor site to the second anchor site. For angle potentials, the equilibrium angle and spring constant are as described in Random::bond_angle Currently implemented for harmonic bonds (exponent: 2), but could add an optional exponent model parameter to generalize this in the future. </p>
+<p>Subclassed by <a class="reference internal" href="PerturbDihedral.html#classfeasst_1_1PerturbDihedral"><span class="std std-ref">feasst::PerturbDihedral</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -307,40 +313,21 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst20PerturbDistanceAngle5angleEv">
-<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1a2b953ca3c6a3ec43d7bf09d11149b733"></span>double <code class="sig-name descname">angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20PerturbDistanceAngle5angleEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst20PerturbDistanceAngle10angle_typeEv">
+<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1ac044975074292cf400b0194ef3907d06"></span>double <code class="sig-name descname">angle_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20PerturbDistanceAngle10angle_typeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the angle. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst20PerturbDistanceAngle15spring_constantEv">
-<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1a1f72ad1c33284c4c87962b4158c0ae42"></span>double <code class="sig-name descname">spring_constant</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20PerturbDistanceAngle15spring_constantEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the spring constant. If rigid, return -1 (default). </p>
+<dt id="_CPPv4N6feasst20PerturbDistanceAngle16old_angle_energyERK6SystemPK11TrialSelect">
+<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1a6d50d6bda2e1a52e8684c22a67b2b439"></span>double <code class="sig-name descname">old_angle_energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a> *<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20PerturbDistanceAngle16old_angle_energyERK6SystemPK11TrialSelect" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the current energy of the existing, old angle. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst20PerturbDistanceAngle8is_rigidEv">
-<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1a8cc918228b2f872aece4c2f9cb277309"></span>bool <code class="sig-name descname">is_rigid</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20PerturbDistanceAngle8is_rigidEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return true if angle is rigid (e.g., if spring_constant is -1). </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst20PerturbDistanceAngle17is_freely_jointedEv">
-<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1ac6fd574556df1dabd4668d34e6cc247d"></span>bool <code class="sig-name descname">is_freely_jointed</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20PerturbDistanceAngle17is_freely_jointedEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return true if angle is freely-jointed (e.g., if spring_constant is 0). </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst20PerturbDistanceAngle12random_angleEP6RandomKdKi">
-<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1a23c137e336ba922154eb09108ad8e0d1"></span>double <code class="sig-name descname">random_angle</code><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <em class="property">const</em> double <em>beta</em>, <em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20PerturbDistanceAngle12random_angleEP6RandomKdKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">dimension</span></code>: inverse temperature </p></li>
-</ul>
-</dd>
-</dl>
-</p>
-<p>Return the randomly selected angle from the potential. If the spring constant is -1 (rigid), simplly return the angle. IF the spring constant is 0 (freely-jointed), use <a class="reference internal" href="#classfeasst_1_1PerturbDistanceAngle_1a2b953ca3c6a3ec43d7bf09d11149b733"><span class="std std-ref">angle()</span></a> for minimum. </p>
+<dt id="_CPPv4N6feasst20PerturbDistanceAngle20random_angle_radiansERK6SystemPK11TrialSelectP6RandomPd">
+<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1a17c6e41b715792712308e9dc88c239f8"></span>double <code class="sig-name descname">random_angle_radians</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a> *<em>select</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, double *<em>bond_energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20PerturbDistanceAngle20random_angle_radiansERK6SystemPK11TrialSelectP6RandomPd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the randomly selected angle from the potential. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -350,8 +337,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst20PerturbDistanceAngle4moveEP6SystemP11TrialSelectP6Random">
-<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1ac82af6e5a135f05ea66dc0851ccc2f0f"></span>void <code class="sig-name descname">move</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a> *<em>select</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20PerturbDistanceAngle4moveEP6SystemP11TrialSelectP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst20PerturbDistanceAngle4moveEKbP6SystemP11TrialSelectP6Random">
+<span class="target" id="classfeasst_1_1PerturbDistanceAngle_1aa1d70e6890e3ed155a5169fa51bc968e"></span>void <code class="sig-name descname">move</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>is_position_held</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a> *<em>select</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20PerturbDistanceAngle4moveEKbP6SystemP11TrialSelectP6Random" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Move the selection of the system. </p>
 </dd></dl>
 
@@ -366,8 +353,8 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../../example/README.html" class="btn btn-neutral float-right" title="Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="PerturbRemove.html" class="btn btn-neutral float-left" title="PerturbRemove" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="PerturbDihedral.html" class="btn btn-neutral float-right" title="PerturbDihedral" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="TrialTranslate.html" class="btn btn-neutral float-left" title="TrialTranslate" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

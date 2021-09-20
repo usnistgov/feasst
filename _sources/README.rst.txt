@@ -2,10 +2,6 @@
 README
 *************************
 
-.. image:: https://www.codefactor.io/repository/github/hhatch/feasst/badge/main
-    :target: https://www.codefactor.io/repository/github/hhatch/feasst/overview/main
-    :alt: CodeFactor
-
 The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
 open-source, modular program to conduct molecular and particle-based
 simulations with flat-histogram Monte Carlo methods.
@@ -32,35 +28,47 @@ Features
 :doc:`/plugin/README` contains the list of features available.
 Some features include but are not limited to the following:
 
-Simulation techniques
+Monte Carlo simulation techniques
 
-* Metropolis Monte Carlo
-* Wang-Landau Monte Carlo
-* Transition-matrix Monte Carlo
-* Mayer-sampling Monte Carlo
-* Configurational bias
+* Metropolis
+* Wang-Landau
+* Transition-matrix
+* Mayer-sampling
 
 Thermodynamic ensembles
 
 * Microcanonical ensemble
 * Canonical ensemble
 * Grand canonical ensemble
-* Expanded ensembles
+* Temperature and growth expanded ensembles
 
-Intermolecular interactions
+Monte Carlo trials
+
+* Translation, rotation, crankshaft, pivot
+* Rigid cluster rotation and translation
+* Configurational bias transfers and partial regrowth
+* Dual-cut configurational bias
+* Aggregation volume bias
+* Reptation
+* Branches
+
+Interaction potentials
 
 * Hard spheres
-* Lennard-Jones with Yukawa, LRC, cut and force shift
+* Lennard-Jones with LRC, cut and force shift
 * Patchy particles
-* Charged interactions with the Ewald summation
-* Confinement
+* Yukawa and charged interactions
+* Ewald summation and 2D slab correction
+* Bonds, angles and dihedrals
+* TraPPE small molecules and n-alkanes
+* Slab, cylindrical and spherical confinement
 * Cell list and neighbor list
 
 Modern software
 
 * Interface with C++ or as a Python module
-* OpenMP parallelization
-* Checkpointing to save and restart simulations
+* OpenMP parallelization and prefetching
+* Checkpoint files to save, restart and analyze simulations
 
 Tutorial
 ================================================================================
@@ -115,7 +123,7 @@ Python install
 
     cmake -DUSE_SWIG=ON ..
     # alternatively, for manually setting the python path
-    # cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.so ..
+    # cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.[so/dylib] ..
 
     make -j4
     make install -j4
@@ -206,53 +214,6 @@ Cray (NERSC CORI)
 ~~~~~~~~~~~~~~~~~~
 
 * OpenMP functions apparently do not work unless the cray programming environment is disabled.
-
-Build from Docker
-===================
-
-The Docker is no longer being updated and contains a very old version of the code.
-Installation via `Docker <docker.io>`_ is an alternative if you are experiencing installation issues.
-Unfortunately there is a performance penalty using this method.
-
-First, install docker
-
- * Ubuntu: `apt install docker`
- * macOS: download and install Docker Desktop.
- * CentOS: `yum install docker`
-
-On a mac, run Docker.app, login, startup and skip this step.
-Otherwise, start docker and create a `docker group <https://docs.docker.com/install/linux/linux-postinstall/>`_ to avoid root.
-
-.. code-block:: bash
-
-    sudo service docker start
-    sudo groupadd docker
-    sudo usermod -aG docker $USER
-    newgrp docker
-
-.. code-block:: bash
-
-    git clone https://github.com/usnistgov/feasst.git
-    docker build -t hhatch/feasst:firsttry feasst/
-
-Alternatively you could pull feasst from docker hub (version may be old):
-
-.. code-block:: bash
-
-    docker pull hhatch/feasst:firsttry
-
-Then you can interactively run feasst via
-
-.. code-block:: bash
-
-    docker run -v ~/scripts:/mnt/scripts -it hhatch/feasst:firsttry
-    cd /mnt/scripts
-
-Or with `~/notebooks`
-
-.. code-block:: bash
-
-    docker run -v ~/notebooks:/mnt/notebooks -i -t -p 8888:8888 hhatch/feasst:firsttry /bin/bash -c "jupyter notebook --notebook-dir=/mnt/notebooks --ip='*' --port=8888 --no-browser --allow-root"
 
 .. include:: CONTACT.rst
 

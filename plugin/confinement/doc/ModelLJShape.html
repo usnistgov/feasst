@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ModelLJShape &mdash; FEASST v0.16.0 documentation</title>
+  <title>ModelLJShape &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -127,6 +127,7 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">ModelLJShape</a></li>
 <li class="toctree-l4"><a class="reference internal" href="trial_anywhere.html">confinement/include/trial_anywhere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelSquareWellShape.html">ModelSquareWellShape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Background.html">Background</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AlwaysReject.html">AlwaysReject</a></li>
 <li class="toctree-l4"><a class="reference internal" href="HenryCoefficient.html">HenryCoefficient</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelHardShape.html">ModelHardShape</a></li>
@@ -135,14 +136,14 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -267,19 +268,26 @@
 <dt id="_CPPv4N6feasst12ModelLJShapeE">
 <span class="target" id="classfeasst_1_1ModelLJShape"></span><em class="property">class </em><code class="sig-name descname">ModelLJShape</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a>, <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst12ShapedEntityE" title="feasst::ShapedEntity">ShapedEntity</a><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShapeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Note that the input shape of this model represents the shape of the cavity.</p>
-<p><span class="math notranslate nohighlight">\( U(r) = \epsilon \left( \frac{r}{\sigma} \right)^\alpha \)</span> </p>
+<p><span class="math notranslate nohighlight">\(U_{LJ}(r) = \epsilon \left( \frac{\sigma}{r + \Delta} \right)^\alpha\)</span></p>
+<p><span class="math notranslate nohighlight">\(U_{LJ}^{CS}(r) = \left\{ \begin{array}{lr} U_{LJ}(r) - U_{LJ}(r_c) &amp; : r &lt; r_c \\ 0 &amp; : r \ge r_c \end{array} \right. \)</span></p>
+<p>where <span class="math notranslate nohighlight">\(r\)</span> is the nearest distance of the site to the confinement. Note that the potential is cut and shifted to zero at the cut off distance, <span class="math notranslate nohighlight">\(r_c\)</span>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst12ModelLJShape12ModelLJShapeENSt10shared_ptrI5ShapeEE7argtype">
 <span class="target" id="classfeasst_1_1ModelLJShape_1aed367ee42f4de7f91fc272df34228677"></span><code class="sig-name descname">ModelLJShape</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape">Shape</a>&gt; <em>shape</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShape12ModelLJShapeENSt10shared_ptrI5ShapeEE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code>: alpha: set the exponent (default: 3). </p></li>
+<dd><p>args:<ul class="simple">
+<li><p>alpha: set the exponent (default: 3.).</p></li>
+<li><p>delta: set the delta parameter (default: 0.).</p></li>
+<li><p>disable_shift: disable shifting of the potential to zero (default: false). </p></li>
 </ul>
-</dd>
-</dl>
 </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst12ModelLJShape10precomputeERK11ModelParams">
+<span class="target" id="classfeasst_1_1ModelLJShape_1a87003d6a499e0429e7380aae9edc7eb4"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>existing</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShape10precomputeERK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Precompute the shift factor for optimization. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -296,6 +304,11 @@
 
 </div>
 </dd></dl>
+
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst26ModelLJShapeEnergyAtCutoffE">
+<span class="target" id="classfeasst_1_1ModelLJShapeEnergyAtCutoff"></span><em class="property">class </em><code class="sig-name descname">ModelLJShapeEnergyAtCutoff</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst26ModelLJShapeEnergyAtCutoffE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
 
 </div>
 

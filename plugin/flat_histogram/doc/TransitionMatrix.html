@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>TransitionMatrix &mdash; FEASST v0.16.0 documentation</title>
+  <title>TransitionMatrix &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -144,14 +144,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -284,9 +284,10 @@
 <dt id="_CPPv4N6feasst16TransitionMatrix16TransitionMatrixE7argtype">
 <span class="target" id="classfeasst_1_1TransitionMatrix_1ab08fbee4c991cbc6b8edb31396d93c31"></span><code class="sig-name descname">TransitionMatrix</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix16TransitionMatrixE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>min_visits : A sweep is performed when all macrostates are visited by another macrostate this number of times (default: 100).</p></li>
-<li><p>min_sweeps : Number of sweeps required for completion.</p></li>
-<li><p>num_blocks : Number of blocks (default: 30). </p></li>
+<li><p>min_visits: A sweep is performed when all macrostates are visited by another macrostate this number of times (default: 100).</p></li>
+<li><p>min_sweeps: Number of sweeps required for completion.</p></li>
+<li><p>num_blocks: Number of blocks (default: 30).</p></li>
+<li><p>reset_sweeps: The ‘phase’ counter increments from 0 to 1 when reset_sweeps are completed (default: -1 [counter will never increment]) </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -304,9 +305,21 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16TransitionMatrix18set_num_iterationsEKi">
-<span class="target" id="classfeasst_1_1TransitionMatrix_1a1f6c2f39e61c990c1eb3c838a01d8d2c"></span>void <code class="sig-name descname">set_num_iterations</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iteration</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix18set_num_iterationsEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set the number of iterations required for completion. In <a class="reference internal" href="#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> and <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, this is the minimum number of sweeps. In <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, this is the minimum number of flatness checks. Afterward, check again for completeness. </p>
+<dt id="_CPPv4NK6feasst16TransitionMatrix12reset_sweepsEv">
+<span class="target" id="classfeasst_1_1TransitionMatrix_1af5e8e4545cfa63154912045662f88424"></span>int <code class="sig-name descname">reset_sweeps</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16TransitionMatrix12reset_sweepsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the reset_sweeps parameter. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst16TransitionMatrix26num_iterations_to_completeEv">
+<span class="target" id="classfeasst_1_1TransitionMatrix_1a6db4294e792a5298600484897a93ed09"></span>int <code class="sig-name descname">num_iterations_to_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16TransitionMatrix26num_iterations_to_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of iterations required for completion. In <a class="reference internal" href="#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> and <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, this is the minimum number of sweeps. In <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, this is the minimum number of flatness checks. Afterward, check again for completeness. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst16TransitionMatrix30set_num_iterations_to_completeEKi">
+<span class="target" id="classfeasst_1_1TransitionMatrix_1aa21c4532de23c9027aba0a2011808861"></span>void <code class="sig-name descname">set_num_iterations_to_complete</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iteration</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix30set_num_iterations_to_completeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the number of iterations required for completion. </p>
 </dd></dl>
 
 <dl class="cpp function">

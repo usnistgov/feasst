@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>utils/include/io &mdash; FEASST v0.16.0 documentation</title>
+  <title>utils/include/io &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -136,14 +136,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -294,44 +294,17 @@
 <dt id="_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorI1TEEKb">
 <span class="target" id="namespacefeasst_1a45c83a3c6b59a8c7a018335c52038da1"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />std::string <code class="sig-name descname">feasst_str</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorI1TEEKb" title="feasst::feasst::feasst_str::T">T</a>&gt; &amp;<em>vec</em>, <em class="property">const</em> bool <em>max_precision</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorI1TEEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return string representation of vector. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">max_precision</span></code>: use maximum precision </p></li>
-</ul>
-</dd>
-</dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorINSt6vectorI1TEEEEKb">
 <span class="target" id="namespacefeasst_1ab83950310d7904f8ee226bd96f7508ad"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />std::string <code class="sig-name descname">feasst_str</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorINSt6vectorI1TEEEEKb" title="feasst::feasst::feasst_str::T">T</a>&gt;&gt; &amp;<em>vec</em>, <em class="property">const</em> bool <em>max_precision</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorINSt6vectorI1TEEEEKb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">max_precision</span></code>: use maximum precision </p></li>
-</ul>
-</dd>
-</dl>
-</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt5dequeI1TEEKb">
 <span class="target" id="namespacefeasst_1a9d95d22907133f9a80fb09d686134307"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />std::string <code class="sig-name descname">feasst_str</code><span class="sig-paren">(</span><em class="property">const</em> std::deque&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt5dequeI1TEEKb" title="feasst::feasst::feasst_str::T">T</a>&gt; &amp;<em>deq</em>, <em class="property">const</em> bool <em>max_precision</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt5dequeI1TEEKb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">max_precision</span></code>: use maximum precision </p></li>
-</ul>
-</dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst3strERKNSt3mapINSt6stringENSt6stringEEE">
-<span class="target" id="namespacefeasst_1a588228dbcf67cb0d136cdba0945028da"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><em class="property">const</em> std::map&lt;std::string, std::string&gt; &amp;<em>mp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERKNSt3mapINSt6stringENSt6stringEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Print a std::map of a pair of strings in human readable format. </p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst6feasst5splitEKNSt6stringE">

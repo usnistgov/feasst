@@ -14,7 +14,7 @@ FEASST plugin dependencies
 ============================
 
 * flat_histogram
-* ewald
+* charge
 
 API
 ===

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Accumulator &mdash; FEASST v0.16.0 documentation</title>
+  <title>Accumulator &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -144,14 +144,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -282,7 +282,7 @@
 <dt id="_CPPv4N6feasst11Accumulator11AccumulatorE7argtype">
 <span class="target" id="classfeasst_1_1Accumulator_1a327a360ca4fa5591da3dd7ec3e40b6b4"></span><code class="sig-name descname">Accumulator</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator11AccumulatorE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>num_block: number of values per block (default: 1e5). </p></li>
+<li><p>block_size: number of values per block (default: 1e5). </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -318,22 +318,15 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst11Accumulator9set_blockEKd">
-<span class="target" id="classfeasst_1_1Accumulator_1ac35b5e25cc6e7061592785289ee738b8"></span>void <code class="sig-name descname">set_block</code><span class="sig-paren">(</span><em class="property">const</em> double <em>num_block</em> = 1e5<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator9set_blockEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">num_block</span></code>: number of values per block </p></li>
-</ul>
-</dd>
-</dl>
-</p>
-<p>Set the size of a block to compute (uncorrelated) standard errors of the block averages.</p>
+<dt id="_CPPv4N6feasst11Accumulator14set_block_sizeEKd">
+<span class="target" id="classfeasst_1_1Accumulator_1a55fb36afc76637d148aa0c54aef0452d"></span>void <code class="sig-name descname">set_block_size</code><span class="sig-paren">(</span><em class="property">const</em> double <em>block_size</em> = 1e5<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator14set_block_sizeEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the size of a block to compute (uncorrelated) standard errors of the block averages.</p>
 <p>Flyvbjerg, Error estimates on averages of correlated data, <a class="reference external" href="http://dx.doi.org/10.1063/1.457480">http://dx.doi.org/10.1063/1.457480</a> </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst11Accumulator9num_blockEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a7c1245e49eb31107b40a9b9eff1c3fff"></span>double <code class="sig-name descname">num_block</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator9num_blockEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst11Accumulator10block_sizeEv">
+<span class="target" id="classfeasst_1_1Accumulator_1a85c7e51c558e8f6007f868f3609a934d"></span>double <code class="sig-name descname">block_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10block_sizeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return number of values per block. </p>
 </dd></dl>
 

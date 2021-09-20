@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>FlatHistogram &mdash; FEASST v0.16.0 documentation</title>
+  <title>FlatHistogram &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -144,14 +144,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -282,7 +282,18 @@
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE">
 <span class="target" id="classfeasst_1_1FlatHistogram_1a48aa6b3944d1f65541b76ad0c4e265e5"></span><code class="sig-name descname">FlatHistogram</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a>&gt; <em>macrostate</em>, std::shared_ptr&lt;<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a>&gt; <em>bias</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Constructor. </p>
+<dd><p>Construct with a macrostate and a bias. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype">
+<span class="target" id="classfeasst_1_1FlatHistogram_1accdf84b4bacb7e093f40d15ddc2e3f46"></span><code class="sig-name descname">FlatHistogram</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is a flattened constructor which takes arguments for macrostate, the macrostate histogram and the bias, as well as the following two arguments.</p>
+<p>args:<ul class="simple">
+<li><p>macrostate: <a class="reference internal" href="MacrostateNumParticles.html#classfeasst_1_1MacrostateNumParticles"><span class="std std-ref">MacrostateNumParticles</span></a>, <a class="reference internal" href="MacrostateEnergy.html#classfeasst_1_1MacrostateEnergy"><span class="std std-ref">MacrostateEnergy</span></a>, etc</p></li>
+<li><p>bias: <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, etc. </p></li>
+</ul>
+</p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -304,9 +315,27 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram18set_num_iterationsEKi">
-<span class="target" id="classfeasst_1_1FlatHistogram_1ab83418e7b543a60a41a5361299523209"></span>void <code class="sig-name descname">set_num_iterations</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iteration</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram18set_num_iterationsEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set the number of iterations in the <a class="reference internal" href="Bias.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>. </p>
+<dt id="_CPPv4NK6feasst13FlatHistogram26num_iterations_to_completeEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1af8987e27f599cb8d25771314460739cf"></span>int <code class="sig-name descname">num_iterations_to_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram26num_iterations_to_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of iterations for a simulation to be complete. Iterations are defined by the Derived class. For example, one <a class="reference internal" href="../../monte_carlo/doc/Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> iteration is 1000 trials. <a class="reference internal" href="#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> iterations depend on the <a class="reference internal" href="Bias.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>. For <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, one iteration is a sweep. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst13FlatHistogram30set_num_iterations_to_completeEKi">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a00ce1fe950ae284f55c483e862a64436"></span>void <code class="sig-name descname">set_num_iterations_to_complete</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram30set_num_iterations_to_completeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the number of iterations for a simulation to be complete. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13FlatHistogram14num_iterationsEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1af1eed1dc784c11e661fcdf03477e5986"></span>int <code class="sig-name descname">num_iterations</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram14num_iterationsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the current number of iterations. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13FlatHistogram11is_completeEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a66d697950222da6b690a0f637f20c481"></span>bool <code class="sig-name descname">is_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram11is_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if the number of iterations for completion has been reached. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -325,12 +354,6 @@
 <dt id="_CPPv4NK6feasst13FlatHistogram5writeEv">
 <span class="target" id="classfeasst_1_1FlatHistogram_1ade75b72684a1e51e0dd0ac8cbef87d78"></span>std::string <code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram5writeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return a human-readable output of all data (not as brief as status). </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram11is_completeEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a66d697950222da6b690a0f637f20c481"></span>bool <code class="sig-name descname">is_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram11is_completeEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return true if completion requirements are met. </p>
 </dd></dl>
 
 <dl class="cpp function">

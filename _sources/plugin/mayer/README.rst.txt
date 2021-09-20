@@ -8,6 +8,14 @@ This is a plugin for Mayer-Sampling Monte Carlo.
 
    doc/toc
 
+Tutorial
+=========
+
+.. toctree::
+   :glob:
+
+   tutorial/tutorial*
+
 FEASST plugin dependencies
 ============================
 

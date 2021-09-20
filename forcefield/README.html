@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Forcefield &mdash; FEASST v0.16.0 documentation</title>
+  <title>Forcefield and Units &mdash; FEASST v0.17.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.16.0
+                v0.17.0
               </div>
             
           
@@ -107,12 +107,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../py/README.html">pyFEASST</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Forcefield</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Forcefield and Units</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#units">Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-files">Data files</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#nomenclature-and-style">Nomenclature and style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#differences-from-lammps">Differences from LAMMPS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#site-properties">Site Properties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sites">Sites</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#site-labels">Site Labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bond-angle-and-dihedral-properties">Bond, Angle and Dihedral Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bonds">Bonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#angles">Angles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dihedrals">Dihedrals</a></li>
 </ul>
 </li>
 </ul>
@@ -188,7 +193,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Forcefield</li>
+      <li>Forcefield and Units</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -229,45 +234,89 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="forcefield">
-<h1>Forcefield<a class="headerlink" href="#forcefield" title="Permalink to this headline">¶</a></h1>
-<p>The forcefield directory is a place for files which describe atoms, molecules and coarse-grained models.</p>
+<div class="section" id="forcefield-and-units">
+<h1>Forcefield and Units<a class="headerlink" href="#forcefield-and-units" title="Permalink to this headline">¶</a></h1>
+<p>The forcefield directory is a place for files which describe atoms, molecules and coarse-grained models.
+These files are LAMMPS-inspired (<a class="reference external" href="https://lammps.sandia.gov/doc/read_data.html">https://lammps.sandia.gov/doc/read_data.html</a>), but deviate significantly from LAMMPS as described in detail below.
+Each file represents only a single particle (or molecule), and these files are used to define the types of molecules that can exist in the simulation.
+Each plugin many also contain a forcefield directory as additional examples and for use in tutorials.
+The units used in these files (length, energy, etc) are not assumed (with one exception) and must be consistent with the units to initialize your simulations.</p>
+<div class="section" id="units">
+<h2>Units<a class="headerlink" href="#units" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../plugin/charge/README.html"><span class="doc">charge plugin</span></a> is the only plugin that assumes units.
+Otherwise, the any other use of FEASST assumes that the user takes care to input values with a consistent set of units.
+For example, the units of length for positions in the data file should match whatever is used for defining the Domain, and the <a class="reference internal" href="../plugin/configuration/doc/FileVMD.html#_CPPv4N6feasst7FileXYZE" title="feasst::FileXYZ"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">FileXYZ</span></code></a> positions will also be consistent with that user choice.
+The energy scale is given by epsilon-like parameters, as should be consistent with the beta given to <a class="reference internal" href="../plugin/system/doc/ThermoParams.html#_CPPv4N6feasst12ThermoParamsE" title="feasst::ThermoParams"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ThermoParams</span></code></a>.
+That is, beta has units of inverse energy.
+Similarly, chemical_potential has units of energy.
+Because pressure times volume is in units of energy, pressure is in units of energy per volume.</p>
+<p>The <a class="reference internal" href="../plugin/charge/README.html"><span class="doc">charge plugin</span></a> is an exception because the unit of charge is assumed to be elementary charge.
+Because of an assumed conversion factor, the units of energy must be in kJ/mol, and therefore, beta must be given in units of mol/kJ.
+Finally, the units of length must be in Angstroms.</p>
+</div>
 <div class="section" id="data-files">
 <h2>Data files<a class="headerlink" href="#data-files" title="Permalink to this headline">¶</a></h2>
-<p>Files which begin with the name “data” are LAMMPS-inspired data files.</p>
-<p><a class="reference external" href="https://lammps.sandia.gov/doc/read_data.html">https://lammps.sandia.gov/doc/read_data.html</a></p>
-<p>They deviate from LAMMPS data files as follows:</p>
-<div class="section" id="nomenclature-and-style">
-<h3>Nomenclature and style<a class="headerlink" href="#nomenclature-and-style" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>atoms in LAMMPS are analogous to sites in FEASST.</p></li>
-<li><p>molecules in LAMMPS are analogous to particles in FEASST.</p></li>
-<li><p>FEASST data files may only contain one particle.</p></li>
-<li><p>all FEASST indices (types, sites, etc) begin with 0, not 1.</p></li>
-<li><p>characters are case sensitive</p></li>
-<li><p>the number of spaces between characters does not matter</p></li>
-<li><p>LMP Coeffs sections were replaced by Properties sections, with different formatting</p></li>
-<li><p>“2 dimensions” may be specified at the beginning of the file for a 2D simulation.</p></li>
-</ul>
+<div class="section" id="differences-from-lammps">
+<h3>Differences from LAMMPS<a class="headerlink" href="#differences-from-lammps" title="Permalink to this headline">¶</a></h3>
+<p>LAMMPS data files are defined here: <a class="reference external" href="https://lammps.sandia.gov/doc/read_data.html">https://lammps.sandia.gov/doc/read_data.html</a></p>
+<p>The data files used by FEASST have the following major differences:
+* atoms in LAMMPS are analogous to sites in FEASST.
+* molecules in LAMMPS are analogous to particles in FEASST.
+* FEASST data files contain only one particle.
+* all FEASST indices (types, sites, etc) begin with 0, not 1.
+* characters are case sensitive,
+* the number of spaces between characters does not matter,
+* LMP Coeffs sections were replaced by Properties sections, with very different formatting,
+* “2 dimensions” may be specified at the beginning of the file for a 2D simulation.
+* FEASST data files contain no information about the <a class="reference internal" href="../plugin/configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Domain</span></code></a> boundaries.
+* The “Sites” section has the following three major differences: (1) these files describe only one particle so, unlike LAMMPS, molecule index is not included, (2) charge is a site-type property, and thus is not given for each site and (3) wrapping is not included.</p>
 </div>
 <div class="section" id="site-properties">
 <h3>Site Properties<a class="headerlink" href="#site-properties" title="Permalink to this headline">¶</a></h3>
-<p>This is where the biggest difference from the LAMMPS data format is present.
-Each site type may have a list of properties given by a label and value.</p>
+<p>Each site type may have a list of properties given by a label and value.</p>
 <p>The format for this section is as follows:</p>
-<p>[site index] [label_0] [value_0] … [label_n] [value_n]</p>
+<p>[site type] [label_0] [value_0] … [label_n] [value_n]</p>
+<p>The labels are typically the ones described in <a class="reference internal" href="../plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ModelParams</span></code></a>, such as sigma, epsilon, cutoff and charge.
+The use of these parameters depends on the chosen models.
+For example, <a class="reference internal" href="../plugin/system/doc/LennardJones.html#_CPPv4N6feasst12LennardJonesE" title="feasst::LennardJones"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">LennardJones</span></code></a> or <a class="reference internal" href="../plugin/models/doc/SquareWell.html#_CPPv4N6feasst10SquareWellE" title="feasst::SquareWell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SquareWell</span></code></a>.</p>
+<p>Other more complex models may utilize a custom defined ModelParam, such as <a class="reference internal" href="../plugin/patch/doc/PatchAngle.html#_CPPv4N6feasst10PatchAngleE" title="feasst::PatchAngle"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">patch_angle</span></code></a> as shown in /path/to/feasst/plugin/patch/forcefield/patch_one.fstprt.
+In addition, the label “director” is described in <a class="reference internal" href="../plugin/patch/doc/VisitModelInnerPatch.html#_CPPv4N6feasst20VisitModelInnerPatchE" title="feasst::VisitModelInnerPatch"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">VisitModelInnerPatch</span></code></a> and utilized by <a class="reference internal" href="../plugin/configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Site</span></code></a>.</p>
 </div>
 <div class="section" id="sites">
 <h3>Sites<a class="headerlink" href="#sites" title="Permalink to this headline">¶</a></h3>
-<p>Charge is a site-type property, and thus is not included for each site.
-In addition, wrapping is also not included.</p>
 <p>The format for this section is as follows:</p>
 <p>[site index] [site type] [x-position] [y-position] [z-position]</p>
+<p>Note that the site type matches the Site Properties.</p>
 </div>
 <div class="section" id="site-labels">
 <h3>Site Labels<a class="headerlink" href="#site-labels" title="Permalink to this headline">¶</a></h3>
 <p>Site labels are used to attach a name to the site type, often used for visualization programs, etc.
-Note: these are not currently implemented.</p>
+Note: these are not currently implemented but serve as a place holder or for reference.</p>
+</div>
+<div class="section" id="bond-angle-and-dihedral-properties">
+<h3>Bond, Angle and Dihedral Properties<a class="headerlink" href="#bond-angle-and-dihedral-properties" title="Permalink to this headline">¶</a></h3>
+<p>The format for this section is as follows:</p>
+<p>[bond type] [bond class name] [label_0] [value_0] … [label_n] [value_n]</p>
+<p>The labels are described for each bond class, such as <a class="reference internal" href="../plugin/system/doc/RigidBond.html#_CPPv4N6feasst9RigidBondE" title="feasst::RigidBond"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">RigidBond</span></code></a>, <a class="reference internal" href="../plugin/models/doc/AngleHarmonic.html#_CPPv4N6feasst13AngleHarmonicE" title="feasst::AngleHarmonic"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AngleHarmonic</span></code></a> and <a class="reference internal" href="../plugin/models/doc/DihedralTraPPE.html#_CPPv4N6feasst14DihedralTraPPEE" title="feasst::DihedralTraPPE"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">DihedralTraPPE</span></code></a>.</p>
+</div>
+<div class="section" id="bonds">
+<h3>Bonds<a class="headerlink" href="#bonds" title="Permalink to this headline">¶</a></h3>
+<p>The format for this section is as follows:</p>
+<p>[bond index] [bond type] [site index i] [site index j]</p>
+</div>
+<div class="section" id="angles">
+<h3>Angles<a class="headerlink" href="#angles" title="Permalink to this headline">¶</a></h3>
+<p>The format for this section is as follows:</p>
+<p>[angle index] [angle type] [site index i] [site index j] [site index k]</p>
+<p>Note that j is the vertex of the defined angle.
+In 2D, angles are defined clockwise, such that angles ijk and kji are not the same.
+For more information on the angle definition, see <a class="reference internal" href="../plugin/math/doc/Position.html#_CPPv4NK6feasst8Position20vertex_angle_radiansERK8PositionRK8Position" title="feasst::Position::vertex_angle_radians"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vertex_angle_radians</span></code></a></p>
+</div>
+<div class="section" id="dihedrals">
+<h3>Dihedrals<a class="headerlink" href="#dihedrals" title="Permalink to this headline">¶</a></h3>
+<p>The format for this section is as follows:</p>
+<p>[dihedral index] [dihedral type] [site index i] [site index j] [site index k] [site index l]</p>
+<p>For more information on the dihedral definition, see <a class="reference internal" href="../plugin/math/doc/Position.html#_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position" title="feasst::Position::torsion_angle_radians"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">torsion_angle_radians</span></code></a>.</p>
 </div>
 </div>
 </div>
