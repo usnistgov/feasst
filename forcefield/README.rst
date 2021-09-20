@@ -12,7 +12,7 @@ The units used in these files (length, energy, etc) are not assumed (with one ex
 Units
 ======
 
-The :doc:`Ewald plugin </plugin/ewald/README>` is the only plugin that assumes units.
+The :doc:`charge plugin </plugin/charge/README>` is the only plugin that assumes units.
 Otherwise, the any other use of FEASST assumes that the user takes care to input values with a consistent set of units.
 For example, the units of length for positions in the data file should match whatever is used for defining the Domain, and the :cpp:class:`FileXYZ <feasst::FileXYZ>` positions will also be consistent with that user choice.
 The energy scale is given by epsilon-like parameters, as should be consistent with the beta given to :cpp:class:`ThermoParams <feasst::ThermoParams>`.
@@ -20,7 +20,7 @@ That is, beta has units of inverse energy.
 Similarly, chemical_potential has units of energy.
 Because pressure times volume is in units of energy, pressure is in units of energy per volume.
 
-The :doc:`Ewald plugin </plugin/ewald/README>` is an exception because the unit of charge is assumed to be elementary charge.
+The :doc:`charge plugin </plugin/charge/README>` is an exception because the unit of charge is assumed to be elementary charge.
 Because of an assumed conversion factor, the units of energy must be in kJ/mol, and therefore, beta must be given in units of mol/kJ.
 Finally, the units of length must be in Angstroms.
 
