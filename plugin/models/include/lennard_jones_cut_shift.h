@@ -21,10 +21,12 @@ namespace feasst {
  The cutoffs are computed by LennardJonesCutShift::set_wca.
  Thus, one workflow is as follows:
 
+   auto wca = MakeLennardJonesCutShift();
    ModelParams wca_params = configuration.model_params(); // copy model params
-   LennardJonesCutShift::set_wca(type1, type2, wca_params);  // set cutoff
+   wca->set_wca(type1, type2, wca_params);  // set cutoff
    wca->precompute(wca_params);   // compute shifts, etc
-   Potential::set_model_params(wca_params); // use wca_params.
+   auto potential = MakePotential(wca);
+   potential->set(wca_params); // use wca_params.
 
  */
 class LennardJonesCutShift : public LennardJonesAlpha {

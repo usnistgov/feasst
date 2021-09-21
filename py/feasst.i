@@ -73,6 +73,7 @@
 #include "system/include/angle_square_well.h"
 #include "system/include/rigid_angle.h"
 #include "system/include/bond_two_body.h"
+#include "models/include/fene.h"
 #include "models/include/bond_harmonic.h"
 #include "system/include/bond_square_well.h"
 #include "system/include/rigid_bond.h"
@@ -380,6 +381,7 @@ using namespace std;
 %shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::RigidAngle);
 %shared_ptr(feasst::BondTwoBody);
+%shared_ptr(feasst::FENE);
 %shared_ptr(feasst::BondHarmonic);
 %shared_ptr(feasst::BondSquareWell);
 %shared_ptr(feasst::RigidBond);
@@ -663,6 +665,7 @@ using namespace std;
 %include system/include/angle_square_well.h
 %include system/include/rigid_angle.h
 %include system/include/bond_two_body.h
+%include models/include/fene.h
 %include models/include/bond_harmonic.h
 %include system/include/bond_square_well.h
 %include system/include/rigid_bond.h

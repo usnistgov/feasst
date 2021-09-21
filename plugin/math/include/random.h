@@ -109,6 +109,7 @@ class Random {
   /// Random point on the surface of a unit sphere.
   void unit_sphere_surface(Position * position);
 
+  // HWH rename position_in_shell (for 2D applications).
   /// Random point in a spherical shell.
   void position_in_spherical_shell(
     const double lower,

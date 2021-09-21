@@ -1,0 +1,13 @@
+units lj
+atom_style molecular
+pair_style lj/cut 3.0
+bond_style fene
+
+read_data data.chain10
+
+thermo_style multi
+thermo 50
+fix 1 all nvt temp 1.0 1.0 1.0 tchain 1
+dump 1 all xyz 1 chain10.xyz
+run 1
+

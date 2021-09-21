@@ -60,9 +60,9 @@ double BondHarmonic::random_distance(const Bond& bond, const double beta,
       const double length = random->uniform_real(equilibrium_length - 3.*sigma,
                                                  equilibrium_length + 3.*sigma);
       const double dl = length - equilibrium_length;
-      if (random->uniform() < (length/max_length_dm1)*exp(-beta_k*dl*dl)) return length;
+      if (random->uniform() < (length/max_length_dm1)*std::exp(-beta_k*dl*dl)) return length;
     }
-  ++attempt;
+    ++attempt;
   }
   FATAL("maximum attempts reached");
 }
