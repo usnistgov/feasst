@@ -17,6 +17,10 @@ class PerturbTranslate : public PerturbMove {
   /// Initialize minimum and maximum tunable parameter based on domain.
   void precompute(TrialSelect * select, System * system) override;
 
+  /// Set the anchor to the current position of selection.
+  void mid_stage(const TrialSelect& select, const System& system) override;
+  void begin_stage(const TrialSelect& select) override;
+
   /// Change the position in the selection given a trajectory.
   void update_selection(const Position& trajectory,
       TrialSelect * select);
@@ -40,7 +44,8 @@ class PerturbTranslate : public PerturbMove {
 
  private:
   // temporary objects
-  Position trajectory_;
+  Position trajectory_, anchor_, new_pos_;
+  bool anchor_set_ = false;
 };
 
 inline std::shared_ptr<PerturbTranslate> MakePerturbTranslate(

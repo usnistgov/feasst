@@ -95,6 +95,7 @@ void TrialStage::attempt(System * system,
 //        system->get_configuration()->revive(rosenbluth_.stored(0));
 //      }
       if (rosenbluth_.chosen_step() != -1) {
+        DEBUG("chosen " << rosenbluth_.chosen_step());
         DEBUG("updating positions " << rosenbluth_.chosen().str());
         DEBUG("pos0 " << rosenbluth_.chosen().site_positions()[0][0].str());
         // DEBUG("pos1 " << rosenbluth_.chosen().site_positions()[0][1].str());
@@ -109,8 +110,13 @@ void TrialStage::attempt(System * system,
   }
 }
 
+void TrialStage::begin_stage() {
+  perturb_->begin_stage(*select_);
+}
+
 void TrialStage::mid_stage(System * system) {
   select_->mid_stage();
+  perturb_->mid_stage(*select_, *system);
   set_mobile_physical(false, system);
 }
 

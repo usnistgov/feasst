@@ -41,6 +41,9 @@ class TrialStage {
   /// Return the Rosenbluth.
   const Rosenbluth& rosenbluth() const { return rosenbluth_; }
 
+  /// Return the number of steps in Rosenbluth.
+  const int num_steps() const { return rosenbluth_.num(); }
+
   /// Set the selection.
   void set(std::shared_ptr<TrialSelect> select) { select_ = select; }
 
@@ -86,6 +89,7 @@ class TrialStage {
   /// Call between multiple attempts (e.g., old vs new)
   /// Set mobile sites unphysical.
   void mid_stage(System * system);
+  void begin_stage();
 
   /// Return true if constraints are satisfied.
   bool are_constraints_satisfied(const System& system) const;

@@ -16,6 +16,7 @@
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
 #include "monte_carlo/include/trial_select_dihedral.h"
+#include "monte_carlo/include/trial_compute_translate.h"
 #include "cluster/include/select_particle_avb.h"
 #include "cluster/include/perturb_move_avb.h"
 #include "cluster/include/perturb_add_avb.h"
@@ -95,6 +96,7 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
         select = MakeTrialSelectParticle(sel_args);
         if (trial_type == "translate") {
           perturb = std::make_shared<PerturbTranslate>(&iargs);
+          compute = std::make_shared<TrialComputeTranslate>(&iargs);
         } else if (trial_type == "add") {
           perturb = MakePerturbAdd();
           compute = MakeTrialComputeAdd();
@@ -210,8 +212,8 @@ std::shared_ptr<TrialFactory> MakeTrialGrow(std::vector<argtype> args,
       }
       argtype dflt_args = default_args;
       const std::string num_steps = str("num_steps", &iargs, str("num_steps", &dflt_args, "1"));
-      ASSERT(trial_type != "translate" || num_steps == "1",
-        "For " << trial_type << ", num_steps must be 1");
+      //ASSERT(trial_type != "translate" || num_steps == "1",
+      //  "For " << trial_type << ", num_steps must be 1");
       argtype stage_args = {{"num_steps", num_steps},
         {"reference_index", str("reference_index", &iargs, str("reference_index", &dflt_args, "-1"))},
         {"new_only", str("new_only", &iargs, str("new_only", &dflt_args, "false"))},

@@ -55,6 +55,10 @@ class Perturb {
   /// Before perturbation, initialize some optimiation parameters.
   virtual void before_select();
 
+  /// Call between rosenbluth calculation of old and new configuration.
+  virtual void mid_stage(const TrialSelect& select, const System& system) {}
+  virtual void begin_stage(const TrialSelect& select) {}
+
   /// Perturb the selection of the system.
   virtual void perturb(
     System * system,

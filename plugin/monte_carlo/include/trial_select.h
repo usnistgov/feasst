@@ -88,7 +88,7 @@ class TrialSelect {
   /// particles of that type.
   double probability() const { return probability_; }
 
-  /// Call after old configuration but before new.
+  /// Call between rosenbluth calculation of old and new configuration.
   virtual void mid_stage() {}
 
   /// Select from ghost particles.

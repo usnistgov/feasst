@@ -1,5 +1,6 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
+#include "system/include/utils.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/dont_visit_model.h"
@@ -26,6 +27,7 @@
 #include "cluster/include/energy_map_neighbor_criteria.h"
 #include "cluster/include/trial_transfer_avb.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
+#include "chain/include/trial_grow.h"
 #include "morph/include/macrostate_morph.h"
 #include "morph/include/trial_morph_expanded.h"
 #include "egce/include/a_equal_b.h"
@@ -597,6 +599,90 @@ TEST(MonteCarlo, rpm_divalent_morph_LONG) {
   EXPECT_NEAR(en[6]->accumulator().average(), -4.8648645814174927, 0.05);
   EXPECT_NEAR(en[8]->accumulator().average(), -6.8089768188067694, 0.05);
   EXPECT_NEAR(en[10]->accumulator().average(), -8.8377616317395002, 0.06);
+}
+
+double energy_av467(const int macro, const MonteCarlo& mc) {
+  return mc.analyzers().back()->analyzers()[macro]->accumulator().average();
+}
+
+//TEST(MonteCarlo, lj_fh_trial_grow_LONG) {
+//  MonteCarlo mc;
+//  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+//  mc.set(lennard_jones({{"dual_cut", "1"}}));
+//  mc.get_system()->get_configuration()->add_particle_of_type(0);
+//  mc.set(MakeThermoParams({{"beta", str(1/1.5)}, {"chemical_potential", "-2.352321"}}));
+//  mc.set(MakeFlatHistogram(
+//    MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"max", "5"}, {"min", "1"}})),
+//    MakeTransitionMatrix({{"min_sweeps", "1000"}})));
+//  const std::string ns = "4";
+//  const std::string ref = "0";
+//  //const std::string ns = "1";
+//  //const std::string ref = "-1";
+//  mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"translate", "true"}, {"tunable_param", "1"}, {"site", "0"}, {"num_steps", ns}, {"reference_index", ref}}}));
+//  mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"transfer", "true"}, {"weight", "4"}, {"site", "0"}, {"num_steps", ns}, {"reference_index", ref}}}));
+//  //mc.add(MakeTrialTranslate());
+//  //mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
+//  mc.add(MakeCheckEnergyAndTune({{"steps_per", "1e0"}}));
+//  mc.add(MakeCriteriaUpdater({{"steps_per", "1e3"}}));
+//  mc.add(MakeCriteriaWriter({{"steps_per", "1e3"}, {"file_name", "tmp/ljcrit.txt"}}));
+//  mc.add(MakeEnergy({{"file_name", "tmp/lj_fh_energy"},
+//    {"steps_per_update", "1"},
+//    {"steps_per_write", "1e3"},
+//    {"multistate", "true"}}));
+//  mc.run_until_complete();
+//  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+//  EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.02);
+//  EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.02);
+//  EXPECT_NEAR(lnpi.value(2), -6.458920624988570000, 0.02);
+//  EXPECT_NEAR(lnpi.value(3), -3.145637424988510000, 0.01);
+//  EXPECT_NEAR(lnpi.value(4), -0.045677458321876000, 0.005);
+//  EXPECT_NEAR(energy_av467(0, mc), -0.000605740233333333, 1e-8);
+//  EXPECT_NEAR(energy_av467(1, mc), -0.030574223333333334, 0.001);
+//  EXPECT_NEAR(energy_av467(2, mc), -0.089928316, 0.002);
+//  EXPECT_NEAR(energy_av467(3, mc), -0.1784570533333333, 0.004);
+//  EXPECT_NEAR(energy_av467(4, mc), -0.29619201333333334, 0.006);
+//}
+
+TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
+  MonteCarlo mc;
+  mc.set(lennard_jones({{"dual_cut", "1"}}));
+  mc.get_system()->get_configuration()->add_particle_of_type(0);
+  mc.set(MakeThermoParams({{"beta", str(1/1.5)}, {"chemical_potential", "-2.352321"}}));
+  SeekNumParticles(100).with_metropolis().with_trial_add().run(&mc);
+  mc.set(MakeFlatHistogram(
+    MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"max", "105"}, {"min", "100"}})),
+    MakeTransitionMatrix({{"min_sweeps", "1000"}})));
+  const std::string ns = "4";
+  const std::string ref = "0";
+//  const std::string ns = "1";
+//  const std::string ref = "-1";
+  mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"translate", "true"}, {"tunable_param", "1"}, {"site", "0"}, {"num_steps", ns}, {"reference_index", ref}}}));
+  mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
+  //mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"transfer", "true"}, {"weight", "4"}, {"site", "0"}, {"num_steps", ns}, {"reference_index", ref}}}));
+  //mc.add(MakeTrialTranslate());
+  const std::string steps_per = "1e3";
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCriteriaUpdater({{"steps_per", steps_per}}));
+  mc.add(MakeCriteriaWriter({{"steps_per", steps_per}, {"file_name", "tmp/ljcrit.txt"}}));
+  mc.add(MakeEnergy({{"file_name", "tmp/lj_fh_energy"},
+    {"steps_per_update", "1"},
+    {"steps_per_write", steps_per},
+    {"multistate", "true"}}));
+  mc.run_until_complete();
+  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  EXPECT_NEAR(lnpi.value(0), -4.92194963175925, 0.025);
+  EXPECT_NEAR(lnpi.value(1), -4.03855513175926, 0.02);
+  EXPECT_NEAR(lnpi.value(2), -3.15822813175925, 0.02);
+  EXPECT_NEAR(lnpi.value(3), -2.28019483175925, 0.015);
+  EXPECT_NEAR(lnpi.value(4), -1.40647303175926, 0.005);
+  EXPECT_NEAR(lnpi.value(5), -0.535594831759248, 0.005);
+  EXPECT_NEAR(energy_av467(0, mc), -1.381223800E+02, 0.5);
+  EXPECT_NEAR(energy_av467(1, mc), -1.408257000E+02, 0.5);
+  EXPECT_NEAR(energy_av467(2, mc), -1.435426000E+02, 0.5);
+  EXPECT_NEAR(energy_av467(3, mc), -1.462802100E+02, 0.5);
+  EXPECT_NEAR(energy_av467(4, mc), -1.490501400E+02, 0.5);
+  EXPECT_NEAR(energy_av467(5, mc), -1.518517300E+02, 0.6);
 }
 
 }  // namespace feasst

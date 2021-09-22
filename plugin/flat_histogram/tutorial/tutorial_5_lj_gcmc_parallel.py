@@ -34,9 +34,12 @@ def mc(thread, mn, mx):
         fst.MakeWLTM(fst.args({"collect_flatness": "18",
                                "min_flatness": "22",
                                "min_sweeps": str(args.min_sweeps)}))))
-    mc.add(fst.MakeTrialTranslate(fst.args({"weight": "1.", "tunable_param": "1."})))
-    mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": "0",
-        "reference_index": ref, "num_steps": num_steps})))
+    #mc.add(fst.MakeTrialTranslate(fst.args({"weight": "1.", "tunable_param": "1."})))
+    #mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": "0",
+    mc.add(fst.MakeTrialGrow(fst.ArgsVector([{"translate": "true", "site": "0", "tunable_param": "1"}]),
+        {"reference_index": ref, "num_steps": num_steps}))
+    mc.add(fst.MakeTrialGrow(fst.ArgsVector([{"transfer": "true", "site": "0", "weight": "4"}]),
+        {"reference_index": ref, "num_steps": num_steps}))
     mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": steps_per, "tolerance": "0.0001"})))
     mc.add(fst.MakeTune(fst.args({"steps_per": steps_per, "stop_after_phase": "0"})))
     mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": steps_per,
