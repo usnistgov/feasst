@@ -5,7 +5,6 @@
 #include "configuration/include/domain.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
-#include "configuration/include/visit_configuration.h"
 
 namespace feasst {
 
@@ -17,18 +16,30 @@ FileVMD::FileVMD(std::istream& istr) {
   feasst_deserialize_version(istr);
 }
 
+void FileVMD::get_params(const Configuration& config,
+    const int site_type,
+    double * radius,
+    double * distance,
+    int * center_index) const {
+  *radius = 0.5*config.model_params().sigma().value(site_type);
+  *distance = 0.;
+  *center_index = -1;
+}
+
 void FileVMD::write(const std::string file_name,
     const Configuration& config,
-    const std::string traj_file_name) {
+    const std::string traj_file_name) const {
   std::ofstream vmdf(file_name);
   vmdf << "display projection Orthographic" << std::endl
     << "color Display Background white" << std::endl
     << "axes location Off" << std::endl;
   vmdf << "topo readvarxyz " << trim("/", traj_file_name) << std::endl;
   vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << std::endl;
-  for (int stype = 0; stype < config.num_site_types(); ++stype) {
-    vmdf << "set sel [atomselect top \"name " << stype << "\"]" << std::endl;
-    const double radius = 0.5*config.model_params().sigma().value(stype);
+  double radius, distance;
+  int center_index;
+  for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
+    vmdf << "set sel [atomselect top \"name " << site_type << "\"]" << std::endl;
+    get_params(config, site_type, &radius, &distance, &center_index);
     vmdf << "$sel set radius " << radius << std::endl;
   }
 }
@@ -87,30 +98,24 @@ void FileXYZ::load(const std::string file_name, Configuration * config) const {
   config->update_positions(coords);
 }
 
-// Utility class to print XYZ files from selection.
-class PrinterXYZ : public LoopConfigOneBody {
- public:
-  PrinterXYZ(std::shared_ptr<std::ofstream> file, const int num_places = 8)
-  : file_(file) {
-    num_places_ = num_places;
+PrinterXYZ::PrinterXYZ(std::shared_ptr<std::ofstream> file,
+    const int num_places) : file_(file) {
+  num_places_ = num_places;
+}
+
+void PrinterXYZ::work(const Site& site,
+    const Configuration& config,
+    const LoopDescriptor& data) {
+  (*file_.get()) << site.type() << " ";
+  (*file_.get()) << std::setprecision(num_places_);
+  for (int dim = 0; dim < config.dimension(); ++dim) {
+    (*file_.get()) << site.position().coord(dim) << " ";
   }
-  void work(const Site& site,
-      const Configuration& config,
-      const LoopDescriptor& data) override {
-    (*file_.get()) << site.type() << " ";
-    (*file_.get()) << std::setprecision(num_places_);
-    for (int dim = 0; dim < config.dimension(); ++dim) {
-      (*file_.get()) << site.position().coord(dim) << " ";
-    }
-    for (int dim = config.dimension(); dim < 3; ++dim) {
-      (*file_.get()) << "0 ";
-    }
-    (*file_.get()) << std::endl;
+  for (int dim = config.dimension(); dim < 3; ++dim) {
+    (*file_.get()) << "0 ";
   }
- private:
-  int num_places_;
-  std::shared_ptr<std::ofstream> file_;
-};
+  (*file_.get()) << std::endl;
+}
 
 void FileXYZ::write(const std::string file_name,
                     const Configuration& config,
@@ -145,14 +150,16 @@ void FileXYZ::write_for_vmd(const std::string file_name,
 }
 
 void FileXYZ::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(2867, ostr);
   feasst_serialize(group_index_, ostr);
   feasst_serialize(append_, ostr);
 }
 
 FileXYZ::FileXYZ(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 2867, "version mismatch: " << version);
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize(&append_, istr);
 }
+
 }  // namespace feasst

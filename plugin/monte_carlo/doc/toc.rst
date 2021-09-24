@@ -35,6 +35,7 @@
    TrialComputeVolume
    TrialComputeRemove
    TrialComputeAdd
+   TrialComputeTranslate
    TrialComputeMove
    TrialMove
    TrialTranslate

@@ -108,9 +108,8 @@ class VisitModelInner {
   }
 
   // serialize
-  virtual void serialize(std::ostream& ostr) const {
-    serialize_visit_model_inner_(ostr); }
-
+  std::string class_name() const { return class_name_; }
+  virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<VisitModelInner> create(std::istream& istr) const {
     return std::make_shared<VisitModelInner>(istr); }
   std::map<std::string, std::shared_ptr<VisitModelInner> >& deserialize_map();
@@ -119,10 +118,10 @@ class VisitModelInner {
   virtual ~VisitModelInner() {}
 
  protected:
+  std::string class_name_ = "VisitModelInner";
   void serialize_visit_model_inner_(std::ostream& ostr) const;
 
  private:
-  const std::string class_name_ = "VisitModelInner";
   double energy_ = 0.;
   double squared_distance_;
   std::shared_ptr<EnergyMap> energy_map_;

@@ -1,14 +1,14 @@
-FileVMD
+FileVMDPatch
 =====================================================
 
-.. doxygenclass:: feasst::FileVMD
+.. doxygenclass:: feasst::FileVMDPatch
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::PrinterXYZ
+.. doxygenclass:: feasst::PrinterXYZPatch
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::FileXYZ
+.. doxygenclass:: feasst::FileXYZPatch
    :project: FEASST
    :members:

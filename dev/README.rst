@@ -353,3 +353,4 @@ To Do List
 * When swig4 finally works, can use multimap for dictionaries with more than one of same first key
 * Rename Movie->XYZ
 * Rename Stepper. Rename steps_per to trials_per, so as not to be confused with CB steps. Or rename num_steps to num_cb_steps. reference_index to cb_reference.
+* Patch custom model params not present in mc.configuration().model_params (affects FileXYZPatch).

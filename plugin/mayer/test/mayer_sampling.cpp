@@ -92,6 +92,38 @@ TEST(MonteCarlo, ljb2_LONG) {
 
 // Check SPCE
 
+TEST(MayerSampling, square_well_LONG) {
+  MonteCarlo mc;
+  auto config = MakeConfiguration({{"cubic_box_length", "10"},
+    {"particle_type0", install_dir() + "/forcefield/lj.fstprt"}});
+  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "2");
+  config->add_particle_of_type(0);
+  config->add_particle_of_type(1);
+  mc.add(config);
+  EXPECT_EQ(2, mc.configuration().num_particles());
+  EXPECT_EQ(1, mc.configuration().num_particles_of_type(0));
+  mc.add(MakePotential(MakeSquareWell()));
+  mc.add_to_reference(MakePotential(MakeHardSphere()));
+  const double temperature = 2;
+  mc.set(MakeThermoParams({{"beta", str(1./temperature)}}));
+  mc.set(MakeMayerSampling());
+  mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
+    {"tunable_param", "1"}, {"particle_type", "1"}}));
+  std::string steps_per = "1e4";
+  mc.add(MakeLog({{"steps_per", steps_per}, {"file_name", "tmp/sqw.txt"}}));
+  mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/sqw.xyz"}}));
+  mc.add(MakeTune({{"steps_per", steps_per}}));
+  MonteCarlo mc2 = test_serialize(mc);
+  mc2.attempt(1e6);
+  std::stringstream ss;
+  mc2.criteria().serialize(ss);
+  MayerSampling mayer(ss);
+  const double b2_reduced_analytical = 1-(3*3*3-1)*(std::exp(1/temperature)-1);
+  //INFO(mayer.mayer().str());
+  //INFO("std " << 10*mayer.second_virial_ratio_block_stdev());
+  EXPECT_NEAR(b2_reduced_analytical, mayer.second_virial_ratio(), 10*mayer.second_virial_ratio_block_stdev());
+}
+
 TEST(MayerSampling, cg4_rigid_LONG) {
   MonteCarlo mc;
   auto config = MakeConfiguration({{"cubic_box_length", "1000"},

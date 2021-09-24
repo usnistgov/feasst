@@ -41,12 +41,7 @@ class Site : public PropertiedEntity,
   void displace(const Position displacement) {
     add_position(displacement); }
 
-  /// Return true if the site is a director.
-  /// These are used, for example, by patchy models.
-  bool is_director() const { return is_director_; }
-
   /// Add a property with the given name and value.
-  /// If the name is director, is_director() will return true.
   void add_property(const std::string name, const double value) override;
 
   /// Return true if the site is physically present.
@@ -74,7 +69,6 @@ class Site : public PropertiedEntity,
 
  private:
   Position position_;
-  bool is_director_ = false;
   bool is_physical_;
   std::vector<int> cells_;
 };

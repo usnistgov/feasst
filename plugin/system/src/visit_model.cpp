@@ -67,14 +67,18 @@ void VisitModel::compute(
     Configuration * config,
     const int group_index) {
   TRACE("VisitModel for TwoBody entire config");
+  TRACE("VisitModelInner: " << get_inner_()->class_name());
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
+  TRACE("group index " << group_index);
   const Select& selection = config->group_selects()[group_index];
+  TRACE("num p " << selection.num_particles());
   for (int select1_index = 0;
        select1_index < selection.num_particles() - 1;
        ++select1_index) {
     const int part1_index = selection.particle_index(select1_index);
+    TRACE("part1_index " << part1_index);
     for (int select2_index = select1_index + 1;
          select2_index < selection.num_particles();
          ++select2_index) {

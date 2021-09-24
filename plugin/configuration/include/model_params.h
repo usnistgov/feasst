@@ -221,7 +221,7 @@ class ModelParams : public PropertiedEntity {
     params_.push_back(param); }
 
   /// Return the model parameter with the corresponding name.
-  const std::shared_ptr<ModelParam> select(const std::string name) const;
+  const ModelParam& select(const std::string name) const;
 
   /// Set the minimum cutoff to sigma.
   /// This is used for HardSphere potentials that don't assign cutoff.

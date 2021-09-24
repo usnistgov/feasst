@@ -2,6 +2,7 @@
 #ifndef FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_
 #define FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_
 
+#include "utils/include/arguments.h"
 #include "system/include/visit_model.h"
 #include "patch/include/patch_angle.h"
 
@@ -29,10 +30,19 @@ namespace feasst {
   But the distance-based component is determined by the model.
   The types for the model computation are determined by the directors.
   E.g., the sigmas, epsilons, cutoffs etc are set by the directors.
+
+  The patch angle is defined by the angle between the center of mass separation
+  vector of the non-director, center site, and the director.
+  Thus, a 180 degree patch would encompass the entire surface.
  */
 class VisitModelInnerPatch : public VisitModelInner {
  public:
-  VisitModelInnerPatch() {}
+  /**
+    args:
+    - patch_degrees_of_type[i]: set the patch angle of the given site type.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+   */
+  explicit VisitModelInnerPatch(argtype args = argtype());
 
   // HWH make a helper function which
   // 1. sets up rcut of centers based on patches
@@ -55,22 +65,23 @@ class VisitModelInnerPatch : public VisitModelInner {
 
   void precompute(Configuration * config) override;
 
-  CosPatchAngle cos_patch_angle() const { return cos_patch_angle_; }
+  const CosPatchAngle& cos_patch_angle() const { return cos_patch_angle_; }
+  const Director& director() const { return director_; }
 
-  void set_patch_angle(const int type, const double degrees);
+//  void set_patch_angle(const int type, const double degrees);
 
   // compute the interaction between a pair of centers
   void compute(
-      const int part1_index,
-      const int site1_index,
-      const int part2_index,
-      const int site2_index,
-      const Configuration * config,
-      const ModelParams& model_params,
-      ModelTwoBody * model,
-      const bool is_old_config,
-      Position * relative,
-      Position * pbc) override;
+    const int part1_index,
+    const int site1_index,
+    const int part2_index,
+    const int site2_index,
+    const Configuration * config,
+    const ModelParams& model_params,
+    ModelTwoBody * model,
+    const bool is_old_config,
+    Position * relative,
+    Position * pbc) override;
 
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<VisitModelInnerPatch>(istr); }
@@ -79,12 +90,14 @@ class VisitModelInnerPatch : public VisitModelInner {
   virtual ~VisitModelInnerPatch() {}
 
  private:
-  const std::string class_name_ = "VisitModelInnerPatch";
   CosPatchAngle cos_patch_angle_;
+  Director director_;
+  std::vector<std::pair<int, double> > cpatch_override_;
 };
 
-inline std::shared_ptr<VisitModelInner> MakeVisitModelInnerPatch() {
-  return std::make_shared<VisitModelInnerPatch>();
+inline std::shared_ptr<VisitModelInnerPatch> MakeVisitModelInnerPatch(
+    argtype args = argtype()) {
+  return std::make_shared<VisitModelInnerPatch>(args);
 }
 
 }  // namespace feasst

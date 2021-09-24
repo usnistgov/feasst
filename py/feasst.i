@@ -222,11 +222,12 @@
 #include "cluster/include/compute_add_avb_divalent.h"
 #include "cluster/include/compute_remove_avb_divalent.h"
 #include "morph/include/compute_morph.h"
+#include "monte_carlo/include/trial_compute_volume.h"
 #include "charge/include/compute_add_multiple.h"
 #include "charge/include/compute_remove_multiple.h"
-#include "monte_carlo/include/trial_compute_volume.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "monte_carlo/include/trial_compute_add.h"
+#include "monte_carlo/include/trial_compute_translate.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "cluster/include/compute_avb2.h"
 #include "cluster/include/compute_avb4.h"
@@ -278,6 +279,8 @@
 #include "confinement/include/model_table_cartesian.h"
 #include "patch/include/patch_angle.h"
 #include "patch/include/visit_model_inner_patch.h"
+#include "patch/include/file_xyz_patch.h"
+#include "patch/include/movie_patch.h"
 #include "flat_histogram/include/window.h"
 #include "flat_histogram/include/window_custom.h"
 #include "flat_histogram/include/window_exponential.h"
@@ -534,11 +537,12 @@ using namespace std;
 %shared_ptr(feasst::ComputeAddAVBDivalent);
 %shared_ptr(feasst::ComputeRemoveAVBDivalent);
 %shared_ptr(feasst::ComputeMorph);
+%shared_ptr(feasst::TrialComputeVolume);
 %shared_ptr(feasst::ComputeAddMultiple);
 %shared_ptr(feasst::ComputeRemoveMultiple);
-%shared_ptr(feasst::TrialComputeVolume);
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialComputeAdd);
+%shared_ptr(feasst::TrialComputeTranslate);
 %shared_ptr(feasst::TrialComputeMove);
 %shared_ptr(feasst::ComputeAVB2);
 %shared_ptr(feasst::ComputeAVB4);
@@ -548,6 +552,7 @@ using namespace std;
 %shared_ptr(feasst::VisitConfiguration);
 %shared_ptr(feasst::LoopConfigOneBody);
 %shared_ptr(feasst::FileVMD);
+%shared_ptr(feasst::PrinterXYZ);
 %shared_ptr(feasst::FileXYZ);
 %shared_ptr(feasst::Movie);
 %shared_ptr(feasst::FileLMP);
@@ -593,7 +598,12 @@ using namespace std;
 %shared_ptr(feasst::ModelTableCart3DIntegr);
 %shared_ptr(feasst::PatchAngle);
 %shared_ptr(feasst::CosPatchAngle);
+%shared_ptr(feasst::Director);
 %shared_ptr(feasst::VisitModelInnerPatch);
+%shared_ptr(feasst::FileVMDPatch);
+%shared_ptr(feasst::PrinterXYZPatch);
+%shared_ptr(feasst::FileXYZPatch);
+%shared_ptr(feasst::MoviePatch);
 %shared_ptr(feasst::Window);
 %shared_ptr(feasst::WindowCustom);
 %shared_ptr(feasst::WindowExponential);
@@ -814,11 +824,12 @@ using namespace std;
 %include cluster/include/compute_add_avb_divalent.h
 %include cluster/include/compute_remove_avb_divalent.h
 %include morph/include/compute_morph.h
+%include monte_carlo/include/trial_compute_volume.h
 %include charge/include/compute_add_multiple.h
 %include charge/include/compute_remove_multiple.h
-%include monte_carlo/include/trial_compute_volume.h
 %include monte_carlo/include/trial_compute_remove.h
 %include monte_carlo/include/trial_compute_add.h
+%include monte_carlo/include/trial_compute_translate.h
 %include monte_carlo/include/trial_compute_move.h
 %include cluster/include/compute_avb2.h
 %include cluster/include/compute_avb4.h
@@ -870,6 +881,8 @@ using namespace std;
 %include confinement/include/model_table_cartesian.h
 %include patch/include/patch_angle.h
 %include patch/include/visit_model_inner_patch.h
+%include patch/include/file_xyz_patch.h
+%include patch/include/movie_patch.h
 %include flat_histogram/include/window.h
 %include flat_histogram/include/window_custom.h
 %include flat_histogram/include/window_exponential.h

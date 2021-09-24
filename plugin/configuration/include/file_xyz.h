@@ -7,25 +7,48 @@
 #include <sstream>
 #include "utils/include/arguments.h"
 #include "configuration/include/configuration.h"
+#include "configuration/include/visit_configuration.h"
 
 namespace feasst {
 
+/**
+  Print a vmd script to view an xyz file via command "vmd -e file.vmd"
+ */
 class FileVMD {
  public:
   FileVMD() {}
 
+  // Place holder for derived classes (e.g. FileVMDPatch)
+  virtual void get_params(const Configuration& config,
+    const int site_type,
+    double * radius,
+    double * distance,
+    int * center_index) const;
+
   void write(const std::string file_name,
-      const Configuration& config,
-      const std::string traj_file_name);
+    const Configuration& config,
+    const std::string traj_file_name) const;
 
   void serialize(std::ostream& ostr) const;
   explicit FileVMD(std::istream& istr);
 };
 
+// Utility class to print XYZ files from selection.
+class PrinterXYZ : public LoopConfigOneBody {
+ public:
+  PrinterXYZ(std::shared_ptr<std::ofstream> file, const int num_places = 8);
+  void work(const Site& site,
+    const Configuration& config,
+    const LoopDescriptor& data) override;
+ private:
+  int num_places_;
+  std::shared_ptr<std::ofstream> file_;
+};
+
 // Note HWH: best not to assume this second line format by default
 /**
   The XYZ file format has no formal standard: https://en.wikipedia.org/wiki/XYZ_file_format
-  It is important to remember that FEASST as its own variant.
+  It is important to remember that FEASST has its own variant.
 
   The first line is the number of sites, n.
   The second line is of the format [id lx ly lz xy xz yz], where id is a

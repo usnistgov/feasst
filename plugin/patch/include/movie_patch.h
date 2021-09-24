@@ -1,22 +1,20 @@
 
-#ifndef FEASST_STEPPERS_MOVIE_H_
-#define FEASST_STEPPERS_MOVIE_H_
+#ifndef FEASST_PATCH_MOVIE_PATCH_H_
+#define FEASST_PATCH_MOVIE_PATCH_H_
 
-#include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/analyze.h"
+#include "patch/include/file_xyz_patch.h"
 
 namespace feasst {
 
-// HWH allow different formats.
-// HWH for example, incorportate FileXYZPatch
 /**
   Write a trajectory of the site positions using FileXYZ format.
   Does not overwrite existing file by default.
  */
-class Movie : public AnalyzeWriteOnly {
+class MoviePatch : public AnalyzeWriteOnly {
  public:
-  explicit Movie(argtype args = argtype());
-  explicit Movie(argtype * args);
+  explicit MoviePatch(argtype args = argtype());
+  explicit MoviePatch(argtype * args);
 
   /// Write the sample VMD files and the initial configuration.
   void initialize(Criteria * criteria,
@@ -29,23 +27,23 @@ class Movie : public AnalyzeWriteOnly {
       const TrialFactory& trial_factory) override;
 
   // serialize
-  std::string class_name() const override { return std::string("Movie"); }
+  std::string class_name() const override { return std::string("MoviePatch"); }
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
-    return std::make_shared<Movie>(istr); }
+    return std::make_shared<MoviePatch>(istr); }
   std::shared_ptr<Analyze> create(argtype * args) const override {
-    return std::make_shared<Movie>(args); }
-  Movie(std::istream& istr);
+    return std::make_shared<MoviePatch>(args); }
+  MoviePatch(std::istream& istr);
 
  private:
-  FileXYZ xyz_;
-  FileVMD vmd_;
+  FileXYZPatch xyz_;
+  FileVMDPatch vmd_;
 };
 
-inline std::shared_ptr<Movie> MakeMovie(argtype args = argtype()) {
-  return std::make_shared<Movie>(args);
+inline std::shared_ptr<MoviePatch> MakeMoviePatch(argtype args = argtype()) {
+  return std::make_shared<MoviePatch>(args);
 }
 
 }  // namespace feasst
 
-#endif  // FEASST_STEPPERS_MOVIE_H_
+#endif  // FEASST_PATCH_MOVIE_PATCH_H_

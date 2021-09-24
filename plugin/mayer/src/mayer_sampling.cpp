@@ -21,20 +21,20 @@ bool MayerSampling::is_accepted(const Acceptance& acceptance,
   const double beta = system.thermo_params().beta();
   const double f12 = std::exp(-beta*energy_new) - 1.;
   bool is_accepted;
-  DEBUG("*** MayerSampling ***");
-  DEBUG("energy new " << energy_new);
-  DEBUG("f12 " << f12);
-  DEBUG("f12old " << f12old_);
-  DEBUG("acceptance " << std::abs(f12)/std::abs(f12old_));
+  TRACE("*** MayerSampling ***");
+  TRACE("energy new " << energy_new);
+  TRACE("f12 " << f12);
+  TRACE("f12old " << f12old_);
+  TRACE("acceptance " << std::abs(f12)/std::abs(f12old_));
   if (!acceptance.reject() &&
       (random->uniform() < std::abs(f12)/std::abs(f12old_))) {
     ASSERT(energy_new != 0, "error");
     set_current_energy(energy_new);
     f12old_ = f12;
     is_accepted = true;
-    DEBUG("computing ref");
+    TRACE("computing ref");
     f12ref_ = std::exp(-beta*acceptance.energy_ref()) - 1.;
-    DEBUG("f12ref " << f12ref_);
+    TRACE("f12ref " << f12ref_);
   } else {
     is_accepted = false;
   }
@@ -44,7 +44,7 @@ bool MayerSampling::is_accepted(const Acceptance& acceptance,
     mayer_.accumulate(1.);
   }
   mayer_ref_.accumulate(f12ref_/std::abs(f12old_));
-  DEBUG("is accepted? " << is_accepted);
+  TRACE("is accepted? " << is_accepted);
   return is_accepted;
 }
 

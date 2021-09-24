@@ -14,9 +14,15 @@ class PatchAngle : public ModelParam {
 class CosPatchAngle : public ModelParam {
  public:
   CosPatchAngle() { set_name("cos_patch_angle"); }
-  CosPatchAngle(std::istream& istr) : ModelParam(istr) {}
-
   double compute(const int type, const ModelParams& model_params) override;
+  CosPatchAngle(std::istream& istr) : ModelParam(istr) {}
+};
+
+class Director : public ModelParam {
+ public:
+  Director() { set_name("director"); }
+  double compute(const int type, const ModelParams& model_params) override;
+  Director(std::istream& istr) : ModelParam(istr) {}
 };
 
 }  // namespace feasst

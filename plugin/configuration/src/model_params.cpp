@@ -89,7 +89,7 @@ double ModelParam::value(const int type) const {
 
 void ModelParam::set_param(const ModelParams& existing) {
   // initialize the number of types with zero value
-  for (int type = 0; type < existing.size(); ++type) {
+  for (int type = size(); type < existing.size(); ++type) {
     add(0.);
   }
   mix();
@@ -125,8 +125,12 @@ std::string ModelParam::str() const {
     for (int type2 = 0; type2 < size(); ++type2) {
       ss << "type" << type1 << "," << value(type1) << ",";
       ss << "type" << type2 << "," << value(type2) << ",";
-      ss << "type" << type1 << "-" << type2 << "," << mixed_value(type1, type2)
-         << std::endl;
+      if (type1 < static_cast<int>(mixed_values().size())) {
+        if (type2 < static_cast<int>(mixed_values()[type1].size())) {
+          ss << "type" << type1 << "-" << type2 << "," << mixed_value(type1, type2);
+        }
+      }
+      ss << std::endl;
     }
   }
   return ss.str();
@@ -208,15 +212,14 @@ int ModelParams::size() const {
   return size;
 }
 
-const std::shared_ptr<ModelParam> ModelParams::select(
+const ModelParam& ModelParams::select(
     const std::string param_name) const {
   for (const std::shared_ptr<ModelParam> param : params_) {
     if (param->name() == param_name) {
-      return param;
+      return const_cast<const ModelParam&>(*param);
     }
   }
-  ASSERT(0, "unrecognized name(" << param_name << ")");
-  return NULL;
+  FATAL("unrecognized name(" << param_name << ")");
 }
 
 std::shared_ptr<ModelParam> ModelParams::select_(

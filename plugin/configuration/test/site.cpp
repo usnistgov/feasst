@@ -22,7 +22,6 @@ TEST(Site, getset) {
   EXPECT_EQ(site.type(), site2.type());
   EXPECT_EQ(site.properties().str(), site2.properties().str());
   EXPECT_EQ(site.position().coord(), site2.position().coord());
-  EXPECT_EQ(site.is_director(), site2.is_director());
 }
 
 }  // namespace feasst

@@ -37,6 +37,7 @@ void VisitModelInner::compute(
     const bool is_old_config,
     Position * relative,
     Position * pbc) {
+  TRACE("VisitModelInner");
 //  if (is_old_config && is_energy_map_queryable()) {
 //    DEBUG("using old map");
 //    query_ixn(part1_index, site1_index, part2_index, site2_index);
@@ -81,17 +82,20 @@ bool VisitModelInner::is_energy_map_queryable() const {
 
 std::shared_ptr<VisitModelInner> VisitModelInner::deserialize(
     std::istream& istr) {
-  return template_deserialize(deserialize_map(), istr);
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
 }
 
 void VisitModelInner::serialize_visit_model_inner_(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
   feasst_serialize_version(8177, ostr);
   feasst_serialize(energy_, ostr);
   feasst_serialize_fstdr(energy_map_, ostr);
 }
 
 VisitModelInner::VisitModelInner(std::istream& istr) {
+  istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 8177, "unrecognized verison: " << version);
   feasst_deserialize(&energy_, istr);
@@ -112,6 +116,11 @@ void VisitModelInner::query_ixn(const Select& select) {
       energy_ += energy_map_->energy(part1_index, site1_index);
     }
   }
+}
+
+void VisitModelInner::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_visit_model_inner_(ostr);
 }
 
 }  // namespace feasst

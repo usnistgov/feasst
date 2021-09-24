@@ -5,8 +5,12 @@
 namespace feasst {
 
 double CosPatchAngle::compute(const int type, const ModelParams& model_params) {
-  const double angle = model_params.select("patch_angle")->value(type);
+  const double angle = model_params.select("patch_angle").value(type);
   return std::cos(degrees_to_radians(angle));
+}
+
+double Director::compute(const int type, const ModelParams& model_params) {
+  return model_params.select("director").value(type);
 }
 
 }  // namespace feasst
