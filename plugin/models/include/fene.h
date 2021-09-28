@@ -21,7 +21,7 @@ namespace feasst {
 class FENE : public BondTwoBody {
  public:
   FENE() {}
-  double energy(const double distance, const double k, const double R0) const;
+  double energy_fene(const double distance, const double k, const double R0) const;
   double energy(const double distance, const Bond& bond) const override;
   double random_distance(const Bond& bond, const double beta,
     const int dimen, Random * random) const override;

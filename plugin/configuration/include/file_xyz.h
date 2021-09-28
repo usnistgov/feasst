@@ -31,6 +31,7 @@ class FileVMD {
 
   void serialize(std::ostream& ostr) const;
   explicit FileVMD(std::istream& istr);
+  virtual ~FileVMD() {}
 };
 
 // Utility class to print XYZ files from selection.

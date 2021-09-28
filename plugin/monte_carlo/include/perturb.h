@@ -124,7 +124,6 @@ class Perturb {
   bool revert_possible_, finalize_possible_;
   TrialSelect * revert_select_;
   TrialSelect * finalize_select_;
-  double probability_;
 };
 
 }  // namespace feasst

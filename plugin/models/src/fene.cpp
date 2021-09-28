@@ -44,10 +44,10 @@ double FENE::energy(
     return NEAR_INFINITY;
   }
   const double k = bond.property("k_energy_per_length_sq");
-  return energy(distance, k, R0);
+  return energy_fene(distance, k, R0);
 }
 
-double FENE::energy(const double distance, const double k,
+double FENE::energy_fene(const double distance, const double k,
     const double R0) const {
   TRACE("distance " << distance);
   TRACE("k " << k);
@@ -72,7 +72,7 @@ double FENE::random_distance(const Bond& bond, const double beta,
       jacobian = length;
     }
     if (random->uniform() <
-        jacobian/max_length_dm1*std::exp(-beta*energy(length, k, R0))) {
+        jacobian/max_length_dm1*std::exp(-beta*energy_fene(length, k, R0))) {
       return length;
     }
     ++attempt;

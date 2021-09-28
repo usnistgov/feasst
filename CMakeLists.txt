@@ -137,7 +137,7 @@ endif()
 # patch
 list (FIND FEASST_PLUGINS "patch" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstpatch feasstsystem)
+  target_link_libraries(feasstpatch feasstmonte_carlo feasstmayer)
 endif()
 
 # models

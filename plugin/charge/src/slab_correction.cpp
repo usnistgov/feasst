@@ -157,6 +157,8 @@ void SlabCorrection::compute(ModelOneBody * model,
     enrg = stored_energy() - stored_energy_new_;
   } else if (state == 3) {
     enrg = stored_energy_new_ - stored_energy();
+  } else {
+    FATAL("unrecognized state: " << state);
   }
   DEBUG("enrg: " << enrg);
   DEBUG("stored_energy_ " << stored_energy() << " "

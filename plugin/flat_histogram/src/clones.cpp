@@ -1,11 +1,13 @@
 #ifdef _OPENMP
   #include <omp.h>
 #endif // _OPENMP
-#ifdef _WIN32
-  #include <Windows.h>  // sleep
-#else
-  #include <unistd.h>  // sleep
-#endif
+//#ifdef _WIN32
+//  #include <Windows.h>  // sleep
+//#else
+//  #include <unistd.h>  // sleep
+//#endif
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
 #include <fstream>
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
@@ -149,7 +151,10 @@ void Clones::run_until_complete_omp_(argtype run_args,
         MonteCarlo * clone = clones_[thread].get();
         if (init) {
           // wait until thread is initialized
-          while (!is_initialized[thread]) sleep(0.01);
+          while (!is_initialized[thread]) {
+            std::this_thread::sleep_for (std::chrono::seconds(1));
+          }
+          //while (!is_initialized[thread]) sleep(0.01);
           DEBUG("thread " << thread << " is initialized");
 
           // initialize next thread, if applicable
