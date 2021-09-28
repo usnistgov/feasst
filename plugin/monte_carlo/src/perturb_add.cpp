@@ -56,6 +56,8 @@ void PerturbAdd::add(
   set_revert_possible(true, select);
   set_finalize_possible(true, select);
 
+//  for (const auto& pos : select->mobile().site_positions()[0]) DEBUG(pos.str());
+
   // setting trial state should go last so other perturbs do not overwrite
   DEBUG("setting trial state 3");
   select->set_trial_state(3);
@@ -77,7 +79,7 @@ void PerturbAdd::revert(System * system) {
 void PerturbAdd::finalize(System * system) {
   DEBUG("finalize_possible " << finalize_possible());
   if (finalize_possible()) {
-//    INFO("finalizing mobile " << finalize_select()->mobile().str());
+//    DEBUG("finalizing mobile " << finalize_select()->mobile().str());
 //    system->finalize(finalize_select()->mobile());
     if (delay_add_) {
       system->get_configuration()->revive(finalize_select()->mobile());

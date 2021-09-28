@@ -8,7 +8,7 @@ namespace feasst {
 
 PerturbAnywhere::PerturbAnywhere() {
   class_name_ = "PerturbAnywhere";
-  rotate_.set_tunable(180.);
+  rotate_.set_tunable(-1);
   rotate_.disable_tunable_();
   translate_.disable_tunable_();
   disable_tunable_();
@@ -37,8 +37,8 @@ void PerturbAnywhere::move(const bool is_position_held,
                            TrialSelect * select,
                            Random * random) {
   if (is_position_held) return;
-  ASSERT(std::abs(rotate_.tunable().value() - 180.) < NEAR_ZERO,
-    "rotation tunable should be 180");
+//  ASSERT(std::abs(rotate_.tunable().value() - 180.) < NEAR_ZERO,
+//    "rotation tunable: " << rotate_.tunable().value() << " should be 180");
   rotate_.move(is_position_held, system, select, random);
   system->configuration().domain().random_position(&random_in_box_, random);
   set_position(random_in_box_, system, select);

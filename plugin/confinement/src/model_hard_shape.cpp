@@ -33,11 +33,16 @@ double ModelHardShape::energy(
     const Site& site,
     const Configuration& config,
     const ModelParams& model_params) {
+  TRACE("wrapped_site " << wrapped_site.str());
   const int type = site.type();
+  TRACE("type " << type);
   const double sigma = model_params.sigma().value(type);
+  TRACE("sigma " << sigma);
   if (shape()->is_inside(wrapped_site, sigma)) {
+    TRACE("inside");
     return 0.;
   }
+  TRACE("outside");
   return NEAR_INFINITY;
 }
 

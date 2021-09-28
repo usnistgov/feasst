@@ -9,7 +9,9 @@ namespace feasst {
 
 /**
   Rotate the positions of the selection.
-  Assumes the selection is only one particle.
+  In 2D, the tunable parameter is the maximum angle of rotation.
+  In 3D, its the relative weight between a random quaternion and quaternion
+  that represents an zero-angle rotation.
  */
 class PerturbRotate : public PerturbMove {
  public:

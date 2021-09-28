@@ -316,6 +316,23 @@ TEST(HardShape, henry_LONG) {
   }
 }
 
+TEST(HardShape, henry_dimer_LONG) {
+  for (const double length : {10}) {
+  //for (const double length : {10, 20}) {
+    System system;
+    system.add(Configuration(MakeDomain({{"cubic_box_length", str(length)}}),
+      {{"particle_type0", "../forcefield/dimer.fstprt"}}));
+    system.add(MakePotential(MakeModelHardShape(MakeSlab({
+      {"dimension", "2"},
+      {"bound0", "3"},
+      {"bound1", "-3"}}))));
+    Accumulator h = henry(system);
+    INFO(h.str());
+    const double W=6;
+    EXPECT_NEAR(h.average(), (W-3)/length + 2/length*3/4, 5*h.block_stdev());
+  }
+}
+
 TEST(DensityProfile, ig_hard_slab) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_box_length", "10"},

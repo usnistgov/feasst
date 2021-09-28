@@ -32,6 +32,7 @@ double SquareWell::energy(
   const double& sigma = model_params.mixed_sigma()[type1][type2];
   const double& epsilon = model_params.mixed_epsilon()[type1][type2];
   if (squared_distance <= sigma*sigma) {
+    TRACE("squared_distance " << squared_distance);
     return NEAR_INFINITY;
   }
   return -epsilon;

@@ -185,28 +185,67 @@ int Random::index_from_cumulative_probability(
   return -1;
 }
 
-RotationMatrix Random::rotation(const int dimension, const double max_angle) {
+RotationMatrix Random::rotation(const int dimension, const double tunable) {
   Position axis;
   RotationMatrix rot_mat;
-  rotation(dimension, &axis, &rot_mat, max_angle);
+  rotation(dimension, &axis, &rot_mat, tunable);
   return rot_mat;
 }
 
+void Random::quaternion(Position * quat) {
+  ASSERT(quat->size() == 4, "not implemented for size " << quat->size());
+  double s1 = 2;
+  double s2 = 2;
+  while (s1 > 1) {
+    quat->set_coord(0, uniform());
+    quat->set_coord(0, 2*quat->coord(0) - 1);
+    quat->set_coord(1, uniform());
+    quat->set_coord(1, 2*quat->coord(1) - 1);
+    s1 = quat->coord(0)*quat->coord(0) + quat->coord(1)*quat->coord(1);
+  }
+  while (s2 > 1) {
+    quat->set_coord(2, uniform());
+    quat->set_coord(2, 2*quat->coord(2) - 1);
+    quat->set_coord(3, uniform());
+    quat->set_coord(3, 2*quat->coord(3) - 1);
+    s2 = quat->coord(2)*quat->coord(2) + quat->coord(3)*quat->coord(3);
+  }
+  s1 = std::sqrt((1 - s1)/s2);
+  quat->set_coord(2, quat->coord(2)*s1);
+  quat->set_coord(3, quat->coord(3)*s1);
+}
+
 void Random::rotation(const int dimension,
-    Position * axis,
+    Position * quaternion_or_axis,
     RotationMatrix * rot_mat,
-    const double max_angle) {
-  const double angle = uniform_real(-max_angle, max_angle);
+    const double tunable) {
+  const bool completely_random = std::abs(tunable + 1) < NEAR_ZERO;
+  ASSERT(completely_random || tunable >= 0,
+    "tunable: " << tunable << " must be -1 or > 0");
   if (rot_mat->num_rows() != dimension) rot_mat->set_size(dimension, dimension);
   if (dimension == 3) {
-    if (axis->dimension() != 3) axis->set_vector({0., 0., 0.});
-    unit_sphere_surface(axis);
+    if (quaternion_or_axis->dimension() != 3) {
+      quaternion_or_axis->set_vector({0., 0., 0., 0.});
+    }
+    quaternion(quaternion_or_axis);
+    if (!completely_random) {
+      quaternion_or_axis->multiply(tunable);
+      quaternion_or_axis->add_to_coord(3, 1.);
+      const double size = quaternion_or_axis->distance();
+      quaternion_or_axis->divide(size);
+    }
+    rot_mat->quaternion(*quaternion_or_axis);
   } else if (dimension == 2) {
-    if (axis->dimension() != 2) axis->set_vector({0., 0.});
+    if (quaternion_or_axis->dimension() != 2) {
+      quaternion_or_axis->set_vector({0., 0.});
+    }
+    double max_angle = tunable;
+    if (completely_random) max_angle = 180.;
+    const double angle = uniform_real(-max_angle, max_angle);
+    rot_mat->axis_angle_opt(*quaternion_or_axis, angle);
   } else {
-    ERROR("implement dimension: " << dimension);
+    ERROR("not implemented for dimension: " << dimension);
   }
-  rot_mat->axis_angle_opt(*axis, angle);
 }
 
 void Random::position_in_spherical_shell(

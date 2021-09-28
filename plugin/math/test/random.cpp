@@ -1,10 +1,12 @@
 #include <cmath>
 #include <vector>
+#include <fstream>
 #include "utils/test/utils.h"
 #include "math/include/random_modulo.h"
 #include "math/include/random_mt19937.h"
 #include "math/include/histogram.h"
 #include "math/include/accumulator.h"
+#include "math/include/matrix.h"
 
 namespace feasst {
 
@@ -191,6 +193,29 @@ TEST(Random, standard_normal) {
   }
 }
 
+TEST(Random, rotation_tunable) {
+  auto ran = MakeRandomMT19937();
+  TRY(
+    RotationMatrix rotmat = ran->rotation(3, -0.5);
+    CATCH_PHRASE("must be -1 or > 0");
+  );
+  RotationMatrix rotmat = ran->rotation(3, 0);
+}
+
+TEST(Random, rotation) {
+  std::ofstream file("tmp.txt");
+  auto ran = MakeRandomMT19937();
+  const Position origin({0., 0., 0.});
+  //const double tunable = 1;
+  const double tunable = -1;
+  for (int trial = 0; trial < 1e4; ++trial) {
+    RotationMatrix rotmat = ran->rotation(3, tunable);
+    Position unit({1., 0., 0.});
+    rotmat.rotate(origin, &unit);
+    file << unit.coord(0) << " " << unit.coord(1) << " " << unit.coord(2) << std::endl;
+  }
+}
+
 //TEST(Random, bond_length) {
 //  for (std::shared_ptr<Random> random : gens) {
 //    random->seed_by_time();
@@ -322,5 +347,57 @@ TEST(Random, harmonic_angle_brute) {
   INFO(angle.str() << " PI/2 " << PI/2);
   EXPECT_NEAR(PI/2, angle.average(), 15*angle.block_stdev());
 }
+
+// Compute Henry coefficient of 3D HS dimer in slit pore.
+// dimer bond length = sigma
+// slit width = 6, box length = 10
+// W-3/L is probably to insert inside slit where the second site is OK no matter what (1.5 sigma from either wall). 2/L is probably to insert first bead where second bead matters. Spherical cap surface area varies linearly with cap height, so its average acceptance probability of 1 or 1/2 which gives 3/4 factor
+TEST(Random, henry_dimer_slit) {
+  const double L = 10, W = 6, sigma = 1;
+  Position site0;
+  site0.set_to_origin(3);
+  Position site1 = site0;
+  Position quat;
+  quat.set_to_origin(4);
+  //bond = site0;
+  const int dimen = 3;
+  const int num = 3e5;
+  auto ran = MakeRandomMT19937();
+  Accumulator H;
+  RotationMatrix R;
+  for (int trial = 0; trial < num; ++trial) {
+    bool inside = true;
+    for (int dim = 0; dim < dimen; ++dim) {
+      const double x= ran->uniform_real(-L/2, L/2);
+      site0.set_coord(dim, x);
+      if ((dim == 0) && (x > (W-sigma)/2 || x < -(W-sigma)/2)) inside = false;
+    }
+    if (inside) {
+      //ran->unit_sphere_surface(&bond);
+      //site1 = site0;
+      //site1.add(bond);
+      //const double ang = ran->uniform(-360, 360);
+      //const double ang = ran->uniform(-180, 180);
+      //ran->rotation(3, &bond, &R, ang);
+      ran->rotation(3, &quat, &R);
+      site1 = site0;
+      site1.add_to_coord(0, 1);
+      R.rotate(site0, &site1);
+
+      const double x = site1.coord(0);
+      if (x > (W-sigma)/2 || x < -(W-sigma)/2) inside = false;
+    }
+    if (inside) {
+      H.accumulate(1);
+      DEBUG("inside " << site0.str() << " " << site1.str());
+    } else {
+      H.accumulate(0);
+      DEBUG("outside " << site0.str() << " " << site1.str());
+    }
+  }
+  INFO(H.str());
+  EXPECT_NEAR((W-3*sigma)/L+(2*sigma/L)*(3./4.), H.average(), 10*H.block_stdev());
+}
+
 
 }  // namespace feasst

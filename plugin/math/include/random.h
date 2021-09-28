@@ -122,21 +122,29 @@ class Random {
   /// In addition, it must end with the value of unity.
   int index_from_cumulative_probability(const std::vector<double>& cumulative);
 
+  /// Return a random quaternion using the method of:
+  /// Franz J. Vesely, J. Comput. Phys., 47, 291-296 (1982).
+  void quaternion(Position * quaternion);
+
   /// Return a random rotation matrix.
   RotationMatrix rotation(
     /// dimensionality of space
     const int dimension,
-    /// maximum angle of rotation in degrees.
-    const double max_angle = 180);
+    /**
+      If tunable == -1, generate a completely random rotation (default).
+      Otherwise, In 3D, this is the relative weight of a random quaternion
+      and a unit quaternion corresponding to no rotation.
+      In 2D, this is the maximum rotation angle.
+     */
+    const double tunable = -1);
 
   /// Same as above, but optimized to reuse existing axis and matrix.
   void rotation(
     /// dimensionality of space
     const int dimension,
-    Position * axis,
+    Position * quaternion_or_axis,
     RotationMatrix * rot_mat,
-    /// maximum angle of rotation in degrees.
-    const double max_angle = 180);
+    const double tunable = -1);
 
   /// Return the normal distribution with 0 mean and unit sigma (standard).
   /// Use Box-Muller transformation.

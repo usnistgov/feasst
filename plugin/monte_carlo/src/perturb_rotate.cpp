@@ -11,7 +11,7 @@ PerturbRotate::PerturbRotate(argtype args) : PerturbRotate(&args) {
 }
 PerturbRotate::PerturbRotate(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbRotate";
-  set_tunable_min_and_max(2*NEAR_ZERO, 360.);
+  //set_tunable_min_and_max(2*NEAR_ZERO, 180.*(1 + NEAR_ZERO));
   pivot_site_ = integer("pivot_site", args, 0);
 }
 
@@ -71,10 +71,10 @@ void PerturbRotate::move(System * system,
     Random * random,
     const Position& pivot) {
   if (is_rotation_not_needed_(select, pivot)) return;
-  const double max_angle = tunable().value();
-  ASSERT(std::abs(max_angle) > NEAR_ZERO, "max angle is too small");
+  const double tune = tunable().value();
+  ASSERT(std::abs(tune) > NEAR_ZERO, "max angle is too small");
   const Position& piv_sel = piv_sel_(pivot, select);
-  random->rotation(piv_sel.dimension(), &axis_tmp_, &rot_mat_tmp_, max_angle),
+  random->rotation(piv_sel.dimension(), &axis_tmp_, &rot_mat_tmp_, tune),
   move(piv_sel, rot_mat_tmp_, system, select);
 }
 

@@ -132,8 +132,8 @@ RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
 void RotationMatrix::axis_angle_opt(const Position& unit_axis,
     const double degree_angle) {
   const double radian_angle = degrees_to_radians(degree_angle);
-  const double s = sin(radian_angle);
-  const double c = cos(radian_angle);
+  const double s = std::sin(radian_angle);
+  const double c = std::cos(radian_angle);
   if (unit_axis.size() == 2) {
     set_value(0, 0, c);
     set_value(0, 1, -s);
@@ -162,6 +162,20 @@ void RotationMatrix::rotate(const Position& pivot, Position * rotated) const {
   rotated->subtract(pivot);
   *rotated = multiply(*rotated);
   rotated->add(pivot);
+}
+
+void RotationMatrix::quaternion(const Position& q) {
+  ASSERT(q.size() == 4, "size: " << q.size() << 
+    " but assumes 3D space, 4D qernion");
+  set_value(0, 0, q.coord(0)*q.coord(0) - q.coord(1)*q.coord(1) - q.coord(2)*q.coord(2) + q.coord(3)*q.coord(3));
+  set_value(1, 0, 2*(q.coord(0)*q.coord(1) + q.coord(2)*q.coord(3)));
+  set_value(2, 0, 2*(q.coord(2)*q.coord(0) - q.coord(1)*q.coord(3)));
+  set_value(0, 1, 2*(q.coord(0)*q.coord(1) - q.coord(2)*q.coord(3)));
+  set_value(1, 1, q.coord(1)*q.coord(1) - q.coord(2)*q.coord(2) - q.coord(0)*q.coord(0) + q.coord(3)*q.coord(3));
+  set_value(2, 1, 2*(q.coord(1)*q.coord(2) + q.coord(0)*q.coord(3)));
+  set_value(0, 2, 2*(q.coord(2)*q.coord(0) + q.coord(1)*q.coord(3)));
+  set_value(1, 2, 2*(q.coord(1)*q.coord(2) - q.coord(0)*q.coord(3)));
+  set_value(2, 2, q.coord(2)*q.coord(2) - q.coord(0)*q.coord(0) - q.coord(1)*q.coord(1) + q.coord(3)*q.coord(3));
 }
 
 }  // namespace feasst

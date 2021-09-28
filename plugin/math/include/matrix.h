@@ -98,6 +98,9 @@ class RotationMatrix : public Matrix {
   /// Rotate a position given a pivot point.
   void rotate(const Position& pivot, Position * rotated) const;
 
+  /// Compute rotation matrix based on quaternions (3D only).
+  void quaternion(const Position& quaternion);
+
   /// Check square matrix, unit derminant, in addition to Matrix::check.
   void check() const override;
 

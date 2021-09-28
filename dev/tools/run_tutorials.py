@@ -8,8 +8,8 @@ def run_file(filename):
         if 'build' not in str(filename.parent):
             with pyfeasst.cd(filename.parent):
                 print("Running:", filename, "in", filename.parent)
-                pyfeasst.bash_command("rm tutorial_failures.txt")
-                pyfeasst.bash_command("jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout=10000 --execute " + str(filename) + "  2>&1 | grep \"Error\|Assertion\" >> tutorial_failures.txt")
+                pyfeasst.bash_command("rm tutorial_failures.txt tutorial_log.txt")
+                pyfeasst.bash_command("jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout=10000 --execute " + str(filename) + " > tutorial_log.txt 2>&1; grep \"Error\|Assertion\" tutorial_log.txt >> tutorial_failures.txt")
                 pyfeasst.bash_command("grep \"FAILED (fa\" " + str(filename) +" >> tutorial_failures.txt")
                 pyfeasst.bash_command("grep \"Error\" " + str(filename) +" >> tutorial_failures.txt")
                 pyfeasst.bash_command("grep \"ERROR\" " + str(filename) +" >> tutorial_failures.txt")
