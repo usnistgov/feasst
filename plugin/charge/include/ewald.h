@@ -177,7 +177,6 @@ class Ewald : public VisitModel {
   std::vector<double> * struct_fact_imag_();
 
   // new eik implementation, Ewald contains all eik information.
-  // eventually, this should be put in synchrinization data
   // eik_[particle_index][site_index][eik_index]
   std::vector<std::vector<std::vector<double> > > * eik_();
   // temporary

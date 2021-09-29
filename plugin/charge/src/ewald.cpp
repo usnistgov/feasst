@@ -222,15 +222,16 @@ void Ewald::update_struct_fact_eik(const Select& selection,
           (*eik_new)[lastp][site].resize(2*(num_kx_ + num_ky_ + num_kz_));
         }
       }
-      // check size of sites in each particle
-      for (int p = 0; p < static_cast<int>(eik_new->size()); ++p) {
-        int num_sites = selection.num_sites(p);
-        int extra_s = num_sites - static_cast<int>((*eik_new)[p].size());
-        if (extra_s > 0) {
-          (*eik_new)[p].resize(num_sites);
-          for (int lasts = num_sites - extra_s; lasts < num_sites; ++lasts) {
-            (*eik_new)[p][lasts].resize(2*(num_kx_ + num_ky_ + num_kz_));
-          }
+    }
+
+    // check size of sites in each particle
+    for (int p = 0; p < static_cast<int>(eik_new->size()); ++p) {
+      int num_sites = selection.num_sites(p);
+      int extra_s = num_sites - static_cast<int>((*eik_new)[p].size());
+      if (extra_s > 0) {
+        (*eik_new)[p].resize(num_sites);
+        for (int lasts = num_sites - extra_s; lasts < num_sites; ++lasts) {
+          (*eik_new)[p][lasts].resize(2*(num_kx_ + num_ky_ + num_kz_));
         }
       }
     }
