@@ -225,7 +225,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
     }
 
     // check size of sites in each particle
-    for (int p = 0; p < static_cast<int>(eik_new->size()); ++p) {
+    for (int p = 0; p < num_p; ++p) {
       int num_sites = selection.num_sites(p);
       int extra_s = num_sites - static_cast<int>((*eik_new)[p].size());
       if (extra_s > 0) {
