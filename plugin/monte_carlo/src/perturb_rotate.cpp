@@ -11,7 +11,7 @@ PerturbRotate::PerturbRotate(argtype args) : PerturbRotate(&args) {
 }
 PerturbRotate::PerturbRotate(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbRotate";
-  //set_tunable_min_and_max(2*NEAR_ZERO, 180.*(1 + NEAR_ZERO));
+  set_tunable_min_and_max(2*NEAR_ZERO, 180.*(1 + NEAR_ZERO));
   pivot_site_ = integer("pivot_site", args, 0);
 }
 
@@ -33,6 +33,8 @@ void PerturbRotate::update_selection(const Position& pivot,
     const RotationMatrix& rotation,
     TrialSelect * select) {
   Select * rotated = select->get_mobile();
+  DEBUG("rotation matrix : " << rotation.str());
+  DEBUG("rotated " << rotated->str());
   for (int select_index = 0;
        select_index < rotated->num_particles();
        ++select_index) {

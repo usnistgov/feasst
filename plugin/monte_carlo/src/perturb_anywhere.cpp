@@ -8,6 +8,7 @@ namespace feasst {
 
 PerturbAnywhere::PerturbAnywhere() {
   class_name_ = "PerturbAnywhere";
+  rotate_.set_tunable_min_and_max(-1 - NEAR_ZERO, -1 + NEAR_ZERO);
   rotate_.set_tunable(-1);
   rotate_.disable_tunable_();
   translate_.disable_tunable_();

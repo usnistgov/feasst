@@ -7,7 +7,10 @@
 namespace feasst {
 
 /**
-  Translate the positions of the selection.
+  Translate the positions of the selection uniformly random within postivie
+  and negative tunable parameter values.
+  The tunable parameter must be within the bounds of 2*NEAR_ZERO and half
+  of Domain::max_side_length.
  */
 class PerturbTranslate : public PerturbMove {
  public:

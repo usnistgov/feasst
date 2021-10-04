@@ -12,6 +12,8 @@ namespace feasst {
   In 2D, the tunable parameter is the maximum angle of rotation.
   In 3D, its the relative weight between a random quaternion and quaternion
   that represents an zero-angle rotation.
+  In either case, the tunable parameter is restricted to values of 2*NEAR_ZERO
+  to 180 by default.
  */
 class PerturbRotate : public PerturbMove {
  public:
