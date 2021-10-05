@@ -41,6 +41,10 @@ class TripleBandedCollectionMatrix {
  public:
   TripleBandedCollectionMatrix() {}
 
+  /// Construct from a series of single-state collection matricies (NVT+W).
+  explicit TripleBandedCollectionMatrix(
+    const std::vector<std::vector<std::vector<double> > >& data);
+
   void resize(const int num_macrostates) {
     matrix_.resize(num_macrostates, std::vector<double>(3, 0.)); }
 
@@ -58,7 +62,7 @@ class TripleBandedCollectionMatrix {
 
   void serialize(std::ostream& ostr) const;
 
-  TripleBandedCollectionMatrix(std::istream& istr);
+  explicit TripleBandedCollectionMatrix(std::istream& istr);
 
  private:
   std::vector<std::vector<double> > matrix_;

@@ -18,7 +18,7 @@ Histogram::Histogram(argtype * args) {
     const double width = dble("width", args);
     const double max = dble("max", args);
     const double min = dble("min", args, 0.);
-    ASSERT(max > min, "max(" << max <<") <= min(" << min << ")");
+    ASSERT(max >= min, "max(" << max <<") should be >= min(" << min << ")");
     set_width_min_max(width, min, max);
   }
 }

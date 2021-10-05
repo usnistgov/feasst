@@ -10,6 +10,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "monte_carlo/include/trials.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
@@ -660,6 +661,67 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
 //  EXPECT_NEAR(en[3]->accumulator().average(), -4.85254, 0.05);
 //  EXPECT_NEAR(en[4]->accumulator().average(), -6.80956, 0.12);
 //  EXPECT_NEAR(en[5]->accumulator().average(), -8.85025, 0.16);
+}
+
+MonteCarlo nvtw(const int num) {
+  const int num_prod = 1e3;
+  const int num_equil = 1e3;
+  const std::string steps_per = "1e3";
+  MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "1633373249"}}));
+  //mc.set(lennard_jones({{"dual_cut", "1"}}));
+  mc.set(lennard_jones());
+  mc.set(MakeThermoParams({{"beta", str(1./1.5)}, {"chemical_potential", "-2.352321"}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+//  mc.add(MakeTrialGrow({{{"translate", "true"}, {"particle_type", "0"}, {"tunable_param", "1"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
+  mc.add(MakeTrialAdd({{"particle_type", "0"}, {"weight", "4"}}));
+  mc.add(MakeTune({{"steps_per", steps_per}}));
+  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}}));
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj_fh"}}));
+  mc.perform(MakeRun({{"until_num_particles", str(num)}}));
+  mc.perform(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.attempt((num+1)*num_equil);
+  mc.perform(MakeRemoveModify({{"name", "Tune"}}));
+//  mc.add(MakeTrialGrow({{{"transfer", "true"}, {"particle_type", "0"}, {"weight", "4"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
+  mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
+  mc.set(MakeFlatHistogram(
+    MakeMacrostateNumParticles(
+      Histogram({{"width", "1"}, {"max", str(num)}, {"min", str(num)}})),
+  MakeTransitionMatrix({{"min_sweeps", "1e8"}})));
+  mc.add(MakeEnergy({
+    {"file_name", "tmp/ljen" + str(num) + ".txt"},
+    {"steps_per_update", "1"},
+    {"steps_per_write", str(steps_per)}}));
+  mc.add(MakeCriteriaWriter({
+    {"steps_per", steps_per},
+    {"file_name", "tmp/ljcrit" + str(num) + ".txt"}}));
+  mc.attempt((num+1)*num_prod);
+  return mc;
+}
+
+TEST(MonteCarlo, nvtw) {
+  const int min = 1, max = 5;
+  std::vector<std::vector<std::vector<double> > > data;
+  for (int num = min; num <= max; ++num) {
+    MonteCarlo mc = nvtw(num);
+    FlatHistogram fh = FlatHistogram(mc.criteria());
+    std::stringstream ss;
+    fh.bias().serialize(ss);
+    TransitionMatrix tm(ss);
+    //INFO(feasst_str(tm.collection().matrix()));
+    data.push_back(tm.collection().matrix());
+  }
+  TripleBandedCollectionMatrix cm(data);
+  LnProbability lnp;
+  lnp.resize(data.size());
+  cm.compute_ln_prob(&lnp);
+  //INFO(feasst_str(lnp.values()));
+  EXPECT_NEAR(lnp.value(0), -14.03737335832180, 0.2);
+  EXPECT_NEAR(lnp.value(1), -10.05031209165520, 0.2);
+  EXPECT_NEAR(lnp.value(2), -6.458920624988570, 0.2);
+  EXPECT_NEAR(lnp.value(3), -3.145637424988510, 0.1);
+  EXPECT_NEAR(lnp.value(4), -0.045677458321876, 0.01);
 }
 
 }  // namespace feasst

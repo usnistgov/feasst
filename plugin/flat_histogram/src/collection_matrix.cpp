@@ -86,4 +86,12 @@ bool TripleBandedCollectionMatrix::is_equal(
   return true;
 }
 
+TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(
+    const std::vector<std::vector<std::vector<double> > >& data) {
+  for (const std::vector<std::vector<double> >& dat : data) {
+    ASSERT(dat.size() == 1, "only single states accepted for NVT+W");
+    matrix_.push_back(dat[0]);
+  }
+}
+
 }  // namespace feasst

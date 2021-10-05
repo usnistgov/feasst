@@ -46,16 +46,18 @@ void TrialComputeTranslate::perturb_and_acceptance(
     // save the chosen 'new' position
     //new_ = system->configuration().select_particle(first_sel.mobile().particle_index(0)).site(
     //  first_sel.mobile().site_index(0, 0)).position();
-    new_ = first_stage->rosenbluth().chosen();
-    DEBUG("new " << new_.str() << " " << new_.site_positions()[0][0].str());
-    // midstage will set new position as anchor
-    for (TrialStage * stage : *stages) stage->mid_stage(system);
-    // move selection to original position
-    system->get_configuration()->update_positions(first_sel.mobile_original());
-    // then, compute rosenbluth of old
-    compute_rosenbluth(1, criteria, system, acceptance, stages, random);
-    // finally, move back to new chosen position
-    system->get_configuration()->update_positions(new_);
+    if (first_stage->rosenbluth().chosen_step() != -1) {
+      new_ = first_stage->rosenbluth().chosen();
+      DEBUG("new " << new_.str() << " " << new_.site_positions()[0][0].str());
+      // midstage will set new position as anchor
+      for (TrialStage * stage : *stages) stage->mid_stage(system);
+      // move selection to original position
+      system->get_configuration()->update_positions(first_sel.mobile_original());
+      // then, compute rosenbluth of old
+      compute_rosenbluth(1, criteria, system, acceptance, stages, random);
+      // finally, move back to new chosen position
+      system->get_configuration()->update_positions(new_);
+    }
   }
   DEBUG("New");
   DEBUG("current en: " << criteria->current_energy());
