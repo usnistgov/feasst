@@ -7,7 +7,7 @@
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trials.h"
-#include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
@@ -46,7 +46,7 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   argtype spce_args = {{"physical_constants", "CODATA2010"},
                        {"cubic_box_length", "20"},
-                       {"alphaL", "5.6"},
+                       {"alpha", str(5.6/20)},
                        {"kmax_squared", "38"},
                        //{"table_size", "0"},
                       };
@@ -75,13 +75,8 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
     //mc.add_to_reference(pot);
   }
   const double beta = 1/kelvin2kJpermol(525, mc.configuration()); // mol/kJ
-  mc.set(MakeThermoParams({{"beta", str(beta)},
-     {"chemical_potential", str(-8.14/beta)}}));
-  auto criteria = MakeFlatHistogram(
-    MakeMacrostateNumParticles(
-      Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
-    bias);
-  mc.set(criteria);
+  mc.set(MakeThermoParams({{"beta", str(beta)}, {"chemical_potential", str(-8.14/beta)}}));
+  mc.set(MakeMetropolis());
 //  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0."}}));
 //  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
 //  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
@@ -103,7 +98,12 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
       {"reference_index", str(ref)},
       {"num_steps", str(num_steps)}}));
   }
-  SeekNumParticles(min).with_thermo_params({{"beta", "1"}, {"chemical_potential", "1"}}).with_metropolis().run(&mc);
+  mc.run(MakeRun({{"until_num_particles", str(min)}}));
+  auto criteria = MakeFlatHistogram(
+    MakeMacrostateNumParticles(
+      Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
+    bias);
+  mc.set(criteria);
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
   mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   //mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
@@ -176,7 +176,7 @@ TEST(MonteCarlo, spce_fh2_LONG) {
 TEST(TrialGrow, transfer_avb_spce) {
   System system = spce({{"physical_constants", "CODATA2010"},
                         {"cubic_box_length", "20"},
-                        {"alphaL", "5.6"},
+                        {"alpha", str(5.6/20)},
                         {"kmax_squared", "38"},
                         {"add_particles_of_type0", "1"}});
   //system.get_configuration()->add_particle_of_type(0);

@@ -54,6 +54,7 @@ FileXYZ::FileXYZ(argtype args) : FileXYZ(&args) {
 
 void FileXYZ::load(const std::string file_name, Configuration * config) const {
   std::ifstream xyz_file(file_name);
+  ASSERT(xyz_file, "file_name: " << file_name << " is empty");
   int num_sites;
   std::string line;
   std::getline(xyz_file, line);

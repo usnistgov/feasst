@@ -23,7 +23,7 @@ TEST(TrialGrow, serialize) {
 TEST(TrialGrow, angle_distribution_LONG) {
   MonteCarlo mc;
   mc.set(spce({{"physical_constants", "CODATA2010"}, {"cubic_box_length", "20"},
-        {"alphaL", "5.6"}, {"kmax_squared", "38"}, {"dual_cut", "3.2"}}));
+        {"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"dual_cut", "3.2"}}));
   mc.get_system()->get_configuration()->add_particle_of_type(0);
   mc.set(MakeThermoParams({{"beta", "1"}}));
   mc.set(MakeMetropolis());

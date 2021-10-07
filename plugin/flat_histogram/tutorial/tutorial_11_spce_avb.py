@@ -39,7 +39,7 @@ def mc(thread, mn, mx):
     avb, dccb = avb_or_dccb(mx)
     mc = fst.MakeMonteCarlo()
     spce_args = {"physical_constants": "CODATA2010", "cubic_box_length": "20",
-        "alphaL": "5.6", "kmax_squared": "38"}
+        "alpha": str(5.6/20), "kmax_squared": "38"}
     if dccb or avb:
         spce_args["dual_cut"] = "3.16555789"
     mc.set(fst.spce(fst.args(spce_args)))

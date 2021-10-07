@@ -128,6 +128,9 @@ class Potential {
 
   void check(const Configuration& config) const;
 
+  void set_visit_model_(std::shared_ptr<VisitModel> visit) {
+    visit_model_ = visit; }
+
   /// Serialize.
   void serialize(std::ostream& ostr) const;
 

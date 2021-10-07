@@ -19,7 +19,8 @@ def mc(thread, mn, mx):
     mc = fst.MakeMonteCarlo()
     sys_args = {"cubic_box_length": "12",
         "cutoff": "4.891304347826090",
-        "alphaL": "6.87098396396261"}
+        "kmax_squared": "38",
+        "alpha": str(6.87098396396261/12)}
     num_steps = "1"
     ref = "-1"
     if mx >= args.dccb_begin:

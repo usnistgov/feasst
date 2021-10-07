@@ -1,9 +1,10 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
-#include "system/include/utils.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/long_range_corrections.h"
 #include "system/include/dont_visit_model.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trials.h"
 #include "flat_histogram/include/flat_histogram.h"
@@ -32,8 +33,12 @@ void test_morph(const System& system) {
                                         {"chemical_potential1", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  SeekNumParticles(2, {{"particle_type", "0"}}).with_trial_add().run(&mc);
-  SeekNumParticles(2, {{"particle_type", "1"}}).with_trial_add().run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "2"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.add(MakeTrialAdd({{"particle_type", "1"}}));
+  mc.run(MakeRun({{"until_num_particles", "4"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   EXPECT_EQ(mc.configuration().num_particles_of_type(0), 2);
   EXPECT_EQ(mc.configuration().num_particles_of_type(1), 2);
   mc.add(MakeTrialMorph({{"particle_type0", "1"},
@@ -46,7 +51,10 @@ void test_morph(const System& system) {
 }
 
 TEST(MonteCarlo, TrialMorph) {
-  System system = lennard_jones();
+  System system;
+  system.add(*MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  system.add(MakePotential(MakeLennardJones()));
+  system.add(MakePotential(MakeLongRangeCorrections()));
   Configuration * config = system.get_configuration();
   config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
   config->set_model_param("sigma", 1, 0.5);
@@ -59,13 +67,14 @@ MonteCarlo test_morph_expanded_lj(
   const int max = 5) {
   MonteCarlo mc;
   {
-    System system = lennard_jones();
-    Configuration * config = system.get_configuration();
+    auto config = MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}});
     config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
     config->set_model_param("sigma", 1, 0.5);
     config->set_model_param("cutoff", 1, 1.0);
     config->add_particle_of_type(0);
-    mc.set(system);
+    mc.add(config);
+    mc.add(MakePotential(MakeLennardJones()));
+    mc.add(MakePotential(MakeLongRangeCorrections()));
   }
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const double num_parts_in_grow = static_cast<double>(grow_sequence[0].size());
@@ -155,15 +164,14 @@ TEST(MonteCarlo, TrialMorphExpanded_2_lj_LONG) {
 //}
 
 TEST(MonteCarlo, TrialMorph_RPM) {
-  test_morph(rpm());
+  test_morph(rpm({{"alpha", str(5.6/12)}, {"kmax_squared", "38"}}));
 }
 
 MonteCarlo test_morph_expanded(const std::string steps_per) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1234"}}));
-  { System system = lennard_jones({{"particle", "forcefield/lj.fstprt"},
-      {"lrc", "false"}});
-    Configuration * config = system.get_configuration();
+  {
+    auto config = MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}});
     config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.25");
     config->set_model_param("sigma", 1, 0.25);
     config->set_model_param("cutoff", 1, 1.0);
@@ -174,7 +182,8 @@ MonteCarlo test_morph_expanded(const std::string steps_per) {
     config->set_model_param("sigma", 1, 0.75);
     config->set_model_param("cutoff", 1, 1.0);
     config->add_particle_of_type(0);
-    mc.set(system);
+    mc.add(config);
+    mc.add(MakePotential(MakeLennardJones()));
   }
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
   mc.set(MakeThermoParams({
@@ -239,9 +248,8 @@ TEST(MonteCarlo, TrialMorphExpanded_LONG) {
 TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "1234"}}));
-  { System system = lennard_jones({{"lrc", "false"}});
-  //{ System system = lennard_jones({{"particle", "forcefield/lj.fstprt"}});
-    Configuration * config = system.get_configuration();
+  {
+    auto config = MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}});
     config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "b");
     config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
     config->set_model_param("sigma", 1, 0.5);
@@ -249,8 +257,8 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
     config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5b");
     config->set_model_param("sigma", 1, 0.5);
     config->set_model_param("cutoff", 1, 1.0);
-//    config->add_particle_of_type(0);
-    mc.set(system);
+    mc.add(config);
+    mc.add(MakePotential(MakeLennardJones()));
   }
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};

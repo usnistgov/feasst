@@ -16,3 +16,7 @@ Run
 .. doxygenclass:: feasst::WriteCheckpoint
    :project: FEASST
    :members:
+
+.. doxygenclass:: feasst::AddReference
+   :project: FEASST
+   :members:

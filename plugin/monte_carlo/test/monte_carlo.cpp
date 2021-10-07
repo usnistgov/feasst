@@ -12,7 +12,6 @@
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
 #include "system/include/dont_visit_model.h"
-#include "system/include/utils.h"
 #include "system/include/ideal_gas.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -60,7 +59,8 @@ namespace feasst {
 
 TEST(MonteCarlo, serialize) {
   MonteCarlo mc;
-  mc.set(lennard_jones());
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
@@ -90,7 +90,8 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
     INFO("type: " << type);
     MonteCarlo mc;
     mc.set(MakeRandomMT19937({{"seed", "123"}}));
-    mc.set(lennard_jones({{"lrc", "false"}}));
+    mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+    mc.add(MakePotential(MakeLennardJones()));
 //    if (type == "all") {
 //      mc.set(0, MakePotential(MakeLennardJones(), MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
 //    } else if (type == "neighbor") {
@@ -110,8 +111,6 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
       mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
                                         MakeVisitModelOptLJ()));
     }
-    //SeekNumParticles(50).with_trial_add().add(MakeProgressReport()).run(&mc);
-    // mc.seek_num_particles(250);
     mc.attempt(1e6);  // 4.5s with 50 (see opt_lj for 3s)
     //mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
     // mc.seek_num_particles(450);
@@ -138,7 +137,7 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
 //    {"tunable_param", "1"}}));
 ////  const int steps_per = 1e3;
 ////  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", "1e-10"}}));
-//  SeekNumParticles(50)
+//  SeeeekNumParticles(50)
 //    .with_thermo_params({{"beta", "0.1"}, {"chemical_potential", "10"}})
 //    .with_metropolis()
 //    .with_trial_add()
@@ -162,18 +161,17 @@ TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
                            {{"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential({{"Model", "LennardJones"}}));
 //  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
-  mc.set(MakeThermoParams({{"beta", "1.2"}}));
+  mc.set(MakeThermoParams({{"beta", "0.1"}, {"chemical_potential", "10"}}));
   mc.set(MakeMetropolis());
-  SeekNumParticles(200)
-    .with_thermo_params({{"beta", "0.1"}, {"chemical_potential", "10"}})
-    .with_metropolis()
-    .with_trial_add()
-    .run(&mc);
   mc.add(MakeTrialTranslate({
     {"weight", "1"},
 //    {"reference_index", "0"},
 //    {"num_steps", "4"},
     {"tunable_param", "1"}}));
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "200"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.add_to_optimized(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "3"}})));
@@ -182,18 +180,21 @@ TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
 }
 
 TEST(MonteCarlo, NVT_SRSW) {
+  const int nMol = 500;
+  const double rho = 1e-3;
+  const double length = std::pow(static_cast<double>(nMol)/rho, 1./3.);
   MonteCarlo mc;
-  mc.set(lennard_jones());
+  mc.add(MakeConfiguration({{"cubic_box_length", str(length)}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", str(nMol)}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e3)}, {"file_name", "tmp/lj"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e3)}, {"tolerance", str(1e-9)}}));
-  const int nMol = 500;
-  const double rho = 1e-3, length = std::pow(static_cast<double>(nMol)/rho, 1./3.);
-  mc.get_system()->get_configuration()->set_side_lengths(
-    Position().set_vector({length, length, length}));
-  SeekNumParticles(nMol).with_trial_add().run(&mc);
   Accumulator pe;
   const int num_trials = 1e3;
   for (int trial = 0; trial < num_trials; ++trial) {
@@ -207,7 +208,9 @@ TEST(MonteCarlo, NVT_SRSW) {
 
 TEST(MonteCarlo, GCMC) {
   MonteCarlo mc;
-  mc.set(lennard_jones());
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-3"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
@@ -241,7 +244,11 @@ TEST(MonteCarlo, GCMC) {
 
 TEST(MonteCarlo, GCMC_cell) {
   MonteCarlo mc;
-  mc.set(lennard_jones({{"dual_cut", "1."}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
+  mc.run(MakeAddReference({{"cutoff", "1"}, {"use_cell", "true"}}));
+  EXPECT_EQ(mc.system().num_references(), 1);
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
@@ -264,13 +271,15 @@ TEST(MonteCarlo, GCMC_cell) {
 TEST(MonteCarlo, ConstrainNumParticles) {
   for (const double minimum : {0, 1}) {
     MonteCarlo mc;
-    mc.set(lennard_jones());
+    mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+    mc.add(MakePotential(MakeLennardJones()));
+    mc.add(MakePotential(MakeLongRangeCorrections()));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-    SeekNumParticles(1).with_trial_add().run(&mc);
+    mc.get_system()->get_configuration()->add_particle_of_type(0);
     mc.set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
     mc.set(MakeMetropolis(
       MakeConstrainNumParticles({{"minimum", str(minimum)},
@@ -289,8 +298,10 @@ TEST(MonteCarlo, ConstrainNumParticles) {
 
 TEST(MonteCarlo, GCMC_binary_tune) {
   MonteCarlo mc;
-  mc.set(lennard_jones());
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.get_system()->get_configuration()->add_particle_type("../forcefield/lj.fstprt", "2");
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential0", "-6"}, {"chemical_potential1", "-8"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}, {"particle_type", "0"}}));
@@ -477,10 +488,45 @@ TEST(MonteCarlo, arglist) {
   EXPECT_EQ("CheckEnergy", mc->modify(0).class_name());
   EXPECT_LT(100, mc->trials().num_attempts());
   EXPECT_EQ(50, mc->configuration().num_particles());
-  mc->perform(MakeRemoveTrial({{"all", "true"}}));
-  mc->perform(MakeRemoveModify({{"all", "true"}}));
+  mc->run(MakeRemoveTrial({{"all", "true"}}));
+  mc->run(MakeRemoveModify({{"all", "true"}}));
   EXPECT_EQ(0, mc->trials().num());
   EXPECT_EQ(0, mc->num_modifiers());
+}
+
+//Note: triclinic wraps don't wrap inside triclinic
+//TEST(MonteCarlo, triclinic_random_2d) {
+//  MonteCarlo mc;
+//  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+//  mc.add(MakeConfiguration({
+//    {"side_length0", "8"}, {"side_length1", "8"}, {"xy", "4"},
+//    {"particle_type0", "../forcefield/atom2d.fstprt"}}));
+//  mc.add(MakePotential(MakeIdealGas()));
+//  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "10000"}}));
+//  mc.set(MakeMetropolis());
+////  mc.add(MakeTrialTranslate({{"tunable_param", "1"}, {"weight", "10"}}));
+//  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+//  mc.run(MakeRun({{"until_num_particles", str(1e3)}}));
+////  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+////  mc.attempt(1e4);
+//  for (int part = 0; part < mc.configuration().num_particles(); ++part) {
+//    mc.get_system()->get_configuration()->wrap_particle(part);
+//  }
+//  FileXYZ().write_for_vmd("tmp/random_2d_triclinic.xyz", mc.configuration());
+//}
+
+TEST(MonteCarlo, gen_5_spce_in_triclinic) {
+  MonteCarlo mc;
+  mc.add(MakeConfiguration({
+    {"side_length0", "20"}, {"side_length1", "20"}, {"side_length2", "20"},
+    {"xy", "4"}, {"yz", "4"}, {"xz", "4"},
+    {"particle_type0", "../forcefield/spce.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "-1"}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "5"}}));
+  FileXYZ().write_for_vmd("tmp/spce_triclinic.xyz", mc.configuration());
 }
 
 }  // namespace feasst

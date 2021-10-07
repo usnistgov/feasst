@@ -15,6 +15,7 @@
 #include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
+#include "monte_carlo/include/run.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "monte_carlo/include/trial_select_dihedral.h"
@@ -49,7 +50,9 @@ TEST(MonteCarlo, chain) {
   mc.set(chain_system());
   mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
-  SeekNumParticles(1).with_trial_add().run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "1"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "20."}}));
   mc.add(MakeTrialPivot({
@@ -111,11 +114,12 @@ TEST(MonteCarlo, TrialGrow) {
     mc.set(lennard_jones({{"cubic_box_length", str(box_length)},
                           {"particle", data}}));
     mc.add_to_reference(MakePotential(MakeLennardJones()));
-    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
-    SeekNumParticles(3)
-      .with_thermo_params({{"beta", "1.2"}, {"chemical_potential", "1."}})
-      .with_trial_add().run(&mc);
+    mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+    mc.run(MakeRun({{"until_num_particles", "3"}}));
+    mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
     std::vector<argtype> grow_args = {
       {{"transfer", "true"},
        {"regrow", "true"},
@@ -170,8 +174,9 @@ MonteCarlo cg7mab2(const std::string& data, const int num, const int steps_per =
   }
   mc.set(MakeThermoParams({{"beta", "1."}, {"chemical_potential", "1"}}));
   mc.set(MakeMetropolis());
-  SeekNumParticles(num).with_trial_add().run(&mc);
-  //SeekNumParticles(10).with_trial_add().run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", str(num)}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   if (is_found_in(data, "fullangflex")) {
     mc.add(MakeTrialGrow({
       //{{"particle_type", "0"}, {"site", "0"}, {"weight", "4"}, {"regrow", "1"}},
@@ -276,7 +281,9 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
     {{"bond", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}},
     {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}},
     {{"num_steps", "1"}}));
-  SeekNumParticles(10).with_trial_add().run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "10"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string steps_per = feasst::str(1e5);
   mc.add(MakeEnergy());
   mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer2d"}, {"steps_per", steps_per}}));
@@ -316,15 +323,14 @@ TEST(MonteCarlo, multisite_neighbors) {
   mc.set(lennard_jones({{"particle", "forcefield/dimer.fstprt"},
                         {"cubic_box_length", "6"},
                         {"lrc", "false"}}));
-  SeekNumParticles(5)
-    .with_thermo_params({{"beta", "1"}, {"chemical_potential", "1"}})
-    .with_metropolis()
-    .with_trial_add()
-    .run(&mc);
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1"}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "5"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   auto neigh = MakeEnergyMapNeighbor();
   mc.set(0, MakePotential(MakeLennardJones(), MakeVisitModel(MakeVisitModelInner(neigh))));
   mc.add_to_reference(MakePotential(MakeLennardJones()));
-  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1"}}));
   mc.set(MakeMetropolis());
 //  mc.add(MakeTrialTranslate());
 //  mc.add(MakeTrialRotate({{"tunable_param", "50"}}));
@@ -332,10 +338,10 @@ TEST(MonteCarlo, multisite_neighbors) {
     {{"regrow", "true"}, {"particle_type", "0"}, {"site", "0"}},
     {{"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}}},
     {{"num_steps", "4"}, {"reference_index", "0"}}));
-//  mc.add(MakeTrialGrow({
-//    {{"regrow", "true"}, {"particle_type", "0"}, {"site", "1"}},
-//    {{"bond", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}}},
-//    {{"num_steps", "4"}}));
+  mc.add(MakeTrialGrow({
+    {{"regrow", "true"}, {"particle_type", "0"}, {"site", "1"}},
+    {{"bond", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}}},
+    {{"num_steps", "4"}, {"reference_index", "0"}}));
   mc.add(MakeLogAndMovie({{"steps_per", "100"}, {"file_name", "tmp/dimer"}}));
   for (int i = 0; i < 1e1; ++i) {
     mc.attempt(1);

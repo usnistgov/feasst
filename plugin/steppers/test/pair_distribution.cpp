@@ -10,7 +10,7 @@
 #include "steppers/include/seek_analyze.h"
 #include "steppers/include/seek_modify.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trials.h"
 
@@ -27,9 +27,9 @@ TEST(PairDistribution, gr_LONG) {
   mc.set(MakeThermoParams({{"beta", feasst::str(1./0.85)}, {"chemical_potential", "-6."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  //const int num = round(0.776*mc.configuration().domain().volume());
-  //const int num = 2;
-  SeekNumParticles(num).with_trial_add().run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", str(num)}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string steps_per = str(1e5);
   mc.attempt(1e6); // equilibrate
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj"}}));

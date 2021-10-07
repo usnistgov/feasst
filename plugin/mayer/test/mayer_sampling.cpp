@@ -200,7 +200,7 @@ TEST(MayerSampling, cg4_rigid_LONG) {
 //  mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/spce.xyz"}}));
 //  mc.add(MakeTune({{"steps_per", steps_per}}));
 //  mc.attempt(1e6);
-//  mc.perform(MakeRemoveModify({{"name", "Tune"}}));
+//  mc.run(MakeRemoveModify({{"name", "Tune"}}));
 //  mc.attempt(1e7);
 //  mayer = MakeMayerSampling();
 //  mc.set(mayer);

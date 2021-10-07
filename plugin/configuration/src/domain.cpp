@@ -137,7 +137,7 @@ Position Domain::random_position(Random * random) const {
 
 void Domain::random_position(Position * position, Random * random) const {
   DEBUG("side_lengths_ " << side_lengths_.str());
-  ASSERT(!is_tilted(), "implement triclinic");
+  //ASSERT(!is_tilted(), "implement triclinic");
   return random->position_in_cuboid(side_lengths_, position);
 }
 
@@ -256,13 +256,17 @@ void Domain::wrap_triclinic_opt(const Position& pos1,
     Position * rel,
     Position * pbc,
     double * r2) const {
+  //INFO("wrapping triclinc opt " << pos1.str() << " " << pos2.str());
   *r2 = 0;
   const std::vector<double>& side = side_lengths_.coord();
   std::vector<double>* dxv = (*rel).get_coord();
   std::vector<double>* dbc = (*pbc).get_coord();
+  (*dbc)[0] = 0.;
+  (*dbc)[1] = 0.;
   if (pos1.dimension() >= 3) {
     (*dxv)[2] = pos1.coord()[2] - pos2.coord()[2];
     if (periodic_[2]) {
+      (*dbc)[2] = 0.;
       const double side_length = side[2];
       const int num_wrap = std::rint((*dxv)[2]/side_length);
       (*dbc)[2] -= num_wrap*side_length;
@@ -290,6 +294,9 @@ void Domain::wrap_triclinic_opt(const Position& pos1,
     (*dxv)[0] += (*dbc)[0];
   }
   *r2 += (*dxv)[0]*(*dxv)[0] + (*dxv)[1]*(*dxv)[1];
+  //INFO("rel " << rel->str());
+  //INFO("pbc " << pbc->str());
+  //INFO("r2 " << *r2);
 }
 
 }  // namespace feasst

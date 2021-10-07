@@ -26,17 +26,17 @@ int main(int argc, char ** argv) {
   mc.add(feasst::MakeTrialTranslate(
     {{"tunable_param", "2."}, {"tunable_target_acceptance", "0.2"}}));
   mc.add(feasst::MakeTrialAdd({{"particle_type", "0"}}));
-  mc.perform(feasst::MakeRun({{"until_num_particles", "50"}}));
+  mc.run(feasst::MakeRun({{"until_num_particles", "50"}}));
 
   // nvt equilibration
-  mc.perform(feasst::MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(feasst::MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.set(feasst::MakeThermoParams({{"beta", args.get("--beta")}}));
   mc.add(feasst::MakeCheckEnergyAndTune(
    {{"steps_per", "1e5"}, {"tolerance", "1e-8"}}));
-  mc.perform(feasst::MakeRun({{"num_attempts", "1e5"}}));
+  mc.run(feasst::MakeRun({{"num_attempts", "1e5"}}));
 
   // nvt production
   mc.add(feasst::MakeLogAndMovie(
    {{"steps_per", "1e5"}, {"file_name", "lj"}}));
-  mc.perform(feasst::MakeRun({{"num_attempts", args.get("--trials")}}));
+  mc.run(feasst::MakeRun({{"num_attempts", args.get("--trials")}}));
 }

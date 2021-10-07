@@ -11,40 +11,54 @@ from itertools import repeat
 from multiprocessing import Pool
 import feasst as fst
 
-def nvtw(num_particles, num_procs, num_equil, num_prod, num_hours, dccb_begin, temperature, mu, steps_per):
+def nvtw(num_particles, num_procs, num_equil, num_prod, num_hours, dccb_begin, temperature, mu, steps_per, model):
     mc = fst.MakeMonteCarlo()
     #mc.set(fst.MakeRandomMT19937(fst.args({"seed": "1633373856"})))
     sys_args = dict()
-    num_steps = "1"
-    ref = "-1"
-    if num_particles >= dccb_begin:
-        sys_args["dual_cut"] = str(1)
-        ref = "0"
-        num_steps = "4"
-    #mc.set(fst.lennard_jones(fst.args(sys_args)))
-    config = fst.MakeConfiguration(fst.args({"cubic_box_length": "8", "particle_type0": fst.install_dir() + "/forcefield/atom.fstprt"}))
-    config.set_model_param("cutoff", 0, 1.5)
-    mc.add(config)
-    mc.add(fst.MakePotential(fst.MakeSquareWell()))
+#    num_steps = "1"
+#    ref = "-1"
+#    if num_particles >= dccb_begin:
+#        sys_args["dual_cut"] = str(1)
+#        ref = "0"
+#        num_steps = "4"
+    beta = 1./temperature
+    if model == "lj":
+        mc.set(fst.lennard_jones(fst.args(sys_args)))
+    elif model == "sqw":
+        config = fst.MakeConfiguration(fst.args({"cubic_box_length": "8", "particle_type0": fst.install_dir() + "/forcefield/atom.fstprt"}))
+        config.set_model_param("cutoff", 0, 1.5)
+        mc.add(config)
+        mc.add(fst.MakePotential(fst.MakeSquareWell()))
+    elif model == "spce":
+        mc.set(fst.spce())
+        beta = 1./fst.kelvin2kJpermol(temperature, mc.configuration())
+    else:
+        assert(False) # model not recognized
+    print('beta', beta)
 
-    mc.set(fst.MakeThermoParams(fst.args({"beta": str(1./temperature),
-                                          "chemical_potential": str(mu)})))
+    # fill box with larger temperature and mu
+    mc.set(fst.MakeThermoParams(fst.args({"beta": "0.01", "chemical_potential": "10"})))
     mc.set(fst.MakeMetropolis());
-    trial_args = {"particle_type": "0", "site": "0", "reference_index": ref, "num_steps": num_steps}
-    mc.add(fst.MakeTrialGrow(fst.ArgsVector([dict({"translate": "true", "tunable_param": "1"}, **trial_args)])))
+    #trial_args = {"particle_type": "0", "site": "0", "reference_index": ref, "num_steps": num_steps}
+    mc.add(fst.MakeTrialTranslate(fst.args({"tunable_param": "0.1"})))
+    #mc.add(fst.MakeTrialGrow(fst.ArgsVector([dict({"translate": "true", "tunable_param": "0.1"}, **trial_args)])))
     mc.add(fst.MakeTrialAdd(fst.args({"particle_type": "0", "weight": "4"})))
     mc.add(fst.MakeTune(fst.args({"steps_per": steps_per})))
     mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": steps_per, "tolerance": "0.0001"})))
     mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": steps_per,
-                                         "file_name": "lj" + str(num_particles)})))
+                                         "file_name": model + str(num_particles)})))
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(num_particles) + ".fst",
                                         "num_hours": str(0.1*num_procs*num_hours),
                                         "num_hours_terminate": str(0.9*num_procs*num_hours)})))
-    mc.perform(fst.MakeRun(fst.args({"until_num_particles": str(num_particles)})))
-    mc.perform(fst.MakeRemoveTrial(fst.args({"name": "TrialAdd"})))
+    mc.run(fst.MakeRun(fst.args({"until_num_particles": str(num_particles)})))
+    mc.run(fst.MakeRemoveTrial(fst.args({"name": "TrialAdd"})))
+    # nvt equilibration at desired temperature
+    mc.set(fst.MakeThermoParams(fst.args({"beta": str(beta),
+                                          "chemical_potential": str(mu)})))
     mc.attempt(int((num_particles+1)*num_equil))
-    mc.perform(fst.MakeRemoveModify(fst.args({"name": "Tune"})))
-    mc.add(fst.MakeTrialGrow(fst.ArgsVector([dict({"transfer": "true", "weight": "4"}, **trial_args)])))
+    mc.run(fst.MakeRemoveModify(fst.args({"name": "Tune"})))
+    mc.add(fst.MakeTrialTransfer(fst.args({"particle_type": "0", "weight": "4"})))
+    #mc.add(fst.MakeTrialGrow(fst.ArgsVector([dict({"transfer": "true", "weight": "4"}, **trial_args)])))
     mc.set(fst.MakeFlatHistogram(fst.args({
         "Macrostate": "MacrostateNumParticles", "width": "1", "max": str(num_particles), "min": str(num_particles),
         "Bias": "TransitionMatrix", "min_sweeps": "1"})))
@@ -54,12 +68,12 @@ def nvtw(num_particles, num_procs, num_equil, num_prod, num_hours, dccb_begin, t
                                             "file_name": "crit" + str(num_particles) + ".txt"})))
     mc.attempt(int((num_particles+1)*num_prod))
 
-def run_parallel(num_procs, num_equil, num_prod, num_hours, dccb_begin, max_particles, temperature, mu, steps_per):
+def run_parallel(num_procs, num_equil, num_prod, num_hours, dccb_begin, max_particles, temperature, mu, steps_per, model):
     #nums = [max_particles]
     #nvtw(nums[0], num_procs, num_equil, num_prod, num_hours, dccb_begin, temperature, mu, steps_per)
     nums = reversed(range(0, max_particles + 1))
     with Pool(num_procs) as pool:
-        pool.starmap(nvtw, zip(nums, repeat(num_procs), repeat(num_equil), repeat(num_prod), repeat(num_hours), repeat(dccb_begin), repeat(temperature), repeat(mu), repeat(steps_per)))
+        pool.starmap(nvtw, zip(nums, repeat(num_procs), repeat(num_equil), repeat(num_prod), repeat(num_hours), repeat(dccb_begin), repeat(temperature), repeat(mu), repeat(steps_per), repeat(model)))
 
 if __name__ == '__main__':
     print(fst.version())
@@ -72,7 +86,8 @@ if __name__ == '__main__':
     parser.add_argument("--max_particles", type=int, help="maximum number of particles", default=370)
     parser.add_argument("--temperature", type=float, help="temperature", default=1.5)
     parser.add_argument("--mu", type=float, help="chemical potential", default=-2.352321)
-    parser.add_argument("--steps_per", type=str, help="number of trials per analysis", default="1e4")
+    parser.add_argument("--steps_per", type=str, help="number of trials per analysis", default="1e5")
+    parser.add_argument("--model", type=str, help="lj, sqw or spce")
     args = parser.parse_args()
     print("args:", args)
     run_parallel(**vars(args))

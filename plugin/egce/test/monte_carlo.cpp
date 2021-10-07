@@ -1,13 +1,14 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
-#include "system/include/utils.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/long_range_corrections.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/dont_visit_model.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trials.h"
-#include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/criteria_updater.h"
@@ -46,28 +47,25 @@ MonteCarlo rpm_egce(const int min = 0,
   mc.set(rpm({
     {"cubic_box_length", "12"},
     {"cutoff", "4.891304347826090"},
-    {"alphaL", "6.87098396396261"},
+    {"kmax_squared", "38"},
+    {"alpha", str(6.87098396396261/12)},
     {"dual_cut", dual_cut}}));
   const double temperature = 0.047899460618081;
   const double beta_mu = -13.94;
   mc.set(MakeThermoParams({{"beta", str(1/temperature)},
     {"chemical_potential0", str(beta_mu*temperature)},
     {"chemical_potential1", str(beta_mu*temperature)}}));
+  if (min == 1) {
+    mc.get_system()->get_configuration()->add_particle_of_type(0);
+  } else if (min > 1) {
+    FATAL("not implemented for min > 1");
+  }
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
     MakeAEqualB({{"extra_A", "1"}}));
   mc.set(criteria);
-  if (min == 1) {
-    SeekNumParticles(min)
-      .with_thermo_params({{"beta", "0.01"}, {"chemical_potential", "1"}})
-      .with_metropolis()
-      .with_trial_add()
-      .run(&mc);
-  } else if (min > 1) {
-    FATAL("not implemented for min > 1");
-  }
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({{"steps_per", str(steps_per)},
                              {"file_name", "tmp/rpm_egce_crit.txt"}}));
@@ -148,7 +146,7 @@ TEST(MonteCarlo, rpm_egce_fh_LONG) {
 //      {"particle_type", "1"},
 //      {"reference_index", ref},
 //      {"num_steps", str(num_steps)}}));
-////    SeekNumParticles(100).with_metropolis(
+////    SeeeekNumParticles(100).with_metropolis(
 ////      MakeAEqualB({{"extra_A", "1"}}),
 ////      {{"beta", "0.01"}, {"chemical_potential0", "1"}, {"chemical_potential1", "1"}}).run(&mc);
 //    MonteCarlo mc2 = test_serialize(mc);
@@ -298,7 +296,7 @@ MonteCarlo dival_egce(
     {"cubic_box_length", "15"},
     {"cutoff", "7.5"},
     {"kmax_squared", "25"},
-    {"alphaL", "5"}}));
+    {"alpha", str(5./15)}}));
   if (min > 0) {
     ASSERT(min == 1, "unrecognized min: " << min);
     mc.get_system()->get_configuration()->add_particle_of_type(1);
@@ -608,7 +606,7 @@ double energy_av467(const int macro, const MonteCarlo& mc) {
 //TEST(MonteCarlo, lj_fh_trial_grow_LONG) {
 //  MonteCarlo mc;
 //  mc.set(MakeRandomMT19937({{"seed", "123"}}));
-//  mc.set(lennard_jones({{"dual_cut", "1"}}));
+//  mc.set(lennnnnard_jones({{"dual_cut", "1"}}));
 //  mc.get_system()->get_configuration()->add_particle_of_type(0);
 //  mc.set(MakeThermoParams({{"beta", str(1/1.5)}, {"chemical_potential", "-2.352321"}}));
 //  mc.set(MakeFlatHistogram(
@@ -645,10 +643,16 @@ double energy_av467(const int macro, const MonteCarlo& mc) {
 
 TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   MonteCarlo mc;
-  mc.set(lennard_jones({{"dual_cut", "1"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
+  mc.run(MakeAddReference({{"cutoff", "1"}, {"use_cell", "true"}}));
   mc.get_system()->get_configuration()->add_particle_of_type(0);
   mc.set(MakeThermoParams({{"beta", str(1/1.5)}, {"chemical_potential", "-2.352321"}}));
-  SeekNumParticles(100).with_metropolis().with_trial_add().run(&mc);
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "100"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.set(MakeFlatHistogram(
     MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"max", "105"}, {"min", "100"}})),
     MakeTransitionMatrix({{"min_sweeps", "1000"}})));

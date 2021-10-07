@@ -44,6 +44,6 @@ Action::Action(std::istream& istr) {
   ASSERT(6937 == version, "mismatch version: " << version);
 }
 
-void Action::perform(MonteCarlo * mc) { FATAL("not implemented"); }
+void Action::run(MonteCarlo * mc) { FATAL("not implemented"); }
 
 }  // namespace feasst

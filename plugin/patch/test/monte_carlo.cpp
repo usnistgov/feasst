@@ -33,8 +33,8 @@ TEST(MonteCarlo, patch_LONG) {
   mc.add(MakeTrialTranslate({{"tunable_param", "1"}}));
   mc.add(MakeTrialRotate({{"tunable_param", "40"}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
-  mc.perform(MakeRun({{"until_num_particles", "10"}}));
-  mc.perform(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRun({{"until_num_particles", "10"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string steps_per = "1e4";
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/patch_nvt"}}));
   mc.add(MakeMoviePatch({{"steps_per", steps_per}, {"file_name", "tmp/patch_nvt_vis.xyz"}}));

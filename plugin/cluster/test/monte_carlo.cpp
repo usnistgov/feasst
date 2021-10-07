@@ -8,7 +8,7 @@
 #include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/constrain_num_particles.h"
-#include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
@@ -51,7 +51,6 @@ TEST(MonteCarlo, cluster) {
     mc.set(MakeThermoParams({{"beta", "40"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
     if (single_particle_translate) mc.add(MakeTrialTranslate());
-    //SeekNumParticles(3).with_trial_add().run(&mc);
     mc.add(MakeNeighborCriteria({{"energy_maximum", "-0.5"}}));
     auto scluster = MakeSelectCluster({{"neighbor_index", "0"}});
     scluster->select_cluster(0, mc.system());
@@ -156,7 +155,9 @@ MonteCarlo mc_avb_test(
   }
   monte_carlo.set(MakeThermoParams({{"beta", "0.00001"}, {"chemical_potential", "50."}}));
   monte_carlo.set(MakeMetropolis());
-  SeekNumParticles(min_particles).with_trial_add().run(&monte_carlo);
+  monte_carlo.add(MakeTrialAdd({{"particle_type", "0"}}));
+  monte_carlo.run(MakeRun({{"until_num_particles", str(min_particles)}}));
+  monte_carlo.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   monte_carlo.set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
   monte_carlo.set(MakeMetropolis(
     MakeConstrainNumParticles({{"minimum", str(min_particles)}})));

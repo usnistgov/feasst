@@ -2,6 +2,7 @@
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "math/include/utils_math.h"
+#include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/monte_carlo.h"
 
@@ -41,7 +42,7 @@ void Run::serialize(std::ostream& ostr) const {
   feasst_serialize(until_num_particles_, ostr);
 }
 
-void Run::perform(MonteCarlo * mc) {
+void Run::run(MonteCarlo * mc) {
   while(num_attempts_ > 0) {
     mc->attempt(1);
     --num_attempts_;
@@ -91,7 +92,7 @@ void RemoveTrial::serialize(std::ostream& ostr) const {
   feasst_serialize(all_, ostr);
 }
 
-void RemoveTrial::perform(MonteCarlo * mc) {
+void RemoveTrial::run(MonteCarlo * mc) {
   if (!name_.empty()) {
     for (int trial = 0; trial < mc->trials().num(); ++trial) {
       if (mc->trial(trial).class_name() == name_) {
@@ -150,7 +151,7 @@ void RemoveModify::serialize(std::ostream& ostr) const {
   feasst_serialize(all_, ostr);
 }
 
-void RemoveModify::perform(MonteCarlo * mc) {
+void RemoveModify::run(MonteCarlo * mc) {
   DEBUG("name " << name_);
   if (!name_.empty()) {
     for (int modify = 0; modify < mc->num_modifiers(); ++modify) {
@@ -205,8 +206,66 @@ void WriteCheckpoint::serialize(std::ostream& ostr) const {
   feasst_serialize_version(5694, ostr);
 }
 
-void WriteCheckpoint::perform(MonteCarlo * mc) {
+void WriteCheckpoint::run(MonteCarlo * mc) {
   mc->write_checkpoint();
+}
+
+AddReference::AddReference(argtype * args) {
+  class_name_ = "AddReference";
+  potential_index_ = integer("potential_index", args, 0);
+  cutoff_ = dble("cutoff", args, -1);
+  use_cell_ = boolean("use_cell", args, false);
+}
+AddReference::AddReference(argtype args) : AddReference(&args) {
+  check_all_used(args);
+}
+
+class MapAddReference {
+ public:
+  MapAddReference() {
+    auto obj = MakeAddReference();
+    obj->deserialize_map()["AddReference"] = obj;
+  }
+};
+
+static MapAddReference mapper_AddReference = MapAddReference();
+
+AddReference::AddReference(std::istream& istr) : Action(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 8473, "mismatch version: " << version);
+  feasst_deserialize(&potential_index_, istr);
+  feasst_deserialize(&cutoff_, istr);
+  feasst_deserialize(&use_cell_, istr);
+}
+
+void AddReference::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_action_(ostr);
+  feasst_serialize_version(8473, ostr);
+  feasst_serialize(potential_index_, ostr);
+  feasst_serialize(cutoff_, ostr);
+  feasst_serialize(use_cell_, ostr);
+}
+
+void AddReference::run(MonteCarlo * mc) {
+  const Potential& pot = mc->system().potential(potential_index_);
+  std::stringstream ss;
+  pot.serialize(ss);
+  std::shared_ptr<Potential> ref = std::make_shared<Potential>(ss);
+  if (cutoff_ > 0) {
+    const Configuration& config = mc->configuration();
+    ref->set_model_params(config);
+    for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
+      ref->set_model_param("cutoff", site_type, cutoff_);
+    }
+    mc->add_to_reference(ref);
+    if (use_cell_) {
+      ref->set_visit_model_(MakeVisitModelCell({{"min_length",
+                                                 str(cutoff_)}}));
+    }
+  } else {
+    ASSERT(!use_cell_, "use_cell requires cutoff");
+  }
 }
 
 }  // namespace feasst

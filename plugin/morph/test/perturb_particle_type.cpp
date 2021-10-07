@@ -66,7 +66,7 @@ TEST(PerturbParticleType, serialize) {
 
 // likely unnecessary test, could delete this
 TEST(PerturbParticleType, ewald) {
-  System sys = rpm();
+  System sys = rpm({{"alpha", str(5.6/12)}, {"kmax_squared", "38"}});
   sys.get_configuration()->add_particle_of_type(0);
   sys.get_configuration()->add_particle_of_type(1);
   sys.get_configuration()->update_positions({{0, 0, 0}, {1, 1, 1}});

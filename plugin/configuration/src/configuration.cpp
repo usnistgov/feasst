@@ -22,10 +22,8 @@ Configuration::Configuration(argtype * args) {
   add(MakeGroup());  // add empty group which represents all particles
 
   DEBUG("parse physical constants");
-  if (used("physical_constants", *args)) {
-    std::stringstream ss(str("physical_constants", args));
-    set_physical_constants(MakeCODATA2014()->deserialize(ss));
-  }
+  std::stringstream ss(str("physical_constants", args, "CODATA2018"));
+  set_physical_constants(MakeCODATA2014()->deserialize(ss));
 
   std::string start;
   DEBUG("parse types");
@@ -54,6 +52,11 @@ Configuration::Configuration(argtype * args) {
     for (int i = 0; i < num; ++i) {
       add_particle_of_type(type);
     }
+  }
+
+  const std::string xyz_file = str("xyz_file", args, "");
+  if (!xyz_file.empty()) {
+    FileXYZ().load(xyz_file, this);
   }
 
   if (boolean("set_cutoff_min_to_sigma", args, false)) {

@@ -21,7 +21,7 @@ def mc(thread, mn, mx):
     mc = fst.MakeMonteCarlo()
     #mc.set(fst.MakeRandomMT19937(fst.args({"seed": "123"})))
     spce_args = {"physical_constants": "CODATA2010", "cubic_box_length": str(args.cubic_box_length),
-        "alphaL": "5.6", "kmax_squared": "38", "particle_type": args.molecule}
+        "alpha": str(5.6/args.cubic_box_length), "kmax_squared": "38", "particle_type": args.molecule}
     if mx > args.dccb_begin:
         spce_args["dual_cut"] = "3.16555789"
     mc.set(fst.spce(fst.args(spce_args)))

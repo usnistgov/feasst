@@ -19,7 +19,7 @@ class Action {
  public:
   explicit Action(argtype args = argtype());
   explicit Action(argtype * args);
-  virtual void perform(MonteCarlo * mc);
+  virtual void run(MonteCarlo * mc);
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Action> create(std::istream& istr) const;

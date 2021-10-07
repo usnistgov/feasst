@@ -19,6 +19,12 @@ TEST(FileXYZ, load_spce) {
   Configuration config = spce_sample1();
   config.check();
   EXPECT_NEAR(8000, config.domain().volume(), NEAR_ZERO);
+
+  TRY(
+    Configuration conf;
+    FileXYZ().load("nofile", &conf);
+    CATCH_PHRASE("is empty");
+  );
 }
 
 }  // namespace feasst

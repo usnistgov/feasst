@@ -3,7 +3,7 @@
 #include "configuration/include/domain.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/utils.h"
-#include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trials.h"
 #include "prefetch/include/prefetch.h"
@@ -39,7 +39,9 @@ void run_prefetch(const int trials, const int steps_per) {
   mc->add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj"}}));
   mc->add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
   mc->activate_prefetch(false);
-  SeekNumParticles(50).with_trial_add().run(mc.get());
+  mc->add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc->run(MakeRun({{"until_num_particles", "50"}}));
+  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   // activate prefetch after initial configuration
   mc->activate_prefetch(true);
   mc->attempt(trials);
@@ -78,12 +80,6 @@ TEST(Prefetch, MUVT) {
       Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}})),
     MakeTransitionMatrix({{"min_sweeps", "10"}, {"num_blocks", "0"}})));
   mc->add(MakeCriteriaUpdater({{"steps_per", str(1e1)}}));
-
-//  // initialize ghosts the same
-//  mc->seek_num_particles(100);
-//  mc->get_system()->get_configuration()->remove_particles(
-//    mc->configuration().selection_of_all());
-
   mc->activate_prefetch(true);
   mc->attempt(1);
   std::vector<std::shared_ptr<FlatHistogram> > fhs(mc->pool().size());
@@ -113,7 +109,7 @@ TEST(Prefetch, NVT_spce) {
   auto mc = MakePrefetch({{"synchronize", "true"}});
   //auto mc = MakePrefetch({{"synchronize", "false"}});
   // mc->set(MakeRandomMT19937({{"seed", "123"}}));
-  mc->set(spce({{"table_size", str(1e3)}}));
+  mc->set(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"table_size", str(1e3)}}));
   const int steps_per = 1e2;
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());
@@ -125,7 +121,9 @@ TEST(Prefetch, NVT_spce) {
   mc->add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
   // mc->set(MakeRandomMT19937({{"seed", "default"}}));
   mc->activate_prefetch(false);
-  SeekNumParticles(50).with_trial_add().run(mc.get());
+  mc->add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc->run(MakeRun({{"until_num_particles", "50"}}));
+  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   // activate prefetch after initial configuration
   mc->activate_prefetch(true);
   // mc->attempt(1e6);  // ~3.5 seconds (now 4.1)
@@ -145,7 +143,11 @@ TEST(Prefetch, AVB) {
   //monte_carlo->add(MakePotential(MakeLennardJones()));
   monte_carlo->set(MakeThermoParams({{"beta", "0.00001"}, {"chemical_potential", "50."}}));
   monte_carlo->set(MakeMetropolis());
-  SeekNumParticles(50).with_trial_add().run(monte_carlo.get());
+  monte_carlo->activate_prefetch(false);
+  monte_carlo->add(MakeTrialAdd({{"particle_type", "0"}}));
+  monte_carlo->run(MakeRun({{"until_num_particles", "50"}}));
+  monte_carlo->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  monte_carlo->activate_prefetch(true);
   monte_carlo->set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
   monte_carlo->add(MakeNeighborCriteria({{"maximum_distance", "3"},
                                          {"minimum_distance", "1"}}));

@@ -347,6 +347,7 @@ using namespace std;
 %shared_ptr(feasst::RemoveTrial);
 %shared_ptr(feasst::RemoveModify);
 %shared_ptr(feasst::WriteCheckpoint);
+%shared_ptr(feasst::AddReference);
 %shared_ptr(feasst::ThermoParams);
 %shared_ptr(feasst::PhysicalConstants);
 %shared_ptr(feasst::CODATA2018);

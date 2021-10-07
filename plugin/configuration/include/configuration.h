@@ -54,17 +54,18 @@ class Configuration {
 
   /**
     args:
+    - Domain arguments may be parsed here.
     - particle_type[i]: add the i-th type of particle.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       If only one particle type, the "[i]" is optional.
     - add_particles_of_type[i]: add this many of i-th type particles.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - xyz_file: optionally load xyz file if not empty (default: empty).
     - wrap: wrap particle centers within domain (default: true).
     - physical_constants: optional class_name of PhysicalConstants.
     - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
       (default: false). This is typically used for HardSphere models that
       didn't specify cutoff.
-    - Domain arguments may also be parsed here.
    */
   explicit Configuration(argtype args = argtype());
   explicit Configuration(argtype * args);

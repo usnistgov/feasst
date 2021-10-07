@@ -38,13 +38,13 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
   mc.set(spce({
     {"physical_constants", "CODATA2010"},
     {"cubic_box_length", "24.8586887"},
-    {"alphaL", "5.6"},
+    {"alpha", str(5.6/24.8586887)},
     {"kmax_squared", "38"},
     {"xyz_file", install_dir() + "/plugin/charge/test/data/spce_sample_config_hummer_eq.xyz"}}));
   mc.set(MakeThermoParams({{"beta", str(1/kelvin2kJpermol(298, mc.configuration()))}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
-  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
   // without erfc table EXPECT_NEAR(mc.criteria().current_energy(), -24027.470339718111, 1e-10);
   EXPECT_NEAR(mc.criteria().current_energy(), -24027.470338455631, 1e-10);
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_nvt"}}));
@@ -72,7 +72,7 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
 TEST(MonteCarlo, spce_gce_LONG) {
   const int steps_per = 1e2;
   MonteCarlo mc;
-  mc.set(spce({{"cubic_box_length", str(24.8586887)}}));
+  mc.set(spce({{"alpha", str(5.6/24.8586887)}, {"kmax_squared", "38"}, {"cubic_box_length", str(24.8586887)}}));
   { const double sigma = mc.configuration().model_params().sigma().value(0);
     INFO("sigma " << sigma);
     mc.add_to_reference(MakePotential(
@@ -86,7 +86,7 @@ TEST(MonteCarlo, spce_gce_LONG) {
     {"chemical_potential", str(-8.14/beta)}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
-  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
   mc.add(MakeTrialTransfer({
     {"weight", "1."},
     {"particle_type", "0"},
@@ -108,8 +108,7 @@ TEST(MonteCarlo, spce_gce_LONG) {
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.set(spce());
-  //mc.set(spce());
+  mc.set(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}}));
   mc.get_system()->add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
   const double beta = 1/kelvin2kJpermol(525);
   mc.set(MakeThermoParams({
@@ -117,7 +116,7 @@ TEST(MonteCarlo, spce) {
     {"chemical_potential", str(-8.14/beta)}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
-  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(5e2)}, {"file_name", "tmp/spce"}}));
   //mc.add(MakeCheckEnergyAndTune({{"steps_per", "1"}, {"tolerance", str(1e-6)}}));
@@ -129,15 +128,14 @@ TEST(MonteCarlo, spce) {
 TEST(MonteCarlo, spce_NVT_BENCHMARK_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.set(spce());
-  //mc.set(spce({{"kmax_squared", "2"}}));
+  mc.set(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}}));
   const double beta = 1/kelvin2kJpermol(525);
   mc.set(MakeThermoParams({
     {"beta", str(beta)},
     {"chemical_potential", str(-8.14/beta)}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
-  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/spce"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-6)}}));
@@ -148,7 +146,7 @@ TEST(MonteCarlo, rpm) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}})); WARN("temporary");
-  mc.set(rpm({{"cubic_box_length", "20"}}));
+  mc.set(rpm({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"cubic_box_length", "20"}}));
   //mc.set(rpm({{"cubic_box_length", "20"}, {"kmax_squared", "3"}})); WARN("temp");
   { Configuration * config = mc.get_system()->get_configuration();
     config->add_particle_of_type(0);

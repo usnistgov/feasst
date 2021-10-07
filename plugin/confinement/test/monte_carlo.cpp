@@ -20,7 +20,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
@@ -40,7 +40,7 @@ namespace feasst {
 TEST(MonteCarlo, ShapeUnion) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_box_length", "8"},
-    {"particle_type", "../forcefield/lj.fstprt"}}));
+    {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeShapeUnion(
     MakeSphere(
@@ -50,7 +50,9 @@ TEST(MonteCarlo, ShapeUnion) {
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
-  SeekNumParticles(10).with_trial_add().run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "10"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const int steps_per = 1e0;
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
                           {"file_name", "tmp/confine"}}));
@@ -86,7 +88,9 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
   mc.set(MakeThermoParams({{"beta", "1.5"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
-  SeekNumParticles(500).with_trial_add().run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "500"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const int steps_per = 1e3;
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
                           {"file_name", "tmp/confine"}}));
@@ -134,7 +138,7 @@ TEST(MonteCarlo, ShapeTable_LONG) {
 //  //mc.add(MakePotential(MakeModelTableCart3DIntegr(table)));
 //  mc.set(MakeMetropolis({{"beta", "1.5"}, {"chemical_potential", "1."}}));
 //  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.1"}}));
-//  SeekNumParticles(500).with_trial_add().run(&mc);
+//  SeeeekNumParticles(500).with_trial_add().run(&mc);
 //  const int steps_per = 1e4;
 //  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
 //                          {"file_name", "tmp/confine"}}));
@@ -150,7 +154,7 @@ TEST(MonteCarlo, SineSlab) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({{"cubic_box_length", "16"},
-    {"particle_type", "../forcefield/lj.fstprt"}}));
+    {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeSlabSine(
     MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),
@@ -159,7 +163,9 @@ TEST(MonteCarlo, SineSlab) {
   mc.set(MakeThermoParams({{"beta", "0.1"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
-  SeekNumParticles(500).with_trial_add().run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "500"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const int steps_per = 1e2;
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
                           {"file_name", "tmp/sine"}}));
@@ -270,7 +276,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
 //  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
 //  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/slabtab"}}));
 //  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-//  SeekNumParticles(15).with_trial_add().run(&mc);
+//  SeeeekNumParticles(15).with_trial_add().run(&mc);
 //  mc.attempt(1e6);
 //}
 
@@ -347,8 +353,12 @@ TEST(DensityProfile, ig_hard_slab) {
     {"chemical_potential1", "1"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"tunable_param", "3"}}));
-  SeekNumParticles(10, {{"particle_type", "0"}}).with_trial_add({{"particle_type", "0"}}).run(&mc);
-  SeekNumParticles(10, {{"particle_type", "1"}}).with_trial_add({{"particle_type", "1"}}).run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "10"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.add(MakeTrialAdd({{"particle_type", "1"}}));
+  mc.run(MakeRun({{"until_num_particles", "20"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.add(MakeLogAndMovie({{"steps_per", "100"}, {"file_name", "tmp/prof_traj"}}));
   EXPECT_EQ(mc.configuration().num_particles(), 20);
   auto profile = MakeDensityProfile({{"steps_per_update", "100"},

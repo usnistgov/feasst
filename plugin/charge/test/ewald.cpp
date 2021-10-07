@@ -63,6 +63,7 @@ TEST(Ewald, system) {
   const double en_lrc = -6.84874714555147;
   {
     System system = spce({{"physical_constants", "CODATA2010"},
+      {"alpha", str(5.6/20)},
       {"kmax_squared", "27"},
       {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
     system.add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
@@ -76,6 +77,7 @@ TEST(Ewald, system) {
   }
   {
     System system = spce({{"physical_constants", "CODATA2018"},
+      {"alpha", str(5.6/20)},
       {"kmax_squared", "27"},
       {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
     system.add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
@@ -92,6 +94,7 @@ TEST(Ewald, system) {
 
 TEST(Ewald, revert) {
   System system = spce({{"physical_constants", "CODATA2018"},
+    {"alpha", str(5.6/20)},
     {"kmax_squared", "27"},
     {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
   const double en = -4062.4726238355574;
@@ -107,7 +110,7 @@ TEST(Ewald, revert) {
 }
 
 TEST(Ewald, change_volume) {
-  System system = spce();
+  System system = spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}});
   try {
     system.change_volume(1);
     CATCH_PHRASE("not implemented");
@@ -115,7 +118,7 @@ TEST(Ewald, change_volume) {
 }
 
 TEST(Ewald, synchronize) {
-  System s1 = spce({{"table_size", str(1e3)}});
+  System s1 = spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"table_size", str(1e3)}});
   s1.get_configuration()->add_particle_of_type(0);
   s1.precompute();
   s1.energy();
@@ -144,6 +147,33 @@ TEST(Ewald, synchronize) {
   EXPECT_NEAR(s2.configuration().particle(0).site(0).position().coord(0), 0.5, NEAR_ZERO);
   EXPECT_NEAR(s1.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 0.95105651629515364, NEAR_ZERO);
   EXPECT_NEAR(s2.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 0.95105651629515364, NEAR_ZERO);
+}
+
+TEST(Ewald, triclinic) {
+  System system = spce({
+    //{"xyz_file", "../plugin/charge/test/data/5spce_tilted.xyz"},
+    {"xyz_file", "../plugin/charge/test/data/5spce.xyz"},
+    {"tolerance", "0.0001"},
+  });
+  system.energy();
+  std::stringstream ss;
+  system.potential(0).visit_model().serialize(ss);
+  Ewald ewald(ss);
+  INFO("alpha " << system.configuration().model_params().property("alpha"));
+  INFO("num_vectors " << ewald.num_vectors());
+  INFO("num_kx " << ewald.num_kx());
+  INFO("num_ky " << ewald.num_ky());
+  INFO("num_kz " << ewald.num_kz());
+  INFO("kxmax " << ewald.kxmax());
+  INFO("kymax " << ewald.kymax());
+  INFO("kzmax " << ewald.kzmax());
+  INFO("kmax_squared " << ewald.kmax_squared());
+  INFO(system.configuration().num_particles());
+  INFO(system.stored_energy());
+  for (const std::shared_ptr<Potential> pot : system.potentials().potentials()) {
+    INFO(pot->visit_model().class_name() << ":" << pot->model().class_name() <<
+      " = " << pot->stored_energy());
+  }
 }
 
 }  // namespace feasst

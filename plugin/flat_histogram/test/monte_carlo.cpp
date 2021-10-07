@@ -9,7 +9,6 @@
 #include "system/include/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/trials.h"
 #include "steppers/include/energy.h"
@@ -138,7 +137,9 @@ MonteCarlo test_lj_fh(const int num_steps,
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  SeekNumParticles(min).with_trial_add().run(&mc);
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", str(min)}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   argtype transfer_args =
     { {"particle_type0", "0"},
       {"reference_index", str(ref)},
@@ -350,7 +351,7 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
   MonteCarlo mc;
   argtype spce_args = {{"physical_constants", "CODATA2010"},
                        {"cubic_box_length", "20"},
-                       {"alphaL", "5.6"},
+                       {"alpha", str(5.6/20)},
                        {"kmax_squared", "38"}};
   int ref = -1;
   if (num_steps > 1) {
@@ -360,21 +361,24 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
   }
   mc.set(spce(spce_args));
   const double beta = 1/kelvin2kJpermol(525, mc.configuration()); // mol/kJ
-  mc.set(MakeThermoParams({{"beta", str(beta)},
-     {"chemical_potential", str(-8.14/beta)}}));
-  auto criteria = MakeFlatHistogram(
-    MakeMacrostateNumParticles(
-      Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
-    bias);
-  mc.set(criteria);
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1"}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
-  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", str(min)}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.set(MakeThermoParams({{"beta", str(beta)}, {"chemical_potential", str(-8.14/beta)}}));
   mc.add(MakeTrialTransfer({
     {"particle_type", "0"},
     {"weight", "4"},
     {"reference_index", str(ref)},
     {"num_steps", str(num_steps)}}));
-  SeekNumParticles(min).with_thermo_params({{"beta", "1"}, {"chemical_potential", "1"}}).with_metropolis().run(&mc);
+  auto criteria = MakeFlatHistogram(
+    MakeMacrostateNumParticles(
+      Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
+    bias);
+  mc.set(criteria);
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
@@ -459,7 +463,7 @@ TEST(MonteCarlo, spce_fh_VERY_LONG) {
     EXPECT_NEAR(en[2]->accumulator().average(), -2.32656326, 0.2);
     EXPECT_NEAR(en[3]->accumulator().average(), -6.80645068, 0.5);
     EXPECT_NEAR(en[4]->accumulator().average(), -13.49913788, 1.);
-    EXPECT_NEAR(en[5]->accumulator().average(), -22.27407753, 2.0);
+    EXPECT_NEAR(en[5]->accumulator().average(), -22.27407753, 2.25);
   }
 }
 
@@ -507,7 +511,8 @@ MonteCarlo rpm_fh_test(
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   argtype rpm_args = {{"cubic_box_length", "12"},
     {"cutoff", "4.891304347826090"},
-    {"alphaL", "6.87098396396261"}};
+    {"kmax_squared", "38"},
+    {"alpha", str(6.87098396396261/12)}};
   int ref = -1;
   if (num_steps > 1) {
     rpm_args.insert({"dual_cut", "1"});
@@ -587,7 +592,7 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
     {"cubic_box_length", "15"},
     {"cutoff", "7.5"},
     {"kmax_squared", "25"},
-    {"alphaL", "5"}}));
+    {"alpha", str(5./15)}}));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
 //  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
 //                                               MakeChargeScreened()}),
@@ -679,10 +684,10 @@ MonteCarlo nvtw(const int num) {
   mc.add(MakeTune({{"steps_per", steps_per}}));
   mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj_fh"}}));
-  mc.perform(MakeRun({{"until_num_particles", str(num)}}));
-  mc.perform(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRun({{"until_num_particles", str(num)}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.attempt((num+1)*num_equil);
-  mc.perform(MakeRemoveModify({{"name", "Tune"}}));
+  mc.run(MakeRemoveModify({{"name", "Tune"}}));
 //  mc.add(MakeTrialGrow({{{"transfer", "true"}, {"particle_type", "0"}, {"weight", "4"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
   mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
   mc.set(MakeFlatHistogram(

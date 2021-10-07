@@ -8,31 +8,31 @@
 
 namespace feasst {
 
-Ewald::Ewald(argtype args) {
+Ewald::Ewald(argtype args) : Ewald(&args) { check_all_used(args); }
+Ewald::Ewald(argtype * args) {
   class_name_ = "Ewald";
-  if (used("tolerance", args)) {
-    tolerance_ = std::make_shared<double>(dble("tolerance", &args));
+  if (used("tolerance", *args)) {
+    tolerance_ = std::make_shared<double>(dble("tolerance", args));
   }
-  if (used("tolerance_num_sites", args)) {
-    tolerance_num_sites_ = std::make_shared<int>(integer("tolerance_num_sites", &args));
+  if (used("tolerance_num_sites", *args)) {
+    tolerance_num_sites_ = std::make_shared<int>(integer("tolerance_num_sites", args));
   }
-  if (used("alpha", args)) {
-    alpha_arg_ = std::make_shared<double>(dble("alpha", &args));
+  if (used("alpha", *args)) {
+    alpha_arg_ = std::make_shared<double>(dble("alpha", args));
   }
-  if (used("kxmax", args)) {
-    kxmax_arg_ = std::make_shared<int>(integer("kxmax", &args));
+  if (used("kxmax", *args)) {
+    kxmax_arg_ = std::make_shared<int>(integer("kxmax", args));
   }
-  if (used("kymax", args)) {
-    kymax_arg_ = std::make_shared<int>(integer("kymax", &args));
+  if (used("kymax", *args)) {
+    kymax_arg_ = std::make_shared<int>(integer("kymax", args));
   }
-  if (used("kzmax", args)) {
-    kzmax_arg_ = std::make_shared<int>(integer("kzmax", &args));
+  if (used("kzmax", *args)) {
+    kzmax_arg_ = std::make_shared<int>(integer("kzmax", args));
   }
-  if (used("kmax_squared", args)) {
-    kmax_sq_arg_ = std::make_shared<int>(integer("kmax_squared", &args));
+  if (used("kmax_squared", *args)) {
+    kmax_sq_arg_ = std::make_shared<int>(integer("kmax_squared", args));
   }
   data_.get_dble_1D()->resize(1);
-  check_all_used(args);
 }
 
 void Ewald::tolerance_to_alpha_ks(const double tolerance,
@@ -83,8 +83,8 @@ void Ewald::update_wave_vectors(const Configuration& config) {
                      2.*PI*ky/ly,
                      2.*PI*kz/lz});
     const double k_sq = kvec.squared_distance();
-    if ( (k_sq < kmax_squared_) and (std::abs(k_sq) > NEAR_ZERO) ) { // allen tildesley, srsw
-    // if ( (k2 <= kmax_squared_) and (std::abs(k_sq) > NEAR_ZERO) ) {  // gerhard
+    if ( (k_sq < kmax_squared_) && (std::abs(k_sq) > NEAR_ZERO) ) { // allen tildesley, srsw
+    //if ( (k_sq <= kmax_squared_) && (std::abs(k_sq) > NEAR_ZERO) ) { // gerhard
       double factor = 1.;
       if (kx != 0) factor = 2;
       wave_prefactor_.push_back(2.*PI*factor*exp(-k_sq/4./alpha/alpha)/k_sq/volume);
@@ -167,12 +167,14 @@ void Ewald::precompute(Configuration * config) {
     DEBUG("2pi/lx " << 2*PI/config->domain().side_length(0));
     kmax_squared_ = std::max(gsqxmx, gsqymx);
     kmax_squared_ = std::max(kmax_squared_, gsqzmx);
-    DEBUG("kmax_squared_ " << kmax_squared_);
+    //kmax_squared_ *= 1.00001;
   }
   num_kx_ = kxmax_ + 1;
   num_ky_ = 2*kymax_ + 1;
   num_kz_ = 2*kzmax_ + 1;
   update_wave_vectors(*config);
+  INFO("alpha: " << config->model_params().property("alpha"));
+  INFO("kmax_squared " << kmax_squared_);
 }
 
 void Ewald::resize_eik_(const Configuration& config) {

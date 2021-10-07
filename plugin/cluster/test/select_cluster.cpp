@@ -84,15 +84,15 @@ TEST(SelectCluster, serialize) {
       EXPECT_NEAR(en_lj(1.25), sys.perturbed_energy(add.mobile()), NEAR_ZERO);
     }
 
-    auto rotate = MakePerturbRotateCOM({{"tunable_param", "50"}});
+    auto rotate = MakePerturbRotateCOM({{"tunable_param", "0.2"}});
     rotate->perturb(&sys, &add, ran.get());
     if (add.mobile().num_particles() == 1) {
       DEBUG(sys.configuration().particle(2).site(0).position().str());
-      EXPECT_NEAR(0, sys.perturbed_energy(add.mobile()), NEAR_ZERO);
+      EXPECT_DOUBLE_EQ(0, sys.perturbed_energy(add.mobile()));
     } else {
       DEBUG(sys.configuration().particle(0).site(0).position().str());
       DEBUG(sys.configuration().particle(1).site(0).position().str());
-      EXPECT_NEAR(en_lj(1.25), sys.perturbed_energy(add.mobile()), NEAR_ZERO);
+      EXPECT_NEAR(en_lj(1.25), sys.perturbed_energy(add.mobile()), 1e-10);
     }
   }
 }

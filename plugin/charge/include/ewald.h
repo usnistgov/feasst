@@ -39,7 +39,8 @@ class Ewald : public VisitModel {
     - kmax_squared: optionally set the squared maximum integer wave vector for
       cubic domains only, which also sets kxmax, etc.
    */
-  Ewald(argtype args = argtype());
+  explicit Ewald(argtype args = argtype());
+  explicit Ewald(argtype * args);
 
   /**
     Recommend an alpha parameter for Ewald as described and implemented in LAMMPS
@@ -134,6 +135,7 @@ class Ewald : public VisitModel {
   int kxmax() const { return kxmax_; }
   int kymax() const { return kymax_; }
   int kzmax() const { return kzmax_; }
+  double kmax_squared() const { return kmax_squared_; }
   void check_size() const;
   const std::vector<double>& struct_fact_real() const {
     return data_.dble_2D()[0]; }

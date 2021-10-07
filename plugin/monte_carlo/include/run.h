@@ -21,7 +21,7 @@ class Run : public Action {
    */
   explicit Run(argtype args = argtype());
   explicit Run(argtype * args);
-  void perform(MonteCarlo * mc) override;
+  void run(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<Run>(istr); }
   std::shared_ptr<Action> create(argtype * args) const override {
@@ -54,7 +54,7 @@ class RemoveTrial : public Action {
    */
   explicit RemoveTrial(argtype args = argtype());
   explicit RemoveTrial(argtype * args);
-  void perform(MonteCarlo * mc) override;
+  void run(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<RemoveTrial>(istr); }
   std::shared_ptr<Action> create(argtype * args) const override {
@@ -88,7 +88,7 @@ class RemoveModify : public Action {
    */
   explicit RemoveModify(argtype args = argtype());
   explicit RemoveModify(argtype * args);
-  void perform(MonteCarlo * mc) override;
+  void run(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<RemoveModify>(istr); }
   std::shared_ptr<Action> create(argtype * args) const override {
@@ -117,7 +117,7 @@ class WriteCheckpoint : public Action {
    */
   explicit WriteCheckpoint(argtype args = argtype());
   explicit WriteCheckpoint(argtype * args);
-  void perform(MonteCarlo * mc) override;
+  void run(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<WriteCheckpoint>(istr); }
   std::shared_ptr<Action> create(argtype * args) const override {
@@ -129,6 +129,40 @@ class WriteCheckpoint : public Action {
 
 inline std::shared_ptr<WriteCheckpoint> MakeWriteCheckpoint(argtype args = argtype()) {
   return std::make_shared<WriteCheckpoint>(args);
+}
+
+/**
+  Make a new reference potential based on an existing potential.
+ */
+class AddReference : public Action {
+ public:
+  /**
+    args:
+    - potential_index: index of the full potential to copy as a template
+      (default: 0).
+    - cutoff: set cutoff of all site_types to this value.
+      Ignore if -1 (default: -1).
+    - use_cell: use VisitModelCell with cutoff as min_length (default: false).
+   */
+  explicit AddReference(argtype args = argtype());
+  explicit AddReference(argtype * args);
+  void run(MonteCarlo * mc) override;
+  std::shared_ptr<Action> create(std::istream& istr) const override {
+    return std::make_shared<AddReference>(istr); }
+  std::shared_ptr<Action> create(argtype * args) const override {
+    return std::make_shared<AddReference>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit AddReference(std::istream& istr);
+  virtual ~AddReference() {}
+
+ private:
+  int potential_index_;
+  double cutoff_;
+  bool use_cell_;
+};
+
+inline std::shared_ptr<AddReference> MakeAddReference(argtype args = argtype()) {
+  return std::make_shared<AddReference>(args);
 }
 
 }  // namespace feasst

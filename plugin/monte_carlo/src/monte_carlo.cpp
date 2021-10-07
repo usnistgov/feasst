@@ -110,7 +110,7 @@ void MonteCarlo::parse_(arglist * args) {
     parse(dynamic_cast<Action*>(std::make_shared<Action>().get()), args);
   if (act) {
     DEBUG("parsing Action");
-    perform(act);
+    run(act);
     return;
   }
 
@@ -130,10 +130,10 @@ MonteCarlo::MonteCarlo(arglist args) : MonteCarlo() {
   }
 }
 
-void MonteCarlo::perform(std::shared_ptr<Action> action) {
+void MonteCarlo::run(std::shared_ptr<Action> action) {
   action_ = action;
-  action_->perform(this);
-//  action_->perform(&system_, criteria_, &trial_factory_, &analyze_factory_,
+  action_->run(this);
+//  action_->run(&system_, criteria_, &trial_factory_, &analyze_factory_,
 //               &modify_factory_, checkpoint_, random_);
 }
 

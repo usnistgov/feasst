@@ -4,8 +4,9 @@
 #include "system/include/potential.h"
 #include "system/include/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "monte_carlo/include/trials.h"
+#include "monte_carlo/include/metropolis.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
@@ -27,10 +28,13 @@ TEST(MonteCarlo, beta_expanded) {
   const double beta_max = 1.2;
   const int beta_num = 5;
   const std::string delta_beta = str((beta_max - beta_min)/(beta_num-1));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialTranslate({{"weight", "1."},{"tunable_param", "1."}}));
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "10"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.set(MakeFlatHistogram({{"Macrostate", "MacrostateBeta"}, {"width", delta_beta}, {"max", str(beta_max)}, {"min", str(beta_min)},
     {"Bias", "WLTM"}, {"collect_flatness", "18"}, {"min_flatness", "22"}, {"min_sweeps", "10"}}));
-  mc.add(MakeTrialTranslate({{"weight", "1."},{"tunable_param", "1."}}));
-  SeekNumParticles(10).with_trial_add().with_metropolis().run(&mc);
   mc.add(MakeTrialBeta({{"fixed_beta_change", delta_beta}}));
   const std::string steps_per(str(1e4));
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj_beta"}}));

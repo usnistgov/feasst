@@ -68,12 +68,33 @@ TEST(Domain, wrap) {
   EXPECT_NEAR(-6, shift.coord(1), NEAR_ZERO);
   EXPECT_NEAR(-5, shift.coord(2), NEAR_ZERO);
 
+  // try a negative position
+  pos.set_vector({-5, -5, -5});
+  shift = domain->shift(pos);
+  EXPECT_TRUE(domain->is_tilted());
+  EXPECT_NEAR(7, shift.coord(0), NEAR_ZERO);
+  EXPECT_NEAR(6, shift.coord(1), NEAR_ZERO);
+  EXPECT_NEAR(5, shift.coord(2), NEAR_ZERO);
+
   // serialize
   Domain domain2 = test_serialize(*domain);
   EXPECT_EQ(domain->volume(), domain2.volume());
   EXPECT_EQ(domain->yz(), domain2.yz());
   EXPECT_EQ(1., domain2.yz());
   EXPECT_EQ(domain->periodic(2), domain2.periodic(2));
+
+  // try a 2d position
+  domain = MakeDomain({
+    {"side_length0", "8"}, {"side_length1", "8"}, {"xy", "1"}});
+  pos.set_vector({-2.4047377863009207,-3.7795889301349841});
+  shift = domain->shift(pos);
+  EXPECT_TRUE(domain->is_tilted());
+  //INFO(shift.str());
+  //INFO("pos " << pos.str());
+  const Position shift_opt = domain->shift_opt(pos);
+  //INFO("shift " << shift_opt.str());
+  EXPECT_NEAR(0, shift.coord(0), NEAR_ZERO);
+  EXPECT_NEAR(0, shift.coord(1), NEAR_ZERO);
 }
 
 TEST(Domain, non_cubic) {

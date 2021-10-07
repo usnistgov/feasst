@@ -28,15 +28,15 @@ mc.set(fst.MakeMetropolis())
 mc.add(fst.MakeTrialTranslate(fst.args(
     {"tunable_param": "2.", "tunable_target_acceptance": "0.2"})))
 mc.add(fst.MakeTrialAdd(fst.args({"particle_type": "0"})))
-mc.perform(fst.MakeRun(fst.args({"until_num_particles": "50"})))
+mc.run(fst.MakeRun(fst.args({"until_num_particles": "50"})))
 
 # nvt equilibration
-mc.perform(fst.MakeRemoveTrial(fst.args({"name": "TrialAdd"})))
+mc.run(fst.MakeRemoveTrial(fst.args({"name": "TrialAdd"})))
 mc.set(fst.MakeThermoParams(fst.args({"beta": str(args.beta)})))
 mc.add(fst.MakeCheckEnergyAndTune(fst.args(
     {"steps_per" : "1e5", "tolerance" : "1e-8"})))
-mc.perform(fst.MakeRun(fst.args({"num_attempts": "1e5"})))
+mc.run(fst.MakeRun(fst.args({"num_attempts": "1e5"})))
 
 # nvt production
 mc.add(fst.MakeLogAndMovie(fst.args({"steps_per" : "1e5", "file_name" : "lj"})))
-mc.perform(fst.MakeRun(fst.args({"num_attempts": args.trials})))
+mc.run(fst.MakeRun(fst.args({"num_attempts": args.trials})))

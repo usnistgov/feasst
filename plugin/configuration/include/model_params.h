@@ -229,7 +229,7 @@ class ModelParams : public PropertiedEntity {
 
   /// Set the physical constants.
   void set_physical_constants(std::shared_ptr<PhysicalConstants> constants =
-    std::make_shared<CODATA2018>());
+    MakeCODATA2018());
 
   /// Return the physical constants.
   const PhysicalConstants& physical_constants() const {

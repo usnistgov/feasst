@@ -2,7 +2,7 @@
 #include "utils/include/checkpoint.h"
 #include "math/include/random_mt19937.h"
 #include "system/include/utils.h"
-#include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/run.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trials.h"
 #include "steppers/include/check_energy_and_tune.h"
@@ -25,12 +25,14 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
   mc.get_system()->get_configuration()->add_particle_of_type(0);
   mc.set(MakeThermoParams({{"beta", str(1./1.5)},
           {"chemical_potential", "-2.352321"}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
+  mc.run(MakeRun({{"until_num_particles", str(min)}}));
   mc.set(MakeFlatHistogram(
       MakeMacrostateNumParticles(
         Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
       MakeTransitionMatrix({{"min_sweeps", "10"}})));
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
       {"file_name", "tmp/clones" + str(thread)}}));
@@ -77,7 +79,6 @@ Clones make_clones(const int max, const int min = 0, const int extra = 3) {
     INFO(bound[0] << " " << bound[1]);
     auto clone = std::make_shared<MonteCarlo>(monte_carlo(index, bound[0], bound[1]));
 //    clone->set(MakeRandomMT19937({{"seed", "123"}}));
-    if (index == 0 && bound[0] > 0) SeekNumParticles(bound[0]).run(clone.get());
     clones.add(clone);
   }
   return test_serialize(clones);

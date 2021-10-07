@@ -41,29 +41,8 @@ System spce(argtype args) {
   add_if_not_used("physical_constants", &args, "CODATA2018");
   add_if_not_used("particle_type", &args,
     install_dir() + "/forcefield/spce.fstprt");
-  { Configuration config(&args);
-    if (used("xyz_file", args)) {
-      FileXYZ().load(str("xyz_file", &args), &config);
-    }
-    system.add(config);
-  }
-  system.add(MakePotential(
-    MakeEwald({{"kmax_squared", str("kmax_squared", &args, "38")},
-               {"alpha",
-      str(dble("alphaL", &args, 5.6)/
-          system.configuration().domain().min_side_length())}})));
-//  auto real_space = MakeModelTwoBodyFactory({MakeLennardJones(),
-//                                             MakeChargeScreened({{"table_size", "0"}})});
-//  real_space->precompute(system.configuration().model_params());
-//  auto table = MakeModelTwoBodyTable();
-//  table->set(system.configuration().model_params(),
-//    int(1e6),
-//    system.configuration().num_site_types(),
-//    real_space);
-//  system.add(MakePotential(table));
-//  const std::string tabsize = str("table_size", &args, str(1e6));
-//  system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
-//                                                    MakeChargeScreened()})));
+  system.add(Configuration(&args));
+  system.add(MakePotential(std::make_shared<Ewald>(&args)));
   system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
                                                     MakeChargeScreened({{"table_size", "0"}})}),
                            {{"table_size", str("table_size", &args, str(1e6))}}));
@@ -90,14 +69,13 @@ System spce(argtype args) {
 System rpm(argtype args) {
   System system;
   double dual_cut = dble("dual_cut", &args, -1);
-  const std::string cubic_box_length =
-    str("cubic_box_length", &args, "12");
+  add_if_not_used("cubic_box_length", &args, "12");
+  add_if_not_used("particle_type0", &args,
+    install_dir() + "/plugin/charge/forcefield/rpm_plus.fstprt");
+  add_if_not_used("particle_type1", &args,
+    install_dir() + "/plugin/charge/forcefield/rpm_minus.fstprt");
   {
-    Configuration config(MakeDomain({{"cubic_box_length", cubic_box_length}}),
-      {{"particle_type0", install_dir() + "/" + str("particle0", &args, "plugin/charge/forcefield/rpm_plus.fstprt")},
-       {"particle_type1", install_dir() + "/" + str("particle1", &args, "plugin/charge/forcefield/rpm_minus.fstprt")}}
-    );
-
+    Configuration config(&args);
     if (used("cutoff", args)) {
       const double cutoff = dble("cutoff", &args);
       ASSERT(cutoff > dual_cut,
@@ -123,18 +101,11 @@ System rpm(argtype args) {
     }
     system.add(config);
   }
-  system.add(MakePotential(
-    MakeEwald({{"kmax_squared", str("kmax_squared", &args, "38")},
-               {"alpha",
-      str(dble("alphaL", &args, 5.6)/
-          system.configuration().domain().min_side_length())}})));
+  system.add(MakePotential(std::make_shared<Ewald>(&args)));
   system.add(MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                 MakeChargeScreened()})));
   system.add(MakePotential(MakeChargeSelf()));
-//  std::string iref = "-1";
-//  std::string num_steps = "1";
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
-    //Potential ref(MakeModelTwoBodyFactory({MakeHardSphere()}),
     auto ref = MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                       MakeChargeScreened()}),
                         MakeVisitModelCell({{"min_length", str(dual_cut)}}));
@@ -142,17 +113,7 @@ System rpm(argtype args) {
     ref->set_model_param("cutoff", 0, dual_cut);
     ref->set_model_param("cutoff", 1, dual_cut);
     system.add_to_reference(ref);
-//    iref = "0";
-//    num_steps = "4";
   }
-//  const double temp = args_.key("temperature").dflt("0.047899460618081").dble();
-//  system.set(MakeMetropolis({{"beta", str(1./temp)},
-//    {"chemical_potential", str(args_.key("beta_mu").dflt("-13.94").dble()/temp)}}));
-//  system.add(MakeTrialTranslate({
-//    {"weight", "0.25"},
-//    {"tunable_param", "0.1"},
-//    {"reference_index", iref},
-//    {"num_steps", num_steps}}));
   check_all_used(args);
   return system;
 }

@@ -307,7 +307,7 @@ TEST(Random, harmonic_bond_brute) {
   }
   INFO("acceptance " << static_cast<double>(accepted)/num_attempts);
   INFO(length.str());
-  EXPECT_NEAR(1.+1./k, length.average(), 5*length.block_stdev());
+  EXPECT_NEAR(1.+1./k, length.average(), 15*length.block_stdev());
 }
 
 // Compute the average bond angle for a potential U(theta)=600(theta-PI/2)^2
@@ -345,7 +345,7 @@ TEST(Random, harmonic_angle_brute) {
   }
   INFO("acceptance " << static_cast<double>(accepted)/num_attempts);
   INFO(angle.str() << " PI/2 " << PI/2);
-  EXPECT_NEAR(PI/2, angle.average(), 15*angle.block_stdev());
+  EXPECT_NEAR(PI/2, angle.average(), 20*angle.block_stdev());
 }
 
 // Compute Henry coefficient of 3D HS dimer in slit pore.
