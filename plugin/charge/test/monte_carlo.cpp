@@ -22,6 +22,7 @@
 #include "charge/include/slab_correction.h"
 #include "charge/include/charge_screened.h"
 #include "charge/include/utils.h"
+#include "charge/test/charge_utils.h"
 
 namespace feasst {
 

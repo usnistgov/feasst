@@ -9,12 +9,9 @@ namespace feasst {
 
 TEST(TrialSwapSites, swap) {
   System sys;
-  {
-    Configuration config(MakeDomain({{"cubic_box_length", "20"}}),
-      {{"particle_type", "../forcefield/chain10_3types.fstprt"}});
-    config.add_particle_of_type(0);
-    sys.add(config);
-  }
+  sys.add(*MakeConfiguration({{"cubic_box_length", "20"},
+    {"particle_type", "../forcefield/chain10_3types.fstprt"},
+    {"add_particles_of_type0", "1"}}));
   sys.add(MakePotential(MakeLennardJones()));
   sys.energy();
   sys.set(MakeThermoParams({{"beta", "1.0"}}));

@@ -12,13 +12,9 @@ namespace feasst {
 
 TEST(TrialRotate, spce) {
   System system;
-  {
-    auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "4"}}),
-      {{"particle_type", "../forcefield/spce.fstprt"}});
-    config->add_particle_of_type(0);
-    system.add(*config);
-  }
-
+  system.add(*MakeConfiguration({{"cubic_box_length", "4"},
+    {"particle_type", "../forcefield/spce.fstprt"},
+    {"add_particles_of_type0", "1"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "1.0"}}));
   Metropolis criteria;

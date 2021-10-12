@@ -64,6 +64,34 @@ Configuration::Configuration(argtype * args) {
   }
 
   init_wrap(boolean("wrap", args, true));
+
+  DEBUG("parse cutoff");
+  if (used("cutoff", *args)) {
+    const double cutoff = dble("cutoff", args);
+    for (int site_type = 0; site_type < num_site_types(); ++site_type) {
+      set_model_param("cutoff", site_type, cutoff);
+    }
+  }
+
+  DEBUG("parse sigma, epsilon, cutoff and charge");
+  for (int site_type = 0; site_type < num_site_types(); ++site_type) {
+    const std::string sigma_arg = "sigma" + str(site_type);
+    if (used(sigma_arg, *args)) {
+      set_model_param("sigma", site_type, dble(sigma_arg, args));
+    }
+    const std::string epsilon_arg = "epsilon" + str(site_type);
+    if (used(epsilon_arg, *args)) {
+      set_model_param("epsilon", site_type, dble(epsilon_arg, args));
+    }
+    const std::string cutoff_arg = "cutoff" + str(site_type);
+    if (used(cutoff_arg, *args)) {
+      set_model_param("cutoff", site_type, dble(cutoff_arg, args));
+    }
+    const std::string charge_arg = "charge" + str(site_type);
+    if (used(charge_arg, *args)) {
+      set_model_param("charge", site_type, dble(charge_arg, args));
+    }
+  }
 }
 
 void Configuration::add_particle_type(const std::string file_name,

@@ -19,6 +19,7 @@
 #include "morph/include/trial_morph_expanded.h"
 #include "morph/include/macrostate_morph.h"
 #include "charge/include/utils.h"
+#include "charge/test/charge_utils.h"
 
 namespace feasst {
 

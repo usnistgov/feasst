@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_TRIAL_TRANSFER_MULTIPLE_H_
-#define FEASST_MONTE_CARLO_TRIAL_TRANSFER_MULTIPLE_H_
+#ifndef FEASST_CHARGE_TRIAL_TRANSFER_MULTIPLE_H_
+#define FEASST_CHARGE_TRIAL_TRANSFER_MULTIPLE_H_
 
 #include <memory>
 #include "utils/include/arguments.h"
@@ -15,4 +15,4 @@ std::shared_ptr<TrialFactory> MakeTrialTransferMultiple(
 
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_TRIAL_TRANSFER_MULTIPLE_H_
+#endif  // FEASST_CHARGE_TRIAL_TRANSFER_MULTIPLE_H_

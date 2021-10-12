@@ -3,7 +3,7 @@
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trials.h"
-#include "system/include/utils.h"
+#include "system/test/sys_utils.h"
 
 namespace feasst {
 

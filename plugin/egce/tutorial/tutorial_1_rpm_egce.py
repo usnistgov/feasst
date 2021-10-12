@@ -1,3 +1,4 @@
+import math
 import argparse
 import feasst as fst
 
@@ -17,34 +18,40 @@ print("args:", args)
 def mc(thread, mn, mx):
     steps_per=int(1e4)
     mc = fst.MakeMonteCarlo()
-    sys_args = {"cubic_box_length": "12",
+    mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "12",
+        "particle_type0": fst.install_dir() + "/plugin/charge/forcefield/rpm_plus.fstprt",
+        "particle_type1": fst.install_dir() + "/plugin/charge/forcefield/rpm_minus.fstprt",
         "cutoff": "4.891304347826090",
-        "kmax_squared": "38",
-        "alpha": str(6.87098396396261/12)}
+        "charge0": str( 1./math.sqrt(fst.CODATA2018().charge_conversion())),
+        "charge1": str(-1./math.sqrt(fst.CODATA2018().charge_conversion()))})))
+    mc.add(fst.MakePotential(fst.MakeEwald(fst.args({"alpha": str(6.87098396396261/12),
+        "kmax_squared": "38"}))))
+    mc.add(fst.MakePotential(fst.MakeModelTwoBodyFactory(fst.MakeHardSphere(), fst.MakeChargeScreened()),
+                                      fst.args({"table_size": "1e6"})))
+    mc.add(fst.MakePotential(fst.MakeChargeSelf()))
     num_steps = "1"
     ref = "-1"
     if mx >= args.dccb_begin:
-        sys_args["dual_cut"] = str(1)
+        mc.run(fst.MakeAddReference(fst.args({"potential_index": "1", "cutoff": "1", "use_cell": "true"})))
         ref = "0"
         num_steps = "4"
-    mc.set(fst.rpm(fst.args(sys_args)))
     beta = 1./args.temperature
-    mc.add(fst.MakeFlatHistogram(
+    mc.set(fst.MakeThermoParams(fst.args({
+        "beta": str(beta),
+        "chemical_potential0": str(args.beta_mu/beta),
+        "chemical_potential1": str(args.beta_mu/beta)})))
+    mc.set(fst.MakeFlatHistogram(
         fst.MakeMacrostateNumParticles(
             fst.Histogram(fst.args({"width": "1", "max": str(mx), "min": str(mn)}))),
         # fst.MakeTransitionMatrix(fst.args({"min_sweeps": str(args.min_sweeps)})),
         fst.MakeWLTM(fst.args({"collect_flatness": "18",
                                "min_flatness": "22",
                                "min_sweeps": str(args.min_sweeps)})),
-        fst.MakeAEqualB(fst.args({"extra_A": "1"})),
-        fst.args({"beta": str(beta),
-                  "chemical_potential0": str(args.beta_mu/beta),
-                  "chemical_potential1": str(args.beta_mu/beta)})))
+        fst.MakeAEqualB(fst.args({"extra_A": "1"}))))
     mc.add(fst.MakeTrialTranslate(fst.args({"weight": "1.", "tunable_param": "1."})))
-    mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": "0",
-        "reference_index": ref, "num_steps": num_steps})))
-    mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": "1",
-        "reference_index": ref, "num_steps": num_steps})))
+    for particle_type in range(mc.configuration().num_particle_types()):
+        mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": str(particle_type),
+            "reference_index": ref, "num_steps": num_steps})))
     mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
     mc.add(fst.MakeTune(fst.args({"steps_per": str(steps_per), "stop_after_phase": "0"})))
     mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),

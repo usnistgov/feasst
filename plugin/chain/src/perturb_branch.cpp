@@ -109,7 +109,16 @@ void PerturbBranch::place_in_branch(const double L,
   const double c143 = std::cos(t143),
                c243 = std::cos(t243);
   double x3, y3, z3;
-  if ( std::fabs(y1) > std::fabs(x1) ) {
+//  INFO("y1 " << y1);
+//  INFO("x1 " << x1);
+//  INFO("H " << z2 - y2*z1/y1);
+//  INFO("H " << z2 - x2*z1/x1);
+  const double H = z2 - y2*z1/y1;
+  const double H_alt = z2 - x2*z1/x1;
+//  INFO("H " << H);
+//  INFO("H " << H_alt);
+  if ( std::fabs(H) > std::fabs(H_alt) ) {
+  //if ( std::fabs(y1) > std::fabs(x1) ) {
 //  if ( (fabs(x1) < DTOL) || (fabs(Cyz) > fabs(Cxz)) ) {
     // cout << "test1 " << fabs(x1) << " t2 " << fabs(Cyz) << " > "
     //      << fabs(Cxz) << endl;
@@ -120,6 +129,11 @@ void PerturbBranch::place_in_branch(const double L,
     //      << fabs(Cxz) << endl;
     solve_branch_(y1, x1, z1, y2, x2, z2, &y3, &x3, &z3, c143, c243, random);
   }
+  //INFO("L: " << L << " dist " << std::sqrt(x3*x3+y3*y3+z3*z3));
+//  const double dist = std::sqrt(x3*x3+y3*y3+z3*z3);
+//  x3 /= dist;
+//  y3 /= dist;
+//  z3 /= dist;
   pos3->set_coord(0, L*x3 + pos4.coord(0));
   pos3->set_coord(1, L*y3 + pos4.coord(1));
   pos3->set_coord(2, L*z3 + pos4.coord(2));
@@ -134,6 +148,7 @@ void PerturbBranch::solve_branch_(
   ASSERT(y1 != 0, "y1==0");
   const long double H = z2 - y2*z1/y1;
   ASSERT(H != 0, "H==0");
+//  INFO("H " << H);
   const long double A = (x1*y2/y1 - x2)/H,
                B = (c243 - c143*y2/y1)/H,
                C = -x1/y1 - A*z1/y1,
@@ -143,8 +158,15 @@ void PerturbBranch::solve_branch_(
                c = (B*B+D*D-1);
   long double ans1 = NEAR_INFINITY, ans2 = NEAR_INFINITY;
   long double discrim = -1;
+//  INFO("a " << a);
+//  INFO("b " << b);
+//  INFO("c " << c);
   quadratic_equation(a, b, c, &discrim, &ans1, &ans2);
+//  INFO("discrim " << discrim);
+//  INFO("ans1 " << ans1);
+//  INFO("ans2 " << ans2);
   if (discrim < 0) {
+//    INFO("discrim " << discrim);
     if ( (std::sqrt(fabsl(discrim))/2/fabsl(a) < 1000*std::sqrt(NEAR_ZERO)) ||
          fabsl(discrim) < 10000*NEAR_ZERO) {
       // within double preicison, the discriminant is zero
@@ -211,9 +233,22 @@ void PerturbBranch::move(const bool is_position_held,
     bond_energy += model->energy(radians_a2a1m2, a2a1m2);
     bond_energy += model->energy(radians_m1a1m2, m1a1m2);
     const double la1m1 = a2a1m1_.random_distance(*system, select, random, &bond_energy);
+//    INFO("la1m1 " << la1m1);
     const double la1m2 = a2a1m2_.random_distance(*system, select, random, &bond_energy);
+//    INFO("la1m2 " << la1m2);
     a2a1m1_.place_in_circle(la1m1, radians_a2a1m1, system, select, random);
     place_in_branch(la1m2, radians_a2a1m2, radians_m1a1m2, system, select, random);
+//    INFO("here");
+//    for (const std::vector<Position>& poss : select->anchor().site_positions()) {
+//      for (const Position& pos : poss) {
+//        INFO(pos.str());
+//      }
+//    }
+//    for (const std::vector<Position>& poss : select->mobile().site_positions()) {
+//      for (const Position& pos : poss) {
+//        INFO(pos.str());
+//      }
+//    }
   }
   select->add_exclude_energy(bond_energy);
 }

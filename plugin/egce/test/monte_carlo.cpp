@@ -22,6 +22,7 @@
 #include "flat_histogram/include/wang_landau.h"
 #include "charge/include/check_net_charge.h"
 #include "charge/include/utils.h"
+#include "charge/test/charge_utils.h"
 #include "charge/include/charge_screened.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/energy_map_neighbor.h"

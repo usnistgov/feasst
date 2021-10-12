@@ -6,25 +6,26 @@
 #include "monte_carlo/include/trial_select_particle.h"
 #include "morph/include/perturb_particle_type.h"
 #include "charge/include/utils.h"
+#include "charge/test/charge_utils.h"
 
 namespace feasst {
 
 TEST(PerturbParticleType, serialize) {
   System sys;
   {
-    Configuration config(MakeDomain({{"cubic_box_length", "8"}}),
-      {{"particle_type0", "../forcefield/lj.fstprt"}});
-    config.add_particle_type("../forcefield/lj.fstprt", "sig0.25");
-    config.set_model_param("sigma", 1, 0.25);
-    config.set_model_param("cutoff", 1, 1.0);
-    config.add_particle_of_type(0);
-    config.add_particle_of_type(0);
-    config.update_positions({{0, 0, 0}, {1, 1, 1}});
-    config.particle_type_to_group_create(0);
-    config.particle_type_to_group_create(1);
-    EXPECT_EQ(config.model_params().sigma().mixed_value(0, 1), 1.25/2.);
-    EXPECT_EQ(config.model_params().cutoff().mixed_value(0, 1), 2.);
-    sys.add(config);
+    auto config = MakeConfiguration({{"cubic_box_length", "8"},
+      {"particle_type0", "../forcefield/lj.fstprt"}});
+    config->add_particle_type("../forcefield/lj.fstprt", "sig0.25");
+    config->add_particle_of_type(0);
+    config->add_particle_of_type(0);
+    config->set_model_param("sigma", 1, 0.25);
+    config->set_model_param("cutoff", 1, 1.0);
+    config->update_positions({{0, 0, 0}, {1, 1, 1}});
+    config->particle_type_to_group_create(0);
+    config->particle_type_to_group_create(1);
+    EXPECT_EQ(config->model_params().sigma().mixed_value(0, 1), 1.25/2.);
+    EXPECT_EQ(config->model_params().cutoff().mixed_value(0, 1), 2.);
+    sys.add(*config);
   }
   sys.add(MakePotential(MakeLennardJones()));
   const Configuration& config = sys.configuration();

@@ -7,10 +7,9 @@
 namespace feasst {
 
 inline Configuration config() {
-  Configuration config(MakeDomain({{"cubic_box_length", "12"}}),
-    {{"particle_type0", "../forcefield/chain10.fstprt"}});
-  config.add_particle_of_type(0);
-  return config;
+  return *MakeConfiguration({{"cubic_box_length", "12"},
+    {"particle_type0", "../forcefield/chain10.fstprt"},
+    {"add_particles_of_type0", "1"}});
 }
 
 inline std::shared_ptr<Potential> lj_dual_cut(const Configuration config) {

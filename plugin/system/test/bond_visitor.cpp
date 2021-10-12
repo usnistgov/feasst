@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "configuration/include/utils.h"
+#include "configuration/test/config_utils.h"
 #include "system/include/bond_visitor.h"
 #include "system/include/bond_square_well.h"
 #include "system/include/angle_square_well.h"

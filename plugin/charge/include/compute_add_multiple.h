@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_COMPUTE_ADD_MULTIPLE_H_
-#define FEASST_MONTE_CARLO_COMPUTE_ADD_MULTIPLE_H_
+#ifndef FEASST_CHARGE_COMPUTE_ADD_MULTIPLE_H_
+#define FEASST_CHARGE_COMPUTE_ADD_MULTIPLE_H_
 
 #include <memory>
 #include <vector>
@@ -100,4 +100,4 @@ inline std::shared_ptr<ComputeAddMultiple> MakeComputeAddMultiple() {
 }
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_COMPUTE_ADD_MULTIPLE_H_
+#endif  // FEASST_CHARGE_COMPUTE_ADD_MULTIPLE_H_

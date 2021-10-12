@@ -1,7 +1,7 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/trial_select_particle.h"
-#include "system/include/utils.h"
+#include "system/test/sys_utils.h"
 
 namespace feasst {
 

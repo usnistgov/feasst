@@ -3,11 +3,11 @@
 
    SelectSiteOfType
    SelectPerturbed
-   PerturbReptate
+   SelectBranch
    SelectSegment
    SelectEndSegment
    SelectReptate
-   SelectBranch
+   PerturbReptate
    AnalyzeBonds
    trials
    trial_grow

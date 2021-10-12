@@ -1,6 +1,6 @@
 #include "utils/test/utils.h"
 #include "system/include/system.h"
-#include "system/include/utils.h"
+#include "system/test/sys_utils.h"
 
 namespace feasst {
 

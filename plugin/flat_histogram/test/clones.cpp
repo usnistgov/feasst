@@ -1,7 +1,8 @@
 #include "utils/test/utils.h"
 #include "utils/include/checkpoint.h"
 #include "math/include/random_mt19937.h"
-#include "system/include/utils.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/long_range_corrections.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trials.h"
@@ -21,8 +22,11 @@ namespace feasst {
 MonteCarlo monte_carlo(const int thread, const int min, const int max) {
   const int steps_per = 1e2;
   MonteCarlo mc;
-  mc.set(lennard_jones());
-  mc.get_system()->get_configuration()->add_particle_of_type(0);
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+                            {"particle_type0", "../forcefield/lj.fstprt"},
+                            {"add_particles_of_type0", "1"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", str(1./1.5)},
           {"chemical_potential", "-2.352321"}}));
   mc.set(MakeMetropolis());

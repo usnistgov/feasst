@@ -2,7 +2,7 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
-#include "system/include/utils.h"
+#include "system/test/sys_utils.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/model_two_body_factory.h"
@@ -55,12 +55,12 @@ TEST(MayerSampling, ljb2) {
 MayerSampling ljb2(const int trials) {
   MonteCarlo mc;
   { // initialize system
-    System lj = lennard_jones({{"cubic_box_length", "1000"}});
-    Configuration * config = lj.get_configuration();
+    auto config = MakeConfiguration({{"cubic_box_length", "1000"},
+                                     {"particle_type0", "../forcefield/lj.fstprt"},
+                                     {"add_particles_of_type0", "2"}});
     config->set_model_param("cutoff", 0, config->domain().side_length(0)/2.);
-    config->add_particle_of_type(0);
-    config->add_particle_of_type(0);
-    mc.set(lj);
+    mc.add(config);
+    mc.add(MakePotential(MakeLennardJones()));
   }
   mc.add_to_reference(MakePotential(MakeHardSphere()));
   mc.set(MakeThermoParams({{"beta", "1."}, {"chemical_potential", "-2.775"}}));

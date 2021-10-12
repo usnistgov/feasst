@@ -36,4 +36,3 @@
    Potential
    PotentialFactory
    System
-   utils

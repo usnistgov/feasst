@@ -23,7 +23,7 @@ void quadratic_equation(const T& a,
     return;
   }
   if (*discriminant < 0) return;
-  const double sqrt_disc = std::sqrt(*discriminant);
+  const T sqrt_disc = std::sqrt(*discriminant);
   *root1 = 0.5*(-b + sqrt_disc)/a;
   *root2 = 0.5*(-b - sqrt_disc)/a;
 }

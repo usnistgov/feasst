@@ -20,11 +20,18 @@ print("args:", args)
 def mc(thread, mn, mx):
     mc = fst.MakeMonteCarlo()
     #mc.set(fst.MakeRandomMT19937(fst.args({"seed": "123"})))
-    spce_args = {"physical_constants": "CODATA2010", "cubic_box_length": str(args.cubic_box_length),
-        "alpha": str(5.6/args.cubic_box_length), "kmax_squared": "38", "particle_type": args.molecule}
+    mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": str(args.cubic_box_length),
+        "physical_constants": "CODATA2010",
+        "particle_type0": args.molecule})))
+    mc.add(fst.MakePotential(fst.MakeEwald(fst.args({"alpha": str(5.6/args.cubic_box_length),
+        "kmax_squared": "38"}))))
+    mc.add(fst.MakePotential(fst.MakeModelTwoBodyFactory(fst.MakeLennardJones(), fst.MakeChargeScreened()),
+                                      fst.args({"table_size": "1e6"})))
+    mc.add(fst.MakePotential(fst.MakeChargeScreenedIntra(), fst.MakeVisitModelBond()))
+    mc.add(fst.MakePotential(fst.MakeChargeSelf()))
+    mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
     if mx > args.dccb_begin:
-        spce_args["dual_cut"] = "3.16555789"
-    mc.set(fst.spce(fst.args(spce_args)))
+        mc.run(fst.MakeAddReference(fst.args({"potential_index": "1", "cutoff": "3.16555789", "use_cell": "true"})))
     beta = 1./fst.kelvin2kJpermol(args.temperature, mc.configuration())
     mc.set(fst.MakeThermoParams(fst.args({"beta": str(beta),
         "chemical_potential": str(args.beta_mu/beta)})))

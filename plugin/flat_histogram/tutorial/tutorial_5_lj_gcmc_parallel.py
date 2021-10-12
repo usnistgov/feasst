@@ -17,14 +17,15 @@ print("args:", args)
 def mc(thread, mn, mx):
     steps_per=str(int(1e6))
     mc = fst.MakeMonteCarlo()
-    sys_args = dict()
-    num_steps = "1"
-    ref = "-1"
+    mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "8",
+        "particle_type0": fst.install_dir() + "/forcefield/lj.fstprt"})))
+    mc.add(fst.MakePotential(fst.MakeLennardJones()))
+    mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
+    trial_args = {"particle_type": "0", "site": "0"}
     if mx >= args.dccb_begin:
-        sys_args["dual_cut"] = str(1)
-        ref = "0"
-        num_steps = "4"
-    mc.set(fst.lennard_jones(fst.args(sys_args)))
+        mc.run(fst.MakeAddReference(fst.args({"cutoff": "1", "use_cell": "true"})))
+        trial_args["reference_index"] = "0"
+        trial_args["num_steps"] = "4"
     mc.set(fst.MakeThermoParams(fst.args({"beta": str(1./args.temperature),
                                           "chemical_potential": str(args.mu)})))
     mc.set(fst.MakeFlatHistogram(
@@ -36,7 +37,6 @@ def mc(thread, mn, mx):
                                "min_sweeps": str(args.min_sweeps)}))))
     #mc.add(fst.MakeTrialTranslate(fst.args({"weight": "1.", "tunable_param": "1."})))
     #mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": "0",
-    trial_args = {"particle_type": "0", "site": "0", "reference_index": ref, "num_steps": num_steps}
     mc.add(fst.MakeTrialGrow(fst.ArgsVector([dict({"translate": "true", "tunable_param": "1"}, **trial_args)])))
     mc.add(fst.MakeTrialGrow(fst.ArgsVector([dict({"transfer": "true", "weight": "4"}, **trial_args)])))
     mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": steps_per, "tolerance": "0.0001"})))

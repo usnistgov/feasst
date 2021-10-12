@@ -157,8 +157,8 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
 TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  mc.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "12"}}),
-                           {{"particle_type", "../forcefield/lj.fstprt"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "12"},
+                            {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential({{"Model", "LennardJones"}}));
 //  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
   mc.set(MakeThermoParams({{"beta", "0.1"}, {"chemical_potential", "10"}}));
@@ -322,12 +322,9 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
   const double volume = (num + 1)/beta/pressure;
   INFO("expected volume: " << volume);
   MonteCarlo mc;
-  {
-    Configuration config(MakeDomain({{"cubic_box_length", "3"}}),
-      {{"particle_type", "../forcefield/spce.fstprt"}});
-    for (int i = 0; i < num; ++i) config.add_particle_of_type(0);
-    mc.add(config);
-  }
+  mc.add(MakeConfiguration({{"cubic_box_length", "3"},
+    {"particle_type", "../forcefield/spce.fstprt"},
+    {"add_particles_of_type0", str(num)}}));
   mc.add(MakePotential(MakeDontVisitModel()));
   //mc.add(MakePotential(MakeIdealGas()));
   mc.set(MakeThermoParams({{"beta", str(beta)}, {"pressure", str(pressure)}}));
@@ -363,12 +360,12 @@ TEST(MonteCarlo, arglist_unrecognized) {
     CATCH_PHRASE("unused argument");
   );
   TRY(
-    MakeMonteCarlo({{{"Configuration", {{"this_is_not", "an_expected_argument"}}}}});
+    MakeMonteCarlo({{{"Configuration", {{"particle_type0", "../forcefield/lj.fstprt"}, {"this_is_not", "an_expected_argument"}}}}});
     CATCH_PHRASE("unused argument");
   );
   TRY(
     MakeMonteCarlo({{
-      {"Configuration", {{}}},
+      {"Configuration", {{"particle_type0", "../forcefield/lj.fstprt"}}},
       {"Potential", {{"this_is_not", "an_expected_argument"}}}
     }});
     CATCH_PHRASE("unused argument");

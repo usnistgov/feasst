@@ -23,11 +23,9 @@ namespace feasst {
 TEST(MonteCarlo, trimer) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  { { auto config = MakeConfiguration(
-        MakeDomain({{"cubic_box_length", "12"}}),
-        {{"particle_type", "../forcefield/trimer.fstprt"}});
-      config->add_particle_of_type(0);
-      config->add_particle_of_type(0);
+  { { auto config = MakeConfiguration({{"cubic_box_length", "12"},
+        {"particle_type", "../forcefield/trimer.fstprt"},
+        {"add_particles_of_type0", "2"}});
       TrialSelectParticle sel;
       sel.select_particle(1, *config);
       const Position disp = Position().set_vector({4, 4, 4});

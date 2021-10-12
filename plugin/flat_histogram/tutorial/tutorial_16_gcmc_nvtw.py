@@ -14,27 +14,30 @@ import feasst as fst
 def nvtw(num_particles, num_procs, num_equil, num_prod, num_hours, dccb_begin, temperature, mu, steps_per, model):
     mc = fst.MakeMonteCarlo()
     #mc.set(fst.MakeRandomMT19937(fst.args({"seed": "1633373856"})))
-    sys_args = dict()
-#    num_steps = "1"
-#    ref = "-1"
-#    if num_particles >= dccb_begin:
-#        sys_args["dual_cut"] = str(1)
-#        ref = "0"
-#        num_steps = "4"
     beta = 1./temperature
     if model == "lj":
-        mc.set(fst.lennard_jones(fst.args(sys_args)))
+        mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "8",
+            "particle_type0": fst.install_dir() + "/forcefield/lj.fstprt"})))
+        mc.add(fst.MakePotential(fst.MakeLennardJones()))
+        mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
     elif model == "sqw":
         config = fst.MakeConfiguration(fst.args({"cubic_box_length": "8", "particle_type0": fst.install_dir() + "/forcefield/atom.fstprt"}))
         config.set_model_param("cutoff", 0, 1.5)
         mc.add(config)
         mc.add(fst.MakePotential(fst.MakeSquareWell()))
     elif model == "spce":
-        mc.set(fst.spce())
+        mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "20",
+            "particle_type0": fst.install_dir() + "/forcefield/spce.fstprt"})))
+        mc.add(fst.MakePotential(fst.MakeEwald(fst.args({"alpha": str(5.6/20),
+            "kmax_squared": "38"}))))
+        mc.add(fst.MakePotential(fst.MakeModelTwoBodyFactory(fst.MakeLennardJones(), fst.MakeChargeScreened()),
+                                          fst.args({"table_size": "1e6"})))
+        mc.add(fst.MakePotential(fst.MakeChargeScreenedIntra(), fst.MakeVisitModelBond()))
+        mc.add(fst.MakePotential(fst.MakeChargeSelf()))
+        mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
         beta = 1./fst.kelvin2kJpermol(temperature, mc.configuration())
     else:
         assert(False) # model not recognized
-    print('beta', beta)
 
     # fill box with larger temperature and mu
     mc.set(fst.MakeThermoParams(fst.args({"beta": "0.01", "chemical_potential": "10"})))
@@ -73,7 +76,7 @@ def run_parallel(num_procs, num_equil, num_prod, num_hours, dccb_begin, max_part
     #nvtw(nums[0], num_procs, num_equil, num_prod, num_hours, dccb_begin, temperature, mu, steps_per)
     nums = reversed(range(0, max_particles + 1))
     with Pool(num_procs) as pool:
-        pool.starmap(nvtw, zip(nums, repeat(num_procs), repeat(num_equil), repeat(num_prod), repeat(num_hours), repeat(dccb_begin), repeat(temperature), repeat(mu), repeat(steps_per), repeat(model)))
+        pool.starmap(nvtw, zip(nums, repeat(num_procs), repeat(num_equil), repeat(num_prod), repeat(num_hours), repeat(dccb_begin), repeat(temperature), repeat(mu), repeat(steps_per), repeat(model)), chunksize=1)
 
 if __name__ == '__main__':
     print(fst.version())

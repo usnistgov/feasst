@@ -1,6 +1,6 @@
 
-#ifndef FEASST_EWALD_ELECTRIC_FIELD_H_
-#define FEASST_EWALD_ELECTRIC_FIELD_H_
+#ifndef FEASST_CHARGE_ELECTRIC_FIELD_H_
+#define FEASST_CHARGE_ELECTRIC_FIELD_H_
 
 #include "utils/include/arguments.h"
 #include "system/include/model_one_body.h"
@@ -53,4 +53,4 @@ inline std::shared_ptr<ElectricField> MakeElectricField(
 
 }  // namespace feasst
 
-#endif  // FEASST_EWALD_ELECTRIC_FIELD_H_
+#endif  // FEASST_CHARGE_ELECTRIC_FIELD_H_

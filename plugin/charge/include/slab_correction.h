@@ -1,6 +1,6 @@
 
-#ifndef FEASST_EWALD_SLAB_CORRECTION_H_
-#define FEASST_EWALD_SLAB_CORRECTION_H_
+#ifndef FEASST_CHARGE_SLAB_CORRECTION_H_
+#define FEASST_CHARGE_SLAB_CORRECTION_H_
 
 #include "system/include/visit_model.h"
 
@@ -96,4 +96,4 @@ inline std::shared_ptr<SlabCorrection> MakeSlabCorrection(argtype args) {
 
 }  // namespace feasst
 
-#endif  // FEASST_EWALD_SLAB_CORRECTION_H_
+#endif  // FEASST_CHARGE_SLAB_CORRECTION_H_

@@ -100,8 +100,7 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
 
 TEST(MonteCarlo, ShapeTable_LONG) {
   MonteCarlo mc;
-  auto domain = MakeDomain({{"cubic_box_length", "20"}});
-  mc.add(MakeConfiguration(domain, {{"particle_type", "../forcefield/lj.fstprt"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "20"}, {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   auto pore = porous_network();
   mc.add(MakePotential(MakeModelHardShape(pore)));
@@ -123,7 +122,7 @@ TEST(MonteCarlo, ShapeTable_LONG) {
     #else // _OPENMP
     hamaker->compute_table(
     #endif // _OPENMP
-      pore.get(), domain.get(), mc.get_random(), {
+      pore.get(), mc.get_system()->get_configuration()->get_domain(), mc.get_random(), {
       {"alpha", "6"},
       {"epsilon", "-1"},
       {"max_radius", "10"},
@@ -175,19 +174,18 @@ TEST(MonteCarlo, SineSlab) {
 
 System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
   System system;
-  Configuration config(
-    MakeDomain({{"cubic_box_length", "5"}}), {
-      {"particle_type0", "../forcefield/dimer.fstprt"},
-      {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab5x5.fstprt"},
-      {"particle_type2", "../forcefield/lj.fstprt"}});
-  EXPECT_EQ(3, config.num_site_types());
-  for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
-    config.set_model_param("cutoff", site_type, 2.5);
+  auto config = MakeConfiguration({{"cubic_box_length", "5"},
+    {"particle_type0", "../forcefield/dimer.fstprt"},
+    {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab5x5.fstprt"},
+    {"particle_type2", "../forcefield/lj.fstprt"},
+    {"add_particles_of_type0", str(num0)},
+    {"add_particles_of_type1", str(num1)},
+    {"add_particles_of_type2", str(num2)}});
+  EXPECT_EQ(3, config->num_site_types());
+  for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
+    config->set_model_param("cutoff", site_type, 2.5);
   }
-  for (int i = 0; i < num0; ++i) config.add_particle_of_type(0);
-  for (int i = 0; i < num1; ++i) config.add_particle_of_type(1);
-  for (int i = 0; i < num2; ++i) config.add_particle_of_type(2);
-  system.add(config);
+  system.add(*config);
   system.add(MakePotential(MakeLennardJones()));
 //  system.add(MakePotential(MakeModelHardShape(MakeSlab({
 //    {"dimension", "2"},
@@ -282,17 +280,16 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
 
 TEST(Ewald, henry_coefficient_LONG) {
   System system;
-  Configuration config(
-    MakeDomain({{"cubic_box_length", "20"}}), {
+  auto config = MakeConfiguration({{"cubic_box_length", "20"},
       {"particle_type0", "../forcefield/spce.fstprt"},
       //{"particle_type0", "../plugin/charge/forcefield/rpm_plus.fstprt"},
-      {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab20x20.fstprt"}});
-  for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
-    config.set_model_param("cutoff", site_type, 2.5);
+      {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab20x20.fstprt"},
+      {"add_particles_of_type1", "1"}});
+  for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
+    config->set_model_param("cutoff", site_type, 2.5);
   }
-  config.add_particle_of_type(1);
-  FileXYZ().write_for_vmd("tmp.xyz", config);
-  system.add(config);
+  FileXYZ().write_for_vmd("tmp.xyz", *config);
+  system.add(*config);
   system.add(MakePotential(
     MakeEwald({{"kmax_squared", "38"},
                {"alpha", str(5.6/system.configuration().domain().min_side_length())}})));
@@ -310,8 +307,8 @@ TEST(Ewald, henry_coefficient_LONG) {
 TEST(HardShape, henry_LONG) {
   for (const double length : {10, 20}) {
     System system;
-    system.add(Configuration(MakeDomain({{"cubic_box_length", str(length)}}),
-      {{"particle_type0", "../forcefield/hard_sphere.fstprt"}}));
+    system.add(*MakeConfiguration({{"cubic_box_length", str(length)},
+      {"particle_type0", "../forcefield/hard_sphere.fstprt"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
       {"dimension", "2"},
       {"bound0", "3"},
@@ -326,8 +323,8 @@ TEST(HardShape, henry_dimer_LONG) {
   for (const double length : {10}) {
   //for (const double length : {10, 20}) {
     System system;
-    system.add(Configuration(MakeDomain({{"cubic_box_length", str(length)}}),
-      {{"particle_type0", "../forcefield/dimer.fstprt"}}));
+    system.add(*MakeConfiguration({{"cubic_box_length", str(length)},
+      {"particle_type0", "../forcefield/dimer.fstprt"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
       {"dimension", "2"},
       {"bound0", "3"},

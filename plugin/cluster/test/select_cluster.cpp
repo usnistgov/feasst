@@ -22,15 +22,13 @@ TEST(SelectCluster, serialize) {
     //mc_lj(&mc);
     System sys;
     {
-      Configuration config(MakeDomain({{"cubic_box_length", "8"}}),
-                           {{"particle_type", "../forcefield/lj.fstprt"}});
-      config.add_particle_of_type(0);
-      config.add_particle_of_type(0);
-      config.add_particle_of_type(0);
-      config.update_positions({{0, 0, 0},
+      auto config = MakeConfiguration({{"cubic_box_length", "8"},
+        {"particle_type", "../forcefield/lj.fstprt"},
+        {"add_particles_of_type0", "3"}});
+      config->update_positions({{0, 0, 0},
                                {-1.25, 0, 0},
                                {3, 3, 3}});
-      sys.add(config);
+      sys.add(*config);
     }
     std::shared_ptr<EnergyMap> map;
     if (map_type == "all") {

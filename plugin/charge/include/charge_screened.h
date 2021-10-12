@@ -1,6 +1,6 @@
 
-#ifndef FEASST_EWALD_CHARGE_SCREENED_H_
-#define FEASST_EWALD_CHARGE_SCREENED_H_
+#ifndef FEASST_CHARGE_CHARGE_SCREENED_H_
+#define FEASST_CHARGE_CHARGE_SCREENED_H_
 
 #include "system/include/model_two_body.h"
 
@@ -29,7 +29,7 @@ class ChargeScreened : public ModelTwoBody {
    args:
    - hard_sphere_threshold: return NEAR_INFINITY when distance is less than
      this threshold (default: 0.1).
-   - table_size: size of linearly-interpolated tabular potential (default: 1e6).
+   - table_size: size of linearly-interpolated tabular potential (default: 0).
      disable table if this value is less than or equal to zero.
    */
   ChargeScreened(argtype args = argtype());
@@ -68,4 +68,4 @@ inline std::shared_ptr<ChargeScreened> MakeChargeScreened(
 
 }  // namespace feasst
 
-#endif  // FEASST_EWALD_CHARGE_SCREENED_H_
+#endif  // FEASST_CHARGE_CHARGE_SCREENED_H_

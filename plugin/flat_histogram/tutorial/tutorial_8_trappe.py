@@ -38,8 +38,8 @@ def mc(thread, mn, mx):
         thermo_params["chemical_potential"+str(index)] = str(args.beta_mu*args.temperature)
         index += 1
     thermo_params["chemical_potential0"] = str((args.delta_betamu_0 + args.beta_mu)*args.temperature)
-    mc.add(fst.Configuration(fst.MakeDomain(fst.args({"side_length0": str(args.lx), "side_length1": str(args.ly), "side_length2": str(args.lz)})),
-        config_args))
+    mc.add(fst.MakeConfiguration(fst.args(
+        dict({"side_length0": str(args.lx), "side_length1": str(args.ly), "side_length2": str(args.lz)}, **config_args))))
     mc.add(fst.MakePotential(fst.MakeLennardJones()))
     mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
     if mx > args.dccb_begin:

@@ -3,7 +3,7 @@
 #include "math/include/constants.h"
 #include "configuration/include/file_lmp.h"
 #include "configuration/include/file_xyz.h"
-#include "configuration/include/utils.h"
+#include "configuration/test/config_utils.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model.h"

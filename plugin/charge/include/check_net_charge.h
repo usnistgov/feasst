@@ -1,6 +1,6 @@
 
-#ifndef FEASST_EWALD_CHECK_NET_CHARGE_H_
-#define FEASST_EWALD_CHECK_NET_CHARGE_H_
+#ifndef FEASST_CHARGE_CHECK_NET_CHARGE_H_
+#define FEASST_CHARGE_CHECK_NET_CHARGE_H_
 
 #include "monte_carlo/include/analyze.h"
 #include "charge/include/ewald.h"
@@ -42,4 +42,4 @@ inline std::shared_ptr<CheckNetCharge> MakeCheckNetCharge(
 
 }  // namespace feasst
 
-#endif  // FEASST_EWALD_CHECK_NET_CHARGE_H_
+#endif  // FEASST_CHARGE_CHECK_NET_CHARGE_H_

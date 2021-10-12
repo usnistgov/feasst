@@ -66,13 +66,19 @@ class Configuration {
     - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
       (default: false). This is typically used for HardSphere models that
       didn't specify cutoff.
+    - sigma[i]: optionally set the sigma of i-th site type to this value.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - epsilon[i]: optionally set the epsilon of i-th site type to this value.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - cutoff: optionally set the cutoff of all site types to this value.
+    - cutoff[i]: optionally set the cutoff of i-th site type to this value.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      These are applied after the above cutoff for all types.
+    - charge[i]: optionally set the charge of i-th site type to this value.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
    */
   explicit Configuration(argtype args = argtype());
   explicit Configuration(argtype * args);
-
-  /// Same as above, but also set the domain.
-  explicit Configuration(std::shared_ptr<Domain> domain,
-    argtype args = argtype()) : Configuration(args) {domain_ = domain; }
 
   //@}
   /** @name Typing
@@ -568,11 +574,6 @@ class Configuration {
 inline std::shared_ptr<Configuration> MakeConfiguration(
     argtype args = argtype()) {
   return std::make_shared<Configuration>(args);
-}
-
-inline std::shared_ptr<Configuration> MakeConfiguration(
-    std::shared_ptr<Domain> domain, argtype args = argtype()) {
-  return std::make_shared<Configuration>(domain, args);
 }
 
 }  // namespace feasst

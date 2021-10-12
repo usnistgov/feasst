@@ -29,7 +29,7 @@ feasst::ArgumentParse args("A grand canonical ensemble flat histogram Monte Carl
 std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int mx) {
   const std::string steps_per = feasst::str(1e5);
   auto mc = feasst::MakeMonteCarlo();
-  feasst::argtype domain_args = {
+  feasst::argtype config_args = {{"particle_type0", args.get("--particle0")},
     {"side_length0", args.get("--lx")},
     {"side_length1", args.get("--ly")},
     {"side_length2", args.get("--lz")}};
@@ -38,13 +38,12 @@ std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int
   std::string num("1");
   const double dccb_cutoff = args.get_int("--dccb_cutoff");
   if (mx > dccb_begin) {
-    domain_args.insert({"init_cells", feasst::str(dccb_cutoff)});
+    config_args.insert({"init_cells", feasst::str(dccb_cutoff)});
     ref = "0";
     num = "4";
   }
   const double beta = 1./args.get_double("--temperature");
   const double beta_mu = args.get_double("--beta_mu");
-  feasst::argtype config_args = {{"particle_type0", args.get("--particle0")}};
   feasst::argtype criteria_args = {{"beta", feasst::str(beta)},
     {"chemical_potential0", feasst::str(beta_mu/beta)}};
   if (args.option_given("--particle1")) {
@@ -53,14 +52,11 @@ std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int
   }
   if (args.option_given("--file_xyz")) {
     assert(thread == 0); // cannot initialize multiple threads to same configuration
-    feasst::Configuration config(feasst::MakeDomain(domain_args), config_args);
-    feasst::FileXYZ().load(args.get("--file_xyz"), &config);
-    mc->add(config);
-  } else {
-    mc->add(feasst::Configuration(feasst::MakeDomain(domain_args), config_args));
+    config_args.insert({"xyz_file", args.get("--file_xyz")});
   }
-  mc->add(feasst::Potential(feasst::MakeLennardJones()));
-  mc->add(feasst::Potential(feasst::MakeLongRangeCorrections()));
+  mc->add(feasst::MakeConfiguration(config_args));
+  mc->add(feasst::MakePotential(feasst::MakeLennardJones()));
+  mc->add(feasst::MakePotential(feasst::MakeLongRangeCorrections()));
   const double cyl_radius = args.get_double("--cyl_radius");
   if (cyl_radius > 0) {
     feasst::Potential cylinder(feasst::MakeModelSquareWellShape(feasst::MakeCylinder(

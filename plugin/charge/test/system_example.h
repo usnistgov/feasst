@@ -2,7 +2,7 @@
 #ifndef FEASST_EWALD_SYSTEM_EXAMPLE_H_
 #define FEASST_EWALD_SYSTEM_EXAMPLE_H_
 
-#include "configuration/include/utils.h"
+#include "configuration/test/config_utils.h"
 #include "configuration/include/domain.h"
 #include "system/include/system.h"
 #include "system/include/lennard_jones.h"
@@ -21,24 +21,23 @@ namespace feasst {
 inline System chain(const double alpha,
                     const int kmax_squared) {
   System system;
-  { Configuration config(MakeDomain({{"cubic_box_length", "20"}}), {
+  { auto config = MakeConfiguration({{"cubic_box_length", "20"},
       {"particle_type0", "../forcefield/chain10_3types.fstprt"},
       {"particle_type1", "../plugin/charge/forcefield/rpm_minus.fstprt"},
       {"particle_type2", "../plugin/charge/forcefield/rpm_plus.fstprt"},
+      {"add_particles_of_type1", "1"},
+      {"add_particles_of_type2", "1"},
     });
-//    config.add_particle_of_type(0);
-    config.add_particle_of_type(1);
-    config.add_particle_of_type(2);
-    config.update_positions({{0, 0, 0}, {2, 0, 0}});
+    config->update_positions({{0, 0, 0}, {2, 0, 0}});
     double alpha2;
     int kxmax, kymax, kzmax;
-    Ewald().tolerance_to_alpha_ks(0.0001, config, &alpha2, &kxmax, &kymax, &kzmax);
+    Ewald().tolerance_to_alpha_ks(0.0001, *config, &alpha2, &kxmax, &kymax, &kzmax);
     DEBUG("alpha2 " << alpha2);
 //    const double rms = Ewald().fourier_rms(alpha2, 3, config, 0);
 //    DEBUG("rms0 " << rms);
     DEBUG("kxmax " << kxmax);
-    config.add_model_param("alpha", alpha);
-    system.add(config);
+    config->add_model_param("alpha", alpha);
+    system.add(*config);
   }
   auto ewald= MakeEwald({{"kmax_squared", "27"},
                {"alpha", str(5.6/system.configuration().domain().min_side_length())}});

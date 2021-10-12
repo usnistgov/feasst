@@ -1,6 +1,6 @@
 
-#ifndef FEASST_EWALD_CHARGE_SELF_H_
-#define FEASST_EWALD_CHARGE_SELF_H_
+#ifndef FEASST_CHARGE_CHARGE_SELF_H_
+#define FEASST_CHARGE_CHARGE_SELF_H_
 
 #include "system/include/model_one_body.h"
 
@@ -43,4 +43,4 @@ inline std::shared_ptr<ChargeSelf> MakeChargeSelf() {
 
 }  // namespace feasst
 
-#endif  // FEASST_EWALD_CHARGE_SELF_H_
+#endif  // FEASST_CHARGE_CHARGE_SELF_H_

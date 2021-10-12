@@ -6,7 +6,8 @@
 #include "configuration/include/domain.h"
 #include "system/include/ideal_gas.h"
 #include "system/include/hard_sphere.h"
-#include "system/include/utils.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra_map.h"
 #include "system/include/dont_visit_model.h"
 #include "models/include/square_well.h"
@@ -104,15 +105,17 @@ TEST(MonteCarlo, TrialGrow) {
   for (const std::string particle : {"lj", "spce"}) {
     INFO(particle);
     double box_length = 8.;
-    std::string data = "forcefield/dimer.fstprt";
+    std::string data = "../forcefield/dimer.fstprt";
     if (particle == "spce") {
       box_length=20;
-      data = "forcefield/spce.fstprt";
+      data = "../forcefield/spce.fstprt";
     }
     MonteCarlo mc;
 //    mc.set(MakeRandomMT19937({{"seed", "123"}}));
-    mc.set(lennard_jones({{"cubic_box_length", str(box_length)},
-                          {"particle", data}}));
+    mc.add(MakeConfiguration({{"cubic_box_length", str(box_length)},
+                              {"particle_type0", data}}));
+    mc.add(MakePotential(MakeLennardJones()));
+    mc.add(MakePotential(MakeLongRangeCorrections()));
     mc.add_to_reference(MakePotential(MakeLennardJones()));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
@@ -163,10 +166,10 @@ TEST(MonteCarlo, TrialGrow) {
 
 MonteCarlo cg7mab2(const std::string& data, const int num, const int steps_per = 1) {
   MonteCarlo mc;
-  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "30"}}),
-    {{"particle_type", "../plugin/chain/forcefield/" + data},
-     {"set_cutoff_min_to_sigma", "true"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "1633624429"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "30"},
+    {"particle_type", "../plugin/chain/forcefield/" + data},
+    {"set_cutoff_min_to_sigma", "true"}}));
   mc.add(MakePotential(MakeHardSphere()));
   if (is_found_in(data, "fullangflex")) {
     mc.add(MakePotential(MakeHardSphere(),
@@ -320,9 +323,9 @@ TEST(MonteCarlo, multisite_neighbors) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   //mc.set(MakeRandomMT19937({{"seed", "1610132694"}}));
-  mc.set(lennard_jones({{"particle", "forcefield/dimer.fstprt"},
-                        {"cubic_box_length", "6"},
-                        {"lrc", "false"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "6"},
+                            {"particle_type0", "../forcefield/dimer.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
   mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));

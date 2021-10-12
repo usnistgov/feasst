@@ -9,6 +9,7 @@
 #include "system/include/dont_visit_model.h"
 #include "chain/include/trial_grow.h"
 #include "charge/include/utils.h"
+#include "charge/test/charge_utils.h"
 
 namespace feasst {
 

@@ -1,7 +1,7 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "system/include/lennard_jones.h"
-#include "system/include/utils.h"
+#include "system/include/long_range_corrections.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/trials.h"
@@ -14,7 +14,10 @@ namespace feasst {
 
 TEST(MonteCarlo, NVT_opt_lj_BENCHMARK_LONG) {
   MonteCarlo mc;
-  mc.set(lennard_jones());
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+                            {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));

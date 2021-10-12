@@ -116,6 +116,8 @@ void Potential::precompute(Configuration * config) {
   visit_model_->precompute(config);
   const ModelParams& params = model_params(*config);
   model_->precompute(params);
+  ASSERT(config->dimension() == 2 || config->dimension() == 3,
+    "Domain must be 2 or 3 dimensions. Please initialize Domain::side_length.");
   const double max_cutoff = maximum(params.cutoff().values());
   const double half_min_side = 0.5*config->domain().min_side_length();
   if (max_cutoff - NEAR_ZERO > half_min_side) {

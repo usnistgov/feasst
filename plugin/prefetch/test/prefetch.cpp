@@ -2,7 +2,7 @@
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
 #include "system/include/lennard_jones.h"
-#include "system/include/utils.h"
+#include "system/include/long_range_corrections.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trials.h"
@@ -18,6 +18,7 @@
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "charge/include/utils.h"
+#include "charge/test/charge_utils.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/energy_map_neighbor.h"
 #include "cluster/include/trial_avb2.h"
@@ -32,7 +33,10 @@ void run_prefetch(const int trials, const int steps_per) {
   auto mc = MakePrefetch();
 //  mc->set(MakeRandomMT19937({{"seed", "1592943710"}}));
   mc->set(MakeRandomMT19937({{"seed", "1596650884"}}));
-  mc->set(lennard_jones());
+  mc->add(MakeConfiguration({{"cubic_box_length", "8"},
+                             {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc->add(MakePotential(MakeLennardJones()));
+  mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}, {"num_steps", "1"}}));
@@ -59,7 +63,10 @@ TEST(Prefetch, NVT_benchmark_LONG) {
 
 TEST(Prefetch, MUVT) {
   auto mc = MakePrefetch({{"steps_per_check", "1"}});
-  mc->set(lennard_jones());
+  mc->add(MakeConfiguration({{"cubic_box_length", "8"},
+                            {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc->add(MakePotential(MakeLennardJones()));
+  mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));

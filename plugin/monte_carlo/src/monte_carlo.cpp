@@ -142,6 +142,9 @@ void MonteCarlo::seed_random(const int seed) {
 }
 
 void MonteCarlo::add(std::shared_ptr<Configuration> config) {
+  if (config->num_particle_types() == 0) {
+    FATAL("There are no particle types in config");
+  }
   system_.add(*config);
   config_set_ = true;
   if (potential_set_) system_set_ = true;
@@ -149,6 +152,9 @@ void MonteCarlo::add(std::shared_ptr<Configuration> config) {
 }
 
 void MonteCarlo::add(const Configuration& config) {
+  if (config.num_particle_types() == 0) {
+    FATAL("There are no particle types in config");
+  }
   WARN("Use MakeConfiguration instead of Configuration");
   system_.add(config);
   config_set_ = true;

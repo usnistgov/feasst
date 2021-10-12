@@ -6,7 +6,7 @@
 #include "monte_carlo/include/perturb_add.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "system/include/lennard_jones.h"
-#include "system/include/utils.h"
+#include "system/test/sys_utils.h"
 
 namespace feasst {
 

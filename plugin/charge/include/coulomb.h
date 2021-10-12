@@ -1,6 +1,6 @@
 
-#ifndef FEASST_EWALD_COULOMB_H_
-#define FEASST_EWALD_COULOMB_H_
+#ifndef FEASST_CHARGE_COULOMB_H_
+#define FEASST_CHARGE_COULOMB_H_
 
 #include "system/include/model_two_body.h"
 
@@ -48,4 +48,4 @@ inline std::shared_ptr<Coulomb> MakeCoulomb() {
 
 }  // namespace feasst
 
-#endif  // FEASST_EWALD_COULOMB_H_
+#endif  // FEASST_CHARGE_COULOMB_H_

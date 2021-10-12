@@ -1,6 +1,6 @@
 #include "utils/test/utils.h"
 #include "models/include/yukawa.h"
-#include "configuration/include/utils.h"
+#include "configuration/test/config_utils.h"
 
 namespace feasst {
 

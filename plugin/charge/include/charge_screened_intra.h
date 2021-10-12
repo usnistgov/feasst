@@ -1,6 +1,6 @@
 
-#ifndef FEASST_EWALD_CHARGE_SCREENED_INTRA_H_
-#define FEASST_EWALD_CHARGE_SCREENED_INTRA_H_
+#ifndef FEASST_CHARGE_CHARGE_SCREENED_INTRA_H_
+#define FEASST_CHARGE_CHARGE_SCREENED_INTRA_H_
 
 #include "system/include/model_two_body.h"
 
@@ -44,4 +44,4 @@ inline std::shared_ptr<ChargeScreenedIntra> MakeChargeScreenedIntra() {
 
 }  // namespace feasst
 
-#endif  // FEASST_EWALD_CHARGE_SCREENED_INTRA_H_
+#endif  // FEASST_CHARGE_CHARGE_SCREENED_INTRA_H_

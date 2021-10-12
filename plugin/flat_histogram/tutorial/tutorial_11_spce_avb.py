@@ -38,11 +38,18 @@ def mc(thread, mn, mx):
     steps_per=int(1e5)
     avb, dccb = avb_or_dccb(mx)
     mc = fst.MakeMonteCarlo()
-    spce_args = {"physical_constants": "CODATA2010", "cubic_box_length": "20",
-        "alpha": str(5.6/20), "kmax_squared": "38"}
+    mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "20",
+        "physical_constants": "CODATA2010",
+        "particle_type0": fst.install_dir() + "/forcefield/spce.fstprt"})))
+    mc.add(fst.MakePotential(fst.MakeEwald(fst.args({"alpha": str(5.6/20),
+        "kmax_squared": "38"}))))
+    mc.add(fst.MakePotential(fst.MakeModelTwoBodyFactory(fst.MakeLennardJones(), fst.MakeChargeScreened()),
+                                      fst.args({"table_size": "1e6"})))
+    mc.add(fst.MakePotential(fst.MakeChargeScreenedIntra(), fst.MakeVisitModelBond()))
+    mc.add(fst.MakePotential(fst.MakeChargeSelf()))
+    mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
     if dccb or avb:
-        spce_args["dual_cut"] = "3.16555789"
-    mc.set(fst.spce(fst.args(spce_args)))
+        mc.run(fst.MakeAddReference(fst.args({"potential_index": "1", "cutoff": "3.16555789", "use_cell": "true"})))
     if avb:
         initialize_neighbor_list(mc)
     beta = 1./fst.kelvin2kJpermol(525, mc.configuration())

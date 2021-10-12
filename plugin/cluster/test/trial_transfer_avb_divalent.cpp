@@ -11,18 +11,9 @@ namespace feasst {
 // Seems there is an issue with AVBDivalent prefactors
 TEST(TrialTransferAVBDivalent, add_remove) {
   System system;
-  {
-    Configuration config(MakeDomain({{"cubic_box_length", "8"}}), {
-      {"particle_type0", "../forcefield/lj.fstprt"},
-      {"particle_type1", "../forcefield/atom.fstprt"}});
-//    config.add_particle_of_type(0);
-//    config.add_particle_of_type(1);
-//    config.add_particle_of_type(1);
-//    config.update_positions({{0, 0, 0},
-//                             {1.1, 0, 0},
-//                             {-1.1, 0, 0}});
-    system.add(config);
-  }
+  system.add(*MakeConfiguration({{"cubic_box_length", "8"},
+    {"particle_type0", "../forcefield/lj.fstprt"},
+    {"particle_type1", "../forcefield/atom.fstprt"}}));
   const Configuration& config = system.configuration();
   system.add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

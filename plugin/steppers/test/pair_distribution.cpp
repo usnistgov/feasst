@@ -2,7 +2,8 @@
 #include "math/include/utils_math.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
-#include "system/include/utils.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/long_range_corrections.h"
 #include "steppers/include/pair_distribution.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
@@ -22,8 +23,11 @@ TEST(PairDistribution, gr_LONG) {
   //const int num = 2;
   const int num = 500;
   const double density = 0.776;
-  mc.set(lennard_jones({{"cubic_box_length",
-    feasst::str(std::pow(500/density, 1./3.))}}));
+  mc.add(MakeConfiguration({
+    {"cubic_box_length", feasst::str(std::pow(500/density, 1./3.))},
+    {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", feasst::str(1./0.85)}, {"chemical_potential", "-6."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));

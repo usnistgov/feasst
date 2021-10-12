@@ -19,6 +19,7 @@
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "charge/include/utils.h"
+#include "charge/test/charge_utils.h"
 #include "charge/include/charge_screened.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/energy_map_all_criteria.h"

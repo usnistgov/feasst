@@ -1,6 +1,6 @@
 #include "utils/test/utils.h"
 //#include "math/include/random_mt19937.h"
-#include "system/include/utils.h"
+#include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_select_particle.h"
@@ -9,17 +9,21 @@
 namespace feasst {
 
 TEST(MacrostateMorph, lj) {
-  System system = lennard_jones({{"particle", "forcefield/lj.fstprt"}});
+  auto conf = MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}});
+  conf->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.25");
+  conf->set_model_param("sigma", 1, 0.25);
+  conf->set_model_param("cutoff", 1, 1.0);
+  conf->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
+  conf->set_model_param("sigma", 1, 0.5);
+  conf->set_model_param("cutoff", 1, 1.0);
+  conf->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.75");
+  conf->set_model_param("sigma", 1, 0.75);
+  conf->set_model_param("cutoff", 1, 1.0);
+  System system;
+  system.add(*conf);
   Configuration * config = system.get_configuration();
-  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.25");
-  config->set_model_param("sigma", 1, 0.25);
-  config->set_model_param("cutoff", 1, 1.0);
-  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
-  config->set_model_param("sigma", 1, 0.5);
-  config->set_model_param("cutoff", 1, 1.0);
-  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.75");
-  config->set_model_param("sigma", 1, 0.75);
-  config->set_model_param("cutoff", 1, 1.0);
+  system.add(MakePotential(MakeLennardJones()));
+  system.add(MakePotential(MakeLongRangeCorrections()));
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
   auto macro = MakeMacrostateMorph(grow_sequence,
     Histogram({{"width", str(1./grow_sequence.size())}, {"max", "10"}}));

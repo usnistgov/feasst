@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_TRIAL_REMOVE_MULTIPLE_H_
-#define FEASST_MONTE_CARLO_TRIAL_REMOVE_MULTIPLE_H_
+#ifndef FEASST_CHARGE_TRIAL_REMOVE_MULTIPLE_H_
+#define FEASST_CHARGE_TRIAL_REMOVE_MULTIPLE_H_
 
 #include <memory>
 #include "utils/include/arguments.h"
@@ -21,4 +21,4 @@ std::shared_ptr<Trial> MakeTrialRemoveMultiple(
 
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_TRIAL_REMOVE_MULTIPLE_H_
+#endif  // FEASST_CHARGE_TRIAL_REMOVE_MULTIPLE_H_

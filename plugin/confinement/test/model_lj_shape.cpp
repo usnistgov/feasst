@@ -14,9 +14,9 @@ TEST(ModelLJShape, half_space) {
     {"direction", "1"},
   });
   ModelLJShape model(std::make_shared<HalfSpace>(half_space));
-  auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "8"}}),
-    {{"particle_type", "../forcefield/atom.fstprt"}});
-  config->add_particle_of_type(0);
+  auto config = MakeConfiguration({{"cubic_box_length", "8"},
+    {"particle_type", "../forcefield/atom.fstprt"},
+    {"add_particles_of_type0", "1"}});
   const ModelParams model_params = config->model_params();
   model.precompute(model_params);
   std::shared_ptr<Model> model2 = test_serialize<ModelLJShape, Model>(model);

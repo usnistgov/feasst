@@ -12,14 +12,13 @@
 namespace feasst {
 
 System fene_ex() {
-  Configuration config(MakeDomain({{"cubic_box_length", "12"}}),
-    {{"particle_type0", "../plugin/models/forcefield/data.chain10"}});
-  config.add_particle_of_type(0);
   System system;
-  system.add(config);
+  system.add(*MakeConfiguration({{"cubic_box_length", "12"},
+    {"particle_type0", "../plugin/models/forcefield/data.chain10"},
+    {"add_particles_of_type0", "1"}}));
   // wca
   { auto wca = MakeLennardJonesCutShift();
-    ModelParams wca_params = config.model_params();
+    ModelParams wca_params = system.configuration().model_params();
     wca->set_wca(0, 0, &wca_params);
     wca->precompute(wca_params);
     auto potential = MakePotential(wca, MakeVisitModelBond());

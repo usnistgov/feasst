@@ -59,6 +59,10 @@ inline std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory(
   return std::make_shared<ModelTwoBodyFactory>(models);
 }
 
+std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory(
+    std::shared_ptr<ModelTwoBody> model1,
+    std::shared_ptr<ModelTwoBody> model2);
+
 }  // namespace feasst
 
 #endif  // FEASST_SYSTEM_MODEL_TWO_BODY_FACTORY_H_

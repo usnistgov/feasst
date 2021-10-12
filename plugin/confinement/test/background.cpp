@@ -1,6 +1,6 @@
 #include "utils/test/utils.h"
-#include "configuration/include/utils.h"
-#include "system/include/utils.h"
+#include "configuration/test/config_utils.h"
+#include "system/include/system.h"
 #include "system/include/lennard_jones.h"
 #include "confinement/include/background.h"
 

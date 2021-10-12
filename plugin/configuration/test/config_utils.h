@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CONFIGURATION_UTILS_H_
-#define FEASST_CONFIGURATION_UTILS_H_
+#ifndef FEASST_TEST_CONFIGURATION_UTILS_H_
+#define FEASST_TEST_CONFIGURATION_UTILS_H_
 
 #include "utils/include/arguments.h"
 #include "configuration/include/configuration.h"
@@ -23,4 +23,4 @@ Configuration two_particle_configuration(argtype args = argtype());
 
 }  // namespace feasst
 
-#endif  // FEASST_CONFIGURATION_UTILS_H_
+#endif  // FEASST_TEST_CONFIGURATION_UTILS_H_

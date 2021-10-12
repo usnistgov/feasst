@@ -13,12 +13,9 @@ namespace feasst {
 
 TEST(TrialPivot, chain10) {
   System system;
-  {
-    Configuration config(MakeDomain({{"cubic_box_length", "12"}}),
-                         {{"particle_type", "../forcefield/chain10.fstprt"}});
-    config.add_particle_of_type(0);
-    system.add(config);
-  }
+  system.add(*MakeConfiguration({{"cubic_box_length", "12"},
+    {"particle_type", "../forcefield/chain10.fstprt"},
+    {"add_particles_of_type0", "1"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "100.0"}}));
   auto criteria = MakeMetropolis();

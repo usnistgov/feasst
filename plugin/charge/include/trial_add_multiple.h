@@ -1,6 +1,6 @@
 
-#ifndef FEASST_EWALD_TRIAL_ADD_MULTIPLE_H_
-#define FEASST_EWALD_TRIAL_ADD_MULTIPLE_H_
+#ifndef FEASST_CHARGE_TRIAL_ADD_MULTIPLE_H_
+#define FEASST_CHARGE_TRIAL_ADD_MULTIPLE_H_
 
 #include <memory>
 #include "utils/include/arguments.h"
@@ -24,4 +24,4 @@ std::shared_ptr<Trial> MakeTrialAddMultiple(argtype args = argtype());
 
 }  // namespace feasst
 
-#endif  // FEASST_EWALD_TRIAL_ADD_MULTIPLE_H_
+#endif  // FEASST_CHARGE_TRIAL_ADD_MULTIPLE_H_

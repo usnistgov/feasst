@@ -2,7 +2,7 @@
 #include "math/include/random_mt19937.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
-#include "configuration/include/utils.h"
+#include "configuration/test/config_utils.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/select.h"

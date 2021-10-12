@@ -6,7 +6,8 @@
 #include "system/include/dont_visit_model.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/potential.h"
-#include "system/include/utils.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/long_range_corrections.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
@@ -26,6 +27,7 @@
 #include "charge/include/charge_self.h"
 #include "charge/include/check_net_charge.h"
 #include "charge/include/utils.h"
+#include "charge/test/charge_utils.h"
 #include "charge/include/trial_transfer_multiple.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
@@ -53,8 +55,8 @@ double energy_av(const int macro, const MonteCarlo& mc) {
 //}
 TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
   MonteCarlo monte_carlo;
-  monte_carlo.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
-                                {{"particle_type", install_dir() + "/forcefield/atom.fstprt"}}));
+  monte_carlo.add(MakeConfiguration({{"cubic_box_length", "8"},
+    {"particle_type", install_dir() + "/forcefield/atom.fstprt"}}));
   monte_carlo.add(MakePotential(MakeDontVisitModel()));
   monte_carlo.set(MakeThermoParams({{"beta", str(1./1.2)}, {"chemical_potential", "-3"}}));
 //  auto criteria = MakeFlatHistogram(
@@ -83,8 +85,8 @@ TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
 TEST(MonteCarlo, hard_sphere_LONG) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
-                       {{"particle_type", "../forcefield/hard_sphere.fstprt"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+    {"particle_type", "../forcefield/hard_sphere.fstprt"}}));
   mc.add(MakePotential(MakeHardSphere()));
 //  mc.add_to_optimized(MakePotential(MakeHardSphere(), MakeVisitModelCell({{"min_length", "1"}})));
   mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "-2.352321"}}));
@@ -124,15 +126,18 @@ MonteCarlo test_lj_fh(const int num_steps,
     bool dont_use_multi = false) {
   MonteCarlo mc;
   int ref = -1;
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+                            {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
   if (num_steps == 1) {
-    mc.set(lennard_jones());
     if (test_multi) {
       ref = 0;
       mc.add_to_reference(MakePotential(MakeDontVisitModel()));
     }
   } else {
     ref = 0;
-    mc.set(lennard_jones({{"dual_cut", "1."}}));
+    mc.run(MakeAddReference({{"cutoff", "1"}, {"use_cell", "true"}}));
   }
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
@@ -518,9 +523,22 @@ MonteCarlo rpm_fh_test(
     rpm_args.insert({"dual_cut", "1"});
     ref = 0;
   }
-  mc.set(rpm(rpm_args));
+  mc.add(MakeConfiguration({{"cubic_box_length", "12"},
+    {"particle_type0", install_dir() + "/plugin/charge/forcefield/rpm_plus.fstprt"},
+    {"particle_type1", install_dir() + "/plugin/charge/forcefield/rpm_minus.fstprt"},
+    {"cutoff", "4.891304347826090"},
+    {"charge0", str( 1/std::sqrt(CODATA2018().charge_conversion()))},
+    {"charge1", str(-1/std::sqrt(CODATA2018().charge_conversion()))}}));
+  mc.add(MakePotential(MakeEwald({{"alpha", str(6.87098396396261/12)},
+    {"kmax_squared", "38"}})));
+  mc.add(MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(), MakeChargeScreened()),
+                                    {{"table_size", "1e6"}}));
+  mc.add(MakePotential(MakeChargeSelf()));
+
+  INFO(mc.configuration().model_params().charge().value(0));
+  INFO(mc.configuration().model_params().charge().value(1));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
-  INFO("charge conversion " << CODATA2018().charge_conversion());
+  INFO("charge conversion " << MAX_PRECISION << CODATA2018().charge_conversion());
   const double temperature = 0.047899460618081;
   const double beta_mu = -13.94;
   mc.set(MakeThermoParams({{"beta", str(1/temperature)},
@@ -674,8 +692,10 @@ MonteCarlo nvtw(const int num) {
   const std::string steps_per = "1e3";
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1633373249"}}));
-  //mc.set(lennard_jones({{"dual_cut", "1"}}));
-  mc.set(lennard_jones());
+  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+                            {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", str(1./1.5)}, {"chemical_potential", "-2.352321"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));

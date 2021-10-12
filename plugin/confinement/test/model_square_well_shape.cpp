@@ -14,9 +14,9 @@ TEST(ModelSquareWellShape, half_space) {
     {"direction", "1"},
   });
   ModelSquareWellShape model(std::make_shared<HalfSpace>(half_space));
-  auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "8"}}),
-    {{"particle_type", "../forcefield/atom.fstprt"}});
-  config->add_particle_of_type(0);
+  auto config = MakeConfiguration({{"cubic_box_length", "8"},
+    {"particle_type", "../forcefield/atom.fstprt"},
+    {"add_particles_of_type0", "1"}});
   const ModelParams model_params = config->model_params();
   EXPECT_LT(1e100, model.energy_no_wrap(config->particle(0).site(0), *config, model_params));
   Position pos;

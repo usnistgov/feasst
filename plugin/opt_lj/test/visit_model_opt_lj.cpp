@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "configuration/include/utils.h"
+#include "configuration/test/config_utils.h"
 #include "system/include/hard_sphere.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 

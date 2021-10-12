@@ -76,4 +76,13 @@ ModelTwoBodyFactory::ModelTwoBodyFactory(std::istream& istr)
   }
 }
 
+std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory(
+    std::shared_ptr<ModelTwoBody> model1,
+    std::shared_ptr<ModelTwoBody> model2) {
+  auto fac = std::make_shared<ModelTwoBodyFactory>();
+  fac->add(model1);
+  fac->add(model2);
+  return fac;
+}
+
 }  // namespace feasst

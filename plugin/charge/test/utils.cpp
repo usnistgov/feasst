@@ -1,6 +1,7 @@
 
 #include "utils/test/utils.h"
 #include "charge/include/utils.h"
+#include "charge/test/charge_utils.h"
 
 namespace feasst {
 

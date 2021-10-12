@@ -1,6 +1,6 @@
 #include "utils/test/utils.h"
 #include "configuration/include/configuration.h"
-#include "configuration/include/utils.h"
+#include "configuration/test/config_utils.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/domain.h"
 #include "utils/include/debug.h"
@@ -32,23 +32,22 @@ TEST(Configuration, type_to_file_name) {
 }
 
 TEST(Configuration, coordinates_and_wrapping) {
-  Configuration config(MakeDomain({{"cubic_box_length", "5"}}),
-    {{"particle_type0", "../forcefield/atom.fstprt"}});
-  config.add_particle_of_type(0);
-  config.add_particle_of_type(0);
+  auto config = MakeConfiguration({{"cubic_box_length", "5"},
+    {"particle_type0", "../forcefield/atom.fstprt"},
+    {"add_particles_of_type0", "2"}});
   Position pos;
   pos.set_to_origin_3D();
   pos.set_coord(0, -583);
   pos.set_coord(1, 83.34);
   pos.set_coord(2, 0.005783);
-  Select select(0, config.select_particle(0));
+  Select select(0, config->select_particle(0));
   //select.particle(0, config);
-  config.displace_particles(select, pos);
-  config.wrap_particle(0);
-  EXPECT_EQ(config.num_particles(), 2);
-  EXPECT_EQ(config.dimension(), 3);
+  config->displace_particles(select, pos);
+  config->wrap_particle(0);
+  EXPECT_EQ(config->num_particles(), 2);
+  EXPECT_EQ(config->dimension(), 3);
 
-  Configuration config2 = test_serialize(config);
+  Configuration config2 = test_serialize(*config);
 
   { const Position& site_position = config2.select_particle(0).site(0).position();
     EXPECT_NEAR(2.,       site_position.coord(0), 10*NEAR_ZERO);
@@ -130,7 +129,7 @@ TEST(Configuration, bonds_spce) {
 }
 
 TEST(Configuration, group) {
-  auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "7"}}));
+  auto config = MakeConfiguration({{"cubic_box_length", "7"}});
   TRY(
     Configuration config_err(*config);
     config_err.add(MakeGroup({{"site_type", "0"}}));
@@ -314,6 +313,22 @@ TEST(Configuration, dihedrals) {
   EXPECT_EQ(0, config->particle(0).num_bonds());
   EXPECT_EQ("RigidBond", config->unique_type(0).bond(0).model());
   EXPECT_EQ(9, config->particle_type(0).num_bonds());
+}
+
+TEST(Configuration, cutoff) {
+  auto config = MakeConfiguration({{"particle_type0", "../forcefield/spce.fstprt"},
+    {"sigma1", "0.1"},
+    {"epsilon0", "5.2"},
+    {"cutoff", "2.3"},
+    {"cutoff0", "12.3"},
+    {"charge1", "3.3"},
+    });
+  EXPECT_DOUBLE_EQ(config->model_params().sigma().value(1), 0.1);
+  EXPECT_DOUBLE_EQ(config->model_params().epsilon().value(0), 5.2);
+  EXPECT_DOUBLE_EQ(config->model_params().cutoff().value(0), 12.3);
+  EXPECT_DOUBLE_EQ(config->model_params().cutoff().value(1), 2.3);
+  EXPECT_DOUBLE_EQ(config->model_params().charge().value(0), -0.8476);
+  EXPECT_DOUBLE_EQ(config->model_params().charge().value(1), 3.3);
 }
 
 }  // namespace feasst

@@ -36,14 +36,11 @@ TEST(VisitModelInnerPatch, patch_one) {
 
 TEST(VisitModelInnerPatch, patch_one_2body) {
   System system;
-  { Configuration config(
-      MakeDomain({{"cubic_box_length", "10"}}),
-      {{"particle_type", "../plugin/patch/forcefield/janus.fstprt"}}
-    );
-    config.add(MakeGroup({{"site_type", "0"}}));
-    config.add_particle_of_type(0);
-    config.add_particle_of_type(0);
-    system.add(config);
+  { auto config = MakeConfiguration({{"cubic_box_length", "10"},
+      {"particle_type", "../plugin/patch/forcefield/janus.fstprt"},
+      {"add_particles_of_type0", "2"}});
+    config->add(MakeGroup({{"site_type", "0"}}));
+    system.add(*config);
   }
 
   system.add(MakePotential(MakeSquareWell(),

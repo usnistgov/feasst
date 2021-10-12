@@ -25,8 +25,7 @@ class Potential {
     args:
     - group_index: set the index of the group in the configuration which
       contributes to this potential (default: 0, representing entire config).
-    - cell_index: set the index of the cell, only to be used with
-      VisitModelCell.
+    - cell_index: set the index of the cell, only used with VisitModelCell.
       This also overrides group_index.
     - prevent_cache: set this to true in order to prevent the use of cache
       (default: False)

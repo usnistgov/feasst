@@ -2,7 +2,6 @@
 #include "utils/include/progress_report.h"
 #include "math/include/random_mt19937.h"
 #include "system/include/lennard_jones.h"
-#include "system/include/utils.h"
 #include "models/include/square_well.h"
 #include "configuration/include/domain.h"
 #include "monte_carlo/include/trials.h"
@@ -39,11 +38,9 @@ TEST(MonteCarlo, cluster) {
   for (auto single_particle_translate : {true, false}) {
     MonteCarlo mc;
     //mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
-    mc.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "8"}}),
-                                  {{"particle_type", "../forcefield/lj.fstprt"}}));
-    for (int i = 0; i < 3; ++i) {
-      mc.get_system()->get_configuration()->add_particle_of_type(0);
-    }
+    mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+      {"particle_type", "../forcefield/lj.fstprt"},
+      {"add_particles_of_type0", "3"}}));
     mc.get_system()->get_configuration()->update_positions({{0, 0, 0}, {2, 0, 0}, {4, 0, 0}});
     mc.add(MakePotential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
@@ -104,7 +101,8 @@ TEST(MonteCarlo, GCMCmap) {
     INFO(mapstr);
     MonteCarlo mc;
     //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-    mc.set(lennard_jones({{"lrc", "false"}}));
+    mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+    mc.add(MakePotential(MakeLennardJones()));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
@@ -144,8 +142,8 @@ MonteCarlo mc_avb_test(
     const bool avb4 = false) {
   MonteCarlo monte_carlo;
   // monte_carlo.set(MakeRandomMT19937({{"seed", "default"}}));
-  monte_carlo.add(MakeConfiguration(MakeDomain({{"cubic_box_length", "6"}}),
-                                    {{"particle_type", "../forcefield/lj.fstprt"}}));
+  monte_carlo.add(MakeConfiguration({{"cubic_box_length", "6"},
+                                     {"particle_type", "../forcefield/lj.fstprt"}}));
   if (avb) {
     monte_carlo.add(MakePotential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
