@@ -12,8 +12,17 @@
 
 namespace feasst {
 
+TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(argtype * args) {
+  min_block_size_ = integer("min_block_size", args, 1e6);
+  num_block_operations_ = integer("num_block_operations", args, 20);
+}
+TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(argtype args)
+  : TripleBandedCollectionMatrix(&args) {
+  check_all_used(args);
+}
+
 void TripleBandedCollectionMatrix::compute_ln_prob(
-    LnProbability * ln_prob) {
+    LnProbability * ln_prob) const {
   ln_prob->set_value(0, 0.);
   for (int macro = 1; macro < ln_prob->size(); ++macro) {
     const double ln_prob_previous = ln_prob->value(macro - 1);
@@ -50,6 +59,12 @@ void TripleBandedCollectionMatrix::compute_ln_prob(
   ln_prob->normalize();
 }
 
+void TripleBandedCollectionMatrix::init_cur_(const int exp) {
+  cur_block_[exp] = TripleBandedCollectionMatrix();
+  cur_block_[exp].block_ = true;
+  cur_block_[exp].resize(matrix().size());
+}
+
 void TripleBandedCollectionMatrix::increment(
     const int row,
     const int column,
@@ -58,21 +73,58 @@ void TripleBandedCollectionMatrix::increment(
   DEBUG(matrix_[row][column] << " + " << inc);
   matrix_[row][column] += inc;
   DEBUG(feasst_str(matrix_[row]));
+
+  if (block_) return;
+
+  if (blocks_.size() == 0) {
+    blocks_.resize(num_block_operations_);
+    cur_block_.resize(num_block_operations_);
+    max_block_updates_.resize(num_block_operations_);
+    block_updates_.resize(num_block_operations_, 0);
+    for (int exp = 0; exp < num_block_operations_; ++exp) {
+      init_cur_(exp);
+      max_block_updates_[exp] = min_block_size_*std::pow(2, exp);
+    }
+  }
+
+  for (int exp = 0; exp < num_block_operations_; ++exp) {
+    cur_block_[exp].increment(row, column, inc);
+    ++block_updates_[exp];
+    if (block_updates_[exp] == max_block_updates_[exp]) {
+      block_updates_[exp] = 0;
+      blocks_[exp].push_back(cur_block_[exp]);
+      init_cur_(exp);
+    }
+  }
 }
 
-double TripleBandedCollectionMatrix::sum_(const int macro) {
+double TripleBandedCollectionMatrix::sum_(const int macro) const {
   return std::accumulate(matrix_[macro].begin(), matrix_[macro].end(), 0.);
 }
 
 void TripleBandedCollectionMatrix::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2468, ostr);
   feasst_serialize(matrix_, ostr);
+  feasst_serialize(block_, ostr);
+  feasst_serialize(min_block_size_, ostr);
+  feasst_serialize(num_block_operations_, ostr);
+  feasst_serialize(block_updates_, ostr);
+  feasst_serialize(max_block_updates_, ostr);
+  feasst_serialize_fstobj(blocks_, ostr);
+  feasst_serialize_fstobj(cur_block_, ostr);
 }
 
 TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 2468, "unrecognized verison: " << version);
   feasst_deserialize(&matrix_, istr);
+  feasst_deserialize(&block_, istr);
+  feasst_deserialize(&min_block_size_, istr);
+  feasst_deserialize(&num_block_operations_, istr);
+  feasst_deserialize(&block_updates_, istr);
+  feasst_deserialize(&max_block_updates_, istr);
+  feasst_deserialize_fstobj(&blocks_, istr);
+  feasst_deserialize_fstobj(&cur_block_, istr);
 }
 
 bool TripleBandedCollectionMatrix::is_equal(
@@ -92,6 +144,46 @@ TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(
     ASSERT(dat.size() == 1, "only single states accepted for NVT+W");
     matrix_.push_back(dat[0]);
   }
+}
+
+std::string TripleBandedCollectionMatrix::write_per_bin_header() const {
+  std::stringstream ss;
+  for (int i = 0; i < static_cast<int>(blocks_.size()); ++i) {
+    if (static_cast<int>(blocks_[i].size()) > 2) {
+      ss << "std" << i << ",stdstd" << i << ",";
+    }
+  }
+  ss << "c0,c1,c2,";
+  return ss.str();
+}
+
+std::string TripleBandedCollectionMatrix::write_per_bin(const int bin) const {
+  std::stringstream ss;
+  // compute and print the standard deviation of the average of the blocks
+  for (const std::vector<TripleBandedCollectionMatrix>& cms : blocks()) {
+    if (cms.size() > 2) {
+      Accumulator acc_block;
+      for (const TripleBandedCollectionMatrix& cm : cms) {
+        LnProbability lnp;
+        lnp.resize(matrix().size());
+        cm.compute_ln_prob(&lnp);
+        if (bin == 0) {
+          acc_block.accumulate(0);
+        } else {
+          acc_block.accumulate(lnp.value(bin) - lnp.value(bin-1));
+        }
+      }
+      ss << std::setprecision(4) << acc_block.stdev_of_av() << ",";
+//                                 << acc_block.stdev_of_stdev_av() << ",";
+    }
+  }
+  ss << matrix()[bin][0] << ","
+     << matrix()[bin][1] << ","
+     << matrix()[bin][2] << ",";
+//    ss << " " << cols[0] << " "
+//      << cols[1] << " "
+//      << cols[2];
+  return ss.str();
 }
 
 }  // namespace feasst

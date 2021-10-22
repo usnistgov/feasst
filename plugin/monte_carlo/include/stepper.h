@@ -41,10 +41,7 @@ class Stepper {
       multistate is enabled (default: true).
       Thus, steps_per_write refers now to the writing of all states.
       Individual states no longer write.
-    - block_size: size of block in accumulator.
-      If not provided, use default value in Accumulator.
-    - num_moments: number of moments in accumulator.
-      If not provided, use default value in Accumulator.
+    - Accumulator arguments.
     - configuration: index of configuration (default: 0)
    */
   explicit Stepper(argtype args = argtype());

@@ -399,5 +399,47 @@ TEST(Random, henry_dimer_slit) {
   EXPECT_NEAR((W-3*sigma)/L+(2*sigma/L)*(3./4.), H.average(), 10*H.block_stdev());
 }
 
+// In this example, a random walk is performed in one dimension with periodic boundaries.
+// The step size is chosen randomly uniform in [-1, 1], and the repeating cell is 25.
+TEST(Accumulator, block_average_LONG) {
+  const double half_pbc_length = 25/2.;
+  const double step_size = 1;
+  const int num_steps = 1e6;
+  auto av_position = MakeAccumulator({{"num_moments", "4"}});
+  EXPECT_EQ(av_position->num_moments(), 4);
+  //auto rng = MakeRandomMT19937({{"seed", "123"}});
+  auto rng = MakeRandomMT19937();
+  std::vector<double> pos;
+  double position = rng->uniform_real(-half_pbc_length, half_pbc_length);
+  for (int step = 0; step < num_steps; ++step) {
+    position += step_size*rng->uniform_real(-1, 1);
+    if (position < -half_pbc_length) {
+      position += 2*half_pbc_length;
+    } else if (position > half_pbc_length) {
+      position -= 2*half_pbc_length;
+    }
+    av_position->accumulate(position);
+    pos.push_back(position);
+  }
+
+  const double av = av_position->average();
+  EXPECT_NEAR(av, std::accumulate(pos.begin(), pos.end(), 0.)/num_steps, 1e-8);
+  //INFO(av_position->std());
+  for (int mo = 2; mo <= 4; ++mo) {
+    double mom = 0.;
+    for (const double& p : pos) {
+      mom += std::pow(p - av, mo);
+    }
+    mom /= num_steps;
+    //INFO(mo << " " << mom << " " << av_position->central_moment(mo));
+    EXPECT_NEAR(mom, av_position->central_moment(mo), 1e-8);
+  }
+
+//  for (int op = 0; op < av_position->num_block_operations(); ++op) {
+//    INFO(op << " " << av_position->block_stdev(op) << " " << av_position->block_std_of_std(op));
+//  }
+  EXPECT_NEAR(av_position->block_stdev(0), 0.08, 0.05);
+  EXPECT_NEAR(av_position->block_std_of_std(0), 0.05, 0.05);
+}
 
 }  // namespace feasst

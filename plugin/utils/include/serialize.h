@@ -345,6 +345,7 @@ void feasst_serialize(const std::vector<std::shared_ptr<T> >& vector,
   }
 }
 
+// HWH this didn't work in Accumulator. Depreciate it?
 /// Deserialize vector of shared pointers of feasst objects
 template <typename T>
 void feasst_deserialize(std::vector<std::shared_ptr<T> > * vector,

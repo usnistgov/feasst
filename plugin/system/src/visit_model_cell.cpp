@@ -9,15 +9,21 @@
 
 namespace feasst {
 
-VisitModelCell::VisitModelCell(argtype args) : VisitModel() {
+VisitModelCell::VisitModelCell(argtype * args) : VisitModel() {
   class_name_ = "VisitModelCell";
   DEBUG("parse cells");
-  if (used("min_length", args)) {
-    min_length_ = dble("min_length", &args);
-    group_index_ = integer("cell_group", &args, 0);
+  if (used("min_length", *args)) {
+    min_length_ = dble("min_length", args);
+    group_index_ = integer("cell_group", args, 0);
     ASSERT(group_index_ >= 0, "invalid group_index: " << group_index_);
   }
+}
+VisitModelCell::VisitModelCell(argtype args) : VisitModelCell(&args) {
   check_all_used(args);
+}
+VisitModelCell::VisitModelCell(std::shared_ptr<VisitModelInner> inner,
+  argtype args) : VisitModelCell(args) {
+  set_inner(inner);
 }
 
 int VisitModelCell::cell_id(const Domain& domain,
@@ -46,6 +52,7 @@ int VisitModelCell::cell_id_opt_(const Domain& domain,
 }
 
 void VisitModelCell::precompute(Configuration * config) {
+  VisitModel::precompute(config);
   ASSERT(config->domain().side_lengths().size() > 0,
     "cannot define cells before domain sides");
   ASSERT(!config->domain().is_tilted(), "implement triclinic");
@@ -296,8 +303,8 @@ void VisitModelCell::check(const Configuration& config) const {
 class MapVisitModelCell {
  public:
   MapVisitModelCell() {
-    VisitModelCell().deserialize_map()["VisitModelCell"] =
-      std::make_shared<VisitModelCell>();
+    auto obj = MakeVisitModelCell({{"min_length", "1"}});
+    obj->deserialize_map()["VisitModelCell"] = obj;
   }
 };
 

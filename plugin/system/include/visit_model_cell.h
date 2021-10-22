@@ -19,7 +19,12 @@ class VisitModelCell : public VisitModel {
     - min_length: build cell list with given minimum distance between cells.
     - cell_group: compute cells only in given group index (default: 0).
    */
-  VisitModelCell(argtype args = argtype());
+  explicit VisitModelCell(argtype args);
+  explicit VisitModelCell(argtype * args);
+  
+  /// Same as above, but with an inner.
+  explicit VisitModelCell(std::shared_ptr<VisitModelInner> inner,
+    argtype args);
 
   /// Return the cells.
   const Cells& cells() const { return cells_; }
@@ -30,6 +35,7 @@ class VisitModelCell : public VisitModel {
   /// Same as above, but optimized.
   int cell_id_opt_(const Domain& domain, const Position& position);
 
+  /// Same as base class, but also prepare the cells.
   void precompute(Configuration * config) override;
 
   void compute(
@@ -69,6 +75,12 @@ class VisitModelCell : public VisitModel {
 inline std::shared_ptr<VisitModelCell> MakeVisitModelCell(
     argtype args = argtype()) {
   return std::make_shared<VisitModelCell>(args);
+}
+
+inline std::shared_ptr<VisitModelCell> MakeVisitModelCell(
+    std::shared_ptr<VisitModelInner> inner,
+    argtype args = argtype()) {
+  return std::make_shared<VisitModelCell>(inner, args);
 }
 
 }  // namespace feasst

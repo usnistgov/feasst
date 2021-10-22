@@ -7,8 +7,8 @@
 # The remaining jobs in the array supply task > 0, which signals simulation
 # restart using checkpoint files instead.
 
-((num_hours=8))
-num_procs=12
+((num_hours=5*24))
+num_procs=32
 ((num_procs_ext=2*$num_procs))
 
 # Write a SLURM script to file and queue it.
@@ -27,7 +27,7 @@ echo "ID is \$SLURM_JOB_ID"
 echo "TASK is \$SLURM_ARRAY_TASK_ID"
 
 cd \$PWD
-python tutorial_12_trimer.py --task \$SLURM_ARRAY_TASK_ID --num_procs ${num_procs} --num_hours $num_hours
+python tutorial_12_trimer.py --task \$SLURM_ARRAY_TASK_ID --num_procs ${num_procs} --num_hours $num_hours --particle $particle --temperature $temperature --max_particles $max_particles --mu $mu --cubic_box_length $cubic_box_length
 
 if [ \$? == 0 ]; then
   echo "Job is done"
@@ -41,5 +41,8 @@ _EOF_
 
 sbatch --array=0-10%1 launch.cmd
 }
+
+#particle=~/feasst/forcefield/trimer_0.4L.fstprt; temperature=0.3; cubic_box_length=8; max_particles=270; mu=-1
+particle=~/feasst/forcefield/trimer.fstprt; temperature=0.275; cubic_box_length=8; max_particles=100; mu=-1.2375
 
 launch_node

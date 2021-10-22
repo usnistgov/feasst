@@ -80,7 +80,7 @@ class FileXYZPatch {
 
   void write_for_vmd(const std::string file_name,
              const Configuration& config) const;
-
+  bool append() const { return append_; }
   void serialize(std::ostream& ostr) const;
   explicit FileXYZPatch(std::istream& istr);
 

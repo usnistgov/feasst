@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 # manually list the plugins
 # Note: for developement and testing, reducing plugins decreases compile time
 set(FEASST_PLUGINS "utils")
-#set(FEASST_PLUGINS "utils;math")
+set(FEASST_PLUGINS "utils;math")
 #set(FEASST_PLUGINS "utils;math;configuration")
 #set(FEASST_PLUGINS "utils;math;configuration;system")
 #set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;models;monte_carlo")
@@ -459,8 +459,11 @@ install(FILES ${CMAKE_BINARY_DIR}/feasst.h
     DESTINATION include)
 
 # make feasst text interpreter
-add_executable (fst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/feasst.cpp)
-target_link_libraries (fst LINK_PUBLIC feasstlib)
+list (FIND FEASST_PLUGINS "monte_carlo" _index)
+if (${_index} GREATER -1)
+  add_executable (fst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/feasst.cpp)
+  target_link_libraries (fst LINK_PUBLIC feasstlib)
+endif()
 
 # SWIG
 if (USE_SWIG)

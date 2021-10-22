@@ -36,13 +36,13 @@ Stepper::Stepper(argtype * args) {
   set_multistate(boolean("multistate", args, false));
   is_multistate_aggregate_ =
     boolean("multistate_aggregate", args, true);
-
-  if (used("block_size", *args)) {
-    accumulator_.set_block_size(integer("block_size", args));
-  }
-  if (used("num_moments", *args)) {
-    accumulator_.set_moments(integer("num_moments", args));
-  }
+  accumulator_ = Accumulator(args);
+//  if (used("block_size", *args)) {
+//    accumulator_.set_block_size(integer("block_size", args));
+//  }
+//  if (used("num_moments", *args)) {
+//    accumulator_.set_moments(integer("num_moments", args));
+//  }
   configuration_ = integer("configuration", args, 0);
 }
 

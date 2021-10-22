@@ -242,6 +242,12 @@ TEST(MonteCarlo, lj_fh) {
   }
 }
 
+TEST(MonteCarlo, lj_fh_block) {
+  MonteCarlo mc = test_serialize(test_lj_fh(1, "TM", 10));
+  mc.run_until_complete();
+//  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+}
+
 TEST(MonteCarlo, lj_fh_with0) {
   for (int num_steps : {1, 2}) {
     for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
@@ -677,7 +683,7 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
   EXPECT_NEAR(en[2]->accumulator().average(), -3.0162868737745732, 0.05);
   EXPECT_NEAR(en[3]->accumulator().average(), -4.8648645814174927, 0.05);
   EXPECT_NEAR(en[4]->accumulator().average(), -6.8089768188067694, 0.05);
-  EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.06);
+  EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.062);
 //  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
 //  EXPECT_NEAR(en[1]->accumulator().average(), -1.30701, 0.03);
 //  EXPECT_NEAR(en[2]->accumulator().average(), -2.98115, 0.03);
@@ -742,7 +748,7 @@ TEST(MonteCarlo, nvtw) {
   lnp.resize(data.size());
   cm.compute_ln_prob(&lnp);
   //INFO(feasst_str(lnp.values()));
-  EXPECT_NEAR(lnp.value(0), -14.03737335832180, 0.2);
+  EXPECT_NEAR(lnp.value(0), -14.03737335832180, 0.25);
   EXPECT_NEAR(lnp.value(1), -10.05031209165520, 0.2);
   EXPECT_NEAR(lnp.value(2), -6.458920624988570, 0.2);
   EXPECT_NEAR(lnp.value(3), -3.145637424988510, 0.1);

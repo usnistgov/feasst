@@ -22,14 +22,27 @@ namespace feasst {
  * Accumulate a series of values to compute the average, standard deviation,
  * and the standard deviation of the average of uncorrelated data using the
  * blocking method.
+ * Flyvbjerg, Error estimates on averages of correlated data,
+ * http://dx.doi.org/10.1063/1.457480
+ * Also, see Frenkel and Smit, Understanding Molecular Simulations, Appendix D
+ * and Case study 4 (pages 98-100, Figure 4.4).
  */
 class Accumulator {
  public:
   /**
     args:
-    - block_size: number of values per block (default: 1e5).
+    - num_moments: maximum number of moments (default: 4).
+    - num_block_operations: maximum number of blocking operations (default: 20).
+    - min_block_size: minimum number of increments for a block (default: 1e5).
    */
   explicit Accumulator(argtype args = argtype());
+  explicit Accumulator(argtype * args);
+
+  /// Return the maximum number of block operations.
+  int num_block_operations() const { return num_block_operations_; }
+
+  /// Return the maximum number of moments.
+  int num_moments() const { return static_cast<int>(val_moment_.size()); }
 
   /// Add a value to the running sum of values and higher moments.
   void accumulate(double value);
@@ -46,21 +59,11 @@ class Accumulator {
   /// Return the standard deviation of the average (e.g., std/sqrt(num_samples))
   double stdev_of_av() const;
 
-  /**
-   * Set the size of a block to compute (uncorrelated) standard errors of the
-   * block averages.
-   *
-   * Flyvbjerg, Error estimates on averages of correlated data,
-   * http://dx.doi.org/10.1063/1.457480
-   */
-  void set_block_size(const double block_size = 1e5) {
-    block_size_ = block_size; }
+  /// Return standard deviation of the block average (0 if not enough data).
+  double block_stdev(const int num_op = 0) const;
 
-  /// Return number of values per block.
-  double block_size() const { return block_size_; }
-
-  /// Return standard deviation of the block averages (0 if not enough blocks).
-  double block_stdev() const;
+  /// Return standard deviation of the standard deviation of the block average.
+  double block_std_of_std(const int num_op = 0) const;
 
   /// Return number of values accumulated.
   double num_values() const { return num_values_; }
@@ -86,15 +89,18 @@ class Accumulator {
   /// Return the minimum value accumulated.
   double min() const { return min_; }
 
-  /// Set the highest order of moments recorded.
-  void set_moments(const int num_moments = 2);
-
   /// Return the moments.
   std::vector<long double> moments() const { return val_moment_; }
 
   /// Return the moments as a double.
   double moment(const int index) const {
     return static_cast<double>(val_moment_[index]); }
+
+  // HWH: requires further testing/documentation
+  // moment = 1/N sum((i - av)^n)
+  // Return the n-th central moment.
+  // https://en.wikipedia.org/wiki/Central_moment
+  double central_moment(const int n);
 
   /// Return the header of the human readable status.
   std::string status_header() const;
@@ -112,6 +118,7 @@ class Accumulator {
   /// confidence interval based on the block average standard deviations.
   bool is_equivalent(const Accumulator& accumulator,
     const double t_factor,
+    const int num_op = 0,  // number of block operations
     const bool verbose = false) const;
 
   void serialize(std::ostream& ostr) const;
@@ -129,11 +136,15 @@ class Accumulator {
   std::vector<long double> val_moment_;
 
   // block averaging variables
-  double block_size_;
-  long double sum_block_;         //!< sum of all values accumulated
+  int num_block_operations_;
+  int min_block_size_;
+  std::vector<long double> sum_block_;         //!< sum of all values accumulated
 
   /// accumulate averages of each block
-  std::shared_ptr<Accumulator> block_averages_;
+  std::vector<std::shared_ptr<Accumulator> > block_averages_;
+
+  // Set the highest order of moments recorded.
+  void set_moments_(const int num_moments);
 };
 
 inline std::shared_ptr<Accumulator> MakeAccumulator(argtype args = argtype()) {

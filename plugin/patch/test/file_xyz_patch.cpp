@@ -11,6 +11,12 @@
 
 namespace feasst {
 
+TEST(FileXYZPatch, serialize) {
+  auto patch = MakeFileXYZPatch({{"append", "true"}});
+  FileXYZPatch patch2 = test_serialize(*patch);
+  EXPECT_TRUE(patch2.append());
+}
+
 TEST(FileXYZPatch, patch) {
   MonteCarlo mc;
   const std::string fstprt = install_dir() + "/plugin/patch/forcefield/janus.fstprt";

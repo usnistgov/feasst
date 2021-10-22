@@ -27,7 +27,9 @@ ModelParam::ModelParam(std::istream& istr) {
   feasst_deserialize(&is_mixed_override_, istr);
   if (values_.size() > 0) {
     max_value_ = *std::max_element(values_.begin(), values_.end());
-    max_mixed_value_ = maximum(mixed_values_);
+    if (mixed_values_.size() > 0) {
+      max_mixed_value_ = maximum(mixed_values_);
+    }
   }
 }
 

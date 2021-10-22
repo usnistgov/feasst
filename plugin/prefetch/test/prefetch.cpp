@@ -85,7 +85,7 @@ TEST(Prefetch, MUVT) {
   mc->set(MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}})),
-    MakeTransitionMatrix({{"min_sweeps", "10"}, {"num_blocks", "0"}})));
+    MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc->add(MakeCriteriaUpdater({{"steps_per", str(1e1)}}));
   mc->activate_prefetch(true);
   mc->attempt(1);

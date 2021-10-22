@@ -167,15 +167,15 @@ TEST(MonteCarlo, rpm_egce_fh_min1_VERY_LONG) {
   mc.criteria().serialize(ss);
   FlatHistogram fh(ss);
   const LnProbability& lnpi = fh.bias().ln_prob();
-  EXPECT_NEAR(lnpi.value(0), -5.05, 0.12);
-  EXPECT_NEAR(lnpi.value(1), -0.77327, 0.12);
-  EXPECT_NEAR(lnpi.value(2), -3.55107, 0.12);
-  EXPECT_NEAR(lnpi.value(3), -0.686417, 0.12);
+  EXPECT_NEAR(lnpi.value(0), -5.05, 0.14);
+  EXPECT_NEAR(lnpi.value(1), -0.77327, 0.14);
+  EXPECT_NEAR(lnpi.value(2), -3.55107, 0.14);
+  EXPECT_NEAR(lnpi.value(3), -0.686417, 0.14);
   const std::vector<std::shared_ptr<Analyze> >& en = mc.analyzers().back()->analyzers();
   EXPECT_NEAR(en[0]->accumulator().average(), -0.115474, 1e-6);
   EXPECT_NEAR(en[1]->accumulator().average(), -0.939408, 0.03);
-  EXPECT_NEAR(en[2]->accumulator().average(), -1.32485, 0.04);
-  EXPECT_NEAR(en[3]->accumulator().average(), -2.02625, 0.05);
+  EXPECT_NEAR(en[2]->accumulator().average(), -1.32485, 0.06);
+  EXPECT_NEAR(en[3]->accumulator().average(), -2.02625, 0.1);
 }
 
 TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
@@ -680,8 +680,8 @@ TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   EXPECT_NEAR(lnpi.value(1), -4.03855513175926, 0.02);
   EXPECT_NEAR(lnpi.value(2), -3.15822813175925, 0.02);
   EXPECT_NEAR(lnpi.value(3), -2.28019483175925, 0.015);
-  EXPECT_NEAR(lnpi.value(4), -1.40647303175926, 0.005);
-  EXPECT_NEAR(lnpi.value(5), -0.535594831759248, 0.005);
+  EXPECT_NEAR(lnpi.value(4), -1.40647303175926, 0.006);
+  EXPECT_NEAR(lnpi.value(5), -0.535594831759248, 0.007);
   EXPECT_NEAR(energy_av467(0, mc), -1.381223800E+02, 0.5);
   EXPECT_NEAR(energy_av467(1, mc), -1.408257000E+02, 0.5);
   EXPECT_NEAR(energy_av467(2, mc), -1.435426000E+02, 0.5);

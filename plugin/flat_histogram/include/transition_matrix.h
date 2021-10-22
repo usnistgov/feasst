@@ -28,7 +28,6 @@ class TransitionMatrix : public Bias {
     - min_visits: A sweep is performed when all macrostates are visited by
       another macrostate this number of times (default: 100).
     - min_sweeps: Number of sweeps required for completion.
-    - num_blocks: Number of blocks (default: 30).
     - reset_sweeps: The 'phase' counter increments from 0 to 1 when
       reset_sweeps are completed (default: -1 [counter will never increment])
    */
@@ -65,13 +64,6 @@ class TransitionMatrix : public Bias {
   const TripleBandedCollectionMatrix& collection() const {
     return collection_; }
 
-  // Dump all updates to this file for post processing.
-  void dump_file(const std::string dump_file) {
-    dump_file_ = dump_file; }
-
-  // Read dump file
-  void read_dump_file(const std::string dump_file);
-
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   std::shared_ptr<Bias> create(argtype * args) const override {
     return std::make_shared<TransitionMatrix>(args); }
@@ -87,20 +79,7 @@ class TransitionMatrix : public Bias {
   int min_visits_ = 0;
   int num_sweeps_ = 0;
   int min_sweeps_ = 0;
-  int num_blocks_ = 30;
   int reset_sweeps_ = -1;
-  std::string dump_file_;
-
-  std::vector<TransitionMatrix> blocks_;
-  bool is_block_ = false;
-  int iter_block_= -1;
-
-  void update_blocks_(
-    const int macrostate_old,
-    const int macrostate_new,
-    const double ln_metropolis_prob,
-    const bool is_accepted,
-    const bool revert);
 };
 
 inline std::shared_ptr<TransitionMatrix> MakeTransitionMatrix(

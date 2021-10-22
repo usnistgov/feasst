@@ -26,11 +26,15 @@ def mc(thread, mn, mx):
         "particle_type0": fst.install_dir() + "/plugin/patch/forcefield/two_patch_linear.fstprt"}))
     config.add(fst.MakeGroup(fst.args({"site_type0": "0"})))
     mc.add(config)
-    mc.add(fst.MakePotential(fst.MakeHardSphere(), fst.args({"group_index": "1"})))
-    mc.add(fst.MakePotential(fst.MakeSquareWell(),
-        fst.MakeVisitModel(fst.MakeVisitModelInnerPatch(fst.args({"patch_degrees_of_type1": str(patch_angle)}))),
+    mc.add(fst.MakePotential(fst.MakeHardSphere(),
+                             fst.MakeVisitModelCell(fst.args({"min_length": "1", "cell_group": "1"})),
+                             fst.args({"group_index": "1"})))
+    patch = fst.MakeVisitModelInnerPatch(fst.args({"patch_degrees_of_type1": str(patch_angle)}))
+    mc.add(fst.MakePotential(
+        fst.MakeSquareWell(),
+        fst.MakeVisitModel(patch),
+#        fst.MakeVisitModelCell(patch, fst.args({"min_length": "1.5", "cell_group": "1"})),
         fst.args({"group_index": "1"})))
-
     mc.set(fst.MakeThermoParams(fst.args({"beta": str(1./args.temperature),
                                           "chemical_potential": str(args.mu)})))
     mc.set(fst.MakeFlatHistogram(

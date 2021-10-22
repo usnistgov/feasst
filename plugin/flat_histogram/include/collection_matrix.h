@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <memory>
+#include "utils/include/arguments.h"
 #include "flat_histogram/include/ln_probability.h"
 
 namespace feasst {
@@ -24,22 +25,19 @@ namespace feasst {
 
   Beware that the computed probability distribution from this collection matrix
   may contain spurious values at the two most extreme ends.
-  These two extreme ends are the two pairs of the two lowest and highest
-  indices, respectively.
-  For example, at the highest macrostate, a transition to the next highest
-  macrostate is immediately rejected and thus the macrostate increase part of
-  the collection matrix is zero due to this constraint.
-  However, this would not be the case if the higher macrostate values were
-  allowed.
-  The constraint thus affects the probability at the most extreme values, and
-  these values should be discarded.
-  There are exceptions such as the case with zero particles.
-  In this case, there cannot be less than zero particles so the constraint is
-  physically meaningful and the probability at this macrostate is correct.
+  This is especially true in cases where windows with different moves sets are
+  spliced.
  */
 class TripleBandedCollectionMatrix {
  public:
-  TripleBandedCollectionMatrix() {}
+  /**
+    args:
+    - min_block_size: minimum number of increments for a block (default: 1e6).
+    - num_block_operations: maximum exponent that determines maxum number of increments for
+      a block (default: 20).
+   */
+  explicit TripleBandedCollectionMatrix(argtype args = argtype());
+  explicit TripleBandedCollectionMatrix(argtype * args);
 
   /// Construct from a series of single-state collection matricies (NVT+W).
   explicit TripleBandedCollectionMatrix(
@@ -52,23 +50,45 @@ class TripleBandedCollectionMatrix {
   void increment(const int macro, const int state_change, const double add);
 
   /// Update the ln_prob according to the collection matrix.
-  void compute_ln_prob(LnProbability * ln_prob);
+  void compute_ln_prob(LnProbability * ln_prob) const;
 
   /// Return the matrix
   const std::vector<std::vector<double> >& matrix() const { return matrix_; }
+
+  std::string write_per_bin(const int bin) const;
+  std::string write_per_bin_header() const;
 
   bool is_equal(const TripleBandedCollectionMatrix& colmat,
       const double tolerance) const;
 
   void serialize(std::ostream& ostr) const;
 
+  const std::vector<std::vector<TripleBandedCollectionMatrix> >& blocks() const {
+    return blocks_; }
+
   explicit TripleBandedCollectionMatrix(std::istream& istr);
 
  private:
   std::vector<std::vector<double> > matrix_;
 
-  double sum_(const int macro);
+  // blocks
+  bool block_ = false;
+  int min_block_size_;
+  int num_block_operations_;
+  std::vector<int> block_updates_;
+  std::vector<int> max_block_updates_;
+  std::vector<std::vector<TripleBandedCollectionMatrix> > blocks_;
+  std::vector<TripleBandedCollectionMatrix> cur_block_;
+
+  void init_cur_(const int exp);
+
+  double sum_(const int macro) const;
 };
+
+inline std::shared_ptr<TripleBandedCollectionMatrix> MakeTripleBandedCollectionMatrix(
+    argtype args = argtype()) {
+  return std::make_shared<TripleBandedCollectionMatrix>(args);
+}
 
 }  // namespace feasst
 

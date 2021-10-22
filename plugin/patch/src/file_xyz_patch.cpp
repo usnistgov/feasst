@@ -10,6 +10,7 @@
 namespace feasst {
 
 void FileVMDPatch::serialize(std::ostream& ostr) const {
+  FileVMD::serialize(ostr);
   feasst_serialize_version(3284, ostr);
 }
 

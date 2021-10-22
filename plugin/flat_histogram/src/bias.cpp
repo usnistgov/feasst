@@ -13,7 +13,8 @@ std::string Bias::write_per_bin(const int bin) const {
   if (bin == 0) {
     ss << "NaN";
   } else {
-    ss << ln_prob().value(bin) - ln_prob().value(bin - 1);
+    ss << std::setprecision(std::cout.precision())
+       << ln_prob().value(bin) - ln_prob().value(bin - 1);
   }
   return ss.str();
 }

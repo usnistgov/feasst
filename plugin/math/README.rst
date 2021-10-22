@@ -8,6 +8,13 @@ This plugin contains math utilities.
 
    doc/toc
 
+Tutorial
+=========
+
+.. toctree::
+
+   tutorial/tutorial.ipynb
+
 FEASST plugin dependencies
 ============================
 
