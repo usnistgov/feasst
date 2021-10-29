@@ -21,7 +21,7 @@ class VisitModelCell : public VisitModel {
    */
   explicit VisitModelCell(argtype args);
   explicit VisitModelCell(argtype * args);
-  
+
   /// Same as above, but with an inner.
   explicit VisitModelCell(std::shared_ptr<VisitModelInner> inner,
     argtype args);

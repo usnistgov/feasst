@@ -10,7 +10,6 @@ namespace feasst {
 
 VisitModelInnerPatch::VisitModelInnerPatch(argtype args) {
   class_name_ = "VisitModelInnerPatch";
-  
   // loop through all arguments, looking for prefix
   const std::string prefix = "patch_degrees_of_type";
   DEBUG("prefix " << prefix);
@@ -49,6 +48,10 @@ void VisitModelInnerPatch::compute(
     const bool is_old_config,
     Position * relative,
     Position * pbc) {
+//  std::cout << " Info 1 part1_index " << part1_index << std::endl;
+//  std::cout << " Info 1 site1_index " << site1_index << std::endl;
+//  std::cout << " Info 2 part2_index " << part2_index << std::endl;
+//  std::cout << " Info 2 site2_index " << site2_index << std::endl;
   TRACE("part1_index " << part1_index);
   TRACE("part2_index " << part2_index);
   TRACE("site1_index " << site1_index);
@@ -106,6 +109,7 @@ void VisitModelInnerPatch::compute(
                     TRACE("cosp2 " << cosp2 << " cosacut " << cos_patch_angle_.value(dir2_type));
                     if (cosp2 >= cos_patch_angle_.value(dir2_type)) {
                       const double en = model->energy(squared_distance, dir1_type, dir2_type, model_params);
+                      TRACE("en " << en);
                       update_ixn(en, part1_index, site1_index, type1, part2_index,
                                  site2_index, type2, squared_distance, pbc, is_old_config);
                     }
@@ -135,6 +139,7 @@ VisitModelInnerPatch::VisitModelInnerPatch(std::istream& istr) : VisitModelInner
   ASSERT(version == 255, "unrecognized version: " << version);
   feasst_deserialize_fstobj(&cos_patch_angle_, istr);
   feasst_deserialize_fstobj(&director_, istr);
+  feasst_deserialize(&cpatch_override_, istr);
 }
 
 void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
@@ -143,6 +148,7 @@ void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
   feasst_serialize_version(255, ostr);
   feasst_serialize_fstobj(cos_patch_angle_, ostr);
   feasst_serialize_fstobj(director_, ostr);
+  feasst_serialize(cpatch_override_, ostr);
 }
 
 void VisitModelInnerPatch::precompute(Configuration * config) {

@@ -90,6 +90,7 @@ void Clones::initialize(const int upper_index, argtype args) {
   upper->get_system()->get_configuration()->copy_particles(
     lower->configuration(),
     true);
+  //std::cout << "Info 1 num " << upper->configuration().num_particles() << std::endl;
   DEBUG("num " << upper->configuration().num_particles());
   upper->initialize_criteria();
 }

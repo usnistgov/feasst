@@ -16,8 +16,10 @@ args = parser.parse_args()
 print("args:", args)
 
 def mc(thread, mn, mx):
-    steps_per=str(int(1e6))
+    steps_per=str(int(1e5))
     mc = fst.MakeMonteCarlo()
+    #mc.set(fst.MakeRandomMT19937(fst.args({"seed": "12345"})))
+    #mc.set(fst.MakeRandomMT19937(fst.args({"seed": "1634926410"})))
     chi = 0.7 # patch coverage
     patch_angle = 2*math.asin(math.sqrt(chi/2))*180/math.pi
     print('patch_angle', patch_angle)
@@ -33,7 +35,7 @@ def mc(thread, mn, mx):
     mc.add(fst.MakePotential(
         fst.MakeSquareWell(),
         fst.MakeVisitModel(patch),
-#        fst.MakeVisitModelCell(patch, fst.args({"min_length": "1.5", "cell_group": "1"})),
+        #fst.MakeVisitModelCell(patch, fst.args({"min_length": "1.5", "cell_group": "1"})),
         fst.args({"group_index": "1"})))
     mc.set(fst.MakeThermoParams(fst.args({"beta": str(1./args.temperature),
                                           "chemical_potential": str(args.mu)})))
@@ -86,8 +88,13 @@ if args.task == 0:
     clones.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint.fst"})))
 else:
     clones = fst.MakeClones("checkpoint", args.num_procs)
-#clones.initialize_and_run_until_complete()
-clones.initialize_and_run_until_complete(fst.args({"ln_prob_file": "ln_prob.txt",
-                                                   "omp_batch": str(int(1e6))}))
+clones.initialize_and_run_until_complete()
+#clones.initialize(1)
+#print("num 0", clones.clone(0).configuration().num_particles())
+#print("num 1", clones.clone(1).configuration().num_particles())
+#print("current 0", clones.clone(0).criteria().current_energy())
+#print("current 1", clones.clone(1).criteria().current_energy())
+#clones.initialize_and_run_until_complete(fst.args({"ln_prob_file": "ln_prob.txt",
+#                                                   "omp_batch": str(int(1e6))}))
 print(clones.ln_prob().values())
 open('clones.fst', 'w').write(clones.serialize())

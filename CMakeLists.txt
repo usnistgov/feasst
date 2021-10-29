@@ -9,18 +9,19 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 
 # manually list the plugins
 # Note: for developement and testing, reducing plugins decreases compile time
-set(FEASST_PLUGINS "utils")
-#set(FEASST_PLUGINS "utils;math")
-#set(FEASST_PLUGINS "utils;math;configuration")
-#set(FEASST_PLUGINS "utils;math;configuration;system")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;models;monte_carlo")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;cluster")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;charge;flat_histogram;cluster")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;charge;flat_histogram;cluster;beta_expanded")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;charge;flat_histogram;cluster;beta_expanded;chain")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;prefetch;charge;flat_histogram;cluster;beta_expanded;chain;morph")
-set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded")
-#set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;monte_carlo;threads;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;xtc")
+#set(FEASST_PLUGINS "threads")
+set(FEASST_PLUGINS "threads;utils")
+#set(FEASST_PLUGINS "threads;utils;math")
+#set(FEASST_PLUGINS "threads;utils;math;configuration")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;models;monte_carlo")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;cluster")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded;chain")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded;chain;morph")
+set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;xtc")
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
 
@@ -104,94 +105,17 @@ foreach (PLUGIN ${FEASST_PLUGINS})
 endforeach (PLUGIN)
 
 # HWH fix this: clang seems to require these dependencies but g++ does not... ?
-# XTC
-list (FIND FEASST_PLUGINS "xtc" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstxtc feasstsystem)
-endif()
 
-# Ewald
-list (FIND FEASST_PLUGINS "charge" _index)
+# utils
+list (FIND FEASST_PLUGINS "utils" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstcharge feasstmonte_carlo)
-endif()
-
-# Example
-list (FIND FEASST_PLUGINS "example" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstexample feasstsystem)
-endif()
-
-# shape
-list (FIND FEASST_PLUGINS "shape" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstshape feasstmath)
-endif()
-
-# Confinement
-list (FIND FEASST_PLUGINS "confinement" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstconfinement feasstmonte_carlo feasstshape)
-endif()
-
-# patch
-list (FIND FEASST_PLUGINS "patch" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstpatch feasstmonte_carlo feasstmayer)
-endif()
-
-# models
-list (FIND FEASST_PLUGINS "models" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstmodels feasstsystem)
-endif()
-
-# chain
-list (FIND FEASST_PLUGINS "chain" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstchain feasstmonte_carlo feasstcluster)
-endif()
-
-# threads
-list (FIND FEASST_PLUGINS "threads" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstthreads feasstutils)
-endif()
-
-# flat_histogram
-list (FIND FEASST_PLUGINS "flat_histogram" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstflat_histogram feasstmonte_carlo feasststeppers feasstthreads)
-endif()
-
-# mayer
-list (FIND FEASST_PLUGINS "mayer" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstmayer feasstmonte_carlo)
-endif()
-
-# steppers
-list (FIND FEASST_PLUGINS "steppers" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasststeppers feasstmonte_carlo)
+  target_link_libraries(feasstutils feasstthreads)
 endif()
 
 # math
 list (FIND FEASST_PLUGINS "math" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstmath feasstutils)
-endif()
-
-# utils
-list (FIND FEASST_PLUGINS "utils" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstutils)
-endif()
-
-# monte_carlo
-list (FIND FEASST_PLUGINS "monte_carlo" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstmonte_carlo feasstsystem)
 endif()
 
 # configuration
@@ -206,37 +130,94 @@ if (${_index} GREATER -1)
   target_link_libraries(feasstsystem feasstconfiguration)
 endif()
 
-# morph
-list (FIND FEASST_PLUGINS "morph" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstmorph feasstchain)
-  target_link_libraries(feasstmorph feasstflat_histogram)
-  target_link_libraries(feasstmorph feasstcharge)
-endif()
-
-# prefetch
-list (FIND FEASST_PLUGINS "prefetch" _index)
-if (${_index} GREATER -1)
-  target_link_libraries(feasstprefetch feasstmonte_carlo feasstthreads)
-endif()
-
 # opt_lj
 list (FIND FEASST_PLUGINS "opt_lj" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstopt_lj feasstsystem)
 endif()
 
-# ph
-list (FIND FEASST_PLUGINS "ph" _index)
+# monte_carlo
+list (FIND FEASST_PLUGINS "monte_carlo" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstph feasstchain)
-  target_link_libraries(feasstph feasstcharge)
+  target_link_libraries(feasstmonte_carlo feasstsystem)
+endif()
+
+# steppers
+list (FIND FEASST_PLUGINS "steppers" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasststeppers feasstmonte_carlo)
+endif()
+
+# models
+list (FIND FEASST_PLUGINS "models" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstmodels feasstsystem)
+endif()
+
+# mayer
+list (FIND FEASST_PLUGINS "mayer" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstmayer feasstmonte_carlo)
+endif()
+
+# patch
+list (FIND FEASST_PLUGINS "patch" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstpatch feasstmonte_carlo feasstmayer)
+endif()
+
+# example
+list (FIND FEASST_PLUGINS "example" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstexample feasstsystem)
+endif()
+
+# shape
+list (FIND FEASST_PLUGINS "shape" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstshape feasstmath)
+endif()
+
+# confinement
+list (FIND FEASST_PLUGINS "confinement" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstconfinement feasstmonte_carlo feasstshape)
 endif()
 
 # cluster
 list (FIND FEASST_PLUGINS "cluster" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstcluster feasstmonte_carlo)
+endif()
+
+# chain
+list (FIND FEASST_PLUGINS "chain" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstchain feasstmonte_carlo feasstcluster)
+endif()
+
+# flat_histogram
+list (FIND FEASST_PLUGINS "flat_histogram" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstflat_histogram feasstmonte_carlo feasststeppers feasstthreads)
+endif()
+
+# charge
+list (FIND FEASST_PLUGINS "charge" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstcharge feasstmonte_carlo)
+endif()
+
+# morph
+list (FIND FEASST_PLUGINS "morph" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstmorph feasstchain feasstflat_histogram feasstcharge)
+endif()
+
+# prefetch
+list (FIND FEASST_PLUGINS "prefetch" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstprefetch feasstmonte_carlo feasstthreads)
 endif()
 
 # egce
@@ -249,6 +230,12 @@ endif()
 list (FIND FEASST_PLUGINS "beta_expanded" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstbeta_expanded feasstflat_histogram)
+endif()
+
+# xtc
+list (FIND FEASST_PLUGINS "xtc" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstxtc feasstsystem)
 endif()
 
 # CCACHE
