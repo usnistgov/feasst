@@ -47,7 +47,7 @@ void Accumulator::accumulate(double value) {
       if (std::abs(std::fmod(num_values(), block_size_[bop])) < 0.1) {
         ASSERT(block_averages_[bop], "er");
         block_averages_[bop]->accumulate(sum_block_[bop]/block_size_[bop]);
-        sum_block_[bop] = 0.;
+        sum_block_[bop] = 0.0L;
       }
     }
   }
@@ -57,7 +57,7 @@ void Accumulator::reset() {
   max_ = -NEAR_INFINITY;
   min_ = NEAR_INFINITY;
   for (long double& mom : val_moment_) {
-    mom = 0.;
+    mom = 0.0L;
   }
   if (static_cast<int>(block_averages_.size()) > 0) {
     block_averages_.clear();

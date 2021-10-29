@@ -197,7 +197,7 @@ MonteCarlo mc_avb_test(
   return test_serialize(monte_carlo);
 }
 
-const double z_factor = 10.;
+const double z_factor = 20.;
 
 TEST(MonteCarlo, GCMC_AVB_LONG) {
   MonteCarlo mc_avb = mc_avb_test(true);
@@ -207,9 +207,9 @@ TEST(MonteCarlo, GCMC_AVB_LONG) {
   INFO(mc_noavb.analyze(2).accumulator().str())
   INFO(mc_noavb.analyze(3).accumulator().str())
   EXPECT_TRUE(mc_avb.analyze(2).accumulator().is_equivalent(
-            mc_noavb.analyze(2).accumulator(), z_factor, true));
+            mc_noavb.analyze(2).accumulator(), z_factor, 0, true));
 //  EXPECT_TRUE(mc_avb.analyze(3).accumulator().is_equivalent(
-//            mc_noavb.analyze(3).accumulator(), 3, true));
+//            mc_noavb.analyze(3).accumulator(), 3, 0, true));
 }
 
 TEST(MonteCarlo, MC_AVB2_AVB4_LONG) {
@@ -222,14 +222,14 @@ TEST(MonteCarlo, MC_AVB2_AVB4_LONG) {
   INFO(mc_avb2.analyze(3).accumulator().str())
   EXPECT_NEAR(10, mc_avb2.analyze(2).accumulator().average(), NEAR_ZERO);
   EXPECT_TRUE(mc_avb2.analyze(3).accumulator().is_equivalent(
-             mc_noavb.analyze(3).accumulator(), z_factor, true));
+             mc_noavb.analyze(3).accumulator(), z_factor, 0, true));
 
   if (true) {
     MonteCarlo mc_avb4 = mc_avb_test(true, num_particles, false, true);
     EXPECT_NEAR(10, mc_avb4.analyze(2).accumulator().average(), NEAR_ZERO);
     INFO(mc_avb4.analyze(3).accumulator().str())
     EXPECT_TRUE(mc_avb4.analyze(3).accumulator().is_equivalent(
-               mc_noavb.analyze(3).accumulator(), z_factor, true));
+               mc_noavb.analyze(3).accumulator(), z_factor, 0, true));
   }
 }
 

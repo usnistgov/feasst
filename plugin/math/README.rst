@@ -12,8 +12,9 @@ Tutorial
 =========
 
 .. toctree::
+   :glob:
 
-   tutorial/tutorial.ipynb
+   tutorial/tutorial*
 
 FEASST plugin dependencies
 ============================
