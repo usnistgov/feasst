@@ -22,6 +22,7 @@ namespace feasst {
 MonteCarlo monte_carlo(const int thread, const int min, const int max) {
   const int steps_per = 1e2;
   MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "1635444301"}}));
   mc.add(MakeConfiguration({{"cubic_box_length", "8"},
                             {"particle_type0", "../forcefield/lj.fstprt"},
                             {"add_particles_of_type0", "1"}}));
@@ -36,7 +37,7 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
   mc.set(MakeFlatHistogram(
       MakeMacrostateNumParticles(
         Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
-      MakeTransitionMatrix({{"min_sweeps", "10"}})));
+      MakeTransitionMatrix({{"min_sweeps", "10"}})));//, {"max_block_operations", "6"}})));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
       {"file_name", "tmp/clones" + str(thread)}}));
@@ -130,13 +131,14 @@ TEST(Clones, lj_fh_LONG) {
   Clones clones = make_clones(5, 1, 0);
   Clones clones2 = test_serialize(clones);
   clones2.initialize_and_run_until_complete(
-    {{"omp_batch", str(1e3)}, {"ln_prob_file", "tmp/clones_fh.txt"}});
+    {{"omp_batch", str(1e5)}, {"ln_prob_file", "tmp/clones_fh.txt"}});
   for (int sweeps = 20; sweeps <= 1000; sweeps+=10) {
+  //for (int sweeps = 20; sweeps <= 100; sweeps+=10) {
     DEBUG("sweeps: " << sweeps);
     auto clones3 = MakeClones("tmp/clone", 2, 0, ".fst");
     clones3->set_num_iterations_to_complete(sweeps);
     clones3->initialize_and_run_until_complete(
-      {{"omp_batch", str(1e3)}, {"ln_prob_file", "tmp/clones_fh.txt"}});
+      {{"omp_batch", str(1e5)}, {"ln_prob_file", "tmp/clones_fh.txt"}});
   }
 
   auto clones4 = MakeClones("tmp/clone", 2, 0, ".fst");

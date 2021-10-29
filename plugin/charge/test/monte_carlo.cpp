@@ -97,8 +97,7 @@ TEST(MonteCarlo, spce_gce_LONG) {
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
   auto num = MakeNumParticles({{"steps_per_write", str(steps_per)},
-                               {"file_name", "tmp/spce_gce_num.txt"},
-                               {"min_block_size", str(steps_per)}});
+                               {"file_name", "tmp/spce_gce_num.txt"}});
   mc.add(num);
   mc.attempt(1e5);
   INFO(num->num_particles().str());

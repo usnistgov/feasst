@@ -15,6 +15,12 @@ namespace feasst {
  */
 class Movie : public AnalyzeWriteOnly {
  public:
+  /**
+    args:
+    - append is always set to true via Stepper:set_append().
+    - FileXYZ arguments (e.g., group_index).
+    - Analyze and Stepper base class arguments.
+   */
   explicit Movie(argtype args = argtype());
   explicit Movie(argtype * args);
 

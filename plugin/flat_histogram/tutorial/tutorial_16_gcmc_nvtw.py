@@ -1,10 +1,8 @@
 '''
-The NVT+W method is a simplification of Transition Matrix Monte Carlo where each "window" is only one macrostate.
+The NVT+W method is a simplification of Transition Matrix Monte Carlo where each "window" is only one macrostate.[1]
 This means that no insertions or deletions are accepted, although they are still attempted in order to compute the transition probabilities.
-While NVT+W is more easy to parallelize, it is not recommended because it has major drawbacks.
-NVT+W is less efficient because the attempted insertion and deletion moves are never accepted.
-This reduces sampling of the Markov chain.
 In addition, NVT+W is not a flat-histogram method.
+[1]. https://doi.org/10.1021/acs.jctc.8b00534
 '''
 import argparse
 from itertools import repeat

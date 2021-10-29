@@ -307,6 +307,11 @@ TEST(Random, harmonic_bond_brute) {
   }
   INFO("acceptance " << static_cast<double>(accepted)/num_attempts);
   INFO(length.str());
+//  for (int op = 0; op < length.max_block_operations(); ++op) {
+//    if (length.block_averages()[op]) {
+//      INFO(length.block_size()[op] << " numb " << length.block_averages()[op]->num_values() << " " << length.block_averages()[op]->average() << " " << length.block_stdev(op) << " " << length.block_std_of_std(op));
+//    }
+//  }
   EXPECT_NEAR(1.+1./k, length.average(), 15*length.block_stdev());
 }
 
@@ -405,8 +410,11 @@ TEST(Accumulator, block_average_LONG) {
   const double half_pbc_length = 25/2.;
   const double step_size = 1;
   const int num_steps = 1e6;
-  auto av_position = MakeAccumulator({{"num_moments", "4"}});
-  EXPECT_EQ(av_position->num_moments(), 4);
+  auto av_position = MakeAccumulator({{"num_moments", "5"}, {"max_block_operations", "20"}});
+  auto av_position2 = MakeAccumulator({{"num_moments", "5"}, {"max_block_operations", "6"}});
+  auto av_pos_sq = MakeAccumulator({{"num_moments", "5"}, {"max_block_operations", "20"}});
+  INFO(feasst_str(av_position->block_size()));
+  EXPECT_EQ(av_position->num_moments(), 5);
   //auto rng = MakeRandomMT19937({{"seed", "123"}});
   auto rng = MakeRandomMT19937();
   std::vector<double> pos;
@@ -419,6 +427,8 @@ TEST(Accumulator, block_average_LONG) {
       position -= 2*half_pbc_length;
     }
     av_position->accumulate(position);
+    av_position2->accumulate(position);
+    av_pos_sq->accumulate(std::sqrt(position*position));
     pos.push_back(position);
   }
 
@@ -435,11 +445,21 @@ TEST(Accumulator, block_average_LONG) {
     EXPECT_NEAR(mom, av_position->central_moment(mo), 1e-8);
   }
 
-//  for (int op = 0; op < av_position->num_block_operations(); ++op) {
-//    INFO(op << " " << av_position->block_stdev(op) << " " << av_position->block_std_of_std(op));
+  for (std::shared_ptr<Accumulator> acc : {av_position, av_position2}) {
+    for (int op = 0; op < acc->max_block_operations(); ++op) {
+      if (acc->block_averages()[op]) {
+        INFO(acc->block_size()[op] << " numb " << acc->block_averages()[op]->num_values() << " " << acc->block_averages()[op]->average() << " " << acc->block_stdev(op) << " " << acc->block_std_of_std(op));
+      }
+    }
+  }
+//  // expect 1/3 L^2
+//  for (int op = 0; op < av_position->max_block_operations(); ++op) {
+//    INFO(op << " " << av_pos_sq->block_averages()[op]->average() << " " << av_pos_sq->block_stdev(op) << " " << av_pos_sq->block_std_of_std(op));
 //  }
-  EXPECT_NEAR(av_position->block_stdev(0), 0.08, 0.05);
-  EXPECT_NEAR(av_position->block_std_of_std(0), 0.05, 0.05);
+//  // consider an accumulator that is transformed to the final result. Blocking size can affect it
+  INFO(av_position2->block_stdev());
+  EXPECT_NEAR(av_position2->block_stdev(), 0.08, 0.05);
+  EXPECT_NEAR(av_position->block_std_of_std(11), 0.05, 0.05);
 }
 
 }  // namespace feasst

@@ -101,7 +101,8 @@ TEST(MonteCarlo, chain) {
 }
 
 // HWH this test is known to fail infrequently
-TEST(MonteCarlo, TrialGrow) {
+// HWH sometimes it happens with valgrind and serialization, which is why the test is labelled long
+TEST(MonteCarlo, TrialGrow_LONG) {
   for (const std::string particle : {"lj", "spce"}) {
     INFO(particle);
     double box_length = 8.;
@@ -111,7 +112,7 @@ TEST(MonteCarlo, TrialGrow) {
       data = "../forcefield/spce.fstprt";
     }
     MonteCarlo mc;
-//    mc.set(MakeRandomMT19937({{"seed", "123"}}));
+    //mc.set(MakeRandomMT19937({{"seed", "1635356012"}}));
     mc.add(MakeConfiguration({{"cubic_box_length", str(box_length)},
                               {"particle_type0", data}}));
     mc.add(MakePotential(MakeLennardJones()));

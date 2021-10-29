@@ -31,15 +31,14 @@ class Accumulator {
  public:
   /**
     args:
-    - num_moments: maximum number of moments (default: 4).
-    - num_block_operations: maximum number of blocking operations (default: 20).
-    - min_block_size: minimum number of increments for a block (default: 1e5).
+    - num_moments: maximum number of moments (default: 5).
+    - max_block_operations: maximum number of blocking operations (default: 6).
    */
   explicit Accumulator(argtype args = argtype());
   explicit Accumulator(argtype * args);
 
   /// Return the maximum number of block operations.
-  int num_block_operations() const { return num_block_operations_; }
+  int max_block_operations() const { return max_block_operations_; }
 
   /// Return the maximum number of moments.
   int num_moments() const { return static_cast<int>(val_moment_.size()); }
@@ -59,26 +58,41 @@ class Accumulator {
   /// Return the standard deviation of the average (e.g., std/sqrt(num_samples))
   double stdev_of_av() const;
 
-  /// Return standard deviation of the block average (0 if not enough data).
-  double block_stdev(const int num_op = 0) const;
+  /**
+    Return standard deviation of the block average.
+    Return 0 if not enough data.
+   */
+  double block_stdev(
+    /// Use the given operation.
+    /// If -1, have the maximum stdev over all blocks.
+    const int num_op = -1,
+    /// If num_op == -1, minimum number of blocks to consider stdev.
+    const int min_blocks = 10) const;
 
   /// Return standard deviation of the standard deviation of the block average.
   double block_std_of_std(const int num_op = 0) const;
 
+  /// Return the block averages
+  const std::vector<std::shared_ptr<Accumulator> >& block_averages() const {
+    return block_averages_; }
+
+  /// Return the size of each block.
+  const std::vector<double>& block_size() const { return block_size_; }
+
   /// Return number of values accumulated.
-  double num_values() const { return num_values_; }
+  long double num_values() const { return val_moment_[0]; }
 
   /// Return sum of all values accumulated.
-  long double sum() const { return sum_; }
+  long double sum() const { return val_moment_[1]; }
 
   /// Same as above, but truncated to double precision for Python interface.
-  double sum_dble() const { return static_cast<double>(sum_); }
+  double sum_dble() const { return static_cast<double>(sum()); }
 
   /// Return sum of the square of all values accumulated.
-  long double sum_of_squared() const { return sum_squared_; }
+  long double sum_of_squared() const { return val_moment_[2]; }
 
   /// Same as above, but truncated to double precision for Python interface.
-  double sum_of_squared_dble() const { return static_cast<double>(sum_squared_); }
+  double sum_of_squared_dble() const { return static_cast<double>(val_moment_[2]); }
 
   /// Zero all accumulated values.
   void reset();
@@ -89,12 +103,16 @@ class Accumulator {
   /// Return the minimum value accumulated.
   double min() const { return min_; }
 
-  /// Return the moments.
-  std::vector<long double> moments() const { return val_moment_; }
-
   /// Return the moments as a double.
+  /// This is the sum of the value^index.
+  /// Thus, moment(0) is the number of accumulated values.
+  /// And moment(1) is the sum of the values.
+  /// moment(2) is the sum of the squared values, etc.
   double moment(const int index) const {
     return static_cast<double>(val_moment_[index]); }
+
+  /// Return the moments.
+  std::vector<long double> moments() const { return val_moment_; }
 
   // HWH: requires further testing/documentation
   // moment = 1/N sum((i - av)^n)
@@ -125,22 +143,15 @@ class Accumulator {
   explicit Accumulator(std::istream& istr);
 
  private:
-  double num_values_;
-  long double sum_;
-  long double sum_squared_;
   double max_, min_;
   double last_value_;
-
-  /// maximum number of moments before Taylor series truncation
-  ///  e.g., 2 (default) includes moments 1 and 2
   std::vector<long double> val_moment_;
 
   // block averaging variables
-  int num_block_operations_;
-  int min_block_size_;
-  std::vector<long double> sum_block_;         //!< sum of all values accumulated
-
-  /// accumulate averages of each block
+  int block_power_ = 2;
+  int max_block_operations_;
+  std::vector<double> block_size_;
+  std::vector<long double> sum_block_;
   std::vector<std::shared_ptr<Accumulator> > block_averages_;
 
   // Set the highest order of moments recorded.

@@ -27,14 +27,19 @@ namespace feasst {
   may contain spurious values at the two most extreme ends.
   This is especially true in cases where windows with different moves sets are
   spliced.
+
+  Blocks and error bars are obtained via the blocking method.
+  Blocks are created on the fly by sizes of base two.
+  The default blocks and stdev are from the largest block sizes with more than
+  ten blocks.
+  Error bars on grand canonical ensemble averages may then by obtained by using
+  the macrostate distribution from each of these blocks.
  */
 class TripleBandedCollectionMatrix {
  public:
   /**
     args:
-    - min_block_size: minimum number of increments for a block (default: 1e6).
-    - num_block_operations: maximum exponent that determines maxum number of increments for
-      a block (default: 20).
+    - max_block_operations: maximum number of blocking operations (default: 5).
    */
   explicit TripleBandedCollectionMatrix(argtype args = argtype());
   explicit TripleBandedCollectionMatrix(argtype * args);
@@ -43,8 +48,7 @@ class TripleBandedCollectionMatrix {
   explicit TripleBandedCollectionMatrix(
     const std::vector<std::vector<std::vector<double> > >& data);
 
-  void resize(const int num_macrostates) {
-    matrix_.resize(num_macrostates, std::vector<double>(3, 0.)); }
+  void resize(const int num_macrostates);
 
   /// Add value for a given macrostate and state change.
   void increment(const int macro, const int state_change, const double add);
@@ -73,16 +77,19 @@ class TripleBandedCollectionMatrix {
 
   // blocks
   bool block_ = false;
-  int min_block_size_;
-  int num_block_operations_;
-  std::vector<int> block_updates_;
-  std::vector<int> max_block_updates_;
+  int max_block_operations_;
+  long double updates_;
+  std::vector<double> block_updates_;
+  std::vector<double> max_block_updates_;
   std::vector<std::vector<TripleBandedCollectionMatrix> > blocks_;
   std::vector<TripleBandedCollectionMatrix> cur_block_;
 
   void init_cur_(const int exp);
-
   double sum_(const int macro) const;
+
+  // find the largest block size with >= 10 blocks.
+  // if none, return -1
+  int chosen_block_() const;
 };
 
 inline std::shared_ptr<TripleBandedCollectionMatrix> MakeTripleBandedCollectionMatrix(

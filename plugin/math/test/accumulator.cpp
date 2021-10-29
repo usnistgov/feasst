@@ -20,7 +20,7 @@ TEST(Accumulator, constructor) {
   EXPECT_EQ(20, a.num_values());
   EXPECT_NEAR(19/2., a.average(), NEAR_ZERO);
   EXPECT_NEAR(5.916079783, a.std(), 1e-10);
-  EXPECT_NEAR(0, a.block_stdev(), 1e-10);
+  EXPECT_NEAR(1.3228756555322954, a.block_stdev(), 1e-10);
   EXPECT_NEAR(19, a.max(), NEAR_ZERO);
   EXPECT_NEAR(0, a.min(), NEAR_ZERO);
 
@@ -46,8 +46,8 @@ TEST(Accumulator, constructor) {
 }
 
 TEST(Accumulator, is_equivalent) {
-  auto a = MakeAccumulator({{"min_block_size", "1"}});
-  auto b = MakeAccumulator({{"min_block_size", "1"}});
+  auto a = MakeAccumulator();
+  auto b = MakeAccumulator();
   std::vector<double> avals = {5, 6, 4, 5.5, 4, 6, 5.1};
   std::vector<double> bvals = {8, 9, 7, 6.8, 10, 5};
   for (const double v : avals) a->accumulate(v);

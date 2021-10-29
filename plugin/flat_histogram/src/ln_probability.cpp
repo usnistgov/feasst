@@ -28,8 +28,8 @@ double LnProbability::sum_probability(const int min,
     const int max) const {
   double sum = 0.;
   ASSERT(min >= 0 && min < size(), "min: " << min << " must be < size: " << size());
-  ASSERT(max > min && max < size(), "max: " << max << " must be < size: "
-    << size() << " and > min " << min);
+  ASSERT(max >= min && max < size(), "max: " << max << " must be < size: "
+    << size() << " and >= min " << min);
   for (int index = min; index < max + 1; ++index) {
     sum += exp(value(index));
   }

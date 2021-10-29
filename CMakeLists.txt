@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 # manually list the plugins
 # Note: for developement and testing, reducing plugins decreases compile time
 set(FEASST_PLUGINS "utils")
-set(FEASST_PLUGINS "utils;math")
+#set(FEASST_PLUGINS "utils;math")
 #set(FEASST_PLUGINS "utils;math;configuration")
 #set(FEASST_PLUGINS "utils;math;configuration;system")
 #set(FEASST_PLUGINS "utils;math;configuration;system;opt_lj;steppers;models;monte_carlo")
