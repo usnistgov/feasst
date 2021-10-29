@@ -244,10 +244,12 @@ void Domain::wrap_opt(const Position& pos1,
     (*dbc)[dim] = 0.;
     const double side_length = side[dim];
     if (periodic_[dim]) {
-      (*dbc)[dim] -= side_length*std::rint((*dxv)[dim]/side_length);
-      (*dxv)[dim] += (*dbc)[dim];
+      const double dx = side_length*std::rint((*dxv)[dim]/side_length);
+      (*dbc)[dim] -= dx;
+      (*dxv)[dim] -= dx;
     }
-    *r2 += (*dxv)[dim]*(*dxv)[dim];
+    const double dxvdim = (*dxv)[dim];
+    *r2 += dxvdim*dxvdim;
   }
 }
 
@@ -263,40 +265,46 @@ void Domain::wrap_triclinic_opt(const Position& pos1,
   std::vector<double>* dbc = (*pbc).get_coord();
   (*dbc)[0] = 0.;
   (*dbc)[1] = 0.;
+  (*dxv)[0] = pos1.coord()[0] - pos2.coord()[0];
+  (*dxv)[1] = pos1.coord()[1] - pos2.coord()[1];
   if (pos1.dimension() >= 3) {
     (*dxv)[2] = pos1.coord()[2] - pos2.coord()[2];
     if (periodic_[2]) {
       (*dbc)[2] = 0.;
       const double side_length = side[2];
       const int num_wrap = std::rint((*dxv)[2]/side_length);
-      (*dbc)[2] -= num_wrap*side_length;
-      (*dbc)[1] -= num_wrap*yz_;
-      (*dbc)[0] -= num_wrap*xz_;
-      (*dxv)[2] += (*dbc)[2];
-      (*dxv)[1] += (*dbc)[1];
-      (*dxv)[0] += (*dbc)[0];
+      const double dz = num_wrap*side_length;
+      const double dy = num_wrap*yz_;
+      const double dx = num_wrap*xz_;
+      (*dbc)[2] -= dz;
+      (*dbc)[1] -= dy;
+      (*dbc)[0] -= dx;
+      (*dxv)[2] -= dz;
+      (*dxv)[1] -= dy;
+      (*dxv)[0] -= dx;
     }
-    *r2 += (*dxv)[2]*(*dxv)[2];
+    const double dxv2 = (*dxv)[2];
+    *r2 += dxv2*dxv2;
   }
-  (*dxv)[1] = pos1.coord()[1] - pos2.coord()[1];
   if (periodic_[1]) {
     const double side_length = side[1];
     const int num_wrap = std::rint((*dxv)[1]/side_length);
-    (*dbc)[1] -= num_wrap*side_length;
-    (*dbc)[0] -= num_wrap*xy_;
-    (*dxv)[1] += (*dbc)[1];
-    (*dxv)[0] -= (*dbc)[0];
+    const double dy = num_wrap*side_length;
+    const double dx = num_wrap*xy_;
+    (*dbc)[1] -= dy;
+    (*dbc)[0] -= dx;
+    (*dxv)[1] -= dy;
+    (*dxv)[0] -= dx;
   }
-  (*dxv)[0] = pos1.coord()[0] - pos2.coord()[0];
   if (periodic_[0]) {
     const double side_length = side[0];
-    (*dbc)[0] -= side_length*std::rint((*dxv)[0]/side_length);
-    (*dxv)[0] += (*dbc)[0];
+    const double dx = side_length*std::rint((*dxv)[0]/side_length);
+    (*dbc)[0] -= dx;
+    (*dxv)[0] -= dx;
   }
-  *r2 += (*dxv)[0]*(*dxv)[0] + (*dxv)[1]*(*dxv)[1];
-  //INFO("rel " << rel->str());
-  //INFO("pbc " << pbc->str());
-  //INFO("r2 " << *r2);
+  const double dxv0 = (*dxv)[0];
+  const double dxv1 = (*dxv)[1];
+  *r2 += dxv0*dxv0 + dxv1*dxv1;
 }
 
 }  // namespace feasst
