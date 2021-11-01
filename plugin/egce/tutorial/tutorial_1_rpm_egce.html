@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM &mdash; FEASST v0.17.0 documentation</title>
+  <title>Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -123,20 +124,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Expanded Grand Canonical Ensemble</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Expanded Grand Canonical Ensemble</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -507,34 +504,41 @@ div.rendered_html tbody tr:hover {
 <h1>Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM<a class="headerlink" href="#Expanded-grand-canonical-ensemble-transition-matrix-Monte-Carlo-with-RPM" title="Permalink to this headline">¶</a></h1>
 <p>In this example, the RPM model is simulated with expanded grand canonical ensembles. See <a class="reference external" href="https://doi.org/10.1063/1.5123683">https://doi.org/10.1063/1.5123683</a></p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
 <span class="k">def</span> <span class="nf">rpm_egce</span><span class="p">(</span><span class="n">proc</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">macro_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">macro_max</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-    <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">rpm</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-        <span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;12&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;cutoff&quot;</span><span class="p">:</span> <span class="s2">&quot;4.891304347826090&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;alphaL&quot;</span><span class="p">:</span> <span class="s2">&quot;6.87098396396261&quot;</span><span class="p">})))</span>
-    <span class="n">temperature</span> <span class="o">=</span> <span class="mf">0.047899460618081</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">0.047899460618081</span>
     <span class="n">beta_mu</span> <span class="o">=</span> <span class="o">-</span><span class="mf">13.94</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">temperature</span><span class="p">),</span>
-                  <span class="s2">&quot;chemical_potential0&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta_mu</span><span class="o">*</span><span class="n">temperature</span><span class="p">),</span>
-                  <span class="s2">&quot;chemical_potential1&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta_mu</span><span class="o">*</span><span class="n">temperature</span><span class="p">)})))</span>
-    <span class="n">criteria</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeFlatHistogram</span><span class="p">(</span>
+    <span class="n">steps_per</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
+    <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;12&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/charge/forcefield/rpm_plus.fstprt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;particle_type1&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/charge/forcefield/rpm_minus.fstprt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cutoff&quot;</span><span class="p">:</span> <span class="s2">&quot;4.891304347826090&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;charge0&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span> <span class="mf">1.</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">CODATA2018</span><span class="p">()</span><span class="o">.</span><span class="n">charge_conversion</span><span class="p">())),</span>
+        <span class="s2">&quot;charge1&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">CODATA2018</span><span class="p">()</span><span class="o">.</span><span class="n">charge_conversion</span><span class="p">()))})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeEwald</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">6.87098396396261</span><span class="o">/</span><span class="mi">12</span><span class="p">),</span>
+        <span class="s2">&quot;kmax_squared&quot;</span><span class="p">:</span> <span class="s2">&quot;38&quot;</span><span class="p">}))))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeModelTwoBodyFactory</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeHardSphere</span><span class="p">(),</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeScreened</span><span class="p">()),</span>
+                                      <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;table_size&quot;</span><span class="p">:</span> <span class="s2">&quot;1e6&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeSelf</span><span class="p">()))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta</span><span class="p">),</span>
+                  <span class="s2">&quot;chemical_potential0&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta_mu</span><span class="o">/</span><span class="n">beta</span><span class="p">),</span>
+                  <span class="s2">&quot;chemical_potential1&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta_mu</span><span class="o">/</span><span class="n">beta</span><span class="p">)})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeFlatHistogram</span><span class="p">(</span>
         <span class="n">fst</span><span class="o">.</span><span class="n">MakeMacrostateNumParticles</span><span class="p">(</span>
             <span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">macro_max</span><span class="p">),</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">macro_min</span><span class="p">)}))),</span>
         <span class="n">fst</span><span class="o">.</span><span class="n">MakeTransitionMatrix</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;min_sweeps&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">})),</span>
-        <span class="n">fst</span><span class="o">.</span><span class="n">MakeAEqualB</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;extra_A&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">criteria</span><span class="p">)</span>
+        <span class="n">fst</span><span class="o">.</span><span class="n">MakeAEqualB</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;extra_A&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">}))))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;0.25&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTransfer</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTransfer</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})))</span>
-    <span class="n">steps_per</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaUpdater</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaWriter</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;crit&quot;</span> <span class="o">+</span> <span class="n">proc</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;rpm&quot;</span> <span class="o">+</span> <span class="n">proc</span><span class="p">,</span> <span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">})))</span>
@@ -604,7 +608,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -636,7 +640,7 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 CPU times: user 2 µs, sys: 0 ns, total: 2 µs
-Wall time: 3.58 µs
+Wall time: 3.81 µs
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -646,13 +650,13 @@ Wall time: 3.58 µs
 <div class="highlight"><pre>
 
 ----------------------------------------------------------------------
-Ran 1 test in 17.687s
+Ran 1 test in 18.294s
 
 OK
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">

@@ -25,7 +25,11 @@
     "    \"\"\"The FEASST implementation of the LJ potential is tested against known cases.\"\"\"\n",
     "    def test_two_particle(self):\n",
     "        \"\"\"Test the LJ potential against analytical calculation of two particles\"\"\"\n",
-    "        system = fst.lennard_jones()\n",
+    "        system = fst.System()\n",
+    "        system.add(fst.MakeConfiguration(fst.args({\"cubic_box_length\": \"8\",\n",
+    "                                                   \"particle_type0\": fst.install_dir() + \"/forcefield/lj.fstprt\"})))\n",
+    "        system.add(fst.MakePotential(fst.MakeLennardJones()))\n",
+    "        system.add(fst.MakePotential(fst.MakeLongRangeCorrections()))\n",
     "        displacement = 1.2345\n",
     "        system.get_configuration().add_particle_of_type(0)\n",
     "        system.get_configuration().add_particle_of_type(0)\n",
@@ -54,10 +58,13 @@
     "        In particular, the 4th configuration of the LJ SRSW reference:\n",
     "        https://www.nist.gov/mml/csd/chemical-informatics-research-group/lennard-jones-fluid-reference-calculations\n",
     "        \"\"\"\n",
-    "        system = fst.lennard_jones()\n",
-    "        fst.FileXYZ().load(\n",
-    "            fst.install_dir() + \"/plugin/configuration/test/data/lj_sample_config_periodic4.xyz\",\n",
-    "            system.get_configuration())\n",
+    "        system = fst.System()\n",
+    "        system.add(fst.MakeConfiguration(fst.args({\"cubic_box_length\": \"8\",\n",
+    "                                                   \"particle_type0\": fst.install_dir() + \"/forcefield/lj.fstprt\",\n",
+    "                                                   \"xyz_file\": fst.install_dir() + \"/plugin/configuration/test/data/lj_sample_config_periodic4.xyz\"\n",
+    "                                                  })))\n",
+    "        system.add(fst.MakePotential(fst.MakeLennardJones()))\n",
+    "        system.add(fst.MakePotential(fst.MakeLongRangeCorrections()))\n",
     "        self.assertEqual(30, system.configuration().num_particles())\n",
     "        system.energy()\n",
     "        enlj = -16.790321304625856\n",
@@ -89,7 +96,7 @@
       "Test the LJ potential against analytical calculation of two particles ... ok\n",
       "\n",
       "----------------------------------------------------------------------\n",
-      "Ran 2 tests in 0.003s\n",
+      "Ran 2 tests in 0.004s\n",
       "\n",
       "OK\n"
      ]
@@ -97,7 +104,7 @@
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7fd028ae1780>"
+       "<unittest.main.TestProgram at 0x7f1ecc215df0>"
       ]
      },
      "execution_count": 2,
@@ -133,7 +140,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.8.5"
+   "version": "3.8.10"
   }
  },
  "nbformat": 4,

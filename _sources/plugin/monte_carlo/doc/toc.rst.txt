@@ -7,21 +7,21 @@
    Stepper
    Rosenbluth
    Acceptance
-   TrialSelect
-   Perturb
-   PerturbVolume
-   PerturbMove
-   PerturbDistance
-   PerturbToAnchor
-   PerturbTranslate
-   TrialSelectParticle
-   TrialSelectBond
-   TrialSelectAngle
-   TrialSelectDihedral
    Criteria
    Metropolis
    Constraint
    ConstrainNumParticles
+   TrialSelect
+   TrialSelectBond
+   TrialSelectAngle
+   TrialSelectDihedral
+   TrialSelectParticle
+   Perturb
+   PerturbMove
+   PerturbTranslate
+   PerturbToAnchor
+   PerturbDistance
+   PerturbVolume
    TrialStage
    TrialCompute
    Trial
@@ -32,12 +32,13 @@
    ModifyFactory
    MonteCarlo
    SeekNumParticles
-   TrialComputeVolume
-   TrialComputeRemove
-   TrialComputeAdd
    TrialComputeMove
    TrialMove
    TrialTranslate
+   TrialComputeTranslate
+   TrialComputeAdd
+   TrialComputeRemove
+   TrialComputeVolume
    PerturbDistanceAngle
    PerturbDihedral
    PerturbRotate

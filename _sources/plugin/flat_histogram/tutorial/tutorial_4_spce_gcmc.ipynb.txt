@@ -11,7 +11,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 1,
    "metadata": {
     "execution": {
      "iopub.execute_input": "2021-02-05T18:25:36.363403Z",
@@ -33,11 +33,16 @@
     "        https://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm\n",
     "        \"\"\"\n",
     "        monte_carlo = fst.MonteCarlo()\n",
-    "        monte_carlo.set(fst.spce(fst.args({\n",
-    "            \"cubic_box_length\": \"20\",\n",
+    "        monte_carlo.add(fst.MakeConfiguration(fst.args({\"cubic_box_length\": \"20\",\n",
     "            \"physical_constants\": \"CODATA2010\",\n",
-    "            \"alphaL\": \"5.6\",\n",
-    "            \"kmax_squared\": \"38\"})))\n",
+    "            \"particle_type0\": fst.install_dir() + \"/forcefield/spce.fstprt\"})))\n",
+    "        monte_carlo.add(fst.MakePotential(fst.MakeEwald(fst.args({\"alpha\": str(5.6/20),\n",
+    "            \"kmax_squared\": \"38\"}))))\n",
+    "        monte_carlo.add(fst.MakePotential(fst.MakeModelTwoBodyFactory(fst.MakeLennardJones(), fst.MakeChargeScreened()),\n",
+    "                                          fst.args({\"table_size\": \"1e6\"})))\n",
+    "        monte_carlo.add(fst.MakePotential(fst.MakeChargeScreenedIntra(), fst.MakeVisitModelBond()))\n",
+    "        monte_carlo.add(fst.MakePotential(fst.MakeChargeSelf()))\n",
+    "        monte_carlo.add(fst.MakePotential(fst.MakeLongRangeCorrections()))\n",
     "        temperature = fst.kelvin2kJpermol(525, monte_carlo.configuration())\n",
     "        monte_carlo.set(fst.MakeThermoParams(fst.args({\"beta\": str(1/temperature),\n",
     "                                                       \"chemical_potential\": str(-8.14*temperature)})))\n",
@@ -89,7 +94,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 2,
    "metadata": {
     "execution": {
      "iopub.execute_input": "2021-02-05T18:25:36.390977Z",
@@ -104,25 +109,25 @@
      "output_type": "stream",
      "text": [
       "test_serial_5max (__main__.TestFlatHistogramSPCE)\n",
-      "Compare the free energies and potential energies with the NIST SRSW ... ok"
+      "Compare the free energies and potential energies with the NIST SRSW ... "
      ]
     },
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPU times: user 7.38 s, sys: 11.7 ms, total: 7.39 s\n",
-      "Wall time: 7.36 s\n"
+      "CPU times: user 4 µs, sys: 1 µs, total: 5 µs\n",
+      "Wall time: 7.63 µs\n"
      ]
     },
     {
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "\n",
+      "ok\n",
       "\n",
       "----------------------------------------------------------------------\n",
-      "Ran 1 test in 7.361s\n",
+      "Ran 1 test in 5.525s\n",
       "\n",
       "OK\n"
      ]
@@ -130,10 +135,10 @@
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7fd632725340>"
+       "<unittest.main.TestProgram at 0x7f09e0449e20>"
       ]
      },
-     "execution_count": 3,
+     "execution_count": 2,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -167,7 +172,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.8.5"
+   "version": "3.8.10"
   }
  },
  "nbformat": 4,

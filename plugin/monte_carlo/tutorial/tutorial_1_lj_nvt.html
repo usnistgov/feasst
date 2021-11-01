@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Canonical ensemble Monte Carlo &mdash; FEASST v0.17.0 documentation</title>
+  <title>Canonical ensemble Monte Carlo &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -114,6 +115,7 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Canonical ensemble Monte Carlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_2_lj_gcmc.html">Grand canonical ensemble Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_4_block_average.html">Block Averaging Example</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -132,8 +134,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -506,7 +511,7 @@ div.rendered_html tbody tr:hover {
 <p>The log file is designed to monitor simulations but may not be the best route to computing properties. For example, the energy is output in the log file, but this tutorial shows two alternate ways to compute average energy. First, an <a class="reference internal" href="../doc/Analyze.html"><span class="doc">Analyze</span></a>, <a class="reference internal" href="../../steppers/doc/Energy.html"><span class="doc">Energy</span></a>, to compute average energies. Second, the Monte Carlo simulation attempts were performed one step at a time to allow for <a class="reference internal" href="../../math/doc/Accumulator.html"><span class="doc">accumulation</span></a> of the ensemble
 average directly in the Python script.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -528,13 +533,17 @@ average directly in the Python script.</p>
 
         <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
         <span class="c1"># monte_carlo.set(fst.MakeRandomMT19937(fst.args({&quot;seed&quot;: &quot;1234&quot;})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-            <span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">((</span><span class="n">num_particles</span><span class="o">/</span><span class="n">density</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">))})))</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+            <span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">((</span><span class="n">num_particles</span><span class="o">/</span><span class="n">density</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)),</span>
+            <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
         <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">0.9</span><span class="p">),</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
         <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
         <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">})))</span>
-        <span class="n">fst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)</span><span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
-
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialAdd</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)})))</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
         <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
             <span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
             <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;movie&quot;</span><span class="p">,</span>
@@ -609,7 +618,7 @@ average directly in the Python script.</p>
 </div>
 <p>If the test passes, the energy is within the tolerance of the SRSW value and the two ensemble average methods agreed.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -624,9 +633,7 @@ average directly in the Python script.</p>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 test_srsw (__main__.TestMonteCarlo1LJNVT)
-Compare with the reported average energy from the NIST SRSW. ... ok
-test_srsw_alt (__main__.TestMonteCarlo1LJNVT)
-Same as above, but using an input text file and testing result from checkpoint ...
+Compare with the reported average energy from the NIST SRSW. ...
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -634,8 +641,8 @@ Same as above, but using an input text file and testing result from checkpoint .
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 2 µs, sys: 1 µs, total: 3 µs
-Wall time: 3.81 µs
+CPU times: user 5 µs, sys: 1 µs, total: 6 µs
+Wall time: 9.3 µs
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -644,20 +651,22 @@ Wall time: 3.81 µs
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 ok
+test_srsw_alt (__main__.TestMonteCarlo1LJNVT)
+Same as above, but using an input text file and testing result from checkpoint ... ok
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.005s
+Ran 2 tests in 1084.682s
 
 OK
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7ffa4c4eb100&gt;
+&lt;unittest.main.TestProgram at 0x7f9e215a7970&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

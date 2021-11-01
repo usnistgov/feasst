@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>system/include/utils &mdash; FEASST v0.17.0 documentation</title>
+  <title>system/include/utils &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -47,8 +47,6 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Monte Carlo" href="../../monte_carlo/README.html" />
-    <link rel="prev" title="System" href="System.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +82,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -102,74 +100,10 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html">System</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
-<li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="RigidAngle.html">RigidAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="RigidBond.html">RigidBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondFourBody.html">BondFourBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="LennardJones.html">LennardJones</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="IdealGas.html">IdealGas</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Cells.html">Cells</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">system/include/utils</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
@@ -243,12 +177,6 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugins</a> &raquo;</li>
-        
-          <li><a href="../README.html">System</a> &raquo;</li>
-        
-          <li><a href="toc.html">&lt;no title&gt;</a> &raquo;</li>
-        
       <li>system/include/utils</li>
     
     
@@ -292,37 +220,10 @@
 </style>
 <div class="section" id="system-include-utils">
 <h1>system/include/utils<a class="headerlink" href="#system-include-utils" title="Permalink to this headline">¶</a></h1>
-<dl class="cpp type">
-<dt id="_CPPv46feasst">
-<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Functions</p>
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst19two_particle_systemE7argtype">
-<span class="target" id="namespacefeasst_1adfdfdc39dfc5c0e7fd442e19d0afa925"></span><a class="reference internal" href="System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> <code class="sig-name descname">two_particle_system</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst19two_particle_systemE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return a system with two Lennard-Jones particles.</p>
-<p>args:<ul class="simple">
-<li><p>cubic_box_length: default 6 </p></li>
-</ul>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst13lennard_jonesE7argtype">
-<span class="target" id="namespacefeasst_1a2b26ecd775e4672596809a49f51d92d7"></span><a class="reference internal" href="System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> <code class="sig-name descname">lennard_jones</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst13lennard_jonesE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return a Lennard-Jones system</p>
-<p>args:<ul class="simple">
-<li><p>cubic_box_length: default 8</p></li>
-<li><p>particle: default forcefield/lj.fstprt</p></li>
-<li><p>lrc: use long range corrections (default: true)</p></li>
-<li><p>dual_cut: Add a reference potential using this short cutoff with a cell list. If -1, ignore. (default: -1). </p></li>
-</ul>
-</p>
-</dd></dl>
-
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenfile: Cannot find file “system/include/utils.h </p>
 </div>
-</dd></dl>
-
 </div>
 
 
@@ -330,10 +231,6 @@
            
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../../monte_carlo/README.html" class="btn btn-neutral float-right" title="Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="System.html" class="btn btn-neutral float-left" title="System" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
 
   <hr/>
 

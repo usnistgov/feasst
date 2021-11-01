@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Matrix &mdash; FEASST v0.17.0 documentation</title>
+  <title>Matrix &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
@@ -128,6 +129,7 @@
 <li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBisection.html">SolverBisection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBrentDekker.html">SolverBrentDekker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -146,8 +148,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -420,6 +425,12 @@
 <dt id="_CPPv4NK6feasst14RotationMatrix6rotateERK8PositionP8Position">
 <span class="target" id="classfeasst_1_1RotationMatrix_1a2b94f99e6e87cbc50fd5741958a8b425"></span>void <code class="sig-name descname">rotate</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>pivot</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>rotated</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14RotationMatrix6rotateERK8PositionP8Position" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Rotate a position given a pivot point. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst14RotationMatrix10quaternionERK8Position">
+<span class="target" id="classfeasst_1_1RotationMatrix_1ae3e47aa1cf60e4abf443d4ca8a624d95"></span>void <code class="sig-name descname">quaternion</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14RotationMatrix10quaternionERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute rotation matrix based on quaternions (3D only). </p>
 </dd></dl>
 
 <dl class="cpp function">

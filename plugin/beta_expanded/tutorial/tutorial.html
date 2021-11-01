@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Beta expanded ensemble &mdash; FEASST v0.17.0 documentation</title>
+  <title>Beta expanded ensemble &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -123,24 +124,23 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Beta expanded</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../doc/SelectNothing.html">SelectNothing</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../doc/PerturbBeta.html">PerturbBeta</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../doc/trial_beta.html">beta_expanded/include/trial_beta</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../doc/ComputeBeta.html">ComputeBeta</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../doc/MacrostateBeta.html">MacrostateBeta</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Beta expanded</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../doc/SelectNothing.html">SelectNothing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/PerturbBeta.html">PerturbBeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/trial_beta.html">beta_expanded/include/trial_beta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/ComputeBeta.html">ComputeBeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/MacrostateBeta.html">MacrostateBeta</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Beta expanded ensemble</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -511,14 +511,17 @@ div.rendered_html tbody tr:hover {
 <h1>Beta expanded ensemble<a class="headerlink" href="#Beta-expanded-ensemble" title="Permalink to this headline">¶</a></h1>
 <p>Example expanded ensemble simulation inverse temperature.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
 <span class="n">mc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">())</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
+                                       <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
 <span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.2&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
 <span class="n">beta_min</span> <span class="o">=</span> <span class="mf">0.8</span>
 <span class="n">beta_max</span> <span class="o">=</span> <span class="mf">1.2</span>
@@ -529,7 +532,9 @@ div.rendered_html tbody tr:hover {
         <span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">delta_beta</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta_max</span><span class="p">),</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta_min</span><span class="p">)}))),</span>
     <span class="n">fst</span><span class="o">.</span><span class="n">MakeWLTM</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;collect_flatness&quot;</span><span class="p">:</span> <span class="s2">&quot;18&quot;</span><span class="p">,</span> <span class="s2">&quot;min_flatness&quot;</span><span class="p">:</span> <span class="s2">&quot;22&quot;</span><span class="p">,</span> <span class="s2">&quot;min_sweeps&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))))</span>
 <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
-<span class="n">fst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">with_metropolis</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">mc</span><span class="p">)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialAdd</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
 <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialBeta</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;fixed_beta_change&quot;</span><span class="p">:</span> <span class="n">delta_beta</span><span class="p">})))</span>
 <span class="n">steps_per</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">))</span>
 <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj_beta&quot;</span><span class="p">})))</span>
@@ -547,15 +552,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
+<p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>
 
 

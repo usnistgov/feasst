@@ -11,7 +11,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 6,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -23,7 +23,10 @@
     "    def test(self):\n",
     "        \"\"\"Compute the average number of particles and assert that it is greater than 0\"\"\"\n",
     "        monte_carlo = fst.MonteCarlo()\n",
-    "        monte_carlo.set(fst.lennard_jones())\n",
+    "        monte_carlo.add(fst.MakeConfiguration(fst.args({\"cubic_box_length\": \"8\",\n",
+    "                                       \"particle_type0\": fst.install_dir() + \"/forcefield/lj.fstprt\"})))\n",
+    "        monte_carlo.add(fst.MakePotential(fst.MakeLennardJones()))\n",
+    "        monte_carlo.add(fst.MakePotential(fst.MakeLongRangeCorrections()))\n",
     "        monte_carlo.set(fst.MakeThermoParams(fst.args({\"beta\": str(1./1.5), \"chemical_potential\": \"-8.352321\"})))\n",
     "        monte_carlo.set(fst.MakeMetropolis())\n",
     "        monte_carlo.add(fst.MakeTrialTranslate(fst.args({\"weight\": \"1.\", \"tunable_param\": \"2.\"})))\n",
@@ -51,7 +54,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [
     {
@@ -66,8 +69,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPU times: user 188 ms, sys: 3.7 ms, total: 192 ms\n",
-      "Wall time: 190 ms\n"
+      "CPU times: user 3 µs, sys: 0 ns, total: 3 µs\n",
+      "Wall time: 7.15 µs\n"
      ]
     },
     {
@@ -77,7 +80,7 @@
       "ok\n",
       "\n",
       "----------------------------------------------------------------------\n",
-      "Ran 1 test in 0.187s\n",
+      "Ran 1 test in 0.165s\n",
       "\n",
       "OK\n"
      ]
@@ -85,10 +88,10 @@
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7fcc55077588>"
+       "<unittest.main.TestProgram at 0x7f0e6c8bc040>"
       ]
      },
-     "execution_count": 2,
+     "execution_count": 7,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -122,7 +125,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.8.5"
+   "version": "3.8.10"
   }
  },
  "nbformat": 4,

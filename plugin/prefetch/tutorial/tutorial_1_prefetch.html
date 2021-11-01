@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Prefetch example &mdash; FEASST v0.17.0 documentation</title>
+  <title>Prefetch example &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -123,18 +124,17 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Prefetch</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../doc/Pool.html">Pool</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Prefetch</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../doc/Pool.html">Pool</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Prefetch example</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 </ul>
@@ -529,7 +529,10 @@ div.rendered_html tbody tr:hover {
 
     <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">Prefetch</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per_check&quot;</span><span class="p">:</span> <span class="s2">&quot;10000000&quot;</span><span class="p">}))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">activate_prefetch</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">box_length</span><span class="p">)})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">box_length</span><span class="p">),</span>
+                                       <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">temperature</span><span class="p">),</span>
         <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
@@ -539,7 +542,9 @@ div.rendered_html tbody tr:hover {
         <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">tunable_param</span><span class="p">),</span>
         <span class="s2">&quot;tunable_target_acceptance&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_acceptance</span><span class="p">),</span>
         <span class="s2">&quot;tunable_percent_change&quot;</span><span class="p">:</span> <span class="s2">&quot;0.01&quot;</span><span class="p">})))</span>
-    <span class="n">fst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)</span><span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialAdd</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
         <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;movie&quot;</span><span class="o">+</span><span class="n">file_app</span><span class="p">,</span>

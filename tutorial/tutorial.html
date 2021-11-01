@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Tutorial &mdash; FEASST v0.17.0 documentation</title>
+  <title>Tutorial &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -488,7 +488,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Canonical-ensemble-Lennard-Jones-Monte-Carlo">
 <h2>Canonical ensemble Lennard-Jones Monte Carlo<a class="headerlink" href="#Canonical-ensemble-Lennard-Jones-Monte-Carlo" title="Permalink to this headline">¶</a></h2>
 <p>The following simulation based on <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> demonstrates the basics of FEASST.</p>
-<p>To begin, FEASST is imported, and it is recommended to log the exact version used for the simulation.</p>
+<p>To begin, FEASST is imported, and it is recommended to log the exact version used for the simulation. Note that the version shown may not match your version.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -504,7 +504,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-version: v0.7.0-90-g6cb364c4ae hwh/branch
+version: v0.17.3-2-g5cfe911b25-dirty-hwh/nosysutil
 </pre></div></div>
 </div>
 <p>Then a <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created and the random number generator is initialized using the C++ implementation of the Mersenne Twister seeded by the time and date.</p>
@@ -535,8 +535,8 @@ version: v0.7.0-90-g6cb364c4ae hwh/branch
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">})),</span>
-     <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
 </pre></div>
 </div>
 </div>
@@ -555,13 +555,13 @@ version: v0.7.0-90-g6cb364c4ae hwh/branch
 </div>
 <p>In this example, we introduce both the pair-wise <a class="reference internal" href="../plugin/system/doc/LennardJones.html"><span class="doc">Lennard-Jones (LJ) model</span></a>, and also <a class="reference internal" href="../plugin/system/doc/LongRangeCorrections.html"><span class="doc">long-range corrections</span></a>, which approximately account for the cut off of the LJ potential by assuming a pair-wise radial distance distribution function of unity. A FEASST convention is to use a helper function which appends the word <code class="docutils literal notranslate"><span class="pre">Make</span></code> onto the class name when creating pointers to FEASST derived class objects. This
 serves two purposes involving C++11 smart pointers and brace enclosed initializer lists.</p>
-<p>Initialize <a class="reference internal" href="../plugin/system/doc/ThermoParams.html"><span class="doc">ThermoParams</span></a>, such as temperature, and the acceptance <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
+<p>Initialize <a class="reference internal" href="../plugin/system/doc/ThermoParams.html"><span class="doc">ThermoParams</span></a>, such as temperature, and the acceptance <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>. Note that the initial configuration will be generated with grand canonical particle additions, so a large chemical potential is included, but will not contribute to canonical ensemble production simulations.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">})))</span>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential0&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -579,16 +579,15 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </pre></div>
 </div>
 </div>
-<p>With the help of <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a>, we can now initialize the number of particles.</p>
+<p>With the help of <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a> and <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialAdd</span></a>, we can now generate an initial configuration with the desired number of particles.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">feasst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>\
-    <span class="o">.</span><span class="n">with_thermo_params</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))</span>\
-    <span class="o">.</span><span class="n">with_metropolis</span><span class="p">()</span>\
-    <span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialAdd</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">})))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
 </pre></div>
 </div>
 </div>
@@ -626,8 +625,8 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 797 ms, sys: 3.79 ms, total: 801 ms
-Wall time: 798 ms
+CPU times: user 4 µs, sys: 1 µs, total: 5 µs
+Wall time: 7.39 µs
 </pre></div></div>
 </div>
 <p>Now we can analyze the simulation by, for example, plotting the instantaneous energy as a function of the number of attempts.</p>
@@ -652,7 +651,7 @@ Wall time: 798 ms
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fd1f117e7d0&gt;
+&lt;AxesSubplot:xlabel=&#39;attempt&#39;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>FileVMD &mdash; FEASST v0.17.0 documentation</title>
+  <title>FileVMD &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="configuration/include/utils" href="utils.html" />
+    <link rel="next" title="FileLMP" href="FileLMP.html" />
     <link rel="prev" title="VisitConfiguration" href="VisitConfiguration.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
@@ -123,7 +124,6 @@
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">FileVMD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="utils.html">configuration/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -143,8 +143,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -272,12 +275,19 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst7FileVMDE">
 <span class="target" id="classfeasst_1_1FileVMD"></span><em class="property">class </em><code class="sig-name descname">FileVMD</code><a class="headerlink" href="#_CPPv4N6feasst7FileVMDE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print a vmd script to view an xyz file via command “vmd -e file.vmd” </p>
+<p>Subclassed by <a class="reference internal" href="../../patch/doc/FileVMDPatch.html#classfeasst_1_1FileVMDPatch"><span class="std std-ref">feasst::FileVMDPatch</span></a></p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst10PrinterXYZE">
+<span class="target" id="classfeasst_1_1PrinterXYZ"></span><em class="property">class </em><code class="sig-name descname">PrinterXYZ</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="VisitConfiguration.html#_CPPv4N6feasst17LoopConfigOneBodyE" title="feasst::LoopConfigOneBody">LoopConfigOneBody</a><a class="headerlink" href="#_CPPv4N6feasst10PrinterXYZE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst7FileXYZE">
 <span class="target" id="classfeasst_1_1FileXYZ"></span><em class="property">class </em><code class="sig-name descname">FileXYZ</code><a class="headerlink" href="#_CPPv4N6feasst7FileXYZE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The XYZ file format has no formal standard: <a class="reference external" href="https://en.wikipedia.org/wiki/XYZ_file_format">https://en.wikipedia.org/wiki/XYZ_file_format</a> It is important to remember that FEASST as its own variant.</p>
+<dd><p>The XYZ file format has no formal standard: <a class="reference external" href="https://en.wikipedia.org/wiki/XYZ_file_format">https://en.wikipedia.org/wiki/XYZ_file_format</a> It is important to remember that FEASST has its own variant.</p>
 <p>The first line is the number of sites, n. The second line is of the format [id lx ly lz xy xz yz], where id is a placeholder for order parameters or macrostates, lx is the box length in the x direction, ly is the box length in the y direction, lz is the box length in the z direction, xy is the xy domain tilt (see <a class="reference internal" href="Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a>), xz is the xz domain tilt, and yz is the yz domain tilt. The following n lines are in the format [id x y z], where id is the unique site type and x, y, z are the Cartesian coordinates. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -321,7 +331,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="utils.html" class="btn btn-neutral float-right" title="configuration/include/utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="FileLMP.html" class="btn btn-neutral float-right" title="FileLMP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="VisitConfiguration.html" class="btn btn-neutral float-left" title="VisitConfiguration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

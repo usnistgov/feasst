@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>TripleBandedCollectionMatrix &mdash; FEASST v0.17.0 documentation</title>
+  <title>TripleBandedCollectionMatrix &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -146,8 +147,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -283,9 +287,25 @@
 <li><p>2: macrostate increase</p></li>
 </ul>
 </p>
-<p>Beware that the computed probability distribution from this collection matrix may contain spurious values at the two most extreme ends. These two extreme ends are the two pairs of the two lowest and highest indices, respectively. For example, at the highest macrostate, a transition to the next highest macrostate is immediately rejected and thus the macrostate increase part of the collection matrix is zero due to this constraint. However, this would not be the case if the higher macrostate values were allowed. The constraint thus affects the probability at the most extreme values, and these values should be discarded. There are exceptions such as the case with zero particles. In this case, there cannot be less than zero particles so the constraint is physically meaningful and the probability at this macrostate is correct. </p>
+<p>Beware that the computed probability distribution from this collection matrix may contain spurious values at the two most extreme ends. This is especially true in cases where windows with different moves sets are spliced.</p>
+<p>Blocks and error bars are obtained via the blocking method. Blocks are created on the fly by sizes of base two. The default blocks and stdev are from the largest block sizes with more than ten blocks. Error bars on grand canonical ensemble averages may then by obtained by using the macrostate distribution from each of these blocks. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst28TripleBandedCollectionMatrix28TripleBandedCollectionMatrixE7argtype">
+<span class="target" id="classfeasst_1_1TripleBandedCollectionMatrix_1ab235779c72ac791abf924fc7d1871a0e"></span><code class="sig-name descname">TripleBandedCollectionMatrix</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst28TripleBandedCollectionMatrix28TripleBandedCollectionMatrixE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>max_block_operations: maximum number of blocking operations (default: 5). </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst28TripleBandedCollectionMatrix28TripleBandedCollectionMatrixERKNSt6vectorINSt6vectorINSt6vectorIdEEEEEE">
+<span class="target" id="classfeasst_1_1TripleBandedCollectionMatrix_1a6e199f0231a46e5ba72d4de14c7f80cf"></span><code class="sig-name descname">TripleBandedCollectionMatrix</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;double&gt;&gt;&gt; &amp;<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst28TripleBandedCollectionMatrix28TripleBandedCollectionMatrixERKNSt6vectorINSt6vectorINSt6vectorIdEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct from a series of single-state collection matricies (NVT+W). </p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst28TripleBandedCollectionMatrix9incrementEKiKiKd">
 <span class="target" id="classfeasst_1_1TripleBandedCollectionMatrix_1a5d98e4881b8ea01ec7c91fbe24299ec3"></span>void <code class="sig-name descname">increment</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macro</em>, <em class="property">const</em> int <em>state_change</em>, <em class="property">const</em> double <em>add</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst28TripleBandedCollectionMatrix9incrementEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
@@ -293,8 +313,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst28TripleBandedCollectionMatrix15compute_ln_probEP13LnProbability">
-<span class="target" id="classfeasst_1_1TripleBandedCollectionMatrix_1a520d60bae514b257c26f79af44502ae4"></span>void <code class="sig-name descname">compute_ln_prob</code><span class="sig-paren">(</span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> *<em>ln_prob</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst28TripleBandedCollectionMatrix15compute_ln_probEP13LnProbability" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst28TripleBandedCollectionMatrix15compute_ln_probEP13LnProbability">
+<span class="target" id="classfeasst_1_1TripleBandedCollectionMatrix_1a8a49f285aeec63e0d750bd42fa12030d"></span>void <code class="sig-name descname">compute_ln_prob</code><span class="sig-paren">(</span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> *<em>ln_prob</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst28TripleBandedCollectionMatrix15compute_ln_probEP13LnProbability" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update the ln_prob according to the collection matrix. </p>
 </dd></dl>
 

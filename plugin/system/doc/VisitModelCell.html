@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>VisitModelCell &mdash; FEASST v0.17.0 documentation</title>
+  <title>VisitModelCell &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -148,7 +149,6 @@
 <li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils.html">system/include/utils</a></li>
 </ul>
 </li>
 </ul>
@@ -166,8 +166,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -300,12 +303,18 @@
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst14VisitModelCell14VisitModelCellE7argtype">
-<span class="target" id="classfeasst_1_1VisitModelCell_1abfbe4f2043e0af925e16fd3ddccc3ae7"></span><code class="sig-name descname">VisitModelCell</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCell14VisitModelCellE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1VisitModelCell_1aabfe262288303fa6abe6bcf8f339dd77"></span><code class="sig-name descname">VisitModelCell</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCell14VisitModelCellE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>min_length: build cell list with given minimum distance between cells.</p></li>
 <li><p>cell_group: compute cells only in given group index (default: 0). </p></li>
 </ul>
 </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst14VisitModelCell14VisitModelCellENSt10shared_ptrI15VisitModelInnerEE7argtype">
+<span class="target" id="classfeasst_1_1VisitModelCell_1a14bb009d8153fa1e239e4683fec5db41"></span><code class="sig-name descname">VisitModelCell</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="VisitModelInner.html#_CPPv4N6feasst15VisitModelInnerE" title="feasst::VisitModelInner">VisitModelInner</a>&gt; <em>inner</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCell14VisitModelCellENSt10shared_ptrI15VisitModelInnerEE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but with an inner. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -324,6 +333,12 @@
 <dt id="_CPPv4N6feasst14VisitModelCell12cell_id_opt_ERK6DomainRK8Position">
 <span class="target" id="classfeasst_1_1VisitModelCell_1a19015af6cbdcff1c97b8cfa08e6eee81"></span>int <code class="sig-name descname">cell_id_opt_</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain">Domain</a> &amp;<em>domain</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCell12cell_id_opt_ERK6DomainRK8Position" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above, but optimized. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst14VisitModelCell10precomputeEP13Configuration">
+<span class="target" id="classfeasst_1_1VisitModelCell_1a60821b1434d0eaf3b3ea42d34cac899b"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCell10precomputeEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as base class, but also prepare the cells. </p>
 </dd></dl>
 
 </div>

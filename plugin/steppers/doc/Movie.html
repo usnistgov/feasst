@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Movie &mdash; FEASST v0.17.0 documentation</title>
+  <title>Movie &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -151,8 +152,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -283,6 +287,17 @@
 <dd><p>Write a trajectory of the site positions using <a class="reference internal" href="../../configuration/doc/FileVMD.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a> format. Does not overwrite existing file by default. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst5Movie5MovieE7argtype">
+<span class="target" id="classfeasst_1_1Movie_1a6a560a9b1a6e86342b260d5104864b68"></span><code class="sig-name descname">Movie</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Movie5MovieE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>append is always set to true via <a class="reference internal" href="../../monte_carlo/doc/Stepper.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a>:set_append().</p></li>
+<li><p><a class="reference internal" href="../../configuration/doc/FileVMD.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a> arguments (e.g., group_index).</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> and <a class="reference internal" href="../../monte_carlo/doc/Stepper.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> base class arguments. </p></li>
+</ul>
+</p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst5Movie10initializeEP8CriteriaP6SystemP12TrialFactory">
 <span class="target" id="classfeasst_1_1Movie_1a81a2683c0bc00ed4e343045ec17cc835"></span>void <code class="sig-name descname">initialize</code><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> *<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Movie10initializeEP8CriteriaP6SystemP12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Configuration &mdash; FEASST v0.17.0 documentation</title>
+  <title>Configuration &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
@@ -123,7 +124,6 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="utils.html">configuration/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -143,8 +143,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -284,20 +287,20 @@
 <dt id="_CPPv4N6feasst13Configuration13ConfigurationE7argtype">
 <span class="target" id="classfeasst_1_1Configuration_1a519e1a947b0896eb298e94ae52fc9d95"></span><code class="sig-name descname">Configuration</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13ConfigurationE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
+<li><p><a class="reference internal" href="Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> arguments may be parsed here.</p></li>
 <li><p>particle_type[i]: add the i-th type of particle. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional.</p></li>
 <li><p>add_particles_of_type[i]: add this many of i-th type particles. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
+<li><p>xyz_file: optionally load xyz file if not empty (default: empty).</p></li>
 <li><p>wrap: wrap particle centers within domain (default: true).</p></li>
 <li><p>physical_constants: optional class_name of <a class="reference internal" href="PhysicalConstants.html#classfeasst_1_1PhysicalConstants"><span class="std std-ref">PhysicalConstants</span></a>.</p></li>
 <li><p>set_cutoff_min_to_sigma: if true and cutoff &lt; sigma, cutoff = sigma (default: false). This is typically used for <a class="reference internal" href="../../system/doc/HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> models that didn’t specify cutoff.</p></li>
-<li><p><a class="reference internal" href="Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> arguments may also be parsed here. </p></li>
+<li><p>sigma[i]: optionally set the sigma of i-th site type to this value. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
+<li><p>epsilon[i]: optionally set the epsilon of i-th site type to this value. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
+<li><p>cutoff: optionally set the cutoff of all site types to this value.</p></li>
+<li><p>cutoff[i]: optionally set the cutoff of i-th site type to this value. The “[i]” is to be substituted for an integer 0, 1, 2, … These are applied after the above cutoff for all types.</p></li>
+<li><p>charge[i]: optionally set the charge of i-th site type to this value. The “[i]” is to be substituted for an integer 0, 1, 2, … </p></li>
 </ul>
 </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration13ConfigurationENSt10shared_ptrI6DomainEE7argtype">
-<span class="target" id="classfeasst_1_1Configuration_1a60b5a4e4983ede6adc1ba7d4959c587b"></span><code class="sig-name descname">Configuration</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain">Domain</a>&gt; <em>domain</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13ConfigurationENSt10shared_ptrI6DomainEE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as above, but also set the domain. </p>
 </dd></dl>
 
 </div>

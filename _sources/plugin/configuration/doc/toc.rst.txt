@@ -15,6 +15,5 @@
    Configuration
    VisitConfiguration
    FileVMD
-   utils
    FileLMP
    Domain

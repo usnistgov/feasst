@@ -9,6 +9,7 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 
 .. toctree::
 
+   threads/README
    utils/README
    math/README
    configuration/README
@@ -26,13 +27,6 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
    confinement/README
    charge/README
    opt_lj/README
-   threads/README
-
-Plugins in development
-************************
-
-.. toctree::
-
    cluster/README
    egce/README
    morph/README

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>VisitModelInnerPatch &mdash; FEASST v0.17.0 documentation</title>
+  <title>VisitModelInnerPatch &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Mayer" href="../../mayer/README.html" />
+    <link rel="next" title="FileVMDPatch" href="FileVMDPatch.html" />
     <link rel="prev" title="PatchAngle" href="PatchAngle.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -118,6 +119,9 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Patch</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="PatchAngle.html">PatchAngle</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">VisitModelInnerPatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMDPatch.html">FileVMDPatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MoviePatch.html">MoviePatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -128,8 +132,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -261,7 +268,20 @@
 <p>The center site is used in the computation of the separation vector. Thus, for a Kern-Frenkel model, the centers would be the hard spheres.</p>
 <p>The director site is used to determine the orientation of the patch.</p>
 <p>The visitor should loop over a group_index which contains center sites only. Each pair of center sites is then subject to a cutoff which should be the maximum cutoff for all possible pairs of director types between the two centers. Once two centers are said to be within the cutoff, then all pair director interactions are computed. Directors are identified as those sites which are bonded to the center and whose bond is identified as a director bond.</p>
-<p>The orientational component of the patch is determined by this visitor class. But the distance-based component is determined by the model. The types for the model computation are determined by the directors. E.g., the sigmas, epsilons, cutoffs etc are set by the directors. </p>
+<p>The orientational component of the patch is determined by this visitor class. But the distance-based component is determined by the model. The types for the model computation are determined by the directors. E.g., the sigmas, epsilons, cutoffs etc are set by the directors.</p>
+<p>The patch angle is defined by the angle between the center of mass separation vector of the non-director, center site, and the director. Thus, a 180 degree patch would encompass the entire surface. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst20VisitModelInnerPatch20VisitModelInnerPatchE7argtype">
+<span class="target" id="classfeasst_1_1VisitModelInnerPatch_1a35c9ec53c3c4cf9df5ee09f0e56184fb"></span><code class="sig-name descname">VisitModelInnerPatch</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20VisitModelInnerPatch20VisitModelInnerPatchE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>patch_degrees_of_type[i]: set the patch angle of the given site type. The “[i]” is to be substituted for an integer 0, 1, 2, … </p></li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
 </dd></dl>
 
 </div>
@@ -272,7 +292,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../../mayer/README.html" class="btn btn-neutral float-right" title="Mayer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="FileVMDPatch.html" class="btn btn-neutral float-right" title="FileVMDPatch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="PatchAngle.html" class="btn btn-neutral float-left" title="PatchAngle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

@@ -2,6 +2,7 @@
 .. toctree::
 
    AngleHarmonic
+   FENE
    BondHarmonic
    DihedralHarmonic
    DihedralTraPPE

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Cluster &mdash; FEASST v0.17.0 documentation</title>
+  <title>Cluster &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Monte Carlo with rigid cluster moves" href="tutorial/tutorial_1_lj_cluster.html" />
-    <link rel="prev" title="ThreadOMP" href="../threads/doc/ThreadOMP.html" />
+    <link rel="prev" title="VisitModelOptRPM" href="../opt_lj/doc/VisitModelOptRPM.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../configuration/README.html">Configuration</a></li>
@@ -123,20 +124,42 @@
 <li class="toctree-l2"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../threads/README.html">Threads</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html#plugins-in-development">Plugins in development</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Cluster</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cluster</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="doc/EnergyMapAll.html">EnergyMapAll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/EnergyMapNeighbor.html">EnergyMapNeighbor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/SelectCluster.html">SelectCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/trial_avb2.html">cluster/include/trial_avb2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/trial_rigid_cluster.html">cluster/include/trial_rigid_cluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/trial_transfer_avb_divalent.html">cluster/include/trial_transfer_avb_divalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/trial_transfer_avb.html">cluster/include/trial_transfer_avb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/trial_avb4.html">cluster/include/trial_avb4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ComputeMoveCluster.html">ComputeMoveCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ComputeAddAVB.html">ComputeAddAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ComputeGCA.html">ComputeGCA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ComputeAddAVBDivalent.html">ComputeAddAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ComputeRemoveAVBDivalent.html">ComputeRemoveAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ComputeAVB2.html">ComputeAVB2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ComputeAVB4.html">ComputeAVB4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbRotateCOM.html">PerturbRotateCOM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbMoveAVB.html">PerturbMoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbAddAVB.html">PerturbAddAVB</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../morph/README.html">Morph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../py/README.html">pyFEASST</a></li>
@@ -277,10 +300,10 @@
 <li class="toctree-l1"><a class="reference internal" href="doc/EnergyMapNeighbor.html">EnergyMapNeighbor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbPointReflect.html">PerturbPointReflect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectCluster.html">SelectCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbPointReflect.html">PerturbPointReflect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trial_avb2.html">cluster/include/trial_avb2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trial_rigid_cluster.html">cluster/include/trial_rigid_cluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/trial_transfer_avb_divalent.html">cluster/include/trial_transfer_avb_divalent</a></li>
@@ -309,7 +332,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="tutorial/tutorial_1_lj_cluster.html" class="btn btn-neutral float-right" title="Monte Carlo with rigid cluster moves" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="../threads/doc/ThreadOMP.html" class="btn btn-neutral float-left" title="ThreadOMP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../opt_lj/doc/VisitModelOptRPM.html" class="btn btn-neutral float-left" title="VisitModelOptRPM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

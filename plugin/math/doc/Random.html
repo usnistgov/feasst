@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Random &mdash; FEASST v0.17.0 documentation</title>
+  <title>Random &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
@@ -128,6 +129,7 @@
 <li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBisection.html">SolverBisection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBrentDekker.html">SolverBrentDekker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -146,8 +148,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -405,13 +410,19 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst6Random10quaternionEP8Position">
+<span class="target" id="classfeasst_1_1Random_1ae4e100e7b8a1c43f052de277b5c433ed"></span>void <code class="sig-name descname">quaternion</code><span class="sig-paren">(</span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random10quaternionEP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a random quaternion using the method of: Franz J. Vesely, J. Comput. Phys., 47, 291-296 (1982). </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst6Random8rotationEKiKd">
-<span class="target" id="classfeasst_1_1Random_1a5cb344ea51db148bad4f4f9cfa021b00"></span><a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> <code class="sig-name descname">rotation</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>max_angle</em> = 180<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Random_1a86a81bd26b7264e0c51bb78a2f84be8e"></span><a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> <code class="sig-name descname">rotation</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>tunable</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return a random rotation matrix. </p>
 <p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">dimension</span></code>: dimensionality of space </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">max_angle</span></code>: maximum angle of rotation in degrees. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tunable</span></code>: If tunable == -1, generate a completely random rotation (default). Otherwise, In 3D, this is the relative weight of a random quaternion and a unit quaternion corresponding to no rotation. In 2D, this is the maximum rotation angle. </p></li>
 </ul>
 </dd>
 </dl>
@@ -420,12 +431,11 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst6Random8rotationEKiP8PositionP14RotationMatrixKd">
-<span class="target" id="classfeasst_1_1Random_1a518dd567abc3e8f52fcdde4042321883"></span>void <code class="sig-name descname">rotation</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>axis</em>, <a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> *<em>rot_mat</em>, <em class="property">const</em> double <em>max_angle</em> = 180<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiP8PositionP14RotationMatrixKd" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Random_1ab65e5d7dd944879a0a065a024f0959ec"></span>void <code class="sig-name descname">rotation</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>quaternion_or_axis</em>, <a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> *<em>rot_mat</em>, <em class="property">const</em> double <em>tunable</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiP8PositionP14RotationMatrixKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above, but optimized to reuse existing axis and matrix. </p>
 <p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">dimension</span></code>: dimensionality of space </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">max_angle</span></code>: maximum angle of rotation in degrees. </p></li>
 </ul>
 </dd>
 </dl>

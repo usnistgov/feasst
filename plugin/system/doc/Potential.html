@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Potential &mdash; FEASST v0.17.0 documentation</title>
+  <title>Potential &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -148,7 +149,6 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils.html">system/include/utils</a></li>
 </ul>
 </li>
 </ul>
@@ -166,8 +166,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -303,7 +306,7 @@
 <span class="target" id="classfeasst_1_1Potential_1a7ca84211f96da8a5c3762148a60075d6"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>group_index: set the index of the group in the configuration which contributes to this potential (default: 0, representing entire config).</p></li>
-<li><p>cell_index: set the index of the cell, only to be used with <a class="reference internal" href="VisitModelCell.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">VisitModelCell</span></a>. This also overrides group_index.</p></li>
+<li><p>cell_index: set the index of the cell, only used with <a class="reference internal" href="VisitModelCell.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">VisitModelCell</span></a>. This also overrides group_index.</p></li>
 <li><p>prevent_cache: set this to true in order to prevent the use of cache (default: False)</p></li>
 <li><p>table_size: set size of tabular potential (default: 0). Do not use table if size &lt;= 0. </p></li>
 </ul>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Forcefield and Units &mdash; FEASST v0.17.0 documentation</title>
+  <title>Forcefield and Units &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -259,17 +259,19 @@ Finally, the units of length must be in Angstroms.</p>
 <div class="section" id="differences-from-lammps">
 <h3>Differences from LAMMPS<a class="headerlink" href="#differences-from-lammps" title="Permalink to this headline">¶</a></h3>
 <p>LAMMPS data files are defined here: <a class="reference external" href="https://lammps.sandia.gov/doc/read_data.html">https://lammps.sandia.gov/doc/read_data.html</a></p>
-<p>The data files used by FEASST have the following major differences:
-* atoms in LAMMPS are analogous to sites in FEASST.
-* molecules in LAMMPS are analogous to particles in FEASST.
-* FEASST data files contain only one particle.
-* all FEASST indices (types, sites, etc) begin with 0, not 1.
-* characters are case sensitive,
-* the number of spaces between characters does not matter,
-* LMP Coeffs sections were replaced by Properties sections, with very different formatting,
-* “2 dimensions” may be specified at the beginning of the file for a 2D simulation.
-* FEASST data files contain no information about the <a class="reference internal" href="../plugin/configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Domain</span></code></a> boundaries.
-* The “Sites” section has the following three major differences: (1) these files describe only one particle so, unlike LAMMPS, molecule index is not included, (2) charge is a site-type property, and thus is not given for each site and (3) wrapping is not included.</p>
+<p>The data files used by FEASST have the following major differences:</p>
+<ul class="simple">
+<li><p>atoms in LAMMPS are analogous to sites in FEASST.</p></li>
+<li><p>molecules in LAMMPS are analogous to particles in FEASST.</p></li>
+<li><p>FEASST data files contain only one particle.</p></li>
+<li><p>all FEASST indices (types, sites, etc) begin with 0, not 1.</p></li>
+<li><p>characters are case sensitive,</p></li>
+<li><p>the number of spaces between characters does not matter,</p></li>
+<li><p>LMP Coeffs sections were replaced by Properties sections, with very different formatting,</p></li>
+<li><p>“2 dimensions” may be specified at the beginning of the file for a 2D simulation.</p></li>
+<li><p>FEASST data files contain no information about the <a class="reference internal" href="../plugin/configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Domain</span></code></a> boundaries.</p></li>
+<li><p>The “Sites” section has the following three major differences: (1) these files describe only one particle so, unlike LAMMPS, molecule index is not included, (2) charge is a site-type property, and thus is not given for each site and (3) wrapping is not included.</p></li>
+</ul>
 </div>
 <div class="section" id="site-properties">
 <h3>Site Properties<a class="headerlink" href="#site-properties" title="Permalink to this headline">¶</a></h3>

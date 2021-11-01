@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>&lt;no title&gt; &mdash; FEASST v0.17.0 documentation</title>
+  <title>&lt;no title&gt; &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Tunable" href="Tunable.html" />
-    <link rel="prev" title="Grand canonical ensemble Monte Carlo" href="../tutorial/tutorial_2_lj_gcmc.html" />
+    <link rel="prev" title="Block Averaging Example" href="../tutorial/tutorial_4_block_average.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -232,21 +232,21 @@
 <li class="toctree-l1"><a class="reference internal" href="Stepper.html">Stepper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Perturb.html">Perturb</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Criteria.html">Criteria</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Perturb.html">Perturb</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -257,12 +257,13 @@
 <li class="toctree-l1"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialComputeTranslate.html">TrialComputeTranslate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -279,7 +280,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="Tunable.html" class="btn btn-neutral float-right" title="Tunable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="../tutorial/tutorial_2_lj_gcmc.html" class="btn btn-neutral float-left" title="Grand canonical ensemble Monte Carlo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial/tutorial_4_block_average.html" class="btn btn-neutral float-left" title="Block Averaging Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

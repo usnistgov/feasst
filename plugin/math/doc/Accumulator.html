@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Accumulator &mdash; FEASST v0.17.0 documentation</title>
+  <title>Accumulator &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
@@ -128,6 +129,7 @@
 <li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBisection.html">SolverBisection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBrentDekker.html">SolverBrentDekker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -146,8 +148,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -275,16 +280,29 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst11AccumulatorE">
 <span class="target" id="classfeasst_1_1Accumulator"></span><em class="property">class </em><code class="sig-name descname">Accumulator</code><a class="headerlink" href="#_CPPv4N6feasst11AccumulatorE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Accumulate a series of values to compute the average, standard deviation, and the standard deviation of the average of uncorrelated data using the blocking method. </p>
+<dd><p>Accumulate a series of values to compute the average, standard deviation, and the standard deviation of the average of uncorrelated data using the blocking method. Flyvbjerg, Error estimates on averages of correlated data, <a class="reference external" href="http://dx.doi.org/10.1063/1.457480">http://dx.doi.org/10.1063/1.457480</a> Also, see Frenkel and Smit, Understanding Molecular Simulations, Appendix D and Case study 4 (pages 98-100, Figure 4.4). </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst11Accumulator11AccumulatorE7argtype">
 <span class="target" id="classfeasst_1_1Accumulator_1a327a360ca4fa5591da3dd7ec3e40b6b4"></span><code class="sig-name descname">Accumulator</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator11AccumulatorE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>block_size: number of values per block (default: 1e5). </p></li>
+<li><p>num_moments: maximum number of moments (default: 5).</p></li>
+<li><p>max_block_operations: maximum number of blocking operations (default: 6). </p></li>
 </ul>
 </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst11Accumulator20max_block_operationsEv">
+<span class="target" id="classfeasst_1_1Accumulator_1a14425247ccd99dc155d60f9acd48f444"></span>int <code class="sig-name descname">max_block_operations</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator20max_block_operationsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum number of block operations. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst11Accumulator11num_momentsEv">
+<span class="target" id="classfeasst_1_1Accumulator_1a0a9a56361682a0fa855afcb4b9954de8"></span>int <code class="sig-name descname">num_moments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11num_momentsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum number of moments. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -318,27 +336,40 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst11Accumulator14set_block_sizeEKd">
-<span class="target" id="classfeasst_1_1Accumulator_1a55fb36afc76637d148aa0c54aef0452d"></span>void <code class="sig-name descname">set_block_size</code><span class="sig-paren">(</span><em class="property">const</em> double <em>block_size</em> = 1e5<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator14set_block_sizeEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set the size of a block to compute (uncorrelated) standard errors of the block averages.</p>
-<p>Flyvbjerg, Error estimates on averages of correlated data, <a class="reference external" href="http://dx.doi.org/10.1063/1.457480">http://dx.doi.org/10.1063/1.457480</a> </p>
+<dt id="_CPPv4NK6feasst11Accumulator11block_stdevEKiKi">
+<span class="target" id="classfeasst_1_1Accumulator_1a8a8b21be456d370e47f95552409daebe"></span>double <code class="sig-name descname">block_stdev</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num_op</em> = -1, <em class="property">const</em> int <em>min_blocks</em> = 10<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11block_stdevEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">num_op</span></code>: Use the given operation. If -1, have the maximum stdev over all blocks. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_blocks</span></code>: If num_op == -1, minimum number of blocks to consider stdev. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Return standard deviation of the block average. Return 0 if not enough data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst11Accumulator16block_std_of_stdEKi">
+<span class="target" id="classfeasst_1_1Accumulator_1a44ba5b781de39a8d68283edae0a7f6d1"></span>double <code class="sig-name descname">block_std_of_std</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num_op</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator16block_std_of_stdEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return standard deviation of the standard deviation of the block average. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst11Accumulator14block_averagesEv">
+<span class="target" id="classfeasst_1_1Accumulator_1a9ec908394b190444812dd0a2aed92088"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std">std</a>::vector&lt;<a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std">std</a>::shared_ptr&lt;<a class="reference internal" href="#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a>&gt;&gt; &amp;<code class="sig-name descname">block_averages</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator14block_averagesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the block averages. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst11Accumulator10block_sizeEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a85c7e51c558e8f6007f868f3609a934d"></span>double <code class="sig-name descname">block_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10block_sizeEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return number of values per block. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst11Accumulator11block_stdevEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a135c946a351903eeedbdbd4c5c055e8c"></span>double <code class="sig-name descname">block_stdev</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11block_stdevEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return standard deviation of the block averages (0 if not enough blocks). </p>
+<span class="target" id="classfeasst_1_1Accumulator_1a73d8d57dcb4f0c660a3ab1ebf10c4b65"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std">std</a>::vector&lt;double&gt; &amp;<code class="sig-name descname">block_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10block_sizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the size of each block. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst11Accumulator10num_valuesEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a40e39aade86f32580f0c28c9b389bb0f"></span>double <code class="sig-name descname">num_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10num_valuesEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1acdc6218fefacc547a79da7d5e6a621cb"></span>long double <code class="sig-name descname">num_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10num_valuesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return number of values accumulated. </p>
 </dd></dl>
 
@@ -385,21 +416,15 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst11Accumulator11set_momentsEKi">
-<span class="target" id="classfeasst_1_1Accumulator_1ad32057aa5be39d391951107283cf8076"></span>void <code class="sig-name descname">set_moments</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num_moments</em> = 2<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator11set_momentsEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set the highest order of moments recorded. </p>
+<dt id="_CPPv4NK6feasst11Accumulator6momentEKi">
+<span class="target" id="classfeasst_1_1Accumulator_1a7c2b1dadebb620a04ff4b91e16d5759e"></span>double <code class="sig-name descname">moment</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator6momentEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the moments as a double. This is the sum of the value^index. Thus, moment(0) is the number of accumulated values. And moment(1) is the sum of the values. moment(2) is the sum of the squared values, etc. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst11Accumulator7momentsEv">
 <span class="target" id="classfeasst_1_1Accumulator_1ac7a640217a21aa6993202cc7e82cd5ea"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std">std</a>::vector&lt;long double&gt; <code class="sig-name descname">moments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator7momentsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the moments. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst11Accumulator6momentEKi">
-<span class="target" id="classfeasst_1_1Accumulator_1a7c2b1dadebb620a04ff4b91e16d5759e"></span>double <code class="sig-name descname">moment</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator6momentEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the moments as a double. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -427,8 +452,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst11Accumulator13is_equivalentERK11AccumulatorKdKb">
-<span class="target" id="classfeasst_1_1Accumulator_1a797e7cd05a472ec82d84054b60e6a6aa"></span>bool <code class="sig-name descname">is_equivalent</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<em>accumulator</em>, <em class="property">const</em> double <em>t_factor</em>, <em class="property">const</em> bool <em>verbose</em> = false<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator13is_equivalentERK11AccumulatorKdKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst11Accumulator13is_equivalentERK11AccumulatorKdKiKb">
+<span class="target" id="classfeasst_1_1Accumulator_1a3c4e04cf86f455c717497f575a7229d5"></span>bool <code class="sig-name descname">is_equivalent</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<em>accumulator</em>, <em class="property">const</em> double <em>t_factor</em>, <em class="property">const</em> int <em>num_op</em> = 0, <em class="property">const</em> bool <em>verbose</em> = false<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator13is_equivalentERK11AccumulatorKdKiKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if the <a class="reference internal" href="#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a> is equivalent within the given confidence interval based on the block average standard deviations. </p>
 </dd></dl>
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Simulation of a single freely-jointed chain &mdash; FEASST v0.17.0 documentation</title>
+  <title>Simulation of a single freely-jointed chain &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -121,11 +122,11 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../doc/SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/SelectPerturbed.html">SelectPerturbed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/SelectBranch.html">SelectBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/PerturbReptate.html">PerturbReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/trials.html">chain/include/trials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/trial_grow.html">chain/include/trial_grow</a></li>
@@ -147,8 +148,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -551,12 +555,14 @@ div.rendered_html tbody tr:hover {
         <span class="n">gen_chain</span><span class="o">.</span><span class="n">linear_single_site</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;chain.fstprt.swp&quot;</span><span class="p">)</span>
         <span class="n">mc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
         <span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})))</span>
-        <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="p">)})),</span>
-                                 <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;chain.fstprt.swp&quot;</span><span class="p">})))</span>
+        <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="p">),</span>
+                                               <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;chain.fstprt.swp&quot;</span><span class="p">})))</span>
         <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">DontVisitModel</span><span class="p">()))</span>
         <span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential0&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})))</span>
         <span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
-        <span class="n">fst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">mc</span><span class="p">)</span>
+        <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialAdd</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
+        <span class="n">mc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})))</span>
+        <span class="n">mc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
         <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialGrowLinear</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialComputeMove</span><span class="p">(),</span> <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
         <span class="n">steps_per</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
         <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;chain&quot;</span><span class="p">})))</span>
@@ -578,7 +584,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-v0.16.0-30-gbf11101ab9-hwh/doc2
+v0.17.2-1-g3d32a381c8-develop
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -604,9 +610,9 @@ test (__main__.TestFreelyJointedIdealChain) ...
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 average,stdev,block_stdev,n,moment0,moment1,
-90.471539372386275,37.931249801668031,0,100,9047.1539372386275,960949.13508106156,
+95.934047286982846,45.032994249294298,0,100,9593.4047286982842,1121103.2294207464,
 average,stdev,block_stdev,n,moment0,moment1,
-1568.7441287256804,788.25473239985126,0,100,156874.41287256804,307609020.93305477,
+1770.7398166435846,1008.2495213770828,0,100,177073.98166435845,414192092.46305011,
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -617,7 +623,7 @@ average,stdev,block_stdev,n,moment0,moment1,
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 18.710s
+Ran 1 test in 18.228s
 
 OK
 </pre></div></div>
@@ -628,7 +634,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f41586b3520&gt;
+&lt;unittest.main.TestProgram at 0x7feeac64ee20&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

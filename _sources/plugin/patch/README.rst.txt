@@ -8,6 +8,14 @@ Patchy, orientation-dependent interactions.
 
    doc/toc
 
+Tutorial
+=========
+
+.. toctree::
+   :glob:
+
+   tutorial/tutorial*
+
 FEASST plugin dependencies
 ============================
 

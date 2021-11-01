@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>EnergyMapAll &mdash; FEASST v0.17.0 documentation</title>
+  <title>EnergyMapAll &mdash; FEASST v0.18.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.17.0
+                v0.18.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -123,20 +124,42 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Cluster</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../README.html#api">API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Cluster</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">EnergyMapAll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="EnergyMapNeighbor.html">EnergyMapNeighbor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectParticleAVB.html">SelectParticleAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectCluster.html">SelectCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_avb2.html">cluster/include/trial_avb2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_rigid_cluster.html">cluster/include/trial_rigid_cluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_transfer_avb_divalent.html">cluster/include/trial_transfer_avb_divalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_transfer_avb.html">cluster/include/trial_transfer_avb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_avb4.html">cluster/include/trial_avb4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeMoveCluster.html">ComputeMoveCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAddAVB.html">ComputeAddAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeGCA.html">ComputeGCA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAddAVBDivalent.html">ComputeAddAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveAVBDivalent.html">ComputeRemoveAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAVB2.html">ComputeAVB2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAVB4.html">ComputeAVB4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotateCOM.html">PerturbRotateCOM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMoveAVB.html">PerturbMoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAddAVB.html">PerturbAddAVB</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
