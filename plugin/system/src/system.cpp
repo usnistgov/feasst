@@ -5,6 +5,10 @@
 
 namespace feasst {
 
+void System::add(std::shared_ptr<Configuration> configuration) {
+  configurations_.push_back(*configuration);
+}
+
 void System::add(const Configuration& configuration) {
   configurations_.push_back(configuration);
 }

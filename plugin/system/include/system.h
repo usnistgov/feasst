@@ -44,6 +44,9 @@ class System {
   //@{
 
   /// Add a configuration.
+  void add(std::shared_ptr<Configuration> configuration);
+
+  // HWH Depreciated interface.
   void add(const Configuration& configuration);
 
   /// Return the number of configurations.
