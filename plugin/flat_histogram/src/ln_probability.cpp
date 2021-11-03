@@ -99,4 +99,19 @@ LnProbability LnProbability::reduce(const int keep_every,
   return reduced;
 }
 
+double LnProbability::delta(const int bin) const {
+  if (bin == 0) {
+    return std::nan("");
+  }
+  return value(bin) - value(bin - 1);
+}
+
+std::vector<double> LnProbability::delta_values() const {
+  std::vector<double> dat(size());
+  for (int i = 0; i < size(); ++i) {
+    dat[i] = delta(i);
+  }
+  return dat;
+}
+
 }  // namespace feasst

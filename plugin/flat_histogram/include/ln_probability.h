@@ -21,6 +21,10 @@ class LnProbability {
   /// Return the value of the bin.
   double value(const int bin) const { return values_[bin]; }
 
+  /// Return the difference of the logarithm of the probability distribution
+  /// from its lower next value. Return 'NaN' if bin is zero.
+  double delta(const int bin) const;
+
   /// Set the value of the bin.
   void set_value(const int bin, const double value) { values_[bin] = value; }
 
@@ -33,6 +37,9 @@ class LnProbability {
 
   /// Return the values.
   const std::vector<double> values() const { return values_; }
+
+  /// Return the delta values.
+  std::vector<double> delta_values() const;
 
   /// Return the size of the distribution.
   int size() const { return static_cast<int>(values_.size()); }
