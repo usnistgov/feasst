@@ -191,6 +191,45 @@ double Domain::max_side_length() const {
   return maximum(side_lengths_.coord());
 }
 
+double Domain::inscribed_sphere_diameter() const {
+  double diameter = -1.;
+  if (!is_tilted()) {
+    diameter = min_side_length();
+  } else if (dimension() == 3) {
+    Position A({side_length(0), 0., 0.}),
+             B({xy(), side_length(1), 0.}),
+             C({xz(), yz(), side_length(2)});
+    DEBUG("A " << A.str());
+    DEBUG("B " << B.str());
+    DEBUG("C " << C.str());
+    Position BcrossC = B.cross_product(C);
+    Position CcrossA = C.cross_product(A);
+    Position AcrossB = A.cross_product(B);
+    const double widthA = BcrossC.dot_product(A)/BcrossC.distance();
+    DEBUG("widthA " << widthA);
+    const double widthB = CcrossA.dot_product(B)/CcrossA.distance();
+    DEBUG("widthB " << widthB);
+    const double widthC = AcrossB.dot_product(C)/AcrossB.distance();
+    DEBUG("widthC " << widthC);
+    if (widthA <= widthB && widthA <= widthC) {
+      diameter = widthA;
+    } else if (widthB <= widthA && widthB <= widthC) {
+      diameter = widthB;
+    } else {
+      diameter = widthC;
+    }
+  } else if (dimension() == 2) {
+    const double ly = side_length(1);
+    diameter = side_length(0)*ly/std::sqrt(xy()*xy() + ly*ly);
+    if (diameter > ly) {
+      diameter = ly;
+    }
+  } else {
+    FATAL("dimension: " << dimension() << " not implemented");
+  }
+  return diameter;
+}
+
 std::string Domain::status_header() const {
   std::stringstream ss;
   ss << ",volume";

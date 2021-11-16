@@ -119,7 +119,7 @@ void Potential::precompute(Configuration * config) {
   ASSERT(config->dimension() == 2 || config->dimension() == 3,
     "Domain must be 2 or 3 dimensions. Please initialize Domain::side_length.");
   const double max_cutoff = maximum(params.cutoff().values());
-  const double half_min_side = 0.5*config->domain().min_side_length();
+  const double half_min_side = 0.5*config->domain().inscribed_sphere_diameter();
   if (max_cutoff - NEAR_ZERO > half_min_side) {
     WARN("The maximum cutoff:" << max_cutoff << " is greater than half the " <<
          "minimum side length: " << half_min_side);

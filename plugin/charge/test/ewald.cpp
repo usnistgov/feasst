@@ -17,7 +17,7 @@ namespace feasst {
 TEST(Ewald, ewald) {
   Configuration config = spce_sample1();
   auto ewald = MakeEwald({
-    {"alpha", str(5.6/config.domain().min_side_length())},
+    {"alpha", str(5.6/config.domain().inscribed_sphere_diameter())},
     {"kmax_squared", "27"}
   });
   ewald->precompute(&config);
@@ -175,6 +175,37 @@ TEST(Ewald, triclinic) {
     INFO(pot->visit_model().class_name() << ":" << pot->model().class_name() <<
       " = " << pot->stored_energy());
   }
+}
+
+TEST(Ewald, srsw_ref_config) {
+  System system;
+  system.add(MakeConfiguration({
+    {"side_length0", "30.0"},
+    {"side_length1", "28.97777478867205"},
+    {"side_length2", "29.51512917398008"},
+    {"xy", "7.764571353075622"},
+    {"xz", "-2.6146722824297473"},
+    {"yz", "-4.692615336756641"},
+    {"xyz_file", "../plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz"},
+    {"particle_type0", install_dir() + "/forcefield/spce.fstprt"},
+    {"cutoff", "10"}}));
+  system.add(MakePotential(MakeLennardJones()));
+  system.add(MakePotential(MakeLongRangeCorrections()));
+  system.add(MakePotential(MakeEwald({
+    {"alpha", feasst::str(0.2850)},
+    {"kxmax", "7"},
+    {"kymax", "7"},
+    {"kzmax", "7"}})));
+  system.add(MakePotential(MakeChargeScreened()));
+  system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
+  system.add(MakePotential(MakeChargeSelf()));
+  system.energy();
+  EXPECT_NEAR(system.stored_energy_profile()[0], 931.15451, 1e-4);
+  EXPECT_NEAR(system.stored_energy_profile()[1], -34.16569, 1e-4);
+  EXPECT_NEAR(system.stored_energy_profile()[2], 371.46525, 1e-4);
+  EXPECT_NEAR(system.stored_energy_profile()[3], -6046.43627, 1e-4);
+  EXPECT_NEAR(system.stored_energy_profile()[4], 95078.89447, 1e-4);
+  EXPECT_NEAR(system.stored_energy_profile()[5], -96297.75579, 1e-4);
 }
 
 }  // namespace feasst

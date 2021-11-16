@@ -292,7 +292,7 @@ TEST(Ewald, henry_coefficient_LONG) {
   system.add(*config);
   system.add(MakePotential(
     MakeEwald({{"kmax_squared", "38"},
-               {"alpha", str(5.6/system.configuration().domain().min_side_length())}})));
+               {"alpha", str(5.6/system.configuration().domain().inscribed_sphere_diameter())}})));
   system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
                                                     MakeChargeScreened()})));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));

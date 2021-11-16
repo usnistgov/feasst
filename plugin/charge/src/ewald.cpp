@@ -69,19 +69,32 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   Position kvec;
   kvec.set_to_origin_3D();
   const Domain& domain = config.domain();
+  ASSERT(config.dimension() == 3, "assumes 3D");
   const double lx = domain.side_length(0);
   const double ly = domain.side_length(1);
   const double lz = domain.side_length(2);
-  ASSERT(!domain.is_tilted(), "assumes cuboid domain");
+  const double xy = domain.xy();
+  const double xz = domain.xz();
+  const double yz = domain.yz();
+  ux_ = 2*PI/lx;
+  uy_ = 2*PI*(-xy)/lx/ly;
+  uz_ = 2*PI*(xy*yz - ly*xz)/lx/ly/lz;
+  vy_ = 2*PI/ly;
+  vz_ = 2*PI*(-yz)/ly/lz;
+  wz_ = 2*PI/lz;
   const double volume = domain.volume();
   const double alpha = config.model_params().property("alpha");
   DEBUG("kxyzmax " << kxmax_ << " " << kymax_ << " " << kzmax_);
   for (int kx = 0; kx <= kxmax_; ++kx) {
   for (int ky = -kymax_; ky <= kymax_; ++ky) {
   for (int kz = -kzmax_; kz <= kzmax_; ++kz) {
-    kvec.set_vector({2.*PI*kx/lx,
-                     2.*PI*ky/ly,
-                     2.*PI*kz/lz});
+    kvec.set_vector({
+      kx*ux_,
+      //2.*PI*kx/lx,
+      kx*uy_ + ky*vy_,
+      //2.*PI*(ky/ly - kx*xy/lx/ly),
+      kx*uz_ + ky*vz_ + kz*wz_});
+      //2.*PI*(kz/lz - ky*yz/ly/lz + kx*(xy*yz - ly*xz)/lx/ly/lz)});
     const double k_sq = kvec.squared_distance();
     if ( (k_sq < kmax_squared_) && (std::abs(k_sq) > NEAR_ZERO) ) { // allen tildesley, srsw
     //if ( (k_sq <= kmax_squared_) && (std::abs(k_sq) > NEAR_ZERO) ) { // gerhard
@@ -202,13 +215,16 @@ void Ewald::update_struct_fact_eik(const Select& selection,
     "While struct_fact_real_ is of size: " << struct_fact_real().size() <<
     " struct_fact_real is of size: " << sf_real->size());
   std::stringstream ss;
-  const Domain& domain = config.domain();
-  const double lx = domain.side_length(0);
-  const double ly = domain.side_length(1);
-  const double lz = domain.side_length(2);
-  const double twopilx = 2.*PI/lx,
-               twopily = 2.*PI/ly,
-               twopilz = 2.*PI/lz;
+//  const Domain& domain = config.domain();
+//  const double lx = domain.side_length(0);
+//  const double ly = domain.side_length(1);
+//  const double lz = domain.side_length(2);
+//  const double xy = domain.xy();
+//  const double xz = domain.xz();
+//  const double yz = domain.yz();
+//  const double twopilx = 2.*PI/lx,
+//               twopily = 2.*PI/ly,
+//               twopilz = 2.*PI/lz;
   const int state = selection.trial_state();
 
   // resize eik_new
@@ -274,12 +290,21 @@ void Ewald::update_struct_fact_eik(const Select& selection,
 
           // calculate eik of kx = +/-1 explicitly
           const std::vector<double>& pos = config.select_particle(part_index).site(site_index).position().coord();
-          (*eikn)[eikrx0_index + 1] = cos(twopilx*pos[0]);
-          (*eikn)[eikix0_index + 1] = sin(twopilx*pos[0]);
-          (*eikn)[eikry0_index + 1] = cos(twopily*pos[1]);
-          (*eikn)[eikiy0_index + 1] = sin(twopily*pos[1]);
-          (*eikn)[eikrz0_index + 1] = cos(twopilz*pos[2]);
-          (*eikn)[eikiz0_index + 1] = sin(twopilz*pos[2]);
+          const double x = pos[0];
+          const double y = pos[1];
+          const double z = pos[2];
+          //const double udotr = 2.*PI*(x/lx - y*xy/lx/ly + z*(xy*yz/lx/ly/lz - xz/lx/lz));
+          const double udotr = ux_*x + uy_*y + uz_*z;
+          //const double vdotr = 2.*PI*(y/ly - z*yz/ly/lz);
+          const double vdotr = vy_*y + vz_*z;
+          //const double wdotr = 2.*PI*z/lz;
+          const double wdotr = wz_*z;
+          (*eikn)[eikrx0_index + 1] = std::cos(udotr);
+          (*eikn)[eikix0_index + 1] = std::sin(udotr);
+          (*eikn)[eikry0_index + 1] = std::cos(vdotr);
+          (*eikn)[eikiy0_index + 1] = std::sin(vdotr);
+          (*eikn)[eikrz0_index + 1] = std::cos(wdotr);
+          (*eikn)[eikiz0_index + 1] = std::sin(wdotr);
           (*eikn)[eikry0_index - 1] = (*eikn)[eikry0_index + 1];
           (*eikn)[eikiy0_index - 1] = -(*eikn)[eikiy0_index + 1];
           (*eikn)[eikrz0_index - 1] = (*eikn)[eikrz0_index + 1];
@@ -379,6 +404,12 @@ void Ewald::serialize(std::ostream& ostr) const {
   feasst_serialize(num_kz_, ostr);
   feasst_serialize(wave_prefactor_, ostr);
   feasst_serialize(wave_num_, ostr);
+  feasst_serialize(ux_, ostr);
+  feasst_serialize(uy_, ostr);
+  feasst_serialize(uz_, ostr);
+  feasst_serialize(vy_, ostr);
+  feasst_serialize(vz_, ostr);
+  feasst_serialize(wz_, ostr);
   feasst_serialize(struct_fact_real_new_, ostr);
   feasst_serialize(struct_fact_imag_new_, ostr);
 }
@@ -443,6 +474,12 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
   feasst_deserialize(&num_kz_, istr);
   feasst_deserialize(&wave_prefactor_, istr);
   feasst_deserialize(&wave_num_, istr);
+  feasst_deserialize(&ux_, istr);
+  feasst_deserialize(&uy_, istr);
+  feasst_deserialize(&uz_, istr);
+  feasst_deserialize(&vy_, istr);
+  feasst_deserialize(&vz_, istr);
+  feasst_deserialize(&wz_, istr);
   feasst_deserialize(&struct_fact_real_new_, istr);
   feasst_deserialize(&struct_fact_imag_new_, istr);
 }
@@ -677,6 +714,42 @@ void Ewald::check(const Configuration& config) const {
     ASSERT(is_equal(eikn[sp], eik()[part], tolerance), "eikn " << feasst_str(eikn[sp])
       << " eik " << feasst_str(eik()[part]));
   }
+}
+
+int Ewald::wave_num(const int vector_index, const int dim) const {
+  return wave_num_[dimension_*vector_index + dim];
+}
+
+double Ewald::eik(const int part_index, const int site_index,
+    const int vector_index, const int dim, const bool real) const {
+  // copy-pasted from update_struc_fact
+  const int eikrx0_index = 0.;
+  const int eikry0_index = eikrx0_index + kxmax_ + kymax_ + 1;//num_kx_ + kmax_;
+  const int eikrz0_index = eikry0_index + kymax_ + kzmax_ + 1;//num_ky_;
+  const int eikix0_index = eikrz0_index + kzmax_ + 1;//num_kx_ + num_ky_ + num_kz_;
+  const int eikiy0_index = eikix0_index + kxmax_ + kymax_ + 1;//num_kx_ + kmax_;
+  const int eikiz0_index = eikiy0_index + kymax_ + kzmax_ + 1;//num_ky_;
+  int index = -1;
+  if (dim == 0) {
+    if (real) {
+      index = eikrx0_index + wave_num(vector_index, dim);
+    } else {
+      index = eikix0_index + wave_num(vector_index, dim);
+    }
+  } else if (dim == 1) {
+    if (real) {
+      index = eikry0_index + wave_num(vector_index, dim);
+    } else {
+      index = eikiy0_index + wave_num(vector_index, dim);
+    }
+  } else if (dim == 2) {
+    if (real) {
+      index = eikrz0_index + wave_num(vector_index, dim);
+    } else {
+      index = eikiz0_index + wave_num(vector_index, dim);
+    }
+  }
+  return eik()[part_index][site_index][index];
 }
 
 }  // namespace feasst

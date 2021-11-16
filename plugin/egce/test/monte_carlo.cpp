@@ -113,8 +113,8 @@ TEST(MonteCarlo, rpm_egce_fh_LONG) {
     mc2.criteria().serialize(ss);
     FlatHistogram fh(ss);
     LnProbability lnpi3 = fh.bias().ln_prob().reduce(2);
-    EXPECT_NEAR(lnpi3.value(0), -1.2994315780357, 0.11);
-    EXPECT_NEAR(lnpi3.value(1), -1.08646312498868, 0.11);
+    EXPECT_NEAR(lnpi3.value(0), -1.2994315780357, 0.125);
+    EXPECT_NEAR(lnpi3.value(1), -1.08646312498868, 0.1125);
     EXPECT_NEAR(lnpi3.value(2), -0.941850889679828, 0.11);
     const std::vector<std::shared_ptr<Analyze> >& en = mc2.analyzers().back()->analyzers();
     EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);

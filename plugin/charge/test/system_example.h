@@ -40,7 +40,7 @@ inline System chain(const double alpha,
     system.add(*config);
   }
   auto ewald= MakeEwald({{"kmax_squared", "27"},
-               {"alpha", str(5.6/system.configuration().domain().min_side_length())}});
+               {"alpha", str(5.6/system.configuration().domain().inscribed_sphere_diameter())}});
   system.add(MakePotential(ewald,
                      {{"prevent_cache", "true"}}));
   system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
@@ -67,7 +67,7 @@ inline void test_cases(
   for (auto cse : cases) {
     INFO(std::get<0>(cse)->class_name());
     Configuration config = spce_sample1();
-    config.add_model_param("alpha", 5.6/config.domain().min_side_length());
+    config.add_model_param("alpha", 5.6/config.domain().inscribed_sphere_diameter());
     config.set_physical_constants(std::get<0>(cse));
     Potential potential(model, visitor);
     potential.precompute(&config);

@@ -135,6 +135,9 @@ class Domain {
   /// Return the maximum side length
   double max_side_length() const;
 
+  /// Return the largest possible diameter of a sphere inscribed inside domain.
+  double inscribed_sphere_diameter() const;
+
   // HWH implement check
 
   bool is_tilted() const { return is_tilted_; }

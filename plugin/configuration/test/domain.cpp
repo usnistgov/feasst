@@ -114,4 +114,15 @@ TEST(Domain, non_cubic) {
   EXPECT_FALSE(domain->periodic(2));
 }
 
+TEST(Domain, inscribed_sphere_diameter) {
+  auto domain = MakeDomain({
+    {"side_length0", "36.0"},
+    {"side_length1", "36.0"},
+    {"side_length2", "31.17691453623979"},
+    {"xy", "0.0"},
+    {"xz", "18.0"},
+    {"yz", "0.0"}});
+  EXPECT_DOUBLE_EQ(domain->inscribed_sphere_diameter(), 31.17691453623979);
+}
+
 }  // namespace feasst

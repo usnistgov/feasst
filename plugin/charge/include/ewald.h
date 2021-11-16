@@ -21,6 +21,19 @@ namespace feasst {
   summation.
 
   Ewald is not supported for use as a reference state for dual-cut.
+
+
+  Following the description in the classic DL-POLY user manual (version 1.9),
+  if the real space basis vectors are given by \f$\vec{a}, \vec{b}, \vec{c}\f$,
+  then reciprocal space basis vectors are
+
+  \f$V = \vec{a} \cdot \vec{b} \times \vec{c}\f$
+
+  \f$\vec{u} = 2\pi\vec{b}\times\vec{c}/V\f$
+
+  \f$\vec{v} = 2\pi\vec{b}\times\vec{c}/V\f$
+
+  \f$\vec{w} = 2\pi\vec{b}\times\vec{c}/V\f$
  */
 class Ewald : public VisitModel {
  public:
@@ -128,27 +141,64 @@ class Ewald : public VisitModel {
   // update structure factors and eiks based on new calculations.
   void finalize(const Select& select, Configuration * config) override;
 
+  /// Return the number of fourier-space vectors
   int num_vectors() const { return static_cast<int>(wave_prefactor_.size()); }
+
+  /// Return the wave vector number for a given dimension.
+  int wave_num(const int vector_index, const int dim) const;
+
+  /// Return the prefactor in the fourier-space term for each vector.
+  const std::vector<double>& wave_prefactor() const { return wave_prefactor_; }
+
+  /// Return the number of vectors in the x dimension.
   int num_kx() const { return num_kx_; }
+
+  /// Return the number of vectors in the y dimension.
   int num_ky() const { return num_ky_; }
+
+  /// Return the number of vectors in the z dimension.
   int num_kz() const { return num_kz_; }
+
+  /// Return the cutoff of the wave vector in the x dimension.
   int kxmax() const { return kxmax_; }
+
+  /// Return the cutoff of the wave vector in the y dimension.
   int kymax() const { return kymax_; }
+
+  /// Return the cutoff of the wave vector in the z dimension.
   int kzmax() const { return kzmax_; }
+
+  /// Return the spherical cutoff of the wave vectors.
   double kmax_squared() const { return kmax_squared_; }
-  void check_size() const;
+
+  /// Return the eik vectors directly.
+  double eik(const int part_index, const int site_index,
+    const int vector_index, const int dim, const bool real = true) const;
+
+  /// Same as above, but for all particles, sites and wave vectors.
+  const std::vector<std::vector<std::vector<double> > >& eik() const {
+    return manual_data_.dble_3D(); }
+
+  /// Return the real part of the structure factor for a given vector index
+  /// corresponding with wave_prefactor and wave_num.
+  double struct_fact_real(const int vector_index) const {
+    return struct_fact_real()[vector_index]; }
+
+  /// Return the imaginary part of the structure factor for a given vector index
+  /// corresponding with wave_prefactor and wave_num.
+  double struct_fact_imag(const int vector_index) const {
+    return struct_fact_imag()[vector_index]; }
+
   const std::vector<double>& struct_fact_real() const {
     return data_.dble_2D()[0]; }
+
+  /// Return the imaginary part of the structure factor.
   const std::vector<double>& struct_fact_imag() const {
     return data_.dble_2D()[1]; }
 
+  void check_size() const;
   /// Return the net charge of the configuration.
   double net_charge(const Configuration& config) const;
-
-  // Return the eik vectors directly.
-  const std::vector<std::vector<std::vector<double> > >& eik() const {
-    //return const_cast<std::vector<std::vector<std::vector<double> > >&>(*eik_()); }
-    return manual_data_.dble_3D(); }
 
   void check(const Configuration& config) const override;
 
@@ -171,6 +221,7 @@ class Ewald : public VisitModel {
   std::vector<int> wave_num_;
   const int dimension_ = 3;
   //double stored_energy_ = 0.;
+  double ux_, uy_, uz_, vy_, vz_, wz_;
 
   // synchronization data
   double stored_energy() const { return data_.dble_1D()[0]; }

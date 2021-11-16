@@ -462,8 +462,8 @@ TEST(MonteCarlo, spce_fh_VERY_LONG) {
     INFO(feasst_str(fh.bias().ln_prob().values()));
     const LnProbability& lnpi = fh.bias().ln_prob();
     EXPECT_NEAR(lnpi.value(0), -2.72070275309203, 0.02);
-    EXPECT_NEAR(lnpi.value(1), -1.85234049431879, 0.0175);
-    EXPECT_NEAR(lnpi.value(2), -1.54708325224374, 0.015);
+    EXPECT_NEAR(lnpi.value(1), -1.85234049431879, 0.02);
+    EXPECT_NEAR(lnpi.value(2), -1.54708325224374, 0.0175);
     EXPECT_NEAR(lnpi.value(3), -1.51786213939762, 0.015);
     EXPECT_NEAR(lnpi.value(4), -1.64791755404893, 0.015);
     EXPECT_NEAR(lnpi.value(5), -1.87860075480337, 0.045);
@@ -596,8 +596,8 @@ TEST(MonteCarlo, rpm_fh_LONG) {
   FlatHistogram fh(mc2.criteria());
   const LnProbability& lnpi = fh.bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -1.2994315780357, 0.1);
-  EXPECT_NEAR(lnpi.value(1), -1.08646312498868, 0.1);
-  EXPECT_NEAR(lnpi.value(2), -0.941850889679828, 0.125);
+  EXPECT_NEAR(lnpi.value(1), -1.08646312498868, 0.15);
+  EXPECT_NEAR(lnpi.value(2), -0.941850889679828, 0.2);
   EXPECT_NEAR(energy_av(0, mc2), 0, 1e-14);
   EXPECT_NEAR(energy_av(1, mc2), -0.939408, 0.02);
   EXPECT_NEAR(energy_av(2, mc2), -2.02625, 0.05);
@@ -749,9 +749,9 @@ TEST(MonteCarlo, nvtw) {
   cm.compute_ln_prob(&lnp);
   //INFO(feasst_str(lnp.values()));
   EXPECT_NEAR(lnp.value(0), -14.03737335832180, 0.25);
-  EXPECT_NEAR(lnp.value(1), -10.05031209165520, 0.2);
-  EXPECT_NEAR(lnp.value(2), -6.458920624988570, 0.2);
-  EXPECT_NEAR(lnp.value(3), -3.145637424988510, 0.1);
+  EXPECT_NEAR(lnp.value(1), -10.05031209165520, 0.25);
+  EXPECT_NEAR(lnp.value(2), -6.458920624988570, 0.25);
+  EXPECT_NEAR(lnp.value(3), -3.145637424988510, 0.15);
   EXPECT_NEAR(lnp.value(4), -0.045677458321876, 0.01);
 }
 

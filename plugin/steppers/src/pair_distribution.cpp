@@ -94,7 +94,7 @@ void PairDistribution::initialize(Criteria * criteria,
   // set cutoff to half the minimum box length
   params_ = ModelParams(system->configuration().model_params());
   //DEBUG(params_.cutoff().size());
-  const double min_side = system->configuration().domain().min_side_length();
+  const double min_side = system->configuration().domain().inscribed_sphere_diameter();
   for (int itype = 0; itype < num_site_types; ++itype) {
     params_.set("cutoff", itype, 0.5*min_side);
   }
@@ -150,7 +150,7 @@ const grtype& PairDistribution::radial(const Configuration& config) {
   ASSERT(num_updates_ > 0, "cannot obtain radial with no updates");
   const int num_site_types = config.num_site_types();
   const std::vector<int> num_sites_of_type = config.num_sites_of_type();
-  const int max_bin = static_cast<int>(0.5*config.domain().min_side_length()/dr_);
+  const int max_bin = static_cast<int>(0.5*config.domain().inscribed_sphere_diameter()/dr_);
   for (int bin = 0; bin < max_bin && bin < inter_.radial_[0][0].size(); ++bin) {
     DEBUG("bin: " << bin << " of " << max_bin);
     const double distance = inter_.radial_[0][0].center_of_bin(bin);
