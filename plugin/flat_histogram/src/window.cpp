@@ -44,7 +44,11 @@ std::vector<std::vector<int> > Window::boundaries() const {
 
   // check that windows are large enough.
   for (const std::vector<int> win : windows) {
-    ASSERT(win[1] - win[0] > 2*extra_overlap(),
+    int max_overlap = extra_overlap();
+    if (win[0] != minimum()) {
+      max_overlap *= 2;
+    }
+    ASSERT(win[1] - win[0] > max_overlap,
       "Windows are assumed to only overlap with the nearest neighbor, " <<
       "but the chosen settings have windows from two or more away " <<
       "overlapping as well. " <<
