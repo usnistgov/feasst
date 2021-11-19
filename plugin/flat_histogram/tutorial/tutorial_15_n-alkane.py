@@ -12,6 +12,7 @@ parser.add_argument("--dccb_begin", type=int, help="number of molecules before u
 parser.add_argument("--lx", type=float, help="box length in x", default=28.0)
 parser.add_argument("--ly", type=float, help="box length in y", default=28.0)
 parser.add_argument("--lz", type=float, help="box length in z", default=28.0)
+parser.add_argument("--min_particles", type=int, help="minimum number of particles", default=0)
 parser.add_argument("--max_particles", type=int, help="maximum number of particles", default=136)
 parser.add_argument("--temperature", type=float, help="temperature in Kelvin", default=392)
 parser.add_argument("--particle", "-p", type=str, help="data file of alkane", required=True)
@@ -62,6 +63,7 @@ def add_particle_type_weight(site, num_sites, grow):
 
 def mc(thread, mn, mx):
     mc = fst.MakeMonteCarlo()
+    mc.set(fst.MakeRandomMT19937(fst.args({"seed": "123"})))
     mc.add(fst.MakeConfiguration(fst.args({"side_length0": str(args.lx), "side_length1": str(args.ly), "side_length2": str(args.lz),
         "particle_type0": args.particle})))
     for site_type in range(mc.configuration().num_site_types()):
@@ -84,6 +86,16 @@ def mc(thread, mn, mx):
         stage_args = {"reference_index": "0", "num_steps": "1"}
     beta = 1./fst.kelvin2kJpermol(args.temperature);
     mc.set(fst.MakeThermoParams(fst.args({"beta": str(beta), "chemical_potential0": str(args.beta_mu/beta)})))
+    mc.set(fst.MakeMetropolis())
+    mc.add(fst.MakeTrialTranslate(fst.args({"weight": "0.5"})))
+    mc.add(fst.MakeTrialRotate(fst.args({"weight": "0.5"})))
+
+    print('thread', thread, 'mn', mn, 'mx', mx)
+    if thread == 0 and mn > 0:
+        mc.add(fst.MakeTrialAdd(fst.args({"particle_type": "0"})))
+        mc.run(fst.MakeRun(fst.args({"until_num_particles": str(mn)})))
+        mc.run(fst.RemoveTrial(fst.args({"name": "TrialAdd"})))
+
     mc.set(fst.MakeFlatHistogram(
         fst.MakeMacrostateNumParticles(
             fst.Histogram(fst.args({"width": "1", "max": str(mx), "min": str(mn)}))),
@@ -92,9 +104,6 @@ def mc(thread, mn, mx):
             "collect_flatness": str(args.collect_flatness),
             "min_flatness": str(args.min_flatness),
             "min_sweeps": "1000"}))))
-    mc.add(fst.MakeTrialTranslate(fst.args({"weight": "0.5"})))
-    mc.add(fst.MakeTrialRotate(fst.args({"weight": "0.5"})))
-
     # configurational bias with TrialGrow: full and partial regrows from 0-site, and reverse
     num_sites = mc.configuration().particle_type(0).num_sites()
     for site in range(num_sites):
@@ -135,6 +144,7 @@ def mc(thread, mn, mx):
 windows=fst.WindowExponential(fst.args({
     "alpha": "1.75",
     "num": str(args.num_procs),
+    "minimum": str(args.min_particles),
     "maximum": str(args.max_particles),
     "extra_overlap": "0"})).boundaries()
 print(windows)

@@ -341,7 +341,13 @@ double Position::torsion_angle_radians(const Position& rj, const Position& rk,
   const double n2_mag = n2.distance();
   ASSERT(std::abs(n2_mag) > NEAR_ZERO, "n2 is too small");
   DEBUG("n2 " << n2.str());
-  return std::acos(n1.dot_product(n2)/n1_mag/n2_mag);
+  double cos = n1.dot_product(n2)/n1_mag/n2_mag;
+  if (cos < -1) cos = -1.;
+  if (cos > 1) cos = 1.;
+  const double angle = std::acos(cos);
+  ASSERT(!std::isnan(angle), "angle: " << angle << " cos " << cos << " n1 "
+    << n1.str() << " n2 " << n2.str());
+  return angle;
 }
 
 }  // namespace feasst

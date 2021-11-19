@@ -41,8 +41,12 @@ double DihedralTraPPE::energy(const double radians, const Bond& dihedral) const 
   const double c1 = dihedral.property("c1");
   const double c2 = dihedral.property("c2");
   const double c3 = dihedral.property("c3");
-  return c0 + c1*(1. + std::cos(radians)) + c2*(1. - std::cos(2.*radians))
-    + c3*(1. + std::cos(3.*radians));
+  const double en = c0 + c1*(1. + std::cos(radians))
+                       + c2*(1. - std::cos(2.*radians))
+                       + c3*(1. + std::cos(3.*radians));
+  ASSERT(!std::isnan(en) && !std::isinf(en), "en: " << en << " radians: "
+    << radians << " c0 " << c0 << " c1 " << c1 << " c2 " << c2 << " c3 " << c3);
+  return en;
 }
 
 }  // namespace feasst

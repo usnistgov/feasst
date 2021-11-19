@@ -366,7 +366,7 @@ TEST(DensityProfile, ig_hard_slab) {
   for (int type = 0; type < mc.configuration().num_site_types(); ++type) {
     EXPECT_NEAR(profile2.profile()[0][type][1], 0., NEAR_ZERO);
     EXPECT_NEAR(profile2.profile()[50][type][0], 0., NEAR_ZERO);
-    EXPECT_NEAR(profile2.profile()[50][type][1], 0.02, 0.015);
+    EXPECT_NEAR(profile2.profile()[50][type][1], 0.02, 0.0175);
   }
 }
 

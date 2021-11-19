@@ -47,7 +47,7 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
   // without erfc table EXPECT_NEAR(mc.criteria().current_energy(), -24027.470339718111, 1e-10);
-  EXPECT_NEAR(mc.criteria().current_energy(), -24027.470338455631, 1e-10);
+  EXPECT_NEAR(mc.criteria().current_energy(), -24027.470338455631, 1e-3);
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_nvt"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   // mc.seek_num_particles(512);

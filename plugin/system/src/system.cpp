@@ -116,8 +116,13 @@ double System::perturbed_energy(const Select& select, const int config) {
   DEBUG("ref_used_last_ " << ref_used_last_);
   double en = potentials_()->select_energy(select, &configurations_[config]);
   bonds_.compute_all(select, configurations_[config]);
+  const double bond_en = bonds_.energy();
   DEBUG("bond en " << bonds_.energy());
-  return en + bonds_.energy();
+  ASSERT(!std::isinf(en), "en: " << en << " is inf.");
+  ASSERT(!std::isnan(en), "en: " << en << " is nan.");
+  ASSERT(!std::isinf(bond_en), "bond_en: " << bond_en << " is inf.");
+  ASSERT(!std::isnan(bond_en), "bond_en: " << bond_en << " is nan.");
+  return en + bond_en;
 }
 
 double System::reference_energy(const int ref, const int config) {
