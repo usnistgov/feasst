@@ -1,4 +1,4 @@
-.. FEASST documentation master file.
+.. FEASST documentation main file.
 
 ###############################################################################
 FEASST: Free Energy and Advanced Sampling Simulation Toolkit

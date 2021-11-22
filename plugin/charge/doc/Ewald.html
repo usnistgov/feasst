@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Ewald &mdash; FEASST v0.18.0 documentation</title>
+  <title>Ewald &mdash; FEASST v0.18.1 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.0
+                v0.18.1
               </div>
             
           
@@ -279,7 +279,12 @@
 <span class="target" id="classfeasst_1_1Ewald"></span><em class="property">class </em><code class="sig-name descname">Ewald</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst5EwaldE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation accounts for the long-range nature of the electrostatic interaction by applying a Gaussian screening charge, computing a Fourier-space long-range component, and then correcting for the various spurious terms that are included in the Fourier summation, such as self and intra-particle.</p>
 <p>See “Computer simulation of liquids” by M. P. Allen and D. J. Tildesley. The LAMMPS and DL_POLY manuals also include thorough descriptions of the <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation.</p>
-<p><a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is not supported for use as a reference state for dual-cut. </p>
+<p><a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is not supported for use as a reference state for dual-cut.</p>
+<p>Following the description in the classic DL-POLY user manual (version 1.9), if the real space basis vectors are given by <span class="math notranslate nohighlight">\(\vec{a}, \vec{b}, \vec{c}\)</span>, then reciprocal space basis vectors are</p>
+<p><span class="math notranslate nohighlight">\(V = \vec{a} \cdot \vec{b} \times \vec{c}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\vec{u} = 2\pi\vec{b}\times\vec{c}/V\)</span></p>
+<p><span class="math notranslate nohighlight">\(\vec{v} = 2\pi\vec{b}\times\vec{c}/V\)</span></p>
+<p><span class="math notranslate nohighlight">\(\vec{w} = 2\pi\vec{b}\times\vec{c}/V\)</span> </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -353,6 +358,96 @@
 <dt id="_CPPv4N6feasst5Ewald13change_volumeEKdKi">
 <span class="target" id="classfeasst_1_1Ewald_1a0f11b60c3b108a0efa91884d80089774"></span>void <code class="sig-name descname">change_volume</code><span class="sig-paren">(</span><em class="property">const</em> double <em>delta_volume</em>, <em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald13change_volumeEKdKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Change the volume. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald11num_vectorsEv">
+<span class="target" id="classfeasst_1_1Ewald_1af2d37f94907f9919768718075ba6c914"></span>int <code class="sig-name descname">num_vectors</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald11num_vectorsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of fourier-space vectors. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald8wave_numEKiKi">
+<span class="target" id="classfeasst_1_1Ewald_1a1682ac94fa1ee223972c31b27084f3fe"></span>int <code class="sig-name descname">wave_num</code><span class="sig-paren">(</span><em class="property">const</em> int <em>vector_index</em>, <em class="property">const</em> int <em>dim</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald8wave_numEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the wave vector number for a given dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald14wave_prefactorEv">
+<span class="target" id="classfeasst_1_1Ewald_1ac91f23e48304ee525dbfd253d4baf342"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">wave_prefactor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald14wave_prefactorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the prefactor in the fourier-space term for each vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald6num_kxEv">
+<span class="target" id="classfeasst_1_1Ewald_1aa9f90bcd4516b34181bf6e970fb79b1e"></span>int <code class="sig-name descname">num_kx</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald6num_kxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of vectors in the x dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald6num_kyEv">
+<span class="target" id="classfeasst_1_1Ewald_1af626d6dbe0f4ab9dc25d384e514d3074"></span>int <code class="sig-name descname">num_ky</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald6num_kyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of vectors in the y dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald6num_kzEv">
+<span class="target" id="classfeasst_1_1Ewald_1a0ec5a458d48add8550bf03fa11402456"></span>int <code class="sig-name descname">num_kz</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald6num_kzEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of vectors in the z dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald5kxmaxEv">
+<span class="target" id="classfeasst_1_1Ewald_1a62b4a1cbb49f78def0abe2c12678e213"></span>int <code class="sig-name descname">kxmax</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald5kxmaxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the cutoff of the wave vector in the x dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald5kymaxEv">
+<span class="target" id="classfeasst_1_1Ewald_1a5001445cf10a44145cb0d89ef94eb7ce"></span>int <code class="sig-name descname">kymax</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald5kymaxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the cutoff of the wave vector in the y dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald5kzmaxEv">
+<span class="target" id="classfeasst_1_1Ewald_1a00ae452ac9855df89a7cff671ec47d8c"></span>int <code class="sig-name descname">kzmax</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald5kzmaxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the cutoff of the wave vector in the z dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald12kmax_squaredEv">
+<span class="target" id="classfeasst_1_1Ewald_1a784510760d7ee24a555f8e0da9c8761e"></span>double <code class="sig-name descname">kmax_squared</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald12kmax_squaredEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the spherical cutoff of the wave vectors. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald3eikEKiKiKiKiKb">
+<span class="target" id="classfeasst_1_1Ewald_1ae6a033fc453e0c188a9fca898f98e0e2"></span>double <code class="sig-name descname">eik</code><span class="sig-paren">(</span><em class="property">const</em> int <em>part_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> int <em>vector_index</em>, <em class="property">const</em> int <em>dim</em>, <em class="property">const</em> bool <em>real</em> = true<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald3eikEKiKiKiKiKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the eik vectors directly. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald3eikEv">
+<span class="target" id="classfeasst_1_1Ewald_1ad5e72c7fd02936e32cd6c3c32b811e65"></span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;double&gt;&gt;&gt; &amp;<code class="sig-name descname">eik</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald3eikEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but for all particles, sites and wave vectors. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald16struct_fact_realEKi">
+<span class="target" id="classfeasst_1_1Ewald_1a46e046e353698a18d9363aa4dbc3527f"></span>double <code class="sig-name descname">struct_fact_real</code><span class="sig-paren">(</span><em class="property">const</em> int <em>vector_index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald16struct_fact_realEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the real part of the structure factor for a given vector index corresponding with wave_prefactor and wave_num. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald16struct_fact_imagEKi">
+<span class="target" id="classfeasst_1_1Ewald_1aaf3b8019647f5ea436f293c3ac9006fb"></span>double <code class="sig-name descname">struct_fact_imag</code><span class="sig-paren">(</span><em class="property">const</em> int <em>vector_index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald16struct_fact_imagEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the imaginary part of the structure factor for a given vector index corresponding with wave_prefactor and wave_num. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald16struct_fact_imagEv">
+<span class="target" id="classfeasst_1_1Ewald_1a3b4ea306927f1db91238236120bf2580"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">struct_fact_imag</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald16struct_fact_imagEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the imaginary part of the structure factor. </p>
 </dd></dl>
 
 <dl class="cpp function">

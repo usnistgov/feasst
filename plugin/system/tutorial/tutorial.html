@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Lennard Jones reference configuration &mdash; FEASST v0.18.0 documentation</title>
+  <title>Lennard Jones reference configuration &mdash; FEASST v0.18.1 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.0
+                v0.18.1
               </div>
             
           
@@ -566,6 +566,31 @@ div.rendered_html tbody tr:hover {
         <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">15</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlrc</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">15</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span> <span class="o">+</span> <span class="n">enlrc</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">energy</span><span class="p">(),</span> <span class="mi">15</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_srsw_ref_config_triclinic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test the LJ potential against a configuration of 300 particles in a trinclinic cell.</span>
+<span class="sd">        In particular, the 3th configuration of the triclinic LJ SRSW reference:</span>
+<span class="sd">        https://www.nist.gov/mml/csd/chemical-informatics-group/lennard-jones-fluid-reference-calculations-non-cuboid-cell</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">system</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+            <span class="s2">&quot;side_length0&quot;</span><span class="p">:</span> <span class="s2">&quot;10.0&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;side_length1&quot;</span><span class="p">:</span> <span class="s2">&quot;9.84807753012208&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;side_length2&quot;</span><span class="p">:</span> <span class="s2">&quot;9.64974312607518&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xy&quot;</span><span class="p">:</span> <span class="s2">&quot;1.7364817766693041&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xz&quot;</span><span class="p">:</span> <span class="s2">&quot;2.5881904510252074&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yz&quot;</span><span class="p">:</span> <span class="s2">&quot;0.42863479791864567&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xyz_file&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/configuration/test/data/lj_triclinic_sample_config_periodic3.xyz&quot;</span><span class="p">})))</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">num_particles</span><span class="p">())</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span>
+        <span class="n">enlj</span> <span class="o">=</span> <span class="o">-</span><span class="mf">505.78567945268367</span>
+        <span class="n">enlrc</span> <span class="o">=</span> <span class="o">-</span><span class="mf">29.37186430697248</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">15</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlrc</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">15</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span> <span class="o">+</span> <span class="n">enlrc</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">energy</span><span class="p">(),</span> <span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -586,11 +611,13 @@ div.rendered_html tbody tr:hover {
 <div class="highlight"><pre>
 test_srsw_ref_config (__main__.TestMonteCarloLJRef)
 Test the LJ potential against a configuration of 30 particles. ... ok
+test_srsw_ref_config_triclinic (__main__.TestMonteCarloLJRef)
+Test the LJ potential against a configuration of 300 particles in a trinclinic cell. ... ok
 test_two_particle (__main__.TestMonteCarloLJRef)
 Test the LJ potential against analytical calculation of two particles ... ok
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.004s
+Ran 3 tests in 0.026s
 
 OK
 </pre></div></div>
@@ -601,7 +628,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f1ecc215df0&gt;
+&lt;unittest.main.TestProgram at 0x7f414c56c820&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

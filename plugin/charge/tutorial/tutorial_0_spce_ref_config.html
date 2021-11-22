@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Example tutorial &mdash; FEASST v0.18.1 documentation</title>
+  <title>Reference configuration of SPC/E water in non-cuboid domain &mdash; FEASST v0.18.1 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="../doc/toc.html" />
-    <link rel="prev" title="Example" href="../README.html" />
+    <link rel="next" title="Canonical ensemble Monte Carlo of bulk SPC/E water" href="tutorial_1_spce_nvt.html" />
+    <link rel="prev" title="Charge" href="../README.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -112,12 +112,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Example</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Example tutorial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
@@ -127,7 +122,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Charge</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Reference configuration of SPC/E water in non-cuboid domain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1_spce_nvt.html">Canonical ensemble Monte Carlo of bulk SPC/E water</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
@@ -211,9 +215,9 @@
         
           <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
-          <li><a href="../README.html">Example</a> &raquo;</li>
+          <li><a href="../README.html">Charge</a> &raquo;</li>
         
-      <li>Example tutorial</li>
+      <li>Reference configuration of SPC/E water in non-cuboid domain</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -500,24 +504,80 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Example-tutorial">
-<h1>Example tutorial<a class="headerlink" href="#Example-tutorial" title="Permalink to this headline">¶</a></h1>
-<p>Here, use markdown to describe your tutorial. Then run some code in the boxes below and test against expected results.</p>
-<div class="nbinput docutils container">
+<div class="section" id="Reference-configuration-of-SPC/E-water-in-non-cuboid-domain">
+<h1>Reference configuration of SPC/E water in non-cuboid domain<a class="headerlink" href="#Reference-configuration-of-SPC/E-water-in-non-cuboid-domain" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">import</span> <span class="nn">feasst</span>
+<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
-<span class="k">class</span> <span class="nc">TestExample</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Document tests&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Document specific test&quot;&quot;&quot;</span>
-        <span class="n">example</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">ModelExample</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">example</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">ModelParams</span><span class="p">()))</span>
+<span class="k">class</span> <span class="nc">TestEwald0SPCE</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_srsw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">system</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+            <span class="s2">&quot;side_length0&quot;</span><span class="p">:</span> <span class="s2">&quot;30.0&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;side_length1&quot;</span><span class="p">:</span> <span class="s2">&quot;28.97777478867205&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;side_length2&quot;</span><span class="p">:</span> <span class="s2">&quot;29.51512917398008&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xy&quot;</span><span class="p">:</span> <span class="s2">&quot;7.764571353075622&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xz&quot;</span><span class="p">:</span> <span class="s2">&quot;-2.6146722824297473&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yz&quot;</span><span class="p">:</span> <span class="s2">&quot;-4.692615336756641&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xyz_file&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/spce.fstprt&quot;</span><span class="p">,</span>
+        <span class="p">})))</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
+        <span class="n">ewald</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeEwald</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
+            <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">0.2850</span><span class="p">),</span>
+            <span class="s1">&#39;kxmax&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
+            <span class="s1">&#39;kymax&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
+            <span class="s1">&#39;kzmax&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">7</span><span class="p">)}))</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">ewald</span><span class="p">))</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeScreened</span><span class="p">()))</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeScreenedIntra</span><span class="p">(),</span>
+                                     <span class="n">fst</span><span class="o">.</span><span class="n">MakeVisitModelBond</span><span class="p">()))</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeSelf</span><span class="p">()))</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_vectors&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">num_vectors</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kxmax&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">kxmax</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kymax&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">kymax</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kzmax&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">kzmax</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_kx&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">num_kx</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_ky&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">num_ky</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_kz&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">num_kz</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kmax_squared&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">kmax_squared</span><span class="p">())</span>
+        <span class="n">kindex</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kindex&#39;</span><span class="p">,</span> <span class="n">kindex</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kx, ky, kz&#39;</span><span class="p">,</span>
+              <span class="n">ewald</span><span class="o">.</span><span class="n">wave_num</span><span class="p">(</span><span class="n">kindex</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+              <span class="n">ewald</span><span class="o">.</span><span class="n">wave_num</span><span class="p">(</span><span class="n">kindex</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+              <span class="n">ewald</span><span class="o">.</span><span class="n">wave_num</span><span class="p">(</span><span class="n">kindex</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;wave_prefactor&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">wave_prefactor</span><span class="p">()[</span><span class="n">kindex</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;struct_factor real&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">struct_fact_real</span><span class="p">(</span><span class="n">kindex</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;struct_factor imag&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">struct_fact_real</span><span class="p">(</span><span class="n">kindex</span><span class="p">))</span>
+        <span class="n">part_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">site_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;eikxr&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">eik</span><span class="p">(</span><span class="n">part_index</span><span class="p">,</span> <span class="n">site_index</span><span class="p">,</span> <span class="n">kindex</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;eikxi&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">eik</span><span class="p">(</span><span class="n">part_index</span><span class="p">,</span> <span class="n">site_index</span><span class="p">,</span> <span class="n">kindex</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">931.15451</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#lj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="mf">34.16569</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#lrc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">2</span><span class="p">],</span> <span class="mf">371.46525</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#fourier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">3</span><span class="p">],</span> <span class="o">-</span><span class="mf">6046.43627</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#charge screened</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">4</span><span class="p">],</span> <span class="mf">95078.89447</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#intra</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">5</span><span class="p">],</span> <span class="o">-</span><span class="mf">96297.75579</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#self</span>
 
+</pre></div>
+</div>
+</div>
+<p>If the test passes, the energy is within the tolerance of the SRSW value and the two ensemble average methods agreed.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">time</span>
 <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -527,24 +587,56 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-test (__main__.TestExample)
-Document specific test ... ok
+test_srsw (__main__.TestEwald0SPCE) ...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 2 µs, sys: 0 ns, total: 2 µs
+Wall time: 5.96 µs
+num_vectors 831
+kxmax 7
+kymax 7
+kzmax 7
+num_kx 8
+num_ky 15
+num_kz 15
+kmax_squared 2.3036990918300595
+kindex 0
+kx, ky, kz 0 -6 -2
+wave_prefactor 1.8660742244996213e-07
+struct_factor real -3.7251965721854834
+struct_factor imag -3.7251965721854834
+eikxr 1.0
+eikxi 0.0
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.001s
+Ran 1 test in 0.111s
 
 OK
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7fa7dd979278&gt;
+&lt;unittest.main.TestProgram at 0x7f46242f7250&gt;
 </pre></div></div>
 </div>
+<p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>
 
 
@@ -553,8 +645,8 @@ OK
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../doc/toc.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="../README.html" class="btn btn-neutral float-left" title="Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial_1_spce_nvt.html" class="btn btn-neutral float-right" title="Canonical ensemble Monte Carlo of bulk SPC/E water" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../README.html" class="btn btn-neutral float-left" title="Charge" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
