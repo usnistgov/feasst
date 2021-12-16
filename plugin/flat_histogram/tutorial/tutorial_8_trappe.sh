@@ -21,19 +21,20 @@ echo "ID is \$SLURM_JOB_ID"
 
 cd \$PWD
 
-#python tutorial_8_trappe.py \
-#  --task \$SLURM_ARRAY_TASK_ID \
-#  -p ~/feasst/forcefield/ethane.fstprt \
-#  -p ~/feasst/forcefield/ethene.fstprt \
-#  --num_hours $num_hours \
-#  --num_procs $num_procs
-
-./tutorial \
+python tutorial_8_trappe.py \
   --task \$SLURM_ARRAY_TASK_ID \
-  --particle0 ~/feasst/forcefield/ethane.fstprt \
-  --particle1 ~/feasst/forcefield/ethene.fstprt \
+  -p ~/feasst/forcefield/ethane.fstprt \
+  -p ~/feasst/forcefield/ethene.fstprt \
   --num_hours $num_hours \
   --num_procs $num_procs
+
+## for C++
+#./tutorial \
+#  --task \$SLURM_ARRAY_TASK_ID \
+#  --particle0 ~/feasst/forcefield/ethane.fstprt \
+#  --particle1 ~/feasst/forcefield/ethene.fstprt \
+#  --num_hours $num_hours \
+#  --num_procs $num_procs
 
 ## cylinder example
 #./tutorial --task \$SLURM_ARRAY_TASK_ID \
@@ -55,6 +56,8 @@ _EOF_
 sbatch --array=0-15%1 launch.cmd
 }
 
-cmake .
-make
+## for C++
+#cmake .
+#make
+
 launch_node

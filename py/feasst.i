@@ -429,6 +429,8 @@ using namespace std;
 %shared_ptr(feasst::Charge);
 %shared_ptr(feasst::ModelParams);
 %shared_ptr(feasst::LennardJonesAlpha);
+%shared_ptr(feasst::DeltaSigma);
+%shared_ptr(feasst::Lambda);
 %shared_ptr(feasst::EnergyAtCutoff);
 %shared_ptr(feasst::EnergyDerivAtCutoff);
 %shared_ptr(feasst::LennardJonesCutShift);

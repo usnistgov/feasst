@@ -21,6 +21,7 @@ Yukawa::Yukawa() {
 
 void Yukawa::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(6505, ostr);
   feasst_serialize(kappa_, ostr);
 }
@@ -36,8 +37,8 @@ double Yukawa::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  const double epsilon = model_params.mixed_epsilon()[type1][type2];
-  const double sigma = model_params.mixed_sigma()[type1][type2];
+  const double epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
+  const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
   const double distance = sqrt(squared_distance);
   return epsilon*std::exp(-kappa_*(distance/sigma - 1.))/(distance/sigma);
 }

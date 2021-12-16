@@ -323,12 +323,12 @@ TEST(Configuration, cutoff) {
     {"cutoff0", "12.3"},
     {"charge1", "3.3"},
     });
-  EXPECT_DOUBLE_EQ(config->model_params().sigma().value(1), 0.1);
-  EXPECT_DOUBLE_EQ(config->model_params().epsilon().value(0), 5.2);
-  EXPECT_DOUBLE_EQ(config->model_params().cutoff().value(0), 12.3);
-  EXPECT_DOUBLE_EQ(config->model_params().cutoff().value(1), 2.3);
-  EXPECT_DOUBLE_EQ(config->model_params().charge().value(0), -0.8476);
-  EXPECT_DOUBLE_EQ(config->model_params().charge().value(1), 3.3);
+  EXPECT_DOUBLE_EQ(config->model_params().select("sigma").value(1), 0.1);
+  EXPECT_DOUBLE_EQ(config->model_params().select("epsilon").value(0), 5.2);
+  EXPECT_DOUBLE_EQ(config->model_params().select("cutoff").value(0), 12.3);
+  EXPECT_DOUBLE_EQ(config->model_params().select("cutoff").value(1), 2.3);
+  EXPECT_DOUBLE_EQ(config->model_params().select("charge").value(0), -0.8476);
+  EXPECT_DOUBLE_EQ(config->model_params().select("charge").value(1), 3.3);
 }
 
 }  // namespace feasst

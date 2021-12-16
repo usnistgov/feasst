@@ -43,6 +43,7 @@ ModelTableCart1DHard::ModelTableCart1DHard(
 
 void ModelTableCart1DHard::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(9426, ostr);
   feasst_serialize(tables_, ostr);
 }
@@ -149,6 +150,7 @@ ModelTableCart2DIntegr::ModelTableCart2DIntegr(
 
 void ModelTableCart2DIntegr::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(8460, ostr);
   feasst_serialize(tables_, ostr);
 }
@@ -283,6 +285,7 @@ ModelTableCart3DIntegr::ModelTableCart3DIntegr(
 
 void ModelTableCart3DIntegr::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(6937, ostr);
   feasst_serialize(tables_, ostr);
 }

@@ -17,6 +17,7 @@ static MapCoulomb map_charge_screened_ = MapCoulomb();
 
 void Coulomb::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(1634, ostr);
   feasst_serialize(conversion_factor_, ostr);
 }
@@ -38,13 +39,14 @@ double Coulomb::energy(
     TRACE("near inf");
     return NEAR_INFINITY;
   }
-  const double mixed_charge = model_params.mixed_charge()[type1][type2];
+  const double mixed_charge = model_params.select(charge_index()).mixed_values()[type1][type2];
   //TRACE("mixed_charge " << mixed_charge);
   //TRACE("conversion_factor_ " << conversion_factor_);
   return mixed_charge*conversion_factor_/distance;
 }
 
 void Coulomb::precompute(const ModelParams& existing) {
+  Model::precompute(existing);
   conversion_factor_ = existing.constants().charge_conversion();
 }
 

@@ -78,14 +78,14 @@ void VisitModelOptRPM::compute(
               dz -= lz*std::rint(dz/lz);
               pbc.set_coord(2, dz);
               const double squared_distance = dx*dx + dy*dy + dz*dz;
-              const double cutoff = model_params.mixed_cutoff()[type1][type2];
+              const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
               if (squared_distance <= cutoff*cutoff) {
-                const double sigma = model_params.mixed_sigma()[type1][type2];
+                const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
                 if (squared_distance <= sigma*sigma) {
                   set_energy(NEAR_INFINITY);
                   return;
                 }
-                const double mixed_charge = model_params.mixed_charge()[type1][type2];
+                const double mixed_charge = model_params.select(charge_index()).mixed_values()[type1][type2];
                 const double distance = std::sqrt(squared_distance);
                 if (std::abs(distance) < NEAR_ZERO) {
                   set_energy(NEAR_INFINITY);
@@ -135,14 +135,14 @@ void VisitModelOptRPM::compute(
               dz -= lz*std::rint(dz/lz);
               pbc.set_coord(2, dz);
               const double squared_distance = dx*dx + dy*dy + dz*dz;
-              const double cutoff = model_params.mixed_cutoff()[type1][type2];
+              const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
               if (squared_distance <= cutoff*cutoff) {
-                const double sigma = model_params.mixed_sigma()[type1][type2];
+                const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
                 if (squared_distance <= sigma*sigma) {
                   set_energy(NEAR_INFINITY);
                   return;
                 }
-                const double mixed_charge = model_params.mixed_charge()[type1][type2];
+                const double mixed_charge = model_params.select(charge_index()).mixed_values()[type1][type2];
                 const double distance = std::sqrt(squared_distance);
                 if (std::abs(distance) < NEAR_ZERO) {
                   set_energy(NEAR_INFINITY);
@@ -191,14 +191,14 @@ void VisitModelOptRPM::compute(
               dz -= lz*std::rint(dz/lz);
               pbc.set_coord(2, dz);
               const double squared_distance = dx*dx + dy*dy + dz*dz;
-              const double cutoff = model_params.mixed_cutoff()[type1][type2];
+              const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
               if (squared_distance <= cutoff*cutoff) {
-                const double sigma = model_params.mixed_sigma()[type1][type2];
+                const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
                 if (squared_distance <= sigma*sigma) {
                   set_energy(NEAR_INFINITY);
                   return;
                 }
-                const double mixed_charge = model_params.mixed_charge()[type1][type2];
+                const double mixed_charge = model_params.select(charge_index()).mixed_values()[type1][type2];
                 const double distance = std::sqrt(squared_distance);
                 if (std::abs(distance) < NEAR_ZERO) {
                   set_energy(NEAR_INFINITY);

@@ -26,7 +26,6 @@ void LennardJonesCutShift::serialize(std::ostream& ostr) const {
   serialize_lennard_jones_alpha_(ostr);
   feasst_serialize_version(644, ostr);
   shift_.serialize(ostr);
-//  ostr << precomputed_ << " ";
 }
 
 LennardJonesCutShift::LennardJonesCutShift(std::istream& istr)
@@ -34,11 +33,10 @@ LennardJonesCutShift::LennardJonesCutShift(std::istream& istr)
   const int version = feasst_deserialize_version(istr);
   ASSERT(644 == version, version);
   shift_ = EnergyAtCutoff(istr);
-//  istr >> precomputed_;
 }
 
 void LennardJonesCutShift::precompute(const ModelParams& existing) {
-//  precomputed_ = true;
+  LennardJonesAlpha::precompute(existing);
   shift_.set_model(this); // note the model is used here for the computation
   shift_.set_param(existing);
   shift_.set_model(NULL); // remove model immediately
@@ -49,18 +47,10 @@ double LennardJonesCutShift::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  const double sigma = model_params.mixed_sigma()[type1][type2];
-  const double sigma_squared = sigma*sigma;
-  if (squared_distance < hard_sphere_threshold_sq()*sigma_squared) {
-    return NEAR_INFINITY;
-  }
-  const double epsilon = model_params.mixed_epsilon()[type1][type2];
-  const double rinv2 = sigma_squared/squared_distance;
-  const double rinv_alpha = std::pow(rinv2, 0.5*alpha());
-  const double en = 4.*epsilon*rinv_alpha*(rinv_alpha - 1.);
+  const double en = LennardJonesAlpha::energy(squared_distance, type1, type2, model_params);
   const double shift = shift_.mixed_values()[type1][type2];
-  TRACE("en " << en);
-  TRACE("shift " << shift);
+  TRACE("en " << MAX_PRECISION << en);
+  TRACE("shift " << MAX_PRECISION << shift);
   return en - shift;
 }
 

@@ -253,7 +253,7 @@ class Ewald : public VisitModel {
     for (int type = 0;
          type < static_cast<int>(num_sites_of_type.size());
          ++type) {
-      const double charge = config.model_params().charge().value(type);
+      const double charge = config.model_params().select(charge_index()).value(type);
       sum_sq_q += charge*charge*num_sites_of_type[type];
     }
     return sum_sq_q;

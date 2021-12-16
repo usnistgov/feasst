@@ -35,6 +35,7 @@ TEST(EnergyMap, energy_map) {
     }
     Configuration config = lj_sample4();
     LennardJones model;
+    model.precompute(config.model_params());
     VisitModel visit(MakeVisitModelInner(map));
     visit.precompute(&config);
     model.compute(&config, &visit);

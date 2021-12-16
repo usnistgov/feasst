@@ -113,8 +113,7 @@ class VisitModel {
   virtual void finalize(const Select& select, Configuration * config) {
     inner_->finalize(select); }
 
-  virtual void precompute(Configuration * config) {
-    inner_->precompute(config); }
+  virtual void precompute(Configuration * config);
 
   virtual void check(const Configuration& config) const {
     inner_->check(config); }
@@ -127,6 +126,18 @@ class VisitModel {
 
   /// Change the volume.
   virtual void change_volume(const double delta_volume, const int dimension) {}
+
+  /// Return the ModelParams index of epsilon.
+  int epsilon_index() const { return epsilon_index_; }
+
+  /// Return the ModelParams index of sigma.
+  int sigma_index() const { return sigma_index_; }
+
+  /// Return the ModelParams index of cutoff.
+  int cutoff_index() const { return cutoff_index_; }
+
+  /// Return the ModelParams index of charge.
+  int charge_index() const { return charge_index_; }
 
   // serialization
   std::string class_name() const { return class_name_; }
@@ -162,6 +173,10 @@ class VisitModel {
  private:
   double energy_ = 0.;
   std::shared_ptr<VisitModelInner> inner_;
+  int epsilon_index_ = -1;
+  int sigma_index_ = -1;
+  int cutoff_index_ = -1;
+  int charge_index_ = -1;
 };
 
 inline std::shared_ptr<VisitModel> MakeVisitModel() {

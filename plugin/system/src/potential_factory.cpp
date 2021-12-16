@@ -25,6 +25,7 @@ void PotentialFactory::precompute(Configuration * config) {
 }
 
 void PotentialFactory::precompute(const int index, Configuration * config) {
+  DEBUG("precomputing index: " << index);
   potentials_[index]->precompute(config);
 }
 
@@ -47,6 +48,7 @@ double PotentialFactory::select_energy(const Select& select, Configuration * con
   int index = 0;
   while ((index < static_cast<int>(potentials_.size())) &&
          (en < NEAR_INFINITY)) {
+    DEBUG("index " << index);
     en += potentials_[index]->select_energy(select, config);
     ++index;
   }

@@ -17,6 +17,7 @@ static MapChargeScreenedIntra map_charge_screened_intra_ = MapChargeScreenedIntr
 
 void ChargeScreenedIntra::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(304, ostr);
   feasst_serialize(alpha_, ostr);
   feasst_serialize(conversion_factor_, ostr);
@@ -39,11 +40,12 @@ double ChargeScreenedIntra::energy(
   if (std::abs(distance) < NEAR_ZERO) {
     return NEAR_INFINITY;
   }
-  const double mixed_charge = model_params.mixed_charge()[type1][type2];
+  const double mixed_charge = model_params.select(charge_index()).mixed_values()[type1][type2];
   return -mixed_charge*conversion_factor_*erf(alpha_*distance)/distance;
 }
 
 void ChargeScreenedIntra::precompute(const ModelParams& existing) {
+  Model::precompute(existing);
   alpha_ = existing.property("alpha");
   conversion_factor_ = existing.constants().charge_conversion();
 }

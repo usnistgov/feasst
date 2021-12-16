@@ -31,8 +31,8 @@ TEST(MayerSampling, ljb2) {
   //const int nTrialsEq = 1e6, nTrials = 1e6;
   Configuration * config = system.get_configuration();
   config->set_model_param("cutoff", 0, NEAR_INFINITY);
-  EXPECT_EQ(config->model_params().cutoff().value(0), NEAR_INFINITY);
-  const double boxl = 2*(config->model_params().cutoff().value(0));
+  EXPECT_EQ(config->model_params().select("cutoff").value(0), NEAR_INFINITY);
+  const double boxl = 2*(config->model_params().select("cutoff").value(0));
   config->set_side_lengths(Position().set_vector({boxl, boxl, boxl}));
   std::cout << "boxl " << boxl << std::endl;
   system.set(MakeThermoParams({{"beta", "1."},
@@ -231,21 +231,22 @@ TEST(MayerSampling, trimer_LONG) {
     config->set_model_param("cutoff", 0, 3, rwca);
     config->set_model_param("cutoff", 1, 2, rwca);
     config->set_model_param("cutoff", 2, 3, rwca);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[0][0], 3, 1e-14);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[0][1], rwca, 1e-14);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[0][2], 3, 1e-14);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[0][3], rwca, 1e-14);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[1][1], rwca, 1e-14);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[1][2], rwca, 1e-14);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[1][3], rwca, 1e-14);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[2][2], 3, 1e-14);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[2][3], rwca, 1e-14);
-    EXPECT_NEAR(config->model_params().mixed_cutoff()[3][3], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[0][0], 3, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[0][1], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[0][2], 3, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[0][3], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[1][1], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[1][2], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[1][3], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[2][2], 3, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[2][3], rwca, 1e-14);
+    EXPECT_NEAR(config->model_params().select("cutoff").mixed_values()[3][3], rwca, 1e-14);
     mc.add(config);
   }
   mc.add(MakePotential(MakeLennardJonesForceShift()));
   auto ref = MakePotential(MakeHardSphere());
-  auto params = ref->model_params(mc.system().configuration());
+  //ModelParams params = mc.system().configuration().model_params().deep_copy();
+  auto params = ref->model_params(mc.system().configuration()).deep_copy();
   for (int i = 0; i < mc.system().configuration().num_site_types(); ++i) {
     for (int j = 0; j < mc.system().configuration().num_site_types(); ++j) {
       params.set("sigma", i, j, 0.);
@@ -266,7 +267,7 @@ TEST(MayerSampling, trimer_LONG) {
   const std::string steps_per = "1e4";
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/trib"}}));
   mc.attempt(1e6);
-  double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().sigma().value(0), 3); // A^3
+  double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().select("sigma").value(0), 3); // A^3
   INFO(mayer->second_virial_ratio());
   INFO(b2hs*mayer->second_virial_ratio());
   INFO("mayer: " << mayer->mayer().str());

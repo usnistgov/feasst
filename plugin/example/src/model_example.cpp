@@ -18,6 +18,7 @@ ModelExample::ModelExample() {
 
 void ModelExample::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(5023, ostr);
 }
 

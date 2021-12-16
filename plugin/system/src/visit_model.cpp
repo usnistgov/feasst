@@ -273,6 +273,10 @@ std::shared_ptr<VisitModel> VisitModel::factory(const std::string name, argtype 
 void VisitModel::serialize_visit_model_(std::ostream& ostr) const {
   feasst_serialize_version(545, ostr);
   feasst_serialize(energy_, ostr);
+  feasst_serialize(epsilon_index_, ostr);
+  feasst_serialize(sigma_index_, ostr);
+  feasst_serialize(cutoff_index_, ostr);
+  feasst_serialize(charge_index_, ostr);
   feasst_serialize_fstdr(inner_, ostr);
   feasst_serialize_fstobj(data_, ostr);
   feasst_serialize_fstobj(manual_data_, ostr);
@@ -283,6 +287,10 @@ VisitModel::VisitModel(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(545 == version, "mismatch: " << version);
   feasst_deserialize(&energy_, istr);
+  feasst_deserialize(&epsilon_index_, istr);
+  feasst_deserialize(&sigma_index_, istr);
+  feasst_deserialize(&cutoff_index_, istr);
+  feasst_deserialize(&charge_index_, istr);
   // feasst_deserialize_fstdr(inner_, istr);
   { // for unknown reason, template function above does not work
     int existing;
@@ -358,6 +366,14 @@ void VisitModel::synchronize_(const VisitModel& visit,
     const Select& perturbed) {
   data_ = visit.data();
   inner_->synchronize_(visit.inner(), perturbed);
+}
+
+void VisitModel::precompute(Configuration * config) {
+  inner_->precompute(config);
+  epsilon_index_ = config->model_params().index("epsilon");
+  sigma_index_ = config->model_params().index("sigma");
+  cutoff_index_ = config->model_params().index("cutoff");
+  charge_index_ = config->model_params().index("charge");
 }
 
 }  // namespace feasst

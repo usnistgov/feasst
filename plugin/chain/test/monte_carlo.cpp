@@ -359,14 +359,12 @@ void add_cg4_potential(MonteCarlo * mc, double eps_fc, double eps_fab) {
   config->set_model_param("epsilon", 1, eps_fc);
   config->set_model_param("epsilon", 2, eps_fab);
   config->set_model_param("epsilon", 3, eps_fab);
-  INFO(mc->configuration().model_params().epsilon().str());
-  INFO(mc->configuration().model_params().sigma().str());
-  INFO(mc->configuration().model_params().cutoff().str());
   mc->add(MakePotential(MakeSquareWell()));
   { // intra is HardSphere with 90% reduced sigma
-    ModelParams params = mc->configuration().model_params();
-    for (int type = 0; type < params.sigma().size(); ++type) {
-      params.set("sigma", type, 0.9*params.sigma().value(type));
+//    ModelParams params = mc->configuration().model_params().deep_copy();
+    ModelParams params = mc->system().configuration().model_params().deep_copy();
+    for (int type = 0; type < params.size(); ++type) {
+      params.set("sigma", type, 0.9*params.select("sigma").value(type));
     }
     auto pot = MakePotential(MakeHardSphere(), MakeVisitModelIntra());
     pot->set(params);
@@ -422,7 +420,7 @@ TEST(MonteCarlo, cg4_flexible_LONG) {
     //INFO(bonds->bond(0).str());
     //INFO(bonds->bond_hist(type-1).str());
     EXPECT_NEAR(bonds->bond_hist(type-1).max(), 7.025, 1e-13);
-    const double sigij = mc.system().potential(1).model_params().sigma().mixed_value(0, type);
+    const double sigij = mc.system().potential(1).model_params().select("sigma").mixed_value(0, type);
     //INFO("sigij " << sigij);
     if (type == 1) {
       EXPECT_NEAR(0.9*3.91815, sigij, 0.00001);
@@ -513,7 +511,8 @@ TEST(MayerSampling, trimer_grow_LONG) {
   }
   mc.add(MakePotential(MakeLennardJonesForceShift()));
   auto ref = MakePotential(MakeHardSphere());
-  auto params = ref->model_params(mc.system().configuration());
+  //ModelParams params = mc.system().configuration().model_params().deep_copy();
+  auto params = ref->model_params(mc.system().configuration()).deep_copy();
   //params.set("sigma", 1, 0);
   params.set("sigma", 0, 1, 0);
   params.set("sigma", 1, 1, 0);
@@ -543,7 +542,7 @@ TEST(MayerSampling, trimer_grow_LONG) {
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/trib"}}));
   mc.add(MakeCheckEnergy({{"steps_per", steps_per}, {"tolerance", "1e-4"}}));
   mc.attempt(1e6);
-  double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().sigma().value(0), 3); // A^3
+  double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().select("sigma").value(0), 3); // A^3
   INFO(b2hs*mayer->second_virial_ratio());
   INFO("mayer: " << mayer->mayer().str());
   INFO("mayer_ref: " << mayer->mayer_ref().str());

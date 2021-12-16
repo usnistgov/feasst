@@ -212,8 +212,11 @@ MonteCarlo test_lj_fh(const int num_steps,
 }
 
 TEST(MonteCarlo, lj_fh) {
-  for (int num_steps : {1, 2}) {
-    for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
+  //for (int num_steps : {1}) {
+  for (int num_steps : {2}) {
+  //for (int num_steps : {1, 2}) {
+    for (const std::string bias_name : {"TM"}) {
+    //for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
       MonteCarlo mc = test_serialize(test_lj_fh(num_steps, bias_name));
       //mc.attempt(1e4);
       //mc.attempt(1e5); // note more than 1e4 steps required for TM
@@ -541,8 +544,6 @@ MonteCarlo rpm_fh_test(
                                     {{"table_size", "1e6"}}));
   mc.add(MakePotential(MakeChargeSelf()));
 
-  INFO(mc.configuration().model_params().charge().value(0));
-  INFO(mc.configuration().model_params().charge().value(1));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   INFO("charge conversion " << MAX_PRECISION << CODATA2018().charge_conversion());
   const double temperature = 0.047899460618081;

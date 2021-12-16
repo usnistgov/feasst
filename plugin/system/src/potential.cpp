@@ -118,7 +118,7 @@ void Potential::precompute(Configuration * config) {
   model_->precompute(params);
   ASSERT(config->dimension() == 2 || config->dimension() == 3,
     "Domain must be 2 or 3 dimensions. Please initialize Domain::side_length.");
-  const double max_cutoff = maximum(params.cutoff().values());
+  const double max_cutoff = maximum(params.select("cutoff").values());
   const double half_min_side = 0.5*config->domain().inscribed_sphere_diameter();
   if (max_cutoff - NEAR_ZERO > half_min_side) {
     WARN("The maximum cutoff:" << max_cutoff << " is greater than half the " <<
@@ -129,6 +129,7 @@ void Potential::precompute(Configuration * config) {
     ASSERT(model_->num_body() == 2, "tables are only implemented for two "
       << "body simulations");
     auto table = MakeModelTwoBodyTable();
+    table->precompute(config->model_params());
     table->set(model_params(*config),
       table_size_,
       config->num_site_types(),
@@ -188,7 +189,7 @@ Potential::Potential(std::istream& istr) {
 }
 
 void Potential::set_model_params(const Configuration& config) {
-  set(config.model_params());
+  set(config.model_params().deep_copy());
 }
 
 void Potential::synchronize_(const Potential& potential,

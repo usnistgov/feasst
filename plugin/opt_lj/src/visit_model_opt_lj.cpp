@@ -65,15 +65,15 @@ void VisitModelOptLJ::compute(
             dz = zi - coord2[2];
             dz -= lz*std::rint(dz/lz);
             const double squared_distance = dx*dx + dy*dy + dz*dz;
-            const double cutoff = model_params.mixed_cutoff()[type1][type2];
+            const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
             if (squared_distance <= cutoff*cutoff) {
 //                  const double en = lj_.energy(squared_distance,
 //                    type1,
 //                    type2,
 //                    model_params);
-              const double sigma = model_params.mixed_sigma()[type1][type2];
+              const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
               const double sigma_squared = sigma*sigma;
-              const double epsilon = model_params.mixed_epsilon()[type1][type2];
+              const double epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
               const double rinv2 = sigma_squared/squared_distance;
               const double rinv6 = rinv2*rinv2*rinv2;
               const double en = 4.*epsilon*rinv6*(rinv6 - 1.);

@@ -16,6 +16,7 @@ static MapHardSphere mapper_ = MapHardSphere();
 
 void HardSphere::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(607, ostr);
 }
 
@@ -29,7 +30,7 @@ double HardSphere::energy(
   const int type1,
   const int type2,
   const ModelParams& model_params) {
-  const double& sigma = model_params.mixed_sigma()[type1][type2];
+  const double& sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
   TRACE("sigma " << sigma);
   TRACE("sigma2 " << sigma*sigma);
   TRACE("r2 " << squared_distance);

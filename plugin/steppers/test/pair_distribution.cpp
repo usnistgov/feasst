@@ -47,7 +47,7 @@ TEST(PairDistribution, gr_LONG) {
     {"multistate", "true"},
     {"multistate_aggregate", "false"},
   }));
-  EXPECT_EQ(mc.configuration().model_params().cutoff().value(0), 3.);
+  EXPECT_EQ(mc.configuration().model_params().select("cutoff").value(0), 3.);
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e6);
   MonteCarlo mc3 = test_serialize(mc2);
@@ -58,7 +58,7 @@ TEST(PairDistribution, gr_LONG) {
   // compare with https://mmlapps.nist.gov/srs/LJ_PURE/md.htm
   EXPECT_EQ(gr[43].first, 1.0875);
   EXPECT_NEAR(gr[43].second[0][0], 2.65, 0.2);
-  EXPECT_NEAR(en.average()/num, -5.517, 0.06);
+  EXPECT_NEAR(en.average()/num, -5.517, 0.075);
 }
 
 }  // namespace feasst

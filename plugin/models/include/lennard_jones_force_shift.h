@@ -7,7 +7,7 @@
 namespace feasst {
 
 /**
-  The Lennard-Jones potential, \f$U_{LJ}\f$ is described in LennardJones.
+  The Lennard-Jones potential, \f$U_{LJ}\f$ is described in LennardJonesAlpha.
   This class implements the force shifted (FS) version which ensures both
   \f$U(r_c)=0\f$ and \f$\left.\frac{\partial U}{\partial r}\right|_{r=r_c}=0\f$.
 
@@ -22,6 +22,7 @@ class LennardJonesForceShift : public LennardJonesAlpha {
  public:
   explicit LennardJonesForceShift(argtype args = argtype());
 
+  // HWH - optimize better: sqrt is used twice for distance
   /// Precompute the shift factor for optimization, given existing model parameters.
   void precompute(const ModelParams& existing) override;
 

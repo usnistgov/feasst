@@ -12,6 +12,7 @@ TEST(VisitModelIntra, energy) {
     {"particle_type", "../forcefield/chain10.fstprt"},
     {"add_particles_of_type0", "1"}});
   LennardJones model;
+  model.precompute(config->model_params());
   // don't compute intraparticle interactions between bonded sites.
   auto visit = MakeVisitModelIntra({{"cutoff", "1"}});
   visit->precompute(config.get());

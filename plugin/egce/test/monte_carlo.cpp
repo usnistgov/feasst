@@ -114,8 +114,8 @@ TEST(MonteCarlo, rpm_egce_fh_LONG) {
     FlatHistogram fh(ss);
     LnProbability lnpi3 = fh.bias().ln_prob().reduce(2);
     EXPECT_NEAR(lnpi3.value(0), -1.2994315780357, 0.125);
-    EXPECT_NEAR(lnpi3.value(1), -1.08646312498868, 0.1125);
-    EXPECT_NEAR(lnpi3.value(2), -0.941850889679828, 0.11);
+    EXPECT_NEAR(lnpi3.value(1), -1.08646312498868, 0.125);
+    EXPECT_NEAR(lnpi3.value(2), -0.941850889679828, 0.125);
     const std::vector<std::shared_ptr<Analyze> >& en = mc2.analyzers().back()->analyzers();
     EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
     EXPECT_NEAR(en[1]->accumulator().average(), -0.115474, 1e-6);
@@ -319,7 +319,7 @@ MonteCarlo dival_egce(
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/dival_egce"}}));
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}, {"tolerance", str(1e-12)}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-4)}}));
-  const double charge_minus = mc.configuration().model_params().charge().value(1);
+  const double charge_minus = mc.configuration().model_params().select("charge").value(1);
   mc.add(MakeCheckNetCharge({{"steps_per", str(steps_per)},
                              {"maximum", str(-charge_minus)},
                              {"minimum", str(charge_minus)}}));
@@ -535,8 +535,8 @@ TEST(MonteCarlo, rpm_divalent_morph_LONG) {
 
   // add growth expanded particle types with half charge
   { Configuration * config = mc.get_system()->get_configuration();
-    const double q_plus = config->model_params().charge().value(0);
-    const double q_minus = config->model_params().charge().value(1);
+    const double q_plus = config->model_params().select("charge").value(0);
+    const double q_minus = config->model_params().select("charge").value(1);
     config->add_particle_type(install_dir() +
       "/plugin/charge/forcefield/rpm_plus.fstprt", "0.5");
     config->add_particle_type(install_dir() +

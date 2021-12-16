@@ -29,6 +29,7 @@ void LennardJones::serialize(std::ostream& ostr) const {
 }
 
 void LennardJones::serialize_lennard_jones_(std::ostream& ostr) const {
+  serialize_model_(ostr);
   feasst_serialize_version(763, ostr);
   feasst_serialize(hard_sphere_threshold_sq_, ostr);
 }
@@ -51,7 +52,8 @@ double LennardJones::energy(
   TRACE("squared_distance " << squared_distance);
   TRACE("type1 " << type1);
   TRACE("type2 " << type2);
-  const double sigma = model_params.mixed_sigma()[type1][type2];
+  ASSERT(sigma_index() != -1, "err");
+  const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
   TRACE("sigma " << sigma);
   const double sigma_squared = sigma*sigma;
   if (squared_distance == 0 ||
@@ -59,7 +61,7 @@ double LennardJones::energy(
     TRACE("near inf");
     return NEAR_INFINITY;
   }
-  const double epsilon = model_params.mixed_epsilon()[type1][type2];
+  const double epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
   TRACE("epsilon " << epsilon);
   const double rinv2 = sigma_squared/squared_distance;
   const double rinv6 = rinv2*rinv2*rinv2;

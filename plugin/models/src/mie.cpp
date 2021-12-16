@@ -27,6 +27,7 @@ void Mie::serialize(std::ostream& ostr) const {
 }
 
 void Mie::serialize_mie_(std::ostream& ostr) const {
+  serialize_model_(ostr);
   feasst_serialize_version(2905, ostr);
   feasst_serialize(n_, ostr);
   feasst_serialize(m_, ostr);
@@ -46,8 +47,8 @@ double Mie::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  const double sigma = model_params.mixed_sigma()[type1][type2];
-  const double epsilon = model_params.mixed_epsilon()[type1][type2];
+  const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
+  const double epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
   const double s_r = sigma/std::sqrt(squared_distance);
   return prefactor_*epsilon*(std::pow(s_r, n_) - std::pow(s_r, m_));
 }

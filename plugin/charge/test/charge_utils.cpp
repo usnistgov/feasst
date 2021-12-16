@@ -73,7 +73,7 @@ System rpm(argtype args) {
       config.set_model_param("cutoff", 1, cutoff);
     }
     const double charge_conversion = config.physical_constants().charge_conversion();
-    const Charge& charge = config.model_params().charge();
+    const ModelParam& charge = config.model_params().select("charge");
     for (int type = 0; type < config.num_particle_types(); ++type) {
       double cval = charge.value(type);
       if (type == 0) {
@@ -84,7 +84,7 @@ System rpm(argtype args) {
     }
     if (used("delta", args)) {
       const double delta = dble("delta", &args);
-      const Sigma& sigma = config.model_params().sigma();
+      const ModelParam& sigma = config.model_params().select("sigma");
       config.set_model_param("sigma", 0, sigma.value(0) + delta);
       config.set_model_param("sigma", 1, sigma.value(1) - delta);
     }

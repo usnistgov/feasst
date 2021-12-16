@@ -38,6 +38,7 @@ LennardJonesForceShift::LennardJonesForceShift(std::istream& istr)
 }
 
 void LennardJonesForceShift::precompute(const ModelParams& existing) {
+  LennardJonesAlpha::precompute(existing);
   precomputed_ = true;
   shift_.set_model(this); // note the model is used here for the computation
   shift_.set_param(existing);
@@ -53,19 +54,14 @@ double LennardJonesForceShift::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  const double sigma = model_params.mixed_sigma()[type1][type2];
-  const double sigma_squared = sigma*sigma;
-  if (squared_distance < hard_sphere_threshold_sq()*sigma_squared) {
-    return NEAR_INFINITY;
-  }
-  const double epsilon = model_params.mixed_epsilon()[type1][type2];
-  const double rinv2 = sigma_squared/squared_distance;
-  const double rinv_alpha = std::pow(rinv2, 0.5*alpha());
-  const double en = 4.*epsilon*rinv_alpha*(rinv_alpha - 1.);
+  const double en = LennardJonesAlpha::energy(squared_distance, type1, type2, model_params);
   const double distance = std::sqrt(squared_distance);
   const double shift = shift_.mixed_values()[type1][type2];
   const double force_shift = force_shift_.mixed_values()[type1][type2];
-  const double cutoff = model_params.mixed_cutoff()[type1][type2];
+  const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
+  TRACE("en " << MAX_PRECISION << en);
+  TRACE("shift " << MAX_PRECISION << shift);
+  TRACE("force_shift " << MAX_PRECISION << force_shift);
   return en - shift - (distance - cutoff)*force_shift;
 }
 

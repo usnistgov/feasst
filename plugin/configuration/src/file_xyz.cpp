@@ -21,7 +21,7 @@ void FileVMD::get_params(const Configuration& config,
     double * radius,
     double * distance,
     int * center_index) const {
-  *radius = 0.5*config.model_params().sigma().value(site_type);
+  *radius = 0.5*config.model_params().select("sigma").value(site_type);
   *distance = 0.;
   *center_index = -1;
 }

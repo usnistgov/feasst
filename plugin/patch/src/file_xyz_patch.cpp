@@ -25,7 +25,7 @@ void FileVMDPatch::get_params(const Configuration& config,
     double * distance,
     int *center_index) const {
   if (config.model_params().select("director").value(site_type) < 0.5) {
-    const double sigma = config.model_params().sigma().value(site_type);
+    const double sigma = config.model_params().select("sigma").value(site_type);
     *radius = 0.5*sigma;
     *distance = 0.;
     *center_index = -1;
@@ -53,7 +53,7 @@ void FileVMDPatch::get_params(const Configuration& config,
     DEBUG("center_index " << *center_index);
     const int center_type = config.particle_type(ptype).site(*center_index).type();
     DEBUG("center_type " << center_type);
-    const double sigma = config.model_params().sigma().value(center_type);
+    const double sigma = config.model_params().select("sigma").value(center_type);
 
     const double r1 = sigma/2, eps = r1/20.;
     DEBUG("r1 " << r1 << " eps " << eps);

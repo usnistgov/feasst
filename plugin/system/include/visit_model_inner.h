@@ -34,12 +34,7 @@ class VisitModelInner {
     Position * relative,
     Position * pbc);
 
-  virtual void precompute(Configuration * config) {
-    if (energy_map_) {
-      energy_map_->precompute(config);
-    }
-  }
-
+  virtual void precompute(Configuration * config);
   void set_energy(const double energy) { energy_ = energy; }
   void update_ixn(
       const double energy,
@@ -107,6 +102,8 @@ class VisitModelInner {
     }
   }
 
+  int cutoff_index() const { return cutoff_index_; }
+
   // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
@@ -125,6 +122,7 @@ class VisitModelInner {
   double energy_ = 0.;
   double squared_distance_;
   std::shared_ptr<EnergyMap> energy_map_;
+  int cutoff_index_ = -1;
 };
 
 inline std::shared_ptr<VisitModelInner> MakeVisitModelInner() {

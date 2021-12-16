@@ -1,15 +1,11 @@
-LennardJonesAlpha
+DeltaSigma
 =====================================================
-
-.. doxygenclass:: feasst::LennardJonesAlpha
-   :project: FEASST
-   :members:
 
 .. doxygenclass:: feasst::DeltaSigma
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::Lambda
+.. doxygenclass:: feasst::LennardJonesAlpha
    :project: FEASST
    :members:
 

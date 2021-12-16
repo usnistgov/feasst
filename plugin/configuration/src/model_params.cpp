@@ -146,34 +146,12 @@ double ModelParam::mix_(const double value1, const double value2) {
   return 0.5*(value1 + value2);
 }
 
-void ModelParams::add_() {
-  add(epsilon_);
-  add(sigma_);
-  add(cutoff_);
-  add(charge_);
-}
-
 ModelParams::ModelParams() : PropertiedEntity() {
-  epsilon_ = std::make_shared<Epsilon>();
-  sigma_ = std::make_shared<Sigma>();
-  cutoff_ = std::make_shared<CutOff>();
-  charge_ = std::make_shared<Charge>();
-  add_();
+  add(std::make_shared<Epsilon>());
+  add(std::make_shared<Sigma>());
+  add(std::make_shared<CutOff>());
+  add(std::make_shared<Charge>());
   set_physical_constants();
-}
-
-ModelParams::ModelParams(const ModelParams& params) : PropertiedEntity() {
-  epsilon_ = std::make_shared<Epsilon>(*params.epsilon_);
-  sigma_ = std::make_shared<Sigma>(*params.sigma_);
-  cutoff_ = std::make_shared<CutOff>(*params.cutoff_);
-  charge_ = std::make_shared<Charge>(*params.charge_);
-  add_();
-  for (int extra = 4; extra < static_cast<int>(params.params_.size());
-       ++extra) {
-    add(params.params_[extra]);
-  }
-  set_properties(params.properties());
-  set_physical_constants(params.physical_constants_);
 }
 
 void ModelParams::add(const Site site) {
@@ -207,6 +185,9 @@ void ModelParams::mix() {
 }
 
 int ModelParams::size() const {
+  if (params_.size() == 0) { 
+    return 0;
+  }
   int size = static_cast<int>(params_[0]->size());
   for (const std::shared_ptr<ModelParam> param : params_) {
     ASSERT(size == static_cast<int>(param->size()), "size error");
@@ -214,14 +195,29 @@ int ModelParams::size() const {
   return size;
 }
 
-const ModelParam& ModelParams::select(
-    const std::string param_name) const {
-  for (const std::shared_ptr<ModelParam> param : params_) {
+int ModelParams::index(const std::string param_name) const {
+  for (int ind = 0; ind < static_cast<int>(params_.size()); ++ind) {
+    const std::shared_ptr<ModelParam> param = params_[ind];
+    ASSERT(param, "error");
     if (param->name() == param_name) {
-      return const_cast<const ModelParam&>(*param);
+      return ind;
     }
   }
+  return -1;
   FATAL("unrecognized name(" << param_name << ")");
+}
+
+const ModelParam& ModelParams::select(const int index) const {
+  ASSERT(index >= 0, "index: " << index);
+  ASSERT(index < static_cast<int>(params_.size()),
+    "index: " << index << " >= size: " << params_.size());
+  return const_cast<const ModelParam&>(*params_[index]);
+}
+
+const ModelParam& ModelParams::select(const std::string name) const {
+  const int indx = index(name);
+  ASSERT(indx != -1, "name: " << name << " not found");
+  return const_cast<const ModelParam&>(*params_[indx]);
 }
 
 std::shared_ptr<ModelParam> ModelParams::select_(
@@ -262,36 +258,25 @@ void ModelParams::check() const {
   properties().check();
 }
 
-// HWH warning: magic number "4"
 void ModelParams::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
   ostr << MAX_PRECISION;
   feasst_serialize_version(938, ostr);
-  epsilon_->serialize(ostr);
-  sigma_->serialize(ostr);
-  cutoff_->serialize(ostr);
-  charge_->serialize(ostr);
   ostr << params_.size() << " ";
-  for (int index = 4; index < static_cast<int>(params_.size()); ++index) {
+  for (int index = 0; index < static_cast<int>(params_.size()); ++index) {
     params_[index]->serialize(ostr);
   }
   feasst_serialize_fstdr(physical_constants_, ostr);
 }
 
-// HWH warning: magic number "4"
 ModelParams::ModelParams(std::istream& istr)
   : PropertiedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 938, "unrecognized version: " << version);
-  epsilon_ = std::make_shared<Epsilon>(istr);
-  sigma_ = std::make_shared<Sigma>(istr);
-  cutoff_ = std::make_shared<CutOff>(istr);
-  charge_ = std::make_shared<Charge>(istr);
-  add_();
   int num;
   istr >> num;
   params_.resize(num);
-  for (int index = 4; index < num; ++index) {
+  for (int index = 0; index < num; ++index) {
     params_[index] = std::make_shared<ModelParam>(istr);
   }
   // feasst_deserialize_fstdr(&physical_constants_, istr);
@@ -309,11 +294,13 @@ double Epsilon::mix_(const double value1, const double value2) {
 }
 
 void ModelParams::set_cutoff_min_to_sigma() {
-  for (int itype = 0; itype < sigma_->size(); ++itype) {
-    for (int jtype = 0; jtype < sigma_->size(); ++jtype) {
-      const double sigma = sigma_->mixed_value(itype, jtype);
-      if (cutoff_->mixed_value(itype, jtype) < sigma) {
-        cutoff_->set_mixed(itype, jtype, sigma);
+  auto sigma = select_("sigma");
+  auto cutoff = select_("cutoff");
+  for (int itype = 0; itype < sigma->size(); ++itype) {
+    for (int jtype = 0; jtype < sigma->size(); ++jtype) {
+      const double sig = sigma->mixed_value(itype, jtype);
+      if (cutoff->mixed_value(itype, jtype) < sig) {
+        cutoff->set_mixed(itype, jtype, sig);
       }
     }
   }
@@ -325,6 +312,20 @@ std::string ModelParams::str() const {
     ss << param->str();
   }
   return ss.str();
+}
+
+//ModelParams::ModelParams(const ModelParams& params) : PropertiedEntity() {
+//  FATAL("ModelParams copy constructor seems to have issues with shared_ptr");
+//  for (int param = 0; param < static_cast<int>(params.params_.size());
+//       ++param) {
+//    add(params.params_[param]);
+//  }
+//  set_properties(params.properties());
+//  set_physical_constants(params.physical_constants_);
+//}
+
+ModelParams ModelParams::deep_copy() const {
+  return feasst::deep_copy(*this);
 }
 
 }  // namespace feasst

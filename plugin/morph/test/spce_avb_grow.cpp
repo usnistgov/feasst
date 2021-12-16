@@ -186,6 +186,8 @@ TEST(TrialGrow, transfer_avb_spce) {
   auto pot = MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighborCriteria(ncrit))));
   system.set_unoptimized(1, pot);
+  DEBUG("model name " << system.potential(1).model().class_name());
+  DEBUG("sig1 " << system.potential(1).model().sigma_index());
   system.add(MakePotential(MakeChargeScreened({{"table_size", "0"}})));
   system.add_to_reference(MakePotential(MakeDontVisitModel()));
   const Configuration& config = system.configuration();
@@ -212,10 +214,17 @@ TEST(TrialGrow, transfer_avb_spce) {
     },
     {{"num_steps", "2"}, {"reference_index", "0"}}
   );
+  DEBUG("precompute");
   grow->precompute(metropolis.get(), &system);
+  DEBUG("energy");
   double en_old = metropolis->current_energy();
+  DEBUG("attempt");
+  DEBUG("sig0 " << system.potential(0).model().sigma_index());
+  DEBUG("sig1 " << system.potential(1).model().sigma_index());
+  DEBUG("sig2 " << system.potential(2).model().sigma_index());
   bool accepted = grow->attempt(metropolis.get(), &system, 0, ran.get());
   EXPECT_EQ(grow->num(), 2);
+  DEBUG("check");
   system.check();
   EXPECT_GT(config.num_particles(), 0);
   DEBUG(config.num_particles());
@@ -270,7 +279,7 @@ TEST(TrialGrow, transfer_avb_spce) {
     -system.thermo_params().beta()*delta
     +system.thermo_params().beta_mu(0));
 
-  INFO("** attempt avb4 **");
+  DEBUG("** attempt avb4 **");
   if (config.num_particles() != 3) return;
   auto avb4 = MakeTrialGrow(
     {
@@ -283,8 +292,8 @@ TEST(TrialGrow, transfer_avb_spce) {
   avb4->precompute(metropolis.get(), &system);
   en_old = metropolis->current_energy();
   accepted = avb4->attempt(metropolis.get(), &system, 0, ran.get());
-  INFO("accepted? " << accepted);
-  INFO("new energy " << avb4->trial(0).accept().energy_new());
+  DEBUG("accepted? " << accepted);
+  DEBUG("new energy " << avb4->trial(0).accept().energy_new());
   delta = avb4->trial(0).accept().energy_new() - en_old;
 //  EXPECT_NEAR(avb4->trial(0).accept().ln_metropolis_prob(),
 //    std::log(vol_av/2.)

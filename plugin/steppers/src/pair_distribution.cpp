@@ -28,6 +28,7 @@ void PairDistributionInner::serialize(std::ostream& ostr) const {
 }
 
 void PairDistributionInner::serialize_pair_distribution_inner_(std::ostream& ostr) const {
+  serialize_model_(ostr);
   feasst_serialize_version(2947, ostr);
   feasst_serialize_fstobj(radial_, ostr);
 }
@@ -92,7 +93,7 @@ void PairDistribution::initialize(Criteria * criteria,
   }
 
   // set cutoff to half the minimum box length
-  params_ = ModelParams(system->configuration().model_params());
+  params_ = deep_copy(system->configuration().model_params());
   //DEBUG(params_.cutoff().size());
   const double min_side = system->configuration().domain().inscribed_sphere_diameter();
   for (int itype = 0; itype < num_site_types; ++itype) {
@@ -100,6 +101,8 @@ void PairDistribution::initialize(Criteria * criteria,
   }
   //DEBUG(params_.cutoff().size());
   //DEBUG(params_.cutoff().mixed_value(0, 0));
+  inter_visit_.precompute(system->get_configuration());
+  intra_visit_.precompute(system->get_configuration());
 }
 
 std::string PairDistribution::header(const Criteria& criteria,

@@ -19,8 +19,8 @@ class CheckNetCharge : public AnalyzeUpdateOnly {
    */
   CheckNetCharge(argtype args = argtype());
   void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+    const System& system,
+    const TrialFactory& trial_factory) override;
   std::string class_name() const override {
     return std::string("CheckNetCharge"); }
   void serialize(std::ostream& ostr) const override;

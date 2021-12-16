@@ -7,7 +7,7 @@
 namespace feasst {
 
 /**
-  The Lennard-Jones potential, \f$U_{LJ}\f$ is described in LennardJones.
+  The Lennard-Jones potential, \f$U_{LJ}\f$ is described in LennardJonesAlpha.
   This class implements the cut and shifted (CS) version which ensures \f$U(r_c)=0\f$.
 
   \f$ U_{LJ}^{CS}(r) = \left\{
@@ -54,7 +54,6 @@ class LennardJonesCutShift : public LennardJonesAlpha {
 
 private:
   EnergyAtCutoff shift_;
-  //bool precomputed_ = false;
 };
 
 inline std::shared_ptr<LennardJonesCutShift> MakeLennardJonesCutShift(

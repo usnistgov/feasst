@@ -39,7 +39,7 @@ void System::set_unoptimized(const int index,
     std::shared_ptr<Potential> potential) {
   // HWH assume one config
   unoptimized_.set(index, potential);
-  unoptimized_.precompute(unoptimized_.num() - 1, &configurations_[0]);
+  unoptimized_.precompute(index, &configurations_[0]);
 }
 
 void System::add_to_optimized(std::shared_ptr<Potential> potential) {

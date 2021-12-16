@@ -24,6 +24,7 @@ ElectricField::ElectricField(argtype args) {
 }
 
 void ElectricField::precompute(const ModelParams& existing) {
+  Model::precompute(existing);
   // convert from V/A to kJ/mol/A/e
   conversion_factor_ = existing.constants().elementary_charge()*
     existing.constants().avogadro_constant()/1e3;
@@ -31,6 +32,7 @@ void ElectricField::precompute(const ModelParams& existing) {
 
 void ElectricField::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(3905, ostr);
   feasst_serialize(dimension_, ostr);
   feasst_serialize(field_strength_, ostr);
@@ -52,7 +54,7 @@ double ElectricField::energy(
     const ModelParams& model_params) {
   const int type = site.type();
   TRACE("type: " << type);
-  const double charge = model_params.charge().value(type);
+  const double charge = model_params.select(charge_index()).value(type);
   TRACE("charge: " << charge);
   const double distance = wrapped_site.coord(dimension_);
   TRACE("distance: " << distance);

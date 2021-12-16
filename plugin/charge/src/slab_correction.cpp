@@ -40,22 +40,24 @@ SlabCorrection::SlabCorrection(std::istream& istr) : VisitModel(istr) {
 
 class SumDipole : public LoopConfigOneBody {
  public:
-  explicit SumDipole(const int dim) { dim_ = dim; }
+  explicit SumDipole(const int dim, const int charge_index)
+    : dim_(dim), charge_index_(charge_index) {}
   void work(const Site& site,
       const Configuration& config,
       const LoopDescriptor& data) override {
     const int type = site.type();
-    dipole_ += config.model_params().charge().value(type)*
+    dipole_ += config.model_params().select(charge_index_).value(type)*
                site.position().coord(dim_);
   }
   double dipole() const { return dipole_; }
  private:
   int dim_;
+  int charge_index_;
   double dipole_ = 0.;
 };
 
 double SlabCorrection::net_dipole(const Configuration& config) const {
-  SumDipole sum(dimension_);
+  SumDipole sum(dimension_, charge_index());
   VisitConfiguration().loop(config, &sum);
   return sum.dipole();
 }
@@ -119,7 +121,7 @@ void SlabCorrection::compute(ModelOneBody * model,
     for (int site_index : selection.site_indices(sel_part)) {
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
-        sel_dipole += model_params.charge().value(site.type())*
+        sel_dipole += model_params.select(charge_index()).value(site.type())*
                       site.position().coord(dimension_);
       }
     }

@@ -38,7 +38,7 @@ Ewald::Ewald(argtype * args) {
 void Ewald::tolerance_to_alpha_ks(const double tolerance,
     const Configuration& config, double * alpha,
     int * kxmax, int * kymax, int * kzmax) {
-  const double cutoff = config.model_params().cutoff().max();
+  const double cutoff = config.model_params().select("cutoff").max();
   int num_sites = config.num_sites();
   if (tolerance_num_sites_) {
     num_sites = *tolerance_num_sites_;
@@ -144,6 +144,7 @@ std::vector<std::string> Ewald::eik_gen_() {
 }
 
 void Ewald::precompute(Configuration * config) {
+  VisitModel::precompute(config);
   if (kmax_sq_arg_ && alpha_arg_) {
     ASSERT(!kxmax_arg_ && !kymax_arg_ && !kzmax_arg_,
       "kmax_squared argument overrides k[x,y,z]max arguments.");
@@ -210,6 +211,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
     std::vector<double> * sf_real,
     std::vector<double> * sf_imag,
     std::vector<std::vector<std::vector<double> > > * eik_new) const {
+  ASSERT(charge_index() != -1, "error");
   DEBUG("select " << selection.str());
   ASSERT(sf_real->size() == struct_fact_real().size(),
     "While struct_fact_real_ is of size: " << struct_fact_real().size() <<
@@ -343,7 +345,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
 
         // compute structure factor
         const int type = site.type();
-        const double charge = config.model_params().charge().value(type);
+        const double charge = config.model_params().select(charge_index()).value(type);
         for (int k_index = 0; k_index < num_vectors(); ++k_index) {
           const int kdim = dimension_*k_index;
           const double kx = wave_num_[kdim];
@@ -486,19 +488,22 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
 
 class SumCharge : public LoopConfigOneBody {
  public:
+  SumCharge(int charge_index) : charge_index_(charge_index) {}
   void work(const Site& site,
       const Configuration& config,
       const LoopDescriptor& data) override {
     const int type = site.type();
-    charge_ += config.model_params().charge().value(type);
+    ASSERT(charge_index_ != -1, "error");
+    charge_ += config.model_params().select(charge_index_).value(type);
   }
   double charge() const { return charge_; }
  private:
   double charge_ = 0.;
+  int charge_index_;
 };
 
 double Ewald::net_charge(const Configuration& config) const {
-  SumCharge sum;
+  SumCharge sum(config.model_params().index("charge"));
   VisitConfiguration().loop(config, &sum);
   return sum.charge();
 }

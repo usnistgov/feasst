@@ -1,3 +1,4 @@
+#include "configuration/include/model_params.h"
 #include "system/include/model.h"
 #include "utils/include/serialize.h"
 
@@ -28,6 +29,14 @@ double Model::energy(
 
 void Model::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
+void Model::serialize_model_(std::ostream& ostr) const {
+  feasst_serialize_version(2094, ostr);
+  feasst_serialize(epsilon_index_, ostr);
+  feasst_serialize(sigma_index_, ostr);
+  feasst_serialize(cutoff_index_, ostr);
+  feasst_serialize(charge_index_, ostr);
+}
+
 std::shared_ptr<Model> Model::create(std::istream& istr) const {
   FATAL("not implemented");
 }
@@ -37,6 +46,19 @@ std::shared_ptr<Model> Model::create(argtype * args) const {
 
 Model::Model(std::istream& istr) {
   istr >> class_name_;
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(2094 == version, "version mismatch: " << version);
+  feasst_deserialize(&epsilon_index_, istr);
+  feasst_deserialize(&sigma_index_, istr);
+  feasst_deserialize(&cutoff_index_, istr);
+  feasst_deserialize(&charge_index_, istr);
+}
+
+void Model::precompute(const ModelParams& existing) {
+  epsilon_index_ = existing.index("epsilon");
+  sigma_index_ = existing.index("sigma");
+  cutoff_index_ = existing.index("cutoff");
+  charge_index_ = existing.index("charge");
 }
 
 }  // namespace feasst

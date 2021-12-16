@@ -23,6 +23,7 @@ ModelSquareWellShape::ModelSquareWellShape(std::shared_ptr<Shape> shape,
 
 void ModelSquareWellShape::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   ShapedEntity::serialize(ostr);
   feasst_serialize_version(6482, ostr);
 }
@@ -39,13 +40,13 @@ double ModelSquareWellShape::energy(
     const Configuration& config,
     const ModelParams& model_params) {
   const int type = site.type();
-  const double sigma = model_params.sigma().value(type);
-  const double cutoff = model_params.cutoff().value(type);
+  const double sigma = model_params.select(sigma_index()).value(type);
+  const double cutoff = model_params.select(cutoff_index()).value(type);
   const double distance = -shape()->nearest_distance(wrapped_site);
   if (distance <= 0.5*sigma) {
     return NEAR_INFINITY;
   } else if (distance <= cutoff) {
-    const double epsilon = model_params.epsilon().value(type);
+    const double epsilon = model_params.select(epsilon_index()).value(type);
     return -epsilon;
   } else {
     return 0.;

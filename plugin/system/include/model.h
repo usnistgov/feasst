@@ -71,7 +71,19 @@ class Model {
   virtual int num_body() const = 0;
 
   /// Precompute model parameters based on existing model parameters.
-  virtual void precompute(const ModelParams& existing) {}
+  virtual void precompute(const ModelParams& existing);
+
+  /// Return the ModelParams index of epsilon.
+  int epsilon_index() const { return epsilon_index_; }
+
+  /// Return the ModelParams index of sigma.
+  int sigma_index() const { return sigma_index_; }
+
+  /// Return the ModelParams index of cutoff.
+  int cutoff_index() const { return cutoff_index_; }
+
+  /// Return the ModelParams index of charge.
+  int charge_index() const { return charge_index_; }
 
   // Moved from ModelTwoBody to Model for ease of serialization of
   // ModelTwoBodyFactory
@@ -106,6 +118,13 @@ class Model {
 
  protected:
   std::string class_name_;
+  void serialize_model_(std::ostream& ostr) const;
+
+ private:
+  int epsilon_index_ = -1;
+  int sigma_index_ = -1;
+  int cutoff_index_ = -1;
+  int charge_index_ = -1;
 };
 
 }  // namespace feasst

@@ -20,6 +20,7 @@ TEST(VisitModelInnerPatch, patch_one) {
   config.set_model_param("cutoff", 1, 3.);
   FileXYZ().load("../plugin/patch/test/data/patch5.xyz", &config);
   SquareWell model;
+  model.precompute(config.model_params());
   VisitModel visit;
   auto patch = MakeVisitModelInnerPatch({{"patch_degrees_of_type1", "90"}});
   visit.set_inner(patch);

@@ -16,6 +16,7 @@ static MapSquareWell mapper_ = MapSquareWell();
 
 void SquareWell::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(553, ostr);
 }
 
@@ -29,8 +30,8 @@ double SquareWell::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  const double& sigma = model_params.mixed_sigma()[type1][type2];
-  const double& epsilon = model_params.mixed_epsilon()[type1][type2];
+  const double& sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
+  const double& epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
   if (squared_distance <= sigma*sigma) {
     TRACE("squared_distance " << squared_distance);
     return NEAR_INFINITY;

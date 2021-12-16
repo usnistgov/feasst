@@ -16,6 +16,7 @@ namespace feasst {
 TEST(VisitModel, spce_reference_config) {
   Configuration config = spce_sample1();
   LennardJones model;
+  model.precompute(config.model_params());
   VisitModel visit;
   visit.precompute(&config);
   visit.compute(&model, &config);
@@ -23,6 +24,7 @@ TEST(VisitModel, spce_reference_config) {
   EXPECT_NEAR(pe_lj, visit.energy(), feasst::NEAR_ZERO);
   ModelEmpty empty;
   LongRangeCorrections lrc;
+  lrc.precompute(&config);
   empty.compute(&config, &lrc);
   const double pe_lrc = -6.8487471455514575;
   EXPECT_NEAR(pe_lrc, lrc.energy(), 1e-13);

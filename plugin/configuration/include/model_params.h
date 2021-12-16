@@ -177,8 +177,7 @@ class ModelParams : public PropertiedEntity {
  public:
   ModelParams();
 
-  /// Deep copy constructor
-  ModelParams(const ModelParams& params);
+  //ModelParams(const ModelParams& params);
 
   /// Add all properties in site.
   void add(const Site site);
@@ -200,25 +199,16 @@ class ModelParams : public PropertiedEntity {
   void set(const std::string name, const int site_type1, const int site_type2,
     const double value);
 
-  /// Return model parameters of specific types.
-  const Epsilon& epsilon() const { return const_cast<Epsilon&>(*epsilon_); }
-  const Sigma& sigma() const { return const_cast<Sigma&>(*sigma_); }
-  const CutOff& cutoff() const { return const_cast<CutOff&>(*cutoff_); }
-  const Charge& charge() const { return const_cast<Charge&>(*charge_); }
-
-  /// Return constant pointers for optimized model inner loops.
-  const std::vector<std::vector<double> >& mixed_epsilon() const {
-    return epsilon_->mixed_values(); }
-  const std::vector<std::vector<double> >& mixed_sigma() const {
-    return sigma_->mixed_values(); }
-  const std::vector<std::vector<double> >& mixed_cutoff() const {
-    return cutoff_->mixed_values(); }
-  const std::vector<std::vector<double> >& mixed_charge() const {
-    return charge_->mixed_values(); }
-
   /// Add a custom model parameter
   void add(std::shared_ptr<ModelParam> param) {
     params_.push_back(param); }
+
+  /// Return the model parameter with the corresponding index.
+  const ModelParam& select(const int index) const;
+
+  /// Return the index of the model parameter with the corresponding name.
+  /// Return -1 if name is not found.
+  int index(const std::string name) const;
 
   /// Return the model parameter with the corresponding name.
   const ModelParam& select(const std::string name) const;
@@ -244,20 +234,14 @@ class ModelParams : public PropertiedEntity {
   /// Return as a human readable string.
   std::string str() const;
 
+  /// Return a deep copy of self.
+  ModelParams deep_copy() const;
+
   void serialize(std::ostream& ostr) const;
   explicit ModelParams(std::istream& istr);
 
  private:
-  /// All types of model parameters listed here.
-  /// If adding new types, make sure to add them to params_ below.
-  std::shared_ptr<Epsilon> epsilon_;
-  std::shared_ptr<Sigma> sigma_;
-  std::shared_ptr<CutOff> cutoff_;
-  std::shared_ptr<Charge> charge_;
-
-  /// Add all of the above to this list.
   std::vector<std::shared_ptr<ModelParam> > params_;
-
   std::shared_ptr<PhysicalConstants> physical_constants_;
 
   /// Add built-in types to params

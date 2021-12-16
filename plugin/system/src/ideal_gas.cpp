@@ -18,6 +18,7 @@ void IdealGas::serialize(std::ostream& ostr) const {
 }
 
 void IdealGas::serialize_ideal_gas_(std::ostream& ostr) const {
+  serialize_model_(ostr);
   feasst_serialize_version(293, ostr);
 }
 

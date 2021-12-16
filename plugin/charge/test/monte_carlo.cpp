@@ -74,7 +74,7 @@ TEST(MonteCarlo, spce_gce_LONG) {
   const int steps_per = 1e2;
   MonteCarlo mc;
   mc.set(spce({{"alpha", str(5.6/24.8586887)}, {"kmax_squared", "38"}, {"cubic_box_length", str(24.8586887)}}));
-  { const double sigma = mc.configuration().model_params().sigma().value(0);
+  { const double sigma = mc.configuration().model_params().select("sigma").value(0);
     INFO("sigma " << sigma);
     mc.add_to_reference(MakePotential(
       MakeModelTwoBodyFactory({MakeLennardJones(),
@@ -107,7 +107,7 @@ TEST(MonteCarlo, spce_gce_LONG) {
 // Fast test to be run with valgrind
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
-  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.set(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}}));
   mc.get_system()->add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
   const double beta = 1/kelvin2kJpermol(525);

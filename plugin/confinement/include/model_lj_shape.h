@@ -78,20 +78,8 @@ inline std::shared_ptr<ModelLJShape> MakeModelLJShape(
 class ModelLJShapeEnergyAtCutoff : public ModelParam {
  public:
   ModelLJShapeEnergyAtCutoff() : ModelParam() {}
-
   void set_model(ModelLJShape * model) { model_ = model; }
-
-  double compute(const int type1, const ModelParams& model_params) override {
-    const double epsilon = model_params.epsilon().value(type1);
-    const double sigma = model_params.sigma().value(type1);
-    const double cutoff = model_params.cutoff().value(type1);
-    if (cutoff > 0) {
-      return model_->energy(epsilon, sigma, cutoff);
-    } else {
-      return 0.;
-    }
-  }
-
+  double compute(const int type1, const ModelParams& model_params) override;
   ModelLJShapeEnergyAtCutoff(std::istream& istr) : ModelParam(istr) {}
 
 private:

@@ -26,6 +26,7 @@ ChargeScreened::ChargeScreened(argtype args) {
 
 void ChargeScreened::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(4616, ostr);
   feasst_serialize(alpha_, ostr);
   feasst_serialize(conversion_factor_, ostr);
@@ -56,11 +57,11 @@ double ChargeScreened::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  const double mixed_charge = model_params.mixed_charge()[type1][type2];
+  const double mixed_charge = model_params.select(charge_index()).mixed_values()[type1][type2];
   if (squared_distance < hard_sphere_threshold_sq_) {
     return NEAR_INFINITY;
   } else if (erfc_) {
-    const double mixed_max_cutoff = model_params.cutoff().mixed_max();
+    const double mixed_max_cutoff = model_params.select(cutoff_index()).mixed_max();
     const double z = squared_distance/mixed_max_cutoff/mixed_max_cutoff;
     const double erffac = erfc_->linear_interpolation(z);
     TRACE("erffac " << erffac);
@@ -77,9 +78,10 @@ double ChargeScreened::energy(
 }
 
 void ChargeScreened::precompute(const ModelParams& existing) {
+  Model::precompute(existing);
   alpha_ = existing.property("alpha");
   conversion_factor_ = existing.constants().charge_conversion();
-  init_erfc_(existing.cutoff().mixed_max());
+  init_erfc_(existing.select("cutoff").mixed_max());
 }
 
 void ChargeScreened::init_erfc_(const double cutoff) {

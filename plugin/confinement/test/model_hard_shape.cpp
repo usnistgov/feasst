@@ -18,6 +18,7 @@ TEST(ModelHardShape, half_space) {
     {"particle_type", "../forcefield/atom.fstprt"},
     {"add_particles_of_type0", "1"}});
   const ModelParams model_params = config->model_params();
+  model.precompute(model_params);
   EXPECT_LT(1e100, model.energy_no_wrap(config->particle(0).site(0), *config, model_params));
   Position pos;
   pos.set_vector({-24.23, 35.45, 1.5000001});

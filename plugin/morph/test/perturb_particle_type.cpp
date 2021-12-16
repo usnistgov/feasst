@@ -23,8 +23,8 @@ TEST(PerturbParticleType, serialize) {
     config->update_positions({{0, 0, 0}, {1, 1, 1}});
     config->particle_type_to_group_create(0);
     config->particle_type_to_group_create(1);
-    EXPECT_EQ(config->model_params().sigma().mixed_value(0, 1), 1.25/2.);
-    EXPECT_EQ(config->model_params().cutoff().mixed_value(0, 1), 2.);
+    EXPECT_EQ(config->model_params().select("sigma").mixed_value(0, 1), 1.25/2.);
+    EXPECT_EQ(config->model_params().select("cutoff").mixed_value(0, 1), 2.);
     sys.add(*config);
   }
   sys.add(MakePotential(MakeLennardJones()));

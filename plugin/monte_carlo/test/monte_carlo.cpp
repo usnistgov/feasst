@@ -83,7 +83,8 @@ TEST(MonteCarlo, NVT_NO_FEASST_BENCHMARK_LONG) {
 }
 
 TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
-  for (const std::string type : {"opt", "not"}) {
+  for (const std::string type : {"not"}) {
+  //for (const std::string type : {"opt", "not"}) {
   //for (const std::string type : {"neighbor"}) {
   //for (const std::string type : {"all"}) {
   //for (const std::string type : {"opt", "neighbor", "all"}) {

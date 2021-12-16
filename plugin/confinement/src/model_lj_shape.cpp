@@ -33,6 +33,7 @@ ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
 
 void ModelLJShape::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   ShapedEntity::serialize(ostr);
   feasst_serialize_version(1412, ostr);
   feasst_serialize(alpha_, ostr);
@@ -68,6 +69,7 @@ double ModelLJShape::energy(const double epsilon,
 }
 
 void ModelLJShape::precompute(const ModelParams& existing) {
+  ModelOneBody::precompute(existing);
   shift_->set_model(this); // note the model is used here for the computation
   shift_->set_param(existing);
   shift_->set_model(NULL); // remove model immediately
@@ -81,8 +83,8 @@ double ModelLJShape::energy(
   const double distance = -shape()->nearest_distance(wrapped_site);
   TRACE("distance: " << distance);
   const int type = site.type();
-  const double cutoff = model_params.cutoff().value(type);
-  const double epsilon = model_params.epsilon().value(type);
+  const double cutoff = model_params.select(cutoff_index()).value(type);
+  const double epsilon = model_params.select(epsilon_index()).value(type);
   if (distance <= NEAR_ZERO && std::abs(epsilon) > NEAR_ZERO) {
     TRACE("here");
     TRACE(MAX_PRECISION << distance << " " << epsilon);
@@ -90,7 +92,7 @@ double ModelLJShape::energy(
   } else if (distance >= cutoff) {
     return 0.;
   } else {
-    const double sigma = model_params.sigma().value(type);
+    const double sigma = model_params.select(sigma_index()).value(type);
     const double en = energy(epsilon, sigma, distance);
     if (disable_shift_) {
       TRACE("en " << en);
@@ -100,6 +102,17 @@ double ModelLJShape::energy(
       TRACE("en " << en - shift_->value(type));
       return en - shift_->value(type);
     }
+  }
+}
+
+double ModelLJShapeEnergyAtCutoff::compute(const int type1, const ModelParams& model_params) {
+  const double epsilon = model_params.select("epsilon").value(type1);
+  const double sigma = model_params.select("sigma").value(type1);
+  const double cutoff = model_params.select("cutoff").value(type1);
+  if (cutoff > 0) {
+    return model_->energy(epsilon, sigma, cutoff);
+  } else {
+    return 0.;
   }
 }
 

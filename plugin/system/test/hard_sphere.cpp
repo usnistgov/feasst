@@ -7,7 +7,7 @@ namespace feasst {
 TEST(HardSphere, serialize) {
   HardSphere model;
   std::shared_ptr<Model> model2 =
-    test_serialize<HardSphere, Model>(model, "HardSphere 607 ");
+    test_serialize<HardSphere, Model>(model, "HardSphere 2094 -1 -1 -1 -1 607 ");
 }
 
 }  // namespace feasst

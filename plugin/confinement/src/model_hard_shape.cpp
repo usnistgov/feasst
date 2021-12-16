@@ -18,6 +18,7 @@ static MapModelHardShape map_model_hard_shape_ = MapModelHardShape();
 
 void ModelHardShape::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   ShapedEntity::serialize(ostr);
   feasst_serialize_version(4276, ostr);
 }
@@ -36,7 +37,7 @@ double ModelHardShape::energy(
   TRACE("wrapped_site " << wrapped_site.str());
   const int type = site.type();
   TRACE("type " << type);
-  const double sigma = model_params.sigma().value(type);
+  const double sigma = model_params.select(sigma_index()).value(type);
   TRACE("sigma " << sigma);
   if (shape()->is_inside(wrapped_site, sigma)) {
     TRACE("inside");

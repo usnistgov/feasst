@@ -54,8 +54,7 @@ void VisitModelInner::compute(
                                 pbc, &squared_distance_);
       const int type1 = site1.type();
       const int type2 = site2.type();
-      TRACE("sz " << model_params.mixed_cutoff().size());
-      const double cutoff = model_params.mixed_cutoff()[type1][type2];
+      const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
       TRACE("cutoff " << cutoff);
       TRACE("squared_distance_ " << squared_distance_);
       if (squared_distance_ <= cutoff*cutoff) {
@@ -91,6 +90,7 @@ std::shared_ptr<VisitModelInner> VisitModelInner::deserialize(
 void VisitModelInner::serialize_visit_model_inner_(std::ostream& ostr) const {
   feasst_serialize_version(8177, ostr);
   feasst_serialize(energy_, ostr);
+  feasst_serialize(cutoff_index_, ostr);
   feasst_serialize_fstdr(energy_map_, ostr);
 }
 
@@ -99,6 +99,7 @@ VisitModelInner::VisitModelInner(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 8177, "unrecognized verison: " << version);
   feasst_deserialize(&energy_, istr);
+  feasst_deserialize(&cutoff_index_, istr);
   // HWH for unknown reasons, this function template does not work.
   { int existing;
     istr >> existing;
@@ -121,6 +122,13 @@ void VisitModelInner::query_ixn(const Select& select) {
 void VisitModelInner::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_inner_(ostr);
+}
+
+void VisitModelInner::precompute(Configuration * config) {
+  if (energy_map_) {
+    energy_map_->precompute(config);
+  }
+  cutoff_index_ = config->model_params().index("cutoff");
 }
 
 }  // namespace feasst

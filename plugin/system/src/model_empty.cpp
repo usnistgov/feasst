@@ -15,6 +15,7 @@ static MapModelEmpty mapper_ = MapModelEmpty();
 
 void ModelEmpty::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_(ostr);
   feasst_serialize_version(189, ostr);
 }
 

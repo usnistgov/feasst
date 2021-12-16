@@ -56,7 +56,7 @@ void ModelTwoBodyTable::set(const ModelParams& model_params,
     //for (int type2 = 0; type2 < num_types; ++type2) {
     for (int type2 = type1; type2 < num_types; ++type2) {
       //INFO("type2 " << type2);
-      const double rc = model_params.mixed_cutoff()[type1][type2];
+      const double rc = model_params.select(cutoff_index()).mixed_values()[type1][type2];
       auto table = MakeTable1D({{"num", str(size)}});
       for (int bin = 0; bin < size; ++bin) {
         const double z = table->bin_to_value(bin);
@@ -85,6 +85,7 @@ void ModelTwoBodyTable::serialize(std::ostream& ostr) const {
 
 void ModelTwoBodyTable::serialize_model_two_body_table_(
     std::ostream& ostr) const {
+  serialize_model_(ostr);
   feasst_serialize_version(5937, ostr);
   feasst_serialize(hard_sphere_threshold_, ostr);
   feasst_serialize(table_, ostr);
@@ -131,7 +132,7 @@ double ModelTwoBodyTable::energy(
   if (distance < rh) {
     return NEAR_INFINITY;
   } else if (table_[type1][type2]) {
-    const double cutoff = model_params.mixed_cutoff()[type1][type2];
+    const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
     TRACE("cutoff " << cutoff);
     const double z = (distance - rh)/(cutoff - rh);
     TRACE("z " << z);

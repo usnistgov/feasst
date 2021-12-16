@@ -65,7 +65,7 @@ void VisitModelInnerPatch::compute(
   config->domain().wrap_opt(site1.position(), site2.position(), relative, pbc, &squared_distance);
   const int type1 = site1.type();
   const int type2 = site2.type();
-  const double cutoff = model_params.mixed_cutoff()[type1][type2];
+  const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
   // this cutoff should be based on max possible between centers.
   // HWH add error check for this assumption
   //TRACE("mode parm ang " << model_params.select("patch_angle").mixed_value(1, 1));
@@ -90,7 +90,7 @@ void VisitModelInnerPatch::compute(
               const int dir2_type = dir2.type();
               TRACE("dir2_type " << dir2_type);
               if (director_.value(dir2_type) > 0.5) {
-                const double dircut = model_params.mixed_cutoff()[dir1_type][dir2_type];
+                const double dircut = model_params.select(cutoff_index()).mixed_values()[dir1_type][dir2_type];
                 TRACE("dircut " << dircut);
                 if (squared_distance <= dircut*dircut) {
                   Position dir1_pos = dir1.position();
@@ -152,6 +152,7 @@ void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
 }
 
 void VisitModelInnerPatch::precompute(Configuration * config) {
+  VisitModelInner::precompute(config);
   config->add(std::make_shared<PatchAngle>());
   config->add(std::make_shared<CosPatchAngle>());
   config->add(std::make_shared<Director>());
