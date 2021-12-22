@@ -5,6 +5,16 @@
 
 namespace feasst {
 
+TEST(ModelParam, serialize) {
+  ModelParam param;
+  ModelParam param2 = test_serialize(param);
+}
+
+TEST(ModelParams, serialize) {
+  ModelParams param;
+  ModelParams param2 = test_serialize(param);
+}
+
 TEST(ModelParams, size) {
   feasst::Configuration config;
   config.add_particle_type("../forcefield/chain10.fstprt");
@@ -41,9 +51,6 @@ TEST(ModelParams, max) {
 //  );
 
   // serialize
-  ModelParam charge2 = test_serialize(params.select("charge"));
-  EXPECT_EQ(params.select("charge").mixed_values(), charge2.mixed_values());
-
   ModelParams params2 = test_serialize(params);
   EXPECT_EQ(params.select("charge").mixed_values(), params2.select("charge").mixed_values());
   INFO(params2.str());

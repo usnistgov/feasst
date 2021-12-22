@@ -31,6 +31,7 @@ MonteCarlo patchmc(const int min, const int max) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   { auto config = MakeConfiguration({{"cubic_box_length", "8"},
+      {"patch_angle1", str(patch_angle_degrees)},
       {"particle_type0", install_dir() + "/plugin/patch/forcefield/two_patch_linear.fstprt"}});
       //{"particle_type0", install_dir() + "/plugin/patch/forcefield/janus.fstprt"}});
     config->add(MakeGroup({{"site_type0", "0"}}));
@@ -41,7 +42,7 @@ MonteCarlo patchmc(const int min, const int max) {
                        {{"group_index", "1"}}));
   mc.add(MakePotential(
     MakeSquareWell(),
-    MakeVisitModelCell(MakeVisitModelInnerPatch({{"patch_degrees_of_type1", str(patch_angle_degrees)}}),
+    MakeVisitModelCell(MakeVisitModelInnerPatch(),
         {{"min_length", "1.5"}, {"cell_group", "1"}}),
     {{"group_index", "1"}}));
   DEBUG(mc.configuration().model_params().select("patch_angle").str());
@@ -67,6 +68,12 @@ MonteCarlo patchmc(const int min, const int max) {
   MonteCarlo mc2 = test_serialize(mc);
   //mc2.run_until_complete();
   return mc2;
+}
+
+TEST(MonteCarlo, patch) {
+  MonteCarlo mc2 = patchmc(0, 370);
+  mc2.attempt(1e3);
+  FileXYZPatch().write_for_vmd("tmp/test.xyz", mc2.configuration());
 }
 
 TEST(MonteCarlo, patch_LONG) {

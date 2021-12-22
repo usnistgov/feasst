@@ -104,7 +104,7 @@ void ParticleFactory::add(const std::string file_name) {
 
   add(particle);
 
-  // Update mole parameters only after the particle has been filtered.
+  // Update model parameters only after the particle has been filtered.
   if (unique_types_) {
     model_params_.add(particles_.back());
   }

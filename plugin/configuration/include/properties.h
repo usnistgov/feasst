@@ -44,7 +44,7 @@ class Properties {
   void check() const;
 
   /// Return all property names.
-  std::vector<std::string> names() const { return names_; }
+  const std::vector<std::string>& names() const { return names_; }
 
   /// Return all property values.
   const std::vector<double>& values() const { return values_; }

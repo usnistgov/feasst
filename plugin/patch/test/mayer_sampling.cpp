@@ -20,13 +20,14 @@ TEST(MayerSampling, patch_LONG) {
       config->add_particle_type(fstprt);
       config->add_particle_type(fstprt, "2");
       config->add(MakeGroup({{"site_type0", "0"}, {"site_type1", "2"}}));
+      config->set_model_param("patch_angle", 1, degrees);
+      config->set_model_param("patch_angle", 3, degrees);
       config->add_particle_of_type(0);
       config->add_particle_of_type(1);
       mc.add(config);
     }
     EXPECT_EQ(2, mc.configuration().num_particles());
-    auto patch = MakeVisitModelInnerPatch({{"patch_degrees_of_type1", str(degrees)},
-                                           {"patch_degrees_of_type3", str(degrees)}});
+    auto patch = MakeVisitModelInnerPatch();
     mc.add(MakePotential(MakeHardSphere(), {{"group_index", "1"}}));
     mc.add(MakePotential(MakeSquareWell(),
                          MakeVisitModel(patch),

@@ -55,8 +55,8 @@ void LennardJonesAlpha::precompute(const ModelParams& existing) {
   delta_sigma_index_ = existing.index("delta_sigma");
   lambda_index_ = existing.index("lambda");
   TRACE("lambda_index_ " << lambda_index_);
-  ASSERT(!lambda_ || lambda_index_ != 0,
-    "lambda is enabled but not found in existing ModelParams");
+  ASSERT(!lambda_ || lambda_index_ != -1, "lambda: " << lambda_ <<
+    " is enabled, but its index is: " << lambda_index_);
 }
 
 double LennardJonesAlpha::energy(
@@ -131,16 +131,62 @@ void LennardJonesAlpha::set_wca(const int site_type1, const int site_type2,
   params->set("cutoff", site_type1, site_type2, r_wca);
 }
 
-double EnergyAtCutoff::compute(const int type1, const int type2,
+double EnergyAtCutOff::compute(const int type1, const int type2,
     const ModelParams& model_params) {
   const double cutoff = model_params.select("cutoff").mixed_values()[type1][type2];
   return model_->energy_without_shift(cutoff*cutoff, type1, type2, model_params);
 }
 
-double EnergyDerivAtCutoff::compute(const int type1, const int type2,
+double EnergyDerivAtCutOff::compute(const int type1, const int type2,
     const ModelParams& model_params) {
   const double cutoff = model_params.select("cutoff").mixed_values()[type1][type2];
   return model_->du_dr(cutoff, type1, type2, model_params);
+}
+
+double Lambda::mix_(const double value1, const double value2) {
+  return std::sqrt(value1*value2);
+}
+
+class MapDeltaSigma {
+ public:
+  MapDeltaSigma() {
+    auto obj = std::make_shared<DeltaSigma>();
+    obj->deserialize_map()["delta_sigma"] = obj;
+  }
+};
+
+static MapDeltaSigma mapper_delta_sigma_ = MapDeltaSigma();
+
+void DeltaSigma::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_model_param_(ostr);
+  feasst_serialize_version(8573, ostr);
+}
+
+DeltaSigma::DeltaSigma(std::istream& istr) : ModelParam(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 8573, "mismatch version: " << version);
+}
+
+class MapLambda {
+ public:
+  MapLambda() {
+    auto obj = std::make_shared<Lambda>();
+    obj->deserialize_map()["lambda"] = obj;
+  }
+};
+
+static MapLambda mapper_lambda_ = MapLambda();
+
+void Lambda::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_model_param_(ostr);
+  feasst_serialize_version(2045, ostr);
+}
+
+Lambda::Lambda(std::istream& istr) : ModelParam(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 2045, "mismatch version: " << version);
 }
 
 }  // namespace feasst

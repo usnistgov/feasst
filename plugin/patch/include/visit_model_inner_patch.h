@@ -37,40 +37,8 @@ namespace feasst {
  */
 class VisitModelInnerPatch : public VisitModelInner {
  public:
-  /**
-    args:
-    - patch_degrees_of_type[i]: set the patch angle of the given site type.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-   */
   explicit VisitModelInnerPatch(argtype args = argtype());
-
-  // HWH make a helper function which
-  // 1. sets up rcut of centers based on patches
-  // assigns group for centers and uses that
-  // and finally, stores model param index for patch angles
-
-  // add all centers that are bonded to directors as a group for group index
-//  int centers_group(System * system) {
-//    Configuration * config = system()->get_configuration();
-//    const int group_index = config->num_groups();
-//    Group group;
-//    std::vector<int> types;
-//    const ModelParams& params = config->model_params();
-//    for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
-//      params.
-//      if (
-//      config->add(Group()
-//    }
-//  }
-
   void precompute(Configuration * config) override;
-
-  const CosPatchAngle& cos_patch_angle() const { return cos_patch_angle_; }
-  const Director& director() const { return director_; }
-
-//  void set_patch_angle(const int type, const double degrees);
-
-  // compute the interaction between a pair of centers
   void compute(
     const int part1_index,
     const int site1_index,
@@ -83,6 +51,8 @@ class VisitModelInnerPatch : public VisitModelInner {
     Position * relative,
     Position * pbc) override;
 
+  const CosPatchAngle& cos_patch_angle() const { return cos_patch_angle_; }
+
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<VisitModelInnerPatch>(istr); }
   void serialize(std::ostream& ostr) const override;
@@ -90,9 +60,9 @@ class VisitModelInnerPatch : public VisitModelInner {
   virtual ~VisitModelInnerPatch() {}
 
  private:
+  //int cos_patch_angle_index_;
   CosPatchAngle cos_patch_angle_;
-  Director director_;
-  std::vector<std::pair<int, double> > cpatch_override_;
+  int director_index_ = -1;
 };
 
 inline std::shared_ptr<VisitModelInnerPatch> MakeVisitModelInnerPatch(

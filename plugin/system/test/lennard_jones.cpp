@@ -19,7 +19,7 @@ TEST(LennardJones, serialize) {
   auto model = MakeLennardJones({{"hard_sphere_threshold", "0.3"}});
   model->precompute(config.model_params());
   auto model2 = test_serialize<LennardJones, Model>(*model,
-    "LennardJones 2094 0 1 2 3 763 0.089999999999999997 ");
+    "LennardJones 2094 1 0 2 -1 763 0.089999999999999997 ");
 }
 
 }  // namespace feasst

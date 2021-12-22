@@ -66,16 +66,14 @@ class Configuration {
     - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
       (default: false). This is typically used for HardSphere models that
       didn't specify cutoff.
-    - sigma[i]: optionally set the sigma of i-th site type to this value.
+    - [parameter]: optionally set the [parameter] of all types to this value.
+      The "[parameter]" is to be substituted for epsilon, sigma, cutoff, etc.
+    - [parameter][i]: optionally set the [parameter] of the i-th site type.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
-    - epsilon[i]: optionally set the epsilon of i-th site type to this value.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-    - cutoff: optionally set the cutoff of all site types to this value.
-    - cutoff[i]: optionally set the cutoff of i-th site type to this value.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      These are applied after the above cutoff for all types.
-    - charge[i]: optionally set the charge of i-th site type to this value.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      These are applied after (overriding) the above argument for all types.
+    - [parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type.
+      The "[i]/[j]" is to be substituted for an integer 0, 1, 2, ...
+      These are applied after (overriding) the above argument for single types.
    */
   explicit Configuration(argtype args = argtype());
   explicit Configuration(argtype * args);
@@ -127,13 +125,13 @@ class Configuration {
     return unique_types_.model_params(); }
 
   /// Modify model parameter of a given site type and name to value.
-  void set_model_param(const char* name,
+  void set_model_param(const std::string name,
                        const int site_type,
                        const double value) {
     unique_types_.set_model_param(name, site_type, value); }
 
   /// Modify a mixed model parameter of given site types and name to value.
-  void set_model_param(const char* name,
+  void set_model_param(const std::string name,
                        const int site_type1,
                        const int site_type2,
                        const double value) {

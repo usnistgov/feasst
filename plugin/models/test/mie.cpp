@@ -17,7 +17,7 @@ TEST(Mie, analytical) {
 
   auto model3 = MakeMie({{"n", "14"}, {"m", "8"}});
   model3->precompute(config.model_params());
-  std::shared_ptr<Model> model4 = test_serialize<Mie, Model>(*model3, "Mie 2094 0 1 2 3 2905 14 8 4.9207071226910948 ");
+  std::shared_ptr<Model> model4 = test_serialize<Mie, Model>(*model3, "Mie 2094 1 0 2 -1 2905 14 8 4.9207071226910948 ");
   INFO(model4->energy(1.5*1.5, 0, 0, config.model_params()));
   EXPECT_NEAR(-0.17514250679168769, model4->energy(1.5*1.5, 0, 0, config.model_params()), NEAR_ZERO);
 }

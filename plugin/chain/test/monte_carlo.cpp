@@ -166,6 +166,7 @@ TEST(MonteCarlo, TrialGrow_LONG) {
 }
 
 MonteCarlo cg7mab2(const std::string& data, const int num, const int steps_per = 1) {
+  INFO("data " << data);
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1633624429"}}));
   mc.add(MakeConfiguration({{"cubic_box_length", "30"},

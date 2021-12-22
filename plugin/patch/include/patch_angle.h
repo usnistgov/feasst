@@ -8,21 +8,40 @@ namespace feasst {
 
 class PatchAngle : public ModelParam {
  public:
-  PatchAngle() { set_name("patch_angle"); }
+  PatchAngle() : ModelParam() { class_name_ = "patch_angle"; }
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<PatchAngle>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<PatchAngle>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit PatchAngle(std::istream& istr);
+  virtual ~PatchAngle() {}
 };
 
 class CosPatchAngle : public ModelParam {
  public:
-  CosPatchAngle() { set_name("cos_patch_angle"); }
+  CosPatchAngle() : ModelParam() { class_name_ = "cos_patch_angle"; }
   double compute(const int type, const ModelParams& model_params) override;
-  CosPatchAngle(std::istream& istr) : ModelParam(istr) {}
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<CosPatchAngle>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<CosPatchAngle>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit CosPatchAngle(std::istream& istr);
+  virtual ~CosPatchAngle() {}
 };
 
 class Director : public ModelParam {
  public:
-  Director() { set_name("director"); }
+  Director() : ModelParam() { class_name_ = "director"; }
   double compute(const int type, const ModelParams& model_params) override;
-  Director(std::istream& istr) : ModelParam(istr) {}
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<Director>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<Director>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit Director(std::istream& istr);
+  virtual ~Director() {}
 };
 
 }  // namespace feasst

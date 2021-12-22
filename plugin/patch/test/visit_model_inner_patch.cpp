@@ -18,11 +18,12 @@ TEST(VisitModelInnerPatch, patch_one) {
   config.add_particle_type("../plugin/patch/forcefield/janus.fstprt");
   config.set_model_param("cutoff", 0, 3.);
   config.set_model_param("cutoff", 1, 3.);
+  config.set_model_param("patch_angle", 1, 90);
   FileXYZ().load("../plugin/patch/test/data/patch5.xyz", &config);
   SquareWell model;
   model.precompute(config.model_params());
   VisitModel visit;
-  auto patch = MakeVisitModelInnerPatch({{"patch_degrees_of_type1", "90"}});
+  auto patch = MakeVisitModelInnerPatch();
   visit.set_inner(patch);
   visit.precompute(&config);
   //patch->set_patch_angle(1, 90.);
@@ -39,13 +40,14 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
   System system;
   { auto config = MakeConfiguration({{"cubic_box_length", "10"},
       {"particle_type", "../plugin/patch/forcefield/janus.fstprt"},
-      {"add_particles_of_type0", "2"}});
+      {"add_particles_of_type0", "2"},
+      {"patch_angle1", "5"}});
     config->add(MakeGroup({{"site_type", "0"}}));
     system.add(*config);
   }
 
   system.add(MakePotential(MakeSquareWell(),
-                       MakeVisitModel(MakeVisitModelInnerPatch({{"patch_degrees_of_type1", "5"}})),
+                       MakeVisitModel(MakeVisitModelInnerPatch()),
                        {{"group_index", "1"}}));  // optimization: loop centers
   system.precompute();
 

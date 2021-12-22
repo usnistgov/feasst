@@ -65,31 +65,27 @@ Configuration::Configuration(argtype * args) {
 
   init_wrap(boolean("wrap", args, true));
 
-  DEBUG("parse cutoff");
-  if (used("cutoff", *args)) {
-    const double cutoff = dble("cutoff", args);
+  DEBUG("parse ModelParam");
+  for (std::map<std::string, std::shared_ptr<ModelParam>>::iterator iter = ModelParam().deserialize_map().begin(); iter != ModelParam().deserialize_map().end(); ++iter) {
+    const std::string param = iter->first;
     for (int site_type = 0; site_type < num_site_types(); ++site_type) {
-      set_model_param("cutoff", site_type, cutoff);
+      std::string param_arg = param + str(site_type);
+      if (used(param_arg, *args)) {
+        set_model_param(param, site_type, dble(param_arg, args));
+      } else {
+        param_arg = param;
+        if (used(param_arg, *args)) {
+          set_model_param(param, site_type, dble(param_arg, args));
+        }
+      }
     }
-  }
-
-  DEBUG("parse sigma, epsilon, cutoff and charge");
-  for (int site_type = 0; site_type < num_site_types(); ++site_type) {
-    const std::string sigma_arg = "sigma" + str(site_type);
-    if (used(sigma_arg, *args)) {
-      set_model_param("sigma", site_type, dble(sigma_arg, args));
-    }
-    const std::string epsilon_arg = "epsilon" + str(site_type);
-    if (used(epsilon_arg, *args)) {
-      set_model_param("epsilon", site_type, dble(epsilon_arg, args));
-    }
-    const std::string cutoff_arg = "cutoff" + str(site_type);
-    if (used(cutoff_arg, *args)) {
-      set_model_param("cutoff", site_type, dble(cutoff_arg, args));
-    }
-    const std::string charge_arg = "charge" + str(site_type);
-    if (used(charge_arg, *args)) {
-      set_model_param("charge", site_type, dble(charge_arg, args));
+    for (int site1 = 0; site1 < num_site_types(); ++site1) {
+      for (int site2 = site1; site2 < num_site_types(); ++site2) {
+        std::string param_arg = param + str(site1) + "_" + str(site2);
+        if (used(param_arg, *args)) {
+          set_model_param(param, site1, site2, dble(param_arg, args));
+        }
+      }
     }
   }
 }

@@ -41,13 +41,13 @@
 
 Site Properties
 
-0 epsilon 1 sigma 1.52
-1 epsilon 1 sigma 5.3283
-2 epsilon 1 sigma 4.5405
-3 epsilon 1 sigma 4.4130
-4 epsilon 1 sigma 4.6319
-5 epsilon 1 sigma 4.4130
-6 epsilon 1 sigma 4.6319
+0 epsilon 1 sigma 1.5200 cutoff 1.5200
+1 epsilon 1 sigma 5.3283 cutoff 5.3283
+2 epsilon 1 sigma 4.5405 cutoff 4.5405
+3 epsilon 1 sigma 4.4130 cutoff 4.4130
+4 epsilon 1 sigma 4.6319 cutoff 4.6319
+5 epsilon 1 sigma 4.4130 cutoff 4.4130
+6 epsilon 1 sigma 4.6319 cutoff 4.6319
 
 Sites
 

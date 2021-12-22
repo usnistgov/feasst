@@ -177,7 +177,7 @@ class ParticleFactory {
     model_params_.set(name, site_type, value); }
 
   /// Modify a mixed model parameter of given site types and name to value.
-  void set_model_param(const char* name,
+  void set_model_param(const std::string name,
                        const int site_type1,
                        const int site_type2,
                        const double value) {

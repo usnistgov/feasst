@@ -18,9 +18,14 @@ for f in $(find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot')
   #sed 's/\&\&/and/g' $f > ttmp; mv ttmp $f
   #rm $f/ttmp
   #sed 's/(Potential(/(MakePotential(/g' $f > ttmp; mv ttmp $f
-  #sed 's/CriteriaMetropolis/Metropolis/g' $f > ttmp; mv ttmp $f
+  sed 's/sigma/Sigma/g' $f > ttmp; mv ttmp $f
+  sed 's/epsilon/Epsilon/g' $f > ttmp; mv ttmp $f
+  sed 's/cutoff/CutOff/g' $f > ttmp; mv ttmp $f
+  sed 's/charge/Charge/g' $f > ttmp; mv ttmp $f
+  sed 's/patch_angle/PatchAngle/g' $f > ttmp; mv ttmp $f
+  sed 's/director/Director/g' $f > ttmp; mv ttmp $f
   #sed 's/criteria_metropolis\.h/metropolis\.h/g' $f > ttmp; mv ttmp $f
-  sed 's/ $//g' $f > ttmp; mv ttmp $f
+  #sed 's/ $//g' $f > ttmp; mv ttmp $f
 done
 #rename 's/\.cc/\.cpp/' $(find . -type f)
 #rename -n 's/\.cc/\.cpp/' $(find . -type f)

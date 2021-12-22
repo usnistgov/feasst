@@ -13,10 +13,10 @@ LennardJonesAlpha
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::EnergyAtCutoff
+.. doxygenclass:: feasst::EnergyAtCutOff
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::EnergyDerivAtCutoff
+.. doxygenclass:: feasst::EnergyDerivAtCutOff
    :project: FEASST
    :members:

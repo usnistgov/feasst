@@ -39,8 +39,8 @@ class LennardJonesForceShift : public LennardJonesAlpha {
   virtual ~LennardJonesForceShift() {}
 
  private:
-  EnergyAtCutoff shift_;
-  EnergyDerivAtCutoff force_shift_;
+  EnergyAtCutOff shift_;
+  EnergyDerivAtCutOff force_shift_;
   bool precomputed_ = false;
 };
 

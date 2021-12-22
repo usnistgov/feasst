@@ -111,27 +111,45 @@ inline std::shared_ptr<LennardJonesAlpha> MakeLennardJonesAlpha(
 
 class DeltaSigma : public ModelParam {
  public:
-  DeltaSigma() : ModelParam() { set_name("delta_sigma"); }
-  DeltaSigma(std::istream& istr) : ModelParam(istr) {}
+  DeltaSigma() : ModelParam() { class_name_ = "delta_sigma"; }
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<DeltaSigma>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<DeltaSigma>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit DeltaSigma(std::istream& istr);
+  virtual ~DeltaSigma() {}
 };
 
 inline std::shared_ptr<DeltaSigma> MakeDeltaSigma() {
   return std::make_shared<DeltaSigma>();
 }
 
+/**
+ The lambda parameter has the default mixing rule:
+ \f$ \lambda_{ij} = \sqrt{\lambda_i \lambda_j} \f$
+ */
 class Lambda : public ModelParam {
  public:
-  Lambda() : ModelParam() { set_name("lambda"); }
-  Lambda(std::istream& istr) : ModelParam(istr) {}
+  Lambda() : ModelParam() { class_name_ = "lambda"; }
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<Lambda>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<Lambda>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit Lambda(std::istream& istr);
+  virtual ~Lambda() {}
+ private:
+  double mix_(const double value1, const double value2) override;
 };
 
 inline std::shared_ptr<Lambda> MakeLambda() {
   return std::make_shared<Lambda>();
 }
 
-class EnergyAtCutoff : public ModelParam {
+class EnergyAtCutOff : public ModelParam {
  public:
-  EnergyAtCutoff() : ModelParam() { set_name("energy_at_cutoff"); }
+  EnergyAtCutOff() : ModelParam() { class_name_ = "energy_at_cutoff"; }
 
   void set_model(LennardJonesAlpha * model) {
     model_ = model; }
@@ -139,16 +157,16 @@ class EnergyAtCutoff : public ModelParam {
   double compute(const int type1, const int type2,
       const ModelParams& model_params) override;
 
-  EnergyAtCutoff(std::istream& istr) : ModelParam(istr) {}
+  EnergyAtCutOff(std::istream& istr) : ModelParam(istr) {}
 
 private:
   /// temporary pointer for use with compute without requiring new arguments.
   LennardJonesAlpha * model_;
 };
 
-class EnergyDerivAtCutoff : public ModelParam {
+class EnergyDerivAtCutOff : public ModelParam {
  public:
-  EnergyDerivAtCutoff() : ModelParam() { set_name("energy_deriv_at_cutoff"); }
+  EnergyDerivAtCutOff() : ModelParam() { class_name_ = "energy_deriv_at_cutoff"; }
 
   void set_model(LennardJonesAlpha * model) {
     model_ = model; }
@@ -156,7 +174,7 @@ class EnergyDerivAtCutoff : public ModelParam {
   double compute(const int type1, const int type2,
       const ModelParams& model_params) override;
 
-  EnergyDerivAtCutoff(std::istream& istr) : ModelParam(istr) {}
+  EnergyDerivAtCutOff(std::istream& istr) : ModelParam(istr) {}
  private:
   /// temporary pointer for use with compute without requiring new arguments.
   LennardJonesAlpha * model_;

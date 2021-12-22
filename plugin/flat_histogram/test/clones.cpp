@@ -156,8 +156,8 @@ TEST(Clones, lj_fh_LONG) {
   //EXPECT_NEAR(energy_av4(0, clones4->clone(1)), -0.000605740233333333, 1e-8);
   //EXPECT_NEAR(energy_av4(1, clones4->clone(1)), -0.030574223333333334, 0.001);
   //EXPECT_NEAR(energy_av4(2, clones4->clone(1)), -0.089928316, 0.002);
-  EXPECT_NEAR(energy_av4(0, clones4->clone(1)), -0.1784570533333333, 0.004);
-  EXPECT_NEAR(energy_av4(1, clones4->clone(1)), -0.29619201333333334, 0.006);
+  EXPECT_NEAR(energy_av4(0, clones4->clone(1)), -0.1784570533333333, 0.0055);
+  EXPECT_NEAR(energy_av4(1, clones4->clone(1)), -0.29619201333333334, 0.0075);
 }
 
 }  // namespace feasst

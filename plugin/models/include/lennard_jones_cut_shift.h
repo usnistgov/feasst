@@ -53,7 +53,7 @@ class LennardJonesCutShift : public LennardJonesAlpha {
   virtual ~LennardJonesCutShift() {}
 
 private:
-  EnergyAtCutoff shift_;
+  EnergyAtCutOff shift_;
 };
 
 inline std::shared_ptr<LennardJonesCutShift> MakeLennardJonesCutShift(

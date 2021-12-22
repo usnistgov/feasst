@@ -13,7 +13,7 @@ TEST(Yukawa, analytical) {
   EXPECT_NEAR(0.033833820809153176,
     model.energy(4., 0, 0, config.model_params()), NEAR_ZERO);
   std::shared_ptr<Model> model2 = test_serialize<Yukawa, Model>(model,
-    "Yukawa 2094 0 1 2 3 6505 2 ");
+    "Yukawa 2094 1 0 2 -1 6505 2 ");
 }
 
 }  // namespace feasst

@@ -20,7 +20,7 @@ class ModelParams;
  */
 class ModelParam {
  public:
-  ModelParam() { set_name("ModelParam"); }
+  ModelParam() {}
 
   /// Add a new site type.
   void add(const double value);
@@ -31,10 +31,10 @@ class ModelParam {
 
   /// Add a new site type. If the site does not contain the model parameter,
   /// then add the default value.
-  void add(const Site site, const double default_value = 0);
+  void add(const Site& site, const double default_value = 0);
 
   /// Add all site types in particle.
-  void add(const Particle particle);
+  void add(const Particle& particle);
 
   /// Compute the mixed values.
   void mix();
@@ -62,9 +62,6 @@ class ModelParam {
   /// Return the number of values.
   int size() const { return static_cast<int>(values_.size()); }
 
-  /// Return the name of the model parameter (e.g., epsilon, cutoff)
-  std::string name() const { return name_; }
-
   /// Return the maximum.
   double max() const { return max_value_; }
 
@@ -80,18 +77,25 @@ class ModelParam {
   /// Define new parameters modeled after the existing ones
   virtual void set_param(const ModelParams& existing);
 
-  /// Set the name of the model parameter.
-  ModelParam& set_name(const std::string name) { name_ = name; return *this; }
-
   /// Return as a human readable string.
   std::string str() const;
 
-  void serialize(std::ostream& ostr) const;
+  // serialize
+  std::string class_name() const { return class_name_; }
+  virtual void serialize(std::ostream& ostr) const;
+  virtual std::shared_ptr<ModelParam> create(std::istream& istr) const;
+  virtual std::shared_ptr<ModelParam> create(argtype * args) const;
+  std::map<std::string, std::shared_ptr<ModelParam> >& deserialize_map();
+  std::shared_ptr<ModelParam> deserialize(std::istream& istr);
+  std::shared_ptr<ModelParam> factory(const std::string name, argtype * args);
   explicit ModelParam(std::istream& istr);
   virtual ~ModelParam() {}
 
+ protected:
+  std::string class_name_ = "ModelParam";
+  void serialize_model_param_(std::ostream& ostr) const;
+
  private:
-  std::string name_;
   std::vector<double> values_;
   std::vector<std::vector<double> > mixed_values_;
   double max_value_;
@@ -114,8 +118,14 @@ class ModelParam {
  */
 class Epsilon : public ModelParam {
  public:
-  Epsilon() { set_name("epsilon"); }
-  explicit Epsilon(std::istream& istr) : ModelParam(istr) {}
+  Epsilon() : ModelParam() { class_name_ = "epsilon"; }
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<Epsilon>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<Epsilon>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit Epsilon(std::istream& istr);
+  virtual ~Epsilon() {}
 
  private:
   double mix_(const double value1, const double value2) override;
@@ -134,8 +144,14 @@ class Epsilon : public ModelParam {
  */
 class Sigma : public ModelParam {
  public:
-  Sigma() { set_name("sigma"); }
-  explicit Sigma(std::istream& istr) : ModelParam(istr) {}
+  Sigma() : ModelParam() { class_name_ = "sigma"; }
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<Sigma>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<Sigma>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit Sigma(std::istream& istr);
+  virtual ~Sigma() {}
 };
 
 /**
@@ -151,8 +167,14 @@ class Sigma : public ModelParam {
  */
 class CutOff : public ModelParam {
  public:
-  CutOff() { set_name("cutoff"); }
-  explicit CutOff(std::istream& istr) : ModelParam(istr) {}
+  CutOff() : ModelParam() { class_name_ = "cutoff"; }
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<CutOff>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<CutOff>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit CutOff(std::istream& istr);
+  virtual ~CutOff() {}
 };
 
 /**
@@ -162,8 +184,14 @@ class CutOff : public ModelParam {
  */
 class Charge : public ModelParam {
  public:
-  Charge() { set_name("charge"); }
-  explicit Charge(std::istream& istr) : ModelParam(istr) {}
+  Charge() : ModelParam() { class_name_ = "charge"; }
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<Charge>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<Charge>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit Charge(std::istream& istr);
+  virtual ~Charge() {}
 
  private:
   double mix_(const double value1, const double value2) override {
@@ -180,10 +208,10 @@ class ModelParams : public PropertiedEntity {
   //ModelParams(const ModelParams& params);
 
   /// Add all properties in site.
-  void add(const Site site);
+//  void add(const Site site);
 
   /// Add all site types in particle.
-  void add(const Particle particle);
+  void add(const Particle& particle);
 
   /// Compute the mixed values.
   void mix();

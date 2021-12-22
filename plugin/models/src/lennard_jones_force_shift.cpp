@@ -32,8 +32,8 @@ LennardJonesForceShift::LennardJonesForceShift(std::istream& istr)
   : LennardJonesAlpha(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(923 == version, version);
-  shift_ = EnergyAtCutoff(istr);
-  force_shift_ = EnergyDerivAtCutoff(istr);
+  shift_ = EnergyAtCutOff(istr);
+  force_shift_ = EnergyDerivAtCutOff(istr);
   feasst_deserialize(&precomputed_, istr);
 }
 

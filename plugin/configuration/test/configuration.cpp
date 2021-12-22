@@ -315,13 +315,14 @@ TEST(Configuration, dihedrals) {
   EXPECT_EQ(9, config->particle_type(0).num_bonds());
 }
 
-TEST(Configuration, cutoff) {
+TEST(Configuration, set_param) {
   auto config = MakeConfiguration({{"particle_type0", "../forcefield/spce.fstprt"},
     {"sigma1", "0.1"},
     {"epsilon0", "5.2"},
     {"cutoff", "2.3"},
     {"cutoff0", "12.3"},
     {"charge1", "3.3"},
+    {"charge1_1", "-7.3"},
     });
   EXPECT_DOUBLE_EQ(config->model_params().select("sigma").value(1), 0.1);
   EXPECT_DOUBLE_EQ(config->model_params().select("epsilon").value(0), 5.2);
@@ -329,6 +330,7 @@ TEST(Configuration, cutoff) {
   EXPECT_DOUBLE_EQ(config->model_params().select("cutoff").value(1), 2.3);
   EXPECT_DOUBLE_EQ(config->model_params().select("charge").value(0), -0.8476);
   EXPECT_DOUBLE_EQ(config->model_params().select("charge").value(1), 3.3);
+  EXPECT_DOUBLE_EQ(config->model_params().select("charge").mixed_values()[1][1], -7.3);
 }
 
 }  // namespace feasst

@@ -32,7 +32,7 @@ LennardJonesCutShift::LennardJonesCutShift(std::istream& istr)
   : LennardJonesAlpha(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(644 == version, version);
-  shift_ = EnergyAtCutoff(istr);
+  shift_ = EnergyAtCutOff(istr);
 }
 
 void LennardJonesCutShift::precompute(const ModelParams& existing) {

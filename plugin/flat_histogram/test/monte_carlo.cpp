@@ -469,7 +469,7 @@ TEST(MonteCarlo, spce_fh_VERY_LONG) {
     EXPECT_NEAR(lnpi.value(2), -1.54708325224374, 0.0175);
     EXPECT_NEAR(lnpi.value(3), -1.51786213939762, 0.015);
     EXPECT_NEAR(lnpi.value(4), -1.64791755404893, 0.015);
-    EXPECT_NEAR(lnpi.value(5), -1.87860075480337, 0.045);
+    EXPECT_NEAR(lnpi.value(5), -1.87860075480337, 0.05);
     const std::vector<std::shared_ptr<Analyze> >& en =
       mc.analyzers().back()->analyzers();
     EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-13);

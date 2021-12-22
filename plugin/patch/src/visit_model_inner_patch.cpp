@@ -10,30 +10,6 @@ namespace feasst {
 
 VisitModelInnerPatch::VisitModelInnerPatch(argtype args) {
   class_name_ = "VisitModelInnerPatch";
-  // loop through all arguments, looking for prefix
-  const std::string prefix = "patch_degrees_of_type";
-  DEBUG("prefix " << prefix);
-  DEBUG("prefix sz " << prefix.size());
-  argtype copy = args;
-  for (std::map<std::string, std::string>::iterator iter = copy.begin();
-       iter != copy.end(); ++iter) {
-  //for (std::map<std::string, std::string>::reverse_iterator iter = copy.rbegin();
-  //     iter != copy.rend(); ++iter) {
-    DEBUG("key " << iter->first);
-    if (is_found_in(iter->first, prefix)) {
-      DEBUG("prefix " << prefix << " found");
-      std::string type(iter->first);
-      type.erase(type.begin(), type.begin() + prefix.size());
-      DEBUG("type " << type);
-      const int t = str_to_int(type);
-      DEBUG("t " << t);
-      const double degrees = dble(iter->first, &args);
-      DEBUG("degrees " << degrees);
-      const double cosa = std::cos(degrees_to_radians(degrees));
-      DEBUG("cosa " << cosa);
-      cpatch_override_.push_back({t, cosa});
-    }
-  }
   check_all_used(args);
 }
 
@@ -61,6 +37,8 @@ void VisitModelInnerPatch::compute(
   const Particle& part2 = config->select_particle(part2_index);
   const Site& site2 = part2.site(site2_index);
   clear_ixn(part1_index, site1_index, part2_index, site2_index);
+  const ModelParam& director = model_params.select(director_index_);
+//  const ModelParam& cos_patch_angle = model_params.select(cos_patch_angle_index_);
   double squared_distance;
   config->domain().wrap_opt(site1.position(), site2.position(), relative, pbc, &squared_distance);
   const int type1 = site1.type();
@@ -80,7 +58,7 @@ void VisitModelInnerPatch::compute(
       const Site& dir1 = part1.site(dir1_index);
       if (dir1.is_physical()) {
         const int dir1_type = dir1.type();
-        if (director_.value(dir1_type) > 0.5) {
+        if (director.value(dir1_type) > 0.5) {
           // loop through bonds on center2
           const int part2_type = part2.type();
           for (const int dir2_index : config->particle_type(part2_type).bond_neighbors(site2_index)) {
@@ -89,7 +67,7 @@ void VisitModelInnerPatch::compute(
             if (dir2.is_physical()) {
               const int dir2_type = dir2.type();
               TRACE("dir2_type " << dir2_type);
-              if (director_.value(dir2_type) > 0.5) {
+              if (director.value(dir2_type) > 0.5) {
                 const double dircut = model_params.select(cutoff_index()).mixed_values()[dir1_type][dir2_type];
                 TRACE("dircut " << dircut);
                 if (squared_distance <= dircut*dircut) {
@@ -138,8 +116,7 @@ VisitModelInnerPatch::VisitModelInnerPatch(std::istream& istr) : VisitModelInner
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 255, "unrecognized version: " << version);
   feasst_deserialize_fstobj(&cos_patch_angle_, istr);
-  feasst_deserialize_fstobj(&director_, istr);
-  feasst_deserialize(&cpatch_override_, istr);
+  feasst_deserialize(&director_index_, istr);
 }
 
 void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
@@ -147,30 +124,19 @@ void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
   serialize_visit_model_inner_(ostr);
   feasst_serialize_version(255, ostr);
   feasst_serialize_fstobj(cos_patch_angle_, ostr);
-  feasst_serialize_fstobj(director_, ostr);
-  feasst_serialize(cpatch_override_, ostr);
+  feasst_serialize(director_index_, ostr);
 }
 
 void VisitModelInnerPatch::precompute(Configuration * config) {
   VisitModelInner::precompute(config);
-  config->add(std::make_shared<PatchAngle>());
-  config->add(std::make_shared<CosPatchAngle>());
-  config->add(std::make_shared<Director>());
-  DEBUG("setting params");
+  director_index_ = config->model_params().index("director");
+  //config->add(std::make_shared<CosPatchAngle>());
   cos_patch_angle_.set_param(config->model_params());
-  director_.set_param(config->model_params());
-  for (const std::pair<int, double>& patch : cpatch_override_) {
-    DEBUG("patch " << patch.first << " " << patch.second);
-    cos_patch_angle_.set(patch.first, patch.second);
+  for (int type = 0; type < config->num_site_types(); ++type) {
+    cos_patch_angle_.compute(type, config->model_params());
   }
-  DEBUG(cos_patch_angle_.str());
-  DEBUG(director_.str());
+  //cos_patch_angle_index_ = config->model_params().index("cos_patch_angle");
+  //INFO("cos_patch_angle_index_ " << cos_patch_angle_index_);
 }
-
-//void VisitModelInnerPatch::set_patch_angle(const int type,
-//    const double degrees) {
-//  const double cosa = std::cos(degrees_to_radians(degrees));
-//  cos_patch_angle_.set(type, cosa);
-//}
 
 }  // namespace feasst
