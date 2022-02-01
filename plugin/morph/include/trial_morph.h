@@ -21,7 +21,21 @@ namespace feasst {
     The [i] is to be substituted for an integer 0, 1, 2, ...
     Each [i] should have a corresponding particle_type[i] argument.
  */
-std::shared_ptr<Trial> MakeTrialMorph(argtype args = argtype());
+class TrialMorph : public Trial {
+ public:
+  TrialMorph(argtype args = argtype());
+  TrialMorph(argtype * args);
+  std::shared_ptr<Trial> create(std::istream& istr) const override {
+    return std::make_shared<TrialMorph>(istr); }
+  std::shared_ptr<Trial> create(argtype * args) const override {
+    return std::make_shared<TrialMorph>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialMorph(std::istream& istr);
+  virtual ~TrialMorph() {}
+};
+
+inline std::shared_ptr<TrialMorph> MakeTrialMorph(argtype args = argtype()) {
+  return std::make_shared<TrialMorph>(args); }
 
 }  // namespace feasst
 

@@ -41,9 +41,9 @@
 #include "utils/include/serialize.h"
 #include "system/include/energy_map.h"
 #include "system/include/visit_model_inner.h"
+#include "system/include/thermo_params.h"
 #include "monte_carlo/include/action.h"
 #include "monte_carlo/include/run.h"
-#include "system/include/thermo_params.h"
 #include "configuration/include/physical_constants.h"
 #include "utils/include/progress_report.h"
 #include "utils/include/cache.h"
@@ -70,8 +70,8 @@
 #include "shape/include/slab.h"
 #include "system/include/bond_three_body.h"
 #include "models/include/angle_harmonic.h"
-#include "system/include/angle_square_well.h"
 #include "system/include/rigid_angle.h"
+#include "system/include/angle_square_well.h"
 #include "system/include/bond_two_body.h"
 #include "models/include/fene.h"
 #include "models/include/bond_harmonic.h"
@@ -154,17 +154,19 @@
 #include "cluster/include/select_particle_avb_divalent.h"
 #include "monte_carlo/include/perturb.h"
 #include "beta_expanded/include/perturb_beta.h"
+#include "morph/include/perturb_particle_type.h"
 #include "monte_carlo/include/perturb_move.h"
 #include "cluster/include/perturb_point_reflect.h"
 #include "monte_carlo/include/perturb_translate.h"
-#include "monte_carlo/include/perturb_to_anchor.h"
 #include "monte_carlo/include/perturb_distance.h"
 #include "chain/include/perturb_reptate.h"
-#include "morph/include/perturb_particle_type.h"
+#include "monte_carlo/include/perturb_to_anchor.h"
 #include "monte_carlo/include/perturb_volume.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 #include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_volume.h"
+#include "monte_carlo/include/trial_remove.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/analyze.h"
 #include "charge/include/check_net_charge.h"
@@ -200,19 +202,21 @@
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/tune.h"
 #include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/trial_transfer.h"
 #include "charge/include/trial_transfer_multiple.h"
 #include "cluster/include/trial_avb2.h"
 #include "cluster/include/trial_rigid_cluster.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
 #include "cluster/include/trial_transfer_avb.h"
-#include "chain/include/trials.h"
 #include "chain/include/trial_grow.h"
+#include "monte_carlo/include/trial_add.h"
 #include "morph/include/trial_morph.h"
 #include "morph/include/trial_morph_expanded.h"
 #include "charge/include/trial_remove_multiple.h"
 #include "charge/include/trial_add_multiple.h"
 #include "cluster/include/trial_avb4.h"
 #include "beta_expanded/include/trial_beta.h"
+#include "chain/include/trial_swap_sites.h"
 #include "beta_expanded/include/compute_beta.h"
 #include "cluster/include/compute_move_cluster.h"
 #include "cluster/include/compute_add_avb.h"
@@ -222,16 +226,20 @@
 #include "cluster/include/compute_remove_avb_divalent.h"
 #include "charge/include/compute_add_multiple.h"
 #include "charge/include/compute_remove_multiple.h"
+#include "morph/include/compute_morph.h"
+#include "monte_carlo/include/trial_compute_translate.h"
+#include "monte_carlo/include/trial_compute_add.h"
+#include "monte_carlo/include/trial_compute_remove.h"
+#include "monte_carlo/include/trial_compute_volume.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "cluster/include/compute_avb2.h"
 #include "cluster/include/compute_avb4.h"
 #include "monte_carlo/include/trial_move.h"
-#include "monte_carlo/include/trials.h"
-#include "monte_carlo/include/trial_compute_translate.h"
-#include "monte_carlo/include/trial_compute_add.h"
-#include "morph/include/compute_morph.h"
-#include "monte_carlo/include/trial_compute_remove.h"
-#include "monte_carlo/include/trial_compute_volume.h"
+#include "chain/include/trial_pivot.h"
+#include "chain/include/trial_reptate.h"
+#include "chain/include/trial_crankshaft.h"
+#include "monte_carlo/include/trial_rotate.h"
+#include "monte_carlo/include/trial_translate.h"
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/file_xyz.h"
 #include "steppers/include/movie.h"
@@ -340,13 +348,13 @@ using namespace std;
 %shared_ptr(feasst::Checkpoint);
 %shared_ptr(feasst::EnergyMap);
 %shared_ptr(feasst::VisitModelInner);
+%shared_ptr(feasst::ThermoParams);
 %shared_ptr(feasst::Action);
 %shared_ptr(feasst::Run);
 %shared_ptr(feasst::RemoveTrial);
 %shared_ptr(feasst::RemoveModify);
 %shared_ptr(feasst::WriteCheckpoint);
 %shared_ptr(feasst::AddReference);
-%shared_ptr(feasst::ThermoParams);
 %shared_ptr(feasst::PhysicalConstants);
 %shared_ptr(feasst::CODATA2018);
 %shared_ptr(feasst::CODATA2014);
@@ -380,8 +388,8 @@ using namespace std;
 %shared_ptr(feasst::Slab);
 %shared_ptr(feasst::BondThreeBody);
 %shared_ptr(feasst::AngleHarmonic);
-%shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::RigidAngle);
+%shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::BondTwoBody);
 %shared_ptr(feasst::FENE);
 %shared_ptr(feasst::BondHarmonic);
@@ -474,18 +482,21 @@ using namespace std;
 %shared_ptr(feasst::SelectParticleAVBDivalent);
 %shared_ptr(feasst::Perturb);
 %shared_ptr(feasst::PerturbBeta);
+%shared_ptr(feasst::PerturbParticleType);
 %shared_ptr(feasst::PerturbMove);
 %shared_ptr(feasst::PerturbPointReflect);
 %shared_ptr(feasst::PerturbTranslate);
-%shared_ptr(feasst::PerturbToAnchor);
 %shared_ptr(feasst::PerturbDistance);
 %shared_ptr(feasst::PerturbReptate);
-%shared_ptr(feasst::PerturbParticleType);
+%shared_ptr(feasst::PerturbToAnchor);
 %shared_ptr(feasst::PerturbVolume);
 %shared_ptr(feasst::TrialStage);
 %shared_ptr(feasst::TrialCompute);
 %shared_ptr(feasst::Trial);
+%shared_ptr(feasst::TrialVolume);
+%shared_ptr(feasst::TrialRemove);
 %shared_ptr(feasst::TrialFactory);
+%shared_ptr(feasst::TrialFactoryNamed);
 %shared_ptr(feasst::Analyze);
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
@@ -529,7 +540,29 @@ using namespace std;
 %shared_ptr(feasst::CriteriaUpdater);
 %shared_ptr(feasst::Tune);
 %shared_ptr(feasst::SeekNumParticles);
+%shared_ptr(feasst::TrialTransfer);
+%shared_ptr(feasst::TrialTransferMultiple);
+%shared_ptr(feasst::TrialAVB2Half);
+%shared_ptr(feasst::TrialAVB2);
+%shared_ptr(feasst::TrialTranslateCluster);
+%shared_ptr(feasst::TrialRotateCluster);
+%shared_ptr(feasst::TrialRigidCluster);
+%shared_ptr(feasst::TrialAddAVBDivalent);
+%shared_ptr(feasst::TrialRemoveAVBDivalent);
+%shared_ptr(feasst::TrialTransferAVBDivalent);
+%shared_ptr(feasst::TrialAddAVB);
+%shared_ptr(feasst::TrialRemoveAVB);
+%shared_ptr(feasst::TrialTransferAVB);
+%shared_ptr(feasst::TrialGrow);
+%shared_ptr(feasst::TrialGrowFile);
+%shared_ptr(feasst::TrialAdd);
+%shared_ptr(feasst::TrialMorph);
 %shared_ptr(feasst::TrialMorphExpanded);
+%shared_ptr(feasst::TrialRemoveMultiple);
+%shared_ptr(feasst::TrialAddMultiple);
+%shared_ptr(feasst::TrialAVB4);
+%shared_ptr(feasst::TrialBeta);
+%shared_ptr(feasst::TrialSwapSites);
 %shared_ptr(feasst::ComputeBeta);
 %shared_ptr(feasst::ComputeMoveCluster);
 %shared_ptr(feasst::ComputeAddAVB);
@@ -539,17 +572,20 @@ using namespace std;
 %shared_ptr(feasst::ComputeRemoveAVBDivalent);
 %shared_ptr(feasst::ComputeAddMultiple);
 %shared_ptr(feasst::ComputeRemoveMultiple);
+%shared_ptr(feasst::ComputeMorph);
+%shared_ptr(feasst::TrialComputeTranslate);
+%shared_ptr(feasst::TrialComputeAdd);
+%shared_ptr(feasst::TrialComputeRemove);
+%shared_ptr(feasst::TrialComputeVolume);
 %shared_ptr(feasst::TrialComputeMove);
 %shared_ptr(feasst::ComputeAVB2);
 %shared_ptr(feasst::ComputeAVB4);
 %shared_ptr(feasst::TrialMove);
+%shared_ptr(feasst::TrialPivot);
+%shared_ptr(feasst::TrialReptate);
+%shared_ptr(feasst::TrialCrankshaft);
+%shared_ptr(feasst::TrialRotate);
 %shared_ptr(feasst::TrialTranslate);
-%shared_ptr(feasst::TrialAdd);
-%shared_ptr(feasst::TrialComputeTranslate);
-%shared_ptr(feasst::TrialComputeAdd);
-%shared_ptr(feasst::ComputeMorph);
-%shared_ptr(feasst::TrialComputeRemove);
-%shared_ptr(feasst::TrialComputeVolume);
 %shared_ptr(feasst::VisitConfiguration);
 %shared_ptr(feasst::LoopConfigOneBody);
 %shared_ptr(feasst::FileVMD);
@@ -644,9 +680,9 @@ using namespace std;
 %include utils/include/serialize.h
 %include system/include/energy_map.h
 %include system/include/visit_model_inner.h
+%include system/include/thermo_params.h
 %include monte_carlo/include/action.h
 %include monte_carlo/include/run.h
-%include system/include/thermo_params.h
 %include configuration/include/physical_constants.h
 %include utils/include/progress_report.h
 %include utils/include/cache.h
@@ -673,8 +709,8 @@ using namespace std;
 %include shape/include/slab.h
 %include system/include/bond_three_body.h
 %include models/include/angle_harmonic.h
-%include system/include/angle_square_well.h
 %include system/include/rigid_angle.h
+%include system/include/angle_square_well.h
 %include system/include/bond_two_body.h
 %include models/include/fene.h
 %include models/include/bond_harmonic.h
@@ -757,17 +793,19 @@ using namespace std;
 %include cluster/include/select_particle_avb_divalent.h
 %include monte_carlo/include/perturb.h
 %include beta_expanded/include/perturb_beta.h
+%include morph/include/perturb_particle_type.h
 %include monte_carlo/include/perturb_move.h
 %include cluster/include/perturb_point_reflect.h
 %include monte_carlo/include/perturb_translate.h
-%include monte_carlo/include/perturb_to_anchor.h
 %include monte_carlo/include/perturb_distance.h
 %include chain/include/perturb_reptate.h
-%include morph/include/perturb_particle_type.h
+%include monte_carlo/include/perturb_to_anchor.h
 %include monte_carlo/include/perturb_volume.h
 %include monte_carlo/include/trial_stage.h
 %include monte_carlo/include/trial_compute.h
 %include monte_carlo/include/trial.h
+%include monte_carlo/include/trial_volume.h
+%include monte_carlo/include/trial_remove.h
 %include monte_carlo/include/trial_factory.h
 %include monte_carlo/include/analyze.h
 %include charge/include/check_net_charge.h
@@ -803,19 +841,21 @@ using namespace std;
 %include steppers/include/criteria_updater.h
 %include steppers/include/tune.h
 %include monte_carlo/include/seek_num_particles.h
+%include monte_carlo/include/trial_transfer.h
 %include charge/include/trial_transfer_multiple.h
 %include cluster/include/trial_avb2.h
 %include cluster/include/trial_rigid_cluster.h
 %include cluster/include/trial_transfer_avb_divalent.h
 %include cluster/include/trial_transfer_avb.h
-%include chain/include/trials.h
 %include chain/include/trial_grow.h
+%include monte_carlo/include/trial_add.h
 %include morph/include/trial_morph.h
 %include morph/include/trial_morph_expanded.h
 %include charge/include/trial_remove_multiple.h
 %include charge/include/trial_add_multiple.h
 %include cluster/include/trial_avb4.h
 %include beta_expanded/include/trial_beta.h
+%include chain/include/trial_swap_sites.h
 %include beta_expanded/include/compute_beta.h
 %include cluster/include/compute_move_cluster.h
 %include cluster/include/compute_add_avb.h
@@ -825,16 +865,20 @@ using namespace std;
 %include cluster/include/compute_remove_avb_divalent.h
 %include charge/include/compute_add_multiple.h
 %include charge/include/compute_remove_multiple.h
+%include morph/include/compute_morph.h
+%include monte_carlo/include/trial_compute_translate.h
+%include monte_carlo/include/trial_compute_add.h
+%include monte_carlo/include/trial_compute_remove.h
+%include monte_carlo/include/trial_compute_volume.h
 %include monte_carlo/include/trial_compute_move.h
 %include cluster/include/compute_avb2.h
 %include cluster/include/compute_avb4.h
 %include monte_carlo/include/trial_move.h
-%include monte_carlo/include/trials.h
-%include monte_carlo/include/trial_compute_translate.h
-%include monte_carlo/include/trial_compute_add.h
-%include morph/include/compute_morph.h
-%include monte_carlo/include/trial_compute_remove.h
-%include monte_carlo/include/trial_compute_volume.h
+%include chain/include/trial_pivot.h
+%include chain/include/trial_reptate.h
+%include chain/include/trial_crankshaft.h
+%include monte_carlo/include/trial_rotate.h
+%include monte_carlo/include/trial_translate.h
 %include configuration/include/visit_configuration.h
 %include configuration/include/file_xyz.h
 %include steppers/include/movie.h

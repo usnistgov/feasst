@@ -13,8 +13,8 @@ namespace feasst {
  */
 class VisitModelBond : public VisitModel {
  public:
-  explicit VisitModelBond(const argtype& args = argtype()) {
-    class_name_ = "VisitModelBond"; }
+  explicit VisitModelBond(argtype args = argtype());
+  explicit VisitModelBond(argtype * args);
   void compute(
       ModelTwoBody * model,
       const ModelParams& model_params,
@@ -26,7 +26,10 @@ class VisitModelBond : public VisitModel {
       const ModelParams& model_params,
       Configuration * config,
       const int group_index) override;
-  std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  std::shared_ptr<VisitModel> create(std::istream& istr) const override {
+    return std::make_shared<VisitModelBond>(istr); }
+  std::shared_ptr<VisitModel> create(argtype * args) const override {
+    return std::make_shared<VisitModelBond>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelBond(std::istream& istr);
   virtual ~VisitModelBond() {}

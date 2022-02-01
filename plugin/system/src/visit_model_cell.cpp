@@ -310,10 +310,6 @@ class MapVisitModelCell {
 
 static MapVisitModelCell mapper_ = MapVisitModelCell();
 
-std::shared_ptr<VisitModel> VisitModelCell::create(std::istream& istr) const {
-  return std::make_shared<VisitModelCell>(istr);
-}
-
 VisitModelCell::VisitModelCell(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(755 == version, version);

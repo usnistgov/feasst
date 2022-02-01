@@ -2,6 +2,7 @@
 #define FEASST_CHAIN_TRIAL_GROW_H_
 
 #include <memory>
+#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
@@ -25,6 +26,9 @@ namespace feasst {
   - translate: if true (default: false), translate site (which is required arg
     for TrialSelectParticle).
     In addition, must have number of stages equal to number of sites.
+  - default_num_steps: optional default number of steps for all stages.
+  - default_reference_index: optional default reference index for all stages.
+  - default_new_only: optional default new only for all stages.
 
   The following options may be used in any argtype.
   If used in the first, then its a partial regrowth move.
@@ -112,12 +116,44 @@ excluded from the energy in the acceptance probability.
 
 \endrst
  */
-std::shared_ptr<TrialFactory> MakeTrialGrow(
-  std::vector<argtype> args,  /// list of arguments, one for each stage.
-  /// Optionally, set the default values for the following TrialStage arguments:
-  /// num_steps, reference_index and new_only.
-  /// Any option applied by the above args overwrites this option.
-  const argtype& default_args = argtype());
+class TrialGrow : public TrialFactoryNamed {
+ public:
+  TrialGrow() : TrialFactoryNamed() {}
+  /// list of arguments, one for each stage.
+  TrialGrow(std::vector<argtype> args);
+  virtual ~TrialGrow() {}
+
+ protected:
+  void build_(std::vector<argtype> * args);
+};
+
+inline std::shared_ptr<TrialGrow> MakeTrialGrow(std::vector<argtype> args) {
+  return std::make_shared<TrialGrow>(args); }
+
+class TrialGrowFile : public TrialGrow {
+ public:
+  TrialGrowFile() : TrialGrow() {}
+  /**
+   args:
+   - particle_type: index of particle type to grow.
+   - file_name: name of TrialGrowFile file with the following format:
+     line1: TrialGrowFile
+     line2: optional space
+     line3: stage with key pair separated by space (e.g., "particle_type 1 transfer true")
+     lineX: additional stages until end of file or empty line (repeat line 2/3).
+   */
+  explicit TrialGrowFile(argtype args);
+  explicit TrialGrowFile(argtype * args);
+  std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
+    return std::make_shared<TrialGrowFile>(args); }
+  virtual ~TrialGrowFile() {}
+
+ private:
+  void add_(const argtype add_args, std::vector<argtype> * args);
+};
+
+inline std::shared_ptr<TrialGrowFile> MakeTrialGrowFile(argtype args) {
+  return std::make_shared<TrialGrowFile>(args); }
 
 }  // namespace feasst
 

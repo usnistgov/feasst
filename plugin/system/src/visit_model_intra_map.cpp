@@ -7,10 +7,13 @@
 
 namespace feasst {
 
-VisitModelIntraMap::VisitModelIntraMap(argtype args) {
+VisitModelIntraMap::VisitModelIntraMap(argtype * args) : VisitModel() {
   class_name_ = "VisitModelIntraMap";
-  exclude_bonds_ = boolean("exclude_bonds", &args, false);
-  exclude_angles_ = boolean("exclude_angles", &args, false);
+  exclude_bonds_ = boolean("exclude_bonds", args, false);
+  exclude_angles_ = boolean("exclude_angles", args, false);
+}
+VisitModelIntraMap::VisitModelIntraMap(argtype args) : VisitModelIntraMap(&args) {
+  check_all_used(args);
 }
 
 void VisitModelIntraMap::precompute(Configuration * config) {
@@ -114,10 +117,6 @@ class MapVisitModelIntraMap {
 };
 
 static MapVisitModelIntraMap mapper_ = MapVisitModelIntraMap();
-
-std::shared_ptr<VisitModel> VisitModelIntraMap::create(std::istream& istr) const {
-  return std::make_shared<VisitModelIntraMap>(istr);
-}
 
 VisitModelIntraMap::VisitModelIntraMap(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);

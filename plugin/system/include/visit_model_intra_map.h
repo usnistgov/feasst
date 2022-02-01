@@ -31,6 +31,7 @@ class VisitModelIntraMap : public VisitModel {
       extremes of the angle sites (e.g, exclude AC of <ABC) (default: false).
    */
   explicit VisitModelIntraMap(argtype args = argtype());
+  explicit VisitModelIntraMap(argtype * args);
 
   /// Initialize include_map after VisitModel::precompute.
   void precompute(Configuration * config) override;
@@ -51,7 +52,10 @@ class VisitModelIntraMap : public VisitModel {
       const ModelParams& model_params,
       Configuration * config,
       const int group_index) override;
-  std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  std::shared_ptr<VisitModel> create(std::istream& istr) const override {
+    return std::make_shared<VisitModelIntraMap>(istr); }
+  std::shared_ptr<VisitModel> create(argtype * args) const override {
+    return std::make_shared<VisitModelIntraMap>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelIntraMap(std::istream& istr);
   ~VisitModelIntraMap() {}

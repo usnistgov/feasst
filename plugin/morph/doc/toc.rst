@@ -2,7 +2,7 @@
 .. toctree::
 
    PerturbParticleType
-   trial_morph
+   TrialMorph
    TrialMorphExpanded
    ComputeMorph
    MacrostateMorph

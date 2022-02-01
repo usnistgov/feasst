@@ -8,9 +8,11 @@
 
 namespace feasst {
 
-VisitModelIntra::VisitModelIntra(argtype args) {
+VisitModelIntra::VisitModelIntra(argtype * args) : VisitModel() {
   class_name_ = "VisitModelIntra";
-  set_cutoff(integer("cutoff", &args, -1));
+  set_cutoff(integer("cutoff", args, -1));
+}
+VisitModelIntra::VisitModelIntra(argtype args) : VisitModelIntra(&args) {
   check_all_used(args);
 }
 
@@ -102,10 +104,6 @@ class MapVisitModelIntra {
 };
 
 static MapVisitModelIntra mapper_ = MapVisitModelIntra();
-
-std::shared_ptr<VisitModel> VisitModelIntra::create(std::istream& istr) const {
-  return std::make_shared<VisitModelIntra>(istr);
-}
 
 VisitModelIntra::VisitModelIntra(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);

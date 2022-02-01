@@ -2,7 +2,9 @@
 #include "feasst/include/feasst.h"
 
 /**
-  Expected usage: MAJOR MINOR_0 VALUE_0 ... MINOR_N VALUE_N
+  Usage: ./fst < file.txt
+
+  Syntas: MAJOR MINOR_0 VALUE_0 ... MINOR_N VALUE_N
 
   "set_variable name value" will replace any use of name in subsequent values.
 
@@ -10,7 +12,7 @@
   feasst::install_dir().
  */
 int main() {
-  std::cout << "version: " << feasst::version() << std::endl;
+  std::cout << "# version: " << feasst::version() << std::endl;
   std::string line;
   feasst::arglist list;
   feasst::argtype variables;

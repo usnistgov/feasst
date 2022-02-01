@@ -3,7 +3,7 @@
 #include "system/include/lennard_jones.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/metropolis.h"
-#include "chain/include/trials.h"
+#include "chain/include/trial_swap_sites.h"
 
 namespace feasst {
 

@@ -6,6 +6,13 @@
 
 namespace feasst {
 
+VisitModelBond::VisitModelBond(argtype * args) : VisitModel() {
+  class_name_ = "VisitModelBond";
+}
+VisitModelBond::VisitModelBond(argtype args) : VisitModelBond(&args) {
+  check_all_used(args);
+}
+
 void VisitModelBond::compute(
     ModelTwoBody * model,
     const ModelParams& model_params,
@@ -67,10 +74,6 @@ class MapVisitModelBond {
 };
 
 static MapVisitModelBond mapper_ = MapVisitModelBond();
-
-std::shared_ptr<VisitModel> VisitModelBond::create(std::istream& istr) const {
-  return std::make_shared<VisitModelBond>(istr);
-}
 
 VisitModelBond::VisitModelBond(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);

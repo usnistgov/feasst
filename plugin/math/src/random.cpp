@@ -29,7 +29,7 @@ void Random::parse_seed_(argtype * args) {
 void Random::seed_by_time() {
   const int t = time(NULL);
   srand(t);
-  std::cout << "time(seed): " << t << std::endl;
+  std::cout << "# time(seed): " << t << std::endl;
   reseed_(t);
   is_seeded_ = true;
 }

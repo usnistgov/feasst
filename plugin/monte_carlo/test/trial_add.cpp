@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "monte_carlo/include/trials.h"
+#include "monte_carlo/include/trial_add.h"
 
 namespace feasst {
 

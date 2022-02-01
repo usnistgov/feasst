@@ -267,6 +267,7 @@ std::shared_ptr<VisitModel> VisitModel::deserialize(std::istream& istr) {
 }
 
 std::shared_ptr<VisitModel> VisitModel::factory(const std::string name, argtype * args) {
+  DEBUG("name: " << name << " args " << str(*args));
   return template_factory(deserialize_map(), name, args);
 }
 

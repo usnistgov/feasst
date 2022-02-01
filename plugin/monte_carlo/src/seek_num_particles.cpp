@@ -3,7 +3,7 @@
 #include "utils/include/progress_report.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/trials.h"
+#include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/metropolis.h"
 
 namespace feasst {

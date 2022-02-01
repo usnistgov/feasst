@@ -9,51 +9,101 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialAddAVB(argtype args) {
-  auto trial = MakeTrialAddAVB(&args);
-  check_all_used(args);
-  return trial;
-}
+class MapTrialAddAVB {
+ public:
+  MapTrialAddAVB() {
+    auto obj = MakeTrialAddAVB();
+    obj->deserialize_map()["TrialAddAVB"] = obj;
+  }
+};
+
+static MapTrialAddAVB mapper_ = MapTrialAddAVB();
 
 // Note that changes here should also be incorported into TrialGrow
-std::shared_ptr<Trial> MakeTrialAddAVB(argtype * args) {
-  auto trial = MakeTrial(args);
-  trial->set_description("TrialAddAVB");
+TrialAddAVB::TrialAddAVB(argtype * args) : Trial(args) {
+  class_name_ = "TrialAddAVB";
+  set_description("TrialAddAVB");
   args->insert({"grand_canonical", "true"});
   auto perturb = std::make_shared<PerturbAddAVB>(args);
   ASSERT(perturb->delay_add(), "ComputeAddAVB assumes delay_add is true");
-  trial->add_stage(
+  add_stage(
     std::make_shared<SelectParticleAVB>(args),
     perturb,
     args);
-  trial->set(MakeComputeAddAVB());
-  return trial;
+  set(MakeComputeAddAVB());
 }
-
-std::shared_ptr<Trial> MakeTrialRemoveAVB(argtype args) {
-  auto trial = MakeTrialRemoveAVB(&args);
+TrialAddAVB::TrialAddAVB(argtype args) : TrialAddAVB(&args) {
   check_all_used(args);
-  return trial;
 }
 
-std::shared_ptr<Trial> MakeTrialRemoveAVB(argtype * args) {
-  auto trial = MakeTrial(args);
-  trial->set_description("TrialRemoveAVB");
+TrialAddAVB::TrialAddAVB(std::istream& istr) : Trial(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 3649, "mismatch version: " << version);
+}
+
+void TrialAddAVB::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_trial_(ostr);
+  feasst_serialize_version(3649, ostr);
+}
+
+class MapTrialRemoveAVB {
+ public:
+  MapTrialRemoveAVB() {
+    auto obj = MakeTrialRemoveAVB();
+    obj->deserialize_map()["TrialRemoveAVB"] = obj;
+  }
+};
+
+static MapTrialRemoveAVB mapper_trial_remove_avb_ = MapTrialRemoveAVB();
+
+TrialRemoveAVB::TrialRemoveAVB(argtype * args) : Trial(args) {
+  class_name_ = "TrialRemoveAVB";
+  set_description("TrialRemoveAVB");
   args->insert({"grand_canonical", "true"});
-  trial->add_stage(
+  add_stage(
     std::make_shared<SelectParticleAVB>(args),
     std::make_shared<PerturbRemove>(),
     args);
-  trial->set(MakeComputeRemoveAVB());
-  return trial;
+  set(MakeComputeRemoveAVB());
+}
+TrialRemoveAVB::TrialRemoveAVB(argtype args) : TrialRemoveAVB(&args) {
+  check_all_used(args);
 }
 
-std::shared_ptr<TrialFactory> MakeTrialTransferAVB(argtype args) {
-  argtype orig_args = args;
-  auto factory = std::make_shared<TrialFactory>(&args);
-  factory->add(MakeTrialAddAVB(orig_args));
-  factory->add(MakeTrialRemoveAVB(orig_args));
-  return factory;
+TrialRemoveAVB::TrialRemoveAVB(std::istream& istr) : Trial(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 3409, "mismatch version: " << version);
+}
+
+void TrialRemoveAVB::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_trial_(ostr);
+  feasst_serialize_version(3409, ostr);
+}
+
+class MapTrialTransferAVB {
+ public:
+  MapTrialTransferAVB() {
+    auto obj = MakeTrialTransferAVB();
+    obj->deserialize_map()["TrialTransferAVB"] = obj;
+  }
+};
+
+static MapTrialTransferAVB mapper_trial_transfer_avb__ = MapTrialTransferAVB();
+
+TrialTransferAVB::TrialTransferAVB(argtype * args) : TrialFactoryNamed() {
+  class_name_ = "TrialTransferAVB";
+  argtype orig_args = *args;
+  auto trial_add = MakeTrialAddAVB(orig_args);
+  trial_add->set_weight(trial_add->weight()/2.);
+  add(trial_add);
+  auto trial_remove = MakeTrialRemoveAVB(orig_args);
+  trial_remove->set_weight(trial_remove->weight()/2.);
+  add(trial_remove);
+}
+TrialTransferAVB::TrialTransferAVB(argtype args) : TrialTransferAVB(&args) {
+  // check_all_used(args);
 }
 
 }  // namespace feasst

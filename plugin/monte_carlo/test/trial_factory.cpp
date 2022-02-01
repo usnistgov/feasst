@@ -1,6 +1,9 @@
 #include "utils/test/utils.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/trials.h"
+#include "monte_carlo/include/trial_rotate.h"
+#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/trial_remove.h"
 
 namespace feasst {
 

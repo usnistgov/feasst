@@ -450,6 +450,8 @@ list (FIND FEASST_PLUGINS "monte_carlo" _index)
 if (${_index} GREATER -1)
   add_executable (fst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/feasst.cpp)
   target_link_libraries (fst LINK_PUBLIC feasstlib)
+  add_executable (rst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/restart.cpp)
+  target_link_libraries (rst LINK_PUBLIC feasstlib)
 endif()
 
 # SWIG

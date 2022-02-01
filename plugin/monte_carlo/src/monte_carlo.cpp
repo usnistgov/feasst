@@ -3,7 +3,6 @@
 #include "utils/include/serialize.h"
 #include "utils/include/checkpoint.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/action.h"
 
 // for parsing factories
@@ -25,8 +24,8 @@ MonteCarlo::MonteCarlo() : MonteCarlo(std::make_shared<RandomMT19937>()) {}
 
 void MonteCarlo::parse_(arglist * args) {
   DEBUG("first " << args->begin()->first);
-  std::cout << "{" << args->begin()->first << ","
-            << str(args->begin()->second) << "}," << std::endl;
+  std::cout << args->begin()->first << " "
+            << str(args->begin()->second) << " " << std::endl;
 
   // parse all derived classes of Random
   std::shared_ptr<Random> ran =
@@ -61,6 +60,22 @@ void MonteCarlo::parse_(arglist * args) {
     return;
   }
 
+  // parse reference Potential
+  if (args->begin()->first == "ReferencePotential") {
+    DEBUG("parsing ReferencePotential");
+    add_to_reference(MakePotential(args->begin()->second));
+    args->erase(args->begin());
+    return;
+  }
+
+  // parse optimized Potential
+  if (args->begin()->first == "OptimizedPotential") {
+    DEBUG("parsing OptimizedPotential");
+    add_to_optimized(MakePotential(args->begin()->second));
+    args->erase(args->begin());
+    return;
+  }
+
   // parse ThermoParams
   if (args->begin()->first == "ThermoParams") {
     DEBUG("parsing ThermoParams");
@@ -84,6 +99,15 @@ void MonteCarlo::parse_(arglist * args) {
   if (trial) {
     DEBUG("parsing Trial");
     add(trial);
+    return;
+  }
+
+  // parse all derived classes of TrialFactoryNamed
+  std::shared_ptr<TrialFactoryNamed> trials =
+    parse(dynamic_cast<TrialFactoryNamed*>(std::make_shared<TrialFactoryNamed>().get()), args);
+  if (trials) {
+    DEBUG("parsing TrialFactoryNamed");
+    add(trials);
     return;
   }
 
@@ -116,9 +140,12 @@ void MonteCarlo::parse_(arglist * args) {
 
 }
 
-MonteCarlo::MonteCarlo(arglist args) : MonteCarlo() {
-  args_ = args;
+void MonteCarlo::resume() {
+  if (action_) {
+    run(action_);
+  }
   int size = static_cast<int>(args_.size());
+  INFO("size " << size);
   int previous_size = size;
   while (size > 0) {
     previous_size = size;
@@ -128,6 +155,11 @@ MonteCarlo::MonteCarlo(arglist args) : MonteCarlo() {
     ASSERT(previous_size - 1 == size,
       "Unrecognized argument: " << args_.begin()->first);
   }
+}
+
+MonteCarlo::MonteCarlo(arglist args) : MonteCarlo() {
+  args_ = args;
+  resume();
 }
 
 void MonteCarlo::run(std::shared_ptr<Action> action) {
@@ -261,6 +293,21 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
   // then Analyze and Modify classes may need to be re-initialized.
   // analyze_factory_.initialize(criteria_, system_, trial_factory_);
   // modify_factory_.initialize(criteria_, &system_, &trial_factory_);
+}
+
+void MonteCarlo::add(std::shared_ptr<TrialFactoryNamed> trials) {
+  ASSERT(criteria_set_, "set Criteria before Trials.");
+//  double total_weight = 0.;
+//  for (std::shared_ptr<Trial> itrl : trials->trials()) {
+//    total_weight += itrl->weight();
+//  }
+//  INFO("total weight " << total_weight);
+  for (std::shared_ptr<Trial> itrl : trials->trials()) {
+//    INFO("itrl weight " << itrl->weight());
+//    itrl->set_weight(itrl->weight()*itrl->weight()/total_weight);
+//    INFO(itrl->weight() << " " << total_weight);
+    add(itrl);
+  }
 }
 
 bool MonteCarlo::duplicate_stepper_file_name_(const std::string file_name) {

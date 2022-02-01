@@ -13,13 +13,13 @@
 
 namespace feasst {
 
-TEST(TrialGrow, serialize) {
-  auto grow = MakeTrialGrow({
-    {{"transfer", "true"},
-     {"particle_type", "0"},
-     {"site", "0"}}});
-  Trial grow2 = test_serialize(*grow);
-}
+//TEST(TrialGrow, serialize) {
+//  auto grow = MakeTrialGrow({
+//    {{"transfer", "true"},
+//     {"particle_type", "0"},
+//     {"site", "0"}}});
+//  auto grow2 = test_serialize(*grow);
+//}
 
 TEST(TrialGrow, angle_distribution_LONG) {
   MonteCarlo mc;
@@ -29,9 +29,9 @@ TEST(TrialGrow, angle_distribution_LONG) {
   mc.set(MakeThermoParams({{"beta", "1"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialGrow({
-    {{"bond", "true"}, {"particle_type", "0"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
-    {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}},
-    {{"reference_index", "0"}, {"num_steps", "4"}}));
+    {{"default_reference_index", "0"}, {"default_num_steps", "4"},
+     {"bond", "true"}, {"particle_type", "0"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+    {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}}));
   mc.add(MakeMovie({{"file_name", "tmp/ang"}}));
   mc.add(MakeEnergy());
   mc.attempt(1e5);
@@ -54,6 +54,27 @@ TEST(TrialGrow, bond_harmonic) {
   while (mc.trial(0).num_success() < 2) {
     mc.attempt(1);
   }
+}
+
+TEST(TrialGrow, file) {
+  auto trial = MakeTrialGrowFile({
+    {"particle_type", "0"},
+    {"weight", "100"},
+    {"default_num_steps", "3"},
+    {"default_reference_index", "2"},
+    {"file_name", "../plugin/chain/test/data/dimer_grow_file.txt"}});
+  EXPECT_EQ(static_cast<int>(trial->trials().size()), 5);
+  EXPECT_EQ(trial->trials()[0]->weight(), 50);
+  EXPECT_EQ(trial->trials()[1]->weight(), 50);
+  EXPECT_EQ(trial->trials()[2]->weight(), 100);
+  EXPECT_EQ(trial->trials()[3]->weight(), 0.1);
+  EXPECT_EQ(trial->trials()[4]->weight(), 100);
+  EXPECT_EQ(trial->trials()[0]->stage(0).num_steps(), 3);
+  EXPECT_EQ(trial->trials()[0]->stage(1).num_steps(), 2);
+  EXPECT_EQ(trial->trials()[1]->stage(0).num_steps(), 3);
+  EXPECT_EQ(trial->trials()[1]->stage(1).num_steps(), 2);
+  EXPECT_EQ(trial->trials()[0]->stage(0).reference(), 2);
+  EXPECT_EQ(trial->trials()[4]->stage(0).reference(), 15);
 }
 
 }  // namespace feasst

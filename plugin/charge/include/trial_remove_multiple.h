@@ -16,8 +16,21 @@ namespace feasst {
   - particle_type[i]: the i-th type of particle to add.
     The "[i]" is to be substituted for an integer 0, 1, 2, ...
  */
-std::shared_ptr<Trial> MakeTrialRemoveMultiple(
-    argtype args = argtype());
+class TrialRemoveMultiple : public Trial {
+ public:
+  TrialRemoveMultiple(argtype args = argtype());
+  TrialRemoveMultiple(argtype * args);
+  std::shared_ptr<Trial> create(std::istream& istr) const override {
+    return std::make_shared<TrialRemoveMultiple>(istr); }
+  std::shared_ptr<Trial> create(argtype * args) const override {
+    return std::make_shared<TrialRemoveMultiple>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialRemoveMultiple(std::istream& istr);
+  virtual ~TrialRemoveMultiple() {}
+};
+
+inline std::shared_ptr<TrialRemoveMultiple> MakeTrialRemoveMultiple(argtype args = argtype()) {
+  return std::make_shared<TrialRemoveMultiple>(args); }
 
 }  // namespace feasst
 

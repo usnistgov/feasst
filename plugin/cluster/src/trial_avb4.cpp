@@ -12,18 +12,40 @@ void gen_avb4_args_(argtype * args) {
   args->insert({"inside", "true"});
 }
 
-std::shared_ptr<Trial> MakeTrialAVB4(argtype args) {
-  auto trial = std::make_shared<Trial>(&args);
-  gen_avb4_args_(&args);
-  trial->set_description("TrialAVB4");
-  trial->add_stage(
-    std::make_shared<SelectParticleAVB>(&args),
-    std::make_shared<PerturbMoveAVB>(&args),
-    &args
+class MapTrialAVB4 {
+ public:
+  MapTrialAVB4() {
+    auto obj = MakeTrialAVB4();
+    obj->deserialize_map()["TrialAVB4"] = obj;
+  }
+};
+
+static MapTrialAVB4 mapper_ = MapTrialAVB4();
+
+TrialAVB4::TrialAVB4(argtype * args) : Trial(args) {
+  class_name_ = "TrialAVB4";
+  gen_avb4_args_(args);
+  set_description("TrialAVB4");
+  add_stage(
+    std::make_shared<SelectParticleAVB>(args),
+    std::make_shared<PerturbMoveAVB>(args),
+    args
   );
-  trial->set(MakeComputeAVB4());
+  set(MakeComputeAVB4());
+}
+TrialAVB4::TrialAVB4(argtype args) : TrialAVB4(&args) {
   check_all_used(args);
-  return trial;
+}
+
+TrialAVB4::TrialAVB4(std::istream& istr) : Trial(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 3846, "mismatch version: " << version);
+}
+
+void TrialAVB4::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_trial_(ostr);
+  feasst_serialize_version(3846, ostr);
 }
 
 }  // namespace feasst

@@ -46,9 +46,12 @@ Potential::Potential(
 }
 
 Potential::Potential(argtype args) : Potential(&args) {
+  DEBUG("parsing model. args: " << str(args));
   model_ = ModelTwoBody().factory(str("Model", &args, "ModelEmpty"), &args);
+  DEBUG("parsing visit model. args: " << str(args));
   visit_model_ =
     VisitModel().factory(str("VisitModel", &args, "VisitModel"), &args);
+  DEBUG("checking args: " << str(args));
   check_all_used(args);
 }
 

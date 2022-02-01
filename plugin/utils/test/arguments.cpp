@@ -97,9 +97,9 @@ TEST(Arguments, boolean) {
 
 TEST(Arguments, str) {
   argtype arg = {{"hi", "you"}};
-  EXPECT_EQ("{{\"hi\",\"you\"},}", str(arg));
+  EXPECT_EQ("hi you ", str(arg));
   arglist args = {{{"major_key1", {{"minor_key1", "value1"}}}}};
-  EXPECT_EQ("{{{\"major_key1\",{{\"minor_key1\",\"value1\"},}},}}", str(args));
+  EXPECT_EQ("{{{\"major_key1\",minor_key1 value1 },}}", str(args));
 }
 
 TEST(Utils, find_in_list) {
@@ -121,6 +121,12 @@ TEST(Utils, add_if_not_used) {
   add_if_not_used("hi", &args, "you all");
   EXPECT_EQ(args.size(), 1);
   EXPECT_EQ(args["hi"], "you");
+}
+
+TEST(Arguments, line_to_argtype) {
+  argtype args = line_to_argtype("key1 val1 key2 val2");
+  argtype expected = {{"key1", "val1"}, {"key2", "val2"}};
+  EXPECT_EQ(args, expected);
 }
 
 }  // namespace feasst

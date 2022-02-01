@@ -59,7 +59,7 @@ TEST(IO, serialize_string) {
 
 TEST(IO, str) {
   std::map<std::string, std::string> mp = {{"hi","you"},{"well","hello"},};
-  EXPECT_EQ(str(mp), "{{\"hi\",\"you\"},{\"well\",\"hello\"},}");
+  EXPECT_EQ(str(mp), "hi you well hello ");
 }
 
 TEST(IO, is_found_in) {

@@ -136,4 +136,15 @@ void add_if_not_used(const std::string& key, argtype * args,
   }
 }
 
+argtype line_to_argtype(const std::string line) {
+  argtype args;
+  std::stringstream ss(line);
+  std::string key, value;
+  while (!ss.eof()) {
+    ss >> key >> value;
+    args[key] = value;
+  }
+  return args;
+}
+
 }  // namespace feasst

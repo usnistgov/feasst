@@ -3,7 +3,6 @@
 #include "utils/include/io.h"
 #include "math/include/random.h"
 #include "configuration/include/domain.h"
-#include "monte_carlo/include/trials.h"
 #include "charge/include/trial_add_multiple.h"
 #include "charge/include/trial_remove_multiple.h"
 #include "morph/include/compute_morph.h"

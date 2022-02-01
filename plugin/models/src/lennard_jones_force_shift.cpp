@@ -55,6 +55,7 @@ double LennardJonesForceShift::energy(
     const int type2,
     const ModelParams& model_params) {
   const double en = LennardJonesAlpha::energy(squared_distance, type1, type2, model_params);
+  TRACE("squared_distance " << squared_distance);
   const double distance = std::sqrt(squared_distance);
   const double shift = shift_.mixed_values()[type1][type2];
   const double force_shift = force_shift_.mixed_values()[type1][type2];

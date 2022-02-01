@@ -8,7 +8,21 @@
 namespace feasst {
 
 /// Attempt to change the inverse temperature, \f$\beta\f$ by a fixed amount.
-std::shared_ptr<Trial> MakeTrialBeta(argtype args = argtype());
+class TrialBeta : public Trial {
+ public:
+  TrialBeta(argtype args = argtype());
+  TrialBeta(argtype * args);
+  std::shared_ptr<Trial> create(std::istream& istr) const override {
+    return std::make_shared<TrialBeta>(istr); }
+  std::shared_ptr<Trial> create(argtype * args) const override {
+    return std::make_shared<TrialBeta>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialBeta(std::istream& istr);
+  virtual ~TrialBeta() {}
+};
+
+inline std::shared_ptr<TrialBeta> MakeTrialBeta(argtype args = argtype()) {
+  return std::make_shared<TrialBeta>(args); }
 
 }  // namespace feasst
 

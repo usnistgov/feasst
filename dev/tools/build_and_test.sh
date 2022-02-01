@@ -4,10 +4,11 @@ mkdir -p build
 cd build
 python3 -m venv feasst_test_env
 source feasst_test_env/bin/activate
+pip install --upgrade pip
 pip install jupyter matplotlib pandas scipy
 cmake -DUSE_GTEST=ON -DUSE_SWIG=ON ..
-make _feasst -j8
-make install -j8
+make feasst -j4
+make install -j4
 echo "" > summary_long.log
 echo "" > summary.log
 
@@ -30,5 +31,9 @@ python ../dev/tools/run_tutorials.py >> summary_long.log 2>&1
 for fl in `find ../ -name 'tutorial_failures.txt'`; do
   cat $fl >> summary.log
 done
+
 #tail -1 tutorial_failures.txt >> summary.log
+echo "********** launch py **********" >> summary.log
+python ../dev/tools/lnch_tutorials.py >> summary_long_long.log 2>&1
+tail -1 launch_failures.txt >> summary.log
 

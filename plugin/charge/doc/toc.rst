@@ -10,8 +10,8 @@
    Ewald
    CheckNetCharge
    utils
-   trial_transfer_multiple
-   trial_remove_multiple
-   trial_add_multiple
+   TrialTransferMultiple
+   TrialRemoveMultiple
+   TrialAddMultiple
    ComputeAddMultiple
    ComputeRemoveMultiple

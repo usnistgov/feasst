@@ -12,14 +12,40 @@ namespace feasst {
 /**
   Rigid translation of a cluster of particles.
  */
-std::shared_ptr<Trial> MakeTrialTranslateCluster(
-  argtype args = argtype());
+class TrialTranslateCluster : public Trial {
+ public:
+  TrialTranslateCluster(argtype args = argtype());
+  TrialTranslateCluster(argtype * args);
+  std::shared_ptr<Trial> create(std::istream& istr) const override {
+    return std::make_shared<TrialTranslateCluster>(istr); }
+  std::shared_ptr<Trial> create(argtype * args) const override {
+    return std::make_shared<TrialTranslateCluster>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialTranslateCluster(std::istream& istr);
+  virtual ~TrialTranslateCluster() {}
+};
+
+inline std::shared_ptr<TrialTranslateCluster> MakeTrialTranslateCluster(argtype args = argtype()) {
+  return std::make_shared<TrialTranslateCluster>(args); }
 
 /**
   Rigid translation of a cluster of particles.
  */
-std::shared_ptr<Trial> MakeTrialRotateCluster(
-  argtype args = argtype());
+class TrialRotateCluster : public Trial {
+ public:
+  TrialRotateCluster(argtype args = argtype());
+  TrialRotateCluster(argtype * args);
+  std::shared_ptr<Trial> create(std::istream& istr) const override {
+    return std::make_shared<TrialRotateCluster>(istr); }
+  std::shared_ptr<Trial> create(argtype * args) const override {
+    return std::make_shared<TrialRotateCluster>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialRotateCluster(std::istream& istr);
+  virtual ~TrialRotateCluster() {}
+};
+
+inline std::shared_ptr<TrialRotateCluster> MakeTrialRotateCluster(argtype args = argtype()) {
+  return std::make_shared<TrialRotateCluster>(args); }
 
 /**
   Attempt TrialTranslateCluster and TrialRotateCluster with equal probability.
@@ -28,8 +54,17 @@ std::shared_ptr<Trial> MakeTrialRotateCluster(
   - rotate_param: initial value of the tunable parameter (default: 25).
   - translate_param: initial value of the tunable parameter (default: 0.1).
  */
-std::shared_ptr<TrialFactory> MakeTrialRigidCluster(
-  argtype args = argtype());
+class TrialRigidCluster : public TrialFactoryNamed {
+ public:
+  TrialRigidCluster(argtype args = argtype());
+  TrialRigidCluster(argtype * args);
+  std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
+    return std::make_shared<TrialRigidCluster>(args); }
+  virtual ~TrialRigidCluster() {}
+};
+
+inline std::shared_ptr<TrialRigidCluster> MakeTrialRigidCluster(argtype args = argtype()) {
+  return std::make_shared<TrialRigidCluster>(args); }
 
 }  // namespace feasst
 

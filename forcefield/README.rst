@@ -112,3 +112,9 @@ The format for this section is as follows:
 [dihedral index] [dihedral type] [site index i] [site index j] [site index k] [site index l]
 
 For more information on the dihedral definition, see :cpp:func:`torsion_angle_radians <feasst::Position::torsion_angle_radians()>`.
+
+TrialGrow
+==========
+
+The TrialGrow class has its own format for (partially) growing particles as described in its documentation.
+This must be the last section in fstprt files, as the parser reads until the end of the file.

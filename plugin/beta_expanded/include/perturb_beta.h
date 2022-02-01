@@ -13,7 +13,7 @@ class PerturbBeta : public Perturb {
  public:
   /**
     args:
-    - fixed_beta_change: input the fixed amount that beta change.
+    - fixed_beta_change: input the fixed amount that beta changes.
       The choice to increase or decrease is randomly selected.
    */
   explicit PerturbBeta(argtype args = argtype());

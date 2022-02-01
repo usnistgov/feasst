@@ -119,6 +119,7 @@ class Trial {
   /// Attempt a trial. Return true if accepted.
   virtual bool attempt(Criteria * criteria, System * system, Random * random);
 
+  //HWH Depreciate description once all Trials are derived classes again.
   /// Return the description, as used in Log
   const std::string& description() const { return description_; }
 

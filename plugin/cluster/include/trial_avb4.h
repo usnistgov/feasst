@@ -15,7 +15,21 @@ namespace feasst {
   args:
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
  */
-std::shared_ptr<Trial> MakeTrialAVB4(argtype args = argtype());
+class TrialAVB4 : public Trial {
+ public:
+  TrialAVB4(argtype args = argtype());
+  TrialAVB4(argtype * args);
+  std::shared_ptr<Trial> create(std::istream& istr) const override {
+    return std::make_shared<TrialAVB4>(istr); }
+  std::shared_ptr<Trial> create(argtype * args) const override {
+    return std::make_shared<TrialAVB4>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialAVB4(std::istream& istr);
+  virtual ~TrialAVB4() {}
+};
+
+inline std::shared_ptr<TrialAVB4> MakeTrialAVB4(argtype args = argtype()) {
+  return std::make_shared<TrialAVB4>(args); }
 
 void gen_avb4_args_(argtype * args);
 

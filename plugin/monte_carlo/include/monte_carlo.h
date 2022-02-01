@@ -66,6 +66,9 @@ class MonteCarlo {
    */
   explicit MonteCarlo(arglist args);
 
+  /// Resume processing the above arguments after Checkpointing.
+  void resume();
+
   /// Set the random number generator.
   void set(std::shared_ptr<Random> random) { random_ = random; }
 
@@ -141,6 +144,8 @@ class MonteCarlo {
 
   /// The remaining actions can be done in almost any order.
   /// Typically, one begins by adding trials.
+  void add(std::shared_ptr<Trial> trial);
+
   /// Some Trials are simply TrialFactories containing multiple trials, such as
   /// TrialTransfer (factory of TrialAdd and TrialRemove).
   /// If a TrialFactory is added, flatten by adding individual trials instead.
@@ -149,7 +154,7 @@ class MonteCarlo {
   /// the weights of the individual trials.
   /// Thus, adding TrialTransfer with a weight of 4 will result in TrialAdd
   /// with weight of 2 and TrialRemove with weight of 2.
-  void add(std::shared_ptr<Trial> trial);
+  void add(std::shared_ptr<TrialFactoryNamed> trials);
 
   /// Remove a trial by index.
   void remove_trial(const int index) { trial_factory_.remove(index); }

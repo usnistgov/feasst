@@ -112,6 +112,36 @@ inline std::shared_ptr<TrialFactory> MakeTrialFactory() {
   return std::make_shared<TrialFactory>();
 }
 
+/**
+  Contains multiple Trials for use as input into MonteCarlo.
+  As opposed to the above, these classes are named to enable factories.
+  Serialization is not required.
+ */
+class TrialFactoryNamed {
+ public:
+  TrialFactoryNamed() {}
+  const std::vector<std::shared_ptr<Trial> >& trials() const { return trials_; }
+  // serialize
+  std::string class_name() const { return class_name_; }
+  void add(std::shared_ptr<Trial> trial) { trials_.push_back(trial); }
+  void precompute(Criteria * criteria, System * system);
+  Trial * trial_(int index) { return trials_[index].get(); }
+//  virtual void serialize(std::ostream& ostr) const;
+//  virtual std::shared_ptr<TrialFactoryNamed> create(std::istream& istr) const;
+  virtual std::shared_ptr<TrialFactoryNamed> create(argtype * args) const;
+  std::map<std::string, std::shared_ptr<TrialFactoryNamed> >& deserialize_map();
+//  std::shared_ptr<TrialFactoryNamed> deserialize(std::istream& istr);
+  std::shared_ptr<TrialFactoryNamed> factory(const std::string name, argtype * args);
+//  explicit TrialFactoryNamed(std::istream& istr);
+  virtual ~TrialFactoryNamed() {}
+
+ protected:
+  std::string class_name_;
+
+ private:
+  std::vector<std::shared_ptr<Trial> > trials_;
+};
+
 }  // namespace feasst
 
 #endif  // FEASST_MONTE_CARLO_TRIAL_FACTORY_H_

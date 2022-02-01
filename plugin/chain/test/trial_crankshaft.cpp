@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "chain/include/trials.h"
+#include "chain/include/trial_crankshaft.h"
 
 namespace feasst {
 

@@ -55,11 +55,9 @@ int num_spaces(const std::string str) {
 
 std::string str(const std::map<std::string, std::string>& mp) {
   std::stringstream ss;
-  ss << "{";
   for (auto const& pair : mp) {
-    ss << "{\"" << pair.first << "\",\"" << pair.second << "\"},";
+    ss << pair.first << " " << pair.second << " ";
   }
-  ss << "}";
   return ss.str();
 }
 

@@ -22,6 +22,7 @@ class VisitModelIntra : public VisitModel {
       between their indices, |i-j| <= cutoff (integer, default: -1).
    */
   explicit VisitModelIntra(argtype args = argtype());
+  explicit VisitModelIntra(argtype * args);
   int cutoff() const { return cutoff_; }
   void set_cutoff(const int cut) { cutoff_ = cut; }
   void compute(
@@ -35,7 +36,10 @@ class VisitModelIntra : public VisitModel {
       const ModelParams& model_params,
       Configuration * config,
       const int group_index) override;
-  std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  std::shared_ptr<VisitModel> create(std::istream& istr) const override {
+    return std::make_shared<VisitModelIntra>(istr); }
+  std::shared_ptr<VisitModel> create(argtype * args) const override {
+    return std::make_shared<VisitModelIntra>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelIntra(std::istream& istr);
   ~VisitModelIntra() {}

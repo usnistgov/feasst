@@ -194,4 +194,40 @@ void TrialFactory::synchronize_(const Trial& trial) {
   }
 }
 
+std::map<std::string, std::shared_ptr<TrialFactoryNamed> >& TrialFactoryNamed::deserialize_map() {
+  static std::map<std::string, std::shared_ptr<TrialFactoryNamed> >* ans =
+     new std::map<std::string, std::shared_ptr<TrialFactoryNamed> >();
+  return *ans;
+}
+
+//void TrialFactoryNamed::serialize(std::ostream& ostr) const {
+//  ostr << class_name() << " ";
+//  serialize_trial_(ostr);
+//}
+
+//std::shared_ptr<TrialFactoryNamed> TrialFactoryNamed::create(std::istream& istr) const {
+//  return std::make_shared<TrialFactoryNamed>(istr);
+//}
+
+std::shared_ptr<TrialFactoryNamed> TrialFactoryNamed::create(argtype * args) const {
+  FATAL("not implemented");
+}
+
+//std::shared_ptr<TrialFactoryNamed> TrialFactoryNamed::deserialize(std::istream& istr) {
+//  return template_deserialize(deserialize_map(), istr,
+//    // true argument denotes rewinding to reread class name
+//    // this allows derived class constructor to read class name.
+//    true);
+//}
+
+std::shared_ptr<TrialFactoryNamed> TrialFactoryNamed::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
+}
+
+void TrialFactoryNamed::precompute(Criteria * criteria, System * system) {
+  for (std::shared_ptr<Trial> trial : trials_) {
+    trial->precompute(criteria, system);
+  }
+}
+
 }  // namespace feasst

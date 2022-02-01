@@ -66,11 +66,16 @@ double LennardJonesAlpha::energy(
     const ModelParams& model_params) {
   const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
   const double sigma_squared = sigma*sigma;
-  if (squared_distance < hard_sphere_threshold_sq()*sigma_squared) {
+  TRACE("squared_distance " << squared_distance);
+  TRACE("hard_sphere_threshold_sq " << hard_sphere_threshold_sq());
+  TRACE("sigma_squared " << sigma_squared);
+  if (squared_distance == 0 ||
+      squared_distance < hard_sphere_threshold_sq()*sigma_squared) {
     return NEAR_INFINITY;
   }
   const double epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
   const double distance = std::sqrt(squared_distance);
+  TRACE("distance " << distance);
   double rinv2;
   double delta_sigma = 0;
   if (delta_sigma_index_ == -1) {

@@ -54,7 +54,10 @@ class VisitModelCell : public VisitModel {
 
   void check(const Configuration& config) const override;
 
-  std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  std::shared_ptr<VisitModel> create(std::istream& istr) const {
+    return std::make_shared<VisitModelCell>(istr); }
+  std::shared_ptr<VisitModel> create(argtype * args) const {
+    return std::make_shared<VisitModelCell>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelCell(std::istream& istr);
   virtual ~VisitModelCell() {}

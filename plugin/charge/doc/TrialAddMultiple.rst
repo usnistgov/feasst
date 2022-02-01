@@ -1,5 +1,6 @@
-chain/include/trials
+TrialAddMultiple
 =====================================================
 
-.. doxygenfile:: chain/include/trials.h
+.. doxygenclass:: feasst::TrialAddMultiple
    :project: FEASST
+   :members:

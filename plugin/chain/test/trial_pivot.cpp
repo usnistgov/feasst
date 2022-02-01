@@ -7,7 +7,7 @@
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/analyze.h"
-#include "chain/include/trials.h"
+#include "chain/include/trial_pivot.h"
 
 namespace feasst {
 
