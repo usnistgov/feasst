@@ -219,7 +219,13 @@ void ModelParams::add(const Particle& particle) {
         }
         if (!found) {
           DEBUG("automatically adding " << name);
-          add(deep_copy_derived(ModelParam().deserialize_map()[name]));
+          auto model_param = deep_copy_derived(ModelParam().deserialize_map()[name]);
+          // INFO(particle.num_sites());
+          // INFO(size());
+          for (int i = 0; i < size(); ++i) {
+            model_param->add(0.); // add the default placeholder value
+          }
+          add(model_param);
         }
       }
     }
@@ -308,7 +314,8 @@ void ModelParams::set_physical_constants(
 void ModelParams::check() const {
   const int size = params_.front()->size();
   for (std::shared_ptr<ModelParam> parm : params_) {
-    ASSERT(size == parm->size(), "size mismatch");
+    ASSERT(size == parm->size(), "size mismatch for " << parm->class_name() <<
+      " of " << size << " vs " << parm->size());
   }
   properties().check();
 }

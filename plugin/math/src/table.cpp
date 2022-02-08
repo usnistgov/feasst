@@ -4,6 +4,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/table.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -11,8 +12,16 @@ void Table::write(const std::string file_name) const {
   FATAL("not implemented");
 }
 
+double Table::bin_spacing(const int num) {
+  if (num > 1) {
+    return 1./static_cast<double>(num - 1);
+  } else {
+    return 0;
+  }
+}
+
 void Table1D::calc_d_() {
-  bin_spacing_ = 1./static_cast<double>(num() - 1);
+  bin_spacing_ = bin_spacing(num());
 }
 
 Table1D::Table1D(argtype args) : Table1D(&args) { check_all_used(args); }
@@ -91,8 +100,8 @@ void Table1D::add(const Table1D& table) { feasst::add(table.data_, &data_); }
 
 void Table2D::calc_d_() {
   bin_spacing_ = std::vector<double>({
-    1./static_cast<double>(num0() - 1),
-    1./static_cast<double>(num1() - 1)});
+    bin_spacing(num0()),
+    bin_spacing(num1())});
 }
 
 Table2D::Table2D(argtype args) : Table2D(&args) { check_all_used(args); }
@@ -173,9 +182,9 @@ void Table2D::add(const Table2D& table) { feasst::add(table.data_, &data_); }
 
 void Table3D::calc_d_() {
   bin_spacing_ = std::vector<double>({
-    1./static_cast<double>(num0() - 1),
-    1./static_cast<double>(num1() - 1),
-    1./static_cast<double>(num2() - 1)});
+    bin_spacing(num0()),
+    bin_spacing(num1()),
+    bin_spacing(num2())});
 }
 
 Table3D::Table3D(argtype args) : Table3D(&args) { check_all_used(args); }
@@ -214,6 +223,7 @@ double Table3D::linear_interpolation(const double value0,
   const double d0 = bin_spacing_[0];
   const double d1 = bin_spacing_[1];
   const double d2 = bin_spacing_[2];
+  TRACE("d0 " << d0 << " d1 " << d1 << " d2 " << d2);
   const double v0 = i0 * d0, vv0 = v0 + d0;
   const double v1 = i1 * d1, vv1 = v1 + d1;
   const double v2 = i2 * d2, vv2 = v2 + d2;
@@ -221,10 +231,16 @@ double Table3D::linear_interpolation(const double value0,
   TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2);
   const double xd0 = (value0 - v0) / (vv0 - v0);
   const double xd1 = (value1 - v1) / (vv1 - v1);
-  const double xd2 = (value2 - v2) / (vv2 - v2);
-  ASSERT(xd0 >= 0 && xd0 <= 1, "err");
-  ASSERT(xd1 >= 0 && xd1 <= 1, "err");
-  ASSERT(xd2 >= 0 && xd2 <= 1, "err");
+  const double dv2 = vv2 - v2;
+  double xd2;
+  if (std::abs(dv2) < NEAR_ZERO) {
+    xd2 = 0;
+  } else {
+    xd2 = (value2 - v2) / (vv2 - v2);
+  }
+  ASSERT(xd0 >= 0 && xd0 <= 1, "xd0 " << xd0);
+  ASSERT(xd1 >= 0 && xd1 <= 1, "xd1 " << xd1);
+  ASSERT(xd2 >= 0 && xd2 <= 1, "xd2 " << xd2);
   TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2);
   TRACE("size0 " << data_.size());
   TRACE("size1 " << data_[0].size());

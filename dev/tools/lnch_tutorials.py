@@ -8,7 +8,7 @@ for filename in Path('../').rglob('launch*.py'):
         if 'build' and 'dev' and 'feasst_test_env' not in str(filename.parent):
             with pyfeasst.cd(filename.parent):
                 print("Running:", filename.name, "in", filename.parent)
-                pyfeasst.bash_command("python " + str(filename.name))
+                pyfeasst.bash_command("python " + str(filename.name) + " 2> launch.log")
 #                pyfeasst.bash_command("jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout=10000 --execute " + str(filename) + " > tutorial_log.txt 2>&1; grep \"Error\|Assertion\" tutorial_log.txt >> tutorial_failures.txt")
 #                pyfeasst.bash_command("grep \"FAILED (fa\" " + str(filename) +" >> tutorial_failures.txt")
 #                pyfeasst.bash_command("grep \"Error\" " + str(filename) +" >> tutorial_failures.txt")
@@ -45,4 +45,9 @@ for filename in Path('../').rglob('hostname_*.out'):
         pyfeasst.bash_command("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt")
     pyfeasst.bash_command("grep \"Err\" " + str(filename) + " >> launch_failures.txt")
 
+for filename in Path('../').rglob('launch.log'):
+    with pyfeasst.cd(filename.parent):
+        pyfeasst.bash_command("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt")
+        pyfeasst.bash_command("grep \"FAILED\" " + str(filename.name) + " >> launch_failures.txt")
+    pyfeasst.bash_command("grep \"Err\" " + str(filename) + " >> launch_failures.txt")
 

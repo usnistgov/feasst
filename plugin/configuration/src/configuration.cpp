@@ -68,15 +68,18 @@ Configuration::Configuration(argtype * args) {
   DEBUG("parse ModelParam");
   for (std::map<std::string, std::shared_ptr<ModelParam>>::iterator iter = ModelParam().deserialize_map().begin(); iter != ModelParam().deserialize_map().end(); ++iter) {
     const std::string param = iter->first;
+    if (used(param, *args)) {
+      const double value = dble(param, args);
+      for (int site_type = 0; site_type < num_site_types(); ++site_type) {
+        set_model_param(param, site_type, value);
+      }
+    }
     for (int site_type = 0; site_type < num_site_types(); ++site_type) {
       std::string param_arg = param + str(site_type);
       if (used(param_arg, *args)) {
         set_model_param(param, site_type, dble(param_arg, args));
       } else {
         param_arg = param;
-        if (used(param_arg, *args)) {
-          set_model_param(param, site_type, dble(param_arg, args));
-        }
       }
     }
     for (int site1 = 0; site1 < num_site_types(); ++site1) {

@@ -19,6 +19,9 @@ class Table {
   /// Return the maximum of all elements.
   virtual double maximum() const = 0;
 
+  /// Return the bin spacing for a given number of elements.
+  double bin_spacing(const int num);
+
   /// Write to file.
   virtual void write(const std::string file_name) const;
 

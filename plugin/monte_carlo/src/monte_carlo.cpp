@@ -145,7 +145,7 @@ void MonteCarlo::resume() {
     run(action_);
   }
   int size = static_cast<int>(args_.size());
-  INFO("size " << size);
+  DEBUG("size " << size);
   int previous_size = size;
   while (size > 0) {
     previous_size = size;

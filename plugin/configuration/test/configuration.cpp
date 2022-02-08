@@ -333,4 +333,17 @@ TEST(Configuration, set_param) {
   EXPECT_DOUBLE_EQ(config->model_params().select("charge").mixed_values()[1][1], -7.3);
 }
 
+TEST(Configuration, particle_with_different_params) {
+  auto config = MakeConfiguration({
+    {"particle_type0", "../forcefield/lj.fstprt"},
+    {"particle_type1", "../forcefield/atom.fstprt"},
+    {"particle_type2", "../forcefield/spce.fstprt"},
+  });
+  EXPECT_EQ(config->model_params().select("charge").value(0), 0.);
+  EXPECT_EQ(config->model_params().select("charge").value(1), 0.);
+  EXPECT_EQ(config->model_params().select("charge").value(2), -0.8476);
+  EXPECT_EQ(config->model_params().select("charge").value(3), 0.4238);
+  config->model_params().check();
+}
+
 }  // namespace feasst

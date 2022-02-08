@@ -20,6 +20,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
 #include "steppers/include/log_and_movie.h"
@@ -150,43 +151,20 @@ TEST(MonteCarlo, ShapeTable_LONG) {
 //  mc2.attempt(1e5);
 }
 
-TEST(MonteCarlo, SineSlab) {
-  MonteCarlo mc;
-  // mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration({{"cubic_box_length", "16"},
-    {"particle_type0", "../forcefield/lj.fstprt"}}));
-  mc.add(MakePotential(MakeLennardJones()));
-  mc.add(MakePotential(MakeModelHardShape(MakeSlabSine(
-    MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),
-    { {"dimension", "0"}, {"wave_dimension", "1"}, {"average_bound0", "-5"},
-      {"average_bound1", "5"}}))));
-  mc.set(MakeThermoParams({{"beta", "0.1"}, {"chemical_potential", "1."}}));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
-  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
-  mc.run(MakeRun({{"until_num_particles", "500"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  const int steps_per = 1e2;
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
-                          {"file_name", "tmp/sine"}}));
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e3);
-}
-
 System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
   System system;
-  auto config = MakeConfiguration({{"cubic_box_length", "5"},
+  system.add(MakeConfiguration({
+    {"cubic_box_length", "5"},
     {"particle_type0", "../forcefield/dimer.fstprt"},
     {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab5x5.fstprt"},
     {"particle_type2", "../forcefield/lj.fstprt"},
     {"add_particles_of_type0", str(num0)},
     {"add_particles_of_type1", str(num1)},
-    {"add_particles_of_type2", str(num2)}});
-  EXPECT_EQ(3, config->num_site_types());
-  for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
-    config->set_model_param("cutoff", site_type, 2.5);
-  }
-  system.add(*config);
+    {"add_particles_of_type2", str(num2)},
+    {"cutoff", "2.5"}}));
+  EXPECT_EQ(3, system.configuration().num_site_types());
+  EXPECT_EQ(2.5, system.configuration().model_params().select("cutoff").value(0));
+  EXPECT_EQ(2.5, system.configuration().model_params().select("cutoff").value(1));
   system.add(MakePotential(MakeLennardJones()));
 //  system.add(MakePotential(MakeModelHardShape(MakeSlab({
 //    {"dimension", "2"},
@@ -244,6 +222,22 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
   system.add(MakePotential(model));  // use table instead of explicit wall
   const Accumulator h = henry(system);
   EXPECT_NEAR(h.average(), 52.5, 3*h.stdev_of_av());
+
+  // now try some MC
+  MonteCarlo mc;
+  mc.set(slab(1));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeModelTableCart3DIntegr(table)));
+  mc.set(MakeThermoParams({{"beta", "1."}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "25."}}));
+  mc.add(MakeLogAndMovie({{"steps_per", "1e4"}, {"file_name", "tutorial_0"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", "1e4"}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "15"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.attempt(1e6);
 }
 
 //TEST(ModelTableCart3DIntegr, atomistic_slab_LONG) {
@@ -369,6 +363,80 @@ TEST(DensityProfile, ig_hard_slab) {
     EXPECT_NEAR(profile2.profile()[50][type][0], 0., NEAR_ZERO);
     EXPECT_NEAR(profile2.profile()[50][type][1], 0.02, 0.0175);
   }
+}
+
+TEST(MonteCarlo, SineSlab) {
+  MonteCarlo mc;
+  // mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "16"},
+    {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeModelHardShape(MakeSlabSine(
+    MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),
+    { {"dimension", "0"}, {"wave_dimension", "1"}, {"average_bound0", "-5"},
+      {"average_bound1", "5"}}))));
+  mc.set(MakeThermoParams({{"beta", "0.1"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "500"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  const int steps_per = 1e2;
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
+                          {"file_name", "tmp/sine"}}));
+  MonteCarlo mc2 = test_serialize(mc);
+  mc2.attempt(1e3);
+}
+
+TEST(MonteCarlo, SineSlabTable_LONG) {
+  auto random = MakeRandomMT19937({{"seed", "time"}});
+  auto domain = MakeDomain({{"cubic_box_length", "16"}});
+  auto pore = MakeSlabSine(
+    MakeFormulaSineWave({{"amplitude", "2"}, {"width", "20"}}),
+    { {"dimension", "1"}, {"wave_dimension", "0"}, {"average_bound0", "-5"},
+      {"average_bound1", "5"}});
+  auto table = MakeTable3D({
+    {"num0", "101"},
+    {"num1", "101"},
+    {"num2", "1"},
+    {"default_value", "0."}});
+  auto model = MakeModelTableCart3DIntegr(table);
+  argtype table_args = {
+    {"alpha0", "12"},
+    {"epsilon0", "1"},
+    {"alpha1", "6"},
+    {"epsilon1", "-1"},
+    {"max_radius", "10"},
+    {"num_shells", "1000"},
+    {"points_per_shell", "1000"},
+  };
+  #ifdef _OPENMP
+    model->compute_table_omp(pore.get(), domain.get(), random.get(), table_args);
+  #else // _OPENMP
+    model->compute_table(pore.get(), domain.get(), random.get(), table_args);
+  #endif // _OPENMP
+  MakeCheckpoint({{"file_name", "tmp/sinetab"}})->write(*table);
+  auto table2 = std::make_shared<Table3D>();
+  MakeCheckpoint({{"file_name", "tmp/sinetab"}})->read(table2.get());
+
+  MonteCarlo mc;
+  // mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.add(MakeConfiguration({{"cubic_box_length", "16"},
+    {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakePotential(MakeModelHardShape(pore)));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeModelTableCart3DIntegr(table2)));
+  mc.set(MakeThermoParams({{"beta", "0.1"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.run(MakeRun({{"until_num_particles", "500"}}));
+  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  const int steps_per = 1e2;
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
+                          {"file_name", "tmp/sine"}}));
+  MonteCarlo mc2 = test_serialize(mc);
+  mc2.attempt(1e3);
 }
 
 }  // namespace feasst
