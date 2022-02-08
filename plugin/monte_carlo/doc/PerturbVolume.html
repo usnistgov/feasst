@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>PerturbVolume &mdash; FEASST v0.18.1 documentation</title>
+  <title>PerturbVolume &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="TrialStage" href="TrialStage.html" />
-    <link rel="prev" title="PerturbDistance" href="PerturbDistance.html" />
+    <link rel="prev" title="PerturbToAnchor" href="PerturbToAnchor.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -133,12 +133,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialVolume.html">TrialVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
@@ -146,13 +148,16 @@
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeTranslate.html">TrialComputeTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -306,7 +311,7 @@
 <h1>PerturbVolume<a class="headerlink" href="#perturbvolume" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst13PerturbVolumeE">
-<span class="target" id="classfeasst_1_1PerturbVolume"></span><em class="property">class </em><code class="sig-name descname">PerturbVolume</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Perturb.html#_CPPv4N6feasst7PerturbE" title="feasst::Perturb">Perturb</a><a class="headerlink" href="#_CPPv4N6feasst13PerturbVolumeE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1PerturbVolume"></span><em class="property">class </em><code class="sig-name descname">PerturbVolume</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Perturb.html#_CPPv4N6feasst7PerturbE" title="feasst::Perturb">Perturb</a><a class="headerlink" href="#_CPPv4N6feasst13PerturbVolumeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Change the volume of the system. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -353,7 +358,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="TrialStage.html" class="btn btn-neutral float-right" title="TrialStage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="PerturbDistance.html" class="btn btn-neutral float-left" title="PerturbDistance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="PerturbToAnchor.html" class="btn btn-neutral float-left" title="PerturbToAnchor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

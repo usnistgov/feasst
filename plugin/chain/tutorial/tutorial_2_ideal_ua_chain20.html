@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Simulation of a single 20-bead linear chain &mdash; FEASST v0.18.1 documentation</title>
+  <title>Simulation of a single 20-bead linear chain &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -128,8 +128,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../doc/SelectReptate.html">SelectReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbReptate.html">PerturbReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/trials.html">chain/include/trials</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/trial_grow.html">chain/include/trial_grow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialGrow.html">TrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialSwapSites.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialPivot.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
@@ -522,7 +525,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Simulation-of-a-single-20-bead-linear-chain">
 <h1>Simulation of a single 20-bead linear chain<a class="headerlink" href="#Simulation-of-a-single-20-bead-linear-chain" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -554,7 +557,7 @@ div.rendered_html tbody tr:hover {
 <span class="n">length</span><span class="o">=</span><span class="n">mc</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">num_sites</span><span class="p">()</span>
 <span class="n">max_length</span><span class="o">=</span><span class="mi">19</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_length</span><span class="p">):</span>
-     <span class="n">unit_grows</span><span class="o">.</span><span class="n">append</span><span class="p">([{</span><span class="s2">&quot;bond&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;mobile_site&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s2">&quot;anchor_site&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)}])</span>
+     <span class="n">unit_grows</span><span class="o">.</span><span class="n">append</span><span class="p">([{</span><span class="s2">&quot;bond&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;mobile_site&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s2">&quot;anchor_site&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;num_steps&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">}])</span>
      <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
          <span class="n">grows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_grows</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
      <span class="k">else</span><span class="p">:</span>
@@ -569,7 +572,7 @@ div.rendered_html tbody tr:hover {
 <span class="k">for</span> <span class="n">grow</span> <span class="ow">in</span> <span class="n">grows</span><span class="p">:</span>
     <span class="n">grow</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">grow</span><span class="p">))</span>
     <span class="n">grow</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;particle_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialGrow</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">ArgsVector</span><span class="p">(</span><span class="n">grow</span><span class="p">),</span> <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;num_steps&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">})))</span>
+    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialGrow</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">ArgsVector</span><span class="p">(</span><span class="n">grow</span><span class="p">)))</span>
 <span class="n">steps_per</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">))</span>
 <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;chain&quot;</span><span class="p">})))</span>
 <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span> <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e-10</span><span class="p">)})))</span>
@@ -590,11 +593,11 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-v0.17.2-1-g3d32a381c8-develop
-Potential energy of initial configuration: -2.0007603334206094
-end to end 12.767145334803708
-average,stdev,block_stdev,n,moment0,moment1,
-2.814319887214793,1.0639872310648582,0,100000,281431.98872147929,905245.39347534701,
+v0.18.1-61-gca844632f9-hwh/txtin_factory
+Potential energy of initial configuration: -2.022678100397566
+end to end 12.767145334803702
+average,stdev,block_stdev,moment0,moment1,moment2,moment3,moment4,
+2.9101307491409747,1.0772850857103031,0.056074188907484161,100000,291013.07491409747,962939.25275581061,3533838.6102219024,14138621.456323513,
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

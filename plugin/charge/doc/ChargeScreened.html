@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ChargeScreened &mdash; FEASST v0.18.1 documentation</title>
+  <title>ChargeScreened &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -135,9 +135,9 @@
 <li class="toctree-l4"><a class="reference internal" href="Ewald.html">Ewald</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">charge/include/utils</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_transfer_multiple.html">charge/include/trial_transfer_multiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_remove_multiple.html">charge/include/trial_remove_multiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_add_multiple.html">charge/include/trial_add_multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 </ul>
@@ -276,7 +276,7 @@
 <h1>ChargeScreened<a class="headerlink" href="#chargescreened" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst14ChargeScreenedE">
-<span class="target" id="classfeasst_1_1ChargeScreened"></span><em class="property">class </em><code class="sig-name descname">ChargeScreened</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst14ChargeScreenedE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ChargeScreened"></span><em class="property">class </em><code class="sig-name descname">ChargeScreened</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst14ChargeScreenedE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute energy between two point charges, <span class="math notranslate nohighlight">\(q_i\)</span> and <span class="math notranslate nohighlight">\(q_j\)</span> with a Gaussian screening cloud as utilized by the <a class="reference internal" href="Ewald.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation.</p>
 <p><span class="math notranslate nohighlight">\(U = q_i q_j \chi erfc(\alpha r)/r\)</span></p>
 <p>where <span class="math notranslate nohighlight">\(erfc\)</span> is the complimentary error function, <span class="math notranslate nohighlight">\(r\)</span> is the separation distance, and <span class="math notranslate nohighlight">\(\chi\)</span> is the charge conversion factor assuming the following units:<ol class="arabic simple">

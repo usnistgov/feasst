@@ -9,8 +9,11 @@
    SelectReptate
    PerturbReptate
    AnalyzeBonds
-   trials
-   trial_grow
+   TrialGrow
+   TrialSwapSites
+   TrialPivot
+   TrialReptate
+   TrialCrankshaft
    PerturbBranch
    PerturbPivot
    PerturbCrankshaft

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>LennardJonesAlpha &mdash; FEASST v0.18.1 documentation</title>
+  <title>LennardJonesAlpha &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -125,6 +125,7 @@
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesCutShift.html">LennardJonesCutShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesForceShift.html">LennardJonesForceShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Mie.html">Mie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -269,8 +270,17 @@
 <h1>LennardJonesAlpha<a class="headerlink" href="#lennardjonesalpha" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst17LennardJonesAlphaE">
-<span class="target" id="classfeasst_1_1LennardJonesAlpha"></span><em class="property">class </em><code class="sig-name descname">LennardJonesAlpha</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/LennardJones.html#_CPPv4N6feasst12LennardJonesE" title="feasst::LennardJones">LennardJones</a><a class="headerlink" href="#_CPPv4N6feasst17LennardJonesAlphaE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{LJ}\)</span> is described in <a class="reference internal" href="../../system/doc/LennardJones.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a>. In this class, the <span class="math notranslate nohighlight">\(\alpha\)</span> parameter may be varied (default: 6). </p>
+<span class="target" id="classfeasst_1_1LennardJonesAlpha"></span><em class="property">class </em><code class="sig-name descname">LennardJonesAlpha</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/LennardJones.html#_CPPv4N6feasst12LennardJonesE" title="feasst::LennardJones">LennardJones</a><a class="headerlink" href="#_CPPv4N6feasst17LennardJonesAlphaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{LJ}\)</span> is a generalization of the one described in <a class="reference internal" href="../../system/doc/LennardJones.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a>.</p>
+<p><span class="math notranslate nohighlight">\( U_{LJ} = 4\epsilon \left[ \left(\frac{\sigma + \Delta_\sigma}{r + \Delta_\sigma}\right)^{2\alpha} - \left(\frac{\sigma + \Delta_\sigma}{r + \Delta_\sigma}\right)^\alpha \right] \)</span>,</p>
+<p>In this class, the <span class="math notranslate nohighlight">\(\alpha\)</span> parameter may be varied (default: 6). In addition, the delta_sigma parameter may be set as a site-specific <a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> in the fstprt file (default: 0).</p>
+<p>Note that <span class="math notranslate nohighlight">\(U_{LJ}\)</span> crosses zero when <span class="math notranslate nohighlight">\(r=\sigma\)</span>.</p>
+<p>Consider an alternative interpretation for <span class="math notranslate nohighlight">\(\Delta_\sigma = \sigma_r - \sigma\)</span></p>
+<p><span class="math notranslate nohighlight">\( U_{LJ} = 4\epsilon \left[ \left(\frac{\sigma_r}{r - \sigma + \sigma_r}\right)^{2\alpha} - \left(\frac{\sigma_r}{r - \sigma + \sigma_r}\right)^\alpha \right] \)</span></p>
+<p>Thus, <span class="math notranslate nohighlight">\(\sigma_r = \sigma + \Delta_\sigma\)</span> determines the well width and shape of the potential, while <span class="math notranslate nohighlight">\(\sigma\)</span> determines the excluded volume by shifting the potential right or left.</p>
+<p>An additional option is the use of a “lambda” potential which decouples the attractive and repulsive portions of the LJ potential to allow for a modified well-depth or even a shoulder, as shown in Fig. 1 of <a class="reference external" href="https://doi.org/10.1039/C7SM01005B">https://doi.org/10.1039/C7SM01005B</a> and also described in <a class="reference external" href="https://dx.doi.org/10.1021/ja802124e">https://dx.doi.org/10.1021/ja802124e</a>.</p>
+<p><span class="math notranslate nohighlight">\( U^\lambda = \left\{ \begin{array}{lr} U_{LJ} + \epsilon(1 - \lambda_{ij}) &amp; r \le r_m \\ \lambda_{ij}U_{LJ} &amp; r &gt; r_m \end{array} \right. \)</span></p>
+<p>where <span class="math notranslate nohighlight">\(r_m = (\sigma + \Delta_\sigma)2^{1/\alpha}-\Delta_\sigma\)</span> is the minimum. The lambda parameter is also a site-specific <a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> in the fstprt file. </p>
 <p>Subclassed by <a class="reference internal" href="LennardJonesCutShift.html#classfeasst_1_1LennardJonesCutShift"><span class="std std-ref">feasst::LennardJonesCutShift</span></a>, <a class="reference internal" href="LennardJonesForceShift.html#classfeasst_1_1LennardJonesForceShift"><span class="std std-ref">feasst::LennardJonesForceShift</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -278,7 +288,8 @@
 <dt id="_CPPv4N6feasst17LennardJonesAlpha17LennardJonesAlphaE7argtype">
 <span class="target" id="classfeasst_1_1LennardJonesAlpha_1a143c8eed6bdb5fb63cc83cdc21f2a7e6"></span><code class="sig-name descname">LennardJonesAlpha</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17LennardJonesAlpha17LennardJonesAlphaE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>alpha: set the value of <span class="math notranslate nohighlight">\(\alpha\)</span> (default: 6). </p></li>
+<li><p>alpha: set the value of <span class="math notranslate nohighlight">\(\alpha\)</span> (default: 6).</p></li>
+<li><p>lambda: enable “lambda” potentials (default: false) </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -293,6 +304,12 @@
 <dt id="_CPPv4NK6feasst17LennardJonesAlpha7set_wcaEKiKiP11ModelParams">
 <span class="target" id="classfeasst_1_1LennardJonesAlpha_1ad56cde59c86321673ada43b3a94c134c"></span>void <code class="sig-name descname">set_wca</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_type1</em>, <em class="property">const</em> int <em>site_type2</em>, <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> *<em>params</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17LennardJonesAlpha7set_wcaEKiKiP11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize WCA cutoff distances for types 1 and 2 in model parameters. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst17LennardJonesAlpha10precomputeERK11ModelParams">
+<span class="target" id="classfeasst_1_1LennardJonesAlpha_1a1f36317e586fee9ba5cfdaf1be9a83d1"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>existing</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17LennardJonesAlpha10precomputeERK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Precompute model parameters based on existing model parameters. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -311,13 +328,24 @@
 </dd></dl>
 
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst14EnergyAtCutoffE">
-<span class="target" id="classfeasst_1_1EnergyAtCutoff"></span><em class="property">class </em><code class="sig-name descname">EnergyAtCutoff</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst14EnergyAtCutoffE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst10DeltaSigmaE">
+<span class="target" id="classfeasst_1_1DeltaSigma"></span><em class="property">class </em><code class="sig-name descname">DeltaSigma</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst10DeltaSigmaE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst19EnergyDerivAtCutoffE">
-<span class="target" id="classfeasst_1_1EnergyDerivAtCutoff"></span><em class="property">class </em><code class="sig-name descname">EnergyDerivAtCutoff</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst19EnergyDerivAtCutoffE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst6LambdaE">
+<span class="target" id="classfeasst_1_1Lambda"></span><em class="property">class </em><code class="sig-name descname">Lambda</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6LambdaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The lambda parameter has the default mixing rule: <span class="math notranslate nohighlight">\( \lambda_{ij} = \sqrt{\lambda_i \lambda_j} \)</span> </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst14EnergyAtCutOffE">
+<span class="target" id="classfeasst_1_1EnergyAtCutOff"></span><em class="property">class </em><code class="sig-name descname">EnergyAtCutOff</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst14EnergyAtCutOffE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst19EnergyDerivAtCutOffE">
+<span class="target" id="classfeasst_1_1EnergyDerivAtCutOff"></span><em class="property">class </em><code class="sig-name descname">EnergyDerivAtCutOff</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst19EnergyDerivAtCutOffE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </div>

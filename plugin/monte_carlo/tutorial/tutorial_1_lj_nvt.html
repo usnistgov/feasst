@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Canonical ensemble Monte Carlo &mdash; FEASST v0.18.1 documentation</title>
+  <title>Canonical ensemble Monte Carlo &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -576,41 +576,44 @@ average directly in the Python script.</p>
         <span class="n">stdev</span> <span class="o">=</span> <span class="p">(</span><span class="n">energy</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span><span class="o">.</span><span class="n">block_stdev</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.89E-05</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
         <span class="c1"># print(energy.energy().average(), energy_alt.average())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="o">-</span><span class="mf">9.9165E-03</span><span class="o">*</span><span class="n">num_particles</span><span class="p">,</span> <span class="n">energy</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span><span class="o">.</span><span class="n">average</span><span class="p">(),</span>
-                               <span class="n">delta</span><span class="o">=</span><span class="mf">2.576</span><span class="o">*</span><span class="n">stdev</span><span class="p">)</span>
+                              <span class="n">delta</span><span class="o">=</span><span class="mf">2.576</span><span class="o">*</span><span class="n">stdev</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">test_srsw_alt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_particles</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">steps_per</span><span class="o">=</span><span class="mf">1e5</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_srsw_alt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_particles</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">steps_per</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mf">0.9</span><span class="p">,</span>
+                      <span class="n">fstprt</span><span class="o">=</span><span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">):</span>
         <span class="s2">&quot;Same as above, but using an input text file and testing result from checkpoint&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;box_length&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">num_particles</span><span class="o">/</span><span class="n">density</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">locals</span><span class="p">(),</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">fst_input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Checkpoint file_name checkpoint.fst</span>
+<span class="s2">RandomMT19937 seed time</span>
+<span class="s2">Configuration cubic_box_length </span><span class="si">{box_length}</span><span class="s2"> particle_type </span><span class="si">{fstprt}</span><span class="s2"></span>
+<span class="s2">Potential Model LennardJones</span>
+<span class="s2">Potential VisitModel LongRangeCorrections</span>
+<span class="s2">ThermoParams beta 0.1 chemical_potential 10</span>
+<span class="s2">Metropolis</span>
+<span class="s2">TrialTranslate tunable_param 2. tunable_target_acceptance 0.2</span>
+<span class="s2">TrialAdd particle_type 0</span>
+<span class="s2">Run until_num_particles </span><span class="si">{num_particles}</span><span class="s2"></span>
+<span class="s2">RemoveTrial name TrialAdd</span>
+<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"></span>
+<span class="s2">Tune steps_per </span><span class="si">{steps_per}</span><span class="s2"></span>
+<span class="s2">CheckEnergy steps_per </span><span class="si">{steps_per}</span><span class="s2"> tolerance 1e-8</span>
+<span class="s2">Run num_attempts 1e6</span>
+<span class="s2">RemoveModify name Tune</span>
+<span class="s2">Log steps_per </span><span class="si">{steps_per}</span><span class="s2"> file_name lj.txt</span>
+<span class="s2">Energy steps_per_write </span><span class="si">{steps_per}</span><span class="s2"> file_name en.txt</span>
+<span class="s2">Run num_attempts 1e6</span>
+<span class="s2">WriteCheckpoint</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tutorial_1_lj_nvt.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fsttxt</span><span class="p">:</span>
-            <span class="n">fsttxt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\</span>
-<span class="s2">Checkpoint file_name checkpoint.fst</span><span class="se">\n\</span>
-<span class="s2">RandomMT19937 seed time</span><span class="se">\n\</span>
-<span class="s2">Configuration cubic_box_length &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">num_particles</span><span class="o">/</span><span class="n">density</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">))</span> <span class="o">+</span>
-    <span class="s2">&quot; particle_type &quot;</span> <span class="o">+</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt</span><span class="se">\n\</span>
-<span class="s2">Potential Model LennardJones</span><span class="se">\n\</span>
-<span class="s2">Potential VisitModel LongRangeCorrections</span><span class="se">\n\</span>
-<span class="s2">ThermoParams beta 0.1 chemical_potential 10</span><span class="se">\n\</span>
-<span class="s2">Metropolis</span><span class="se">\n\</span>
-<span class="s2">TrialTranslate tunable_param 2. tunable_target_acceptance 0.2</span><span class="se">\n\</span>
-<span class="s2">TrialAdd particle_type 0</span><span class="se">\n\</span>
-<span class="s2">Run until_num_particles &quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n\</span>
-<span class="s2">RemoveTrial name TrialAdd</span><span class="se">\n\</span>
-<span class="s2">ThermoParams beta &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">0.9</span><span class="p">)</span> <span class="o">+</span><span class="s2">&quot;</span><span class="se">\n\</span>
-<span class="s2">Tune steps_per 100000</span><span class="se">\n\</span>
-<span class="s2">CheckEnergy steps_per 100000 tolerance 0.00000001</span><span class="se">\n\</span>
-<span class="s2">Run num_attempts 1000000</span><span class="se">\n\</span>
-<span class="s2">RemoveModify name Tune</span><span class="se">\n\</span>
-<span class="s2">Log steps_per 100000 file_name lj.txt</span><span class="se">\n\</span>
-<span class="s2">Energy steps_per_write 100000 file_name en.txt</span><span class="se">\n\</span>
-<span class="s2">Run num_attempts 1000000</span><span class="se">\n\</span>
-<span class="s2">WriteCheckpoint&quot;</span>
-            <span class="p">)</span>
+            <span class="n">fsttxt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fst_input</span><span class="p">)</span>
         <span class="kn">import</span> <span class="nn">pyfeasst</span>
         <span class="n">pyfeasst</span><span class="o">.</span><span class="n">bash_command</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/build/bin/fst &lt; tutorial_1_lj_nvt.txt&quot;</span><span class="p">)</span>
+
+        <span class="c1"># test the average against the NIST SRSW by deserializing the checkpoint</span>
         <span class="n">mc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">pyfeasst</span><span class="o">.</span><span class="n">read_checkpoint</span><span class="p">(</span><span class="s1">&#39;checkpoint.fst&#39;</span><span class="p">))</span>
         <span class="n">energy</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">SeekAnalyze</span><span class="p">()</span><span class="o">.</span><span class="n">reference</span><span class="p">(</span><span class="s2">&quot;Energy&quot;</span><span class="p">,</span> <span class="n">mc</span><span class="p">)</span><span class="o">.</span><span class="n">accumulator</span><span class="p">()</span>
-        <span class="c1"># test the average against the NIST SRSW</span>
         <span class="n">stdev</span> <span class="o">=</span> <span class="p">(</span><span class="n">energy</span><span class="o">.</span><span class="n">block_stdev</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.89E-05</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
-        <span class="c1"># print(energy.energy().average(), energy_alt.average())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="o">-</span><span class="mf">9.9165E-03</span><span class="o">*</span><span class="n">num_particles</span><span class="p">,</span> <span class="n">energy</span><span class="o">.</span><span class="n">average</span><span class="p">(),</span>
                                <span class="n">delta</span><span class="o">=</span><span class="mf">2.576</span><span class="o">*</span><span class="n">stdev</span><span class="p">)</span>
 </pre></div>
@@ -641,8 +644,8 @@ Compare with the reported average energy from the NIST SRSW. ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 5 µs, sys: 1 µs, total: 6 µs
-Wall time: 9.3 µs
+CPU times: user 3 µs, sys: 1e+03 ns, total: 4 µs
+Wall time: 7.39 µs
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -655,7 +658,7 @@ test_srsw_alt (__main__.TestMonteCarlo1LJNVT)
 Same as above, but using an input text file and testing result from checkpoint ... ok
 
 ----------------------------------------------------------------------
-Ran 2 tests in 1084.682s
+Ran 2 tests in 1258.481s
 
 OK
 </pre></div></div>
@@ -666,7 +669,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f9e215a7970&gt;
+&lt;unittest.main.TestProgram at 0x7fb894687ca0&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

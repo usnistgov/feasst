@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>EnergyMapNeighbor &mdash; FEASST v0.18.1 documentation</title>
+  <title>EnergyMapNeighbor &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -136,11 +136,11 @@
 <li class="toctree-l4"><a class="reference internal" href="SelectCluster.html">SelectCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbPointReflect.html">PerturbPointReflect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_avb2.html">cluster/include/trial_avb2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_rigid_cluster.html">cluster/include/trial_rigid_cluster</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_transfer_avb_divalent.html">cluster/include/trial_transfer_avb_divalent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_transfer_avb.html">cluster/include/trial_transfer_avb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_avb4.html">cluster/include/trial_avb4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAVB2Half.html">TrialAVB2Half</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslateCluster.html">TrialTranslateCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddAVBDivalent.html">TrialAddAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddAVB.html">TrialAddAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAVB4.html">TrialAVB4</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeMoveCluster.html">ComputeMoveCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddAVB.html">ComputeAddAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
@@ -286,7 +286,7 @@
 <h1>EnergyMapNeighbor<a class="headerlink" href="#energymapneighbor" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst17EnergyMapNeighborE">
-<span class="target" id="classfeasst_1_1EnergyMapNeighbor"></span><em class="property">class </em><code class="sig-name descname">EnergyMapNeighbor</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMapE" title="feasst::EnergyMap">EnergyMap</a><a class="headerlink" href="#_CPPv4N6feasst17EnergyMapNeighborE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor"></span><em class="property">class </em><code class="sig-name descname">EnergyMapNeighbor</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMapE" title="feasst::EnergyMap">EnergyMap</a><a class="headerlink" href="#_CPPv4N6feasst17EnergyMapNeighborE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Map only between particles that interact (e.g., non zero energy). This data structure is intended to better scale with more particles than <a class="reference internal" href="EnergyMapAll.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a>. Although for small system sizes or large cutoffs, <a class="reference internal" href="EnergyMapAll.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a> may be faster because it does not require sorting.</p>
 <p>This implementation also stores two versions of the map. The first version is the current map. The second version is an empty new map. Upon perturbation, the empty new map is populated with interactions. When a perturbation is accepted, finalize replaces interactions in current map with those in the new map. The new map is then emptied. When a perturbation is rejected, revert empties the new map. </p>
 <p>Subclassed by <a class="reference internal" href="EnergyMapNeighborCriteria.html#classfeasst_1_1EnergyMapNeighborCriteria"><span class="std std-ref">feasst::EnergyMapNeighborCriteria</span></a></p>

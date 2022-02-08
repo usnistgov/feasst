@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ComputeAddAVB &mdash; FEASST v0.18.1 documentation</title>
+  <title>ComputeAddAVB &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -136,11 +136,11 @@
 <li class="toctree-l4"><a class="reference internal" href="SelectCluster.html">SelectCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbPointReflect.html">PerturbPointReflect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_avb2.html">cluster/include/trial_avb2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_rigid_cluster.html">cluster/include/trial_rigid_cluster</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_transfer_avb_divalent.html">cluster/include/trial_transfer_avb_divalent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_transfer_avb.html">cluster/include/trial_transfer_avb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_avb4.html">cluster/include/trial_avb4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAVB2Half.html">TrialAVB2Half</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslateCluster.html">TrialTranslateCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddAVBDivalent.html">TrialAddAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddAVB.html">TrialAddAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAVB4.html">TrialAVB4</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeMoveCluster.html">ComputeMoveCluster</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">ComputeAddAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
@@ -286,7 +286,7 @@
 <h1>ComputeAddAVB<a class="headerlink" href="#computeaddavb" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst13ComputeAddAVBE">
-<span class="target" id="classfeasst_1_1ComputeAddAVB"></span><em class="property">class </em><code class="sig-name descname">ComputeAddAVB</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/TrialCompute.html#_CPPv4N6feasst12TrialComputeE" title="feasst::TrialCompute">TrialCompute</a><a class="headerlink" href="#_CPPv4N6feasst13ComputeAddAVBE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ComputeAddAVB"></span><em class="property">class </em><code class="sig-name descname">ComputeAddAVB</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/TrialCompute.html#_CPPv4N6feasst12TrialComputeE" title="feasst::TrialCompute">TrialCompute</a><a class="headerlink" href="#_CPPv4N6feasst13ComputeAddAVBE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempt to add a particle of type “a” (for add) with a bias for site_index_a to be in the aggregation volume (AV) of site_index_t (“t” for target) of a particle of type “t”.</p>
 <p>The derivation of the acceptance probability follows that as described in both <a class="reference internal" href="../../monte_carlo/doc/TrialComputeMove.html#classfeasst_1_1TrialComputeMove"><span class="std std-ref">TrialComputeMove</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialComputeAdd.html#classfeasst_1_1TrialComputeAdd"><span class="std std-ref">TrialComputeAdd</span></a> with the following transition probabilities.</p>
 <p><p><table class="docutils align-default">

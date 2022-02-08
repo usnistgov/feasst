@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>HalfSpaceSine &mdash; FEASST v0.18.1 documentation</title>
+  <title>HalfSpaceSine &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -274,7 +274,7 @@
 <h1>HalfSpaceSine<a class="headerlink" href="#halfspacesine" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst13HalfSpaceSineE">
-<span class="target" id="classfeasst_1_1HalfSpaceSine"></span><em class="property">class </em><code class="sig-name descname">HalfSpaceSine</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="HalfSpace.html#_CPPv4N6feasst9HalfSpaceE" title="feasst::HalfSpace">HalfSpace</a><a class="headerlink" href="#_CPPv4N6feasst13HalfSpaceSineE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1HalfSpaceSine"></span><em class="property">class </em><code class="sig-name descname">HalfSpaceSine</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="HalfSpace.html#_CPPv4N6feasst9HalfSpaceE" title="feasst::HalfSpace">HalfSpace</a><a class="headerlink" href="#_CPPv4N6feasst13HalfSpaceSineE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Similar to <a class="reference internal" href="HalfSpace.html#classfeasst_1_1HalfSpace"><span class="std std-ref">HalfSpace</span></a>, which divides space by a plane (or line in 2D), except that space is divided by a sine wave instead. <a class="reference internal" href="FormulaSineWave.html#classfeasst_1_1FormulaSineWave"><span class="std std-ref">FormulaSineWave</span></a> describes the surface. Note that the “y” coordinate refers to the one specified in the “dimension” input argument. Thus, the “intersect” argument in <a class="reference internal" href="HalfSpace.html#classfeasst_1_1HalfSpace"><span class="std std-ref">HalfSpace</span></a> overrides the “shift” argument in <a class="reference internal" href="FormulaSineWave.html#classfeasst_1_1FormulaSineWave"><span class="std std-ref">FormulaSineWave</span></a>. The “x” coordinate is given by wave_dimension.</p>
 <p>To find the nearest distance of the sine wall from the point, the squared distance, <span class="math notranslate nohighlight">\(D^2\)</span> of the point (e,f) to the sine wave,</p>
 <p><span class="math notranslate nohighlight">\(D^2 = (x-e)^2 + (y-f)^2\)</span></p>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Configuration &mdash; FEASST v0.18.1 documentation</title>
+  <title>Configuration &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -294,11 +294,9 @@
 <li><p>wrap: wrap particle centers within domain (default: true).</p></li>
 <li><p>physical_constants: optional class_name of <a class="reference internal" href="PhysicalConstants.html#classfeasst_1_1PhysicalConstants"><span class="std std-ref">PhysicalConstants</span></a>.</p></li>
 <li><p>set_cutoff_min_to_sigma: if true and cutoff &lt; sigma, cutoff = sigma (default: false). This is typically used for <a class="reference internal" href="../../system/doc/HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> models that didn’t specify cutoff.</p></li>
-<li><p>sigma[i]: optionally set the sigma of i-th site type to this value. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
-<li><p>epsilon[i]: optionally set the epsilon of i-th site type to this value. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
-<li><p>cutoff: optionally set the cutoff of all site types to this value.</p></li>
-<li><p>cutoff[i]: optionally set the cutoff of i-th site type to this value. The “[i]” is to be substituted for an integer 0, 1, 2, … These are applied after the above cutoff for all types.</p></li>
-<li><p>charge[i]: optionally set the charge of i-th site type to this value. The “[i]” is to be substituted for an integer 0, 1, 2, … </p></li>
+<li><p>[parameter]: optionally set the [parameter] of all types to this value. The “[parameter]” is to be substituted for epsilon, sigma, cutoff, etc.</p></li>
+<li><p>[parameter][i]: optionally set the [parameter] of the i-th site type. The “[i]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for all types.</p></li>
+<li><p>[parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type. The “[i]/[j]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for single types. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -381,14 +379,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration15set_model_paramEPKcKiKd">
-<span class="target" id="classfeasst_1_1Configuration_1a94510ec8f04ac71ae28c82883fcd3081"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, <em class="property">const</em> int <em>site_type</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEPKcKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKd">
+<span class="target" id="classfeasst_1_1Configuration_1aec1e3c102684995e558544dfbb1cfcb0"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> int <em>site_type</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> model parameter of a given site type and name to value. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration15set_model_paramEPKcKiKiKd">
-<span class="target" id="classfeasst_1_1Configuration_1acc2c3df12c270285abe9b84f2f1fd5fb"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, <em class="property">const</em> int <em>site_type1</em>, <em class="property">const</em> int <em>site_type2</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEPKcKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKiKd">
+<span class="target" id="classfeasst_1_1Configuration_1af71560431d0803bbd14571eddb6d390c"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> int <em>site_type1</em>, <em class="property">const</em> int <em>site_type2</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> a mixed model parameter of given site types and name to value. </p>
 </dd></dl>
 

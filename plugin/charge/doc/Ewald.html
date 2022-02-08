@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Ewald &mdash; FEASST v0.18.1 documentation</title>
+  <title>Ewald &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -135,9 +135,9 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Ewald</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">charge/include/utils</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_transfer_multiple.html">charge/include/trial_transfer_multiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_remove_multiple.html">charge/include/trial_remove_multiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_add_multiple.html">charge/include/trial_add_multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 </ul>
@@ -276,7 +276,7 @@
 <h1>Ewald<a class="headerlink" href="#ewald" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst5EwaldE">
-<span class="target" id="classfeasst_1_1Ewald"></span><em class="property">class </em><code class="sig-name descname">Ewald</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst5EwaldE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Ewald"></span><em class="property">class </em><code class="sig-name descname">Ewald</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst5EwaldE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation accounts for the long-range nature of the electrostatic interaction by applying a Gaussian screening charge, computing a Fourier-space long-range component, and then correcting for the various spurious terms that are included in the Fourier summation, such as self and intra-particle.</p>
 <p>See “Computer simulation of liquids” by M. P. Allen and D. J. Tildesley. The LAMMPS and DL_POLY manuals also include thorough descriptions of the <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation.</p>
 <p><a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is not supported for use as a reference state for dual-cut.</p>

@@ -7,8 +7,8 @@
    VisitModelInner
    ThermoParams
    BondThreeBody
-   AngleSquareWell
    RigidAngle
+   AngleSquareWell
    BondTwoBody
    BondSquareWell
    RigidBond

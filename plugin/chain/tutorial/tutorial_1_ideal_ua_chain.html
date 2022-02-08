@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Simulation of a single chain &mdash; FEASST v0.18.1 documentation</title>
+  <title>Simulation of a single chain &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -128,8 +128,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../doc/SelectReptate.html">SelectReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbReptate.html">PerturbReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/trials.html">chain/include/trials</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/trial_grow.html">chain/include/trial_grow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialGrow.html">TrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialSwapSites.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialPivot.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
@@ -587,8 +590,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-v0.17.2-1-g3d32a381c8-develop
-Potential energy of initial configuration: -0.19650552006989824
+v0.18.1-61-gca844632f9-hwh/txtin_factory
+Potential energy of initial configuration: -0.19650552006989797
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -615,9 +618,9 @@ test_rg_en (__main__.TestChain5RG) ...
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 CPU times: user 2 µs, sys: 0 ns, total: 2 µs
-Wall time: 3.81 µs
-average,stdev,block_stdev,n,moment0,moment1,
-0.88365120074588144,0.23450387282487944,0,100000,88365.120074588149,83583.096102884159,
+Wall time: 4.53 µs
+average,stdev,block_stdev,moment0,moment1,moment2,moment3,moment4,
+0.87913777224692524,0.23281173227362806,0.0023682925306159953,100000,87913.777224692522,82708.398326250723,83471.583924272077,90291.042172433405,
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -639,7 +642,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f57387dca90&gt;
+&lt;unittest.main.TestProgram at 0x7fef484fe910&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

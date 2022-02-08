@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>TrialFactory &mdash; FEASST v0.18.1 documentation</title>
+  <title>TrialFactory &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Analyze" href="Analyze.html" />
-    <link rel="prev" title="Trial" href="Trial.html" />
+    <link rel="prev" title="TrialRemove" href="TrialRemove.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -133,12 +133,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialVolume.html">TrialVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">TrialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
@@ -146,13 +148,16 @@
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeTranslate.html">TrialComputeTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -306,7 +311,7 @@
 <h1>TrialFactory<a class="headerlink" href="#trialfactory" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst12TrialFactoryE">
-<span class="target" id="classfeasst_1_1TrialFactory"></span><em class="property">class </em><code class="sig-name descname">TrialFactory</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst12TrialFactoryE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1TrialFactory"></span><em class="property">class </em><code class="sig-name descname">TrialFactory</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst12TrialFactoryE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Contains multiple Trials. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -410,6 +415,13 @@
 </div>
 </dd></dl>
 
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst17TrialFactoryNamedE">
+<span class="target" id="classfeasst_1_1TrialFactoryNamed"></span><em class="property">class </em><code class="sig-name descname">TrialFactoryNamed</code><a class="headerlink" href="#_CPPv4N6feasst17TrialFactoryNamedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Contains multiple Trials for use as input into <a class="reference internal" href="MonteCarlo.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a>. As opposed to the above, these classes are named to enable factories. Serialization is not required. </p>
+<p>Subclassed by <a class="reference internal" href="../../cluster/doc/TrialAVB2Half.html#classfeasst_1_1TrialAVB2"><span class="std std-ref">feasst::TrialAVB2</span></a>, <a class="reference internal" href="../../chain/doc/TrialGrow.html#classfeasst_1_1TrialGrow"><span class="std std-ref">feasst::TrialGrow</span></a>, <a class="reference internal" href="../../cluster/doc/TrialTranslateCluster.html#classfeasst_1_1TrialRigidCluster"><span class="std std-ref">feasst::TrialRigidCluster</span></a>, <a class="reference internal" href="TrialTransfer.html#classfeasst_1_1TrialTransfer"><span class="std std-ref">feasst::TrialTransfer</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAddAVB.html#classfeasst_1_1TrialTransferAVB"><span class="std std-ref">feasst::TrialTransferAVB</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAddAVBDivalent.html#classfeasst_1_1TrialTransferAVBDivalent"><span class="std std-ref">feasst::TrialTransferAVBDivalent</span></a>, <a class="reference internal" href="../../charge/doc/TrialTransferMultiple.html#classfeasst_1_1TrialTransferMultiple"><span class="std std-ref">feasst::TrialTransferMultiple</span></a></p>
+</dd></dl>
+
 </div>
 
 
@@ -419,7 +431,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="Analyze.html" class="btn btn-neutral float-right" title="Analyze" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="Trial.html" class="btn btn-neutral float-left" title="Trial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TrialRemove.html" class="btn btn-neutral float-left" title="TrialRemove" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Simulation of a single freely-jointed chain &mdash; FEASST v0.18.1 documentation</title>
+  <title>Simulation of a single freely-jointed chain &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -128,8 +128,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../doc/SelectReptate.html">SelectReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbReptate.html">PerturbReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/trials.html">chain/include/trials</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/trial_grow.html">chain/include/trial_grow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialGrow.html">TrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialSwapSites.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialPivot.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
@@ -584,7 +587,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-v0.17.2-1-g3d32a381c8-develop
+v0.18.1-61-gca844632f9-hwh/txtin_factory
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -609,10 +612,10 @@ test (__main__.TestFreelyJointedIdealChain) ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-average,stdev,block_stdev,n,moment0,moment1,
-95.934047286982846,45.032994249294298,0,100,9593.4047286982842,1121103.2294207464,
-average,stdev,block_stdev,n,moment0,moment1,
-1770.7398166435846,1008.2495213770828,0,100,177073.98166435845,414192092.46305011,
+average,stdev,block_stdev,moment0,moment1,moment2,moment3,moment4,
+90.492093572361313,31.173734148581158,2.8803337571546459,100,9049.2093572361311,915090.26828677467,100414421.85897647,11734029007.253723,
+average,stdev,block_stdev,moment0,moment1,moment2,moment3,moment4,
+1523.4265875701569,623.06752806922407,63.551822437399622,100,152342.6587570157,270515958.08046037,548910207608.49733,1249557444855249.1,
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -623,7 +626,7 @@ average,stdev,block_stdev,n,moment0,moment1,
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 18.228s
+Ran 1 test in 19.038s
 
 OK
 </pre></div></div>
@@ -634,7 +637,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7feeac64ee20&gt;
+&lt;unittest.main.TestProgram at 0x7fb7d5495a60&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Forcefield and Units &mdash; FEASST v0.18.1 documentation</title>
+  <title>Forcefield and Units &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -118,6 +118,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bonds">Bonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#angles">Angles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dihedrals">Dihedrals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trialgrow">TrialGrow</a></li>
 </ul>
 </li>
 </ul>
@@ -319,6 +320,11 @@ For more information on the angle definition, see <a class="reference internal" 
 <p>The format for this section is as follows:</p>
 <p>[dihedral index] [dihedral type] [site index i] [site index j] [site index k] [site index l]</p>
 <p>For more information on the dihedral definition, see <a class="reference internal" href="../plugin/math/doc/Position.html#_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position" title="feasst::Position::torsion_angle_radians"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">torsion_angle_radians</span></code></a>.</p>
+</div>
+<div class="section" id="trialgrow">
+<h3>TrialGrow<a class="headerlink" href="#trialgrow" title="Permalink to this headline">¶</a></h3>
+<p>The TrialGrow class has its own format for (partially) growing particles as described in its documentation.
+This must be the last section in fstprt files, as the parser reads until the end of the file.</p>
 </div>
 </div>
 </div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling &mdash; FEASST v0.18.1 documentation</title>
+  <title>Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -510,7 +510,7 @@ div.rendered_html tbody tr:hover {
 <p>Here, we reproduce the virial coefficient of TraPPE ethane</p>
 <p>Table 6 of <a class="reference external" href="https://doi.org/10.1021/jp972543+">https://doi.org/10.1021/jp972543+</a> reports −73 +/- 1 ml/mol at 423.2K</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -532,7 +532,7 @@ div.rendered_html tbody tr:hover {
 
         <span class="c1"># reference</span>
         <span class="n">ref</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeHardSphere</span><span class="p">())</span>
-        <span class="n">ref_params</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">ModelParams</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">model_params</span><span class="p">())</span>
+        <span class="n">ref_params</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">model_params</span><span class="p">()</span><span class="o">.</span><span class="n">deep_copy</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">itype</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">num_site_types</span><span class="p">()):</span>
             <span class="n">ref_params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="n">itype</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">itype</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
@@ -557,7 +557,7 @@ div.rendered_html tbody tr:hover {
         <span class="n">mayer</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeMayerSampling</span><span class="p">()</span>
         <span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">mayer</span><span class="p">)</span>
         <span class="n">mc</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e7</span><span class="p">))</span>
-        <span class="n">b2hs</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span><span class="o">*</span><span class="n">fst</span><span class="o">.</span><span class="n">PI</span><span class="o">*</span><span class="n">mc</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">model_params</span><span class="p">()</span><span class="o">.</span><span class="n">sigma</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span>  <span class="c1"># A^3</span>
+        <span class="n">b2hs</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span><span class="o">*</span><span class="n">fst</span><span class="o">.</span><span class="n">PI</span><span class="o">*</span><span class="n">mc</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">model_params</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span>  <span class="c1"># A^3</span>
         <span class="n">b2hs</span> <span class="o">*=</span> <span class="mf">1e-30</span><span class="o">*</span><span class="mf">1e3</span><span class="o">*</span><span class="mf">1e3</span><span class="o">*</span><span class="n">mc</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">()</span><span class="o">.</span><span class="n">avogadro_constant</span><span class="p">()</span> <span class="c1"># L/mol</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mayer&#39;</span><span class="p">,</span> <span class="n">mayer</span><span class="o">.</span><span class="n">mayer</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">())</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mayer_ref&#39;</span><span class="p">,</span> <span class="n">mayer</span><span class="o">.</span><span class="n">mayer_ref</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">())</span>
@@ -570,7 +570,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>If the test passes, the energy is within the tolerance of the SRSW value and the two ensemble average methods agreed.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -592,14 +592,14 @@ test (__main__.TestMayerSamplingTraPPEethane) ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 3 µs, sys: 1 µs, total: 4 µs
-Wall time: 7.39 µs
-mayer average,stdev,block_stdev,n,moment0,moment1,
-0.26654099999999997,0.96382362920536391,0.020820985028707367,10000000,2665410,10000000,
-mayer_ref average,stdev,block_stdev,n,moment0,moment1,
--0.33499502920359536,0.80038469350152219,0.010985627657401754,10000000,-3349950.2920359539,7528372.6312107764,
-b22(L/mol) -52.921114186122544
-b22_block_stdev(L/mol) 4.483464692520495
+CPU times: user 5 µs, sys: 0 ns, total: 5 µs
+Wall time: 10 µs
+mayer average,stdev,block_stdev,moment0,moment1,moment2,moment3,moment4,
+0.28111720000000001,0.95967349237200528,0.023024244809358819,10000000,2811172,10000000,2811172,10000000,
+mayer_ref average,stdev,block_stdev,moment0,moment1,moment2,moment3,moment4,
+-0.32790070317005948,0.73209108309130144,0.012242208407583844,10000000,-3279007.031700595,6434761.7148547894,-335718717.02519226,89271297422.134458,
+b22(L/mol) -57.02278043180012
+b22_block_stdev(L/mol) 5.1326695646922404
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -610,18 +610,18 @@ b22_block_stdev(L/mol) 4.483464692520495
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 21.387s
+Ran 1 test in 25.811s
 
 OK
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f23a571df40&gt;
+&lt;unittest.main.TestProgram at 0x7f4b2853d940&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>LennardJonesForceShift &mdash; FEASST v0.18.1 documentation</title>
+  <title>LennardJonesForceShift &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -125,6 +125,7 @@
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesCutShift.html">LennardJonesCutShift</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">LennardJonesForceShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Mie.html">Mie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -269,8 +270,8 @@
 <h1>LennardJonesForceShift<a class="headerlink" href="#lennardjonesforceshift" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst22LennardJonesForceShiftE">
-<span class="target" id="classfeasst_1_1LennardJonesForceShift"></span><em class="property">class </em><code class="sig-name descname">LennardJonesForceShift</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="LennardJonesAlpha.html#_CPPv4N6feasst17LennardJonesAlphaE" title="feasst::LennardJonesAlpha">LennardJonesAlpha</a><a class="headerlink" href="#_CPPv4N6feasst22LennardJonesForceShiftE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{LJ}\)</span> is described in <a class="reference internal" href="../../system/doc/LennardJones.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a>. This class implements the force shifted (FS) version which ensures both <span class="math notranslate nohighlight">\(U(r_c)=0\)</span> and <span class="math notranslate nohighlight">\(\left.\frac{\partial U}{\partial r}\right|_{r=r_c}=0\)</span>.</p>
+<span class="target" id="classfeasst_1_1LennardJonesForceShift"></span><em class="property">class </em><code class="sig-name descname">LennardJonesForceShift</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="LennardJonesAlpha.html#_CPPv4N6feasst17LennardJonesAlphaE" title="feasst::LennardJonesAlpha">LennardJonesAlpha</a><a class="headerlink" href="#_CPPv4N6feasst22LennardJonesForceShiftE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{LJ}\)</span> is described in <a class="reference internal" href="LennardJonesAlpha.html#classfeasst_1_1LennardJonesAlpha"><span class="std std-ref">LennardJonesAlpha</span></a>. This class implements the force shifted (FS) version which ensures both <span class="math notranslate nohighlight">\(U(r_c)=0\)</span> and <span class="math notranslate nohighlight">\(\left.\frac{\partial U}{\partial r}\right|_{r=r_c}=0\)</span>.</p>
 <p><span class="math notranslate nohighlight">\( U_{LJ}^{FS}(r) = \left\{ \begin{array}{lr} U_{LJ}(r) - U_{LJ}(r_c) - \left.\frac{\partial U}{\partial r}\right|_{r=r_c} (r - r_c) &amp; : r &lt; r_c \\ 0 &amp; r \ge r_c \end{array} \right. \)</span> </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>

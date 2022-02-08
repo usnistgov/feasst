@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ModelParam &mdash; FEASST v0.18.1 documentation</title>
+  <title>ModelParam &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -276,7 +276,7 @@
 <dt id="_CPPv4N6feasst10ModelParamE">
 <span class="target" id="classfeasst_1_1ModelParam"></span><em class="property">class </em><code class="sig-name descname">ModelParam</code><a class="headerlink" href="#_CPPv4N6feasst10ModelParamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../system/doc/Model.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a> parameters depend upon site types, such as epsilon, sigma, etc. These parameters may also be mixed between two different site types. Each model parameter has an assumed mixing behavior. </p>
-<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1Charge"><span class="std std-ref">feasst::Charge</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1CosPatchAngle"><span class="std std-ref">feasst::CosPatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1CutOff"><span class="std std-ref">feasst::CutOff</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1Director"><span class="std std-ref">feasst::Director</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyAtCutoff"><span class="std std-ref">feasst::EnergyAtCutoff</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyDerivAtCutoff"><span class="std std-ref">feasst::EnergyDerivAtCutoff</span></a>, <a class="reference internal" href="#classfeasst_1_1Epsilon"><span class="std std-ref">feasst::Epsilon</span></a>, <a class="reference internal" href="../../confinement/doc/ModelLJShape.html#classfeasst_1_1ModelLJShapeEnergyAtCutoff"><span class="std std-ref">feasst::ModelLJShapeEnergyAtCutoff</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1PatchAngle"><span class="std std-ref">feasst::PatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1Sigma"><span class="std std-ref">feasst::Sigma</span></a></p>
+<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1Charge"><span class="std std-ref">feasst::Charge</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1CosPatchAngle"><span class="std std-ref">feasst::CosPatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1CutOff"><span class="std std-ref">feasst::CutOff</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1DeltaSigma"><span class="std std-ref">feasst::DeltaSigma</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1Director"><span class="std std-ref">feasst::Director</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyAtCutOff"><span class="std std-ref">feasst::EnergyAtCutOff</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyDerivAtCutOff"><span class="std std-ref">feasst::EnergyDerivAtCutOff</span></a>, <a class="reference internal" href="#classfeasst_1_1Epsilon"><span class="std std-ref">feasst::Epsilon</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1Lambda"><span class="std std-ref">feasst::Lambda</span></a>, <a class="reference internal" href="../../confinement/doc/ModelLJShape.html#classfeasst_1_1ModelLJShapeEnergyAtCutoff"><span class="std std-ref">feasst::ModelLJShapeEnergyAtCutoff</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1PatchAngle"><span class="std std-ref">feasst::PatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1Sigma"><span class="std std-ref">feasst::Sigma</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -292,14 +292,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst10ModelParam3addEK4SiteKd">
-<span class="target" id="classfeasst_1_1ModelParam_1ae7a3c1c77885f79ffb47e10851f17a21"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> <em>site</em>, <em class="property">const</em> double <em>default_value</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10ModelParam3addEK4SiteKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst10ModelParam3addERK4SiteKd">
+<span class="target" id="classfeasst_1_1ModelParam_1a314afee7f0ea015a147aed95f95001cc"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em>, <em class="property">const</em> double <em>default_value</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10ModelParam3addERK4SiteKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add a new site type. If the site does not contain the model parameter, then add the default value. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst10ModelParam3addEK8Particle">
-<span class="target" id="classfeasst_1_1ModelParam_1ac14d34bf5afd3701bebfa8566c9dce4d"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> <em>particle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10ModelParam3addEK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst10ModelParam3addERK8Particle">
+<span class="target" id="classfeasst_1_1ModelParam_1a1588b4a5b46d3c6ba96da7851e3702c2"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10ModelParam3addERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add all site types in particle. </p>
 </dd></dl>
 
@@ -346,12 +346,6 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst10ModelParam4nameEv">
-<span class="target" id="classfeasst_1_1ModelParam_1ae349189f7c6e1918c2d6929f23c68340"></span>std::string <code class="sig-name descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10ModelParam4nameEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the name of the model parameter (e.g., epsilon, cutoff) </p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10ModelParam3maxEv">
 <span class="target" id="classfeasst_1_1ModelParam_1a32d4551d551919e83b5915668a402ef7"></span>double <code class="sig-name descname">max</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10ModelParam3maxEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the maximum. </p>
@@ -370,12 +364,6 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst10ModelParam8set_nameEKNSt6stringE">
-<span class="target" id="classfeasst_1_1ModelParam_1a1baf22d7b023a87af986606d57ffb850"></span><a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a> &amp;<code class="sig-name descname">set_name</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10ModelParam8set_nameEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set the name of the model parameter. </p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10ModelParam3strEv">
 <span class="target" id="classfeasst_1_1ModelParam_1a646c9dc4798ef5e696a1509f5838c5d9"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10ModelParam3strEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return as a human readable string. </p>
@@ -386,52 +374,41 @@
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst7EpsilonE">
-<span class="target" id="classfeasst_1_1Epsilon"></span><em class="property">class </em><code class="sig-name descname">Epsilon</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst7EpsilonE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Epsilon"></span><em class="property">class </em><code class="sig-name descname">Epsilon</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst7EpsilonE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The epsilon parameter is named “epsilon” in LMP-like data file <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The epsilon parameter has the default mixing rule: <span class="math notranslate nohighlight">\( \epsilon_{ij} = \sqrt{\epsilon_i \epsilon_j} \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst5SigmaE">
-<span class="target" id="classfeasst_1_1Sigma"></span><em class="property">class </em><code class="sig-name descname">Sigma</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst5SigmaE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Sigma"></span><em class="property">class </em><code class="sig-name descname">Sigma</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst5SigmaE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The sigma parameter is named “sigma” in LMP-like data file <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The sigma parameter has the default mixing rule:</p>
 <p><span class="math notranslate nohighlight">\( \sigma_{ij} = \left\{ \begin{array}{lr} 0 &amp; : \sigma_i \sigma_j = 0 \\ 0.5(\sigma_i + \sigma_j) &amp; : \sigma_i\sigma_j \neq 0 \end{array} \right. \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst6CutOffE">
-<span class="target" id="classfeasst_1_1CutOff"></span><em class="property">class </em><code class="sig-name descname">CutOff</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6CutOffE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1CutOff"></span><em class="property">class </em><code class="sig-name descname">CutOff</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6CutOffE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The cut off parameter is named “cutoff” in LMP-like data file <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The cut off parameter has the default mixing rule:</p>
 <p><span class="math notranslate nohighlight">\( r^c_{ij} = \left\{ \begin{array}{lr} 0 &amp; : r^c_i r^c_j = 0 \\ 0.5(r^c_i + r^c_j) &amp; : r^c_ir^c_j \neq 0 \end{array} \right. \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst6ChargeE">
-<span class="target" id="classfeasst_1_1Charge"></span><em class="property">class </em><code class="sig-name descname">Charge</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6ChargeE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Charge"></span><em class="property">class </em><code class="sig-name descname">Charge</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6ChargeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The charge parameter is named “charge” in LMP-like data file <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The charge parameter, q, has the default mixing rule: <span class="math notranslate nohighlight">\( q_{ij} = q_i q_j \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst11ModelParamsE">
-<span class="target" id="classfeasst_1_1ModelParams"></span><em class="property">class </em><code class="sig-name descname">ModelParams</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst11ModelParamsE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ModelParams"></span><em class="property">class </em><code class="sig-name descname">ModelParams</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst11ModelParamsE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Container for all model parameters. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst11ModelParams11ModelParamsERK11ModelParams">
-<span class="target" id="classfeasst_1_1ModelParams_1a34ae018183191e5ad72de3eb1780b5cc"></span><code class="sig-name descname">ModelParams</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst11ModelParams11ModelParamsERK11ModelParams" title="feasst::ModelParams::ModelParams">ModelParams</a> &amp;<em>params</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11ModelParams11ModelParamsERK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Deep copy constructor. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst11ModelParams3addEK4Site">
-<span class="target" id="classfeasst_1_1ModelParams_1ac75a76cafe4185626e40cb14fe440534"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> <em>site</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11ModelParams3addEK4Site" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst11ModelParams3addERK8Particle">
+<span class="target" id="classfeasst_1_1ModelParams_1a7568b81ff889e18168ffc2f9e2d5418b"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11ModelParams3addERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add all properties in site. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst11ModelParams3addEK8Particle">
-<span class="target" id="classfeasst_1_1ModelParams_1a223b5c835b5ff769449fdd3bf0497132"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> <em>particle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11ModelParams3addEK8Particle" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add all site types in particle. </p>
+<p>Add all site types in particle. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -459,21 +436,21 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst11ModelParams7epsilonEv">
-<span class="target" id="classfeasst_1_1ModelParams_1a7e21a5491513fb11a634bd0861a69c00"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst7EpsilonE" title="feasst::Epsilon">Epsilon</a> &amp;<code class="sig-name descname">epsilon</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11ModelParams7epsilonEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return model parameters of specific types. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst11ModelParams13mixed_epsilonEv">
-<span class="target" id="classfeasst_1_1ModelParams_1a83b2d92caa3fd79e9d9ee9ccab92808a"></span><em class="property">const</em> std::vector&lt;std::vector&lt;double&gt;&gt; &amp;<code class="sig-name descname">mixed_epsilon</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11ModelParams13mixed_epsilonEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return constant pointers for optimized model inner loops. </p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt id="_CPPv4N6feasst11ModelParams3addENSt10shared_ptrI10ModelParamEE">
 <span class="target" id="classfeasst_1_1ModelParams_1aa936e5fd62dfb7b6c4ebdc756ae64c07"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a>&gt; <em>param</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11ModelParams3addENSt10shared_ptrI10ModelParamEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add a custom model parameter. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst11ModelParams6selectEKi">
+<span class="target" id="classfeasst_1_1ModelParams_1ac4c3bf2b43b038a8ea75c281e633c9bc"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a> &amp;<code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11ModelParams6selectEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the model parameter with the corresponding index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst11ModelParams5indexEKNSt6stringE">
+<span class="target" id="classfeasst_1_1ModelParams_1a42b9b616b0d8cf1938a9f5b4f94e9e68"></span>int <code class="sig-name descname">index</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11ModelParams5indexEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the index of the model parameter with the corresponding name. Return -1 if name is not found. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -516,6 +493,12 @@
 <dt id="_CPPv4NK6feasst11ModelParams3strEv">
 <span class="target" id="classfeasst_1_1ModelParams_1af93fd1842a5ad2f31c656488fc3b00d6"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11ModelParams3strEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return as a human readable string. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst11ModelParams9deep_copyEv">
+<span class="target" id="classfeasst_1_1ModelParams_1a1af1aee5e918836ac092153f9ba2e37a"></span><a class="reference internal" href="#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> <code class="sig-name descname">deep_copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11ModelParams9deep_copyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a deep copy of self. </p>
 </dd></dl>
 
 </div>

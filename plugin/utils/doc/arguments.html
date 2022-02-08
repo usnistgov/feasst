@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>utils/include/arguments &mdash; FEASST v0.18.1 documentation</title>
+  <title>utils/include/arguments &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -311,16 +311,10 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst3strERK7argtype">
-<span class="target" id="namespacefeasst_1a9809316118f911d3c310ae03a705d52b"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return a human-readable string representing argtype. </p>
-<p>Print a std::map of a pair of strings in human readable format. </p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt id="_CPPv4N6feasst6feasst3strERK7arglist">
 <span class="target" id="namespacefeasst_1aa926bb95c63cbe6f890143c429c66c17"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist">arglist</a> &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERK7arglist" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return a human-readable string representing arglist. </p>
+<dd><p>Return a human-readable string representing argtype (use io template) </p>
+<p>Return a human-readable string representing arglist </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -387,6 +381,12 @@
 <dt id="_CPPv4N6feasst6feasst15add_if_not_usedERKNSt6stringEP7argtypeRKNSt6stringE">
 <span class="target" id="namespacefeasst_1abfc2aba58520feb9219ee6b18651330a"></span>void <code class="sig-name descname">add_if_not_used</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> std::string &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15add_if_not_usedERKNSt6stringEP7argtypeRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>If an argument is not used, add it. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst15line_to_argtypeEKNSt6stringE">
+<span class="target" id="namespacefeasst_1a4093eefca42e5f2e6c68f3aae849c879"></span><a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <code class="sig-name descname">line_to_argtype</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>line</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15line_to_argtypeEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>convert a space-delimited string into argtype </p>
 </dd></dl>
 
 </div>

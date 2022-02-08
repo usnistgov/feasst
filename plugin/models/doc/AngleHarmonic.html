@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>AngleHarmonic &mdash; FEASST v0.18.1 documentation</title>
+  <title>AngleHarmonic &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -125,6 +125,7 @@
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesCutShift.html">LennardJonesCutShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesForceShift.html">LennardJonesForceShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Mie.html">Mie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -269,7 +270,7 @@
 <h1>AngleHarmonic<a class="headerlink" href="#angleharmonic" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst13AngleHarmonicE">
-<span class="target" id="classfeasst_1_1AngleHarmonic"></span><em class="property">class </em><code class="sig-name descname">AngleHarmonic</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/BondThreeBody.html#_CPPv4N6feasst13BondThreeBodyE" title="feasst::BondThreeBody">BondThreeBody</a><a class="headerlink" href="#_CPPv4N6feasst13AngleHarmonicE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1AngleHarmonic"></span><em class="property">class </em><code class="sig-name descname">AngleHarmonic</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/BondThreeBody.html#_CPPv4N6feasst13BondThreeBodyE" title="feasst::BondThreeBody">BondThreeBody</a><a class="headerlink" href="#_CPPv4N6feasst13AngleHarmonicE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>U(angle) = k_energy_per_radian_sq*(angle - equilibrium_degrees)^2 with parameters given in <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> <a class="reference internal" href="../../configuration/doc/Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>.</p>
 <p>The usual 1/2 factor is not included, but can be incorporated into the k parameter manually by the user input to the forcefield file. </p>
 <div class="breathe-sectiondef docutils container">

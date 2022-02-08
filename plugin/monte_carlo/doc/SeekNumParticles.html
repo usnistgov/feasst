@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>SeekNumParticles &mdash; FEASST v0.18.1 documentation</title>
+  <title>SeekNumParticles &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="TrialComputeMove" href="TrialComputeMove.html" />
+    <link rel="next" title="TrialTransfer" href="TrialTransfer.html" />
     <link rel="prev" title="MonteCarlo" href="MonteCarlo.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -133,12 +133,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialVolume.html">TrialVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
@@ -146,13 +148,16 @@
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">SeekNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeTranslate.html">TrialComputeTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -341,13 +346,13 @@
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst16SeekNumParticles14with_trial_addE7argtype">
 <span class="target" id="classfeasst_1_1SeekNumParticles_1ae97cf4f9ad401a8455c6148979efdcc0"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles">SeekNumParticles</a> <code class="sig-name descname">with_trial_add</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles14with_trial_addE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Use an extra and temporary <a class="reference internal" href="TrialTranslate.html#classfeasst_1_1TrialAdd"><span class="std std-ref">TrialAdd</span></a> between every existing <a class="reference internal" href="Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>. If particle_type is not included in args, use value given by class argument particle_type, if not -1. If -1, then use 0. </p>
+<dd><p>Use an extra and temporary <a class="reference internal" href="TrialAdd.html#classfeasst_1_1TrialAdd"><span class="std std-ref">TrialAdd</span></a> between every existing <a class="reference internal" href="Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>. If particle_type is not included in args, use value given by class argument particle_type, if not -1. If -1, then use 0. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI5TrialEE">
 <span class="target" id="classfeasst_1_1SeekNumParticles_1a12e64bd7202f3b124fb9fa938aef8445"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles">SeekNumParticles</a> <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <em>trial</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI5TrialEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add an extra trial. Any extra trials, including <a class="reference internal" href="TrialTranslate.html#classfeasst_1_1TrialAdd"><span class="std std-ref">TrialAdd</span></a> above, are attempted between each trial already present in <a class="reference internal" href="MonteCarlo.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a>. </p>
+<dd><p>Add an extra trial. Any extra trials, including <a class="reference internal" href="TrialAdd.html#classfeasst_1_1TrialAdd"><span class="std std-ref">TrialAdd</span></a> above, are attempted between each trial already present in <a class="reference internal" href="MonteCarlo.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -373,7 +378,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="TrialComputeMove.html" class="btn btn-neutral float-right" title="TrialComputeMove" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="TrialTransfer.html" class="btn btn-neutral float-right" title="TrialTransfer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="MonteCarlo.html" class="btn btn-neutral float-left" title="MonteCarlo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

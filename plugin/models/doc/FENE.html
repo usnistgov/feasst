@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>FENE &mdash; FEASST v0.18.1 documentation</title>
+  <title>FENE &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -125,6 +125,7 @@
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesCutShift.html">LennardJonesCutShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesForceShift.html">LennardJonesForceShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Mie.html">Mie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -269,10 +270,10 @@
 <h1>FENE<a class="headerlink" href="#fene" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst4FENEE">
-<span class="target" id="classfeasst_1_1FENE"></span><em class="property">class </em><code class="sig-name descname">FENE</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/BondTwoBody.html#_CPPv4N6feasst11BondTwoBodyE" title="feasst::BondTwoBody">BondTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst4FENEE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1FENE"></span><em class="property">class </em><code class="sig-name descname">FENE</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/BondTwoBody.html#_CPPv4N6feasst11BondTwoBodyE" title="feasst::BondTwoBody">BondTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst4FENEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="#classfeasst_1_1FENE"><span class="std std-ref">FENE</span></a> is a two-body finite extensible nonlinear elastic two-body potential. R. B. Bird et al., Dynamics of Polymeric Liquids (Wiley, New York, 1977), Vols. 1 and 2.</p>
-<p><span class="math notranslate nohighlight">\( U = -0.5*k_energy_per_length_sq*R_0^2\ln\left[1-\left(\frac{r}{R_0}\right)^2\right] \)</span></p>
-<p>where <span class="math notranslate nohighlight">\(k_energy_per_length_sq\)</span> and <span class="math notranslate nohighlight">\(R_0\)</span> are input bond parameters in the forcefield.</p>
+<p><span class="math notranslate nohighlight">\( U = -0.5*\)</span>k_energy_per_length_sq <span class="math notranslate nohighlight">\(*\)</span>R_0 <span class="math notranslate nohighlight">\(^2\ln\left[1-\left(\frac{r}{R_0}\right)^2\right] \)</span></p>
+<p>where k_energy_per_length_sq and R_0 are input bond parameters in the forcefield.</p>
 <p>Note that <a class="reference internal" href="#classfeasst_1_1FENE"><span class="std std-ref">FENE</span></a> is typically coupled with a WCA potential as described in <a class="reference internal" href="LennardJonesCutShift.html#classfeasst_1_1LennardJonesCutShift"><span class="std std-ref">LennardJonesCutShift</span></a>. </p>
 </dd></dl>
 

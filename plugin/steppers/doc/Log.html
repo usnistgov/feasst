@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Log &mdash; FEASST v0.18.1 documentation</title>
+  <title>Log &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -283,7 +283,7 @@
 <h1>Log<a class="headerlink" href="#log" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst3LogE">
-<span class="target" id="classfeasst_1_1Log"></span><em class="property">class </em><code class="sig-name descname">Log</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE" title="feasst::AnalyzeWriteOnly">AnalyzeWriteOnly</a><a class="headerlink" href="#_CPPv4N6feasst3LogE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Log"></span><em class="property">class </em><code class="sig-name descname">Log</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE" title="feasst::AnalyzeWriteOnly">AnalyzeWriteOnly</a><a class="headerlink" href="#_CPPv4N6feasst3LogE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Periodically print the status of the <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> and Trials in a one-line comma separated value format with headers.</p>
 <p>This log file is designed more for checking status than computing ensemble averages. To compute ensemble averages, consider using a custom <a class="reference internal" href="../../monte_carlo/doc/Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> or accumulating the averages every trial step inside your script.</p>
 <p>The ordering of the columns may change at any time. Thus, do not assume a particular order when analyzing the log file. Instead, use the headers to specify columns. For example, the pandas module in python is ideal for this task.</p>

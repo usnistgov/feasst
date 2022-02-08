@@ -8,6 +8,14 @@ This plugin contains extra models
 
    doc/toc
 
+Tutorial
+=========
+
+.. toctree::
+   :glob:
+
+   tutorial/tutorial*
+
 FEASST plugin dependencies
 ============================
 

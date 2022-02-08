@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>cluster/include/trial_transfer_avb &mdash; FEASST v0.18.1 documentation</title>
+  <title>TrialAddAVBDivalent &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="cluster/include/trial_avb4" href="trial_avb4.html" />
-    <link rel="prev" title="cluster/include/trial_transfer_avb_divalent" href="trial_transfer_avb_divalent.html" />
+    <link rel="next" title="TrialAddAVB" href="TrialAddAVB.html" />
+    <link rel="prev" title="TrialTranslateCluster" href="TrialTranslateCluster.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -136,11 +136,11 @@
 <li class="toctree-l4"><a class="reference internal" href="SelectCluster.html">SelectCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbPointReflect.html">PerturbPointReflect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_avb2.html">cluster/include/trial_avb2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_rigid_cluster.html">cluster/include/trial_rigid_cluster</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_transfer_avb_divalent.html">cluster/include/trial_transfer_avb_divalent</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">cluster/include/trial_transfer_avb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_avb4.html">cluster/include/trial_avb4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAVB2Half.html">TrialAVB2Half</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslateCluster.html">TrialTranslateCluster</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">TrialAddAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddAVB.html">TrialAddAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAVB4.html">TrialAVB4</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeMoveCluster.html">ComputeMoveCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddAVB.html">ComputeAddAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
@@ -241,7 +241,7 @@
         
           <li><a href="toc.html">&lt;no title&gt;</a> &raquo;</li>
         
-      <li>cluster/include/trial_transfer_avb</li>
+      <li>TrialAddAVBDivalent</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -282,42 +282,38 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="cluster-include-trial-transfer-avb">
-<h1>cluster/include/trial_transfer_avb<a class="headerlink" href="#cluster-include-trial-transfer-avb" title="Permalink to this headline">¶</a></h1>
-<dl class="cpp type">
-<dt id="_CPPv46feasst">
-<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Functions</p>
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst15MakeTrialAddAVBE7argtype">
-<span class="target" id="namespacefeasst_1ad6a6db45b8986f404a8309005ca0278d"></span>std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <code class="sig-name descname">MakeTrialAddAVB</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15MakeTrialAddAVBE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Attempt to add a particle with AVB as described in <a class="reference internal" href="ComputeAddAVB.html#classfeasst_1_1ComputeAddAVB"><span class="std std-ref">ComputeAddAVB</span></a>. </p>
+<div class="section" id="trialaddavbdivalent">
+<h1>TrialAddAVBDivalent<a class="headerlink" href="#trialaddavbdivalent" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst19TrialAddAVBDivalentE">
+<span class="target" id="classfeasst_1_1TrialAddAVBDivalent"></span><em class="property">class </em><code class="sig-name descname">TrialAddAVBDivalent</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst19TrialAddAVBDivalentE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt to add a particle with AVB as described in <a class="reference internal" href="ComputeAddAVBDivalent.html#classfeasst_1_1ComputeAddAVBDivalent"><span class="std std-ref">ComputeAddAVBDivalent</span></a>.</p>
+<p>args:<ul class="simple">
+<li><p>particle_type_a: type of second added particle in AV of first.</p></li>
+<li><p>site_index_a: index of site in type a that defines AV (default: 0).</p></li>
+<li><p>particle_type_b: type of third added particle in AV of first.</p></li>
+<li><p>site_index_b: index of site in type b that defines AV (default: 0). </p></li>
+</ul>
+</p>
 </dd></dl>
 
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst15MakeTrialAddAVBEP7argtype">
-<span class="target" id="namespacefeasst_1a456976711dbf7d8de923155b44d374fe"></span>std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <code class="sig-name descname">MakeTrialAddAVB</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15MakeTrialAddAVBEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst18MakeTrialRemoveAVBE7argtype">
-<span class="target" id="namespacefeasst_1a4a52cdb23b4230b852bc5739deb4479a"></span>std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <code class="sig-name descname">MakeTrialRemoveAVB</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst18MakeTrialRemoveAVBE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Attempt to remove a particle with AVB as described in <a class="reference internal" href="ComputeRemoveAVB.html#classfeasst_1_1ComputeRemoveAVB"><span class="std std-ref">ComputeRemoveAVB</span></a>. </p>
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst22TrialRemoveAVBDivalentE">
+<span class="target" id="classfeasst_1_1TrialRemoveAVBDivalent"></span><em class="property">class </em><code class="sig-name descname">TrialRemoveAVBDivalent</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst22TrialRemoveAVBDivalentE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt to add a particle with AVB as described in <a class="reference internal" href="ComputeRemoveAVBDivalent.html#classfeasst_1_1ComputeRemoveAVBDivalent"><span class="std std-ref">ComputeRemoveAVBDivalent</span></a>.</p>
+<p>args:<ul class="simple">
+<li><p>particle_type_a: type of second added particle in AV of first.</p></li>
+<li><p>site_index_a: index of site in type a that defines AV (default: 0).</p></li>
+<li><p>particle_type_b: type of third added particle in AV of first.</p></li>
+<li><p>site_index_b: index of site in type b that defines AV (default: 0). </p></li>
+</ul>
+</p>
 </dd></dl>
 
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst18MakeTrialRemoveAVBEP7argtype">
-<span class="target" id="namespacefeasst_1a9b37276d2dce8de8f43becb101dc0bb1"></span>std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <code class="sig-name descname">MakeTrialRemoveAVB</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst18MakeTrialRemoveAVBEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst20MakeTrialTransferAVBE7argtype">
-<span class="target" id="namespacefeasst_1a49d6fe6ebb6f860e1d54e664a33d3f18"></span>std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a>&gt; <code class="sig-name descname">MakeTrialTransferAVB</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst20MakeTrialTransferAVBE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Attempt TrialAddAVB or TrialRemoveAVB with equal probability. </p>
-</dd></dl>
-
-</div>
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst24TrialTransferAVBDivalentE">
+<span class="target" id="classfeasst_1_1TrialTransferAVBDivalent"></span><em class="property">class </em><code class="sig-name descname">TrialTransferAVBDivalent</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst17TrialFactoryNamedE" title="feasst::TrialFactoryNamed">TrialFactoryNamed</a><a class="headerlink" href="#_CPPv4N6feasst24TrialTransferAVBDivalentE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt <a class="reference internal" href="#classfeasst_1_1TrialAddAVBDivalent"><span class="std std-ref">TrialAddAVBDivalent</span></a> or <a class="reference internal" href="#classfeasst_1_1TrialRemoveAVBDivalent"><span class="std std-ref">TrialRemoveAVBDivalent</span></a> with equal probability. </p>
 </dd></dl>
 
 </div>
@@ -328,8 +324,8 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="trial_avb4.html" class="btn btn-neutral float-right" title="cluster/include/trial_avb4" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="trial_transfer_avb_divalent.html" class="btn btn-neutral float-left" title="cluster/include/trial_transfer_avb_divalent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TrialAddAVB.html" class="btn btn-neutral float-right" title="TrialAddAVB" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="TrialTranslateCluster.html" class="btn btn-neutral float-left" title="TrialTranslateCluster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

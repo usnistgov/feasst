@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Block Averaging Example &mdash; FEASST v0.18.1 documentation</title>
+  <title>Block Averaging Example &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -553,7 +553,7 @@ div.rendered_html tbody tr:hover {
             <span class="n">energy</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">criteria</span><span class="p">()</span><span class="o">.</span><span class="n">current_energy</span><span class="p">())</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;average energy&#39;</span><span class="p">,</span> <span class="n">energy</span><span class="o">.</span><span class="n">average</span><span class="p">())</span>
-        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">energy</span><span class="o">.</span><span class="n">num_block_operations</span><span class="p">()):</span>
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">energy</span><span class="o">.</span><span class="n">max_block_operations</span><span class="p">()):</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">energy</span><span class="o">.</span><span class="n">block_stdev</span><span class="p">(</span><span class="n">op</span><span class="p">),</span> <span class="n">energy</span><span class="o">.</span><span class="n">block_std_of_std</span><span class="p">(</span><span class="n">op</span><span class="p">))</span>
 
         <span class="c1">#self.assertAlmostEqual(energy.block_stdev(13)/num_particles, 0.0012, delta=0.0004)</span>
@@ -585,34 +585,15 @@ test_srsw (__main__.TestMonteCarlo4Block) ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 8 µs, sys: 0 ns, total: 8 µs
-Wall time: 15 µs
-average energy -576.5408969939979
-0 0.0014677554888216202 2.3057219522546113e-05
-1 0.002074833423781676 3.876090615096549e-05
-2 0.0029323809037425036 6.514611200974192e-05
-3 0.004142167773492622 0.00010943411761494251
-4 0.005844603302097843 0.0001836267450924812
-5 0.008228670028531814 0.00030744261495308347
-6 0.011535650706683156 0.0005125425117659157
-7 0.01604201498283397 0.000847665877219287
-8 0.021989291856637293 0.0013817730699711033
-9 0.029439841014460337 0.0022003232519833657
-10 0.03812126183550771 0.0033892288793152684
-11 0.04744740126815196 0.005020401506669375
-12 0.056964589516646714 0.007196894309296476
-13 0.06585558550815984 0.01003017124000322
-14 0.07391824998954556 0.013665579361543532
-15 0.07946704584674782 0.018029748815872975
-16 0.08342377888053773 0.02395333791808359
-17 0.0864155468760853 0.030148152258521868
-18 0.08571832088343663 0.03296743627085486
-19 0.0842442920619326 0.03772153330032034
-20 0.07814295877703717 0.03885926383268512
-21 0.08486966276231915 0.05025487872549931
-22 0.08812120662313475 0.06493643659728955
-23 0.08738954954385053 0.07476743906106102
-24 0.12378117176193439 0.12035265958884629
+CPU times: user 3 µs, sys: 0 ns, total: 3 µs
+Wall time: 7.15 µs
+average energy -576.4376128069971
+0 0.07510636040234885 0.04322275467550779
+1 0.07359011506962478 0.04749864777552218
+2 0.07344944697207455 0.0589605210359109
+3 0.07239626945616733 0.06608570396503526
+4 0.05376806537982441 0.0
+5 0.0 0.0
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -623,7 +604,7 @@ average energy -576.5408969939979
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 1778.262s
+Ran 1 test in 1757.834s
 
 OK
 </pre></div></div>
@@ -634,7 +615,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7fc570107d00&gt;
+&lt;unittest.main.TestProgram at 0x7f1b641185e0&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>SlabSine &mdash; FEASST v0.18.1 documentation</title>
+  <title>SlabSine &mdash; FEASST v0.19.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.18.1
+                v0.19.0
               </div>
             
           
@@ -274,7 +274,7 @@
 <h1>SlabSine<a class="headerlink" href="#slabsine" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst8SlabSineE">
-<span class="target" id="classfeasst_1_1SlabSine"></span><em class="property">class </em><code class="sig-name descname">SlabSine</code> : <em class="property">public</em> <a class="reference internal" href="../../beta_expanded/doc/trial_beta.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="ShapeIntersect.html#_CPPv4N6feasst14ShapeIntersectE" title="feasst::ShapeIntersect">ShapeIntersect</a><a class="headerlink" href="#_CPPv4N6feasst8SlabSineE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1SlabSine"></span><em class="property">class </em><code class="sig-name descname">SlabSine</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="ShapeIntersect.html#_CPPv4N6feasst14ShapeIntersectE" title="feasst::ShapeIntersect">ShapeIntersect</a><a class="headerlink" href="#_CPPv4N6feasst8SlabSineE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Intersection of two parallel <a class="reference internal" href="HalfSpaceSine.html#classfeasst_1_1HalfSpaceSine"><span class="std std-ref">HalfSpaceSine</span></a>. To impose 3-fold symmetry about the Cartesian origin and axes, The phases of the upper and lower <a class="reference internal" href="HalfSpaceSine.html#classfeasst_1_1HalfSpaceSine"><span class="std std-ref">HalfSpaceSine</span></a> are adjusted. In particular, a quarter width of the sine wave is subtracted from the phase of the upper, and a quarter width is added to the phase of the lower. Thus, if <a class="reference internal" href="FormulaSineWave.html#classfeasst_1_1FormulaSineWave"><span class="std std-ref">FormulaSineWave</span></a> has zero phase, then the crest of the upper and trough of the lower correspond with the zero in the wave dimension. Thus, the origin is the widest region when zero phase is given. If <a class="reference internal" href="FormulaSineWave.html#classfeasst_1_1FormulaSineWave"><span class="std std-ref">FormulaSineWave</span></a> has half-width phase, then the origin is the most narrow region. Note that <a class="reference internal" href="../../configuration/doc/Domain.html#classfeasst_1_1Domain_1a562a8e0091ee9fc29d2852a5eb36c468"><span class="std std-ref">Domain::side_length</span></a> in the wave_dimension must be an integer number of widths for periodicity. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
