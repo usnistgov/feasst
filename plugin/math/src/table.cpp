@@ -229,14 +229,20 @@ double Table3D::linear_interpolation(const double value0,
   const double v2 = i2 * d2, vv2 = v2 + d2;
   TRACE("v0 " << v0 << " v1 " << v1 << " v2 " << v2);
   TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2);
-  const double xd0 = (value0 - v0) / (vv0 - v0);
-  const double xd1 = (value1 - v1) / (vv1 - v1);
+  const double dv0 = vv0 - v0;
+  double xd0 = 0.;
+  if (std::abs(dv0) > NEAR_ZERO) {
+    xd0 = (value0 - v0)/dv0;
+  }
+  const double dv1 = vv1 - v1;
+  double xd1 = 0.;
+  if (std::abs(dv1) > NEAR_ZERO) {
+    xd1 = (value1 - v1)/dv1;
+  }
   const double dv2 = vv2 - v2;
-  double xd2;
-  if (std::abs(dv2) < NEAR_ZERO) {
-    xd2 = 0;
-  } else {
-    xd2 = (value2 - v2) / (vv2 - v2);
+  double xd2 = 0.;
+  if (std::abs(dv2) > NEAR_ZERO) {
+    xd2 = (value2 - v2)/dv2;
   }
   ASSERT(xd0 >= 0 && xd0 <= 1, "xd0 " << xd0);
   ASSERT(xd1 >= 0 && xd1 <= 1, "xd1 " << xd1);
