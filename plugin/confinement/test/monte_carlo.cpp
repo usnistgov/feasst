@@ -314,6 +314,24 @@ TEST(HardShape, henry_LONG) {
   }
 }
 
+TEST(HardShape, henry2_LONG) {
+  for (const double length : {10, 20}) {
+    System system;
+    system.add(*MakeConfiguration({{"cubic_box_length", str(length)},
+      {"particle_type0", "../forcefield/hard_sphere.fstprt"},
+      {"periodic2", "false"}}));
+    system.add(MakePotential(MakeModelHardShape(MakeSlabSine(
+      MakeFormulaSineWave({{"amplitude", "0"}, {"width", "20"}}),
+      {{"dimension", "2"},
+       {"wave_dimension", "1"},
+       {"average_bound0", "3"},
+       {"average_bound1", "-3"}}))));
+    Accumulator h = henry(system);
+    INFO(h.str());
+    EXPECT_NEAR(h.average(), 5/system.configuration().domain().min_side_length(), 5*h.block_stdev());
+  }
+}
+
 TEST(HardShape, henry_dimer_LONG) {
   for (const double length : {10}) {
   //for (const double length : {10, 20}) {

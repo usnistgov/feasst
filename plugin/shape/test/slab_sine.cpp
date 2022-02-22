@@ -46,4 +46,36 @@ TEST(SlabSine, integrate) {
       {"points_per_shell", "100"}});
 }
 
+TEST(SlabSine, generalized) {
+  Position point;
+  SlabSine sine_slab(
+    MakeFormulaSineWave({
+      {"amplitude", "0"},
+      {"width", "2400.3"}}),
+    { {"dimension", "1"},
+      {"average_bound0", "1.3"},
+      {"average_bound1", "-1.3"},
+      {"wave_dimension", "2"}});
+  point.set_vector({0, 1.301, 0});
+  TRACE(point.str());
+  EXPECT_FALSE(sine_slab.is_inside(point));
+  point.set_vector({0, 1.299, 0});
+  TRACE(point.str());
+  EXPECT_TRUE(sine_slab.is_inside(point));
+
+  point.set_vector({0, 1.301-0.5, 0});
+  TRACE(point.str());
+  EXPECT_FALSE(sine_slab.is_inside(point, 1));
+  point.set_vector({0, 1.299-0.5, 0});
+  TRACE(point.str());
+  EXPECT_TRUE(sine_slab.is_inside(point, 1));
+
+  point.set_vector({0, 0, 0});
+  TRACE(point.str());
+  TRACE(sine_slab.nearest_distance(point));
+  point.set_vector({0, 1, 0});
+  TRACE(point.str());
+  TRACE(sine_slab.nearest_distance(point));
+}
+
 }  // namespace feasst

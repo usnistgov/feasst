@@ -75,16 +75,24 @@ HalfSpaceSine::HalfSpaceSine(std::shared_ptr<FormulaSineWave> sine_wave,
 bool HalfSpaceSine::is_inside(const Position& point) const {
   const double e = point.coord(wave_dimension());
   const double f = point.coord(dimension());
+  TRACE("e " << e);
+  TRACE("f " << f);
+  TRACE("sin " << sine_wave_.evaluate(e));
+  TRACE("direction " << direction());
   if (direction() == 1) {
     if (f >= sine_wave_.evaluate(e)) {
+      TRACE("inside");
       return true;
     } else {
+      TRACE("outside");
       return false;
     }
   } else {
     if (f >= sine_wave_.evaluate(e)) {
+      TRACE("outside");
       return false;
     } else {
+      TRACE("inside");
       return true;
     }
   }
@@ -117,10 +125,10 @@ double HalfSpaceSine::nearest_distance(const Position& point) const {
 
 bool HalfSpaceSine::is_inside(const Position& point,
     const double diameter) const {
-  if (is_inside(point)) return true;
+  if (!is_inside(point)) return false;
   const double dist = nearest_distance(point);
   TRACE("dist " << dist);
-  if (dist > 0.5*diameter) return false;
+  if (dist + 0.5*diameter > 0) return false;
   return true;
 }
 
