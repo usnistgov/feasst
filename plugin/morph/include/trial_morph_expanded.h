@@ -17,6 +17,20 @@ class Random;
 
   As currently implemented, only one MacrostateMorph can be used at a time,
   due to the way that the current state is tracked.
+
+  While this methodology is essentially equivalent to the growth expanded
+  ensemble, it was renamed morph because it is more general than adding sites
+  to a polymer chain.
+  However, each particle type could be a polymer chain with a variable number
+  of interacting sites (e.g., modified epsilon/sigma).
+  Thus morph expanded is equivalent to growth expanded in this special case.
+
+  Each particle type in the growth sequence can have simultaneous changes in
+  ModelParams such as Epsilon, Sigma, CutOff and Charge as the particle
+  is slowly morphed from an particle with a high insertion/deletion acceptance
+  to the desired particle.
+  Note that the chemical potential of each particle type may be manually-tuned
+  in an attempt to reduce the free-energy differences during morph trials.
  */
 class TrialMorphExpanded : public Trial {
  public:

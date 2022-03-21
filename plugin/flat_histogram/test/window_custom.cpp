@@ -6,7 +6,7 @@ namespace feasst {
 
 TEST(WindowCustom, window) {
   //WindowCustom windows({5, 100, 150, 200});
-  WindowCustom windows({5, 100, 150, 200}, {{"extra_overlap", "2"}});
+  WindowCustom windows({5, 100, 150, 200}, {{"overlap", "3"}});
   std::vector<double> segment = windows.segment();
   EXPECT_NEAR(segment[0], 5, 1e-13);
   EXPECT_NEAR(segment[1], 100, 1e-13);

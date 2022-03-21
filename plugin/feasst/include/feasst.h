@@ -279,6 +279,7 @@
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/ensemble.h"
 #include "flat_histogram/include/flat_histogram.h"
+#include "flat_histogram/include/collection_matrix_splice.h"
 #include "flat_histogram/include/clones.h"
 #include "flat_histogram/include/macrostate_energy.h"
 std::shared_ptr<feasst::ComputeBeta> __feasst__ComputeBeta = std::make_shared<feasst::ComputeBeta>();

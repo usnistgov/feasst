@@ -34,10 +34,10 @@ TEST(HalfSpaceSine, direction1) {
 
   // finite size
   const double diameter = 1.;
-  point.set_vector({-0.499, 0, 0});
-  EXPECT_TRUE(half_space2.is_inside(point, diameter));
-  point.set_vector({-0.501, 0, 0});
+  point.set_vector({0.449, 0, 0});
   EXPECT_FALSE(half_space2.is_inside(point, diameter));
+  point.set_vector({0.501, 0, 0});
+  EXPECT_TRUE(half_space2.is_inside(point, diameter));
 }
 
 TEST(HalfSpaceSine, direction2) {
@@ -55,15 +55,15 @@ TEST(HalfSpaceSine, direction2) {
 
   // finite size
   const double diameter = 1.;
-  point.set_vector({0.499, 0, 0});
-  EXPECT_TRUE(half_space.is_inside(point, diameter));
-  EXPECT_NEAR(half_space.nearest_distance(point), 0.499, NEAR_ZERO);
-  point.set_vector({0.501, 0, 0});
-  EXPECT_FALSE(half_space.is_inside(point, diameter));
-  EXPECT_NEAR(half_space.nearest_distance(point), 0.501, NEAR_ZERO);
   point.set_vector({-0.501, 0, 0});
   EXPECT_TRUE(half_space.is_inside(point, diameter));
   EXPECT_NEAR(half_space.nearest_distance(point), -0.501, NEAR_ZERO);
+  point.set_vector({-0.499, 0, 0});
+  EXPECT_FALSE(half_space.is_inside(point, diameter));
+  EXPECT_NEAR(half_space.nearest_distance(point), -0.499, NEAR_ZERO);
+//  point.set_vector({-0.501, 0, 0});
+//  EXPECT_TRUE(half_space.is_inside(point, diameter));
+//  EXPECT_NEAR(half_space.nearest_distance(point), -0.501, NEAR_ZERO);
 }
 
 TEST(HalfSpaceSine, amplitude1) {
@@ -125,15 +125,15 @@ TEST(HalfSpaceSine, generalized) {
   // finite size
   const double diameter = 1.;
   INFO("diameter " << diameter);
-  point.set_vector({0, 1.301-7.8-0.5, 3*2400.3/4.});
+  point.set_vector({0, 1.301-7.8+0.5, 3*2400.3/4.});
   EXPECT_TRUE(half_space.is_inside(point, diameter));
-  point.set_vector({0, 1.299-7.8-0.5, 3*2400.3/4.});
+  point.set_vector({0, 1.299-7.8+0.5, 3*2400.3/4.});
   EXPECT_FALSE(half_space.is_inside(point, diameter));
 
   // trough
-  point.set_vector({0, 1.301+7.8-0.5, 2400.3/4.});
+  point.set_vector({0, 1.301+7.8+0.5, 2400.3/4.});
   EXPECT_TRUE(half_space.is_inside(point, diameter));
-  point.set_vector({0, 1.299+7.8-0.5, 2400.3/4.});
+  point.set_vector({0, 1.299+7.8+0.5, 2400.3/4.});
   EXPECT_FALSE(half_space.is_inside(point, diameter));
 }
 

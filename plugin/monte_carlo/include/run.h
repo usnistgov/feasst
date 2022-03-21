@@ -15,9 +15,12 @@ namespace feasst {
 class Run : public Action {
  public:
   /**
+    The following arguments are completed in the order listed.
+
     args:
     - num_attempts: run this many Trial attempts (default: -1. e.g., None)
     - until_num_particles: run until this many particles (default: -1. e.g., None)
+    - for_hours: run for this many CPU hours (default: -1 e.g., None).
    */
   explicit Run(argtype args = argtype());
   explicit Run(argtype * args);
@@ -33,6 +36,7 @@ class Run : public Action {
  private:
   int num_attempts_;
   int until_num_particles_;
+  double for_hours_;
 };
 
 inline std::shared_ptr<Run> MakeRun(argtype args = argtype()) {

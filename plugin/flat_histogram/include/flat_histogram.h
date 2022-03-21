@@ -47,11 +47,11 @@ class FlatHistogram : public Criteria {
       std::shared_ptr<Constraint> constraint);
 
   /// Return the macrostate.
-  const Macrostate& macrostate() const {
+  const Macrostate& macrostate() const override {
     return const_cast<Macrostate&>(*macrostate_); }
 
   /// Return the bias.
-  const Bias& bias() const { return const_cast<Bias&>(*bias_); }
+  const Bias& bias() const override { return const_cast<Bias&>(*bias_); }
   void set_bias(std::shared_ptr<Bias> bias) { bias_ = bias; }
 
   int num_iterations_to_complete() const override {
@@ -63,8 +63,9 @@ class FlatHistogram : public Criteria {
 
   void before_attempt(const System& system) override;
 
-  bool is_accepted(const Acceptance& acceptance,
+  bool is_accepted(
     const System& system,
+    Acceptance * acceptance,
     Random * random) override;
 
   std::string write() const override;
@@ -87,16 +88,25 @@ class FlatHistogram : public Criteria {
   // HWH hackish implementation for prefetch
   // Revert changes from previous trial.
   // HWH rename: delete
-  void revert_(const bool accepted, const double ln_prob) override;
+  void revert_(const bool accepted, const bool allowed, const double ln_prob) override;
   void imitate_trial_rejection_(const double ln_prob,
       const int state_old,
-      const int state_new) override {
-    bias_->update(state_old, state_new, ln_prob, false); }
+      const int state_new,
+      const bool allowed) override {
+    bias_->update(state_old, state_new, ln_prob, false, allowed); }
 
-  void update() override { bias_->infrequent_update(); }
+  void update() override { bias_->infrequent_update(*macrostate_); }
 
   bool is_fh_equal(const FlatHistogram& flat_histogram,
     const double tolerance) const;
+
+  // HWH hackish adjust_bounds interface. See CollectionMatrixSplice.
+  int set_soft_max(const int index, const System& sys) override;
+  int set_soft_min(const int index, const System& sys) override;
+  void set_cm(const bool inc_max, const int macro, const Criteria& crit) override;
+  void adjust_bounds(const bool left_most, const bool right_most,
+    const int min_size, const System& system, const System& upper_sys,
+    Criteria * criteria) override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<FlatHistogram>(istr); }

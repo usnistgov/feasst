@@ -16,21 +16,24 @@ Metropolis::Metropolis(std::shared_ptr<Constraint> constraint) : Metropolis() {
   add(constraint);
 }
 
-bool Metropolis::is_accepted(const Acceptance& acceptance,
+bool Metropolis::is_accepted(
     const System& system,
+    Acceptance * acceptance,
     Random * random) {
   check_num_iterations_(num_attempts_per_iteration_);
-  DEBUG("ln_prob " << acceptance.ln_metropolis_prob());
-  if ( (!acceptance.reject()) &&
-       (is_allowed(system, acceptance)) &&
-       (random->uniform() < std::exp(acceptance.ln_metropolis_prob())) ) {
+  DEBUG("ln_prob " << acceptance->ln_metropolis_prob());
+  bool is_allowed_ = is_allowed(system, *acceptance);
+  if ( (!acceptance->reject()) &&
+       (is_allowed_) &&
+       (random->uniform() < std::exp(acceptance->ln_metropolis_prob())) ) {
     DEBUG("accepted");
-    set_current_energy(acceptance.energy_new());
+    set_current_energy(acceptance->energy_new());
     was_accepted_ = true;
   } else {
     DEBUG("rejected");
     was_accepted_ = false;
   }
+  acceptance->set_allowed(is_allowed_);
   return was_accepted_;
 }
 

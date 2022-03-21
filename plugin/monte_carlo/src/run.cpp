@@ -1,6 +1,7 @@
 
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
+#include "utils/include/timer.h"
 #include "math/include/utils_math.h"
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/run.h"
@@ -11,6 +12,7 @@ namespace feasst {
 Run::Run(argtype * args) {
   num_attempts_ = integer("num_attempts", args, -1);
   until_num_particles_ = integer("until_num_particles", args, -1);
+  for_hours_ = dble("for_hours", args, -1);
   class_name_ = "Run";
 }
 Run::Run(argtype args) : Run(&args) {
@@ -32,6 +34,7 @@ Run::Run(std::istream& istr) : Action(istr) {
   ASSERT(version == 3854, "mismatch version: " << version);
   feasst_deserialize(&num_attempts_, istr);
   feasst_deserialize(&until_num_particles_, istr);
+  feasst_deserialize(&for_hours_, istr);
 }
 
 void Run::serialize(std::ostream& ostr) const {
@@ -40,6 +43,7 @@ void Run::serialize(std::ostream& ostr) const {
   feasst_serialize_version(3854, ostr);
   feasst_serialize(num_attempts_, ostr);
   feasst_serialize(until_num_particles_, ostr);
+  feasst_serialize(for_hours_, ostr);
 }
 
 void Run::run(MonteCarlo * mc) {
@@ -52,6 +56,12 @@ void Run::run(MonteCarlo * mc) {
         mc->configuration().num_particles() != until_num_particles_) {
     mc->attempt(1);
     DEBUG("num_particles " << mc->configuration().num_particles());
+  }
+  if (for_hours_ > 0) {
+    const double begin = cpu_hours();
+    while (for_hours_ > cpu_hours() - begin) {
+      mc->attempt(1);
+    }
   }
 }
 

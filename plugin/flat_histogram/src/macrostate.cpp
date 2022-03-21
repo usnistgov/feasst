@@ -17,10 +17,10 @@ Macrostate::Macrostate(const Histogram& histogram, argtype * args) {
   // soft limits
   soft_min_ = 0;
   soft_max_ = histogram_.size() - 1;
-  if (used("soft_max", *args)) {
-    soft_max_ = integer("soft_max", args);
-    if (used("soft_min", *args)) {
-      soft_min_ = integer("soft_min", args);
+  if (used("soft_macro_max", *args)) {
+    soft_max_ = histogram_.bin(dble("soft_macro_max", args));
+    if (used("soft_macro_min", *args)) {
+      soft_min_ = histogram_.bin(dble("soft_macro_min", args));
     }
   }
   DEBUG("soft min " << soft_min_);
@@ -48,10 +48,10 @@ bool Macrostate::is_allowed(const System& system,
   return true;
 }
 
-void Macrostate::swap_soft_bounds(Macrostate * macrostate) {
-  swap(&soft_max_, &(macrostate->soft_max_));
-  swap(&soft_min_, &(macrostate->soft_min_));
-}
+//void Macrostate::swap_soft_bounds(Macrostate * macrostate) {
+//  swap(&soft_max_, &(macrostate->soft_max_));
+//  swap(&soft_min_, &(macrostate->soft_min_));
+//}
 
 std::map<std::string, std::shared_ptr<Macrostate> >& Macrostate::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Macrostate> >* ans =
@@ -90,6 +90,26 @@ std::shared_ptr<Macrostate> Macrostate::factory(const std::string name, argtype 
 
 std::shared_ptr<Macrostate> Macrostate::create(argtype * args) const {
   FATAL("not implemented");
+}
+
+int Macrostate::set_soft_max(const int index, const System& sys, const Criteria& criteria) {
+  Acceptance acc;
+  if (bin(sys, criteria, acc) <= index) {
+    soft_max_ = index;
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+int Macrostate::set_soft_min(const int index, const System& sys, const Criteria& criteria) {
+  Acceptance acc;
+  if (bin(sys, criteria, acc) >= index) {
+    soft_min_ = index;
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 }  // namespace feasst

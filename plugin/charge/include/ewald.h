@@ -280,6 +280,7 @@ class Ewald : public VisitModel {
   double sign_(const Select& select, const int pindex) const;
 
   void resize_eik_(const Configuration& config);
+  void resize_eik_(const std::vector<std::vector<std::vector<double> > >& eik2);
 };
 
 inline std::shared_ptr<Ewald> MakeEwald(argtype args = argtype()) {

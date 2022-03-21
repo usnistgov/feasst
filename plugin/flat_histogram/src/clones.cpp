@@ -63,11 +63,11 @@ void Clones::initialize(const int upper_index, argtype args) {
 
   if (fh_upper.macrostate().is_allowed(upper->system(),
                                        upper->criteria(), empty)) {
-    DEBUG("already initialized");
+    INFO("already initialized");
     return;
   }
 
-  DEBUG("find configuration in lower which overlaps with upper");
+  INFO("find configuration in lower which overlaps with upper");
   bool overlap = false;
   int batch = 0;
   while (!overlap) {
@@ -75,7 +75,7 @@ void Clones::initialize(const int upper_index, argtype args) {
 
     const double macro_lower = fh_lower.macrostate().value(
       lower->system(), lower->criteria(), empty);
-    DEBUG("macro_lower: " << macro_lower);
+    INFO("macro_lower: " << macro_lower);
     if (is_in_interval(macro_lower, macro_upper_min, macro_lower_max)) {
       overlap = true;
     }
@@ -85,13 +85,13 @@ void Clones::initialize(const int upper_index, argtype args) {
       "reached maximum batch: " << batch);
   }
 
-  DEBUG("send configuration to upper");
+  INFO("send configuration to upper");
   //upper->set(deep_copy(lower->system()));
   upper->get_system()->get_configuration()->copy_particles(
     lower->configuration(),
     true);
   //std::cout << "Info 1 num " << upper->configuration().num_particles() << std::endl;
-  DEBUG("num " << upper->configuration().num_particles());
+  INFO("num " << upper->configuration().num_particles());
   upper->initialize_criteria();
 }
 

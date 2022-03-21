@@ -31,18 +31,18 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", str(1./1.5)},
-          {"chemical_potential", "-2.352321"}}));
+    {"chemical_potential", "-2.352321"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
   mc.run(MakeRun({{"until_num_particles", str(min)}}));
   mc.set(MakeFlatHistogram(
-      MakeMacrostateNumParticles(
-        Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
-      MakeTransitionMatrix({{"min_sweeps", "10"}})));//, {"max_block_operations", "6"}})));
+    MakeMacrostateNumParticles(
+      Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
+    MakeTransitionMatrix({{"min_sweeps", "10"}})));//, {"max_block_operations", "6"}})));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
-      {"file_name", "tmp/clones" + str(thread)}}));
+    {"file_name", "tmp/clones" + str(thread)}}));
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({
     {"steps_per", str(steps_per)},
@@ -73,13 +73,13 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
 // 0 1 2 3 4 5 6                : 8 total
 //           5 6 7 8 9          : 7 total
 //                 8 9 10 11 12 : 6 total
-Clones make_clones(const int max, const int min = 0, const int extra = 3) {
+Clones make_clones(const int max, const int min = 0, const int overlap = 4) {
   Clones clones;
   std::vector<std::vector<int> > bounds = WindowExponential({
     {"maximum", str(max)},
     {"minimum", str(min)},
     {"num", "2"},
-    {"extra_overlap", str(extra)},
+    {"overlap", str(overlap)},
     {"alpha", "2"}}).boundaries();
   for (int index = 0; index < static_cast<int>(bounds.size()); ++index) {
     const std::vector<int> bound = bounds[index];
@@ -130,7 +130,7 @@ double energy_av4(const int macro, const MonteCarlo& mc) {
 }
 
 TEST(Clones, lj_fh_LONG) {
-  Clones clones = make_clones(5, 1, 0);
+  Clones clones = make_clones(5, 1, 1);
   Clones clones2 = test_serialize(clones);
   clones2.initialize_and_run_until_complete(
     {{"omp_batch", str(1e5)}, {"ln_prob_file", "tmp/clones_fh.txt"}});

@@ -45,7 +45,7 @@ Application of local detailed balance yields the acceptance probability,
 :math:`\frac{e^{-\beta_o U}}{2}min(1, \chi) =
 \frac{e^{-\beta_n U}}{2} min(1, 1/\chi)`
 
-:math:`\chi = \frac{e^{-(\beta_n - \beta_o) U}}`
+:math:`\chi = e^{-(\beta_n - \beta_o) U}`
 
 \endrst
  */

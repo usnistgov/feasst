@@ -16,6 +16,7 @@ Histogram::Histogram(argtype * args) {
   // optionally construct a constant width bin
   if (used("width", *args)) {
     const double width = dble("width", args);
+    DEBUG("width " << MAX_PRECISION << width);
     const double max = dble("max", args);
     const double min = dble("min", args, 0.);
     ASSERT(max >= min, "max(" << max <<") should be >= min(" << min << ")");
@@ -46,7 +47,8 @@ void Histogram::set_width_min_max(const double width, const double min,
     const double max) {
   set_width_center(width, min);
   const double num = (max - min)/width;
-  ASSERT(num - static_cast<int>(num) < 1e-8, "min: " << min << " and max: "
+  ASSERT(std::abs(num - round((num))) < 1e-8,
+    "min: " << MAX_PRECISION << min << " and max: "
     << max << " do not align with width: " << width);
   for (double val = min; val < max + 0.5*width; val += width) {
     add(val, false);

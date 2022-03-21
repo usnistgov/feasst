@@ -172,6 +172,7 @@ MonteCarlo test_lj_fh(const int num_steps,
   std::shared_ptr<Bias> bias;
   if (bias_name == "TM") {
     bias = MakeTransitionMatrix({{"min_sweeps", str(sweeps)}});
+    //bias = MakeTransitionMatrix({{"min_sweeps", str(1e5)}, {"new_sweep", "1"}});
   } else if (bias_name == "WL") {
     if (sweeps == 10) sweeps = 20;
     bias = MakeWangLandau({{"min_flatness", str(sweeps)}, {"updates_per_flat_check", "100"}});
@@ -214,12 +215,12 @@ MonteCarlo test_lj_fh(const int num_steps,
   return mc;
 }
 
-TEST(MonteCarlo, lj_fh) {
+TEST(MonteCarlo, lj_fh_10sweep_LONG) {
   //for (int num_steps : {1}) {
-  for (int num_steps : {2}) {
-  //for (int num_steps : {1, 2}) {
-    for (const std::string bias_name : {"TM"}) {
-    //for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
+  //for (int num_steps : {2}) {
+  for (int num_steps : {1, 2}) {
+    //for (const std::string bias_name : {"TM"}) {
+    for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
       MonteCarlo mc = test_serialize(test_lj_fh(num_steps, bias_name));
       //mc.attempt(1e4);
       //mc.attempt(1e5); // note more than 1e4 steps required for TM

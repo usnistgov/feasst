@@ -517,11 +517,12 @@ void MonteCarlo::before_attempts_() {
 
 void MonteCarlo::revert_(const int trial_index,
     const bool accepted,
+    const bool allowed,
     const bool auto_reject,
     const double ln_prob) {
   trial_factory_.revert(trial_index, accepted, auto_reject, &system_);
   DEBUG("reverting " << criteria_->current_energy());
-  criteria_->revert_(accepted, ln_prob);
+  criteria_->revert_(accepted, allowed, ln_prob);
 }
 
 void MonteCarlo::attempt_(int num_trials,
@@ -543,11 +544,12 @@ bool MonteCarlo::attempt_trial(const int index) {
 
 void MonteCarlo::imitate_trial_rejection_(const int trial_index,
     const double ln_prob,
+    const bool allowed,
     const bool auto_reject,
     const int state_old,
     const int state_new) {
   trial_factory_.imitate_trial_rejection_(trial_index, auto_reject);
-  criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new);
+  criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new, allowed);
 }
 
 double MonteCarlo::initialize_system() {
@@ -610,6 +612,20 @@ std::shared_ptr<MonteCarlo> MakeMonteCarlo(const std::string file_name) {
 
 void MonteCarlo::add(const Potential& potential) {
   FATAL("Please use MakePotential instead of Potential");
+}
+
+void MonteCarlo::adjust_bounds(const bool left_most, const bool right_most,
+  const int min_size, MonteCarlo * mc) {
+  criteria_->adjust_bounds(left_most, right_most, min_size,
+    system_, mc->system(),  mc->get_criteria());
+}
+
+void MonteCarlo::ghost_trial_(
+    const double ln_prob,
+    const int state_old,
+    const int state_new,
+    const bool allowed) {
+  criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new, allowed);
 }
 
 }  // namespace feasst

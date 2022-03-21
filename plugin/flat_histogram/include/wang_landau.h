@@ -40,6 +40,7 @@ class WangLandau : public Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
+    const bool is_allowed,
     const bool revert) override;
   int num_iterations_to_complete() const override { return min_flatness_; }
   void set_num_iterations_to_complete(const int flatness) override;

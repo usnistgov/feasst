@@ -27,9 +27,13 @@ class TransitionMatrix : public Bias {
     args:
     - min_visits: A sweep is performed when all macrostates are visited by
       another macrostate this number of times (default: 100).
+    - average_visits: A sweep is performed when macrostates are visited by
+      another macrostate more than this average number of times (default: 0).
     - min_sweeps: Number of sweeps required for completion.
     - reset_sweeps: The 'phase' counter increments from 0 to 1 when
       reset_sweeps are completed (default: -1 [counter will never increment])
+    - new_sweep: use an experimental new sweep definition: the minimum number
+      of transitions out of each macrostate (default: false).
    */
   explicit TransitionMatrix(argtype args = argtype());
   explicit TransitionMatrix(argtype * args);
@@ -38,6 +42,7 @@ class TransitionMatrix : public Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
+    const bool is_allowed,
     const bool revert) override;
 
   /// Return the minimum sweeps required for completion.
@@ -56,13 +61,19 @@ class TransitionMatrix : public Bias {
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
-  void infrequent_update() override;
+  void infrequent_update(const Macrostate& macro) override;
   bool is_equal(const TransitionMatrix& transition_matrix,
     const double tolerance) const;
 
   /// Return the collection matrix.
   const TripleBandedCollectionMatrix& collection() const {
     return collection_; }
+
+  // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
+  void set_cm(const int macro, const Bias& bias) override;
+  const TripleBandedCollectionMatrix& cm() const override {
+    return collection_; }
+  const int visits(const int macro) const override { return visits_[macro]; }
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   std::shared_ptr<Bias> create(argtype * args) const override {
@@ -80,6 +91,8 @@ class TransitionMatrix : public Bias {
   int num_sweeps_ = 0;
   int min_sweeps_ = 0;
   int reset_sweeps_ = -1;
+  int average_visits_ = 0;
+  int new_sweep_ = 0;
 };
 
 inline std::shared_ptr<TransitionMatrix> MakeTransitionMatrix(

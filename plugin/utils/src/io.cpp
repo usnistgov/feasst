@@ -106,9 +106,11 @@ bool str_to_bool(const std::string& str) {
 }
 
 double str_to_double(const std::string& str) {
+  DEBUG("str " << str);
   std::stringstream ss(str);
   double double_value = -1;
   ss >> double_value;
+  DEBUG("double_value " << MAX_PRECISION << double_value);
   if (ss.fail()) {
     FATAL("given(" << str <<
           ") but was expected to be a double precision number.");

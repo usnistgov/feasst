@@ -160,7 +160,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
     DEBUG("auto reject");
     *num_auto_reject_() += 1;
   }
-  if (criteria->is_accepted(acceptance_, *system, random)) {
+  if (criteria->is_accepted(*system, &acceptance_, random)) {
     DEBUG("accepted");
     increment_num_success_();
     if (!is_finalize_delayed_) {

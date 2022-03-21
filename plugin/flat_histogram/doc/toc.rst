@@ -14,5 +14,6 @@
    MacrostateNumParticles
    Ensemble
    FlatHistogram
+   CollectionMatrixSplice
    Clones
    MacrostateEnergy

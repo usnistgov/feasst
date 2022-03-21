@@ -12,6 +12,7 @@ double Acceptance::ln_metropolis_prob() const {
 void Acceptance::reset() {
   set_ln_metropolis_prob();
   set_reject();
+  set_allowed();
   energy_new_ = 0.;
   energy_old_ = 0.;
   macrostate_shift_ = 0;

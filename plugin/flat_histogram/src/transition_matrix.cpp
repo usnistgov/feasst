@@ -8,6 +8,7 @@
 #include "utils/include/debug.h"
 #include "math/include/utils_math.h"
 #include "math/include/accumulator.h"
+#include "flat_histogram/include/macrostate.h"
 #include "flat_histogram/include/transition_matrix.h"
 
 namespace feasst {
@@ -21,6 +22,8 @@ TransitionMatrix::TransitionMatrix(argtype * args) {
   min_sweeps_ = integer("min_sweeps", args);
   reset_sweeps_ = integer("reset_sweeps", args, -1);
   collection_ = TripleBandedCollectionMatrix(args);
+  average_visits_ = integer("average_visits", args, 0);
+  new_sweep_ = integer("new_sweep", args, 0);
 }
 
 void TransitionMatrix::update_or_revert(
@@ -28,18 +31,22 @@ void TransitionMatrix::update_or_revert(
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
+    const bool is_allowed,
     const bool revert) {
   DEBUG("macro old/new " << macrostate_old << " " << macrostate_new);
   DEBUG("is_accepted " << is_accepted);
-  const int bin = bin_(macrostate_old, macrostate_new, is_accepted);
+  DEBUG("is_allowed " << is_allowed);
+  // const int bin = bin_(macrostate_old, macrostate_new, is_accepted);
   const int index = macrostate_new - macrostate_old + 1;
-  DEBUG("bin " << bin << " index " << index);
+  //DEBUG("bin " << bin << " index " << index);
   ASSERT(index >= 0 and index <= 2, "index(" << index << ") must be 0, 1 or 2");
-  if (is_accepted && (macrostate_old != macrostate_new)) {
+  if ((is_accepted || !is_allowed) && (macrostate_old != macrostate_new)) {
     if (revert) {
-      --visits_[bin];
+      //--visits_[bin];
+      --visits_[macrostate_old];
     } else {
-      ++visits_[bin];
+      //++visits_[bin];
+      ++visits_[macrostate_old];
     }
   }
   double metropolis_prob = std::min(1., std::exp(ln_metropolis_prob));
@@ -86,18 +93,28 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
   return ss.str();
 }
 
-void TransitionMatrix::infrequent_update() {
+void TransitionMatrix::infrequent_update(const Macrostate& macro) {
   DEBUG("TransitionMatrix::infrequent_update_()");
   DEBUG("update the macrostate distribution");
   collection_.compute_ln_prob(&ln_prob_);
 
   DEBUG("update the number of sweeps");
-  if (*std::min_element(visits_.begin(), visits_.end()) >= min_visits_) {
-    ++num_sweeps_;
-    std::fill(visits_.begin(), visits_.end(), 0);
-    if (num_sweeps_ == reset_sweeps_) {
-       increment_phase();
+  const int min_vis = *std::min_element(visits_.begin() + macro.soft_min(),
+                                        visits_.begin() + macro.soft_max());
+  if (new_sweep_ != 0) {
+    num_sweeps_ = min_vis;
+  } else {
+    if (min_vis >= min_visits_) {
+      if (std::accumulate(visits_.begin() + macro.soft_min(),
+                          visits_.begin() + macro.soft_max(), 0.) >=
+          average_visits_*(macro.soft_max() - macro.soft_min() + 1)) {
+        ++num_sweeps_;
+        std::fill(visits_.begin(), visits_.end(), 0);
+      }
     }
+  }
+  if (num_sweeps_ == reset_sweeps_) {
+     increment_phase();
   }
 
   DEBUG("check if complete");
@@ -132,7 +149,8 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
   : Bias(istr) {
   ASSERT(class_name_ == "TransitionMatrix", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(667 == version || version == 668, "mismatch version: " << version);
+  ASSERT(667 == version || version == 668 || version == 669,
+    "mismatch version: " << version);
   feasst_deserialize_fstobj(&ln_prob_, istr);
   feasst_deserialize_fstobj(&collection_, istr);
   feasst_deserialize(&visits_, istr);
@@ -140,21 +158,25 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
   feasst_deserialize(&num_sweeps_, istr);
   feasst_deserialize(&min_sweeps_, istr);
   feasst_deserialize(&reset_sweeps_, istr);
-  if (version == 667) {  // HWH backwards compatability
-    int num_blocks, iter_block;
-    bool is_block;
-    std::vector<TransitionMatrix> blocks;
-    feasst_deserialize(&num_blocks, istr);
-    feasst_deserialize(&is_block, istr);
-    feasst_deserialize(&iter_block, istr);
-    feasst_deserialize_fstobj(&blocks, istr);
+  if (version > 668) {
+    feasst_deserialize(&average_visits_, istr);
+    feasst_deserialize(&new_sweep_, istr);
   }
+//  if (version == 667) {  // HWH backwards compatability
+//    int num_blocks, iter_block;
+//    bool is_block;
+//    std::vector<TransitionMatrix> blocks;
+//    feasst_deserialize(&num_blocks, istr);
+//    feasst_deserialize(&is_block, istr);
+//    feasst_deserialize(&iter_block, istr);
+//    feasst_deserialize_fstobj(&blocks, istr);
+//  }
 }
 
 void TransitionMatrix::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_bias_(ostr);
-  feasst_serialize_version(668, ostr);
+  feasst_serialize_version(669, ostr);
   feasst_serialize_fstobj(ln_prob_, ostr);
   feasst_serialize_fstobj(collection_, ostr);
   feasst_serialize(visits_, ostr);
@@ -162,6 +184,8 @@ void TransitionMatrix::serialize(std::ostream& ostr) const {
   feasst_serialize(num_sweeps_, ostr);
   feasst_serialize(min_sweeps_, ostr);
   feasst_serialize(reset_sweeps_, ostr);
+  feasst_serialize(average_visits_, ostr);
+  feasst_serialize(new_sweep_, ostr);
 }
 
 bool TransitionMatrix::is_equal(const TransitionMatrix& transition_matrix,
@@ -173,13 +197,16 @@ bool TransitionMatrix::is_equal(const TransitionMatrix& transition_matrix,
     return false;
   }
   if (!feasst::is_equal(visits_, transition_matrix.visits_)) {
-    INFO("visits not equal");
+    INFO("visits not equal: " << feasst_str(visits_) << " vs "
+      << feasst_str(transition_matrix.visits_));
     return false;
   }
   if (min_visits_ != transition_matrix.min_visits_) return false;
   if (num_sweeps_ != transition_matrix.num_sweeps_) return false;
   if (min_sweeps_ != transition_matrix.min_sweeps_) return false;
   if (reset_sweeps_ != transition_matrix.reset_sweeps_) return false;
+  if (average_visits_ != transition_matrix.average_visits_) return false;
+  if (new_sweep_ != transition_matrix.new_sweep_) return false;
   return true;
 }
 
@@ -192,6 +219,11 @@ TransitionMatrix::TransitionMatrix(const Bias& bias) {
   std::stringstream ss;
   bias.serialize(ss);
   *this = TransitionMatrix(ss);
+}
+
+void TransitionMatrix::set_cm(const int macro, const Bias& bias) {
+  collection_.set(macro, bias.cm().matrix()[macro]);
+  visits_[macro] = bias.visits(macro);
 }
 
 }  // namespace feasst

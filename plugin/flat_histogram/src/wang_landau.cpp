@@ -46,6 +46,7 @@ void WangLandau::update_or_revert(
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
+    const bool is_allowed,
     const bool revert) {
   ASSERT(!revert, "not implemented");
   int bin = bin_(macrostate_old, macrostate_new, is_accepted);

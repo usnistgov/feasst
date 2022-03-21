@@ -206,6 +206,22 @@ void Ewald::resize_eik_(const Configuration& config) {
   }
 }
 
+void Ewald::resize_eik_(
+  const std::vector<std::vector<std::vector<double> > >& eik2) {
+  int num_p = static_cast<int>(eik2.size());
+  int extra = num_p - eik().size();
+  if (extra > 0) {
+    eik_()->resize(eik_()->size() + extra);
+    for (int lastp = num_p - extra; lastp < num_p; ++lastp) {
+      const int num_sites = static_cast<int>(eik2[lastp].size());
+      (*eik_())[lastp].resize(num_sites);
+      for (int site = 0; site < num_sites; ++site) {
+        (*eik_())[lastp][site].resize(2*(num_kx_ + num_ky_ + num_kz_));
+      }
+    }
+  }
+}
+
 void Ewald::update_struct_fact_eik(const Select& selection,
     const Configuration&  config,
     std::vector<double> * sf_real,
@@ -594,6 +610,8 @@ void Ewald::finalize(const Select& select, Configuration * config) {
     finalizable_ = false;
     DEBUG("select " << select.str());
 
+    resize_eik_(*config);
+
     // update eik using eik_new
     DEBUG(select.trial_state());
     if (select.trial_state() != 2) {
@@ -603,6 +621,7 @@ void Ewald::finalize(const Select& select, Configuration * config) {
           const int site_index = select.site_index(ipart, isite);
           const std::vector<double>& eik_new = eik_new_[ipart][isite];
           for (int k = 0; k < static_cast<int>(eik_new.size()); ++k) {
+            //INFO("part_index " << part_index << " sz " << (*eik_()).size());
             (*eik_())[part_index][site_index][k] = eik_new[k];
           }
         }
@@ -684,6 +703,7 @@ void Ewald::change_volume(const double delta_volume, const int dimension) {
 void Ewald::synchronize_(const VisitModel& visit, const Select& select) {
   VisitModel::synchronize_(visit, select);
   DEBUG("select " << select.str());
+  resize_eik_(visit.manual_data().dble_3D());
   for (int ipart = 0; ipart < select.num_particles(); ++ipart) {
     const int part_index = select.particle_index(ipart);
     for (int isite = 0; isite < select.num_sites(ipart); ++isite) {
@@ -691,7 +711,9 @@ void Ewald::synchronize_(const VisitModel& visit, const Select& select) {
       const std::vector<double>& eik_new =
         visit.manual_data().dble_3D()[part_index][site_index];
       for (int k = 0; k < static_cast<int>(eik_new.size()); ++k) {
-//        INFO(part_index << " " << site_index << " " << k << " " << eik_new[k]);
+        //INFO(part_index << " " << site_index << " " << k << " " << eik_new[k]);
+        ASSERT(part_index < static_cast<int>((*eik_()).size()),
+          "part_index: " << part_index << " >= size: " << (*eik_()).size());
         (*eik_())[part_index][site_index][k] = eik_new[k];
       }
     }

@@ -15,8 +15,9 @@ namespace feasst {
 
 Prefetch::Prefetch(argtype args) {
   activate_prefetch();
-  steps_per_check_ = integer("steps_per_check", &args, 100000);
-  load_balance_ = boolean("load_balance", &args, true);
+  steps_per_check_ = integer("steps_per_check", &args, 1e6);
+  load_balance_ = boolean("load_balance", &args, false);
+  ghost_ = boolean("ghost", &args, false);
   is_synchronize_ = boolean("synchronize", &args, false);
   #ifdef DEBUG_SERIAL_MODE_5324634
     WARN("DEBUG_SERIAL_MODE_5324634");
@@ -90,6 +91,11 @@ void Prefetch::attempt_(
     MonteCarlo::attempt_(num_trials, trial_factory, random);
     return;
   }
+  if (num_trials < 10) {
+    WARN("inefficient use of prefetching with num_trials: " << num_trials
+     << ". Consider using mc.attempt() instead of mc.run(MakeRun())");
+
+  }
 
   // Require OPENMP; however, maintain ability to compile without.
   #ifndef _OPENMP
@@ -135,6 +141,7 @@ void Prefetch::attempt_(
         DEBUG("************************");
         DEBUG("* Begin Prefetch cycle *");
         DEBUG("************************");
+        DEBUG("N " << clone_(proc_id)->configuration().num_particles());
       }
 
       // ordered list of index of trial to perform on each thread.
@@ -182,6 +189,7 @@ void Prefetch::attempt_(
       // Store new macrostate and acceptance prob
       pool->set_accepted(mc->attempt_trial(pool->index()));
       pool->set_auto_rejected(mc->trial(pool->index()).accept().reject());
+      pool->set_allowed(mc->trial(pool->index()).accept().allowed());
       pool->set_ln_prob(mc->trial(pool->index()).accept().ln_metropolis_prob());
       DEBUG("proc id " << proc_id << " ln prob " << pool->ln_prob());
       DEBUG("critical proc_id " << proc_id << " " << pool->str());
@@ -212,6 +220,29 @@ void Prefetch::attempt_(
       #pragma omp barrier
       #endif // _OPENMP
 
+      // any trial after accepted may contribute as a ghost
+      if (proc_id == 0 && ghost_) {
+        DEBUG("Update criteria with ghost trials (for TM) for each thread after first accepted");
+        for (int ithread = first_thread_accepted + 1;
+             ithread < num_threads_;
+             ++ithread) {
+          const Criteria& old_criteria = clone_(ithread)->criteria();
+          for (int jthread = 0; jthread < num_threads_; ++jthread) {
+            DEBUG("ghost " << ithread << " " << jthread);
+            DEBUG("first accepted " << first_thread_accepted);
+            clone_(jthread)->ghost_trial_(
+              pool_[ithread].ln_prob(),
+              old_criteria.state_old(),
+              old_criteria.state_new(),
+              pool_[ithread].allowed());
+          }
+        }
+      }
+
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
+
       #ifdef DEBUG_SERIAL_MODE_5324634
       #pragma omp critical
       {
@@ -221,7 +252,7 @@ void Prefetch::attempt_(
       if (first_thread_accepted != num_threads_) {
         if (proc_id > first_thread_accepted) {
           DEBUG("reverting trial " << proc_id);
-          mc->revert_(pool->index(), pool->accepted(),
+          mc->revert_(pool->index(), pool->accepted(), pool->allowed(),
                       pool->auto_rejected(), pool->ln_prob());
         }
       }
@@ -254,6 +285,7 @@ void Prefetch::attempt_(
               clone_(jthread)->imitate_trial_rejection_(
                 pool_[ithread].index(),
                 pool_[ithread].ln_prob(),
+                pool_[ithread].allowed(),
                 pool_[ithread].auto_rejected(),
                 old_criteria.state_old(),
                 old_criteria.state_new()
@@ -436,6 +468,7 @@ void Prefetch::serialize(std::ostream& ostr) const {
   feasst_serialize(steps_since_check_, ostr);
   feasst_serialize(load_balance_, ostr);
   feasst_serialize(is_synchronize_, ostr);
+  feasst_serialize(ghost_, ostr);
 }
 
 Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
@@ -446,6 +479,7 @@ Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
   feasst_deserialize(&steps_since_check_, istr);
   feasst_deserialize(&load_balance_, istr);
   feasst_deserialize(&is_synchronize_, istr);
+  feasst_deserialize(&ghost_, istr);
 }
 
 }  // namespace feasst

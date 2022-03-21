@@ -25,8 +25,9 @@ class Metropolis : public Criteria {
   /// Same as above, but with an added constraint.
   explicit Metropolis(std::shared_ptr<Constraint> constraint);
 
-  bool is_accepted(const Acceptance& acceptance,
+  bool is_accepted(
     const System& system,
+    Acceptance * acceptance,
     Random * random) override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {

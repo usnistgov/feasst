@@ -18,8 +18,9 @@ class AlwaysReject : public Criteria {
   /// Same as above, but with an added constraint.
   explicit AlwaysReject(std::shared_ptr<Constraint> constraint);
 
-  bool is_accepted(const Acceptance& acceptance,
+  bool is_accepted(
     const System& system,
+    Acceptance * acceptance,
     Random * random) override { return false; }
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {

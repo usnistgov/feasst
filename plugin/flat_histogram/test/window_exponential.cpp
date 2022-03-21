@@ -32,7 +32,7 @@ TEST(WindowExponential, window) {
     {"maximum", "200"},
     {"num", "4"},
     {"alpha", "2"},
-    {"extra_overlap", "4"}});
+    {"overlap", "5"}});
   bounds = windows2.boundaries();
   EXPECT_EQ(bounds[0][0], 0);
   EXPECT_EQ(bounds[0][1], 100);
@@ -48,7 +48,7 @@ TEST(WindowExponential, window) {
       {"alpha", "1.75"},
       {"num", "32"},
       {"maximum", "56"},
-      {"extra_overlap", "2"}}).boundaries();
+      {"overlap", "3"}}).boundaries();
     CATCH_PHRASE("Windows are assumed to only overlap with the nearest");
   );
 }

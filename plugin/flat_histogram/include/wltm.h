@@ -33,6 +33,7 @@ class WLTM : public Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
+    const bool is_allowed,
     const bool revert) override;
 
   /// Updates min_sweeps, but neither flatness.
@@ -45,7 +46,7 @@ class WLTM : public Bias {
 
   const LnProbability& ln_prob() const override;
   void resize(const Histogram& histogram) override;
-  void infrequent_update() override;
+  void infrequent_update(const Macrostate& macro) override;
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;

@@ -302,6 +302,7 @@
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/ensemble.h"
 #include "flat_histogram/include/flat_histogram.h"
+#include "flat_histogram/include/collection_matrix_splice.h"
 #include "flat_histogram/include/clones.h"
 #include "flat_histogram/include/macrostate_energy.h"
 using namespace feasst;
@@ -658,6 +659,7 @@ using namespace std;
 %shared_ptr(feasst::GrandCanonicalEnsemble);
 %shared_ptr(feasst::ExtrapolateBetaGCE);
 %shared_ptr(feasst::FlatHistogram);
+%shared_ptr(feasst::CollectionMatrixSplice);
 %shared_ptr(feasst::Clones);
 %shared_ptr(feasst::MacrostateEnergy);
 %include configuration/include/properties.h
@@ -941,5 +943,6 @@ using namespace std;
 %include flat_histogram/include/macrostate_num_particles.h
 %include flat_histogram/include/ensemble.h
 %include flat_histogram/include/flat_histogram.h
+%include flat_histogram/include/collection_matrix_splice.h
 %include flat_histogram/include/clones.h
 %include flat_histogram/include/macrostate_energy.h

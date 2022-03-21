@@ -163,6 +163,10 @@ bool TripleBandedCollectionMatrix::is_equal(
 }
 
 TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(
+    const std::vector<std::vector<double> >& matrix) {
+  matrix_ = matrix;
+}
+TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(
     const std::vector<std::vector<std::vector<double> > >& data) {
   for (const std::vector<std::vector<double> >& dat : data) {
     ASSERT(dat.size() == 1, "only single states accepted for NVT+W");
@@ -226,6 +230,10 @@ std::string TripleBandedCollectionMatrix::write_per_bin(const int bin) const {
 void TripleBandedCollectionMatrix::resize(const int num_macrostates) {
   feasst::resize(num_macrostates, 3, &matrix_);
   feasst::fill(0., &matrix_);
+}
+
+void TripleBandedCollectionMatrix::set(const int macro, const std::vector<double>& values) {
+  matrix_[macro] = values;
 }
 
 }  // namespace feasst

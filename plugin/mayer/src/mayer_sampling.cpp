@@ -13,11 +13,12 @@ MayerSampling::MayerSampling(argtype args) : Criteria(&args) {
   check_all_used(args);
 }
 
-bool MayerSampling::is_accepted(const Acceptance& acceptance,
+bool MayerSampling::is_accepted(
     const System& system,
+    Acceptance * acceptance,
     Random * random) {
   check_num_iterations_(num_attempts_per_iteration_);
-  const double energy_new = acceptance.energy_new();
+  const double energy_new = acceptance->energy_new();
   const double beta = system.thermo_params().beta();
   const double f12 = std::exp(-beta*energy_new) - 1.;
   bool is_accepted;
@@ -26,14 +27,14 @@ bool MayerSampling::is_accepted(const Acceptance& acceptance,
   TRACE("f12 " << f12);
   TRACE("f12old " << f12old_);
   TRACE("acceptance " << std::abs(f12)/std::abs(f12old_));
-  if (!acceptance.reject() &&
+  if (!acceptance->reject() &&
       (random->uniform() < std::abs(f12)/std::abs(f12old_))) {
     ASSERT(energy_new != 0, "error");
     set_current_energy(energy_new);
     f12old_ = f12;
     is_accepted = true;
     TRACE("computing ref");
-    f12ref_ = std::exp(-beta*acceptance.energy_ref()) - 1.;
+    f12ref_ = std::exp(-beta*acceptance->energy_ref()) - 1.;
     TRACE("f12ref " << f12ref_);
   } else {
     is_accepted = false;

@@ -22,8 +22,9 @@ class MayerSampling : public Criteria {
    */
   explicit MayerSampling(argtype args = argtype());
 
-  bool is_accepted(const Acceptance& acceptance,
+  bool is_accepted(
     const System& system,
+    Acceptance * acceptance,
     Random * random) override;
 
   /// Return the mayer ensemble of the full potential.

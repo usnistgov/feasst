@@ -12,6 +12,8 @@ namespace feasst {
 
 class Random;
 class Constraint;
+class Macrostate;
+class Bias;
 
 /**
   Determine whether to accept or reject a trial.
@@ -44,8 +46,9 @@ class Criteria {
   virtual void before_attempt(const System& system) {}
 
   /// Return whether or not the trial attempt should be accepted.
-  virtual bool is_accepted(const Acceptance& acceptance_,
+  virtual bool is_accepted(
     const System& system,
+    Acceptance * acceptance,
     Random * random) = 0;
 
   /// Return whether or not the last trial attempt was accepted.
@@ -127,13 +130,24 @@ class Criteria {
 
   // HWH hackish interface for prefetch
   // Revert changes from previous trial.
-  virtual void revert_(const bool accepted, const double ln_prob);
+  virtual void revert_(const bool accepted, const bool allowed, const double ln_prob);
   // Imitate a trial rejection (used in FlatHistogram).
   virtual void imitate_trial_rejection_(const double ln_prob,
     const int state_old,
-    const int state_new) {}
+    const int state_new,
+    const bool allowed) {}
   void synchronize_(const Criteria& criteria) { data_ = criteria.data(); }
   const SynchronizeData& data() const { return data_; }
+
+  // HWH hackish adjust_bounds interface. See CollectionMatrixSplice.
+  virtual int set_soft_max(const int index, const System& sys);
+  virtual int set_soft_min(const int index, const System& sys);
+  virtual void set_cm(const bool inc_max, const int macro, const Criteria& crit);
+  virtual void adjust_bounds(const bool left_most, const bool right_most,
+    const int min_size, const System& system, const System& upper_sys,
+    Criteria * criteria);
+  virtual const Macrostate& macrostate() const;
+  virtual const Bias& bias() const;
 
   // serialize
   std::string class_name() const { return class_name_; }

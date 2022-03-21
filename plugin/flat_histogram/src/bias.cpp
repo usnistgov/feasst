@@ -74,4 +74,16 @@ Bias::Bias(std::istream& istr) {
   feasst_deserialize(&phase_, istr);
 }
 
+void Bias::set_cm(const int macro, const Bias& bias) {
+  FATAL("not implemented");
+}
+
+const TripleBandedCollectionMatrix& Bias::cm() const {
+  FATAL("not implemented");
+}
+
+const int Bias::visits(const int macro) const {
+  FATAL("not implemented");
+}
+
 }  // namespace feasst

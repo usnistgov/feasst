@@ -8,7 +8,7 @@ TEST(WLTM, serialize) {
                         {"min_flatness", "2"},
                         {"min_sweeps", "3"}});
   bias->resize(Histogram({{"width", "1"}, {"max", "1"}}));
-  bias->update(0, 0, 0., false);
+  bias->update(0, 0, 0., false, true);
   std::shared_ptr<Bias> bias2 = test_serialize<WLTM, Bias>(*bias);
 }
 

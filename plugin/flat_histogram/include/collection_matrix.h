@@ -44,7 +44,11 @@ class TripleBandedCollectionMatrix {
   explicit TripleBandedCollectionMatrix(argtype args = argtype());
   explicit TripleBandedCollectionMatrix(argtype * args);
 
-  /// Construct from a series of single-state collection matricies (NVT+W).
+  /// Construct from a matrix.
+  explicit TripleBandedCollectionMatrix(
+    const std::vector<std::vector<double> >& matrix);
+
+  /// Construct from a series of single-state collection matricies.
   explicit TripleBandedCollectionMatrix(
     const std::vector<std::vector<std::vector<double> > >& data);
 
@@ -52,6 +56,9 @@ class TripleBandedCollectionMatrix {
 
   /// Add value for a given macrostate and state change.
   void increment(const int macro, const int state_change, const double add);
+
+  /// Set values
+  void set(const int macro, const std::vector<double>& values);
 
   /// Update the ln_prob according to the collection matrix.
   void compute_ln_prob(LnProbability * ln_prob) const;

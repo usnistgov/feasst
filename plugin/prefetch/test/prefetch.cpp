@@ -65,12 +65,11 @@ TEST(Prefetch, NVT_benchmark_LONG) {
   run_prefetch(1e6, 1e3); // 5.4s on 4 cores of i7-4770K @ 3.5GHz
 }
 
-TEST(Prefetch, MUVT) {
-  auto mc = MakePrefetch({{"steps_per_check", "1"}});
-  mc->add(MakeConfiguration({{"cubic_box_length", "8"},
-                            {"particle_type0", "../forcefield/lj.fstprt"}}));
-  mc->add(MakePotential(MakeLennardJones()));
-  mc->add(MakePotential(MakeLongRangeCorrections()));
+void prefetch(System system, const int sync = 0) {
+  auto mc = MakePrefetch({{"steps_per_check", "1"}, {"synchronize", str(sync)}});
+  //mc->set(MakeRandomMT19937({{"seed", "123"}}));
+  mc->set(MakeRandomMT19937({{"seed", "time"}}));
+  mc->set(system);
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
@@ -92,7 +91,7 @@ TEST(Prefetch, MUVT) {
     MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc->add(MakeCriteriaUpdater({{"steps_per", str(1e1)}}));
   mc->activate_prefetch(true);
-  mc->attempt(1);
+  mc->attempt(10);
   std::vector<std::shared_ptr<FlatHistogram> > fhs(mc->pool().size());
   std::vector<std::shared_ptr<TransitionMatrix> > tms(mc->pool().size());
   for (int trial = 0; trial < 1e2; ++trial) {
@@ -114,6 +113,19 @@ TEST(Prefetch, MUVT) {
 
   Prefetch mc2 = test_serialize(*mc);
   EXPECT_EQ(1, mc2.steps_per_check());
+}
+
+TEST(Prefetch, MUVT) {
+  System sys;
+  sys.add(MakeConfiguration({{"cubic_box_length", "8"},
+                             {"particle_type0", "../forcefield/lj.fstprt"}}));
+  sys.add(MakePotential(MakeLennardJones()));
+  sys.add(MakePotential(MakeLongRangeCorrections()));
+  prefetch(sys);
+}
+
+TEST(Prefetch, MUVT_spce) {
+  prefetch(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"table_size", str(1e3)}}), 1);
 }
 
 TEST(Prefetch, NVT_spce) {

@@ -32,6 +32,13 @@ class Acceptance {
   void set_reject(const bool reject = false) {
     reject_ = reject; }
 
+  /// Return whether or not to the trial was allowed (constraints).
+  bool allowed() const { return allowed_; }
+
+  /// Set the above quantity.
+  void set_allowed(const bool allowed = true) {
+    allowed_ = allowed; }
+
   /// Reset all stored quantities before each trial.
   void reset();
 
@@ -89,6 +96,7 @@ class Acceptance {
   int macrostate_shift_;
   int macrostate_shift_type_;
   bool reject_;
+  bool allowed_;
   Select perturbed_;
 };
 

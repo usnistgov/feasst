@@ -18,9 +18,8 @@ Window::Window(argtype * args) {
     ASSERT(num_ == -1, "cannot use both num and num_from_omp args");
     num_ = ThreadOMP().num();
   }
-  extra_overlap_ = integer("extra_overlap", args, 0);
-  ASSERT(extra_overlap_ >= 0, "extra_overlap: " << extra_overlap_
-    << " must be >= 0");
+  overlap_ = integer("overlap", args, 1);
+  ASSERT(overlap_ >= 0, "overlap: " << overlap_ << " must be >= 0");
 }
 
 //int Window::num() const {
@@ -37,24 +36,26 @@ std::vector<std::vector<int> > Window::boundaries() const {
     if (index == 0) {
       windows[index][0] = minimum();
     } else {
-      windows[index][0] = round(seg[index] - extra_overlap());
+      windows[index][0] = round(seg[index] - overlap() + 1);
     }
     windows[index][1] = round(seg[index + 1]);
   }
 
   // check that windows are large enough.
-  for (const std::vector<int> win : windows) {
-    int max_overlap = extra_overlap();
-    if (win[0] != minimum()) {
-      max_overlap *= 2;
+  if (overlap() > 0) {
+    for (const std::vector<int> win : windows) {
+      int max_overlap = overlap() - 1;
+      if (win[0] != minimum()) {
+        max_overlap *= 2;
+      }
+      ASSERT(win[1] - win[0] > max_overlap,
+        "Windows are assumed to only overlap with the nearest neighbor, " <<
+        "but the chosen settings have windows from two or more away " <<
+        "overlapping as well. " <<
+        "Try changing the input arguments, such as decreasing num, " <<
+        "increasing maximum, decreasing minimum, or decreasing overlap. " <<
+        "First window of issue: " << feasst_str(win));
     }
-    ASSERT(win[1] - win[0] > max_overlap,
-      "Windows are assumed to only overlap with the nearest neighbor, " <<
-      "but the chosen settings have windows from two or more away " <<
-      "overlapping as well. " <<
-      "Try changing the input arguments, such as decreasing num, " <<
-      "increasing maximum, decreasing minimum, or decreasing extra_overlap. " <<
-      "First window of issue: " << feasst_str(win));
   }
   return windows;
 }

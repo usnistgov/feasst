@@ -26,12 +26,13 @@ void WLTM::update_or_revert(
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
+    const bool is_allowed,
     const bool revert) {
   DEBUG("num_flatness " << wang_landau_->num_flatness());
   if (wang_landau_->num_flatness() < min_flatness_) {
     DEBUG("wl update");
     wang_landau_->update_or_revert(macrostate_old, macrostate_new,
-      ln_metropolis_prob, is_accepted, revert);
+      ln_metropolis_prob, is_accepted, is_allowed, revert);
   } else {
     if (production_ == 0) {
       production_ = 1;
@@ -41,7 +42,7 @@ void WLTM::update_or_revert(
   if (wang_landau_->num_flatness() >= collect_flatness_) {
     DEBUG("tm update");
     transition_matrix_->update_or_revert(macrostate_old, macrostate_new,
-      ln_metropolis_prob, is_accepted, revert);
+      ln_metropolis_prob, is_accepted, is_allowed, revert);
   }
   if (transition_matrix_->is_complete()) set_complete_();
 }
@@ -59,12 +60,12 @@ void WLTM::resize(const Histogram& histogram) {
   transition_matrix_->resize(histogram);
 }
 
-void WLTM::infrequent_update() {
+void WLTM::infrequent_update(const Macrostate& macro) {
   if (wang_landau_->num_flatness() < min_flatness_) {
-    return wang_landau_->infrequent_update();
+    return wang_landau_->infrequent_update(macro);
   }
   if (wang_landau_->num_flatness() >= collect_flatness_) {
-    return transition_matrix_->infrequent_update();
+    return transition_matrix_->infrequent_update(macro);
   }
 }
 

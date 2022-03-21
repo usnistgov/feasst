@@ -10,6 +10,9 @@
 
 namespace feasst {
 
+class Macrostate;
+class TripleBandedCollectionMatrix;
+
 /**
   Bias for flat histogram Monte Carlo.
   Assumes a one-dimensional macrostate.
@@ -29,6 +32,7 @@ class Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
+    const bool is_allowed,
     const bool revert) = 0;
 
   /// Update only.
@@ -36,14 +40,15 @@ class Bias {
       const int macrostate_old,
       const int macrostate_new,
       const double ln_metropolis_prob,
-      const bool is_accepted) {
+      const bool is_accepted,
+      const bool is_allowed) {
     update_or_revert(macrostate_old, macrostate_new,
-           ln_metropolis_prob, is_accepted, false);
+           ln_metropolis_prob, is_accepted, is_allowed, false);
   }
 
 
   /// Perform an infrequent update to the bias.
-  virtual void infrequent_update() {}
+  virtual void infrequent_update(const Macrostate& macro) {}
 
   /// The natural log of the macrostate probability.
   virtual const LnProbability& ln_prob() const = 0;
@@ -78,6 +83,11 @@ class Bias {
 
   virtual int num_iterations() const = 0;
   bool is_complete() const { return is_complete_; }
+
+  // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
+  virtual void set_cm(const int macro, const Bias& bias);
+  virtual const TripleBandedCollectionMatrix& cm() const;
+  virtual const int visits(const int macro) const;
 
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;

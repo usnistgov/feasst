@@ -303,7 +303,8 @@ TEST(HardShape, henry_LONG) {
   for (const double length : {10, 20}) {
     System system;
     system.add(*MakeConfiguration({{"cubic_box_length", str(length)},
-      {"particle_type0", "../forcefield/hard_sphere.fstprt"}}));
+      {"particle_type0", "../forcefield/hard_sphere.fstprt"},
+      {"periodic2", "false"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
       {"dimension", "2"},
       {"bound0", "3"},

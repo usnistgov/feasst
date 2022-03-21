@@ -4,6 +4,7 @@
 #include "system/include/potential.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
+#include "system/include/dont_visit_model.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/trial_translate.h"
@@ -56,5 +57,48 @@ TEST(MonteCarlo, beta_expanded) {
     {"multistate", "true"}}));
   mc.attempt(5e4);
 }
+
+//MonteCarlo sweeptest(const int min_sweeps, const int beta_num) {
+//  MonteCarlo mc;
+//  mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+//  mc.add(MakePotential(MakeDontVisitModel()));
+//  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+//  const double beta_min = 0.8;
+//  const double beta_max = 1.2;
+////  const int beta_num = 50;
+//  const std::string delta_beta = str((beta_max - beta_min)/(beta_num-1));
+//  //INFO("delta_beta " << delta_beta);
+//  mc.set(MakeFlatHistogram({{"Macrostate", "MacrostateBeta"}, {"width", delta_beta}, {"max", str(beta_max)}, {"min", str(beta_min)},
+//    {"Bias", "TransitionMatrix"}, {"min_sweeps", str(min_sweeps)}, {"min_visits", "1"}, {"average_visits", "1000"}, {"new_sweep", "1"}}));
+//  mc.add(MakeTrialBeta({{"fixed_beta_change", delta_beta}}));
+//  const std::string steps_per(str(1e6));
+//  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj_beta"}}));
+//  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
+//  mc.add(MakeCriteriaUpdater({{"steps_per", "1"}}));
+//  //mc.add(MakeCriteriaUpdater({{"steps_per", steps_per}}));
+//  mc.add(MakeCriteriaWriter({
+//    {"steps_per", steps_per},
+//    {"file_name", "tmp/lj_beta_crit.txt"},
+//    {"file_name_append_phase", "true"}}));
+//  mc.add(MakeEnergy({
+//    {"file_name", "tmp/lj_beta_energy"},
+//    {"file_name_append_phase", "true"},
+//    {"steps_per_update", "1"},
+//    {"steps_per_write", steps_per},
+//    {"multistate", "true"}}));
+//  return mc;
+//}
+//
+//TEST(MonteCarlo, sweeping_window_size_dependence_LONG) {
+//  for (int num : {2, 5, 10, 20, 50, 100, 200, 500}) {
+//    Accumulator num_trials;
+//    for (int i = 0; i < 3; ++i) {
+//      MonteCarlo mc = sweeptest(1e4, num);
+//      mc.run_until_complete();
+//      num_trials.accumulate(mc.trials().num_attempts());
+//    }
+//    INFO(num << " " << num_trials.average() << " " << num_trials.std() << " t/n " << num_trials.average()/num);
+//  }
+//}
 
 }  // namespace feasst

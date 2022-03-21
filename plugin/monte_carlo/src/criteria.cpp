@@ -54,7 +54,7 @@ void Criteria::set_expanded_state(const int state, const int num) {
   num_expanded_states_ = num;
 }
 
-void Criteria::revert_(const bool accepted, const double ln_prob) {
+void Criteria::revert_(const bool accepted, const bool allowed, const double ln_prob) {
   if (accepted) {
     *current_energy_() = previous_energy_;
   }
@@ -178,6 +178,32 @@ void Criteria::check_num_iterations_(const int num_attempts_per_iteration) {
     *num_iterations_() += 1;
     *num_attempt_since_last_iteration_() = 0;
   }
+}
+
+int Criteria::set_soft_max(const int index, const System& sys) {
+  FATAL("not implemented");
+}
+
+int Criteria::set_soft_min(const int index, const System& sys) {
+  FATAL("not implemented");
+}
+
+void Criteria::set_cm(const bool inc_max, const int macro, const Criteria& crit) {
+  FATAL("not implemented");
+}
+
+void Criteria::adjust_bounds(const bool left_most, const bool right_most,
+  const int min_size, const System& system, const System& upper_sys,
+  Criteria * criteria) {
+  FATAL("not implemented");
+}
+
+const Macrostate& Criteria::macrostate() const {
+  FATAL("not implemented");
+}
+
+const Bias& Criteria::bias() const {
+  FATAL("not implemented");
 }
 
 }  // namespace feasst

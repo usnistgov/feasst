@@ -132,6 +132,10 @@ class MonteCarlo {
   Random * get_random() { return random_.get(); }
   TrialFactory * get_trial_factory() { return &trial_factory_; }
 
+  // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
+  void adjust_bounds(const bool left_most, const bool right_most,
+    const int min_size, MonteCarlo * mc);
+
   /// The fourth action is to set the Criteria.
   /// Configuration and Potentials (or System) must be set first.
   void set(std::shared_ptr<Criteria> criteria);
@@ -241,14 +245,21 @@ class MonteCarlo {
   // Mimic a rejection by a trial.
   void imitate_trial_rejection_(const int trial_index,
     const double ln_prob,
+    const bool allowed,
     const bool auto_reject,
     const int state_old,
     const int state_new);
+  void ghost_trial_(
+    const double ln_prob,
+    const int state_old,
+    const int state_new,
+    const bool allowed);
   /// Attempt trial index without analyzers, modifiers or checkpoints.
   bool attempt_trial(const int index);
   // Revert changes from previous trial.
   void revert_(const int trial_index,
     const bool accepted,
+    const bool allowed,
     const bool auto_reject,
     const double ln_prob);
   // Finalize changes from previous trial.

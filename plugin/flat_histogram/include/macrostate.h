@@ -22,10 +22,10 @@ class Macrostate {
   // HWH consider depreciating this interface?
   /**
     args:
-    - soft_max : optionally, set a soft maximum (default: last histogram bin).
+    - soft_macro_max : optionally, set a soft maximum (default: last histogram bin).
       These soft limits may be changed during a simulation.
-      Note that this max is an integer bin number.
-    - soft_min : minimum as described above (default: same as histogram).
+      Note that this max is a macrostate value, not an integer bin index.
+    - soft_macro_min : minimum as described above (default: same as histogram).
    */
   Macrostate(const Histogram& histogram, argtype args = argtype());
   Macrostate(const Histogram& histogram, argtype * args);
@@ -47,13 +47,12 @@ class Macrostate {
   /// Return the histogram.
   const Histogram& histogram() const { return histogram_; }
 
-  /// Return the soft maximum.
+  /// Return the soft maximum as an integer bin index, not a macrostate.
   const int soft_max() const { return soft_max_; }
 
-  /// Return the soft minimum.
+  /// Return the soft minimum as an integer bin index, not a macrostate.
   const int soft_min() const { return soft_min_; }
 
-  // HWH change this to const references
   /// Return the current value of the macrostate.
   virtual double value(const System& system,
     const Criteria& criteria,
@@ -74,8 +73,14 @@ class Macrostate {
                   const Criteria& criteria,
                   const Acceptance& acceptance) const;
 
-  /// Swap the soft bounds with another macrostate.
-  void swap_soft_bounds(Macrostate * macrostate);
+//  // Swap the soft bounds with another macrostate.
+//  void swap_soft_bounds(Macrostate * macrostate);
+
+  // HWH hackish adjust_bounds interface. See CollectionMatrixSplice.
+  int set_soft_max(const int index, const System& sys, const Criteria& criteria);
+  int set_soft_min(const int index, const System& sys, const Criteria& criteria);
+  void add_to_soft_max(const int num) { soft_max_ += num; }
+  void remove_from_soft_min(const int num) { soft_min_ -= num; }
 
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Macrostate> create(std::istream& istr) const;
