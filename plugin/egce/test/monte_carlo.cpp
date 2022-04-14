@@ -115,9 +115,9 @@ TEST(MonteCarlo, rpm_egce_fh_LONG) {
     mc2.criteria().serialize(ss);
     FlatHistogram fh(ss);
     LnProbability lnpi3 = fh.bias().ln_prob().reduce(2);
-    EXPECT_NEAR(lnpi3.value(0), -1.2994315780357, 0.125);
-    EXPECT_NEAR(lnpi3.value(1), -1.08646312498868, 0.125);
-    EXPECT_NEAR(lnpi3.value(2), -0.941850889679828, 0.125);
+    EXPECT_NEAR(lnpi3.value(0), -1.2994315780357, 0.15);
+    EXPECT_NEAR(lnpi3.value(1), -1.08646312498868, 0.15);
+    EXPECT_NEAR(lnpi3.value(2), -0.941850889679828, 0.15);
     const std::vector<std::shared_ptr<Analyze> >& en = mc2.analyzers().back()->analyzers();
     EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
     EXPECT_NEAR(en[1]->accumulator().average(), -0.115474, 1e-6);
@@ -169,10 +169,10 @@ TEST(MonteCarlo, rpm_egce_fh_min1_VERY_LONG) {
   mc.criteria().serialize(ss);
   FlatHistogram fh(ss);
   const LnProbability& lnpi = fh.bias().ln_prob();
-  EXPECT_NEAR(lnpi.value(0), -5.05, 0.14);
-  EXPECT_NEAR(lnpi.value(1), -0.77327, 0.14);
-  EXPECT_NEAR(lnpi.value(2), -3.55107, 0.14);
-  EXPECT_NEAR(lnpi.value(3), -0.686417, 0.14);
+  EXPECT_NEAR(lnpi.value(0), -5.05, 0.2);
+  EXPECT_NEAR(lnpi.value(1), -0.77327, 0.2);
+  EXPECT_NEAR(lnpi.value(2), -3.55107, 0.2);
+  EXPECT_NEAR(lnpi.value(3), -0.686417, 0.2);
   const std::vector<std::shared_ptr<Analyze> >& en = mc.analyzers().back()->analyzers();
   EXPECT_NEAR(en[0]->accumulator().average(), -0.115474, 1e-6);
   EXPECT_NEAR(en[1]->accumulator().average(), -0.939408, 0.03);

@@ -104,6 +104,9 @@ class VisitModelInner {
 
   int cutoff_index() const { return cutoff_index_; }
 
+  void set_skip_particle(const bool skip) { skip_particle_ = skip; }
+  bool skip_particle() const { return skip_particle_; }
+
   // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
@@ -121,8 +124,12 @@ class VisitModelInner {
  private:
   double energy_ = 0.;
   double squared_distance_;
-  std::shared_ptr<EnergyMap> energy_map_;
   int cutoff_index_ = -1;
+  int cutoff_outer_index_ = -1;
+  std::shared_ptr<EnergyMap> energy_map_;
+
+  // temporariy and not serialized
+  bool skip_particle_ = false;
 };
 
 inline std::shared_ptr<VisitModelInner> MakeVisitModelInner() {

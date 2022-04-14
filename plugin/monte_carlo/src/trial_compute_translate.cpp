@@ -28,9 +28,9 @@ void TrialComputeTranslate::perturb_and_acceptance(
     Random * random) {
   DEBUG("TrialComputeTranslate");
   TrialStage * first_stage = (*stages)[0];
-  const Perturb& first_pert = first_stage->perturb();
+  //const Perturb& first_pert = first_stage->perturb();
   const TrialSelect& first_sel = first_stage->select();
-  ASSERT(first_pert.class_name() == "PerturbTranslate", "error");
+  //ASSERT(first_pert.class_name() == "PerturbTranslate", "error");
 
   for (TrialStage * stage : *stages) stage->begin_stage();
   if (first_stage->num_steps() == 1) {

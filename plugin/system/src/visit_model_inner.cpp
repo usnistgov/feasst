@@ -57,14 +57,30 @@ void VisitModelInner::compute(
       const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
       TRACE("cutoff " << cutoff);
       TRACE("squared_distance_ " << squared_distance_);
+      TRACE("indices " << part1_index << " " << site1_index << " " <<
+          part2_index << " " << site2_index);
       if (squared_distance_ <= cutoff*cutoff) {
         const double energy = model->energy(squared_distance_, type1, type2,
                                            model_params);
         update_ixn(energy, part1_index, site1_index, type1, part2_index,
                    site2_index, type2, squared_distance_, pbc, is_old_config);
-        TRACE("indices " << part1_index << " " << site1_index << " " <<
-          part2_index << " " << site2_index);
         TRACE("energy " << energy_ << " " << energy);
+      } else {
+        // if distance is greater than cutoff+outer, then skip the entire
+        // particle.
+//        TRACE("cutoff_outer_inter " << cutoff_outer_index_);
+        if (cutoff_outer_index_ != -1) {
+          if (site1_index == 0 && site2_index == 0) {
+            const double outer = model_params.select(cutoff_outer_index_).mixed_values()[type1][type2];
+            //TRACE("outer " << outer);
+            if (outer > 0) {
+              if (squared_distance_ > std::pow(cutoff+2.*outer, 2)) {
+                TRACE("skipping! dist: " << squared_distance_ << " > " << std::pow(cutoff+outer, 2));
+                skip_particle_ = true;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -88,18 +104,21 @@ std::shared_ptr<VisitModelInner> VisitModelInner::deserialize(
 }
 
 void VisitModelInner::serialize_visit_model_inner_(std::ostream& ostr) const {
-  feasst_serialize_version(8177, ostr);
+  feasst_serialize_version(8178, ostr);
   feasst_serialize(energy_, ostr);
   feasst_serialize(cutoff_index_, ostr);
+  feasst_serialize(cutoff_outer_index_, ostr);
   feasst_serialize_fstdr(energy_map_, ostr);
 }
 
 VisitModelInner::VisitModelInner(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 8177, "unrecognized verison: " << version);
+  ASSERT(version == 8177 || version == 8178,
+    "unrecognized verison: " << version);
   feasst_deserialize(&energy_, istr);
   feasst_deserialize(&cutoff_index_, istr);
+  feasst_deserialize(&cutoff_outer_index_, istr);
   // HWH for unknown reasons, this function template does not work.
   { int existing;
     istr >> existing;
@@ -129,6 +148,8 @@ void VisitModelInner::precompute(Configuration * config) {
     energy_map_->precompute(config);
   }
   cutoff_index_ = config->model_params().index("cutoff");
+  cutoff_outer_index_ = config->model_params().index("cutoff_outer");
+  //TRACE("cutoff_outer_index " << cutoff_outer_index_);
 }
 
 }  // namespace feasst

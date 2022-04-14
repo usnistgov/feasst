@@ -143,6 +143,9 @@ volume in a dense system).
 
 Note that these equations consider only a single-site particle.
 \endrst
+
+\image html dccb_draw.png
+
  */
 class TrialComputeMove : public TrialCompute {
  public:

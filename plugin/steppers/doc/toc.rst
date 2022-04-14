@@ -22,6 +22,7 @@
    CheckEnergyAndTune
    IncrementPhase
    SeekModify
+   WrapParticles
    CheckProperties
    CriteriaUpdater
    Tune

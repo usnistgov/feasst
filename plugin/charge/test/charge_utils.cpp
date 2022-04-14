@@ -10,6 +10,7 @@
 #include "system/include/visit_model_bond.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/visit_model_cell.h"
+#include "system/include/visit_model_cutoff_outer.h"
 #include "system/include/model_two_body_table.h"
 #include "monte_carlo/include/metropolis.h"
 #include "charge/test/charge_utils.h"
@@ -34,6 +35,7 @@ System spce(argtype args) {
   system.add(MakePotential(std::make_shared<Ewald>(&args)));
   system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
                                                     MakeChargeScreened({{"table_size", "0"}})}),
+                           MakeVisitModelCutoffOuter(),
                            {{"table_size", str("table_size", &args, str(1e6))}}));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
   system.add(MakePotential(MakeChargeSelf()));

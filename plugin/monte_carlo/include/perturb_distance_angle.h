@@ -66,7 +66,7 @@ class PerturbDistanceAngle : public PerturbDistance {
   int angle_type_ = 0.;
 
   // temporary
-  Position rjk_;
+  Position rjk_, rji_;
   Position orthogonal_jk_;
   Position origin_;
   RotationMatrix rot_mat_;

@@ -25,6 +25,7 @@ echo "Time is \$(date)"
 echo "Directory is \$PWD"
 echo "ID is \$SLURM_JOB_ID"
 echo "TASK is \$SLURM_ARRAY_TASK_ID"
+echo "CPU is grep `"model name" \$CPUFILE | sort -u | cut -d : -f 2-`"
 
 cd \$PWD
 python tutorial_5_lj_gcmc_parallel.py --task \$SLURM_ARRAY_TASK_ID --num_procs ${num_procs} --num_hours $num_hours

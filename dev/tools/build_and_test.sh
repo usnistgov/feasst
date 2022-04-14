@@ -15,12 +15,14 @@ echo "" > summary.log
 valgrind ./bin/unittest --gtest_filter=-*LONG* >> summary_long.log 2>&1
 echo "********** valgrind **********" >> summary.log
 grep FAIL summary_long.log >> summary.log
+grep Throw summary_long.log >> summary.log
 tail -1 summary_long.log >> summary.log
 
 ~/software/gtest-parallel/gtest-parallel bin/unittest -d tmp >> summary_long_allt.log 2>&1
 cat summary_long_allt.log >> summary_long.log
 echo "********** all gtest **********" >> summary.log
 grep FAIL summary_long_allt.log >> summary.log
+grep Throw summary_long_allt.log >> summary.log
 
 python ../py/test.py >> summary_long.log 2>&1
 echo "********** pytest **********" >> summary.log

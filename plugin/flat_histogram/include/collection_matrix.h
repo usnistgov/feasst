@@ -66,11 +66,19 @@ class TripleBandedCollectionMatrix {
   /// Return the matrix
   const std::vector<std::vector<double> >& matrix() const { return matrix_; }
 
+  /// Return the standard deviation of the change in the ln_prob relative to
+  /// the bin below.
+  double delta_ln_prob_stdev(const int bin, const int block) const;
+
   std::string write_per_bin(const int bin) const;
   std::string write_per_bin_header() const;
 
   bool is_equal(const TripleBandedCollectionMatrix& colmat,
       const double tolerance) const;
+
+  // find the largest block size with >= 10 blocks.
+  // if none, return -1
+  int chosen_block() const;
 
   void serialize(std::ostream& ostr) const;
 
@@ -93,10 +101,6 @@ class TripleBandedCollectionMatrix {
 
   void init_cur_(const int exp);
   double sum_(const int macro) const;
-
-  // find the largest block size with >= 10 blocks.
-  // if none, return -1
-  int chosen_block_() const;
 };
 
 inline std::shared_ptr<TripleBandedCollectionMatrix> MakeTripleBandedCollectionMatrix(

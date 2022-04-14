@@ -12,7 +12,11 @@ PerturbDistance::PerturbDistance(argtype args) : PerturbDistance(&args) {
 }
 PerturbDistance::PerturbDistance(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbDistance";
-  disable_tunable_();
+  if (!boolean("enable_tunable", args, false)) {
+    disable_tunable_();
+  } else {
+    set_tunable_min_and_max(2*NEAR_ZERO, 180.*(1 + NEAR_ZERO));
+  }
   potential_acceptance_ = integer("potential_acceptance", args, -1);
 }
 
@@ -89,9 +93,25 @@ void PerturbDistance::move_once_(const bool is_position_held,
   const Position& anchor_pos = select->anchor_position(0, 0, *system);
   DEBUG("mobile " << select->mobile().str());
   DEBUG("old pos " << site->str());
-  random->unit_sphere_surface(site);
-  site->multiply(random_distance(*system, select, random, bond_energy));
-  DEBUG("final dist pert bond_energy " << *bond_energy);
+  if (tunable().is_enabled()) {
+    //INFO("tunable enabled? " << tunable().is_enabled());
+    //INFO("tunable value? " << tunable().value());
+    const double tune = tunable().value();
+    ASSERT(std::abs(tune) > NEAR_ZERO, "max angle is too small");
+    random->rotation(site->dimension(), &axis_tmp_, &rot_mat_tmp_, tune);
+    site->subtract(anchor_pos);
+    site->normalize();
+    site->multiply(random_distance(*system, select, random, bond_energy));
+    DEBUG("final dist pert bond_energy " << *bond_energy);
+    if (origin_tmp_.dimension() == 0) {
+      origin_tmp_.set_to_origin(site->dimension());
+    }
+    rot_mat_tmp_.rotate(origin_tmp_, site);
+  } else {
+    random->unit_sphere_surface(site);
+    site->multiply(random_distance(*system, select, random, bond_energy));
+    DEBUG("final dist pert bond_energy " << *bond_energy);
+  }
   site->add(anchor_pos);
   DEBUG("new pos " << site->str());
   system->get_configuration()->update_positions(select->mobile());

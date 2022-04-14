@@ -10,8 +10,10 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_transfer.h"
+#include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/run.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/cpu_time.h"
@@ -120,6 +122,9 @@ TEST(MonteCarlo, spce) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
+  //mc.add(MakeTrialAdd({{"weight", "4."}, {"particle_type", "0"}}));
+  //mc.run(MakeRun({{"until_num_particles", "2"}}));
+  //mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(5e2)}, {"file_name", "tmp/spce"}}));
   //mc.add(MakeCheckEnergyAndTune({{"steps_per", "1"}, {"tolerance", str(1e-6)}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(5e2)}, {"tolerance", str(1e-6)}}));

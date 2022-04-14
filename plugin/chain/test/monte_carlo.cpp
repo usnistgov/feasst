@@ -9,6 +9,7 @@
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra_map.h"
+#include "system/include/visit_model_cutoff_outer.h"
 #include "system/include/dont_visit_model.h"
 #include "models/include/square_well.h"
 #include "models/include/lennard_jones_force_shift.h"
@@ -27,6 +28,7 @@
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/movie.h"
+#include "steppers/include/wrap_particles.h"
 #include "steppers/include/tune.h"
 #include "steppers/include/check.h"
 #include "steppers/include/check_energy.h"
@@ -39,7 +41,9 @@
 #include "cluster/include/trial_avb2.h"
 #include "cluster/include/energy_map_neighbor.h"
 #include "chain/include/trial_pivot.h"
+#include "chain/include/trial_particle_pivot.h"
 #include "chain/include/trial_crankshaft.h"
+#include "chain/include/trial_crankshaft_small.h"
 #include "chain/include/trial_grow.h"
 #include "chain/include/trial_grow_linear.h"
 #include "chain/include/analyze_bonds.h"
@@ -787,6 +791,91 @@ TEST(MonteCarlo, single_butane) {
 //  std::ofstream ss("tmp/butane_dihedral.txt");
 //  ss << bonds->dihedral_hist(0).str();
   EXPECT_NEAR(bonds->dihedral_hist(0).histogram()[19], 700, 70);
+}
+
+TEST(MonteCarlo, ethane) {
+  auto mc = MakeMonteCarlo();
+  //mc->set(MakeRandomMT19937({{"seed", "123"}}));
+  mc->add(MakeConfiguration({{"cubic_box_length", "30"},
+                             {"particle_type0", "../forcefield/ethane.fstprt"},
+                             {"cutoff", "15"}}));
+  mc->add(MakePotential(MakeLennardJones()));
+  mc->add(MakePotential(MakeLongRangeCorrections()));
+  mc->set(MakeThermoParams({{"beta", str(1./325)},
+                            {"chemical_potential0", "-1"}}));
+  mc->set(MakeMetropolis());
+  mc->add(MakeTrialGrow({
+    {{"bond", "true"},
+     {"mobile_site", "0"},
+     {"anchor_site", "1"},
+     {"weight", "1"},
+     {"enable_tunable", "true"},
+     {"tunable_param", "1"},
+     {"particle_type", "0"}}}));
+  mc->add(MakeTrialGrow({
+    {{"bond", "true"},
+     {"mobile_site", "1"},
+     {"anchor_site", "0"},
+     {"weight", "1"},
+     {"enable_tunable", "true"},
+     {"tunable_param", "0.5"},
+     {"particle_type", "0"}}}));
+  mc->add(MakeTrialAdd({{"weight", "4"}, {"particle_type", "0"}}));
+  mc->run(MakeRun({{"until_num_particles", "10"}}));
+  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  const std::string trials_per = "1e0";
+  mc->add(MakeWrapParticles({{"steps_per", trials_per}}));
+  mc->add(MakeLogAndMovie({{"steps_per", trials_per}, {"file_name", "tmp/ethane.txt"}}));
+  mc->add(MakeCheckEnergyAndTune({{"steps_per", trials_per}, {"tolerance", str(1e-2)}}));
+  mc->attempt(1e1);
+}
+
+TEST(MonteCarlo, water) {
+  auto mc = MakeMonteCarlo();
+  mc->set(MakeRandomMT19937({{"seed", "123"}}));
+  mc->add(MakeConfiguration({{"cubic_box_length", "20"},
+                             {"particle_type0", "../forcefield/spce.fstprt"},
+                             {"cutoff", "10"}}));
+  mc->add(MakePotential(MakeLennardJones(),
+                        MakeVisitModelCutoffOuter()));
+  mc->add(MakePotential(MakeLongRangeCorrections()));
+  mc->set(MakeThermoParams({{"beta", str(1./325)},
+                            {"chemical_potential0", "-1"}}));
+  mc->set(MakeMetropolis());
+  mc->add(MakeTrialGrow({
+    {{"angle", "true"},
+     {"mobile_site", "1"},
+     {"anchor_site", "0"},
+     {"anchor_site2", "2"},
+     {"weight", "1"},
+     {"enable_tunable", "true"},
+     {"tunable_param", "5"},
+     {"particle_type", "0"}}}));
+  mc->add(MakeTrialGrow({
+    {{"angle", "true"},
+     {"mobile_site", "2"},
+     {"anchor_site", "0"},
+     {"anchor_site2", "1"},
+     {"weight", "1"},
+     {"enable_tunable", "true"},
+     {"tunable_param", "5"},
+     {"particle_type", "0"}}}));
+  mc->add(MakeTrialParticlePivot({{"particle_type", "0"}}));
+  mc->add(MakeTrialCrankshaftSmall({
+    {"particle_type", "0"},
+    {"site", "0"},
+    {"anchor_site0", "1"},
+    {"anchor_site1", "2"},
+    {"weight", "1."},
+    {"tunable_param", "250."}}));
+  mc->add(MakeTrialAdd({{"weight", "4"}, {"particle_type", "0"}}));
+  mc->run(MakeRun({{"until_num_particles", "10"}}));
+  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  const std::string trials_per = "1e0";
+  mc->add(MakeWrapParticles({{"steps_per", trials_per}}));
+  mc->add(MakeLogAndMovie({{"steps_per", trials_per}, {"file_name", "tmp/water"}}));
+  mc->add(MakeCheckEnergyAndTune({{"steps_per", trials_per}, {"tolerance", str(1e-2)}}));
+  mc->attempt(1e1);
 }
 
 }  // namespace feasst

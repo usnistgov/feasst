@@ -1,3 +1,4 @@
+#include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 #include "chain/include/perturb_crankshaft.h"
 #include "math/include/random.h"
@@ -45,8 +46,11 @@ void PerturbCrankshaft::move(const bool is_position_held,
   axis_.normalize();
   const double max_angle = tunable().value();
   const double angle = random->uniform_real(-max_angle, max_angle);
-  // HWH use axis_angle_opt
-  rot_mat_.axis_angle(axis_, angle);
+  if (rot_mat_.num_rows() == 0) {
+    rot_mat_.set_size(axis_.size(), axis_.size());
+  }
+  rot_mat_.axis_angle_opt(axis_, angle);
+  DEBUG("mobile " << select->mobile().str());
   PerturbRotate::move(pivot, rot_mat_, system, select);
 }
 

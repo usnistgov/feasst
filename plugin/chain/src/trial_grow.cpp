@@ -229,7 +229,11 @@ void TrialGrow::build_(std::vector<argtype> * args) {
         ASSERT(used == 1, "args: " << str(iargs) <<
           ". Requires one of bond, angle, dihedral, branch, reptate, etc");
         if (!compute) {
-          compute = std::make_shared<TrialComputeMove>(&iargs);
+          if (num_args == 1) {
+            compute = std::make_shared<TrialComputeTranslate>(&iargs);
+          } else {
+            compute = std::make_shared<TrialComputeMove>(&iargs);
+          }
         }
       }
       const std::string num_steps = str("num_steps", &iargs, default_num_steps);

@@ -255,7 +255,7 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
     // enough for completion
     if (criteria->bias().visits(criteria->macrostate().soft_max()) >=
         criteria->num_iterations_to_complete()) {
-      set_soft_max(criteria->macrostate().soft_max() - 1, upper_sys);
+      criteria->set_soft_max(criteria->macrostate().soft_max() - 1, upper_sys);
     }
   }
   INFO(macrostate().soft_min() << " " << criteria->macrostate().soft_max());

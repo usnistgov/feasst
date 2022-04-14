@@ -122,6 +122,7 @@
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
 #include "system/include/cells.h"
+#include "system/include/visit_model_cutoff_outer.h"
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/rosenbluth.h"
 #include "monte_carlo/include/acceptance.h"
@@ -140,12 +141,14 @@
 #include "monte_carlo/include/trial_select.h"
 #include "chain/include/select_site_of_type.h"
 #include "chain/include/select_perturbed.h"
+#include "chain/include/select_particle_pivot.h"
 #include "beta_expanded/include/select_nothing.h"
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
 #include "chain/include/select_branch.h"
 #include "monte_carlo/include/trial_select_dihedral.h"
 #include "monte_carlo/include/trial_select_particle.h"
+#include "chain/include/select_crankshaft_small.h"
 #include "chain/include/select_segment.h"
 #include "chain/include/select_end_segment.h"
 #include "chain/include/select_reptate.h"
@@ -158,8 +161,6 @@
 #include "monte_carlo/include/perturb_move.h"
 #include "cluster/include/perturb_point_reflect.h"
 #include "monte_carlo/include/perturb_translate.h"
-#include "monte_carlo/include/perturb_distance.h"
-#include "chain/include/perturb_reptate.h"
 #include "monte_carlo/include/perturb_to_anchor.h"
 #include "monte_carlo/include/perturb_volume.h"
 #include "monte_carlo/include/trial_stage.h"
@@ -198,6 +199,7 @@
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/increment_phase.h"
 #include "steppers/include/seek_modify.h"
+#include "steppers/include/wrap_particles.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/tune.h"
@@ -236,7 +238,9 @@
 #include "cluster/include/compute_avb4.h"
 #include "monte_carlo/include/trial_move.h"
 #include "chain/include/trial_pivot.h"
+#include "chain/include/trial_particle_pivot.h"
 #include "chain/include/trial_reptate.h"
+#include "chain/include/trial_crankshaft_small.h"
 #include "chain/include/trial_crankshaft.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
@@ -253,11 +257,15 @@
 #include "math/include/quadratic_equation.h"
 #include "math/include/formula_exponential.h"
 #include "math/include/matrix.h"
+#include "monte_carlo/include/perturb_distance.h"
+#include "chain/include/perturb_reptate.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
 #include "chain/include/perturb_branch.h"
 #include "monte_carlo/include/perturb_dihedral.h"
 #include "monte_carlo/include/perturb_rotate.h"
 #include "chain/include/perturb_pivot.h"
+#include "chain/include/perturb_crankshaft_small.h"
+#include "chain/include/perturb_particle_pivot.h"
 #include "chain/include/perturb_crankshaft.h"
 #include "cluster/include/perturb_rotate_com.h"
 #include "cluster/include/perturb_move_avb.h"
@@ -450,6 +458,8 @@ using namespace std;
 %shared_ptr(feasst::ParticleFactory);
 %shared_ptr(feasst::Select);
 %shared_ptr(feasst::Cells);
+%shared_ptr(feasst::CutoffOuter);
+%shared_ptr(feasst::VisitModelCutoffOuter);
 %shared_ptr(feasst::VisitModelCell);
 %shared_ptr(feasst::Rosenbluth);
 %shared_ptr(feasst::Acceptance);
@@ -469,12 +479,14 @@ using namespace std;
 %shared_ptr(feasst::TrialSelect);
 %shared_ptr(feasst::SelectSiteOfType);
 %shared_ptr(feasst::SelectPerturbed);
+%shared_ptr(feasst::SelectParticlePivot);
 %shared_ptr(feasst::SelectNothing);
 %shared_ptr(feasst::TrialSelectBond);
 %shared_ptr(feasst::TrialSelectAngle);
 %shared_ptr(feasst::SelectBranch);
 %shared_ptr(feasst::TrialSelectDihedral);
 %shared_ptr(feasst::TrialSelectParticle);
+%shared_ptr(feasst::SelectCrankshaftSmall);
 %shared_ptr(feasst::SelectSegment);
 %shared_ptr(feasst::SelectEndSegment);
 %shared_ptr(feasst::SelectReptate);
@@ -487,8 +499,6 @@ using namespace std;
 %shared_ptr(feasst::PerturbMove);
 %shared_ptr(feasst::PerturbPointReflect);
 %shared_ptr(feasst::PerturbTranslate);
-%shared_ptr(feasst::PerturbDistance);
-%shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::PerturbToAnchor);
 %shared_ptr(feasst::PerturbVolume);
 %shared_ptr(feasst::TrialStage);
@@ -537,6 +547,7 @@ using namespace std;
 %shared_ptr(feasst::CheckEnergyAndTune);
 %shared_ptr(feasst::IncrementPhase);
 %shared_ptr(feasst::SeekModify);
+%shared_ptr(feasst::WrapParticles);
 %shared_ptr(feasst::CheckProperties);
 %shared_ptr(feasst::CriteriaUpdater);
 %shared_ptr(feasst::Tune);
@@ -583,7 +594,9 @@ using namespace std;
 %shared_ptr(feasst::ComputeAVB4);
 %shared_ptr(feasst::TrialMove);
 %shared_ptr(feasst::TrialPivot);
+%shared_ptr(feasst::TrialParticlePivot);
 %shared_ptr(feasst::TrialReptate);
+%shared_ptr(feasst::TrialCrankshaftSmall);
 %shared_ptr(feasst::TrialCrankshaft);
 %shared_ptr(feasst::TrialRotate);
 %shared_ptr(feasst::TrialTranslate);
@@ -602,11 +615,15 @@ using namespace std;
 %shared_ptr(feasst::FormulaExponential);
 %shared_ptr(feasst::Matrix);
 %shared_ptr(feasst::RotationMatrix);
+%shared_ptr(feasst::PerturbDistance);
+%shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::PerturbDistanceAngle);
 %shared_ptr(feasst::PerturbBranch);
 %shared_ptr(feasst::PerturbDihedral);
 %shared_ptr(feasst::PerturbRotate);
 %shared_ptr(feasst::PerturbPivot);
+%shared_ptr(feasst::PerturbCrankshaftSmall);
+%shared_ptr(feasst::PerturbParticlePivot);
 %shared_ptr(feasst::PerturbCrankshaft);
 %shared_ptr(feasst::PerturbRotateCOM);
 %shared_ptr(feasst::PerturbMoveAVB);
@@ -763,6 +780,7 @@ using namespace std;
 %include configuration/include/particle_factory.h
 %include configuration/include/select.h
 %include system/include/cells.h
+%include system/include/visit_model_cutoff_outer.h
 %include system/include/visit_model_cell.h
 %include monte_carlo/include/rosenbluth.h
 %include monte_carlo/include/acceptance.h
@@ -781,12 +799,14 @@ using namespace std;
 %include monte_carlo/include/trial_select.h
 %include chain/include/select_site_of_type.h
 %include chain/include/select_perturbed.h
+%include chain/include/select_particle_pivot.h
 %include beta_expanded/include/select_nothing.h
 %include monte_carlo/include/trial_select_bond.h
 %include monte_carlo/include/trial_select_angle.h
 %include chain/include/select_branch.h
 %include monte_carlo/include/trial_select_dihedral.h
 %include monte_carlo/include/trial_select_particle.h
+%include chain/include/select_crankshaft_small.h
 %include chain/include/select_segment.h
 %include chain/include/select_end_segment.h
 %include chain/include/select_reptate.h
@@ -799,8 +819,6 @@ using namespace std;
 %include monte_carlo/include/perturb_move.h
 %include cluster/include/perturb_point_reflect.h
 %include monte_carlo/include/perturb_translate.h
-%include monte_carlo/include/perturb_distance.h
-%include chain/include/perturb_reptate.h
 %include monte_carlo/include/perturb_to_anchor.h
 %include monte_carlo/include/perturb_volume.h
 %include monte_carlo/include/trial_stage.h
@@ -839,6 +857,7 @@ using namespace std;
 %include steppers/include/check_energy_and_tune.h
 %include steppers/include/increment_phase.h
 %include steppers/include/seek_modify.h
+%include steppers/include/wrap_particles.h
 %include steppers/include/check_properties.h
 %include steppers/include/criteria_updater.h
 %include steppers/include/tune.h
@@ -877,7 +896,9 @@ using namespace std;
 %include cluster/include/compute_avb4.h
 %include monte_carlo/include/trial_move.h
 %include chain/include/trial_pivot.h
+%include chain/include/trial_particle_pivot.h
 %include chain/include/trial_reptate.h
+%include chain/include/trial_crankshaft_small.h
 %include chain/include/trial_crankshaft.h
 %include monte_carlo/include/trial_rotate.h
 %include monte_carlo/include/trial_translate.h
@@ -894,11 +915,15 @@ using namespace std;
 %include math/include/quadratic_equation.h
 %include math/include/formula_exponential.h
 %include math/include/matrix.h
+%include monte_carlo/include/perturb_distance.h
+%include chain/include/perturb_reptate.h
 %include monte_carlo/include/perturb_distance_angle.h
 %include chain/include/perturb_branch.h
 %include monte_carlo/include/perturb_dihedral.h
 %include monte_carlo/include/perturb_rotate.h
 %include chain/include/perturb_pivot.h
+%include chain/include/perturb_crankshaft_small.h
+%include chain/include/perturb_particle_pivot.h
 %include chain/include/perturb_crankshaft.h
 %include cluster/include/perturb_rotate_com.h
 %include cluster/include/perturb_move_avb.h

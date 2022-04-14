@@ -300,9 +300,9 @@ TEST(MonteCarlo, lj_fh_LONG) {
   EXPECT_NEAR(lnpi.value(4), -0.045677458321876000, 0.005);
   EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);
   EXPECT_NEAR(energy_av(1, mc), -0.030574223333333334, 0.001);
-  EXPECT_NEAR(energy_av(2, mc), -0.089928316, 0.002);
-  EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.004);
-  EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.006);
+  EXPECT_NEAR(energy_av(2, mc), -0.089928316, 0.003);
+  EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.005);
+  EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.0075);
   const LnProbability lnpi3 = lnpi.reduce(2);
   INFO(feasst_str(lnpi3.values()));
   EXPECT_NEAR(lnpi3.value(0), -13.9933350923078, 0.025);
@@ -470,9 +470,9 @@ TEST(MonteCarlo, spce_fh_VERY_LONG) {
     const LnProbability& lnpi = fh.bias().ln_prob();
     EXPECT_NEAR(lnpi.value(0), -2.72070275309203, 0.02);
     EXPECT_NEAR(lnpi.value(1), -1.85234049431879, 0.02);
-    EXPECT_NEAR(lnpi.value(2), -1.54708325224374, 0.0175);
-    EXPECT_NEAR(lnpi.value(3), -1.51786213939762, 0.015);
-    EXPECT_NEAR(lnpi.value(4), -1.64791755404893, 0.015);
+    EXPECT_NEAR(lnpi.value(2), -1.54708325224374, 0.02);
+    EXPECT_NEAR(lnpi.value(3), -1.51786213939762, 0.02);
+    EXPECT_NEAR(lnpi.value(4), -1.64791755404893, 0.02);
     EXPECT_NEAR(lnpi.value(5), -1.87860075480337, 0.05);
     const std::vector<std::shared_ptr<Analyze> >& en =
       mc.analyzers().back()->analyzers();
@@ -670,7 +670,7 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
 
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.09);
-  EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.06);
+  EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.07);
   EXPECT_NEAR(lnpi.value(2), -2.1178631459398805, 0.05);
   EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.04);
   EXPECT_NEAR(lnpi.value(4), -1.1336431696116527, 0.03);
@@ -686,8 +686,8 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
   EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
   EXPECT_NEAR(en[1]->accumulator().average(), -1.3278876302141585, 0.05);
   EXPECT_NEAR(en[2]->accumulator().average(), -3.0162868737745732, 0.05);
-  EXPECT_NEAR(en[3]->accumulator().average(), -4.8648645814174927, 0.05);
-  EXPECT_NEAR(en[4]->accumulator().average(), -6.8089768188067694, 0.05);
+  EXPECT_NEAR(en[3]->accumulator().average(), -4.8648645814174927, 0.055);
+  EXPECT_NEAR(en[4]->accumulator().average(), -6.8089768188067694, 0.06);
   EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.062);
 //  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
 //  EXPECT_NEAR(en[1]->accumulator().average(), -1.30701, 0.03);

@@ -2,6 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_DISTANCE_H_
 #define FEASST_MONTE_CARLO_PERTURB_DISTANCE_H_
 
+#include "math/include/matrix.h"
 #include "system/include/rigid_bond.h"
 #include "monte_carlo/include/perturb_move.h"
 
@@ -27,6 +28,8 @@ class PerturbDistance : public PerturbMove {
     args:
     - potential_acceptance: index of intramolecular potential that will be used
       to select the move. Ignore if -1 (default: -1).
+    - enable_tunable: enable tunable perturbation, but only implemented for a
+      single stage and a single step.
    */
   explicit PerturbDistance(argtype args = argtype());
   explicit PerturbDistance(argtype * args);
@@ -66,7 +69,9 @@ class PerturbDistance : public PerturbMove {
   int bond_type_ = -1;
   int potential_acceptance_;
 
-  // temporary
+  // temporary and not serialized
+  RotationMatrix rot_mat_tmp_;
+  Position axis_tmp_, origin_tmp_;
   RigidBond bond_;
 
   void move_once_(const bool is_position_held,

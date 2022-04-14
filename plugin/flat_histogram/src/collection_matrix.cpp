@@ -174,7 +174,7 @@ TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(
   }
 }
 
-int TripleBandedCollectionMatrix::chosen_block_() const {
+int TripleBandedCollectionMatrix::chosen_block() const {
   int bl = static_cast<int>(blocks().size()) - 1;
   while (bl >= 0) {
     if (static_cast<int>(blocks()[bl].size()) >= 10) {
@@ -187,9 +187,9 @@ int TripleBandedCollectionMatrix::chosen_block_() const {
 
 std::string TripleBandedCollectionMatrix::write_per_bin_header() const {
   std::stringstream ss;
-  const int chosen_block = chosen_block_();
-  if (chosen_block != -1) {
-    for (int i = 0; i < static_cast<int>(blocks()[chosen_block].size()); ++i) {
+  const int block = chosen_block();
+  if (block != -1) {
+    for (int i = 0; i < static_cast<int>(blocks()[block].size()); ++i) {
       ss << "ln_prob" << i << ",";
     }
     ss << "delta_ln_prob_stdev,";
@@ -198,25 +198,35 @@ std::string TripleBandedCollectionMatrix::write_per_bin_header() const {
   return ss.str();
 }
 
+double TripleBandedCollectionMatrix::delta_ln_prob_stdev(const int bin,
+  const int block) const {
+  Accumulator acc_block;
+  for (const TripleBandedCollectionMatrix& cm : blocks()[block]) {
+    LnProbability lnp;
+    lnp.resize(matrix().size());
+    cm.compute_ln_prob(&lnp);
+    if (bin == 0) {
+      acc_block.accumulate(0);
+    } else {
+      acc_block.accumulate(lnp.value(bin) - lnp.value(bin-1));
+    }
+  }
+  return acc_block.stdev_of_av();
+}
+
 std::string TripleBandedCollectionMatrix::write_per_bin(const int bin) const {
   std::stringstream ss;
   // compute and print the macrostates of each block
   // and calculate the standard deviation of the average of the blocks
-  const int chosen_block = chosen_block_();
-  if (chosen_block != -1) {
-    Accumulator acc_block;
-    for (const TripleBandedCollectionMatrix& cm : blocks()[chosen_block]) {
+  const int block = chosen_block();
+  if (block != -1) {
+    for (const TripleBandedCollectionMatrix& cm : blocks()[block]) {
       LnProbability lnp;
       lnp.resize(matrix().size());
       cm.compute_ln_prob(&lnp);
       ss << std::setprecision(5) << lnp.value(bin) << ",";
-      if (bin == 0) {
-        acc_block.accumulate(0);
-      } else {
-        acc_block.accumulate(lnp.value(bin) - lnp.value(bin-1));
-      }
     }
-    ss << std::setprecision(4) << acc_block.stdev_of_av() << ",";
+    ss << std::setprecision(4) << delta_ln_prob_stdev(bin, block) << ",";
   }
   ss << MAX_PRECISION << matrix()[bin][0] << ","
      << matrix()[bin][1] << ","

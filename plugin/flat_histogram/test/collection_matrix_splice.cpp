@@ -27,6 +27,8 @@ MonteCarlo monte_carlo2(const int thread, const int min, const int max,
   DEBUG("max " << max);
   const int steps_per = 1e2;
   MonteCarlo mc;
+  mc.set(MakeRandomMT19937({{"seed", "time"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   //mc.set(MakeRandomMT19937({{"seed", "1646430438"}}));
   mc.add(MakeConfiguration({{"cubic_box_length", "8"},
                             {"particle_type0", "../forcefield/lj.fstprt"},
@@ -115,11 +117,11 @@ TEST(CollectionMatrixSplice, lj_fh_LONG) {
     clones2.adjust_bounds(1);
   }
   LnProbability lnpi = clones2.ln_prob();
-  EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.02);
-  EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.02);
-  EXPECT_NEAR(lnpi.value(2), -6.458920624988570000, 0.02);
-  EXPECT_NEAR(lnpi.value(3), -3.145637424988510000, 0.01);
-  EXPECT_NEAR(lnpi.value(4), -0.045677458321876000, 0.005);
+  EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.04);
+  EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.04);
+  EXPECT_NEAR(lnpi.value(2), -6.458920624988570000, 0.04);
+  EXPECT_NEAR(lnpi.value(3), -3.145637424988510000, 0.025);
+  EXPECT_NEAR(lnpi.value(4), -0.045677458321876000, 0.01);
   std::vector<double> en0 = SeekAnalyze().multistate_data("Energy", clones2.clone(0));
   DEBUG(feasst_str(en0));
   std::vector<double> en1 = SeekAnalyze().multistate_data("Energy", clones2.clone(1));
@@ -133,10 +135,10 @@ TEST(CollectionMatrixSplice, lj_fh_LONG) {
 //  INFO(clones2.clone(1).analyze(en_index[0]).analyze(3).accumulator().average());
 //  INFO(clones2.clone(1).analyze(en_index[0]).analyze(4).accumulator().average());
   EXPECT_NEAR(clones2.clone(0).analyze(en_index[0]).analyze(0).accumulator().average(), -0.000605740233333333, 1e-8);
-  EXPECT_NEAR(clones2.clone(0).analyze(en_index[0]).analyze(1).accumulator().average(), -0.030574223333333334, 0.001*2);
-  EXPECT_NEAR(clones2.clone(0).analyze(en_index[0]).analyze(2).accumulator().average(), -0.089928316, 0.002*2);
-  EXPECT_NEAR(clones2.clone(1).analyze(en_index[0]).analyze(3).accumulator().average(), -0.1784570533333333, 0.004*2);
-  EXPECT_NEAR(clones2.clone(1).analyze(en_index[0]).analyze(4).accumulator().average(), -0.29619201333333334, 0.006*2);
+  EXPECT_NEAR(clones2.clone(0).analyze(en_index[0]).analyze(1).accumulator().average(), -0.030574223333333334, 0.001*3);
+  EXPECT_NEAR(clones2.clone(0).analyze(en_index[0]).analyze(2).accumulator().average(), -0.089928316, 0.002*3);
+  EXPECT_NEAR(clones2.clone(1).analyze(en_index[0]).analyze(3).accumulator().average(), -0.1784570533333333, 0.004*3);
+  EXPECT_NEAR(clones2.clone(1).analyze(en_index[0]).analyze(4).accumulator().average(), -0.29619201333333334, 0.006*3);
 //  INFO(SeekAnalyze().reference("Energy", clones2.clone(1)).accumulator().average());
 }
 

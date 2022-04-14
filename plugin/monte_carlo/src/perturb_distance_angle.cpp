@@ -106,6 +106,7 @@ void PerturbDistanceAngle::place_in_circle(const double distance,
    angle  i
 
     r_jk = r_j - r_k points from k to j
+    - store rjk cross rji, which is orthogonal (3D only)
     - set the bond length by normalizing r_jk and multiplying by bond length
     - set the bond angle by rotating r_jk by 180-angle about axis orthogonal
       to r_jk.
@@ -117,29 +118,40 @@ void PerturbDistanceAngle::place_in_circle(const double distance,
   DEBUG("rk: " << rk.str());
   rjk_ = rj;
   rjk_.subtract(rk);
+  rjk_.normalize();
+  if (dimension == 3) {
+    rji_ = rj;
+    rji_.subtract(*site);
+    rji_.normalize();
+    orthogonal_jk_ = rjk_.cross_product(rji_);
+    DEBUG("ortho " << orthogonal_jk_.str());
+    DEBUG("ortho dist " << MAX_PRECISION << orthogonal_jk_.squared_distance());
+    if (orthogonal_jk_.squared_distance() < NEAR_ZERO) {
+      orthogonal_jk_.orthogonal(rj);
+    }
+  }
+
   *site = rjk_;
   DEBUG("rjk: " << rjk_.str());
 
   // normalize site position, centered at rj, and multiply by bond length.
-  site->normalize();
   site->multiply(distance);
   DEBUG("rjk norm*L: " << rjk_.str());
 
-  // rotate site by (PI-bond_angle). If 3D, about vector orthogonal to r_jk.
-  if (dimension == 3) {
-    orthogonal_jk_.orthogonal(*site);
-    DEBUG("ortho " << orthogonal_jk_.str());
-    rot_mat_.axis_angle(orthogonal_jk_, radians_to_degrees(PI - angle));
-  } else {
-    rot_mat_.axis_angle(orthogonal_jk_, radians_to_degrees(PI + angle));
-  }
+  // rotate site by (PI-bond_angle).
+  DEBUG("PI+angle " << PI + angle);
+  rot_mat_.axis_angle(orthogonal_jk_, radians_to_degrees(PI + angle));
   DEBUG("site == rjk: " << site->str());
   rot_mat_.rotate(origin_, site);
   DEBUG("site rotated to angle: " << site->str());
 
   // If 3D, randomly spin site about rjk.
   if (dimension == 3) {
-    rot_mat_.axis_angle(rjk_, 360.*random->uniform());
+    double angle = 180;
+    if (tunable().is_enabled()) {
+      angle = tunable().value();
+    }
+    rot_mat_.axis_angle(rjk_, random->uniform_real(-angle, angle));
     rot_mat_.rotate(origin_, site);
   }
 

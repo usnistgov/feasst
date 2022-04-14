@@ -117,7 +117,9 @@ TripleBandedCollectionMatrix CollectionMatrixSplice::collection_matrix() const {
   int last_max = fh0.macrostate().soft_max();
   for (int cli = 1; cli < num(); ++cli) {
     FlatHistogram fh = flat_histogram(cli);
-    ASSERT(fh.macrostate().soft_min() == last_max + 1, "err");
+    ASSERT(fh.macrostate().soft_min() == last_max + 1,
+      "soft_min: " << fh.macrostate().soft_min() <<
+      " last_max: " << last_max);
     last_max = fh.macrostate().soft_max();
     TripleBandedCollectionMatrix cmi = collection_matrix(cli);
     int max_bin = fh.macrostate().soft_max();

@@ -19,7 +19,6 @@
    Perturb
    PerturbMove
    PerturbTranslate
-   PerturbDistance
    PerturbToAnchor
    PerturbVolume
    TrialStage
@@ -44,6 +43,7 @@
    TrialMove
    TrialRotate
    TrialTranslate
+   PerturbDistance
    PerturbDistanceAngle
    PerturbDihedral
    PerturbRotate
