@@ -10,9 +10,10 @@
 namespace feasst {
 
 Run::Run(argtype * args) {
-  num_attempts_ = integer("num_attempts", args, -1);
+  num_trials_ = integer("num_trials", args, -1);
   until_num_particles_ = integer("until_num_particles", args, -1);
   for_hours_ = dble("for_hours", args, -1);
+  until_criteria_complete_ = boolean("until_criteria_complete", args, false);
   class_name_ = "Run";
 }
 Run::Run(argtype args) : Run(&args) {
@@ -32,25 +33,27 @@ static MapRun mapper_Run = MapRun();
 Run::Run(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 3854, "mismatch version: " << version);
-  feasst_deserialize(&num_attempts_, istr);
+  feasst_deserialize(&num_trials_, istr);
   feasst_deserialize(&until_num_particles_, istr);
   feasst_deserialize(&for_hours_, istr);
+  feasst_deserialize(&until_criteria_complete_, istr);
 }
 
 void Run::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_action_(ostr);
   feasst_serialize_version(3854, ostr);
-  feasst_serialize(num_attempts_, ostr);
+  feasst_serialize(num_trials_, ostr);
   feasst_serialize(until_num_particles_, ostr);
   feasst_serialize(for_hours_, ostr);
+  feasst_serialize(until_criteria_complete_, ostr);
 }
 
 void Run::run(MonteCarlo * mc) {
-  while(num_attempts_ > 0) {
+  while(num_trials_ > 0) {
     mc->attempt(1);
-    --num_attempts_;
-    DEBUG("num_attempts " << num_attempts_);
+    --num_trials_;
+    DEBUG("num_trials " << num_trials_);
   }
   while(until_num_particles_ > 0 &&
         mc->configuration().num_particles() != until_num_particles_) {
@@ -60,7 +63,12 @@ void Run::run(MonteCarlo * mc) {
   if (for_hours_ > 0) {
     const double begin = cpu_hours();
     while (for_hours_ > cpu_hours() - begin) {
-      mc->attempt(1);
+      mc->attempt(10);
+    }
+  }
+  if (until_criteria_complete_) {
+    while (!mc->criteria().is_complete()) {
+      mc->attempt(100);
     }
   }
 }

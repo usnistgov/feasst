@@ -39,7 +39,7 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
     bool test = true,
     const int min = 1,
     const int max = 5,
-    const int steps_per = 1e3) {
+    const int trials_per = 1e3) {
   bool avb = true;
   if (avb_type == "none") avb = false;
   DEBUG(bias->class_name());
@@ -103,17 +103,17 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     bias);
   mc.set(criteria);
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
-  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
-  //mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
-  mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/spce_fh"}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", str(1e-6)}}));
+  //mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}, {"tolerance", str(1e-6)}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
-    {"steps_per", str(steps_per)},
+    {"trials_per", str(trials_per)},
     {"file_name", "tmp/spce_crit.txt"}}));
   auto energy = MakeEnergy({
     {"file_name", "tmp/spce_fh_energy"},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)},
+    {"trials_per_update", "1"},
+    {"trials_per_write", str(trials_per)},
     {"multistate", "true"}});
   mc.add(energy);
   //MonteCarlo mc2 = test_serialize(mc);

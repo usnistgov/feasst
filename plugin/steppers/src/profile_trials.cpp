@@ -54,7 +54,7 @@ void ProfileTrials::update(const Criteria& criteria,
   } else {
     is_previous_ = true;
     previous_clock_ = clock();
-    steps_since_update_ = steps_per_update();
+    trials_since_update_ = trials_per_update();
   }
 }
 

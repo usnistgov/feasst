@@ -32,7 +32,7 @@ class Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_allowed,
+    const bool is_endpoint,
     const bool revert) = 0;
 
   /// Update only.
@@ -41,9 +41,9 @@ class Bias {
       const int macrostate_new,
       const double ln_metropolis_prob,
       const bool is_accepted,
-      const bool is_allowed) {
+      const bool is_endpoint) {
     update_or_revert(macrostate_old, macrostate_new,
-           ln_metropolis_prob, is_accepted, is_allowed, false);
+           ln_metropolis_prob, is_accepted, is_endpoint, false);
   }
 
 

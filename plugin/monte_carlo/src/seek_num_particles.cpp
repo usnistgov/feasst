@@ -75,6 +75,7 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
   ASSERT(crit, "SeekNumParticles requires criteria in MonteCarlo or input");
   System * sys = monte_carlo->get_system();
   crit->set_current_energy(sys->energy());
+  crit->set_current_energy_profile(sys->stored_energy_profile());
   Random * ran = monte_carlo->get_random();
   extra_trials_.precompute(crit, sys);
   monte_carlo->reset_trial_stats();

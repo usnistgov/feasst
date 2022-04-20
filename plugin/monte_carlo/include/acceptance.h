@@ -32,12 +32,12 @@ class Acceptance {
   void set_reject(const bool reject = false) {
     reject_ = reject; }
 
-  /// Return whether or not to the trial was allowed (constraints).
-  bool allowed() const { return allowed_; }
+  /// Return whether or not to the trial was at a macrostate endpoint.
+  bool endpoint() const { return endpoint_; }
 
   /// Set the above quantity.
-  void set_allowed(const bool allowed = true) {
-    allowed_ = allowed; }
+  void set_endpoint(const bool endpoint = true) {
+    endpoint_ = endpoint; }
 
   /// Reset all stored quantities before each trial.
   void reset();
@@ -51,14 +51,39 @@ class Acceptance {
   /// Add to the above quantity.
   void add_to_energy_new(const double energy) { energy_new_ += energy; }
 
+  /// Return the energy profile of the new configuration.
+  const std::vector<double>& energy_profile_new() const {
+    return energy_profile_new_; }
+
+  /// Set the above quantity.
+  void set_energy_profile_new(const std::vector<double>& energy) {
+    energy_profile_new_ = energy; }
+
+  /// Add to the above quantity.
+  void add_to_energy_profile_new(const std::vector<double>& energy);
+
+  /// Subtract from the above quantity.
+  void subtract_from_energy_profile_new(const std::vector<double>& energy);
+
   /// Return the energy of the old configuration.
   double energy_old() const { return energy_old_; }
 
   /// Set the above quantity.
   void set_energy_old(const double energy) { energy_old_ = energy; }
 
-  /// Return the above quantity.
+  /// Add to the above quantity.
   void add_to_energy_old(const double energy) { energy_old_ += energy; }
+
+  /// Return the energy profile of the old configuration.
+  const std::vector<double>& energy_profile_old() const {
+    return energy_profile_old_; }
+
+  /// Set the above quantity.
+  void set_energy_profile_old(const std::vector<double>& energy) {
+    energy_profile_old_ = energy; }
+
+  /// Add to the above quantity.
+  void add_to_energy_profile_old(const std::vector<double>& energy);
 
   /// Return the energy of the reference.
   double energy_ref() const { return energy_ref_; }
@@ -96,7 +121,9 @@ class Acceptance {
   int macrostate_shift_;
   int macrostate_shift_type_;
   bool reject_;
-  bool allowed_;
+  bool endpoint_;
+  std::vector<double> energy_profile_new_;
+  std::vector<double> energy_profile_old_;
   Select perturbed_;
 };
 

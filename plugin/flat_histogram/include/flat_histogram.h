@@ -22,6 +22,17 @@ class Random;
  */
 class FlatHistogram : public Criteria {
  public:
+  /**
+    This is a flattened constructor which takes arguments for macrostate, the
+    macrostate histogram and the bias, as well as the following two arguments.
+
+    args:
+    - Macrostate: MacrostateNumParticles, MacrostateEnergy, etc
+    - Bias: WangLandau, TransitionMatrix, WLTM, etc.
+   */
+  explicit FlatHistogram(argtype args);
+  explicit FlatHistogram(argtype * args);
+
   // HWH remove, considering EnsembleAverage?
   // Only used for reweighting
   FlatHistogram();
@@ -29,17 +40,6 @@ class FlatHistogram : public Criteria {
   /// Construct with a macrostate and a bias
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
       std::shared_ptr<Bias> bias);
-
-  /**
-    This is a flattened constructor which takes arguments for macrostate, the
-    macrostate histogram and the bias, as well as the following two arguments.
-
-    args:
-    - macrostate: MacrostateNumParticles, MacrostateEnergy, etc
-    - bias: WangLandau, TransitionMatrix, WLTM, etc.
-   */
-  explicit FlatHistogram(argtype args);
-  explicit FlatHistogram(argtype * args);
 
   /// Same as above, but with an added Constraint.
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
@@ -88,12 +88,12 @@ class FlatHistogram : public Criteria {
   // HWH hackish implementation for prefetch
   // Revert changes from previous trial.
   // HWH rename: delete
-  void revert_(const bool accepted, const bool allowed, const double ln_prob) override;
+  void revert_(const bool accepted, const bool endpoint, const double ln_prob) override;
   void imitate_trial_rejection_(const double ln_prob,
       const int state_old,
       const int state_new,
-      const bool allowed) override {
-    bias_->update(state_old, state_new, ln_prob, false, allowed); }
+      const bool endpoint) override {
+    bias_->update(state_old, state_new, ln_prob, false, endpoint); }
 
   void update() override { bias_->infrequent_update(*macrostate_); }
 
@@ -105,7 +105,7 @@ class FlatHistogram : public Criteria {
   int set_soft_min(const int index, const System& sys) override;
   void set_cm(const bool inc_max, const int macro, const Criteria& crit) override;
   void adjust_bounds(const bool left_most, const bool right_most,
-    const int min_size, const System& system, const System& upper_sys,
+    const int min_size, const System& system, const System * upper_sys,
     Criteria * criteria) override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {

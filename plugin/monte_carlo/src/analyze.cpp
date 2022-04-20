@@ -34,7 +34,7 @@ std::shared_ptr<Analyze> Analyze::factory(const std::string name, argtype * args
 void Analyze::check_update_(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  if (is_time(steps_per_update(), &steps_since_update_)) {
+  if (is_time(trials_per_update(), &trials_since_update_)) {
     update(criteria, system, trial_factory);
   }
 }
@@ -46,7 +46,7 @@ void Analyze::trial(const Criteria& criteria,
       criteria.phase() <= stop_after_phase()) {
     if (criteria.phase() > start_after_phase()) {
       check_update_(criteria, system, trial_factory);
-      if (is_time(steps_per_write(), &steps_since_write_)) {
+      if (is_time(trials_per_write(), &trials_since_write_)) {
         printer(write(criteria, system, trial_factory), file_name(criteria));
       }
     }
@@ -76,34 +76,34 @@ const Analyze& Analyze::analyze(const int index) const {
 
 AnalyzeWriteOnly::AnalyzeWriteOnly(argtype * args) : Analyze(args) {
   // disable update
-  Stepper::set_steps_per_update(-1);
+  Stepper::set_trials_per_update(-1);
 
   // parse
-  if (used("steps_per", *args)) {
-    set_steps_per(integer("steps_per", args));
+  if (used("trials_per", *args)) {
+    set_trials_per(integer("trials_per", args));
   }
 }
 
-void AnalyzeWriteOnly::set_steps_per_update(const int steps) {
+void AnalyzeWriteOnly::set_trials_per_update(const int trials) {
   ERROR("This analyze is write only.");
 }
 
 AnalyzeUpdateOnly::AnalyzeUpdateOnly(argtype * args) : Analyze(args) {
-  ASSERT(steps_per_write() == 1, "AnalyzeUpdateOnly doesn't the argument " <<
-    "steps_per_write");
+  ASSERT(trials_per_write() == 1, "AnalyzeUpdateOnly doesn't the argument " <<
+    "trials_per_write");
   ASSERT(file_name().empty(), "AnalyzeUpdateOnly doesn't the argument " <<
     "file_name");
 
   // disable write
-  Analyze::set_steps_per_write(-1);
+  Analyze::set_trials_per_write(-1);
 
   // parse
-  if (used("steps_per", *args)) {
-    set_steps_per(integer("steps_per", args));
+  if (used("trials_per", *args)) {
+    set_trials_per(integer("trials_per", args));
   }
 }
 
-void AnalyzeUpdateOnly::set_steps_per_write(const int steps) {
+void AnalyzeUpdateOnly::set_trials_per_write(const int trials) {
   ERROR("This analyze is update only.");
 }
 

@@ -46,6 +46,7 @@ void TrialCompute::compute_rosenbluth(
     if (old == 1) {
       energy = stage->rosenbluth().energy(0);
       acceptance->add_to_energy_old(energy);
+      acceptance->add_to_energy_profile_old(stage->rosenbluth().energy_profile(0));
       ln_rosenbluth -= stage->rosenbluth().ln_total_rosenbluth();
       DEBUG("adding to old energy " << energy);
     } else {
@@ -53,6 +54,7 @@ void TrialCompute::compute_rosenbluth(
       DEBUG("energy new " << acceptance->energy_new());
       DEBUG("energy " << energy);
       acceptance->add_to_energy_new(energy);
+      acceptance->add_to_energy_profile_new(stage->rosenbluth().chosen_energy_profile());
       DEBUG("energy new updated " << acceptance->energy_new());
       ln_rosenbluth += stage->rosenbluth().ln_total_rosenbluth();
       DEBUG("adding to new energy " << energy);
@@ -73,6 +75,7 @@ void TrialCompute::compute_rosenbluth(
     DEBUG(acceptance->perturbed().str());
     DEBUG("state " << acceptance->perturbed().trial_state());
     const double en_full = system->perturbed_energy(acceptance->perturbed());
+    const std::vector<double>& en_profile_full = system->stored_energy_profile();
     DEBUG("en_full: " << en_full);
     DEBUG("energy ref: " << energy_change);
     acceptance->set_energy_ref(energy_change);
@@ -80,10 +83,12 @@ void TrialCompute::compute_rosenbluth(
     DEBUG("trial_state " << trial_state);
     if (old == 1) {
       acceptance->set_energy_old(en_full);
+      acceptance->set_energy_profile_old(en_profile_full);
       acceptance->add_to_ln_metropolis_prob(-1.*system->thermo_params().beta()*
         (-en_full + energy_change));
     } else {
       acceptance->set_energy_new(en_full);
+      acceptance->set_energy_profile_new(en_profile_full);
       DEBUG("updated energy_new " << acceptance->energy_new());
       acceptance->add_to_ln_metropolis_prob(-1.*system->thermo_params().beta()*
         (en_full - energy_change));

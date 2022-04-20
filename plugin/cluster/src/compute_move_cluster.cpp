@@ -63,6 +63,8 @@ void ComputeMoveCluster::perturb_and_acceptance(
   DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
   const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
   acceptance->set_energy_new(criteria->current_energy() + delta_energy);
+  acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
+  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
 }
 
 std::shared_ptr<TrialCompute> ComputeMoveCluster::create(std::istream& istr) const {

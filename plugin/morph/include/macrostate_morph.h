@@ -57,7 +57,6 @@ class MacrostateMorph : public Macrostate {
   virtual ~MacrostateMorph() {}
 
  private:
-  const std::string class_name_ = "MacrostateMorph";
   std::vector<std::vector<int> > grow_seq_;
   std::vector<ConstrainNumParticles> num_first_;
   bool is_row_all_populated_(const int row, const Matrix& matrix) const;

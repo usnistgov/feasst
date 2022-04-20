@@ -13,7 +13,7 @@ parser.add_argument("--temperature", type=float, help="temperature in Kelvin", d
 parser.add_argument("--max_molecules", type=int, help="maximum number of molecules", default=265)
 parser.add_argument("--cubic_box_length", type=float, help="length of cubic periodic boundary conditions", default=20)
 parser.add_argument("--beta_mu", type=float, help="beta times chemical potential", default=-8.14)
-parser.add_argument("--steps_per", type=int, help="number of MC trials per analysis", default=int(1e5))
+parser.add_argument("--trials_per", type=int, help="number of MC trials per analysis", default=int(1e5))
 args = parser.parse_args()
 print("args:", args)
 
@@ -58,14 +58,14 @@ def mc(thread, mn, mx):
     else:
         mc.add(fst.MakeTrialRotate(fst.args({"weight": "1.", "tunable_param": "1."})))
         mc.add(fst.MakeTrialTransfer(fst.args({"particle_type": "0", "weight": "4"})))
-    mc.add(fst.MakeCheckEnergyAndTune(fst.args({"steps_per": str(args.steps_per), "tolerance": "0.0001"})))
-    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(args.steps_per), "file_name": "clones" + str(thread)})))
-    mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": str(args.steps_per)})))
+    mc.add(fst.MakeCheckEnergyAndTune(fst.args({"trials_per": str(args.trials_per), "tolerance": "0.0001"})))
+    mc.add(fst.MakeLogAndMovie(fst.args({"trials_per": str(args.trials_per), "file_name": "clones" + str(thread)})))
+    mc.add(fst.MakeCriteriaUpdater(fst.args({"trials_per": str(args.trials_per)})))
     mc.add(fst.MakeCriteriaWriter(fst.args({
-        "steps_per": str(args.steps_per),
+        "trials_per": str(args.trials_per),
         "file_name": "clones" + str(thread) + "_crit.txt"})))
     mc.add(fst.MakeEnergy(fst.args({
-        "steps_per_write": str(args.steps_per),
+        "trials_per_write": str(args.trials_per),
         "file_name": "en" + str(thread),
         "multistate": "true"})))
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(thread) + ".fst",

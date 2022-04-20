@@ -32,9 +32,6 @@ class MacrostateEnergy : public Macrostate {
   void serialize(std::ostream& ostr) const override;
   MacrostateEnergy(std::istream& istr);
   virtual ~MacrostateEnergy() {}
-
- private:
-  const std::string class_name_ = "MacrostateEnergy";
 };
 
 inline std::shared_ptr<MacrostateEnergy> MakeMacrostateEnergy(

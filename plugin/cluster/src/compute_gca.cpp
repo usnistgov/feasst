@@ -38,6 +38,7 @@ void ComputeGCA::perturb_and_acceptance(
 
   const double delta_energy = 0.;
   acceptance->set_energy_new(criteria->current_energy() + delta_energy);
+  acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
 
   // always accept (maybe add some check or force acceptance?)
 }

@@ -64,6 +64,7 @@ void TrialStage::set_rosenbluth_energy_(const int step, System * system) {
   ASSERT(!std::isinf(excluded), "excluded: " << excluded << " is inf.");
   ASSERT(!std::isnan(excluded), "excluded: " << excluded << " is nan.");
   rosenbluth_.set_energy(step, energy, excluded);
+  rosenbluth_.set_energy_profile(step, system->stored_energy_profile());
 }
 
 void TrialStage::attempt(System * system,

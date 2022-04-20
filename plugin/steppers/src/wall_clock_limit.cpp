@@ -16,7 +16,7 @@ static MapWallClockLimit mapper_ = MapWallClockLimit();
 
 WallClockLimit::WallClockLimit(argtype * args) : AnalyzeUpdateOnly(args) {
   max_hours_ = dble("max_hours", args);
-  set_steps_per(integer("steps_per", args, 1));
+  set_trials_per(integer("trials_per", args, 1));
 }
 WallClockLimit::WallClockLimit(argtype args) : WallClockLimit(&args) {
   check_all_used(args);

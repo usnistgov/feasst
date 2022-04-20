@@ -9,7 +9,6 @@
 
 namespace feasst {
 
-// HWH: Implement "gentle" WL where the bias is updated infrequently.
 /**
   Wang Landau flat histogram bias.
   https://doi.org/10.1103/PhysRevLett.86.2050
@@ -28,7 +27,6 @@ class WangLandau : public Bias {
     - flatness_threshold : The visited states histogram is determined to be flat
       when the percentage between minimum visisted states and average reaches
       this threshold (default: 0.8).
-    - updates_per_flat_check: Updates per check for flatness (default: 10^2).
     - min_visit_per_macro: The minimum number of visits for each macrostate
       required during flatness check (default: 10^3).
    */
@@ -40,7 +38,7 @@ class WangLandau : public Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_allowed,
+    const bool is_endpoint,
     const bool revert) override;
   int num_iterations_to_complete() const override { return min_flatness_; }
   void set_num_iterations_to_complete(const int flatness) override;
@@ -48,6 +46,7 @@ class WangLandau : public Bias {
   const LnProbability& ln_prob() const override {
     return ln_prob_; }
   void resize(const Histogram& histogram) override;
+  void infrequent_update(const Macrostate& macro) override;
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
@@ -66,8 +65,6 @@ class WangLandau : public Bias {
   double add_to_ln_probability_ = 0;
   double reduce_ln_probability_ = 0;
   double flatness_threshold_ = 0;
-  int updates_per_flat_check_;
-  int updates_since_flat_check_ = 0;
   int min_visit_per_macro_;
 
   /// Count of the number of times a state has been visited since the last time

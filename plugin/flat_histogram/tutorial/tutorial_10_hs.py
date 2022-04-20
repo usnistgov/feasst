@@ -14,7 +14,7 @@ args = parser.parse_args()
 print("args:", args)
 
 def mc(thread, mn, mx):
-    steps_per=str(int(1e6))
+    trials_per=str(int(1e6))
     mc = fst.MakeMonteCarlo()
     mc.add(fst.MakeConfiguration(fst.args({
         "cubic_box_length": str(args.cubic_box_length),
@@ -32,21 +32,21 @@ def mc(thread, mn, mx):
                                "min_sweeps": str(args.min_sweeps)}))))
     mc.add(fst.MakeTrialTranslate(fst.args({"new_only": "true", "weight": "1.", "tunable_param": "1."})))
     mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": "0"})))
-    mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": steps_per, "tolerance": "0.0001"})))
-    mc.add(fst.MakeTune(fst.args({"steps_per": steps_per, "stop_after_phase": "0"})))
-    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": steps_per,
+    mc.add(fst.MakeCheckEnergy(fst.args({"trials_per": trials_per, "tolerance": "0.0001"})))
+    mc.add(fst.MakeTune(fst.args({"trials_per": trials_per, "stop_after_phase": "0"})))
+    mc.add(fst.MakeLogAndMovie(fst.args({"trials_per": trials_per,
                                          "file_name": "clones" + str(thread),
                                          "file_name_append_phase": "True"})))
-    mc.add(fst.MakePairDistribution(fst.args({"steps_per_update": "1000",
-                                              "steps_per_write": steps_per,
+    mc.add(fst.MakePairDistribution(fst.args({"trials_per_update": "1000",
+                                              "trials_per_write": trials_per,
                                               "dr": "0.025",
                                               "file_name": "gr" + str(thread) + ".txt",
                                               "file_name_append_phase": "True",
                                               "start_after_phase": "0",
                                               "multistate": "True",
                                               "multistate_aggregate": "False"})))
-    mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": steps_per})))
-    mc.add(fst.MakeCriteriaWriter(fst.args({"steps_per": steps_per,
+    mc.add(fst.MakeCriteriaUpdater(fst.args({"trials_per": trials_per})))
+    mc.add(fst.MakeCriteriaWriter(fst.args({"trials_per": trials_per,
                                             "file_name": "clones" + str(thread) + "_crit.txt",
                                             "file_name_append_phase": "True"})))
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(thread) + ".fst",

@@ -32,8 +32,8 @@ class TransitionMatrix : public Bias {
     - min_sweeps: Number of sweeps required for completion.
     - reset_sweeps: The 'phase' counter increments from 0 to 1 when
       reset_sweeps are completed (default: -1 [counter will never increment])
-    - new_sweep: use an experimental new sweep definition: the minimum number
-      of transitions out of each macrostate (default: false).
+    - new_sweep: if set to 1, use new sweep definition of "the minimum number
+      of transitions out of each macrostate" (default: 0).
    */
   explicit TransitionMatrix(argtype args = argtype());
   explicit TransitionMatrix(argtype * args);
@@ -42,7 +42,7 @@ class TransitionMatrix : public Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_allowed,
+    const bool is_endpoint,
     const bool revert) override;
 
   /// Return the minimum sweeps required for completion.

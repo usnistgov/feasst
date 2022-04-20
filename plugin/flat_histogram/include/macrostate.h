@@ -82,6 +82,7 @@ class Macrostate {
   void add_to_soft_max(const int num) { soft_max_ += num; }
   void remove_from_soft_min(const int num) { soft_min_ -= num; }
 
+  const std::string& class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Macrostate> create(std::istream& istr) const;
   virtual std::shared_ptr<Macrostate> create(argtype * args) const;
@@ -93,6 +94,7 @@ class Macrostate {
 
  protected:
   void serialize_macrostate_(std::ostream& ostr) const;
+  std::string class_name_;
 
  private:
   Histogram histogram_;

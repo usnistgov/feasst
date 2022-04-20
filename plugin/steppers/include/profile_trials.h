@@ -10,7 +10,7 @@ namespace feasst {
 
 /**
   Profile time spent on each trial.
-  Because profiling can be time consuming, consider using steps_per_update != 1.
+  Because profiling can be time consuming, consider using trials_per_update != 1.
  */
 class ProfileTrials : public Analyze {
  public:

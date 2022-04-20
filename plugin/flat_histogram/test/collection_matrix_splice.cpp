@@ -15,6 +15,7 @@
 #include "steppers/include/criteria_updater.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/transition_matrix.h"
+#include "flat_histogram/include/wltm.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/window_exponential.h"
 #include "flat_histogram/include/collection_matrix_splice.h"
@@ -25,7 +26,7 @@ MonteCarlo monte_carlo2(const int thread, const int min, const int max,
     const int soft_min, const int soft_max) {
   DEBUG("min " << min);
   DEBUG("max " << max);
-  const int steps_per = 1e2;
+  const int trials_per = 1e2;
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
@@ -45,39 +46,41 @@ MonteCarlo monte_carlo2(const int thread, const int min, const int max,
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}}),
       {{"soft_macro_min", str(soft_min)}, {"soft_macro_max", str(soft_max)}}),
-    MakeTransitionMatrix({{"min_sweeps", "100000"}, {"new_sweep", "1"}})));//, {"max_block_operations", "6"}})));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
+    MakeWLTM({{"min_sweeps", "100000"}, {"new_sweep", "1"}, {"min_flatness", "25"}, {"collect_flatness", "20"}})));//, {"max_block_operations", "6"}})));
+    //MakeTransitionMatrix({{"min_sweeps", "100000"}, {"new_sweep", "1"}})));//, {"max_block_operations", "6"}})));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)},
     {"file_name", "tmp/clones" + str(thread)}}));
-  mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
-    {"steps_per", str(steps_per)},
+    {"trials_per", str(trials_per)},
     {"file_name", "tmp/clones" + str(thread) + "_crit.txt"}}));
   mc.set(MakeCheckpoint({{"num_hours", "0.0001"},
     {"file_name", "tmp/clone" + str(thread) + ".fst"}}));
   mc.add(MakeEnergy({
     {"file_name", "tmp/clone_energy" + str(thread)},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)},
+    {"trials_per_update", "1"},
+    {"trials_per_write", str(trials_per)},
     {"multistate", "true"}}));
   return mc;
 }
 
 CollectionMatrixSplice make_splice(const int max, const int min = 0) {
-  CollectionMatrixSplice cmsplice;
+  auto cm = MakeCollectionMatrixSplice({{"min_window_size", "2"}});
   std::vector<std::vector<int> > bounds = WindowExponential({
     {"maximum", str(max)},
     {"minimum", str(min)},
     {"num", "2"},
     {"overlap", "0"},
     {"alpha", "0.7"}}).boundaries();
+  DEBUG(feasst_str(bounds));
   for (int index = 0; index < static_cast<int>(bounds.size()); ++index) {
     const std::vector<int> bound = bounds[index];
     DEBUG(bound[0] << " " << bound[1]);
     auto clone = std::make_shared<MonteCarlo>(monte_carlo2(index, min, max, bound[0], bound[1]));
-    cmsplice.add(clone);
+    cm->add(clone);
   }
-  return test_serialize(cmsplice);
+  return test_serialize(*cm);
 }
 
 TEST(CollectionMatrixSplice, lj_fh) {
@@ -99,7 +102,7 @@ TEST(CollectionMatrixSplice, lj_fh) {
   DEBUG("macro " << clones2.flat_histogram(1).macrostate().soft_min());
   DEBUG("visits " << clones2.flat_histogram(0).bias().visits(5));
   DEBUG("visits " << clones2.flat_histogram(1).bias().visits(5));
-  clones2.adjust_bounds(1);
+  clones2.adjust_bounds();
   DEBUG("macro " << clones2.flat_histogram(0).macrostate().soft_max());
   DEBUG("macro " << clones2.flat_histogram(1).macrostate().soft_min());
   DEBUG("visits " << clones2.flat_histogram(0).bias().visits(5));
@@ -114,7 +117,7 @@ TEST(CollectionMatrixSplice, lj_fh_LONG) {
   while (!clones2.are_all_complete()) {
     clones2.run(0.0001);
     DEBUG("swap");
-    clones2.adjust_bounds(1);
+    clones2.adjust_bounds();
   }
   LnProbability lnpi = clones2.ln_prob();
   EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.04);

@@ -15,7 +15,7 @@ class MapHenryCoefficient {
 static MapHenryCoefficient mapper_ = MapHenryCoefficient();
 
 HenryCoefficient::HenryCoefficient(argtype args) : Analyze(&args) {
-  ASSERT(steps_per_update() == 1, "should update every step");
+  ASSERT(trials_per_update() == 1, "should update every step");
   check_all_used(args);
 }
 

@@ -15,6 +15,7 @@ class Trial;
 class MonteCarlo;
 class ProgressReport;
 
+// HWH depreciate SeekNumParticles
 /**
   Initialize the number of particles in MonteCarlo.
   Use the existing trials, but reset their stats once the goal is reached.

@@ -15,7 +15,7 @@ namespace feasst {
 
 Prefetch::Prefetch(argtype args) {
   activate_prefetch();
-  steps_per_check_ = integer("steps_per_check", &args, 1e6);
+  trials_per_check_ = integer("trials_per_check", &args, 1e6);
   load_balance_ = boolean("load_balance", &args, false);
   ghost_ = boolean("ghost", &args, false);
   is_synchronize_ = boolean("synchronize", &args, false);
@@ -189,7 +189,7 @@ void Prefetch::attempt_(
       // Store new macrostate and acceptance prob
       pool->set_accepted(mc->attempt_trial(pool->index()));
       pool->set_auto_rejected(mc->trial(pool->index()).accept().reject());
-      pool->set_allowed(mc->trial(pool->index()).accept().allowed());
+      pool->set_endpoint(mc->trial(pool->index()).accept().endpoint());
       pool->set_ln_prob(mc->trial(pool->index()).accept().ln_metropolis_prob());
       DEBUG("proc id " << proc_id << " ln prob " << pool->ln_prob());
       DEBUG("critical proc_id " << proc_id << " " << pool->str());
@@ -234,7 +234,7 @@ void Prefetch::attempt_(
               pool_[ithread].ln_prob(),
               old_criteria.state_old(),
               old_criteria.state_new(),
-              pool_[ithread].allowed());
+              pool_[ithread].endpoint());
           }
         }
       }
@@ -252,7 +252,7 @@ void Prefetch::attempt_(
       if (first_thread_accepted != num_threads_) {
         if (proc_id > first_thread_accepted) {
           DEBUG("reverting trial " << proc_id);
-          mc->revert_(pool->index(), pool->accepted(), pool->allowed(),
+          mc->revert_(pool->index(), pool->accepted(), pool->endpoint(),
                       pool->auto_rejected(), pool->ln_prob());
         }
       }
@@ -285,7 +285,7 @@ void Prefetch::attempt_(
               clone_(jthread)->imitate_trial_rejection_(
                 pool_[ithread].index(),
                 pool_[ithread].ln_prob(),
-                pool_[ithread].allowed(),
+                pool_[ithread].endpoint(),
                 pool_[ithread].auto_rejected(),
                 old_criteria.state_old(),
                 old_criteria.state_new()
@@ -392,14 +392,14 @@ void Prefetch::attempt_(
       DEBUG("update itrial");
       //if (proc_id <= first_thread_accepted) {
       //  ++itrial;
-      //  ++steps_since_check_;
+      //  ++trials_since_check_;
       if (proc_id == 0) {
         int increment = num_threads_;
         if (first_thread_accepted < num_threads_) {
           increment = first_thread_accepted + 1;
         }
         itrial += increment;
-        steps_since_check_ += increment;
+        trials_since_check_ += increment;
       }
 
       #ifdef DEBUG_SERIAL_MODE_5324634
@@ -416,8 +416,8 @@ void Prefetch::attempt_(
       #endif
 
       DEBUG("periodically check that all threads are equal");
-      if (steps_since_check_ >= steps_per_check_ && proc_id > 0) {
-        steps_since_check_ = 0;
+      if (trials_since_check_ >= trials_per_check_ && proc_id > 0) {
+        trials_since_check_ = 0;
         const double energy = criteria().current_energy();
         DEBUG("check that the current energy of all threads and main are the same: " << energy);
         const double tolerance = 1e-8;
@@ -464,8 +464,8 @@ void Prefetch::serialize(std::ostream& ostr) const {
   MonteCarlo::serialize(ostr);
   feasst_serialize_version(5686, ostr);
   feasst_serialize(is_activated_, ostr);
-  feasst_serialize(steps_per_check_, ostr);
-  feasst_serialize(steps_since_check_, ostr);
+  feasst_serialize(trials_per_check_, ostr);
+  feasst_serialize(trials_since_check_, ostr);
   feasst_serialize(load_balance_, ostr);
   feasst_serialize(is_synchronize_, ostr);
   feasst_serialize(ghost_, ostr);
@@ -475,8 +475,8 @@ Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 5686, "version: " << version);
   feasst_deserialize(&is_activated_, istr);
-  feasst_deserialize(&steps_per_check_, istr);
-  feasst_deserialize(&steps_since_check_, istr);
+  feasst_deserialize(&trials_per_check_, istr);
+  feasst_deserialize(&trials_since_check_, istr);
   feasst_deserialize(&load_balance_, istr);
   feasst_deserialize(&is_synchronize_, istr);
   feasst_deserialize(&ghost_, istr);

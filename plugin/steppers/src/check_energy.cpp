@@ -26,6 +26,7 @@ void CheckEnergy::update(Criteria * criteria,
     TrialFactory * trial_factory) {
   check_->update(*criteria, *system, *trial_factory);
   DEBUG("computing unoptimized energy for check");
+
   const double energy = system->unoptimized_energy();
   const double current_energy = criteria->current_energy();
   DEBUG("energy:" << energy << " "
@@ -33,6 +34,26 @@ void CheckEnergy::update(Criteria * criteria,
      << "diff: " << energy - current_energy
   );
   accumulator_.accumulate(energy - current_energy);
+
+  // loop over each profile and perform the energy check
+  const std::vector<double>& energy_profile = system->unoptimized().stored_energy_profile();
+  const std::vector<double>& current_energy_profile = criteria->current_energy_profile();
+  DEBUG("energy_profile " << feasst_str(energy_profile));
+  DEBUG("current_energy_profile " << feasst_str(current_energy_profile));
+  for (int i = 0; i < static_cast<int>(energy_profile.size()); ++i) {
+    ASSERT(std::abs(energy_profile[i] - current_energy_profile[i]) < tolerance_,
+      MAX_PRECISION <<
+      "Energy check failure. There is a problem with the potentials. " <<
+      "The unoptimized energy of the potential " << i << " was computed as " <<
+      energy_profile[i] << " but the running energy from criteria " <<
+      "(the accumulation of a change in energy over a series of steps) is " <<
+      current_energy_profile[i] <<
+      ". The difference(" << std::abs(energy_profile[i] - current_energy_profile[i]) << ") is " <<
+      "greater than the tolerance(" << tolerance_ << "). ");
+  }
+  criteria->set_current_energy_profile(energy_profile);
+
+  // perform same energy check for entire system
   ASSERT(std::abs(energy - current_energy) < tolerance_,
     MAX_PRECISION <<
     "Energy check failure. There is a problem with the potentials. " <<
@@ -44,6 +65,7 @@ void CheckEnergy::update(Criteria * criteria,
     "greater than the tolerance(" << tolerance_ << "). "
     << system->unoptimized().str());
   criteria->set_current_energy(energy);
+
   // loop over all queryable maps and check those as well.
 }
 

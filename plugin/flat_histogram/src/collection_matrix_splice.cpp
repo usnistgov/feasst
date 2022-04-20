@@ -17,10 +17,28 @@
 #include "math/include/utils_math.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/transition_matrix.h"
+#include "flat_histogram/include/wltm.h"
 #include "flat_histogram/include/collection_matrix_splice.h"
 #include "monte_carlo/include/run.h"
 
 namespace feasst {
+
+CollectionMatrixSplice::CollectionMatrixSplice(argtype * args) {
+  min_window_size_ = integer("min_window_size", args, 2);
+  hours_per_ = dble("hours_per", args, 0.01);
+  ln_prob_file_ = str("ln_prob_file", args, "");
+}
+CollectionMatrixSplice::CollectionMatrixSplice(argtype args) :
+  CollectionMatrixSplice(&args) {
+  check_all_used(args);
+}
+
+void CollectionMatrixSplice::set(const int index, std::shared_ptr<MonteCarlo> mc) {
+  if (index >= num()) {
+    clones_.resize(index + 1);
+  }
+  clones_[index] = mc;
+}
 
 const MonteCarlo& CollectionMatrixSplice::clone(const int index) const {
   ASSERT(index < num(), "index: " << index << " >= num: " << num());
@@ -41,7 +59,10 @@ FlatHistogram CollectionMatrixSplice::flat_histogram(const int index) const {
 void CollectionMatrixSplice::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2974, ostr);
   feasst_serialize(clones_, ostr);
-//  feasst_serialize(checkpoint_, ostr);
+  feasst_serialize(min_window_size_, ostr);
+  feasst_serialize(hours_per_, ostr);
+  feasst_serialize(ln_prob_file_, ostr);
+  feasst_serialize(checkpoint_, ostr);
   feasst_serialize_endcap("CollectionMatrixSplice", ostr);
 }
 
@@ -60,20 +81,23 @@ CollectionMatrixSplice::CollectionMatrixSplice(std::istream& istr) {
       clones_[index] = std::make_shared<MonteCarlo>(istr);
     }
   }
-//  // HWH for unknown reasons, this function template does not work.
-//  //feasst_deserialize(checkpoint_, istr);
-//  { int existing;
-//    istr >> existing;
-//    if (existing != 0) {
-//      checkpoint_ = std::make_shared<Checkpoint>(istr);
-//    }
-//  }
+  feasst_deserialize(&min_window_size_, istr);
+  feasst_deserialize(&hours_per_, istr);
+  feasst_deserialize(&ln_prob_file_, istr);
+  // HWH for unknown reasons, this function template does not work.
+  //feasst_deserialize(checkpoint_, istr);
+  { int existing;
+    istr >> existing;
+    if (existing != 0) {
+      checkpoint_ = std::make_shared<Checkpoint>(istr);
+    }
+  }
   feasst_deserialize_endcap("CollectionMatrixSplice", istr);
 }
 
-//void CollectionMatrixSplice::set(std::shared_ptr<Checkpoint> checkpoint) {
-//  checkpoint_ = checkpoint;
-//}
+void CollectionMatrixSplice::set(std::shared_ptr<Checkpoint> checkpoint) {
+  checkpoint_ = checkpoint;
+}
 
 bool CollectionMatrixSplice::are_all_complete() const {
   for (auto clone : clones_) {
@@ -100,13 +124,55 @@ void CollectionMatrixSplice::run(const double hours) {
   #endif // _OPENMP
 }
 
+void CollectionMatrixSplice::run_until_all_are_complete() {
+  #ifdef _OPENMP
+  #pragma omp parallel
+  {
+    const int thread = omp_get_thread_num();
+    while (!are_all_complete()) {
+      if (thread < num()) {
+        MakeRun({{"for_hours", str(hours_per_)}})->run(clones_[thread].get());
+      }
+
+      #pragma omp barrier
+      if (thread == 0) {
+        checkpoint_->check(*this);
+
+        // write ln_prob
+        if (!ln_prob_file_.empty()) {
+          std::ofstream file(ln_prob_file_);
+          if (file.good()) {
+            LnProbability lnpi = ln_prob();
+            for (const double val : lnpi.values()) {
+              file << val << std::endl;
+            }
+          }
+        }
+
+        adjust_bounds();
+      }
+      #pragma omp barrier
+    }
+  }
+  #else // _OPENMP
+    FATAL("OMP required for CollectionMatrixSplice::run_until_all_are_complete()");
+  #endif // _OPENMP
+}
+
 TripleBandedCollectionMatrix CollectionMatrixSplice::collection_matrix(
     const int index) const {
   FlatHistogram fh = flat_histogram(index);
-  std::stringstream ss;
-  fh.bias().serialize(ss);
-  TransitionMatrix tm(ss);
-  return tm.collection();
+  try {
+    std::stringstream ss;
+    fh.bias().serialize(ss);
+    TransitionMatrix tm(ss);
+    return tm.collection();
+  } catch (...) {
+    std::stringstream ss;
+    fh.bias().serialize(ss);
+    WLTM tm(ss);
+    return tm.transition_matrix().collection();
+  }
 }
 
 TripleBandedCollectionMatrix CollectionMatrixSplice::collection_matrix() const {
@@ -141,16 +207,23 @@ LnProbability CollectionMatrixSplice::ln_prob() const {
   return ln_prob;
 }
 
-void CollectionMatrixSplice::adjust_bounds(const int min_window_size) {
+// HWH enable adjusting bounds of a single simulation
+void CollectionMatrixSplice::adjust_bounds() {
+  if (min_window_size_ <= 0) return;
   bool left_most = true;
   bool right_most = false;
-  for (int sim = 0; sim < num() - 1; ++sim) {
-    DEBUG("sim " << sim);
-    if (sim == num() - 2) {
-      right_most = true;
+  if (num() == 1) {
+    clones_[0]->adjust_bounds(true, true, min_window_size_, NULL);
+  } else {
+    for (int sim = 0; sim < num() - 1; ++sim) {
+      DEBUG("sim " << sim);
+      if (sim == num() - 2) {
+        right_most = true;
+      }
+      clones_[sim]->adjust_bounds(left_most, right_most, min_window_size_,
+                                  clones_[sim + 1].get());
+      left_most = false;
     }
-    clones_[sim]->adjust_bounds(left_most, right_most, min_window_size, clones_[sim + 1].get());
-    left_most = false;
   }
 }
 

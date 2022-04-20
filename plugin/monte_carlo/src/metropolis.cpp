@@ -22,18 +22,18 @@ bool Metropolis::is_accepted(
     Random * random) {
   check_num_iterations_(num_attempts_per_iteration_);
   DEBUG("ln_prob " << acceptance->ln_metropolis_prob());
-  bool is_allowed_ = is_allowed(system, *acceptance);
   if ( (!acceptance->reject()) &&
-       (is_allowed_) &&
+       is_allowed(system, *acceptance) &&
        (random->uniform() < std::exp(acceptance->ln_metropolis_prob())) ) {
     DEBUG("accepted");
     set_current_energy(acceptance->energy_new());
+    set_current_energy_profile(acceptance->energy_profile_new());
     was_accepted_ = true;
   } else {
     DEBUG("rejected");
     was_accepted_ = false;
   }
-  acceptance->set_allowed(is_allowed_);
+  acceptance->set_endpoint(false);
   return was_accepted_;
 }
 

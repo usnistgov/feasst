@@ -41,12 +41,12 @@ def lj_system(box_length):
     return system
 
 def mc(
-       steps_per=int(1e6),
+       trials_per=int(1e6),
        ):
     box_length = 2.*args.cutoff
     file_app = "_a" + str(args.rel_disp_prob) + "_rc" + str(args.cutoff)
 
-    monte_carlo = feasst.Prefetch(feasst.args({"steps_per_check": str(int(1e7))}))
+    monte_carlo = feasst.Prefetch(feasst.args({"trials_per_check": str(int(1e7))}))
     monte_carlo.activate_prefetch(False)
     # monte_carlo.set(feasst.MakeRandomMT19937(feasst.args({"seed": "1578687129"})))
     monte_carlo.set(lj_system(box_length=box_length))
@@ -76,16 +76,16 @@ def mc(
             macro_min=nmin,
             iterations=args.iterations,
             ))
-        monte_carlo.add(feasst.MakeCriteriaUpdater(feasst.args({"steps_per": str(steps_per)})))
+        monte_carlo.add(feasst.MakeCriteriaUpdater(feasst.args({"trials_per": str(trials_per)})))
         monte_carlo.add(feasst.MakeCriteriaWriter(feasst.args(
-            {"steps_per": str(steps_per), "file_name": "crit"+file_app+".txt"})))
+            {"trials_per": str(trials_per), "file_name": "crit"+file_app+".txt"})))
     else:
         monte_carlo.add(feasst.MakeNumParticles(feasst.args({
             "file_name": "num"+file_app+".txt",
-            "steps_per_write": str(steps_per),
+            "trials_per_write": str(trials_per),
         })))
     analyze.add(monte_carlo,
-        steps_per,
+        trials_per,
         proc=file_app,
         log="log"+file_app+".txt",
         )
@@ -94,15 +94,15 @@ def mc(
         monte_carlo.activate_prefetch(True)
 
     monte_carlo.add(feasst.MakeCPUTime(feasst.args({
-        "steps_per_update": str(steps_per),
-        "steps_per_write": str(steps_per),
+        "trials_per_update": str(trials_per),
+        "trials_per_write": str(trials_per),
         "file_name": "cpu" + file_app + ".txt",
     })))
 
     monte_carlo.add(feasst.MakeEnergy(feasst.args(
         {"file_name": "energy"+file_app+".txt",
-         "steps_per_update": "1",
-         "steps_per_write": str(steps_per),
+         "trials_per_update": "1",
+         "trials_per_write": str(trials_per),
          "multistate": "true"})))
 
     monte_carlo.set(feasst.MakeCheckpoint(feasst.args(

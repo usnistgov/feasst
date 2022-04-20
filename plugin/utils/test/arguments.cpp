@@ -105,11 +105,16 @@ TEST(Arguments, str) {
 TEST(Utils, find_in_list) {
   arglist args = {{
     {"major_key", {{"minor_key", "value1"}}},
-    {"major_key", {{"minor_key", "value1"}}}
+    {"major_key2", {{"minor_key2", "value2"}, {"minor_key3", "value3"}}}
   }};
   int find;
-  find_in_list(std::string("major_key"), args, &find);
-  EXPECT_EQ(0, find);
+  find_in_list(std::string("major_key2"), args, &find);
+  EXPECT_EQ(1, find);
+  // INFO(str(args));
+  replace_value("value3", "value[sim_index]", &args);
+  EXPECT_EQ(str(args), "{{{\"major_key\",minor_key value1 },{\"major_key2\",minor_key2 value2 minor_key3 value[sim_index] },}}");
+  replace_in_value("[sim_index]", "5", &args);
+  EXPECT_EQ(str(args), "{{{\"major_key\",minor_key value1 },{\"major_key2\",minor_key2 value2 minor_key3 value5 },}}");
 }
 
 TEST(Utils, add_if_not_used) {

@@ -55,7 +55,7 @@ def mc(target_acceptance=0.25,
        density=0.85,
        cutoff=4,
        temperature=0.88,
-       steps_per=int(1e6),
+       trials_per=int(1e6),
        ):
     box_length = 2*cutoff
     file_app = "_a" + str(target_acceptance) + "_r" + str(cutoff)
@@ -64,7 +64,7 @@ def mc(target_acceptance=0.25,
     print('target_acceptance', target_acceptance)
     print('tunable_param', tunable_param)
 
-    monte_carlo = feasst.Prefetch(feasst.args({"steps_per_check": "10000000"}))
+    monte_carlo = feasst.Prefetch(feasst.args({"trials_per_check": "10000000"}))
     monte_carlo.activate_prefetch(False)
     monte_carlo.set(lj_system(box_length=box_length, cutoff=cutoff))
     monte_carlo.set(feasst.MakeMetropolis(feasst.args({
@@ -81,14 +81,14 @@ def mc(target_acceptance=0.25,
     })))
     feasst.SeekNumParticles(num_particles).with_trial_add().run(monte_carlo)
     monte_carlo.add(feasst.MakeLog(feasst.args(
-        {"steps_per" : str(steps_per),
+        {"trials_per" : str(trials_per),
          "file_name": "log"+file_app+".txt",
          "clear_file": "true"})))
     monte_carlo.add(feasst.MakeCheckEnergy(feasst.args(
-        {"steps_per" : str(steps_per),
+        {"trials_per" : str(trials_per),
          "tolerance" : str(1e-8)})))
     monte_carlo.add(feasst.MakeTune(feasst.args(
-        {"steps_per" : str(steps_per)})))
+        {"trials_per" : str(trials_per)})))
 
     #equilibrate
     monte_carlo.attempt(int(1e7))
@@ -96,15 +96,15 @@ def mc(target_acceptance=0.25,
     if not args.nopipe:
         monte_carlo.activate_prefetch(True)
     monte_carlo.add(feasst.MakeMeanSquaredDisplacement(feasst.args({
-        "steps_per_update": "10000",
+        "trials_per_update": "10000",
         "updates_per_origin": "1000",
         "file_name": "msd" + file_app + ".txt",
-        "steps_per_write": str(int(1e5))
+        "trials_per_write": str(int(1e5))
     })))
 
     monte_carlo.add(feasst.MakeCPUTime(feasst.args({
-        "steps_per_update": str(steps_per),
-        "steps_per_write": str(steps_per),
+        "trials_per_update": str(trials_per),
+        "trials_per_write": str(trials_per),
         "file_name": "cpu" + file_app + ".txt",
     })))
 

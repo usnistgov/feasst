@@ -35,14 +35,14 @@ TEST(PairDistribution, gr_LONG) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", str(num)}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  const std::string steps_per = str(1e5);
+  const std::string trials_per = str(1e5);
   mc.attempt(1e6); // equilibrate
-  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}, {"tolerance", str(1e-9)}}));
-  mc.add(MakeEnergy({{"steps_per_write", steps_per}, {"file_name", "tmp/ljen.txt"}}));
+  mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeEnergy({{"trials_per_write", trials_per}, {"file_name", "tmp/ljen.txt"}}));
   mc.add(MakePairDistribution({
-    {"steps_per_update", "100"},
-    {"steps_per_write", "10000"},
+    {"trials_per_update", "100"},
+    {"trials_per_write", "10000"},
     {"dr", "0.025"},
     {"file_name", "tmp/gr.txt"},
     {"multistate", "true"},

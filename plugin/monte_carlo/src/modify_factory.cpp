@@ -55,8 +55,8 @@ void ModifyFactory::trial(Criteria * criteria,
         << " after a multistate Modifier?");
       DEBUG(modifiers_[criteria->state()]->class_name());
       modifiers_[criteria->state()]->check_update_(criteria, system, trial_factory);
-      DEBUG("is time? " << steps_per_write() << " " << steps_since_write_);
-      if (is_time(steps_per_write(), &steps_since_write_)) {
+      DEBUG("is time? " << trials_per_write() << " " << trials_since_write_);
+      if (is_time(trials_per_write(), &trials_since_write_)) {
         std::stringstream ss;
         for (int state = 0; state < num(); ++state) {
           if (state == 0) {

@@ -33,7 +33,7 @@ class WLTM : public Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_allowed,
+    const bool is_endpoint,
     const bool revert) override;
 
   /// Updates min_sweeps, but neither flatness.
@@ -43,7 +43,8 @@ class WLTM : public Bias {
     transition_matrix_->set_num_iterations_to_complete(sweeps); }
   int num_iterations() const override {
     return transition_matrix_->num_iterations(); }
-
+  const TransitionMatrix& transition_matrix() const {
+    return const_cast<TransitionMatrix&>(*transition_matrix_); }
   const LnProbability& ln_prob() const override;
   void resize(const Histogram& histogram) override;
   void infrequent_update(const Macrostate& macro) override;
@@ -51,6 +52,15 @@ class WLTM : public Bias {
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
+  
+  // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
+  void set_cm(const int macro, const Bias& bias) override {
+    transition_matrix_->set_cm(macro, bias); }
+  const TripleBandedCollectionMatrix& cm() const override {
+    return transition_matrix().collection(); }
+  const int visits(const int macro) const override {
+    return transition_matrix().visits(macro); }
+
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   std::shared_ptr<Bias> create(argtype * args) const override {
     return std::make_shared<WLTM>(args); }

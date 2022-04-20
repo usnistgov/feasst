@@ -147,4 +147,24 @@ argtype line_to_argtype(const std::string line) {
   return args;
 }
 
+void replace_value(const std::string search, const std::string replace,
+                   arglist * args) {
+  for (std::pair<std::string, argtype>& pair1 : *args) {
+    for (auto& pair2 : pair1.second) {
+      if (pair2.second == search) {
+        pair2.second = replace;
+      }
+    }
+  }
+}
+
+void replace_in_value(const std::string& from, const std::string& to,
+                     arglist * args) {
+  for (std::pair<std::string, argtype>& pair1 : *args) {
+    for (auto& pair2 : pair1.second) {
+      replace(from, to, &pair2.second);
+    }
+  }
+}
+
 }  // namespace feasst

@@ -331,18 +331,18 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
   // process multistate
   DEBUG("class name? " << analyze->class_name());
   if (analyze->is_multistate() && analyze->class_name() != "AnalyzeFactory") {
-    int steps_per_write = 1;
+    int trials_per_write = 1;
     std::string file_name;
     if (analyze->is_multistate_aggregate()) {
-      steps_per_write = analyze->steps_per_write();
+      trials_per_write = analyze->trials_per_write();
       file_name = analyze->file_name();
       analyze->initialize(criteria_.get(), &system_, &trial_factory_);
     }
     auto multi = MakeAnalyzeFactory({
       {"multistate", "true"},
-      {"steps_per_write", str(steps_per_write)},
+      {"trials_per_write", str(trials_per_write)},
       {"file_name", file_name},
-      {"steps_per_update", "1"},
+      {"trials_per_update", "1"},
       {"stop_after_phase", str(analyze->stop_after_phase())},
       {"start_after_phase", str(analyze->start_after_phase())},
       {"file_name_append_phase", str(analyze->file_name_append_phase())},
@@ -377,19 +377,19 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
     "file_name as an already existing Stepper file name");
   DEBUG("class name? " << modify->class_name());
   if (modify->is_multistate() && modify->class_name() != "ModifyFactory") {
-    int steps_per_write = 1;
+    int trials_per_write = 1;
     std::string file_name;
     DEBUG("aggregate? " << modify->is_multistate_aggregate());
     if (modify->is_multistate_aggregate()) {
-      steps_per_write = modify->steps_per_write();
+      trials_per_write = modify->trials_per_write();
       file_name = modify->file_name();
       modify->initialize(criteria_.get(), &system_, &trial_factory_);
     }
     auto multi = MakeModifyFactory({
       {"multistate", "true"},
-      {"steps_per_write", str(steps_per_write)},
+      {"trials_per_write", str(trials_per_write)},
       {"file_name", file_name},
-      {"steps_per_update", "1"},
+      {"trials_per_update", "1"},
       {"stop_after_phase", str(modify->stop_after_phase())},
       {"start_after_phase", str(modify->start_after_phase())},
       {"file_name_append_phase", str(modify->file_name_append_phase())},
@@ -517,12 +517,12 @@ void MonteCarlo::before_attempts_() {
 
 void MonteCarlo::revert_(const int trial_index,
     const bool accepted,
-    const bool allowed,
+    const bool endpoint,
     const bool auto_reject,
     const double ln_prob) {
   trial_factory_.revert(trial_index, accepted, auto_reject, &system_);
   DEBUG("reverting " << criteria_->current_energy());
-  criteria_->revert_(accepted, allowed, ln_prob);
+  criteria_->revert_(accepted, endpoint, ln_prob);
 }
 
 void MonteCarlo::attempt_(int num_trials,
@@ -544,12 +544,12 @@ bool MonteCarlo::attempt_trial(const int index) {
 
 void MonteCarlo::imitate_trial_rejection_(const int trial_index,
     const double ln_prob,
-    const bool allowed,
+    const bool endpoint,
     const bool auto_reject,
     const int state_old,
     const int state_new) {
   trial_factory_.imitate_trial_rejection_(trial_index, auto_reject);
-  criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new, allowed);
+  criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new, endpoint);
 }
 
 double MonteCarlo::initialize_system() {
@@ -564,8 +564,11 @@ double MonteCarlo::initialize_system() {
 
 void MonteCarlo::initialize_criteria() {
   const double en = initialize_system();
+  // HWH set up a Criteria::precompute for this instead.
   if (criteria_) {
     criteria_->set_current_energy(en);
+    criteria_->set_current_energy_profile(system_.stored_energy_profile());
+    criteria_->precompute(&system_);
   }
 }
 
@@ -616,16 +619,21 @@ void MonteCarlo::add(const Potential& potential) {
 
 void MonteCarlo::adjust_bounds(const bool left_most, const bool right_most,
   const int min_size, MonteCarlo * mc) {
-  criteria_->adjust_bounds(left_most, right_most, min_size,
-    system_, mc->system(),  mc->get_criteria());
+  if (mc) {
+    criteria_->adjust_bounds(left_most, right_most, min_size,
+      system_, &mc->system(),  mc->get_criteria());
+  } else {
+    criteria_->adjust_bounds(left_most, right_most, min_size,
+      system_, NULL, NULL);
+  }
 }
 
 void MonteCarlo::ghost_trial_(
     const double ln_prob,
     const int state_old,
     const int state_new,
-    const bool allowed) {
-  criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new, allowed);
+    const bool endpoint) {
+  criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new, endpoint);
 }
 
 }  // namespace feasst

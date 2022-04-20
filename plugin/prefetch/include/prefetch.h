@@ -31,8 +31,8 @@ class Pool {
   bool accepted() const { return accepted_; }
   void set_auto_rejected(const bool auto_rejected) { auto_rejected_ = auto_rejected; }
   bool auto_rejected() const { return auto_rejected_; }
-  void set_allowed(const bool allowed) { allowed_ = allowed; }
-  bool allowed() const { return allowed_; }
+  void set_endpoint(const bool endpoint) { endpoint_ = endpoint; }
+  bool endpoint() const { return endpoint_; }
 
   const std::string str() const {
     std::stringstream ss;
@@ -47,7 +47,7 @@ class Pool {
   double ln_prob_;
   bool accepted_;
   bool auto_rejected_ = false;
-  bool allowed_ = true;
+  bool endpoint_ = true;
 };
 
 /**
@@ -57,7 +57,7 @@ class Prefetch : public MonteCarlo {
  public:
   /**
     args:
-    - steps_per_check: number of steps between check (default: 1e6)
+    - trials_per_check: number of steps between check (default: 1e6)
     - load_balance: batches contain all of the same trial type (default: false).
       This violates detailed balance, and is known in cases of high acceptance
       to give erroneous results.
@@ -68,7 +68,7 @@ class Prefetch : public MonteCarlo {
   explicit Prefetch(argtype args = argtype());
 
   /// Return the number of steps between checking equality of threads.
-  int steps_per_check() const { return steps_per_check_; }
+  int trials_per_check() const { return trials_per_check_; }
 
   /// Activate prefetch.
   void activate_prefetch(const bool active = true) { is_activated_ = active; }
@@ -93,8 +93,8 @@ class Prefetch : public MonteCarlo {
  private:
   bool is_activated_;
   bool is_synchronize_;
-  int steps_per_check_;
-  int steps_since_check_ = 0;
+  int trials_per_check_;
+  int trials_since_check_ = 0;
   bool load_balance_;
   bool ghost_;
 

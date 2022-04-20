@@ -38,14 +38,14 @@ int main(int argc, char ** argv) {
   mc.run(feasst::MakeRun({{"until_num_particles", args.get("--num")}}));
   mc.run(feasst::MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.add(feasst::MakeCheckEnergyAndTune(
-   {{"steps_per", feasst::str(1e5)}, {"tolerance", "1e-8"}}));
+   {{"trials_per", feasst::str(1e5)}, {"tolerance", "1e-8"}}));
   mc.set(feasst::MakeCheckpoint({{"file_name", "checkpoint.fst"},
                                  {"num_hours", feasst::str(0.95*args.get_double("--num_hours"))},
                                  {"num_hours_terminate", feasst::str(0.95*args.get_double("--num_hours"))}}));
   mc.add(feasst::MakeLogAndMovie(
-    {{"steps_per", feasst::str(1e5)}, {"file_name", "lj"}}));
+    {{"trials_per", feasst::str(1e5)}, {"file_name", "lj"}}));
   mc.add(feasst::MakeIncrementPhase({{"num_trials", args.get("--equilibration_trials")}}));
   mc.add(feasst::MakeEnergy(
-    {{"steps_per_write", feasst::str(1e5)}, {"file_name", "en_lj.txt"}, {"start_after_phase", "0"}}));
+    {{"trials_per_write", feasst::str(1e5)}, {"file_name", "en_lj.txt"}, {"start_after_phase", "0"}}));
   mc.attempt(num_trials);
 }

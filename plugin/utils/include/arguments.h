@@ -134,6 +134,14 @@ void add_if_not_used(const std::string& key, argtype * args,
 /// convert a space-delimited string into argtype
 argtype line_to_argtype(const std::string line);
 
+/// Find all values equal to "search" in args and replace with "replace"
+void replace_value(const std::string search, const std::string replace,
+                   arglist * args);
+
+/// Find all values that contain "search" in args and replace with "replace"
+void replace_in_value(const std::string& from, const std::string& to,
+                      arglist * args);
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_ARGUMENTS_H_

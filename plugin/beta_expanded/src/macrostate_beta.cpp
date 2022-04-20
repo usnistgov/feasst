@@ -4,7 +4,9 @@
 namespace feasst {
 
 MacrostateBeta::MacrostateBeta(const Histogram& histogram,
-    argtype * args) : Macrostate(histogram, args) {}
+    argtype * args) : Macrostate(histogram, args) {
+  class_name_ = "MacrostateBeta";
+}
 MacrostateBeta::MacrostateBeta(const Histogram& histogram,
     argtype args) : Macrostate(histogram, args) {
   check_all_used(args);

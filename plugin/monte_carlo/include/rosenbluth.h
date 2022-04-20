@@ -31,6 +31,7 @@ class Rosenbluth {
   /// Exclude energy includes terms such as bond potentials where the bonds
   /// where already selected according to the appropriate distribution.
   void set_energy(const int step, const double energy, const double excluded);
+  void set_energy_profile(const int step, const std::vector<double>& energy);
 
   /// Compute Boltzmann factors and cumulative probabilities for all steps.
   /// Choose one of the steps based on the probabilities.
@@ -45,11 +46,18 @@ class Rosenbluth {
   /// Return the chosen energy.
   double chosen_energy() const;
 
+  /// Return the chosen energy profile.
+  const std::vector<double>& chosen_energy_profile() const;
+
   /// Return the natural logrithm of the total rosenbluth factor.
   double ln_total_rosenbluth() const { return ln_total_rosenbluth_; }
 
   /// Return the energy for a given step.
   double energy(const int step) const { return energy_[step]; }
+
+  /// Return the energy profile for a given step.
+  const std::vector<double> energy_profile(const int step) const {
+    return energy_profile_[step]; }
 
   /// Return the chosen step
   int chosen_step() const { return chosen_step_; }
@@ -62,6 +70,7 @@ class Rosenbluth {
 
  private:
   std::vector<double> energy_;
+  std::vector<std::vector<double> > energy_profile_;
   std::vector<double> excluded_;
   std::vector<double> weight_;
   std::vector<double> cumulative_;

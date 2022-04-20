@@ -24,6 +24,10 @@ namespace feasst {
  */
 class Log : public AnalyzeWriteOnly {
  public:
+  /**
+    args:
+    - max_precision: use maximum precision if true (default: false).
+   */
   explicit Log(argtype args = argtype());
   explicit Log(argtype * args);
 
@@ -47,6 +51,9 @@ class Log : public AnalyzeWriteOnly {
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<Log>(args); }
   Log(std::istream& istr);
+
+ private:
+  bool max_precision_;
 };
 
 inline std::shared_ptr<Log> MakeLog(argtype args = argtype()) {

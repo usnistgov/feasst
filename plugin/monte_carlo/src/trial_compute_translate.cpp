@@ -65,10 +65,12 @@ void TrialComputeTranslate::perturb_and_acceptance(
   DEBUG("new en: " << acceptance->energy_new());
   DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
   if ((*stages)[0]->is_new_only()) {
-    acceptance->set_energy_new(acceptance->energy_new());
+    //acceptance->set_energy_new(acceptance->energy_new());
   } else {
     const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
     acceptance->set_energy_new(criteria->current_energy() + delta_energy);
+    acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
+    acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
   }
 }
 

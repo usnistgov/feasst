@@ -47,15 +47,15 @@ mc.add(fst.MakeTrialTranslate(fst.args(
 mc.add(fst.MakeTrialAdd(fst.args({"particle_type": "0"})))
 mc.run(fst.MakeRun(fst.args({"until_num_particles": str(args.num)})))
 mc.run(fst.MakeRemoveTrial(fst.args({"name": "TrialAdd"})))
-steps_per = str(int(1e5))
+trials_per = str(int(1e5))
 mc.add(fst.MakeCheckEnergyAndTune(fst.args(
-    {"steps_per" : steps_per, "tolerance" : "1e-8"})))
+    {"trials_per" : trials_per, "tolerance" : "1e-8"})))
 mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint.fst",
                                     "num_hours": str(0.95*args.num_hours),
                                     "num_hours_terminate": str(0.95*args.num_hours)})))
 mc.add(fst.MakeLogAndMovie(fst.args(
-    {"steps_per" : steps_per, "file_name" : "lj"})))
+    {"trials_per" : trials_per, "file_name" : "lj"})))
 mc.add(fst.MakeIncrementPhase(fst.args({"num_trials": str(args.equilibration_trials)})))
 mc.add(fst.MakeEnergy(fst.args(
-    {"steps_per_write": steps_per, "file_name": "en_lj.txt", "start_after_phase": "0"})))
+    {"trials_per_write": trials_per, "file_name": "en_lj.txt", "start_after_phase": "0"})))
 mc.attempt(args.trials)

@@ -35,6 +35,8 @@ void ComputeRemoveMultiple::perturb_and_acceptance(
   DEBUG("ComputeRemoveMultiple");
   compute_rosenbluth(1, criteria, system, acceptance, stages, random);
   acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_old());
+  acceptance->set_energy_profile_new(criteria->current_energy_profile());
+  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
   acceptance->add_to_macrostate_shift(shift_);
   acceptance->set_macrostate_shift_type(-1);  // disable constraints with multi-particles
   DEBUG("deltaE " << MAX_PRECISION << -1.*acceptance->energy_old());

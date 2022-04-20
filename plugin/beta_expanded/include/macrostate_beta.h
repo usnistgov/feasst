@@ -26,9 +26,6 @@ class MacrostateBeta : public Macrostate {
   void serialize(std::ostream& ostr) const override;
   MacrostateBeta(std::istream& istr);
   virtual ~MacrostateBeta() {}
-
- private:
-  const std::string class_name_ = "MacrostateBeta";
 };
 
 inline std::shared_ptr<MacrostateBeta> MakeMacrostateBeta(

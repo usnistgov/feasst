@@ -33,7 +33,7 @@
 
 namespace feasst {
 
-void run_prefetch(const int trials, const int steps_per) {
+void run_prefetch(const int trials, const int trials_per) {
   auto mc = MakePrefetch();
 //  mc->set(MakeRandomMT19937({{"seed", "1592943710"}}));
   mc->set(MakeRandomMT19937({{"seed", "1596650884"}}));
@@ -44,8 +44,8 @@ void run_prefetch(const int trials, const int steps_per) {
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}, {"num_steps", "1"}}));
-  mc->add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj"}}));
-  mc->add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
+  mc->add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/lj"}}));
+  mc->add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
   mc->activate_prefetch(false);
   mc->add(MakeTrialAdd({{"particle_type", "0"}}));
   mc->run(MakeRun({{"until_num_particles", "50"}}));
@@ -53,8 +53,8 @@ void run_prefetch(const int trials, const int steps_per) {
   // activate prefetch after initial configuration
   mc->activate_prefetch(true);
   mc->attempt(trials);
-  EXPECT_EQ(mc->analyze(0).steps_since_write(),
-            mc->modify(0).steps_since_update());
+  EXPECT_EQ(mc->analyze(0).trials_since_write(),
+            mc->modify(0).trials_since_update());
 }
 
 TEST(Prefetch, NVT_benchmark) {
@@ -66,15 +66,15 @@ TEST(Prefetch, NVT_benchmark_LONG) {
 }
 
 void prefetch(System system, const int sync = 0) {
-  auto mc = MakePrefetch({{"steps_per_check", "1"}, {"synchronize", str(sync)}});
+  auto mc = MakePrefetch({{"trials_per_check", "1"}, {"synchronize", str(sync)}});
   //mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->set(MakeRandomMT19937({{"seed", "time"}}));
   mc->set(system);
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc->add(MakeLogAndMovie({{"steps_per", str(1e1)}, {"file_name", "tmp/lj"}}));
-  mc->add(MakeCheckEnergyAndTune({{"steps_per", str(1e1)}}));
+  mc->add(MakeLogAndMovie({{"trials_per", str(1e1)}, {"file_name", "tmp/lj"}}));
+  mc->add(MakeCheckEnergyAndTune({{"trials_per", str(1e1)}}));
   //mc_lj(mc.get(), 8, "../forcefield/lj.fstprt", 1e1, true, false);
   // mc->set(MakeRandomMT19937({{"seed", "default"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578665877"}}));
@@ -89,7 +89,7 @@ void prefetch(System system, const int sync = 0) {
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}})),
     MakeTransitionMatrix({{"min_sweeps", "10"}})));
-  mc->add(MakeCriteriaUpdater({{"steps_per", str(1e1)}}));
+  mc->add(MakeCriteriaUpdater({{"trials_per", str(1e1)}}));
   mc->activate_prefetch(true);
   mc->attempt(10);
   std::vector<std::shared_ptr<FlatHistogram> > fhs(mc->pool().size());
@@ -112,7 +112,7 @@ void prefetch(System system, const int sync = 0) {
   }
 
   Prefetch mc2 = test_serialize(*mc);
-  EXPECT_EQ(1, mc2.steps_per_check());
+  EXPECT_EQ(1, mc2.trials_per_check());
 }
 
 TEST(Prefetch, MUVT) {
@@ -133,15 +133,15 @@ TEST(Prefetch, NVT_spce) {
   //auto mc = MakePrefetch({{"synchronize", "false"}});
   // mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->set(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"table_size", str(1e3)}}));
-  const int steps_per = 1e2;
+  const int trials_per = 1e2;
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc->add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc->add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj"}}));
-  //mc->add(MakeCheckProperties({{"steps_per", "1"}}));
-  mc->add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
-  mc->add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
+  mc->add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/lj"}}));
+  //mc->add(MakeCheckProperties({{"trials_per", "1"}}));
+  mc->add(MakeCheckProperties({{"trials_per", str(trials_per)}}));
+  mc->add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
   // mc->set(MakeRandomMT19937({{"seed", "default"}}));
   mc->activate_prefetch(false);
   mc->add(MakeTrialAdd({{"particle_type", "0"}}));
@@ -151,14 +151,14 @@ TEST(Prefetch, NVT_spce) {
   mc->activate_prefetch(true);
   // mc->attempt(1e6);  // ~3.5 seconds (now 4.1)
   mc->attempt(1e2);
-  EXPECT_EQ(mc->analyze(0).steps_since_write(),
-            mc->modify(1).steps_since_update());
+  EXPECT_EQ(mc->analyze(0).trials_since_write(),
+            mc->modify(1).trials_since_update());
 }
 
 TEST(Prefetch, AVB) {
-  const int steps_per = 1e2;
+  const int trials_per = 1e2;
   auto monte_carlo = MakePrefetch({{"synchronize", "true"},
-                                   {"steps_per_check", str(steps_per)}});
+                                   {"trials_per_check", str(trials_per)}});
   monte_carlo->add(MakeConfiguration({{"cubic_box_length", "6"},
                                       {"particle_type", "../forcefield/lj.fstprt"}}));
   monte_carlo->add(MakePotential(MakeLennardJones(),
@@ -184,15 +184,15 @@ TEST(Prefetch, AVB) {
 //    {"particle_type", "0"}}));
   monte_carlo->add(MakeTrialTranslate({{"tunable_param", "4"}}));
 //  monte_carlo->add(MakeTrialTransfer({{"particle_type", "0"}}));
-  monte_carlo->add(MakeLogAndMovie({{"steps_per", str(steps_per)},
+  monte_carlo->add(MakeLogAndMovie({{"trials_per", str(trials_per)},
                              {"file_name", "tmp/pljavb.xyz"},
                              {"clear_file", "true"}}));
-  monte_carlo->add(MakeCheckEnergy({{"steps_per", str(steps_per)},
+  monte_carlo->add(MakeCheckEnergy({{"trials_per", str(trials_per)},
                                    {"tolerance", str(1e-8)}}));
   monte_carlo->attempt(1e2);
-  monte_carlo->add(MakeNumParticles({{"steps_per_write", str(steps_per)},
+  monte_carlo->add(MakeNumParticles({{"trials_per_write", str(trials_per)},
                                     {"file_name", "tmp/pljavbnum.txt"}}));
-  monte_carlo->add(MakeEnergy({{"steps_per_write", str(steps_per)},
+  monte_carlo->add(MakeEnergy({{"trials_per_write", str(trials_per)},
                               {"file_name", "tmp/pljavbe.txt"}}));
   monte_carlo->attempt(1e2);
 }

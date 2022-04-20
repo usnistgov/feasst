@@ -11,7 +11,7 @@
 namespace feasst {
 
 /**
-  Perform an action every so many steps that may change the system, criteria
+  Perform an action every so many trials that may change the system, criteria
   or trials.
  */
 class Modify : public Stepper {
@@ -67,13 +67,13 @@ class ModifyUpdateOnly : public Modify {
  public:
   /**
     args:
-    - steps_per: update every this many steps
+    - trials_per: update every this many trials
    */
   explicit ModifyUpdateOnly(argtype * args);
 
-  void set_steps_per_write(const int steps) override;
+  void set_trials_per_write(const int trials) override;
 
-  void set_steps_per(const int steps) { set_steps_per_update(steps); }
+  void set_trials_per(const int trials) { set_trials_per_update(trials); }
 
   explicit ModifyUpdateOnly(std::istream& istr) : Modify(istr) {}
 };

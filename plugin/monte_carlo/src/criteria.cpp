@@ -15,6 +15,7 @@ Criteria::Criteria(argtype args) : Criteria(&args) {
 Criteria::Criteria(argtype * args) {
   set_expanded_state();
   data_.get_dble_1D()->resize(1);
+  data_.get_dble_2D()->resize(1);
   data_.get_int_1D()->resize(2);
   *num_iterations_() = 0;
   *num_attempt_since_last_iteration_() = 0;
@@ -26,21 +27,35 @@ Criteria::Criteria(std::shared_ptr<Constraint> constraint, argtype args)
   add(constraint);
 }
 
-std::string Criteria::status_header() const {
+std::string Criteria::status_header(const System& system) const {
   std::stringstream ss;
   if (num_states() > 1) {
     ss << ",state";
   }
   ss << ",energy";
+  for (int i = 0; i < static_cast<int>(current_energy_profile().size()); ++i) {
+    std::string name;
+    name = system.potential(i).model().class_name();
+    if (name == "ModelEmpty") {
+      name = system.potential(i).visit_model().class_name();
+    }
+    ss << "," << name;
+  }
   return ss.str();
 }
 
-std::string Criteria::status() const {
+std::string Criteria::status(const bool max_precision) const {
   std::stringstream ss;
+  if (max_precision) {
+    ss << MAX_PRECISION;
+  }
   if (num_states() > 1) {
     ss << "," << state();
   }
   ss << "," << current_energy();
+  for (const double potential : current_energy_profile()) {
+    ss << "," << potential;
+  }
   return ss.str();
 }
 
@@ -54,9 +69,10 @@ void Criteria::set_expanded_state(const int state, const int num) {
   num_expanded_states_ = num;
 }
 
-void Criteria::revert_(const bool accepted, const bool allowed, const double ln_prob) {
+void Criteria::revert_(const bool accepted, const bool endpoint, const double ln_prob) {
   if (accepted) {
     *current_energy_() = previous_energy_;
+    *current_energy_profile_() = previous_energy_profile_;
   }
 }
 
@@ -119,6 +135,7 @@ bool Criteria::is_equal(const Criteria& criteria) const {
 void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize_version(692, ostr);
   feasst_serialize(previous_energy_, ostr);
+  feasst_serialize(previous_energy_profile_, ostr);
   feasst_serialize(expanded_state_, ostr);
   feasst_serialize(num_expanded_states_, ostr);
   feasst_serialize(num_iterations_to_complete_, ostr);
@@ -132,6 +149,7 @@ Criteria::Criteria(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 692, "version mismatch: " << version);
   feasst_deserialize(&previous_energy_, istr);
+  feasst_deserialize(&previous_energy_profile_, istr);
   feasst_deserialize(&expanded_state_, istr);
   feasst_deserialize(&num_expanded_states_, istr);
   feasst_deserialize(&num_iterations_to_complete_, istr);
@@ -158,6 +176,11 @@ void Criteria::set_current_energy(const double energy) {
   *current_energy_() = energy;
   DEBUG("setting current energy: " << current_energy());
   DEBUG("previous " << previous_energy_);
+}
+
+void Criteria::set_current_energy_profile(const std::vector<double>& energy) {
+  previous_energy_profile_ = current_energy_profile();
+  *current_energy_profile_() = energy;
 }
 
 /// Return whether constraints are statisfied.
@@ -193,7 +216,7 @@ void Criteria::set_cm(const bool inc_max, const int macro, const Criteria& crit)
 }
 
 void Criteria::adjust_bounds(const bool left_most, const bool right_most,
-  const int min_size, const System& system, const System& upper_sys,
+  const int min_size, const System& system, const System * upper_sys,
   Criteria * criteria) {
   FATAL("not implemented");
 }

@@ -20,8 +20,8 @@ TEST(SeekAnalyze, seek) {
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.add(MakeWallClockLimit({{"max_hours", "1e-9"}}));
   EXPECT_EQ(0, SeekAnalyze().index("Log", mc)[0]);
   EXPECT_EQ(0, SeekAnalyze().index("Log", mc)[1]);

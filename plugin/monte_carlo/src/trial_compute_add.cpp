@@ -31,7 +31,9 @@ void TrialComputeAdd::perturb_and_acceptance(
     Random * random) {
   DEBUG("TrialComputeAdd");
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
+  acceptance->add_to_energy_new(criteria->current_energy());
+  //acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
+  acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
   acceptance->add_to_macrostate_shift(1);
   { // Metropolis
     const Configuration& config = system->configuration();

@@ -352,6 +352,11 @@ To Do List
 * Early tutorials are in ipynb, but transition out of that into .py, include .py on the website
 * When swig4 finally works, can use multimap for dictionaries with more than one of same first key
 * Rename Movie->XYZ
-* Rename Stepper. Rename steps_per to trials_per, so as not to be confused with CB steps. Or rename num_steps to num_cb_steps. reference_index to cb_reference.
+* Rename Stepper.
 * Patch custom model params not present in mc.configuration().model_params (affects FileXYZPatch).
 * early rejection scheme: https://doi.org/10.1080/00268976.2014.897392
+* get rid of 'time' and 'default' values for Random seed argument.
+* when moving to future tutorials: feature C++ feasst install, python for later.
+* CollectionMatrixSplice (enable use with WLTM, and, text interface (via Window argument to CollectionMatrixSplice at beginning, plus min overlap, periodic check, and.. how to checkpointing?))
+* Windows with non-integer macrostates?
+

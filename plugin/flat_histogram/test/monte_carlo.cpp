@@ -73,8 +73,8 @@ TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
     {"Bias", "TransitionMatrix"}, {"min_sweeps", "100"}});
   monte_carlo.set(criteria);
   monte_carlo.add(MakeTrialTransfer({{"particle_type", "0"}}));
-  monte_carlo.add(MakeCriteriaUpdater({{"steps_per", str(1e5)}}));
-  monte_carlo.add(MakeCriteriaWriter({{"steps_per", str(1e5)}, {"file_name", "tmp/id_fh.txt"}}));
+  monte_carlo.add(MakeCriteriaUpdater({{"trials_per", str(1e5)}}));
+  monte_carlo.add(MakeCriteriaWriter({{"trials_per", str(1e5)}, {"file_name", "tmp/id_fh.txt"}}));
   monte_carlo.run_until_complete();
   GrandCanonicalEnsemble gce(*criteria, monte_carlo.system().thermo_params().beta_mu());
   for (double delta_conjugate = -6; delta_conjugate < 1; delta_conjugate += 0.1) {
@@ -103,15 +103,15 @@ TEST(MonteCarlo, hard_sphere_LONG) {
   const std::string is_new_only = "true";
   mc.add(MakeTrialTranslate({{"new_only", is_new_only}, {"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialTransfer({{"weight", "4"}, {"particle_type", "0"}}));
-  const std::string steps_per = "100";
-  mc.add(MakeCheckEnergy({{"steps_per", steps_per}, {"tolerance", "0.0001"}}));
-  mc.add(MakeCheckPhysicality({{"steps_per", "1"}}));
-  mc.add(MakeTune({{"steps_per", steps_per}, {"stop_after_phase", "0"}}));
-  mc.add(MakeLogAndMovie({{"steps_per", steps_per},
+  const std::string trials_per = "100";
+  mc.add(MakeCheckEnergy({{"trials_per", trials_per}, {"tolerance", "0.0001"}}));
+  mc.add(MakeCheckPhysicality({{"trials_per", "1"}}));
+  mc.add(MakeTune({{"trials_per", trials_per}, {"stop_after_phase", "0"}}));
+  mc.add(MakeLogAndMovie({{"trials_per", trials_per},
                           {"file_name", "hs_fh"},
                           {"file_name_append_phase", "True"}}));
-  mc.add(MakeCriteriaUpdater({{"steps_per", steps_per}}));
-  mc.add(MakeCriteriaWriter({{"steps_per", steps_per},
+  mc.add(MakeCriteriaUpdater({{"trials_per", trials_per}}));
+  mc.add(MakeCriteriaWriter({{"trials_per", trials_per},
                              {"file_name", "tmp/crit.txt"},
                              {"file_name_append_phase", "True"}}));
   mc.run_until_complete();
@@ -175,7 +175,7 @@ MonteCarlo test_lj_fh(const int num_steps,
     //bias = MakeTransitionMatrix({{"min_sweeps", str(1e5)}, {"new_sweep", "1"}});
   } else if (bias_name == "WL") {
     if (sweeps == 10) sweeps = 20;
-    bias = MakeWangLandau({{"min_flatness", str(sweeps)}, {"updates_per_flat_check", "100"}});
+    bias = MakeWangLandau({{"min_flatness", str(sweeps)}});
   } else if (bias_name == "WLTM") {
     bias = MakeWLTM({{"collect_flatness", "15"},
       {"min_flatness", "20"}, {"min_sweeps", str(sweeps)}});
@@ -194,25 +194,32 @@ MonteCarlo test_lj_fh(const int num_steps,
     bias);
   INFO(criteria->bias().class_name());
   mc.set(criteria);
-  const std::string steps_per(str(1e3));
-  // const std::string steps_per(str(1e4));
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
-  mc.add(MakeCriteriaUpdater({{"steps_per", str(1)}}));
+  const std::string trials_per(str(1e3));
+  // const std::string trials_per(str(1e4));
+  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/lj_fh"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per", str(1)}}));
   mc.add(MakeCriteriaWriter({
-    {"steps_per", steps_per},
+    {"trials_per", trials_per},
     {"file_name", "tmp/ljcrit.txt"},
     {"file_name_append_phase", "true"}}));
   auto energy = MakeEnergy({
     {"file_name", "tmp/lj_fh_energy"},
     {"file_name_append_phase", "true"},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)},
+    {"trials_per_update", "1"},
+    {"trials_per_write", str(trials_per)},
     {"multistate", "true"}});
-  EXPECT_EQ(energy->steps_per_update(), 1);
-  EXPECT_EQ(energy->steps_per_write(), 1e3);
+  EXPECT_EQ(energy->trials_per_update(), 1);
+  EXPECT_EQ(energy->trials_per_write(), 1e3);
   mc.add(energy);
   return mc;
+}
+
+TEST(MonteCarlo, lj_fh_01) {
+  MonteCarlo mc = test_lj_fh(1, "TM", 10, false, 0, 1);
+  mc.run_until_complete();
+  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  EXPECT_NEAR(lnpi.value(1) - lnpi.value(0), 4.67, 0.2);
 }
 
 TEST(MonteCarlo, lj_fh_10sweep_LONG) {
@@ -364,7 +371,7 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
     bool test = true,
     const int min = 0,
     const int max = 5,
-    const int steps_per = 1e3) {
+    const int trials_per = 1e3) {
   INFO(bias->class_name());
   MonteCarlo mc;
   argtype spce_args = {{"physical_constants", "CODATA2010"},
@@ -397,16 +404,16 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     bias);
   mc.set(criteria);
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
-  mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/spce_fh"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}, {"tolerance", str(1e-6)}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
-    {"steps_per", str(steps_per)},
+    {"trials_per", str(trials_per)},
     {"file_name", "tmp/spce_crit.txt"}}));
   auto energy = MakeEnergy({
     {"file_name", "tmp/spce_fh_energy"},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)},
+    {"trials_per_update", "1"},
+    {"trials_per_write", str(trials_per)},
     {"multistate", "true"}});
   mc.add(energy);
   MonteCarlo mc2 = test_serialize(mc);
@@ -498,7 +505,7 @@ TEST(MonteCarlo, spce_fh_liquid_VERY_LONG) {
       false, // test
       100,   // min
       105,   // max
-      1e4);  // steps_per
+      1e4);  // trials_per
     FlatHistogram fh(mc.criteria());
     INFO(feasst_str(fh.bias().ln_prob().values()));
     const LnProbability& lnpi = fh.bias().ln_prob();
@@ -522,7 +529,7 @@ TEST(MonteCarlo, spce_fh_liquid_VERY_LONG) {
 MonteCarlo rpm_fh_test(
     const int min = 0,
     const int max = 2,
-    const int steps_per = 1e3,
+    const int trials_per = 1e3,
     const int num_steps = 1) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
@@ -575,21 +582,21 @@ MonteCarlo rpm_fh_test(
     {"reference_index", "0"},
     {"num_steps", str(num_steps)}}));
   if (criteria->bias().class_name() == "TransitionMatrix") {
-    mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
+    mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
   }
   mc.add(MakeCriteriaWriter({
-    {"steps_per", str(steps_per)},
+    {"trials_per", str(trials_per)},
     {"file_name", "tmp/rpmcrit.txt"}}));
-  mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
-  mc.add(MakeCheckPhysicality({{"steps_per", str(steps_per)}}));
-  // mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
+  mc.add(MakeCheckProperties({{"trials_per", str(trials_per)}}));
+  mc.add(MakeCheckPhysicality({{"trials_per", str(trials_per)}}));
+  // mc.add(MakeCPUTime({{"trials_per", str(5*trials_per)}}));
   mc.add(MakeCheckNetCharge());
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/rpm_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/rpm_fh"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
   mc.add(MakeEnergy({
     {"file_name", "tmp/rpm_fh_energy"},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)},
+    {"trials_per_update", "1"},
+    {"trials_per_write", str(trials_per)},
     {"multistate", "true"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.run_until_complete();
@@ -651,19 +658,19 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
 //  add_rigid_cluster_trials(&mc,
 //    neighbor_criteria,
 //    {{"tunable_param", "50"}});
-  const int steps_per = 1e3;
-  mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
+  const int trials_per = 1e3;
+  mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
-    {"steps_per", str(steps_per)},
+    {"trials_per", str(trials_per)},
     {"file_name", "tmp/dival_fh_crit.txt"}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/dival_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-4)}}));
-  mc.add(MakeCheckNetCharge({{"steps_per", str(steps_per)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/dival_fh"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}, {"tolerance", str(1e-4)}}));
+  mc.add(MakeCheckNetCharge({{"trials_per", str(trials_per)}}));
   const int en_index = mc.num_analyzers();
   mc.add(MakeEnergy({
     {"file_name", "tmp/dival_fh_energy"},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)},
+    {"trials_per_update", "1"},
+    {"trials_per_write", str(trials_per)},
     {"multistate", "true"}}));
   mc.run_until_complete();
   // mc.attempt(1e7);
@@ -700,7 +707,7 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
 MonteCarlo nvtw(const int num) {
   const int num_prod = 1e3;
   const int num_equil = 1e3;
-  const std::string steps_per = "1e3";
+  const std::string trials_per = "1e3";
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1633373249"}}));
   mc.add(MakeConfiguration({{"cubic_box_length", "8"},
@@ -712,9 +719,9 @@ MonteCarlo nvtw(const int num) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
 //  mc.add(MakeTrialGrow({{{"translate", "true"}, {"particle_type", "0"}, {"tunable_param", "1"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}, {"weight", "4"}}));
-  mc.add(MakeTune({{"steps_per", steps_per}}));
-  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj_fh"}}));
+  mc.add(MakeTune({{"trials_per", trials_per}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/lj_fh"}}));
   mc.run(MakeRun({{"until_num_particles", str(num)}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.attempt((num+1)*num_equil);
@@ -727,10 +734,10 @@ MonteCarlo nvtw(const int num) {
   MakeTransitionMatrix({{"min_sweeps", "1e8"}})));
   mc.add(MakeEnergy({
     {"file_name", "tmp/ljen" + str(num) + ".txt"},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)}}));
+    {"trials_per_update", "1"},
+    {"trials_per_write", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
-    {"steps_per", steps_per},
+    {"trials_per", trials_per},
     {"file_name", "tmp/ljcrit" + str(num) + ".txt"}}));
   mc.attempt((num+1)*num_prod);
   return mc;

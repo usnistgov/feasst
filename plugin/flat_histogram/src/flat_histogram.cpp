@@ -52,7 +52,6 @@ bool FlatHistogram::is_accepted(
   double ln_metropolis_prob = acceptance->ln_metropolis_prob();
   DEBUG("macroshift " << acceptance->macrostate_shift());
 //  const int shift = acceptance->macrostate_shift()*num_trial_states();
-  bool is_allowed_ = true;
   if (acceptance->reject() ||
       !is_allowed(system, *acceptance) ) {
     is_accepted = false;
@@ -70,8 +69,7 @@ bool FlatHistogram::is_accepted(
     DEBUG("ln old " << bias_->ln_prob().value(macrostate_old_));
     DEBUG("ln met " << ln_metropolis_prob);
     DEBUG("ln tot " << ln_metropolis_prob + bias_->ln_bias(macrostate_new_, macrostate_old_));
-    is_allowed_ = macrostate_->is_allowed(system, *this, *acceptance);
-    if (is_allowed_ &&
+    if (macrostate_->is_allowed(system, *this, *acceptance) &&
         random->uniform() < exp(ln_metropolis_prob +
                                 bias_->ln_bias(macrostate_new_,
                                                macrostate_old_))) {
@@ -83,13 +81,19 @@ bool FlatHistogram::is_accepted(
     }
     DEBUG("macro old new " << macrostate_old_ << " " << macrostate_new_);
   }
+  bool is_endpoint = false;
+  if (macrostate_new_ == macrostate_->soft_min() ||
+      macrostate_new_ == macrostate_->soft_max()) {
+    is_endpoint = true;
+  }
   bias_->update(macrostate_old_,
                 macrostate_new_,
                 ln_metropolis_prob,
                 is_accepted,
-                is_allowed_);
+                is_endpoint);
   if (is_accepted) {
     set_current_energy(acceptance->energy_new());
+    set_current_energy_profile(acceptance->energy_profile_new());
     DEBUG("current energy: " << current_energy());
     macrostate_current_ = macrostate_new_;
   } else {
@@ -97,7 +101,7 @@ bool FlatHistogram::is_accepted(
     macrostate_current_ = macrostate_old_;
   }
   was_accepted_ = is_accepted;
-  acceptance->set_allowed(is_allowed_);
+  acceptance->set_endpoint(is_endpoint);
   return is_accepted;
 }
 
@@ -117,13 +121,13 @@ std::string FlatHistogram::write() const {
   return ss.str();
 }
 
-void FlatHistogram::revert_(const bool accepted, const bool allowed, const double ln_prob) {
-  Criteria::revert_(accepted, allowed, ln_prob);
+void FlatHistogram::revert_(const bool accepted, const bool endpoint, const double ln_prob) {
+  Criteria::revert_(accepted, endpoint, ln_prob);
   bias_->update_or_revert(macrostate_old_,
                           macrostate_new_,
                           ln_prob,
                           accepted,
-                          allowed,
+                          endpoint,
                           true);
   macrostate_new_ = macrostate_old_;
 }
@@ -220,24 +224,45 @@ void FlatHistogram::set_cm(const bool inc_max, const int macro, const Criteria& 
 }
 
 void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
-  const int min_size, const System& system, const System& upper_sys,
+  const int min_size, const System& system, const System * upper_sys,
   Criteria * criteria) {
   DEBUG("left_most " << left_most);
   DEBUG("right_most " << right_most);
-  const int lower_max = macrostate().soft_max();
-  const int upper_min = criteria->macrostate().soft_min();
-  if (num_iterations() > criteria->num_iterations()) {
-    if (criteria->macrostate().soft_max() - upper_min > min_size) {
-      DEBUG("move macrostate from upper to lower");
-      if (criteria->set_soft_min(upper_min + 1, upper_sys) > 0) {
-        set_cm(true, upper_min, *criteria);
+  if (upper_sys) {
+    bool not_reject = true;
+    while (not_reject) {
+      not_reject = false;
+      const int lower_max = macrostate().soft_max();
+      if (num_iterations() < criteria->num_iterations()) {
+        if (lower_max - macrostate().soft_min() + 1 > min_size) {
+          DEBUG("move macrostate from lower to upper");
+          if (set_soft_max(lower_max - 1, system) > 0) {
+            criteria->set_cm(false, lower_max, *this);
+            not_reject = true;
+          }
+        }
+      }
+      if (not_reject) {
+        update();
+        criteria->update();
       }
     }
-  } else if (num_iterations() < criteria->num_iterations()) {
-    if (lower_max - macrostate().soft_min() > min_size) {
-      DEBUG("move macrostate from lower to upper");
-      if (set_soft_max(lower_max - 1, system) > 0) {
-        criteria->set_cm(false, lower_max, *this);
+    not_reject = true;
+    while (not_reject) {
+      not_reject = false;
+      const int upper_min = criteria->macrostate().soft_min();
+      if (num_iterations() > criteria->num_iterations()) {
+        if (criteria->macrostate().soft_max() - upper_min + 1 > min_size) {
+          DEBUG("move macrostate from upper to lower");
+          if (criteria->set_soft_min(upper_min + 1, *upper_sys) > 0) {
+            set_cm(true, upper_min, *criteria);
+            not_reject = true;
+          }
+        }
+      }
+      if (not_reject) {
+        update();
+        criteria->update();
       }
     }
   }
@@ -246,19 +271,46 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
   if (left_most) {
     // consider increasing the soft_min if the existing visits are
     // enough for completion
-    if (bias().visits(macrostate().soft_min()) >= num_iterations_to_complete()) {
-      set_soft_min(macrostate().soft_min() + 1, system);
+    bool not_reject = true;
+    while (not_reject) {
+      not_reject = false;
+      if (bias().visits(macrostate().soft_min()) >= num_iterations_to_complete()) {
+        if (macrostate().soft_max() - macrostate().soft_min() + 1 > min_size) {
+          if (set_soft_min(macrostate().soft_min() + 1, system) != 0) {
+            not_reject = true;
+          }
+        }
+      }
     }
   }
   if (right_most) {
     // consider decreasing the soft_max if the existing visits are
     // enough for completion
-    if (criteria->bias().visits(criteria->macrostate().soft_max()) >=
-        criteria->num_iterations_to_complete()) {
-      criteria->set_soft_max(criteria->macrostate().soft_max() - 1, upper_sys);
+    bool not_reject = true;
+    while (not_reject) {
+      not_reject = false;
+      if (upper_sys) {
+        if (criteria->bias().visits(criteria->macrostate().soft_max()) >=
+            criteria->num_iterations_to_complete()) {
+          if (criteria->macrostate().soft_max() - criteria->macrostate().soft_min() + 1 > min_size) {
+            if (criteria->set_soft_max(criteria->macrostate().soft_max() - 1, *upper_sys) != 0) {
+              not_reject = true;
+            }
+          }
+        }
+      } else {
+        if (bias().visits(macrostate().soft_max()) >= num_iterations_to_complete()) {
+          if (macrostate().soft_max() - macrostate().soft_min() + 1 > min_size) {
+            if (set_soft_max(macrostate().soft_max() - 1, system) != 0) {
+              not_reject = true;
+            }
+          }
+        }
+      }
     }
   }
-  INFO(macrostate().soft_min() << " " << criteria->macrostate().soft_max());
+  INFO(macrostate().soft_min() << " " << macrostate().soft_max());
+  //INFO(macrostate().soft_min() << " " << criteria->macrostate().soft_max());
 }
 
 }  // namespace feasst

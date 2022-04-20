@@ -41,19 +41,19 @@ TEST(MonteCarlo, beta_expanded) {
   mc.set(MakeFlatHistogram({{"Macrostate", "MacrostateBeta"}, {"width", delta_beta}, {"max", str(beta_max)}, {"min", str(beta_min)},
     {"Bias", "WLTM"}, {"collect_flatness", "18"}, {"min_flatness", "22"}, {"min_sweeps", "10"}}));
   mc.add(MakeTrialBeta({{"fixed_beta_change", delta_beta}}));
-  const std::string steps_per(str(1e4));
-  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj_beta"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
-  mc.add(MakeCriteriaUpdater({{"steps_per", steps_per}}));
+  const std::string trials_per(str(1e4));
+  mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj_beta"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per", trials_per}}));
   mc.add(MakeCriteriaWriter({
-    {"steps_per", steps_per},
+    {"trials_per", trials_per},
     {"file_name", "tmp/lj_beta_crit.txt"},
     {"file_name_append_phase", "true"}}));
   mc.add(MakeEnergy({
     {"file_name", "tmp/lj_beta_energy"},
     {"file_name_append_phase", "true"},
-    {"steps_per_update", "1"},
-    {"steps_per_write", steps_per},
+    {"trials_per_update", "1"},
+    {"trials_per_write", trials_per},
     {"multistate", "true"}}));
   mc.attempt(5e4);
 }
@@ -71,20 +71,20 @@ TEST(MonteCarlo, beta_expanded) {
 //  mc.set(MakeFlatHistogram({{"Macrostate", "MacrostateBeta"}, {"width", delta_beta}, {"max", str(beta_max)}, {"min", str(beta_min)},
 //    {"Bias", "TransitionMatrix"}, {"min_sweeps", str(min_sweeps)}, {"min_visits", "1"}, {"average_visits", "1000"}, {"new_sweep", "1"}}));
 //  mc.add(MakeTrialBeta({{"fixed_beta_change", delta_beta}}));
-//  const std::string steps_per(str(1e6));
-//  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj_beta"}}));
-//  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
-//  mc.add(MakeCriteriaUpdater({{"steps_per", "1"}}));
-//  //mc.add(MakeCriteriaUpdater({{"steps_per", steps_per}}));
+//  const std::string trials_per(str(1e6));
+//  mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj_beta"}}));
+//  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
+//  mc.add(MakeCriteriaUpdater({{"trials_per", "1"}}));
+//  //mc.add(MakeCriteriaUpdater({{"trials_per", trials_per}}));
 //  mc.add(MakeCriteriaWriter({
-//    {"steps_per", steps_per},
+//    {"trials_per", trials_per},
 //    {"file_name", "tmp/lj_beta_crit.txt"},
 //    {"file_name_append_phase", "true"}}));
 //  mc.add(MakeEnergy({
 //    {"file_name", "tmp/lj_beta_energy"},
 //    {"file_name_append_phase", "true"},
-//    {"steps_per_update", "1"},
-//    {"steps_per_write", steps_per},
+//    {"trials_per_update", "1"},
+//    {"trials_per_write", trials_per},
 //    {"multistate", "true"}}));
 //  return mc;
 //}

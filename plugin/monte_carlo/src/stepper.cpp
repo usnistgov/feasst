@@ -13,8 +13,8 @@ Stepper::Stepper(argtype args) : Stepper(&args) {
   check_all_used(args);
 }
 Stepper::Stepper(argtype * args) {
-  set_steps_per_write(integer("steps_per_write", args, 1));
-  set_steps_per_update(integer("steps_per_update", args, 1));
+  set_trials_per_write(integer("trials_per_write", args, 1));
+  set_trials_per_update(integer("trials_per_update", args, 1));
   if (used("file_name", *args)) set_file_name(str("file_name", args));
 
   if (boolean("append", args, false)) {
@@ -29,6 +29,7 @@ Stepper::Stepper(argtype * args) {
     file.open(file_name_, std::ofstream::out);
     file.close();
   }
+  rewrite_header_ = boolean("rewrite_header", args, true);
   stop_after_phase_ = integer("stop_after_phase", args, -1);
   start_after_phase_ = integer("start_after_phase", args, -1);
   file_name_append_phase_ =
@@ -36,6 +37,9 @@ Stepper::Stepper(argtype * args) {
   set_multistate(boolean("multistate", args, false));
   is_multistate_aggregate_ =
     boolean("multistate_aggregate", args, true);
+  if (is_multistate() && is_multistate_aggregate_) {
+    rewrite_header_ = false;
+  }
   accumulator_ = Accumulator(args);
 //  if (used("block_size", *args)) {
 //    accumulator_.set_block_size(integer("block_size", args));
@@ -46,11 +50,11 @@ Stepper::Stepper(argtype * args) {
   configuration_ = integer("configuration", args, 0);
 }
 
-bool Stepper::is_time(const int steps_per, int * steps_since) {
-  if (steps_per > 0) {
-    ++(*steps_since);
-    if (*steps_since >= steps_per) {
-      *steps_since = 0;
+bool Stepper::is_time(const int trials_per, int * trials_since) {
+  if (trials_per > 0) {
+    ++(*trials_since);
+    if (*trials_since >= trials_per) {
+      *trials_since = 0;
       return true;
     }
   }
@@ -92,10 +96,10 @@ void Stepper::set_state(const int state) {
 void Stepper::serialize(std::ostream& ostr) const {
   ostr << class_name() << " ";
   feasst_serialize_version(497, ostr);
-  feasst_serialize(steps_since_update_, ostr);
-  feasst_serialize(steps_since_write_, ostr);
-  feasst_serialize(steps_per_update_, ostr);
-  feasst_serialize(steps_per_write_, ostr);
+  feasst_serialize(trials_since_update_, ostr);
+  feasst_serialize(trials_since_write_, ostr);
+  feasst_serialize(trials_per_update_, ostr);
+  feasst_serialize(trials_per_write_, ostr);
   feasst_serialize(file_name_, ostr);
   feasst_serialize(append_, ostr);
   feasst_serialize(stop_after_phase_, ostr);
@@ -105,6 +109,7 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(is_multistate_aggregate_, ostr);
   feasst_serialize(state_, ostr);
   feasst_serialize(configuration_, ostr);
+  feasst_serialize(rewrite_header_, ostr);
   feasst_serialize_fstobj(accumulator_, ostr);
   feasst_serialize_endcap("Stepper", ostr);
 }
@@ -114,10 +119,10 @@ Stepper::Stepper(std::istream& istr) {
   istr >> name;
   const int version = feasst_deserialize_version(istr);
   ASSERT(497 == version, version);
-  feasst_deserialize(&steps_since_update_, istr);
-  feasst_deserialize(&steps_since_write_, istr);
-  feasst_deserialize(&steps_per_update_, istr);
-  feasst_deserialize(&steps_per_write_, istr);
+  feasst_deserialize(&trials_since_update_, istr);
+  feasst_deserialize(&trials_since_write_, istr);
+  feasst_deserialize(&trials_per_update_, istr);
+  feasst_deserialize(&trials_per_write_, istr);
   feasst_deserialize(&file_name_, istr);
   feasst_deserialize(&append_, istr);
   feasst_deserialize(&stop_after_phase_, istr);
@@ -127,6 +132,7 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&is_multistate_aggregate_, istr);
   feasst_deserialize(&state_, istr);
   feasst_deserialize(&configuration_, istr);
+  feasst_deserialize(&rewrite_header_, istr);
   feasst_deserialize_fstobj(&accumulator_, istr);
   feasst_deserialize_endcap("Stepper", istr);
 }

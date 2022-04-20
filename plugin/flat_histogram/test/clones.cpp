@@ -22,7 +22,7 @@
 namespace feasst {
 
 MonteCarlo monte_carlo(const int thread, const int min, const int max) {
-  const int steps_per = 1e2;
+  const int trials_per = 1e2;
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1635444301"}}));
   mc.add(MakeConfiguration({{"cubic_box_length", "8"},
@@ -40,19 +40,19 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     MakeTransitionMatrix({{"min_sweeps", "10"}})));//, {"max_block_operations", "6"}})));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)},
     {"file_name", "tmp/clones" + str(thread)}}));
-  mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
-    {"steps_per", str(steps_per)},
+    {"trials_per", str(trials_per)},
     {"file_name", "tmp/clones" + str(thread) + "_crit.txt"}}));
   mc.set(MakeCheckpoint({{"num_hours", "0.0001"},
     {"file_name", "tmp/clone" + str(thread) + ".fst"}}));
   mc.add(MakeEnergy({
     {"file_name", "tmp/clone_energy" + str(thread)},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)},
+    {"trials_per_update", "1"},
+    {"trials_per_write", str(trials_per)},
     {"multistate", "true"}}));
   return mc;
 }

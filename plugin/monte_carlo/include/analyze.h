@@ -12,7 +12,7 @@
 namespace feasst {
 
 /**
-  Perform a read-only action every so many steps.
+  Perform a read-only action every so many trials.
  */
 class Analyze : public Stepper {
  public:
@@ -67,13 +67,13 @@ class AnalyzeWriteOnly : public Analyze {
  public:
   /**
     args:
-    - steps_per: write every this many steps
+    - trials_per: write every this many trials
    */
   explicit AnalyzeWriteOnly(argtype * args);
 
-  void set_steps_per_update(const int steps) override;
+  void set_trials_per_update(const int trials) override;
 
-  void set_steps_per(const int steps) { set_steps_per_write(steps); }
+  void set_trials_per(const int trials) { set_trials_per_write(trials); }
 
   explicit AnalyzeWriteOnly(std::istream& istr) : Analyze(istr) {}
 };
@@ -85,13 +85,13 @@ class AnalyzeUpdateOnly : public Analyze {
  public:
   /**
     args:
-    - steps_per: update every this many steps
+    - trials_per: update every this many trials
    */
   explicit AnalyzeUpdateOnly(argtype * args);
 
-  void set_steps_per_write(const int steps) override;
+  void set_trials_per_write(const int trials) override;
 
-  void set_steps_per(const int steps) { set_steps_per_update(steps); }
+  void set_trials_per(const int trials) { set_trials_per_update(trials); }
 
   explicit AnalyzeUpdateOnly(std::istream& istr) : Analyze(istr) {}
 };

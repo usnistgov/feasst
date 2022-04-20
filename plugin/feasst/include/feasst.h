@@ -291,4 +291,5 @@
 #include "flat_histogram/include/clones.h"
 #include "flat_histogram/include/macrostate_energy.h"
 std::shared_ptr<feasst::ComputeBeta> __feasst__ComputeBeta = std::make_shared<feasst::ComputeBeta>();
+std::shared_ptr<feasst::LennardJonesAlpha> __feasst__LennardJonesAlpha = std::make_shared<feasst::LennardJonesAlpha>();
 std::shared_ptr<feasst::Tune> __feasst__Tune = std::make_shared<feasst::Tune>();

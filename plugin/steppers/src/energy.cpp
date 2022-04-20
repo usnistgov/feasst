@@ -45,6 +45,9 @@ std::string Energy::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;
+  if (rewrite_header()) {
+    ss << header(criteria, system, trial_factory);
+  }
   ss << accumulator_.status() << std::endl;
   DEBUG(ss.str());
   return ss.str();

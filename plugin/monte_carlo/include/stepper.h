@@ -13,7 +13,7 @@ class System;
 class TrialFactory;
 
 /**
-  Perform an action (update or write) every so many steps.
+  Perform an action (update or write) every so many trials.
   This action could be read-only (see Analyze) or not (see Modify).
   Write to screen if file name is not provided.
  */
@@ -21,9 +21,9 @@ class Stepper {
  public:
   /**
     args:
-    - steps_per_write: Set the number of trial steps per write (default: 1).
+    - trials_per_write: Set the number of trials per write (default: 1).
       Disabled if negative value is provided.
-    - steps_per_update: Set the number of trial steps per update (default: 1).
+    - trials_per_update: Set the number of trials per update (default: 1).
       Disabled if negative value is provided.
     - file_name: Set the file name to write output (default: empty).
       If empty, write to screen.
@@ -39,19 +39,21 @@ class Stepper {
     - multistate: set "true" to copy for each state (default: false)
     - multistate_aggregate: aggregate the writing of all states, only when
       multistate is enabled (default: true).
-      Thus, steps_per_write refers now to the writing of all states.
+      Thus, trials_per_write refers now to the writing of all states.
       Individual states no longer write.
+    - rewrite_header: set true to rewrite header every write (default: true).
+      If multistate_aggregate, automatically set to false.
     - Accumulator arguments.
     - configuration: index of configuration (default: 0)
    */
   explicit Stepper(argtype args = argtype());
   explicit Stepper(argtype * args);
 
-  /// Return the number of steps per update
-  int steps_per_update() const { return steps_per_update_; }
+  /// Return the number of trials per update
+  int trials_per_update() const { return trials_per_update_; }
 
-  /// Return the number of steps per write.
-  int steps_per_write() const { return steps_per_write_; }
+  /// Return the number of trials per write.
+  int trials_per_write() const { return trials_per_write_; }
 
   /// Return the file name.
   const std::string file_name() const { return file_name_; }
@@ -67,6 +69,9 @@ class Stepper {
 
   /// Return true if appending.
   bool append() const { return append_; }
+
+  /// Return true if header is to be rewritten.
+  bool rewrite_header() const { return rewrite_header_; }
 
   /// Stop after simulation reaches this phase index.
   int stop_after_phase() const { return stop_after_phase_; }
@@ -89,11 +94,11 @@ class Stepper {
   /// Return the accumulator.
   const Accumulator& accumulator() const { return accumulator_; }
 
-  /// Return the number of steps since update.
-  int steps_since_update() const { return steps_since_update_; }
+  /// Return the number of trials since update.
+  int trials_since_update() const { return trials_since_update_; }
 
-  /// Return the number of steps since write.
-  int steps_since_write() const { return steps_since_write_; }
+  /// Return the number of trials since write.
+  int trials_since_write() const { return trials_since_write_; }
 
   /// Return true if aggregating the write of multistate.
   bool is_multistate_aggregate() const { return is_multistate_aggregate_; }
@@ -110,21 +115,21 @@ class Stepper {
   virtual ~Stepper() {}
 
  protected:
-  int steps_since_update_ = 0;
-  int steps_since_write_ = 0;
+  int trials_since_update_ = 0;
+  int trials_since_write_ = 0;
   Accumulator accumulator_;
 
   /// Note that this should not be called after set_state, which appends name.
   void set_file_name(const std::string file_name) { file_name_ = file_name; }
 
-  virtual void set_steps_per_update(const int steps = 1) {
-    steps_per_update_ = steps; }
+  virtual void set_trials_per_update(const int trials = 1) {
+    trials_per_update_ = trials; }
 
-  virtual void set_steps_per_write(const int steps) {
-    steps_per_write_ = steps; }
+  virtual void set_trials_per_write(const int trials) {
+    trials_per_write_ = trials; }
 
   /// Check if it is time to update or write. Return true if so.
-  bool is_time(const int steps_per, int * steps_since);
+  bool is_time(const int trials_per, int * trials_since);
 
   /// Write to standard output if file name is not set. Otherwise, output file.
   void printer(const std::string output, const std::string& file_name);
@@ -140,8 +145,8 @@ class Stepper {
   void set_multistate(const bool multi) { is_multistate_ = multi; }
 
  private:
-  int steps_per_update_;
-  int steps_per_write_;
+  int trials_per_update_;
+  int trials_per_write_;
   std::string file_name_;
   bool append_;
   int stop_after_phase_;
@@ -151,6 +156,7 @@ class Stepper {
   bool is_multistate_aggregate_;
   int state_ = 0;
   int configuration_;
+  bool rewrite_header_;
 };
 
 }  // namespace feasst

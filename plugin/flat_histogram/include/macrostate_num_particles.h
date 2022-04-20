@@ -36,7 +36,6 @@ class MacrostateNumParticles : public Macrostate {
   virtual ~MacrostateNumParticles() {}
 
  private:
-  const std::string class_name_ = "MacrostateNumParticles";
   // int particle_type_;
   ConstrainNumParticles num_;
 };

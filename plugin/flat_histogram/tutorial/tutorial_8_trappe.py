@@ -22,7 +22,7 @@ args = parser.parse_args()
 print("args:", args)
 
 def mc(thread, mn, mx):
-    steps_per=int(1e4)
+    trials_per=int(1e4)
     mc = fst.MakeMonteCarlo()
     if mx > args.dccb_begin:
         ref = "0"
@@ -78,17 +78,17 @@ def mc(thread, mn, mx):
             mc.add(fst.MakeTrialRotate(fst.args({"particle_type": str(particle_type), "weight": "1.",
                 "tunable_param": "1."})))
             mc.add(fst.MakeTrialTransfer(fst.args({"particle_type": str(particle_type), "weight": "4"})))
-    mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
-    mc.add(fst.MakeTune(fst.args({"steps_per": str(steps_per), "stop_after_phase": "0"})))
-    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),
+    mc.add(fst.MakeCheckEnergy(fst.args({"trials_per": str(trials_per), "tolerance": "0.0001"})))
+    mc.add(fst.MakeTune(fst.args({"trials_per": str(trials_per), "stop_after_phase": "0"})))
+    mc.add(fst.MakeLogAndMovie(fst.args({"trials_per": str(trials_per),
                                          "file_name": "clones" + str(thread),
                                          "file_name_append_phase": "True"})))
     mc.add(fst.MakeEnergy(fst.args({
         "file_name": "en" + str(thread) + '.txt',
         "file_name_append_phase": "True",
         "start_after_phase": "0",
-        "steps_per_write": str(steps_per),
-        "steps_per_update": "1",
+        "trials_per_write": str(trials_per),
+        "trials_per_update": "1",
         "multistate": "True"})))
     if mc.configuration().num_particle_types() > 1:
         mc.add(fst.MakeNumParticles(fst.args({
@@ -96,18 +96,18 @@ def mc(thread, mn, mx):
           "file_name": "num" + str(thread) + '.txt',
           "file_name_append_phase": "True",
           "start_after_phase": "0",
-          "steps_per_write": str(steps_per),
-          "steps_per_update": "1",
+          "trials_per_write": str(trials_per),
+          "trials_per_update": "1",
           "multistate": "True"})))
     mc.add(fst.MakeExtensiveMoments(fst.args({
-        "steps_per_write": str(steps_per),
+        "trials_per_write": str(trials_per),
         "file_name": "extmom"+str(thread) + ".txt",
         "file_name_append_phase": "True",
         "start_after_phase": "0", # do not update until equilibration complete (phase 1)
         "max_order": "3",
         "multistate": "True"})))
-    mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": str(steps_per)})))
-    mc.add(fst.MakeCriteriaWriter(fst.args({"steps_per": str(steps_per),
+    mc.add(fst.MakeCriteriaUpdater(fst.args({"trials_per": str(trials_per)})))
+    mc.add(fst.MakeCriteriaWriter(fst.args({"trials_per": str(trials_per),
                                             "file_name": "clones" + str(thread) + "_crit.txt",
                                             "file_name_append_phase": "True"})))
     print(0.9*args.num_procs*args.num_hours)

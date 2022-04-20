@@ -35,7 +35,7 @@ def initialize_neighbor_list(mc):
         fst.args({"table_size": "1e6"})))
 
 def mc(thread, mn, mx):
-    steps_per=int(1e5)
+    trials_per=int(1e5)
     avb, dccb = avb_or_dccb(mx)
     mc = fst.MakeMonteCarlo()
     mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "20",
@@ -87,14 +87,14 @@ def mc(thread, mn, mx):
               grow[0]["particle_type"] = "0"
               mc.add(fst.MakeTrialGrow(fst.ArgsVector(grow),
                                        fst.args({"num_steps": "4", "reference_index": "0"})))
-    mc.add(fst.MakeCheckEnergyAndTune(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
-    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per), "file_name": "clones" + str(thread)})))
-    mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": str(steps_per)})))
+    mc.add(fst.MakeCheckEnergyAndTune(fst.args({"trials_per": str(trials_per), "tolerance": "0.0001"})))
+    mc.add(fst.MakeLogAndMovie(fst.args({"trials_per": str(trials_per), "file_name": "clones" + str(thread)})))
+    mc.add(fst.MakeCriteriaUpdater(fst.args({"trials_per": str(trials_per)})))
     mc.add(fst.MakeCriteriaWriter(fst.args({
-        "steps_per": str(steps_per),
+        "trials_per": str(trials_per),
         "file_name": "clones" + str(thread) + "_crit.txt"})))
     mc.add(fst.MakeEnergy(fst.args({
-        "steps_per_write": str(steps_per),
+        "trials_per_write": str(trials_per),
         "file_name": "en" + str(thread),
         "multistate": "true"})))
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(thread) + ".fst",

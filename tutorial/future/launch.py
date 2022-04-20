@@ -7,9 +7,9 @@ import random
 
 # define parameters of a pure component NVT MC Lennard-Jones simulation
 params = {
-    "length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1.2,
+    "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1.2,
     "num_particles": 50, "equilibration": 1e6, "production": 1e8,
-    "steps_per": 1e5, "seed": "time", "num_hours": 1}
+    "trials_per": 1e5, "seed": random.randrange(1e9), "num_hours": 1}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]
 
@@ -17,11 +17,12 @@ params["num_hours_terminate"] = 0.95*params["num_hours"]
 def mc_lj(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 # high temperature gcmc to generate initial configuration
+MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {length} particle_type0 {fstprt}
+Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
 Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
-ThermoParams beta 0.1 chemical_potential 10
+ThermoParams beta {beta} chemical_potential -1
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
 TrialAdd particle_type 0
@@ -30,17 +31,16 @@ Run until_num_particles {num_particles}
 
 # nvt equilibration
 RemoveTrial name TrialAdd
-ThermoParams beta {beta}
-Tune steps_per {steps_per}
-CheckEnergy steps_per {steps_per} tolerance 1e-8
-Run num_attempts {equilibration}
+Tune trials_per {trials_per}
+CheckEnergy trials_per {trials_per} tolerance 1e-8
+Run num_trials {equilibration}
 
 # nvt production
 RemoveModify name Tune
-Log steps_per {steps_per} file_name lj{sim}.txt
-Movie steps_per {steps_per} file_name lj{sim}.xyz
-Energy steps_per_write {steps_per} file_name en{sim}.txt
-Run num_attempts {production}
+Log trials_per {trials_per} file_name lj{sim}.txt
+Movie trials_per {trials_per} file_name lj{sim}.xyz
+Energy trials_per_write {trials_per} file_name en{sim}.txt
+Run num_trials {production}
 """.format(**params))
 
 # write slurm script to fill nodes with simulations
@@ -59,7 +59,7 @@ fi
 echo "Time is $(date)"
 """.format(**params))
 
-# add additional arguments for mutli-core simulations
+# add additional arguments for multi-core simulations
 params.update({"sim": 0, "num_nodes": 1, "procs_per_node": 32})
 params["num_sims"] = params["num_nodes"]*params["procs_per_node"]
 

@@ -49,14 +49,14 @@ namespace feasst {
 //    {{"beta", "1.2"}, {"chemical_potential", "1."}}));
 //  mc.add(feasst::MakeTrialTranslate(
 //    {{"tunable_param", "2."}, {"tunable_target_acceptance", "0.2"}}));
-//  const int steps_per = 1e3;
-//  mc.add(feasst::MakeTune({{"steps_per", feasst::str(steps_per)}}));
+//  const int trials_per = 1e3;
+//  mc.add(feasst::MakeTune({{"trials_per", feasst::str(trials_per)}}));
 //  mc.seek_num_particles(50);
-//  mc.add(feasst::MakeLog({{"steps_per", feasst::str(steps_per)}}));
+//  mc.add(feasst::MakeLog({{"trials_per", feasst::str(trials_per)}}));
 //  mc.add(feasst::MakeMovie(
-//   {{"steps_per", feasst::str(steps_per)}, {"file_name", "movie.xyz"}}));
+//   {{"trials_per", feasst::str(trials_per)}, {"file_name", "movie.xyz"}}));
 //  mc.add(feasst::MakeCheckEnergy(
-//   {{"steps_per", feasst::str(steps_per)}, {"tolerance", "1e-8"}}));
+//   {{"trials_per", feasst::str(trials_per)}, {"tolerance", "1e-8"}}));
 //  mc.attempt(1e5);
 //}
 
@@ -68,8 +68,8 @@ TEST(MonteCarlo, serialize) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.set(MakeCheckpoint({{"num_hours", "0.0001"}, {"file_name", "tmp/ljrst"}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   MonteCarlo mc2 = test_serialize(mc);
   EXPECT_EQ(mc2.analyze(0).class_name(), "AnalyzeFactory");
   EXPECT_EQ(mc2.analyze(0).analyze(0).class_name(), "Log");
@@ -86,10 +86,10 @@ TEST(MonteCarlo, serialize) {
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"TrialTransfer", {{"weight", "4."}, {"particle_type", "0"}}},
     {"Checkpoint", {{"num_hours", "0.0001"}, {"file_name", "tmp/ljrst"}}},
-    {"Log", {{"steps_per", str(1e4)}, {"file_name", "tmp/lj.txt"}}},
-    {"Movie", {{"steps_per", str(1e4)}, {"file_name", "tmp/lj.xyz"}}},
-    {"CheckEnergy", {{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}},
-    {"Tune", {{"steps_per", str(1e4)}}},
+    {"Log", {{"trials_per", str(1e4)}, {"file_name", "tmp/lj.txt"}}},
+    {"Movie", {{"trials_per", str(1e4)}, {"file_name", "tmp/lj.xyz"}}},
+    {"CheckEnergy", {{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}},
+    {"Tune", {{"trials_per", str(1e4)}}},
   }});
 
   MonteCarlo mc4 = test_serialize(*mc3);
@@ -133,8 +133,8 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
     mc.set(MakeMetropolis());
     INFO(mc.criteria().current_energy());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  //  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  //  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  //  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/lj"}}));
+  //  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
     //mc.set(0, Potential(MakeLennardJones(),
     //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
     if (type == "opt") {
@@ -165,15 +165,15 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
 //    {"reference_index", "0"},
 //    {"num_steps", "10"},
 //    {"tunable_param", "1"}}));
-////  const int steps_per = 1e3;
-////  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", "1e-10"}}));
+////  const int trials_per = 1e3;
+////  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", "1e-10"}}));
 //  SeeeekNumParticles(50)
 //    .with_thermo_params({{"beta", "0.1"}, {"chemical_potential", "10"}})
 //    .with_metropolis()
 //    .with_trial_add()
 //    .run(&mc);
-//  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
-//  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+//  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/cell"}}));
+//  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
 //  mc.attempt(1e5);  // 2 sec with 50 particles, 10 steps on hwhdesk after moved to VisitModelCell
 //  //mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on hwhdesk after site cells integer
 //  //mc.attempt(1e5);  // 4.4 sec with 50 particles, 10 steps on hwhdesk after cell group opt
@@ -202,8 +202,8 @@ TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
   mc.run(MakeRun({{"until_num_particles", "200"}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.set(MakeThermoParams({{"beta", "1.2"}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/cell"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.add_to_optimized(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "3"}})));
   mc.initialize_system();
   mc.attempt(1e5);
@@ -224,10 +224,10 @@ TEST(MonteCarlo, NVT_cells2_BENCHMARK_LONG) {
     {"Run", {{"until_num_particles", "200"}}},
     {"RemoveTrial", {{"name", "TrialAdd"}}},
     {"ThermoParams", {{"beta", "1.2"}}},
-    {"Log", {{"steps_per", str(1e4)}, {"file_name", "tmp/cell.txt"}}},
-    {"Movie", {{"steps_per", str(1e4)}, {"file_name", "tmp/cell.xyz"}}},
-    {"CheckEnergy", {{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}},
-    {"Tune", {{"steps_per", str(1e4)}}},
+    {"Log", {{"trials_per", str(1e4)}, {"file_name", "tmp/cell.txt"}}},
+    {"Movie", {{"trials_per", str(1e4)}, {"file_name", "tmp/cell.xyz"}}},
+    {"CheckEnergy", {{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}},
+    {"Tune", {{"trials_per", str(1e4)}}},
     {"OptimizedPotential", {{"Model", "LennardJones"}, {"VisitModel", "VisitModelCell"}, {"min_length", "3"}}}
   }});
   mc->initialize_system();
@@ -248,8 +248,8 @@ TEST(MonteCarlo, NVT_SRSW) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", str(nMol)}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e3)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e3)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(1e3)}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e3)}, {"tolerance", str(1e-9)}}));
   Accumulator pe;
   const int num_trials = 1e3;
   for (int trial = 0; trial < num_trials; ++trial) {
@@ -273,16 +273,16 @@ TEST(MonteCarlo, GCMC) {
   EXPECT_NEAR(mc.trial(0).weight(), 1, NEAR_ZERO);
   EXPECT_NEAR(mc.trial(1).weight(), 2, NEAR_ZERO);
   EXPECT_NEAR(mc.trial(2).weight(), 2, NEAR_ZERO);
-  mc.add(MakeNumParticles({{"steps_per_write", str(1e5)},
+  mc.add(MakeNumParticles({{"trials_per_write", str(1e5)},
                            {"file_name", "tmp/ljnum.txt"}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergy({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-  auto profile = MakeProfileTrials({{"steps_per_update", str(1e2)},
-    {"steps_per_write", str(1e2)},
+  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  auto profile = MakeProfileTrials({{"trials_per_update", str(1e2)},
+    {"trials_per_write", str(1e2)},
     {"append", "true"},
     {"file_name", "tmp/lj_profile.txt"}});
   mc.add(profile);
-  //mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  //mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   const int trials = 1e4;
   //const int trials = 1e6;
   mc.attempt(trials);
@@ -306,13 +306,13 @@ TEST(MonteCarlo, GCMC2) {
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"TrialTransfer", {{"weight", "4."}, {"particle_type", "0"}}},
-    {"NumParticles", {{"steps_per_write", str(1e5)},
+    {"NumParticles", {{"trials_per_write", str(1e5)},
                       {"file_name", "tmp/ljnum.txt"}}},
-    {"Log", {{"steps_per", str(1e4)}, {"file_name", "tmp/lj.txt"}}},
-    {"Movie", {{"steps_per", str(1e4)}, {"file_name", "tmp/lj.xyz"}}},
-    {"CheckEnergy", {{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}},
-    {"ProfileTrials", {{"steps_per_update", str(1e2)},
-      {"steps_per_write", str(1e2)},
+    {"Log", {{"trials_per", str(1e4)}, {"file_name", "tmp/lj.txt"}}},
+    {"Movie", {{"trials_per", str(1e4)}, {"file_name", "tmp/lj.xyz"}}},
+    {"CheckEnergy", {{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}},
+    {"ProfileTrials", {{"trials_per_update", str(1e2)},
+      {"trials_per_write", str(1e2)},
       {"append", "true"},
       {"file_name", "tmp/lj_profile.txt"}}},
   }});
@@ -343,14 +343,14 @@ TEST(MonteCarlo, GCMC_cell) {
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
   mc.add(MakeTrialTransfer(
     { {"particle_type", "0"},
       {"num_steps", "4"},
       {"reference_index", "0"}}));
-  mc.add(MakeNumParticles({{"steps_per_write", str(1e5)},
+  mc.add(MakeNumParticles({{"trials_per_write", str(1e5)},
                            {"file_name", "tmp/ljnum.txt"}}));
   //mc.attempt(1e4);
   for (int i = 0; i < 1e4; ++i) {
@@ -368,8 +368,8 @@ TEST(MonteCarlo, ConstrainNumParticles) {
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-    mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-    mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+    mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/lj"}}));
+    mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
     mc.get_system()->get_configuration()->add_particle_of_type(0);
     mc.set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
     mc.set(MakeMetropolis(
@@ -377,7 +377,7 @@ TEST(MonteCarlo, ConstrainNumParticles) {
                                  {"maximum", str(minimum+1)}})));
     mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
     const int index = mc.num_analyzers();
-    mc.add(MakeNumParticles({{"steps_per_write", "10000"}}));
+    mc.add(MakeNumParticles({{"trials_per_write", "10000"}}));
     mc.attempt(14);
     if (minimum == 0) {
       EXPECT_LE(mc.analyze(index).accumulator().average(), 1);
@@ -399,9 +399,9 @@ TEST(MonteCarlo, GCMC_binary_tune) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}, {"particle_type", "1"}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "1"}}));
-  const std::string steps_per = str(int(1e2));
-  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeTune({{"steps_per", steps_per}}));
+  const std::string trials_per = str(int(1e2));
+  mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeTune({{"trials_per", trials_per}}));
   mc.attempt(1e4);
   EXPECT_GT(mc.trial(0).stage(0).perturb().tunable().value(), 2.5);
   EXPECT_GT(mc.trial(1).stage(0).perturb().tunable().value(), 2.5);
@@ -422,11 +422,11 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
   mc.set(MakeMetropolis());
 //  mc.add(MakeTrialTranslate());
   mc.add(MakeTrialVolume({{"tunable_param", "0.5"}}));
-  const std::string steps_per = str(int(1e2));
-  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/ideal_gas"}}));
-  mc.add(MakeTune({{"steps_per", steps_per}}));
+  const std::string trials_per = str(int(1e2));
+  mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/ideal_gas"}}));
+  mc.add(MakeTune({{"trials_per", trials_per}}));
   mc.attempt(1e3);
-  mc.add(MakeVolume({{"steps_per_write", steps_per},
+  mc.add(MakeVolume({{"trials_per_write", trials_per},
                      {"file_name", "tmp/ideal_gas_volume"}}));
   mc.attempt(1e6);
   const Accumulator& vol = mc.analyzers()[mc.num_analyzers()-1]->accumulator();
@@ -546,28 +546,30 @@ TEST(MonteCarlo, arglist) {
     {"Configuration", {{"cubic_box_length", "8"},
                        {"particle_type0", "../forcefield/lj.fstprt"},
                        {"particle_type1", "../forcefield/atom.fstprt"}}},
-    {"Potential", {{"Model", "LennardJones"}}},
-    {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
+    {"Potential", {{"Model", "LennardJonesCutShift"}}},
+    //{"Potential", {{"Model", "LennardJones"}}},
+    //{"Potential", {{"VisitModel", "LongRangeCorrections"}}},
     {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential", "10"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"tunable_param", "0.2"},
                         {"tunable_target_acceptance", "0.2"}}},
     {"TrialAdd", {{"particle_type", "0"}}},
-    {"Log", {{"steps_per", str(1e2)}, {"file_name", "tmp/lj.txt"}}},
-    {"Movie", {{"steps_per", str(1e2)}, {"file_name", "tmp/lj.xyz"}}},
-    {"CheckEnergy", {{"steps_per", str(1e2)}, {"tolerance", "1e-8"}}},
-    {"Tune", {{"steps_per", str(1e2)}}},
+    {"Log", {{"trials_per", str(1e2)}, {"file_name", "tmp/lj.txt"}}},
+    {"Movie", {{"trials_per", str(1e2)}, {"file_name", "tmp/lj.xyz"}}},
+    {"CheckEnergy", {{"trials_per", str(1e2)}, {"tolerance", "1e-8"}}},
+    {"Tune", {{"trials_per", str(1e2)}}},
     {"Run", {{"until_num_particles", "50"}}},
     {"ThermoParams", {{"beta", "1.2"}}},
     {"RemoveTrial", {{"name", "TrialAdd"}}},
-    {"Run", {{"num_attempts", str(1e3)}}},
+    {"Run", {{"num_trials", str(1e3)}}},
     {"RemoveModify", {{"name", "Tune"}}},
-    {"Run", {{"num_attempts", str(1e3)}}},
+    {"Run", {{"num_trials", str(1e3)}}},
     {"WriteCheckpoint", {{}}},
   }});
   EXPECT_EQ(mc->random().class_name(), "RandomModulo");
   EXPECT_EQ(2, mc->configuration().num_particle_types());
-  EXPECT_EQ(2, mc->system().unoptimized().num());
+  EXPECT_EQ(1, mc->system().unoptimized().num());
+  //EXPECT_EQ(2, mc->system().unoptimized().num());
   EXPECT_EQ(1.2, mc->thermo_params().beta());
   EXPECT_EQ(1, mc->trials().num());
   EXPECT_EQ("TrialTranslate", mc->trial(0).class_name());
@@ -631,10 +633,10 @@ TEST(MonteCarlo, gen_5_spce_in_triclinic) {
 //    {"TrialTranslate", {{"tunable_param", "0.2"},
 //                        {"tunable_target_acceptance", "0.2"}}},
 //    {"TrialAdd", {{"particle_type", "0"}}},
-//    {"Log", {{"steps_per", str(1e2)}, {"file_name", "tmp/lj.txt"}}},
-//    {"Movie", {{"steps_per", str(1e2)}, {"file_name", "tmp/lj.xyz"}}},
-//    {"CheckEnergy", {{"steps_per", str(1e2)}, {"tolerance", "1e-8"}}},
-//    {"Tune", {{"steps_per", str(1e2)}}},
+//    {"Log", {{"trials_per", str(1e2)}, {"file_name", "tmp/lj.txt"}}},
+//    {"Movie", {{"trials_per", str(1e2)}, {"file_name", "tmp/lj.xyz"}}},
+//    {"CheckEnergy", {{"trials_per", str(1e2)}, {"tolerance", "1e-8"}}},
+//    {"Tune", {{"trials_per", str(1e2)}}},
 //    {"Run", {{"until_num_particles", "50"}}},
 //    {"WriteCheckpoint", {{}}},
 //    {"garbage", {{}}},

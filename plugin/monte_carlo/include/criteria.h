@@ -38,6 +38,8 @@ class Criteria {
   void add(std::shared_ptr<Constraint> constraint) {
     constraints_.push_back(constraint); }
 
+  virtual void precompute(System * system) {}
+
   /// Return whether constraints are statisfied.
   bool is_allowed(const System& system,
                   const Acceptance& acceptance);
@@ -63,11 +65,17 @@ class Criteria {
   /// Return the current total energy based on energy changes per trial.
   double current_energy() const { return data_.dble_1D()[0]; }
 
+  /// Same as above, except for energy profiles instead of total energy.
+  void set_current_energy_profile(const std::vector<double>& energy);
+
+  /// Return the current energy profile based on energy changes per trial.
+  const std::vector<double>& current_energy_profile() const { return data_.dble_2D()[0]; }
+
   /// Return the header of the status for periodic output.
-  std::string status_header() const;
+  std::string status_header(const System& system) const;
 
   /// Return the brief status for periodic output.
-  std::string status() const;
+  std::string status(const bool max_precision) const;
 
   /// Return a human-readable output of all data (not as brief as status).
   virtual std::string write() const;
@@ -130,12 +138,12 @@ class Criteria {
 
   // HWH hackish interface for prefetch
   // Revert changes from previous trial.
-  virtual void revert_(const bool accepted, const bool allowed, const double ln_prob);
+  virtual void revert_(const bool accepted, const bool endpoint, const double ln_prob);
   // Imitate a trial rejection (used in FlatHistogram).
   virtual void imitate_trial_rejection_(const double ln_prob,
     const int state_old,
     const int state_new,
-    const bool allowed) {}
+    const bool endpoint) {}
   void synchronize_(const Criteria& criteria) { data_ = criteria.data(); }
   const SynchronizeData& data() const { return data_; }
 
@@ -144,7 +152,7 @@ class Criteria {
   virtual int set_soft_min(const int index, const System& sys);
   virtual void set_cm(const bool inc_max, const int macro, const Criteria& crit);
   virtual void adjust_bounds(const bool left_most, const bool right_most,
-    const int min_size, const System& system, const System& upper_sys,
+    const int min_size, const System& system, const System * upper_sys,
     Criteria * criteria);
   virtual const Macrostate& macrostate() const;
   virtual const Bias& bias() const;
@@ -169,6 +177,7 @@ class Criteria {
 
  private:
   double previous_energy_ = 0.;
+  std::vector<double> previous_energy_profile_;
   int phase_ = 0;
   int expanded_state_;
   int num_expanded_states_;
@@ -176,6 +185,7 @@ class Criteria {
   std::vector<std::shared_ptr<Constraint> > constraints_;
 
   double * current_energy_() { return &((*data_.get_dble_1D())[0]); }
+  std::vector<double> * current_energy_profile_() { return &((*data_.get_dble_2D())[0]); }
   int * num_attempt_since_last_iteration_() { return &((*data_.get_int_1D())[0]); }
   int * num_iterations_() { return &((*data_.get_int_1D())[1]); }
   int const_num_iterations_() const { return data_.int_1D()[1]; }

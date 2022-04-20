@@ -18,16 +18,30 @@ namespace feasst {
 class Checkpoint;
 class Histogram;
 
+// HWH adjust_bounds doesn't carry over CM block data.
+// CM may need to block per macrostate or element to be compatible with auto adjusting windows
 /**
   Container for holding a group of FlatHistogram MonteCarlo simulations
-  where each the collection matricies can be spliced together.
+  where each of the collection matricies can be spliced together.
  */
 class CollectionMatrixSplice {
  public:
-  CollectionMatrixSplice() {}
+  /**
+    args:
+    - min_window_size: minimum size of window boundaries during adjustment.
+      If -1, do not adjust window boundaries (default: 2).
+    - hours_per: hours per bounds adjustment, checkpoint and writing the
+      combined ln_prob (default: 0.01).
+    - ln_prob_file: file name for the combined ln_prob, if not empty (default: empty).
+   */
+  explicit CollectionMatrixSplice(argtype args = argtype());
+  explicit CollectionMatrixSplice(argtype * args);
 
   /// Add a MonteCarlo.
   void add(std::shared_ptr<MonteCarlo> mc) { clones_.push_back(mc); }
+
+  /// Set a MonteCarlo.
+  void set(const int index, std::shared_ptr<MonteCarlo> mc);
 
 //  /// Create all clones via deep copy of given object and given windows.
 //  CollectionMatrixSplice(const MonteCarlo& mc, const Window& window);
@@ -44,6 +58,9 @@ class CollectionMatrixSplice {
   /// Return the clones.
   std::vector<std::shared_ptr<MonteCarlo> > get_clones() { return clones_; }
 
+  /// Set the Checkpoint
+  void set(std::shared_ptr<Checkpoint> checkpoint);
+
   /// Return the FlatHistogram of a given clone index.
   FlatHistogram flat_histogram(const int index) const;
 
@@ -51,13 +68,16 @@ class CollectionMatrixSplice {
   TripleBandedCollectionMatrix collection_matrix(const int index) const;
 
   /// Loop through all clones and swap bounds based on number of interations.
-  void adjust_bounds(const int min_window_size = 10);
+  void adjust_bounds();
 
   /// Return true if all clones are complete
   bool are_all_complete() const;
 
   /// Run for a number of hours.
   void run(const double hours);
+
+  /// Run until all are complete.
+  void run_until_all_are_complete();
 
   /// Return the complete collection matrix.
   TripleBandedCollectionMatrix collection_matrix() const;
@@ -83,12 +103,16 @@ class CollectionMatrixSplice {
 
  private:
   std::vector<std::shared_ptr<MonteCarlo> > clones_;
-  //std::shared_ptr<Checkpoint> checkpoint_;
+  std::shared_ptr<Checkpoint> checkpoint_;
+  int min_window_size_;
+  double hours_per_;
+  std::string ln_prob_file_;
 };
 
 /// Construct CollectionMatrixSplice
-inline std::shared_ptr<CollectionMatrixSplice> MakeCollectionMatrixSplice() {
-  return std::make_shared<CollectionMatrixSplice>(); }
+inline std::shared_ptr<CollectionMatrixSplice> MakeCollectionMatrixSplice(
+  argtype args = argtype()) {
+  return std::make_shared<CollectionMatrixSplice>(args); }
 
 }  // namespace feasst
 

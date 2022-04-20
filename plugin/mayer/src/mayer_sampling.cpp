@@ -31,6 +31,7 @@ bool MayerSampling::is_accepted(
       (random->uniform() < std::abs(f12)/std::abs(f12old_))) {
     ASSERT(energy_new != 0, "error");
     set_current_energy(energy_new);
+    set_current_energy_profile(acceptance->energy_profile_new());
     f12old_ = f12;
     is_accepted = true;
     TRACE("computing ref");

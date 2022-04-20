@@ -110,10 +110,10 @@ TEST(MayerSampling, square_well_LONG) {
   mc.set(MakeMayerSampling());
   mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
     {"tunable_param", "1"}, {"particle_type", "1"}}));
-  std::string steps_per = "1e4";
-  mc.add(MakeLog({{"steps_per", steps_per}, {"file_name", "tmp/sqw.txt"}}));
-  mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/sqw.xyz"}}));
-  mc.add(MakeTune({{"steps_per", steps_per}}));
+  std::string trials_per = "1e4";
+  mc.add(MakeLog({{"trials_per", trials_per}, {"file_name", "tmp/sqw.txt"}}));
+  mc.add(MakeMovie({{"trials_per", trials_per}, {"file_name", "tmp/sqw.xyz"}}));
+  mc.add(MakeTune({{"trials_per", trials_per}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e6);
   std::stringstream ss;
@@ -144,10 +144,10 @@ TEST(MayerSampling, cg4_rigid_LONG) {
     {"tunable_param", "1"}, {"particle_type", "1"}}));
   mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
     {"tunable_param", "40"}}));
-  std::string steps_per = "1e4";
-  mc.add(MakeLog({{"steps_per", steps_per}, {"file_name", "tmp/cg4.txt"}}));
-  mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/cg4.xyz"}}));
-  mc.add(MakeTune({{"steps_per", steps_per}}));
+  std::string trials_per = "1e4";
+  mc.add(MakeLog({{"trials_per", trials_per}, {"file_name", "tmp/cg4.txt"}}));
+  mc.add(MakeMovie({{"trials_per", trials_per}, {"file_name", "tmp/cg4.xyz"}}));
+  mc.add(MakeTune({{"trials_per", trials_per}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e6);
   std::stringstream ss;
@@ -196,10 +196,10 @@ TEST(MayerSampling, cg4_rigid_LONG) {
 //    {"tunable_param", "1"}, {"particle_type", "1"}}));
 //  mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
 //    {"tunable_param", "40"}}));
-//  std::string steps_per = "1e5";
-//  mc.add(MakeLog({{"steps_per", steps_per}, {"file_name", "tmp/spce.txt"}}));
-//  mc.add(MakeMovie({{"steps_per", steps_per}, {"file_name", "tmp/spce.xyz"}}));
-//  mc.add(MakeTune({{"steps_per", steps_per}}));
+//  std::string trials_per = "1e5";
+//  mc.add(MakeLog({{"trials_per", trials_per}, {"file_name", "tmp/spce.txt"}}));
+//  mc.add(MakeMovie({{"trials_per", trials_per}, {"file_name", "tmp/spce.xyz"}}));
+//  mc.add(MakeTune({{"trials_per", trials_per}}));
 //  mc.attempt(1e6);
 //  mc.run(MakeRemoveModify({{"name", "Tune"}}));
 //  mc.attempt(1e7);
@@ -265,8 +265,8 @@ TEST(MayerSampling, trimer_LONG) {
     {"tunable_param", "1"}, {"particle_type", "1"}}));
   mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
     {"tunable_param", "40"}}));
-  const std::string steps_per = "1e4";
-  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/trib"}}));
+  const std::string trials_per = "1e4";
+  mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/trib"}}));
   mc.attempt(1e6);
   double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().select("sigma").value(0), 3); // A^3
   INFO(mayer->second_virial_ratio());

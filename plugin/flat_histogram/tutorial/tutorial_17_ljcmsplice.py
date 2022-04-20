@@ -14,7 +14,7 @@ args = parser.parse_args()
 print("args:", args)
 
 def mc(thread, mn, mx, soft_min, soft_max):
-    steps_per=str(int(1e6))
+    trials_per=str(int(1e6))
     mc = fst.MakeMonteCarlo()
     mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "8",
         "particle_type0": fst.install_dir() + "/forcefield/lj.fstprt"})))
@@ -39,18 +39,18 @@ def mc(thread, mn, mx, soft_min, soft_max):
 #                               "min_flatness": "22",
 #                               "min_sweeps": str(args.min_sweeps)}))))
     mc.add(fst.MakeTrialGrow(fst.ArgsVector([dict({"transfer": "true", "weight": "4"}, **trial_args)])))
-    mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": steps_per, "tolerance": "0.0001"})))
-    mc.add(fst.MakeTune(fst.args({"steps_per": steps_per, "stop_after_phase": "0"})))
-    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": steps_per,
+    mc.add(fst.MakeCheckEnergy(fst.args({"trials_per": trials_per, "tolerance": "0.0001"})))
+    mc.add(fst.MakeTune(fst.args({"trials_per": trials_per, "stop_after_phase": "0"})))
+    mc.add(fst.MakeLogAndMovie(fst.args({"trials_per": trials_per,
                                          "file_name": "clones" + str(thread),
                                          "file_name_append_phase": "True"})))
-    mc.add(fst.MakeEnergy(fst.args({"steps_per_write": steps_per,
+    mc.add(fst.MakeEnergy(fst.args({"trials_per_write": trials_per,
                                     "file_name": "en" + str(thread) + ".txt",
                                     "file_name_append_phase": "True",
                                     "start_after_phase": "0",
                                     "multistate": "True"})))
-    mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": steps_per})))
-    mc.add(fst.MakeCriteriaWriter(fst.args({"steps_per": steps_per,
+    mc.add(fst.MakeCriteriaUpdater(fst.args({"trials_per": trials_per})))
+    mc.add(fst.MakeCriteriaWriter(fst.args({"trials_per": trials_per,
                                             "file_name": "clones" + str(thread) + "_crit.txt",
                                             "file_name_append_phase": "True"})))
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(thread) + ".fst",

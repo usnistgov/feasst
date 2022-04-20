@@ -34,8 +34,8 @@ std::shared_ptr<Modify> Modify::factory(const std::string name, argtype * args) 
 void Modify::check_update_(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  DEBUG("check update " << steps_per_update() << " " << steps_since_update());
-  if (is_time(steps_per_update(), &steps_since_update_)) {
+  DEBUG("check update " << trials_per_update() << " " << trials_since_update());
+  if (is_time(trials_per_update(), &trials_since_update_)) {
     update(criteria, system, trial_factory);
   }
 }
@@ -47,7 +47,7 @@ void Modify::trial(Criteria * criteria,
       criteria->phase() <= stop_after_phase()) {
     if (criteria->phase() > start_after_phase()) {
       check_update_(criteria, system, trial_factory);
-      if (is_time(steps_per_write(), &steps_since_write_)) {
+      if (is_time(trials_per_write(), &trials_since_write_)) {
         printer(write(criteria, system, trial_factory), file_name(*criteria));
       }
     }
@@ -77,15 +77,15 @@ const Modify& Modify::modify(const int index) const {
 
 ModifyUpdateOnly::ModifyUpdateOnly(argtype * args) : Modify(args) {
   // disable write
-  Modify::set_steps_per_write(-1);
+  Modify::set_trials_per_write(-1);
 
   // parse
-  if (used("steps_per", *args)) {
-    set_steps_per(integer("steps_per", args));
+  if (used("trials_per", *args)) {
+    set_trials_per(integer("trials_per", args));
   }
 }
 
-void ModifyUpdateOnly::set_steps_per_write(const int steps) {
+void ModifyUpdateOnly::set_trials_per_write(const int trials) {
   ERROR("This modify is update only.");
 }
 

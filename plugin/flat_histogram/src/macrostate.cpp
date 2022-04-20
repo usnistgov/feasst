@@ -66,7 +66,10 @@ std::shared_ptr<Macrostate> Macrostate::create(std::istream& istr) const {
 }
 
 std::shared_ptr<Macrostate> Macrostate::deserialize(std::istream& istr) {
-  return template_deserialize(deserialize_map(), istr);
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
 }
 
 void Macrostate::serialize_macrostate_(std::ostream& ostr) const {
@@ -77,6 +80,7 @@ void Macrostate::serialize_macrostate_(std::ostream& ostr) const {
 }
 
 Macrostate::Macrostate(std::istream& istr) {
+  istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 520, "version: " << version);
   feasst_deserialize_fstobj(&histogram_, istr);

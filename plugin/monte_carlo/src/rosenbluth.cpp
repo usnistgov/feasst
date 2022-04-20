@@ -9,6 +9,7 @@ namespace feasst {
 
 void Rosenbluth::resize(const int num) {
   energy_.resize(num);
+  energy_profile_.resize(num);
   excluded_.resize(num);
   weight_.resize(num);
   cumulative_.resize(num);
@@ -85,9 +86,18 @@ double Rosenbluth::chosen_energy() const {
   return energy_[chosen_step_];
 }
 
+const std::vector<double>& Rosenbluth::chosen_energy_profile() const {
+  DEBUG("chosen step " << chosen_step_);
+  if (chosen_step_ == -1) {
+    return energy_profile_[0];
+  }
+  return energy_profile_[chosen_step_];
+}
+
 void Rosenbluth::serialize(std::ostream& ostr) const {
   feasst_serialize_version(507, ostr);
   feasst_serialize(energy_, ostr);
+  feasst_serialize(energy_profile_, ostr);
   feasst_serialize(excluded_, ostr);
   feasst_serialize(weight_, ostr);
   feasst_serialize(cumulative_, ostr);
@@ -98,6 +108,7 @@ Rosenbluth::Rosenbluth(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 507, "version: " << version);
   feasst_deserialize(&energy_, istr);
+  feasst_deserialize(&energy_profile_, istr);
   feasst_deserialize(&excluded_, istr);
   feasst_deserialize(&weight_, istr);
   feasst_deserialize(&cumulative_, istr);
@@ -114,6 +125,11 @@ void Rosenbluth::set_energy(const int step, const double energy,
   ASSERT(!std::isnan(excluded), "excluded: " << excluded << " is nan.");
   energy_[step] = energy;
   excluded_[step] = excluded;
+}
+
+void Rosenbluth::set_energy_profile(const int step,
+  const std::vector<double>& energy) {
+  energy_profile_[step] = energy;
 }
 
 }  // namespace feasst

@@ -31,22 +31,24 @@ void TransitionMatrix::update_or_revert(
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_allowed,
+    const bool is_endpoint,
     const bool revert) {
   DEBUG("macro old/new " << macrostate_old << " " << macrostate_new);
   DEBUG("is_accepted " << is_accepted);
-  DEBUG("is_allowed " << is_allowed);
-  // const int bin = bin_(macrostate_old, macrostate_new, is_accepted);
+  DEBUG("is_endpoint " << is_endpoint);
+  const int bin = bin_(macrostate_old, macrostate_new, is_accepted);
   const int index = macrostate_new - macrostate_old + 1;
-  //DEBUG("bin " << bin << " index " << index);
+  DEBUG("bin " << bin << " index " << index);
   ASSERT(index >= 0 and index <= 2, "index(" << index << ") must be 0, 1 or 2");
-  if ((is_accepted || !is_allowed) && (macrostate_old != macrostate_new)) {
+  if (is_accepted && (macrostate_old != macrostate_new)) {
+    int inc = 1;
+    if (is_endpoint) {
+      inc = 2;
+    }
     if (revert) {
-      //--visits_[bin];
-      --visits_[macrostate_old];
+      visits_[bin] -= inc;
     } else {
-      //++visits_[bin];
-      ++visits_[macrostate_old];
+      visits_[bin] += inc;
     }
   }
   double metropolis_prob = std::min(1., std::exp(ln_metropolis_prob));

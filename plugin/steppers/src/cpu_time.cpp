@@ -31,12 +31,12 @@ std::string CPUTime::write(const Criteria& criteria,
   std::stringstream ss;
   ++num_writes_;
   const double elapsed_hours = cpu_hours() - initialize_time_;
-  const double steps_per_second = num_writes_*steps_per_write()
+  const double trials_per_second = num_writes_*trials_per_write()
                                   /(elapsed_hours*60*60);
-  accumulator_.accumulate(steps_per_second);
+  accumulator_.accumulate(trials_per_second);
   ss << std::scientific
      << "elapsed_hours: " << elapsed_hours << " "
-     << "steps per second: " << steps_per_second << " "
+     << "steps per second: " << trials_per_second << " "
      << std::fixed
      << std::endl;
   return ss.str();

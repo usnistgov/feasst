@@ -19,6 +19,7 @@ Log::Log(argtype * args) : AnalyzeWriteOnly(args) {
   } else {
     ERROR("append is required");
   }
+  max_precision_ = boolean("max_precision", args, false);
 }
 
 void Log::initialize(Criteria * criteria,
@@ -33,7 +34,7 @@ std::string Log::header(const Criteria& criteria,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
   ss << system.status_header()
-     << criteria.status_header()
+     << criteria.status_header(system)
      // print number of attempts here instead of TrialFactory header because
      // multiple factories makes it redundant.
      << ",attempt"
@@ -48,7 +49,7 @@ std::string Log::write(const Criteria& criteria,
   // ensure the following order matches the header from initialization.
   std::stringstream ss;
   ss << system.status()
-     << criteria.status()
+     << criteria.status(max_precision_)
      << "," << trial_factory.num_attempts()
      << trial_factory.status()
      << std::endl;
@@ -58,11 +59,13 @@ std::string Log::write(const Criteria& criteria,
 void Log::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(668, ostr);
+  feasst_serialize(max_precision_, ostr);
 }
 
 Log::Log(std::istream& istr) : AnalyzeWriteOnly(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 668, "version mismatch:" << version);
+  feasst_deserialize(&max_precision_, istr);
 }
 
 }  // namespace feasst

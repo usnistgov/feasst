@@ -8,6 +8,7 @@ MacrostateMorph::MacrostateMorph(
     const std::vector<std::vector<int> > grow_seq,
     const Histogram& histogram,
     const argtype& args) : Macrostate(histogram, args) {
+  class_name_ = "MacrostateMorph";
   grow_seq_ = grow_seq;
   ASSERT(grow_seq.size() > 1, "The particle growth sequence is of size: " <<
     grow_seq.size() << " but must be 2 or more");

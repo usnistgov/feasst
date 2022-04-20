@@ -26,6 +26,7 @@ void ComputeBeta::perturb_and_acceptance(
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
   const double beta_new = system->thermo_params().beta();
   acceptance->set_energy_new(criteria->current_energy());
+  acceptance->set_energy_profile_new(criteria->current_energy_profile());
   acceptance->add_to_ln_metropolis_prob(
     -(beta_new - beta_old)*criteria->current_energy());
 }

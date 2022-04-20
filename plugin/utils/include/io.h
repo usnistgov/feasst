@@ -85,6 +85,10 @@ int num_spaces(const std::string str);
 /// Return true if substring is found inside of string.
 bool is_found_in(const std::string& str, const std::string& substr);
 
+/// Replace substring "from" in "str" to "to". Return true if replaced.
+/// https://stackoverflow.com/questions/3418231/replace-part-of-a-string-with-another-string
+bool replace(const std::string& from, const std::string& to, std::string * str);
+
 /// Convert a string to an integer.
 int str_to_int(const std::string& str);
 

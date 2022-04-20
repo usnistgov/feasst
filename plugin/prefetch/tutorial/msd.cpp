@@ -47,13 +47,13 @@ int main(int argc, char** argv) {
 
   const double density=0.85;
   const double temperature=0.88;
-  const int steps_per = 1e6;
+  const int trials_per = 1e6;
   const double box_length = 2*cutoff;
   std::stringstream file_app;
   file_app << "_a" << target_prob << "_r" << cutoff;
   const int num_particles = density*pow(box_length, 3);
 
-  auto monte_carlo = MakePrefetch({{"steps_per_check", "10000000"}});
+  auto monte_carlo = MakePrefetch({{"trials_per_check", "10000000"}});
   monte_carlo->activate_prefetch(false);
   monte_carlo->set(lj_system(cutoff));
   monte_carlo->set(MakeMetropolis({
@@ -69,14 +69,14 @@ int main(int argc, char** argv) {
   std::stringstream logfile;
   logfile << "log" << file_app.str() << ".txt";
   monte_carlo->add(MakeLog({
-    {"steps_per", str(steps_per)},
+    {"trials_per", str(trials_per)},
     {"file_name", logfile.str()},
     {"clear_file", "true"}}));
   monte_carlo->add(MakeCheckEnergy({
-    {"steps_per", str(steps_per)},
+    {"trials_per", str(trials_per)},
     {"tolerance", str(1e-8)}}));
   monte_carlo->add(MakeTune({
-    {"steps_per", str(steps_per)}}));
+    {"trials_per", str(trials_per)}}));
 
   // equilibrate
   monte_carlo->attempt(int(1e7));
@@ -85,16 +85,16 @@ int main(int argc, char** argv) {
   std::stringstream msdfile;
   msdfile << "msd" << file_app.str() << ".txt";
   monte_carlo->add(MakeMeanSquaredDisplacement({
-    {"steps_per_update", "10000"},
+    {"trials_per_update", "10000"},
     {"updates_per_origin", "1000"},
     {"file_name", msdfile.str()},
-    {"steps_per_write", str(int(1e5))}}));
+    {"trials_per_write", str(int(1e5))}}));
 
   std::stringstream cpufile;
   cpufile << "cpu" << file_app.str() << ".txt";
   monte_carlo->add(MakeCPUTime({
-    {"steps_per_update", str(steps_per)},
-    {"steps_per_write", str(steps_per)},
+    {"trials_per_update", str(trials_per)},
+    {"trials_per_write", str(trials_per)},
     {"file_name", cpufile.str()}}));
 
   monte_carlo->attempt(int(1e8));

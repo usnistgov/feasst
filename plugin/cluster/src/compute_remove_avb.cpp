@@ -28,6 +28,8 @@ void ComputeRemoveAVB::perturb_and_acceptance(
   DEBUG("ComputeRemoveAVB");
   compute_rosenbluth(1, criteria, system, acceptance, stages, random);
   acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_old());
+  acceptance->set_energy_profile_new(criteria->current_energy_profile());
+  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
   acceptance->add_to_macrostate_shift(-1);
   DEBUG("old en " << criteria->current_energy());
   DEBUG("new en " << MAX_PRECISION << acceptance->energy_new());

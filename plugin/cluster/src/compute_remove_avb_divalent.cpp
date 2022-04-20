@@ -38,6 +38,8 @@ void ComputeRemoveAVBDivalent::perturb_and_acceptance(
   compute_rosenbluth(1, criteria, system, acceptance, stages, random);
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_old());
+  acceptance->set_energy_profile_new(criteria->current_energy_profile());
+  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
   acceptance->add_to_macrostate_shift(-1);
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   DEBUG("old en " << criteria->current_energy());
