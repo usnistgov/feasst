@@ -33,13 +33,12 @@ class WangLandau : public Bias {
   explicit WangLandau(argtype args = argtype());
   explicit WangLandau(argtype * args);
   int min_flatness() const { return min_flatness_; }
-  void update_or_revert(
+  void update(
     const int macrostate_old,
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_endpoint,
-    const bool revert) override;
+    const bool is_endpoint) override;
   int num_iterations_to_complete() const override { return min_flatness_; }
   void set_num_iterations_to_complete(const int flatness) override;
   int num_iterations() const override { return num_flatness_;}

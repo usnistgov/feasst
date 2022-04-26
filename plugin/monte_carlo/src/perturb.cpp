@@ -5,13 +5,7 @@ namespace feasst {
 
 Perturb::Perturb(argtype args) : Perturb(&args) { check_all_used(args); }
 Perturb::Perturb(argtype * args) {
-  tunable_.set_value(dble("tunable_param", args, 0.1));
-  if (used("tunable_target_acceptance", *args)) {
-    tunable_.set_target(dble("tunable_target_acceptance", args));
-  }
-  if (used("tunable_percent_change", *args)) {
-    tunable_.set_percent_change(dble("tunable_percent_change", args));
-  }
+  tunable_ = Tunable(args);
 }
 
 void Perturb::before_select() {

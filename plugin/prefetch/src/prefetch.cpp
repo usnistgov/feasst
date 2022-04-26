@@ -290,6 +290,14 @@ void Prefetch::attempt_(
                 old_criteria.state_old(),
                 old_criteria.state_new()
               );
+            } else {
+              // Update TM on rejection
+              clone_(jthread)->get_criteria()->imitate_trial_rejection_(
+                pool_[ithread].ln_prob(),
+                old_criteria.state_old(),
+                old_criteria.state_new(),
+                pool_[ithread].endpoint()
+              );
             }
             if (jthread == 0) {
               after_trial_analyze_();

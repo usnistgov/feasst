@@ -111,6 +111,7 @@ class TrialStage {
 
   // HWH avoid using this
   TrialSelect * get_trial_select() { return select_.get(); }
+  void set_tunable(const double tunable) { perturb_->set_tunable(tunable); }
 
   /// Serialize.
   void serialize(std::ostream& ostr) const;

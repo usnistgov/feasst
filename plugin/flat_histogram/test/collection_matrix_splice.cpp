@@ -66,7 +66,10 @@ MonteCarlo monte_carlo2(const int thread, const int min, const int max,
 }
 
 CollectionMatrixSplice make_splice(const int max, const int min = 0) {
-  auto cm = MakeCollectionMatrixSplice({{"min_window_size", "2"}});
+  auto cm = MakeCollectionMatrixSplice({{"min_window_size", "2"},
+    {"ln_prob_file", "tmp/lnpi.txt"},
+    {"ln_prob_file_append", "true"},
+    {"hours_per", "0.00001"}});
   std::vector<std::vector<int> > bounds = WindowExponential({
     {"maximum", str(max)},
     {"minimum", str(min)},
@@ -93,23 +96,24 @@ TEST(CollectionMatrixSplice, lj_fh) {
   EXPECT_FALSE(clones2.are_all_complete());
   clones2.run(0.0001);
   EXPECT_FALSE(clones2.are_all_complete());
-  TripleBandedCollectionMatrix cm = clones2.collection_matrix(0);
+  CollectionMatrix cm = clones2.collection_matrix(0);
   LnProbability ln_prob = clones2.ln_prob();
-  DEBUG(feasst_str(clones2.collection_matrix(0).matrix()));
-  DEBUG(feasst_str(clones2.collection_matrix(1).matrix()));
-  DEBUG(feasst_str(clones2.collection_matrix().matrix()));
+  //DEBUG(feasst_str(clones2.collection_matrix(0).matrix()));
+  //DEBUG(feasst_str(clones2.collection_matrix(1).matrix()));
+  //DEBUG(feasst_str(clones2.collection_matrix().matrix()));
   DEBUG("macro " << clones2.flat_histogram(0).macrostate().soft_max());
   DEBUG("macro " << clones2.flat_histogram(1).macrostate().soft_min());
-  DEBUG("visits " << clones2.flat_histogram(0).bias().visits(5));
-  DEBUG("visits " << clones2.flat_histogram(1).bias().visits(5));
+  //DEBUG("visits " << clones2.flat_histogram(0).bias().visits(5));
+  //DEBUG("visits " << clones2.flat_histogram(1).bias().visits(5));
   clones2.adjust_bounds();
   DEBUG("macro " << clones2.flat_histogram(0).macrostate().soft_max());
   DEBUG("macro " << clones2.flat_histogram(1).macrostate().soft_min());
-  DEBUG("visits " << clones2.flat_histogram(0).bias().visits(5));
-  DEBUG("visits " << clones2.flat_histogram(1).bias().visits(5));
-  DEBUG(feasst_str(clones2.collection_matrix(0).matrix()));
-  DEBUG(feasst_str(clones2.collection_matrix(1).matrix()));
-  DEBUG(feasst_str(clones2.collection_matrix().matrix()));
+  //DEBUG("visits " << clones2.flat_histogram(0).bias().visits(5));
+  //DEBUG("visits " << clones2.flat_histogram(1).bias().visits(5));
+  //DEBUG(feasst_str(clones2.collection_matrix(0).matrix()));
+  //DEBUG(feasst_str(clones2.collection_matrix(1).matrix()));
+  //DEBUG(feasst_str(clones2.collection_matrix().matrix()));
+  clones2.write("tmp/ln_prob.txt");
 }
 
 TEST(CollectionMatrixSplice, lj_fh_LONG) {
@@ -119,6 +123,8 @@ TEST(CollectionMatrixSplice, lj_fh_LONG) {
     DEBUG("swap");
     clones2.adjust_bounds();
   }
+  clones2.write("tmp/ln_prob.txt");
+  //clones2.run_until_all_are_complete();
   LnProbability lnpi = clones2.ln_prob();
   EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.04);
   EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.04);

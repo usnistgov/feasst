@@ -60,10 +60,10 @@ class TrialFactory : public Trial {
 
   /// Revert changes to system by trial index.
   void revert(const int index, const bool accepted, const bool auto_rejected,
-    System * system);
+    System * system, Criteria * criteria);
 
-  void finalize(const int index, System * system) {
-    trials_[index]->finalize(system); }
+  void finalize(const int index, System * system, Criteria * criteria) {
+    trials_[index]->finalize(system, criteria); }
 
   /// Return the header description for the statuses of the trials (e.g.,
   /// acceptance, etc).
@@ -87,6 +87,8 @@ class TrialFactory : public Trial {
   bool is_equal(const TrialFactory& factory) const;
   void synchronize_(const Trial& trial) override;
   Trial * get_trial(const int index) { return trials_[index].get(); }
+
+  void set_tunable(const int trial_index, const double tunable);
 
   // serialize
   std::shared_ptr<Trial> create(std::istream& istr) const override;

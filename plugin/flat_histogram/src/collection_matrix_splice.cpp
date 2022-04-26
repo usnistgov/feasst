@@ -27,6 +27,7 @@ CollectionMatrixSplice::CollectionMatrixSplice(argtype * args) {
   min_window_size_ = integer("min_window_size", args, 2);
   hours_per_ = dble("hours_per", args, 0.01);
   ln_prob_file_ = str("ln_prob_file", args, "");
+  ln_prob_file_append_ = boolean("ln_prob_file_append", args, false);
 }
 CollectionMatrixSplice::CollectionMatrixSplice(argtype args) :
   CollectionMatrixSplice(&args) {
@@ -62,6 +63,7 @@ void CollectionMatrixSplice::serialize(std::ostream& ostr) const {
   feasst_serialize(min_window_size_, ostr);
   feasst_serialize(hours_per_, ostr);
   feasst_serialize(ln_prob_file_, ostr);
+  feasst_serialize(ln_prob_file_append_, ostr);
   feasst_serialize(checkpoint_, ostr);
   feasst_serialize_endcap("CollectionMatrixSplice", ostr);
 }
@@ -84,6 +86,7 @@ CollectionMatrixSplice::CollectionMatrixSplice(std::istream& istr) {
   feasst_deserialize(&min_window_size_, istr);
   feasst_deserialize(&hours_per_, istr);
   feasst_deserialize(&ln_prob_file_, istr);
+  feasst_deserialize(&ln_prob_file_append_, istr);
   // HWH for unknown reasons, this function template does not work.
   //feasst_deserialize(checkpoint_, istr);
   { int existing;
@@ -124,6 +127,26 @@ void CollectionMatrixSplice::run(const double hours) {
   #endif // _OPENMP
 }
 
+void CollectionMatrixSplice::write(const std::string& file_name) const {
+  if (!file_name.empty()) {
+    std::ofstream file;
+    if (ln_prob_file_append_) {
+      file.open(file_name, std::ofstream::out | std::ofstream::app);
+      file << "#\"cpu_hours\":" << cpu_hours() << std::endl;
+    } else {
+      file.open(file_name, std::ofstream::out);
+    }
+    if (file.good()) {
+      auto tm = MakeTransitionMatrix({{"min_sweeps", "0"}});
+      tm->set_cm(collection_matrix());
+      file << "state," << tm->write_per_bin_header() << std::endl;
+      for (int bin = 0; bin < static_cast<int>(tm->collection().matrix().size()); ++bin) {
+        file << bin << "," << tm->write_per_bin(bin) << std::endl;
+      }
+    }
+  }
+}
+
 void CollectionMatrixSplice::run_until_all_are_complete() {
   #ifdef _OPENMP
   #pragma omp parallel
@@ -139,16 +162,7 @@ void CollectionMatrixSplice::run_until_all_are_complete() {
         checkpoint_->check(*this);
 
         // write ln_prob
-        if (!ln_prob_file_.empty()) {
-          std::ofstream file(ln_prob_file_);
-          if (file.good()) {
-            LnProbability lnpi = ln_prob();
-            for (const double val : lnpi.values()) {
-              file << val << std::endl;
-            }
-          }
-        }
-
+        write(ln_prob_file_);
         adjust_bounds();
       }
       #pragma omp barrier
@@ -159,7 +173,7 @@ void CollectionMatrixSplice::run_until_all_are_complete() {
   #endif // _OPENMP
 }
 
-TripleBandedCollectionMatrix CollectionMatrixSplice::collection_matrix(
+CollectionMatrix CollectionMatrixSplice::collection_matrix(
     const int index) const {
   FlatHistogram fh = flat_histogram(index);
   try {
@@ -175,9 +189,9 @@ TripleBandedCollectionMatrix CollectionMatrixSplice::collection_matrix(
   }
 }
 
-TripleBandedCollectionMatrix CollectionMatrixSplice::collection_matrix() const {
-  TripleBandedCollectionMatrix cm = collection_matrix(0);
-  std::vector<std::vector<double> > data = cm.matrix();
+CollectionMatrix CollectionMatrixSplice::collection_matrix() const {
+  CollectionMatrix cm = collection_matrix(0);
+  std::vector<std::vector<Accumulator> > data = cm.matrix();
   FlatHistogram fh0 = flat_histogram(0);
   //ASSERT(fh0.macrostate().soft_min() == 0, "soft min should be 0");
   int last_max = fh0.macrostate().soft_max();
@@ -187,7 +201,7 @@ TripleBandedCollectionMatrix CollectionMatrixSplice::collection_matrix() const {
       "soft_min: " << fh.macrostate().soft_min() <<
       " last_max: " << last_max);
     last_max = fh.macrostate().soft_max();
-    TripleBandedCollectionMatrix cmi = collection_matrix(cli);
+    CollectionMatrix cmi = collection_matrix(cli);
     int max_bin = fh.macrostate().soft_max();
     if (cli == num() - 1) {
       max_bin = fh.macrostate().histogram().size() - 1;
@@ -196,11 +210,11 @@ TripleBandedCollectionMatrix CollectionMatrixSplice::collection_matrix() const {
       data[bin] = cmi.matrix()[bin];
     }
   }
-  return TripleBandedCollectionMatrix(data);
+  return CollectionMatrix(data);
 }
 
 LnProbability CollectionMatrixSplice::ln_prob() const {
-  TripleBandedCollectionMatrix cm = collection_matrix();
+  CollectionMatrix cm = collection_matrix();
   LnProbability ln_prob;
   ln_prob.resize(cm.matrix().size());
   cm.compute_ln_prob(&ln_prob);

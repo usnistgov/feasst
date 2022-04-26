@@ -87,13 +87,14 @@ class FlatHistogram : public Criteria {
 
   // HWH hackish implementation for prefetch
   // Revert changes from previous trial.
-  // HWH rename: delete
   void revert_(const bool accepted, const bool endpoint, const double ln_prob) override;
+  // HWH rename: delete
+  void finalize(const Acceptance& acceptance) override;
+  void revert(const Acceptance& acceptance) override { finalize(acceptance); }
   void imitate_trial_rejection_(const double ln_prob,
       const int state_old,
       const int state_new,
-      const bool endpoint) override {
-    bias_->update(state_old, state_new, ln_prob, false, endpoint); }
+      const bool endpoint) override;
 
   void update() override { bias_->infrequent_update(*macrostate_); }
 

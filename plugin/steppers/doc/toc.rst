@@ -24,6 +24,7 @@
    SeekModify
    WrapParticles
    CheckProperties
+   TunePerState
    CriteriaUpdater
    Tune
    Movie

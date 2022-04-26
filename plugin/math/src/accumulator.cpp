@@ -1,6 +1,7 @@
 #include <cmath>
 #include <numeric>
 #include <sstream>
+#include "utils/include/utils.h"
 #include "utils/include/io.h"
 #include "utils/include/serialize.h"
 #include "math/include/accumulator.h"
@@ -31,6 +32,7 @@ void Accumulator::accumulate(double value) {
   // check if its time to make a new block size
   if (max_block_operations_ > 0) {
     const double new_block_size = block_power_*block_size_.back();
+    //INFO("new_block_size " << new_block_size);
     if (std::abs(std::fmod(num_values(), new_block_size)) < 0.1) {
       block_size_.erase(block_size_.begin());
       block_size_.push_back(new_block_size);
@@ -39,14 +41,19 @@ void Accumulator::accumulate(double value) {
       block_averages_.erase(block_averages_.begin());
       block_averages_.push_back(MakeAccumulator({{"max_block_operations", "0"},
         {"num_moments", feasst::str(num_moments())}}));
+      blocks_.erase(blocks_.begin());
+      blocks_.push_back(std::vector<double>());
     }
 
     // accumulate block averages
     for (int bop = 0; bop < max_block_operations_; ++bop) {
+      //INFO("bop " << bop << " size " << block_size_[bop]);
       sum_block_[bop] += value;
       if (std::abs(std::fmod(num_values(), block_size_[bop])) < 0.1) {
         ASSERT(block_averages_[bop], "er");
-        block_averages_[bop]->accumulate(sum_block_[bop]/block_size_[bop]);
+        const double new_av = sum_block_[bop]/block_size_[bop];
+        block_averages_[bop]->accumulate(new_av);
+        blocks_[bop].push_back(new_av);
         sum_block_[bop] = 0.0L;
       }
     }
@@ -62,14 +69,17 @@ void Accumulator::reset() {
   if (static_cast<int>(block_averages_.size()) > 0) {
     block_averages_.clear();
     block_size_.clear();
+    blocks_.clear();
   }
   block_averages_.resize(max_block_operations_);
   block_size_.resize(max_block_operations_);
+  blocks_.resize(max_block_operations_);
   sum_block_.resize(max_block_operations_, 0.);
   for (int bop = 0; bop < max_block_operations_; ++bop) {
     block_size_[bop] = std::pow(block_power_, bop);
     block_averages_[bop] = MakeAccumulator({{"max_block_operations", "0"},
       {"num_moments", feasst::str(num_moments())}});
+    blocks_[bop].clear();
   }
 }
 
@@ -158,6 +168,7 @@ void Accumulator::serialize(std::ostream& ostr) const {
   feasst_serialize(max_block_operations_, ostr);
   feasst_serialize(block_size_, ostr);
   feasst_serialize(sum_block_, ostr);
+  feasst_serialize(blocks_, ostr);
   feasst_serialize(block_averages_, ostr);
 }
 
@@ -170,6 +181,7 @@ Accumulator::Accumulator(std::istream& istr) {
   feasst_deserialize(&max_block_operations_, istr);
   feasst_deserialize(&block_size_, istr);
   feasst_deserialize(&sum_block_, istr);
+  feasst_deserialize(&blocks_, istr);
   // feasst_deserialize(block_averages_, istr);
   // HWH for unknown reasons, the above does not work.
   int dim1;
@@ -235,6 +247,21 @@ double Accumulator::block_std_of_std(const int op) const {
     }
   }
   return 0.;
+}
+
+bool Accumulator::is_equal(const Accumulator& acc, const double tolerance) const {
+  if (max_ != acc.max_) return false;
+  if (min_ != acc.min_) return false;
+  if (!feasst::is_equal(val_moment_, acc.val_moment_, tolerance)) return false;
+  if (block_power_ != acc.block_power_) return false;
+  if (!feasst::is_equal(block_size_, acc.block_size_, tolerance)) return false;
+  for (int av = 0; av < static_cast<int>(block_averages_.size()); ++av) {
+    if (!block_averages_[av]->is_equal(*acc.block_averages_[av], tolerance)) {
+      return false;
+    }
+  }
+  if (!feasst::is_equal(blocks_, acc.blocks_, tolerance)) return false;
+  return true;
 }
 
 }  // namespace feasst

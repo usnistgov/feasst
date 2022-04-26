@@ -15,7 +15,7 @@ for num in range(min_particles, max_particles+1):
                   float(df['c2'].values[0])]])
 
 print(data)
-tm = fst.TripleBandedCollectionMatrix(data)
+tm = fst.CollectionMatrix(data)
 lnp = fst.LnProbability()
 lnp.resize(len(data))
 tm.compute_ln_prob(lnp)

@@ -86,11 +86,8 @@ bool FlatHistogram::is_accepted(
       macrostate_new_ == macrostate_->soft_max()) {
     is_endpoint = true;
   }
-  bias_->update(macrostate_old_,
-                macrostate_new_,
-                ln_metropolis_prob,
-                is_accepted,
-                is_endpoint);
+  DEBUG(macrostate_old_ << " " <<  macrostate_new_ << " " << ln_metropolis_prob << " " << is_accepted << " " << is_endpoint);
+
   if (is_accepted) {
     set_current_energy(acceptance->energy_new());
     set_current_energy_profile(acceptance->energy_profile_new());
@@ -107,8 +104,12 @@ bool FlatHistogram::is_accepted(
 
 std::string FlatHistogram::write() const {
   std::stringstream ss;
+  ss << "#";
   ss << Criteria::write();
   ss << bias_->write();
+  ss << "\"soft_min\":" << macrostate_->soft_min() << ","
+     << "\"soft_max\":" << macrostate_->soft_max();
+  ss << std::endl;
   ss << "state,"
      << bias_->write_per_bin_header()
      << std::endl;
@@ -121,15 +122,39 @@ std::string FlatHistogram::write() const {
   return ss.str();
 }
 
+void FlatHistogram::finalize(const Acceptance& acceptance) {
+  DEBUG("macrostate_old_, " << macrostate_old_);
+  DEBUG("macrostate_new_, " << macrostate_new_);
+  DEBUG("acceptance.ln_metropolis_prob " << acceptance.ln_metropolis_prob());
+  DEBUG("was_accepted_, " << was_accepted_);
+  DEBUG("acceptance.endpoint " << acceptance.endpoint());
+  bias_->update(macrostate_old_,
+                macrostate_new_,
+                acceptance.ln_metropolis_prob(),
+                was_accepted_,
+                acceptance.endpoint());
+}
+
 void FlatHistogram::revert_(const bool accepted, const bool endpoint, const double ln_prob) {
   Criteria::revert_(accepted, endpoint, ln_prob);
-  bias_->update_or_revert(macrostate_old_,
-                          macrostate_new_,
-                          ln_prob,
-                          accepted,
-                          endpoint,
-                          true);
+//  if (!accepted) {
+//    bias_->update_or_revert(macrostate_old_,
+//                            macrostate_new_,
+//                            ln_prob,
+//                            accepted,
+//                            endpoint,
+//                            true);
+//  }
   macrostate_new_ = macrostate_old_;
+}
+
+void FlatHistogram::imitate_trial_rejection_(const double ln_prob,
+    const int state_old,
+    const int state_new,
+    const bool endpoint) {
+  DEBUG("hi");
+  DEBUG(state_old << " " <<  state_new << " " << ln_prob << " " << endpoint);
+  bias_->update(state_old, state_new, ln_prob, false, endpoint);
 }
 
 class MapFlatHistogram {
@@ -229,6 +254,7 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
   DEBUG("left_most " << left_most);
   DEBUG("right_most " << right_most);
   if (upper_sys) {
+    bool adjusted_up = false; // prevent hot potato adjustment
     bool not_reject = true;
     while (not_reject) {
       not_reject = false;
@@ -239,6 +265,7 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
           if (set_soft_max(lower_max - 1, system) > 0) {
             criteria->set_cm(false, lower_max, *this);
             not_reject = true;
+            adjusted_up = true;
           }
         }
       }
@@ -248,7 +275,7 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
       }
     }
     not_reject = true;
-    while (not_reject) {
+    while (not_reject && !adjusted_up) {
       not_reject = false;
       const int upper_min = criteria->macrostate().soft_min();
       if (num_iterations() > criteria->num_iterations()) {
@@ -274,7 +301,8 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
     bool not_reject = true;
     while (not_reject) {
       not_reject = false;
-      if (bias().visits(macrostate().soft_min()) >= num_iterations_to_complete()) {
+      if (bias().visits(macrostate().soft_min(), 0) >= num_iterations_to_complete() &&
+          bias().visits(macrostate().soft_min(), 1) >= num_iterations_to_complete()) {
         if (macrostate().soft_max() - macrostate().soft_min() + 1 > min_size) {
           if (set_soft_min(macrostate().soft_min() + 1, system) != 0) {
             not_reject = true;
@@ -290,8 +318,8 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
     while (not_reject) {
       not_reject = false;
       if (upper_sys) {
-        if (criteria->bias().visits(criteria->macrostate().soft_max()) >=
-            criteria->num_iterations_to_complete()) {
+        if (criteria->bias().visits(criteria->macrostate().soft_max(), 0) >= criteria->num_iterations_to_complete() &&
+            criteria->bias().visits(criteria->macrostate().soft_max(), 1) >= criteria->num_iterations_to_complete()) {
           if (criteria->macrostate().soft_max() - criteria->macrostate().soft_min() + 1 > min_size) {
             if (criteria->set_soft_max(criteria->macrostate().soft_max() - 1, *upper_sys) != 0) {
               not_reject = true;
@@ -299,7 +327,8 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
           }
         }
       } else {
-        if (bias().visits(macrostate().soft_max()) >= num_iterations_to_complete()) {
+        if (bias().visits(macrostate().soft_max(), 0) >= num_iterations_to_complete() &&
+            bias().visits(macrostate().soft_max(), 1) >= num_iterations_to_complete()) {
           if (macrostate().soft_max() - macrostate().soft_min() + 1 > min_size) {
             if (set_soft_max(macrostate().soft_max() - 1, system) != 0) {
               not_reject = true;

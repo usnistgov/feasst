@@ -19,6 +19,7 @@
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/tune.h"
+#include "steppers/include/tune_per_state.h"
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/check_energy.h"
@@ -197,7 +198,9 @@ MonteCarlo test_lj_fh(const int num_steps,
   const std::string trials_per(str(1e3));
   // const std::string trials_per(str(1e4));
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/lj_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}}));
+  //mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
+  mc.add(MakeTunePerState({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/tune.txt"}}));
   mc.add(MakeCriteriaUpdater({{"trials_per", str(1)}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per", trials_per},
@@ -218,8 +221,24 @@ MonteCarlo test_lj_fh(const int num_steps,
 TEST(MonteCarlo, lj_fh_01) {
   MonteCarlo mc = test_lj_fh(1, "TM", 10, false, 0, 1);
   mc.run_until_complete();
-  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  FlatHistogram fh(mc.criteria());
+  const LnProbability lnpi = fh.bias().ln_prob();
   EXPECT_NEAR(lnpi.value(1) - lnpi.value(0), 4.67, 0.2);
+
+  // obtain tm/cm
+  std::stringstream ss;
+  fh.bias().serialize(ss);
+  TransitionMatrix tm(ss);
+  INFO(tm.collection().min_blocks());
+  std::vector<LnProbability> ln_probs = tm.collection().ln_prob_blocks();
+  Accumulator acc;
+  for (const auto ln_prob : ln_probs) {
+    acc.accumulate(ln_prob.value(1) - ln_prob.value(0));
+//    INFO(ln_prob.value(1) - ln_prob.value(0));
+    //INFO(feasst_str(ln_prob.values()));
+  }
+//  INFO(acc.stdev_of_av());
+//  INFO(fh.write());
 }
 
 TEST(MonteCarlo, lj_fh_10sweep_LONG) {
@@ -263,7 +282,9 @@ TEST(MonteCarlo, lj_fh_block) {
 }
 
 TEST(MonteCarlo, lj_fh_with0) {
+  //for (int num_steps : {1}) {
   for (int num_steps : {1, 2}) {
+    //for (const std::string bias_name : {"WLTM"}) {
     for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
       for (const bool dont_use_multi : {true, false}) {
         MonteCarlo mc = test_serialize(test_lj_fh(num_steps, bias_name, 10, false, 0, 5, dont_use_multi));
@@ -405,7 +426,8 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
     bias);
   mc.set(criteria);
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/spce_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}, {"tolerance", str(1e-6)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", str(1e-6)}}));
+  mc.add(MakeTunePerState({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/spce_tune.txt"}}));
   mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per", str(trials_per)},
@@ -745,7 +767,7 @@ MonteCarlo nvtw(const int num) {
 
 TEST(MonteCarlo, nvtw) {
   const int min = 1, max = 5;
-  std::vector<std::vector<std::vector<double> > > data;
+  std::vector<std::vector<std::vector<Accumulator> > > data;
   for (int num = min; num <= max; ++num) {
     MonteCarlo mc = nvtw(num);
     FlatHistogram fh = FlatHistogram(mc.criteria());
@@ -755,7 +777,7 @@ TEST(MonteCarlo, nvtw) {
     //INFO(feasst_str(tm.collection().matrix()));
     data.push_back(tm.collection().matrix());
   }
-  TripleBandedCollectionMatrix cm(data);
+  CollectionMatrix cm(data);
   LnProbability lnp;
   lnp.resize(data.size());
   cm.compute_ln_prob(&lnp);

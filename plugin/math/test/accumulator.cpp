@@ -13,8 +13,10 @@ TEST(Accumulator, constructor) {
     a.last_value();
     CATCH_PHRASE("no values accumul");
   );
+  std::vector<double> vals;
   for (int i = 0; i < 20; ++i) {
     a.accumulate(i);
+    vals.push_back(i);
   }
   EXPECT_EQ(19, a.last_value());
   EXPECT_EQ(20, a.num_values());
@@ -23,6 +25,12 @@ TEST(Accumulator, constructor) {
   EXPECT_NEAR(1.3228756555322954, a.block_stdev(), 1e-10);
   EXPECT_NEAR(19, a.max(), NEAR_ZERO);
   EXPECT_NEAR(0, a.min(), NEAR_ZERO);
+
+//  INFO("block size " << a.block_size()[0]);
+//  for (const auto bl : a.blocks()) {
+//    INFO(feasst_str(bl));
+//  }
+  EXPECT_EQ(vals, a.blocks()[0]);
 
   // copy a using copy constructor and constructor and test
   //Accumulator b(a.num_values(), a.sum(), a.sum_of_squared());

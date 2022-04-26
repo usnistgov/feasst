@@ -41,12 +41,15 @@ TrialAdd particle_type 0
 Run until_num_particles [soft_macro_min]
 RemoveTrial name TrialAdd
 Run num_trials {equilibration}
+RemoveModify name Tune
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
               Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20
 #Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
 TrialTransfer weight 2 particle_type 0
+TunePerState trials_per_write {trials_per} file_name tune[sim_index].txt
+CheckEnergy trials_per {trials_per} tolerance 1e-8
 Movie trials_per {trials_per} file_name lj[sim_index].xyz
 Energy trials_per_write {trials_per} file_name en[sim_index].txt multistate true
 CriteriaUpdater trials_per {trials_per}

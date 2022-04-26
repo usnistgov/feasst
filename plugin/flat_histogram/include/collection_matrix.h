@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include "utils/include/arguments.h"
+#include "math/include/accumulator.h"
 #include "flat_histogram/include/ln_probability.h"
 
 namespace feasst {
@@ -12,45 +13,38 @@ namespace feasst {
 /**
   The collection matrix is triple banded when the macrostate can only increase
   or decrease by a single "bin" in the macrostate order parameter.
-
   For example, one cannot use a triple banded collection matrix if insertions of
   both single and pairs of particles are attempted. Single or pair only would be
   fine.
 
+  The collection matrix was slightly reformulated to not require the
+  middle band by making the elements intensive.
+  Thus, instead of storing C0, C1 and C2, we store P_down=C0/(C0+C1+C2) and
+  P_up=C2/(C0+C1+C2).
+  Note that C0+C1+C2 is simply the number of trials starting from that
+  macrostate.
+  Thus, this new, intensive collection matrix is now double banded.
+
   The first index of the matrix is the macrostate.
   The second is the state change as follows:
     - 0: macrostate decrease
-    - 1: macrostate constant
-    - 2: macrostate increase
-
-  Beware that the computed probability distribution from this collection matrix
-  may contain spurious values at the two most extreme ends.
-  This is especially true in cases where windows with different moves sets are
-  spliced.
-
-  Blocks and error bars are obtained via the blocking method.
-  Blocks are created on the fly by sizes of base two.
-  The default blocks and stdev are from the largest block sizes with more than
-  ten blocks.
-  Error bars on grand canonical ensemble averages may then by obtained by using
-  the macrostate distribution from each of these blocks.
+    - 1: macrostate increase
  */
-class TripleBandedCollectionMatrix {
+class CollectionMatrix {
  public:
   /**
     args:
-    - max_block_operations: maximum number of blocking operations (default: 5).
    */
-  explicit TripleBandedCollectionMatrix(argtype args = argtype());
-  explicit TripleBandedCollectionMatrix(argtype * args);
+  explicit CollectionMatrix(argtype args = argtype());
+  explicit CollectionMatrix(argtype * args);
 
   /// Construct from a matrix.
-  explicit TripleBandedCollectionMatrix(
-    const std::vector<std::vector<double> >& matrix);
+  explicit CollectionMatrix(
+    const std::vector<std::vector<Accumulator> >& matrix);
 
   /// Construct from a series of single-state collection matricies.
-  explicit TripleBandedCollectionMatrix(
-    const std::vector<std::vector<std::vector<double> > >& data);
+  explicit CollectionMatrix(
+    const std::vector<std::vector<std::vector<Accumulator> > >& data);
 
   void resize(const int num_macrostates);
 
@@ -58,54 +52,42 @@ class TripleBandedCollectionMatrix {
   void increment(const int macro, const int state_change, const double add);
 
   /// Set values
-  void set(const int macro, const std::vector<double>& values);
+  void set(const int macro, const std::vector<Accumulator>& values);
 
   /// Update the ln_prob according to the collection matrix.
-  void compute_ln_prob(LnProbability * ln_prob) const;
+  void compute_ln_prob(LnProbability * ln_prob,
+    /// optionaly compute the ln_prob from a block (if != -1).
+    const int block = -1) const;
 
   /// Return the matrix
-  const std::vector<std::vector<double> >& matrix() const { return matrix_; }
+  const std::vector<std::vector<Accumulator> >& matrix() const { return matrix_; }
 
-  /// Return the standard deviation of the change in the ln_prob relative to
-  /// the bin below.
-  double delta_ln_prob_stdev(const int bin, const int block) const;
+//  /// Return the standard deviation of the change in the ln_prob relative to
+//  /// the bin below.
+//  double delta_ln_prob_stdev(const int bin, const int block) const;
 
   std::string write_per_bin(const int bin) const;
   std::string write_per_bin_header() const;
 
-  bool is_equal(const TripleBandedCollectionMatrix& colmat,
-      const double tolerance) const;
+  int min_blocks() const;
+  std::vector<LnProbability> ln_prob_blocks() const;
 
-  // find the largest block size with >= 10 blocks.
-  // if none, return -1
-  int chosen_block() const;
+  bool is_equal(const CollectionMatrix& colmat,
+      const double tolerance) const;
 
   void serialize(std::ostream& ostr) const;
 
-  const std::vector<std::vector<TripleBandedCollectionMatrix> >& blocks() const {
-    return blocks_; }
-
-  explicit TripleBandedCollectionMatrix(std::istream& istr);
+  explicit CollectionMatrix(std::istream& istr);
 
  private:
-  std::vector<std::vector<double> > matrix_;
+  std::vector<std::vector<Accumulator> > matrix_;
 
-  // blocks
-  bool block_ = false;
-  int max_block_operations_;
-  long double updates_;
-  std::vector<double> block_updates_;
-  std::vector<double> max_block_updates_;
-  std::vector<std::vector<TripleBandedCollectionMatrix> > blocks_;
-  std::vector<TripleBandedCollectionMatrix> cur_block_;
-
-  void init_cur_(const int exp);
-  double sum_(const int macro) const;
+  bool if_zero_(const int macro, const int block, const bool lower) const;
 };
 
-inline std::shared_ptr<TripleBandedCollectionMatrix> MakeTripleBandedCollectionMatrix(
+inline std::shared_ptr<CollectionMatrix> MakeCollectionMatrix(
     argtype args = argtype()) {
-  return std::make_shared<TripleBandedCollectionMatrix>(args);
+  return std::make_shared<CollectionMatrix>(args);
 }
 
 }  // namespace feasst

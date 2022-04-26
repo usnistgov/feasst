@@ -78,11 +78,11 @@ void Bias::set_cm(const int macro, const Bias& bias) {
   FATAL("not implemented");
 }
 
-const TripleBandedCollectionMatrix& Bias::cm() const {
+const CollectionMatrix& Bias::cm() const {
   FATAL("not implemented");
 }
 
-const int Bias::visits(const int macro) const {
+const int Bias::visits(const int macro, const int index) const {
   FATAL("not implemented");
 }
 

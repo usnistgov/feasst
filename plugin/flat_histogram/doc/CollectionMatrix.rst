@@ -1,6 +1,6 @@
-TripleBandedCollectionMatrix
+CollectionMatrix
 =====================================================
 
-.. doxygenclass:: feasst::TripleBandedCollectionMatrix
+.. doxygenclass:: feasst::CollectionMatrix
    :project: FEASST
    :members:

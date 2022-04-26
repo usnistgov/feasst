@@ -30,9 +30,7 @@ class Perturb {
  public:
   /**
     args:
-    - tunable_param: initial value of the tunable parameter (default: 0.1).
-    - tunable_target_acceptance: optionally set target acceptance.
-    - tunable_percent_change: optionally set the percent change.
+    - Tunable arguments
    */
   explicit Perturb(argtype args = argtype());
   explicit Perturb(argtype * args);

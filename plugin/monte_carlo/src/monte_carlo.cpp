@@ -520,7 +520,7 @@ void MonteCarlo::revert_(const int trial_index,
     const bool endpoint,
     const bool auto_reject,
     const double ln_prob) {
-  trial_factory_.revert(trial_index, accepted, auto_reject, &system_);
+  trial_factory_.revert(trial_index, accepted, auto_reject, &system_, criteria_.get());
   DEBUG("reverting " << criteria_->current_energy());
   criteria_->revert_(accepted, endpoint, ln_prob);
 }

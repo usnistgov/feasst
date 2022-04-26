@@ -44,14 +44,12 @@ void WangLandau::infrequent_update(const Macrostate& macro) {
   }
 }
 
-void WangLandau::update_or_revert(
+void WangLandau::update(
     const int macrostate_old,
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_endpoint,
-    const bool revert) {
-  ASSERT(!revert, "not implemented");
+    const bool is_endpoint) {
   int bin = bin_(macrostate_old, macrostate_new, is_accepted);
   ln_prob_.add(bin, add_to_ln_probability_);
   ++visited_states_[bin];
@@ -65,7 +63,7 @@ void WangLandau::resize(const Histogram& histogram) {
 std::string WangLandau::write() const {
   std::stringstream ss;
   ss << Bias::write();
-  ss << "num_flatness," << num_flatness_ << std::endl;
+  ss << "num_flatness:" << num_flatness_;
   return ss.str();
 }
 

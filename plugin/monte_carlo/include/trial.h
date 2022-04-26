@@ -103,14 +103,14 @@ class Trial {
   virtual void before_select(Acceptance * acceptance, Criteria * criteria) {}
 
   /// Revert all stages in reverse order.
-  void revert(System * system);
+  void revert(System * system, Criteria * criteria);
 
   // Revert changes to system as if trial was never attempted.
   void revert(const int index, const bool accepted, const bool auto_rejected,
-              System * system);
+              System * system, Criteria * criteria);
 
   // Finalize all stages in reverse order.
-  void finalize(System * system);
+  void finalize(System * system, Criteria * criteria);
 
   // Require manual finalization of trials (e.g., Pipeline).
   void set_finalize_delayed(const bool delayed = false) {
@@ -143,6 +143,8 @@ class Trial {
   virtual const std::vector<std::shared_ptr<Trial> >& trials() const;
   virtual const Trial& trial(const int index) const;
 
+  TrialStage * get_stage_(const int index) { return stages_[index].get(); }
+
   // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
@@ -162,7 +164,6 @@ class Trial {
     stages_.push_back(stage);
     refresh_stages_ptr_();
   }
-  TrialStage * get_stage_(const int index) { return stages_[index].get(); }
   void increment_num_success_() { *num_success_() += 1; }
   void decrement_num_success_() { *num_success_() -= 1; }
   void decrement_num_attempts_() { *num_attempts_() -= 1; }

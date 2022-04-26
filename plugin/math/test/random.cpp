@@ -203,7 +203,7 @@ TEST(Random, rotation_tunable) {
 }
 
 TEST(Random, rotation) {
-  std::ofstream file("tmp.txt");
+  std::ofstream file("tmp/tmp.txt");
   auto ran = MakeRandomMT19937();
   const Position origin({0., 0., 0.});
   //const double tunable = 1;

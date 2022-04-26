@@ -53,8 +53,11 @@ class Criteria {
     Acceptance * acceptance,
     Random * random) = 0;
 
+  virtual void finalize(const Acceptance& acceptance) {}
+  virtual void revert(const Acceptance& acceptance) {}
+
   /// Return whether or not the last trial attempt was accepted.
-  // bool was_accepted() const { return was_accepted_; }
+  bool was_accepted() const { return was_accepted_; }
 
   /// Set the current total energy based on energy changes per trial in order
   /// to avoid recomputation of the energy of the entire configuration.

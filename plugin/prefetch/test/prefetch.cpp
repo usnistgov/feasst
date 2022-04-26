@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "threads/include/thread_omp.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
 #include "system/include/lennard_jones.h"
@@ -67,8 +68,8 @@ TEST(Prefetch, NVT_benchmark_LONG) {
 
 void prefetch(System system, const int sync = 0) {
   auto mc = MakePrefetch({{"trials_per_check", "1"}, {"synchronize", str(sync)}});
-  //mc->set(MakeRandomMT19937({{"seed", "123"}}));
-  mc->set(MakeRandomMT19937({{"seed", "time"}}));
+  mc->set(MakeRandomMT19937({{"seed", "123"}}));
+  //mc->set(MakeRandomMT19937({{"seed", "time"}}));
   mc->set(system);
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());
@@ -91,9 +92,13 @@ void prefetch(System system, const int sync = 0) {
     MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc->add(MakeCriteriaUpdater({{"trials_per", str(1e1)}}));
   mc->activate_prefetch(true);
-  mc->attempt(10);
+  mc->attempt(0);
+  INFO("begin check");
+  //std::vector<std::shared_ptr<FlatHistogram> > fhs(MakeThreadOMP()->num());
+  //std::vector<std::shared_ptr<TransitionMatrix> > tms(MakeThreadOMP()->num());
   std::vector<std::shared_ptr<FlatHistogram> > fhs(mc->pool().size());
   std::vector<std::shared_ptr<TransitionMatrix> > tms(mc->pool().size());
+  INFO(fhs.size());
   for (int trial = 0; trial < 1e2; ++trial) {
     mc->attempt(1);
     // INFO(mc->pool().size());

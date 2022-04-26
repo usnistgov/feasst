@@ -79,6 +79,9 @@ class Accumulator {
   /// Return the size of each block.
   const std::vector<double>& block_size() const { return block_size_; }
 
+  /// Return the blocks.
+  const std::vector<std::vector<double> >& blocks() const { return blocks_; }
+
   /// Return number of values accumulated.
   long double num_values() const { return val_moment_[0]; }
 
@@ -139,6 +142,8 @@ class Accumulator {
     const int num_op = 0,  // number of block operations
     const bool verbose = false) const;
 
+  bool is_equal(const Accumulator& accumulator, const double tolerance) const;
+
   void serialize(std::ostream& ostr) const;
   explicit Accumulator(std::istream& istr);
 
@@ -153,6 +158,7 @@ class Accumulator {
   std::vector<double> block_size_;
   std::vector<long double> sum_block_;
   std::vector<std::shared_ptr<Accumulator> > block_averages_;
+  std::vector<std::vector<double> > blocks_;
 
   // Set the highest order of moments recorded.
   void set_moments_(const int num_moments);

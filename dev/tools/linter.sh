@@ -19,7 +19,8 @@ for f in $(find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot' 
   #rm $f/ttmp
   #sed 's/(Potential(/(MakePotential(/g' $f > ttmp; mv ttmp $f
   #sed 's/steps_per/trials_per/g' $f > ttmp; mv ttmp $f
-  sed 's/steps_since/trials_since/g' $f > ttmp; mv ttmp $f
+  sed 's/TripleBandedCollectionMatrix/CollectionMatrix/g' $f > ttmp; mv ttmp $f
+  #sed 's/steps_since/trials_since/g' $f > ttmp; mv ttmp $f
   #sed 's/epsilon/Epsilon/g' $f > ttmp; mv ttmp $f
   #sed 's/cutoff/CutOff/g' $f > ttmp; mv ttmp $f
   #sed 's/charge/Charge/g' $f > ttmp; mv ttmp $f

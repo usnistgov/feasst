@@ -264,7 +264,7 @@ class MonteCarlo {
     const double ln_prob);
   // Finalize changes from previous trial.
   void finalize_(const int trial_index) {
-    trial_factory_.finalize(trial_index, &system_); }
+    trial_factory_.finalize(trial_index, &system_, criteria_.get()); }
   // Load random numbers and energy calculations into cache.
   void load_cache_(const bool load);
   // Unload random numbers and energy calculations from cache.

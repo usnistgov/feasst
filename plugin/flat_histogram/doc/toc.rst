@@ -5,7 +5,7 @@
    WindowCustom
    WindowExponential
    LnProbability
-   TripleBandedCollectionMatrix
+   CollectionMatrix
    Bias
    TransitionMatrix
    WangLandau

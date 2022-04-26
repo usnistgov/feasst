@@ -72,8 +72,9 @@ bool TrialFactory::attempt(
 void TrialFactory::revert(const int index,
                           const bool accepted,
                           const bool auto_rejected,
-                          System * system) {
-  trials_[index]->revert(index, accepted, auto_rejected, system);
+                          System * system,
+                          Criteria * criteria) {
+  trials_[index]->revert(index, accepted, auto_rejected, system, criteria);
   if (accepted) {
     decrement_num_success_();
   }
@@ -228,6 +229,10 @@ void TrialFactoryNamed::precompute(Criteria * criteria, System * system) {
   for (std::shared_ptr<Trial> trial : trials_) {
     trial->precompute(criteria, system);
   }
+}
+
+void TrialFactory::set_tunable(const int trial_index, const double tunable) {
+  trials_[trial_index]->get_stage_(0)->set_tunable(tunable);
 }
 
 }  // namespace feasst

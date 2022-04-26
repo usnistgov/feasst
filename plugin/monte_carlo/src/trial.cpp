@@ -92,7 +92,7 @@ void Trial::precompute(Criteria * criteria, System * system) {
   }
 }
 
-void Trial::revert(System * system) {
+void Trial::revert(System * system, Criteria * criteria) {
   for (int index = num_stages() - 1; index >= 0; --index) {
     stages_[index]->revert(system);
   }
@@ -102,9 +102,10 @@ void Trial::revert(System * system) {
 void Trial::revert(const int index,
     const bool accepted,
     const bool auto_rejected,
-    System * system) {
+    System * system,
+    Criteria * criteria) {
   if (accepted) {
-    revert(system);
+    revert(system, criteria);
     decrement_num_success_();
   }
   //ASSERT(!auto_rejected, "er");
@@ -113,13 +114,15 @@ void Trial::revert(const int index,
   decrement_num_attempts_();
 }
 
-void Trial::finalize(System * system) {
+void Trial::finalize(System * system, Criteria * criteria) {
+  DEBUG("finalizing");
   for (int index = num_stages() - 1; index >= 0; --index) {
     stages_[index]->finalize(system);
   }
   DEBUG("finalize perturbed");
   system->finalize(acceptance_.perturbed());
   DEBUG("done finalizing perturbed");
+  criteria->finalize(acceptance_);
 }
 
 bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
@@ -163,13 +166,17 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   if (criteria->is_accepted(*system, &acceptance_, random)) {
     DEBUG("accepted");
     increment_num_success_();
+    DEBUG("is_finalize_delayed_ " << is_finalize_delayed_);
     if (!is_finalize_delayed_) {
-      finalize(system);
+      finalize(system, criteria);
     }
     return true;
   } else {
     DEBUG("rejected");
-    revert(system);
+    revert(system, criteria);
+    if (!is_finalize_delayed_) {
+      criteria->revert(acceptance_);
+    }
     return false;
   }
 }

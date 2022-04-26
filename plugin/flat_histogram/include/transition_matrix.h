@@ -20,6 +20,9 @@ namespace feasst {
   Elucidating the effects of adsorbent flexibility on fluid adsorption using
   simple models and flat-histogram sampling methods.
   https://doi.org/10.1063/1.4884124
+
+  A count of all accepted transitions between macrostates is used for a newly
+  developed sweep metric.
  */
 class TransitionMatrix : public Bias {
  public:
@@ -33,17 +36,16 @@ class TransitionMatrix : public Bias {
     - reset_sweeps: The 'phase' counter increments from 0 to 1 when
       reset_sweeps are completed (default: -1 [counter will never increment])
     - new_sweep: if set to 1, use new sweep definition of "the minimum number
-      of transitions out of each macrostate" (default: 0).
+      of accepted transitions for each possible" (default: 0).
    */
   explicit TransitionMatrix(argtype args = argtype());
   explicit TransitionMatrix(argtype * args);
-  void update_or_revert(
+  void update(
     const int macrostate_old,
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_endpoint,
-    const bool revert) override;
+    const bool is_endpoint) override;
 
   /// Return the minimum sweeps required for completion.
   int min_sweeps() const { return min_sweeps_; }
@@ -56,7 +58,9 @@ class TransitionMatrix : public Bias {
   int num_iterations() const override { return num_sweeps_; }
   const LnProbability& ln_prob() const override {
     return ln_prob_; }
-  void resize(const Histogram& histogram) override;
+  void resize(const int size);
+  void resize(const Histogram& histogram) override {
+    resize(histogram.size()); }
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
@@ -66,14 +70,16 @@ class TransitionMatrix : public Bias {
     const double tolerance) const;
 
   /// Return the collection matrix.
-  const TripleBandedCollectionMatrix& collection() const {
+  const CollectionMatrix& collection() const {
     return collection_; }
 
   // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
+  void set_cm(const CollectionMatrix& cm);
   void set_cm(const int macro, const Bias& bias) override;
-  const TripleBandedCollectionMatrix& cm() const override {
+  const CollectionMatrix& cm() const override {
     return collection_; }
-  const int visits(const int macro) const override { return visits_[macro]; }
+  const int visits(const int macro, const int index) const override {
+    return visits_[macro][index]; }
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   std::shared_ptr<Bias> create(argtype * args) const override {
@@ -84,9 +90,9 @@ class TransitionMatrix : public Bias {
   virtual ~TransitionMatrix() {}
 
  private:
-  TripleBandedCollectionMatrix collection_;
+  CollectionMatrix collection_;
   LnProbability ln_prob_;
-  std::vector<int> visits_;
+  std::vector<std::vector<int> > visits_;
   int min_visits_ = 0;
   int num_sweeps_ = 0;
   int min_sweeps_ = 0;

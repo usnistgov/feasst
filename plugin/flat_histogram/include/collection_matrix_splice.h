@@ -18,11 +18,12 @@ namespace feasst {
 class Checkpoint;
 class Histogram;
 
-// HWH adjust_bounds doesn't carry over CM block data.
-// CM may need to block per macrostate or element to be compatible with auto adjusting windows
 /**
   Container for holding a group of FlatHistogram MonteCarlo simulations
   where each of the collection matricies can be spliced together.
+
+  Beware attempting to splice windows with different move sets (trials/weights).
+  This can cause issues in the calculation of ln_prob.
  */
 class CollectionMatrixSplice {
  public:
@@ -33,6 +34,7 @@ class CollectionMatrixSplice {
     - hours_per: hours per bounds adjustment, checkpoint and writing the
       combined ln_prob (default: 0.01).
     - ln_prob_file: file name for the combined ln_prob, if not empty (default: empty).
+    - ln_prob_file_append: if true, append to ln_prob_file (default: false).
    */
   explicit CollectionMatrixSplice(argtype args = argtype());
   explicit CollectionMatrixSplice(argtype * args);
@@ -65,7 +67,7 @@ class CollectionMatrixSplice {
   FlatHistogram flat_histogram(const int index) const;
 
   /// Return the CollectionMatrix of a given clone index.
-  TripleBandedCollectionMatrix collection_matrix(const int index) const;
+  CollectionMatrix collection_matrix(const int index) const;
 
   /// Loop through all clones and swap bounds based on number of interations.
   void adjust_bounds();
@@ -80,7 +82,7 @@ class CollectionMatrixSplice {
   void run_until_all_are_complete();
 
   /// Return the complete collection matrix.
-  TripleBandedCollectionMatrix collection_matrix() const;
+  CollectionMatrix collection_matrix() const;
 
   /// Return the complete probability distribution.
   LnProbability ln_prob() const;
@@ -90,6 +92,9 @@ class CollectionMatrixSplice {
 
   /// Deserialize
   explicit CollectionMatrixSplice(std::istream& istr);
+
+  /// write to file
+  void write(const std::string& file_name) const;
 
   std::string serialize() {
     std::stringstream ss;
@@ -107,6 +112,7 @@ class CollectionMatrixSplice {
   int min_window_size_;
   double hours_per_;
   std::string ln_prob_file_;
+  bool ln_prob_file_append_;
 };
 
 /// Construct CollectionMatrixSplice

@@ -7,9 +7,13 @@
 
 namespace feasst {
 
-Tunable::Tunable() {
-  set_percent_change();
-  set_target();
+Tunable::Tunable(argtype * args) {
+  set_value(dble("tunable_param", args, 0.1));
+  set_target(dble("tunable_target_acceptance", args, 0.25));
+  set_percent_change(dble("tunable_percent_change", args, 1));
+}
+Tunable::Tunable(argtype args) : Tunable(&args) {
+  check_all_used(args);
 }
 
 void Tunable::set_min_and_max(const double min, const double max) {
@@ -30,7 +34,6 @@ void Tunable::set_value(const double value) {
 }
 
 void Tunable::set_percent_change(const double percent) {
-  ASSERT(std::abs(percent) < 1., "|percent| as decimal should be less than 1");
   percent_change_ = percent;
 }
 
@@ -40,11 +43,7 @@ void Tunable::tune(const double actual) {
     double value = value_;
     DEBUG("target: " << target_ << " actual: " << actual);
     DEBUG("old value " << value);
-    if (actual < target_) {
-      value *= 1. - percent_change_;
-    } else {
-      value *= 1. + percent_change_;
-    }
+    value *= 1 + percent_change_*(actual - target_);
     DEBUG("new value " << value);
     set_value(value);
   }

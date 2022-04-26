@@ -8,19 +8,14 @@
    Rosenbluth
    Acceptance
    Criteria
-   Metropolis
    Constraint
    ConstrainNumParticles
+   Metropolis
    TrialSelect
-   TrialSelectBond
-   TrialSelectAngle
-   TrialSelectDihedral
-   TrialSelectParticle
    Perturb
    PerturbMove
    PerturbTranslate
    PerturbToAnchor
-   PerturbVolume
    TrialStage
    TrialCompute
    Trial
@@ -43,6 +38,11 @@
    TrialMove
    TrialRotate
    TrialTranslate
+   PerturbVolume
+   TrialSelectBond
+   TrialSelectAngle
+   TrialSelectDihedral
+   TrialSelectParticle
    PerturbDistance
    PerturbDistanceAngle
    PerturbDihedral

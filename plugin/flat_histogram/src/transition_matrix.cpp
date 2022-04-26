@@ -21,68 +21,68 @@ TransitionMatrix::TransitionMatrix(argtype * args) {
   min_visits_ = integer("min_visits", args, 100);
   min_sweeps_ = integer("min_sweeps", args);
   reset_sweeps_ = integer("reset_sweeps", args, -1);
-  collection_ = TripleBandedCollectionMatrix(args);
+  collection_ = CollectionMatrix(args);
   average_visits_ = integer("average_visits", args, 0);
   new_sweep_ = integer("new_sweep", args, 0);
 }
 
-void TransitionMatrix::update_or_revert(
+void TransitionMatrix::update(
     const int macrostate_old,
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_endpoint,
-    const bool revert) {
+    const bool is_endpoint) {
   DEBUG("macro old/new " << macrostate_old << " " << macrostate_new);
   DEBUG("is_accepted " << is_accepted);
   DEBUG("is_endpoint " << is_endpoint);
-  const int bin = bin_(macrostate_old, macrostate_new, is_accepted);
   const int index = macrostate_new - macrostate_old + 1;
-  DEBUG("bin " << bin << " index " << index);
   ASSERT(index >= 0 and index <= 2, "index(" << index << ") must be 0, 1 or 2");
   if (is_accepted && (macrostate_old != macrostate_new)) {
-    int inc = 1;
-    if (is_endpoint) {
-      inc = 2;
+    int vindex = 0;
+    if (macrostate_old < macrostate_new) {
+      vindex = 1;
     }
-    if (revert) {
-      visits_[bin] -= inc;
-    } else {
-      visits_[bin] += inc;
+    ++visits_[macrostate_new][vindex];
+    // double count endpoints because transitions beyond bounds are impossible
+    if (is_endpoint) {
+      ++visits_[macrostate_new][1-vindex];
     }
   }
   double metropolis_prob = std::min(1., std::exp(ln_metropolis_prob));
-  double reverse_prob = 1. - metropolis_prob;
-  if (revert) {
-    metropolis_prob *= -1.;
-    reverse_prob *= -1.;
-  }
   DEBUG("macrostate_old " << macrostate_old << " index " << index);
   DEBUG("metropolis_prob " << metropolis_prob);
-  collection_.increment(macrostate_old, index, metropolis_prob);
-  collection_.increment(macrostate_old, 1, reverse_prob);
-  TRACE("colmat " << feasst_str(collection_.matrix()));
+  if (index == 0) {
+    collection_.increment(macrostate_old, 0, metropolis_prob);
+    collection_.increment(macrostate_old, 1, 0.);
+  } else if (index == 1) {
+    collection_.increment(macrostate_old, 0, 0.);
+    collection_.increment(macrostate_old, 1, 0.);
+  } else if (index == 2) {
+    collection_.increment(macrostate_old, 0, 0.);
+    collection_.increment(macrostate_old, 1, metropolis_prob);
+  } else {
+    FATAL("unrecognized index: " << index);
+  }
 }
 
-void TransitionMatrix::resize(const Histogram& histogram) {
-  ln_prob_.resize(histogram.size());
-  visits_.resize(histogram.size());
-  collection_.resize(histogram.size());
-  DEBUG("sizing bias " << histogram.size());
+void TransitionMatrix::resize(const int size) {
+  ln_prob_.resize(size);
+  feasst::resize(size, 2, &visits_);
+  collection_.resize(size);
 }
 
 std::string TransitionMatrix::write() const {
   std::stringstream ss;
   ss << Bias::write();
-  ss << "num_sweeps," << num_sweeps_ << std::endl;
-  TRACE("matrix," << feasst_str(collection_.matrix()));
+  ss << "\"num_sweeps\":" << num_sweeps_ << ",";
+  //TRACE("matrix," << feasst_str(collection_.matrix()));
   return ss.str();
 }
 
 std::string TransitionMatrix::write_per_bin_header() const {
   std::stringstream ss;
   ss << Bias::write_per_bin_header() << ",";
-  ss << "visits,";
+  ss << "visits0,visits1,";
   ss << collection_.write_per_bin_header();
   return ss.str();
 }
@@ -90,7 +90,7 @@ std::string TransitionMatrix::write_per_bin_header() const {
 std::string TransitionMatrix::write_per_bin(const int bin) const {
   std::stringstream ss;
   ss << Bias::write_per_bin(bin) << ",";
-  ss << MAX_PRECISION << visits_[bin] << ",";
+  ss << MAX_PRECISION << visits_[bin][0] << "," << visits_[bin][1] << ",";
   ss << collection_.write_per_bin(bin);
   return ss.str();
 }
@@ -101,17 +101,29 @@ void TransitionMatrix::infrequent_update(const Macrostate& macro) {
   collection_.compute_ln_prob(&ln_prob_);
 
   DEBUG("update the number of sweeps");
-  const int min_vis = *std::min_element(visits_.begin() + macro.soft_min(),
-                                        visits_.begin() + macro.soft_max());
+//  const int min_vis = *std::min_element(visits_.begin() + macro.soft_min(),
+//                                        visits_.begin() + macro.soft_max());
+  // find minimum visits in soft range
+  int min_vis = 1e9;
+  for (int bin = macro.soft_min(); bin < macro.soft_max() + 1; ++bin) {
+    int vis = *std::min_element(visits_[bin].begin(), visits_[bin].end());
+    if (vis < min_vis) {
+      min_vis = vis;
+    }
+  }
+
   if (new_sweep_ != 0) {
     num_sweeps_ = min_vis;
   } else {
     if (min_vis >= min_visits_) {
-      if (std::accumulate(visits_.begin() + macro.soft_min(),
-                          visits_.begin() + macro.soft_max(), 0.) >=
-          average_visits_*(macro.soft_max() - macro.soft_min() + 1)) {
+      double sum_vis = 0;
+      for (int bin = macro.soft_min(); bin < macro.soft_max() + 1; ++bin) {
+        sum_vis += visits_[bin][0] + visits_[bin][1];
+      }
+      if (sum_vis >= average_visits_*(macro.soft_max() - macro.soft_min() + 1)) {
         ++num_sweeps_;
-        std::fill(visits_.begin(), visits_.end(), 0);
+        feasst::fill(0, &visits_);
+        //std::fill(visits_.begin(), visits_.end(), 0);
       }
     }
   }
@@ -225,7 +237,16 @@ TransitionMatrix::TransitionMatrix(const Bias& bias) {
 
 void TransitionMatrix::set_cm(const int macro, const Bias& bias) {
   collection_.set(macro, bias.cm().matrix()[macro]);
-  visits_[macro] = bias.visits(macro);
+  visits_[macro][0] = bias.visits(macro, 0);
+  visits_[macro][1] = bias.visits(macro, 1);
+}
+
+void TransitionMatrix::set_cm(const CollectionMatrix& cm) {
+  collection_ = cm;
+  const int size = collection_.matrix().size();
+  ln_prob_.resize(size);
+  feasst::resize(size, 2, &visits_);
+  collection_.compute_ln_prob(&ln_prob_);
 }
 
 }  // namespace feasst
