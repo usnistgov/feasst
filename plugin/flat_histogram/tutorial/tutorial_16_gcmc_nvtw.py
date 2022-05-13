@@ -44,7 +44,7 @@ def nvtw(num_particles, num_procs, num_equil, num_prod, num_hours, dccb_begin, t
     mc.add(fst.MakeTrialTranslate(fst.args({"tunable_param": "0.1"})))
     #mc.add(fst.MakeTrialGrow(fst.ArgsVector([dict({"translate": "true", "tunable_param": "0.1"}, **trial_args)])))
     mc.add(fst.MakeTrialAdd(fst.args({"particle_type": "0", "weight": "4"})))
-    mc.add(fst.MakeTune(fst.args({"trials_per": trials_per})))
+    mc.add(fst.MakeTune())
     mc.add(fst.MakeCheckEnergy(fst.args({"trials_per": trials_per, "tolerance": "0.0001"})))
     mc.add(fst.MakeLogAndMovie(fst.args({"trials_per": trials_per,
                                          "file_name": model + str(num_particles)})))

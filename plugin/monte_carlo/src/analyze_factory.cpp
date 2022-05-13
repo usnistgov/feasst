@@ -83,6 +83,48 @@ void AnalyzeFactory::trial(const Criteria& criteria,
   }
 }
 
+void AnalyzeFactory::write_to_file(const Criteria& criteria,
+  const System& system,
+  const TrialFactory& trial_factory) {
+  if (is_multistate()) {
+    if (is_multistate_aggregate()) {
+      std::stringstream ss;
+      for (int state = 0; state < num(); ++state) {
+        if (state == 0) {
+          ss << "state,";
+          ss << analyzers_[state]->header(criteria, system, trial_factory);
+        }
+        ss << state << ",";
+        ss << analyzers_[state]->write(criteria, system, trial_factory);
+      }
+      printer(ss.str(), file_name(criteria));
+    } else {
+      analyzers_[criteria.state()]->write_to_file(criteria, system, trial_factory);
+    }
+  } else {
+    for (int index = 0; index < num(); ++index) {
+      analyzers_[index]->write_to_file(criteria, system, trial_factory);
+    }
+  }
+}
+
+void AnalyzeFactory::adjust_bounds(const bool adjusted_up,
+    const std::vector<int>& states,
+    AnalyzeFactory * analyze_factory) {
+  for (int ai = 0; ai < num(); ++ai) {
+    if (analyze(ai).is_multistate()) {
+      DEBUG("ai " << ai);
+      for (const int state : states) {
+        if (adjusted_up) {
+          *analyze_factory->get_analyze(ai)->get_analyze(state) = analyze(ai).analyze(state);
+        } else {
+          *get_analyze(ai)->get_analyze(state) = analyze_factory->analyze(ai).analyze(state);
+        }
+      }
+    }
+  }
+}
+
 AnalyzeFactory::AnalyzeFactory(std::istream& istr) : Analyze(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 1640, "unrecognized verison: " << version);

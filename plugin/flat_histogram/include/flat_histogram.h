@@ -106,8 +106,11 @@ class FlatHistogram : public Criteria {
   int set_soft_min(const int index, const System& sys) override;
   void set_cm(const bool inc_max, const int macro, const Criteria& crit) override;
   void adjust_bounds(const bool left_most, const bool right_most,
+    const bool left_complete, const bool right_complete,
+    const bool all_min_size,
     const int min_size, const System& system, const System * upper_sys,
-    Criteria * criteria) override;
+    Criteria * criteria, bool * adjusted_up, std::vector<int> * states) override;
+  const FlatHistogram& flat_histogram() const override { return *this; }
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<FlatHistogram>(istr); }
@@ -131,6 +134,10 @@ class FlatHistogram : public Criteria {
 
   void init_(std::shared_ptr<Macrostate> macrostate,
     std::shared_ptr<Bias> bias);
+  void check_left_and_right_most_(const bool left_most, const bool right_most,
+    const bool all_min_size,
+    const int min_size, const System& system, const System * upper_sys,
+    Criteria * criteria);
 };
 
 inline std::shared_ptr<FlatHistogram> MakeFlatHistogram() {

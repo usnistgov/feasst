@@ -16,7 +16,8 @@
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/energy.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/check_energy.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
@@ -73,7 +74,8 @@ MonteCarlo rpm_egce(const int min = 0,
   mc.add(MakeCriteriaWriter({{"trials_per", str(trials_per)},
                              {"file_name", "tmp/rpm_egce_crit.txt"}}));
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/rpm_egce"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}, {"tolerance", "1e-8"}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", "1e-8"}}));
+  mc.add(MakeTune());
   // mc.add(MakeCheckProperties({{"trials_per", str(trials_per)}}));
   // mc.add(MakeCPUTime({{"trials_per", str(5*trials_per)}}));
   mc.add(MakeCheckNetCharge({{"maximum", "1."}, {"minimum", str(-NEAR_ZERO)}}));
@@ -320,7 +322,8 @@ MonteCarlo dival_egce(
   }));
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/dival_egce"}}));
   mc.add(MakeCheckProperties({{"trials_per", str(trials_per)}, {"tolerance", str(1e-12)}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}, {"tolerance", str(1e-4)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", str(1e-4)}}));
+  mc.add(MakeTune());
   const double charge_minus = mc.configuration().model_params().select("charge").value(1);
   mc.add(MakeCheckNetCharge({{"trials_per", str(trials_per)},
                              {"maximum", str(-charge_minus)},
@@ -668,7 +671,8 @@ TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   //mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"transfer", "true"}, {"weight", "4"}, {"site", "0"}, {"num_steps", ns}, {"reference_index", ref}}}));
   //mc.add(MakeTrialTranslate());
   const std::string trials_per = "1e3";
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
+  mc.add(MakeCheckEnergy({{"trials_per", trials_per}}));
+  mc.add(MakeTune());
   mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj"}}));
   mc.add(MakeCriteriaUpdater({{"trials_per", trials_per}}));
   mc.add(MakeCriteriaWriter({{"trials_per", trials_per}, {"file_name", "tmp/ljcrit.txt"}}));

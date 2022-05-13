@@ -5,7 +5,8 @@
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "steppers/include/pair_distribution.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/check_energy.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/seek_analyze.h"
@@ -38,7 +39,8 @@ TEST(PairDistribution, gr_LONG) {
   const std::string trials_per = str(1e5);
   mc.attempt(1e6); // equilibrate
   mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", trials_per}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeTune());
   mc.add(MakeEnergy({{"trials_per_write", trials_per}, {"file_name", "tmp/ljen.txt"}}));
   mc.add(MakePairDistribution({
     {"trials_per_update", "100"},

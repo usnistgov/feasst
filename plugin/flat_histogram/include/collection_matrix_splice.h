@@ -24,6 +24,13 @@ class Histogram;
 
   Beware attempting to splice windows with different move sets (trials/weights).
   This can cause issues in the calculation of ln_prob.
+
+  Adjust bounds based on the number of iterations.
+  Thus, iteratively give a window with less iterations macrostates from a
+  window with more iterations, while possible.
+  Left and right most windows can completely abandon completed macrostates.
+  Also, left and right most don't lose macrostates if the entire window
+  has already reached its completion criteria.
  */
 class CollectionMatrixSplice {
  public:
@@ -35,6 +42,9 @@ class CollectionMatrixSplice {
       combined ln_prob (default: 0.01).
     - ln_prob_file: file name for the combined ln_prob, if not empty (default: empty).
     - ln_prob_file_append: if true, append to ln_prob_file (default: false).
+    - num_adjust_per_write: number of adjustments per writing of ln_prob (default: 1)
+    - bounds_file: file name for periodic output of bounds, if not empty
+      (default: empty).
    */
   explicit CollectionMatrixSplice(argtype args = argtype());
   explicit CollectionMatrixSplice(argtype * args);
@@ -42,8 +52,12 @@ class CollectionMatrixSplice {
   /// Add a MonteCarlo.
   void add(std::shared_ptr<MonteCarlo> mc) { clones_.push_back(mc); }
 
+  /// Set size
+  void set_size(const int size) { clones_.resize(size); }
+
   /// Set a MonteCarlo.
-  void set(const int index, std::shared_ptr<MonteCarlo> mc);
+  void set(const int index, std::shared_ptr<MonteCarlo> mc) {
+    clones_[index] = mc; }
 
 //  /// Create all clones via deep copy of given object and given windows.
 //  CollectionMatrixSplice(const MonteCarlo& mc, const Window& window);
@@ -64,13 +78,18 @@ class CollectionMatrixSplice {
   void set(std::shared_ptr<Checkpoint> checkpoint);
 
   /// Return the FlatHistogram of a given clone index.
-  FlatHistogram flat_histogram(const int index) const;
+  const FlatHistogram& flat_histogram(const int index) const;
 
   /// Return the CollectionMatrix of a given clone index.
-  CollectionMatrix collection_matrix(const int index) const;
+  const CollectionMatrix& collection_matrix(const int index) const;
 
   /// Loop through all clones and swap bounds based on number of interations.
   void adjust_bounds();
+
+  /// Write the bounds to file, if not empty.
+  void write_bounds(
+    /// optionally, print the header.
+    const bool header = false);
 
   /// Return true if all clones are complete
   bool are_all_complete() const;
@@ -113,12 +132,19 @@ class CollectionMatrixSplice {
   double hours_per_;
   std::string ln_prob_file_;
   bool ln_prob_file_append_;
+  int num_adjust_per_write_;
+  int num_adjust_since_write_ = 0;
+  std::string bounds_file_;
 };
 
 /// Construct CollectionMatrixSplice
 inline std::shared_ptr<CollectionMatrixSplice> MakeCollectionMatrixSplice(
   argtype args = argtype()) {
   return std::make_shared<CollectionMatrixSplice>(args); }
+
+/// Construct MonteCarlo from Checkpoint file.
+std::shared_ptr<CollectionMatrixSplice> MakeCollectionMatrixSplice(
+  const std::string file_name);
 
 }  // namespace feasst
 

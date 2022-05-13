@@ -87,7 +87,8 @@ def mc(thread, mn, mx):
               grow[0]["particle_type"] = "0"
               mc.add(fst.MakeTrialGrow(fst.ArgsVector(grow),
                                        fst.args({"num_steps": "4", "reference_index": "0"})))
-    mc.add(fst.MakeCheckEnergyAndTune(fst.args({"trials_per": str(trials_per), "tolerance": "0.0001"})))
+    mc.add(fst.MakeCheckEnergy(fst.args({"tolerance": "0.0001"})))
+    mc.add(fst.MakeTune())
     mc.add(fst.MakeLogAndMovie(fst.args({"trials_per": str(trials_per), "file_name": "clones" + str(thread)})))
     mc.add(fst.MakeCriteriaUpdater(fst.args({"trials_per": str(trials_per)})))
     mc.add(fst.MakeCriteriaWriter(fst.args({

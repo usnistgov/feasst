@@ -48,8 +48,8 @@ mc.add(fst.MakeTrialAdd(fst.args({"particle_type": "0"})))
 mc.run(fst.MakeRun(fst.args({"until_num_particles": str(args.num)})))
 mc.run(fst.MakeRemoveTrial(fst.args({"name": "TrialAdd"})))
 trials_per = str(int(1e5))
-mc.add(fst.MakeCheckEnergyAndTune(fst.args(
-    {"trials_per" : trials_per, "tolerance" : "1e-8"})))
+mc.add(fst.MakeCheckEnergy(fst.args({"trials_per" : trials_per, "tolerance" : "1e-8"})))
+mc.add(fst.MakeTune())
 mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint.fst",
                                     "num_hours": str(0.95*args.num_hours),
                                     "num_hours_terminate": str(0.95*args.num_hours)})))

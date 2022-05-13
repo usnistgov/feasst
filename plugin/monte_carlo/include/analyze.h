@@ -38,10 +38,14 @@ class Analyze : public Stepper {
   virtual std::string write(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory);
+  virtual void write_to_file(const Criteria& criteria,
+      const System& system,
+      const TrialFactory& trial_factory);
 
   // Access to factory of Analyze objects.
   virtual const std::vector<std::shared_ptr<Analyze> >& analyzers() const;
   virtual const Analyze& analyze(const int index) const;
+  virtual Analyze * get_analyze(const int index);
 
   // serialization
   virtual void serialize(std::ostream& ostr) const;

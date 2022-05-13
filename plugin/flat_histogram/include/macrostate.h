@@ -53,6 +53,10 @@ class Macrostate {
   /// Return the soft minimum as an integer bin index, not a macrostate.
   const int soft_min() const { return soft_min_; }
 
+  /// Return the number of macrostates in the soft range.
+  const int num_macrostates_in_soft_range() const {
+    return soft_max_ - soft_min_ + 1; }
+
   /// Return the current value of the macrostate.
   virtual double value(const System& system,
     const Criteria& criteria,

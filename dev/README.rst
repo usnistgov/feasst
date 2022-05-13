@@ -303,6 +303,7 @@ For quick reference
 * line counts [find . -name '*.cpp' -o -name '*.h' | xargs wc -l | sort -n]
 * tutorial errors [ find . -name 'tutorial_failures.txt' | xargs cat ]
 * tutorial errors [ for fl in `find . -name 'tutorial_failures.txt'`; do echo $fl; cat $fl; done ]
+* launch errors [ for fl in `find . -name 'launch_failures.txt'`; do echo $fl; cat $fl; done ]
 * clear tutorial errors [ for fl in `find . -name 'tutorial_failures.txt'`; do echo $fl; rm $fl; done ]
 * clean docs before running depend.py again [ for dir in `ls --color=never -d *`; do rm $dir/doc/*rst; done ]
 * find difference in serialization string: [ diff -u f1 f2 |colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]

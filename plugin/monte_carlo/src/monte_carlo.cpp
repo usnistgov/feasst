@@ -618,13 +618,23 @@ void MonteCarlo::add(const Potential& potential) {
 }
 
 void MonteCarlo::adjust_bounds(const bool left_most, const bool right_most,
+  const bool left_complete, const bool right_complete,
+  const bool all_min_size,
   const int min_size, MonteCarlo * mc) {
+  bool adjusted_up;
+  std::vector<int> states;
   if (mc) {
-    criteria_->adjust_bounds(left_most, right_most, min_size,
-      system_, &mc->system(),  mc->get_criteria());
+    criteria_->adjust_bounds(left_most, right_most, left_complete, right_complete,
+      all_min_size, min_size,
+      system_, &mc->system(),  mc->get_criteria(), &adjusted_up, &states);
+    DEBUG("adjusted_up " << adjusted_up);
+    DEBUG("states: " << feasst_str(states));
+    analyze_factory_.adjust_bounds(adjusted_up, states, mc->get_analyze_factory());
+    modify_factory_.adjust_bounds(adjusted_up, states, mc->get_modify_factory());
   } else {
-    criteria_->adjust_bounds(left_most, right_most, min_size,
-      system_, NULL, NULL);
+    // single processor adjustment on the left and right most only.
+    criteria_->adjust_bounds(left_most, right_most, false, false, false, min_size,
+      system_, NULL, NULL, NULL, NULL);
   }
 }
 
@@ -634,6 +644,11 @@ void MonteCarlo::ghost_trial_(
     const int state_new,
     const bool endpoint) {
   criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new, endpoint);
+}
+
+void MonteCarlo::write_to_file() {
+  analyze_factory_.write_to_file(*criteria_, system_, trial_factory_);
+  modify_factory_.write_to_file(criteria_.get(), &system_, &trial_factory_);
 }
 
 }  // namespace feasst

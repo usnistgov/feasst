@@ -19,12 +19,10 @@
    CriteriaWriter
    PairDistributionInner
    CheckEnergy
-   CheckEnergyAndTune
    IncrementPhase
    SeekModify
    WrapParticles
    CheckProperties
-   TunePerState
    CriteriaUpdater
    Tune
    Movie

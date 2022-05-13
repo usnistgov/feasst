@@ -8,7 +8,8 @@
 #include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_add.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/check_energy.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/criteria_writer.h"
@@ -40,7 +41,8 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     MakeTransitionMatrix({{"min_sweeps", "10"}})));//, {"max_block_operations", "6"}})));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}}));
+  mc.add(MakeTune());
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)},
     {"file_name", "tmp/clones" + str(thread)}}));
   mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));

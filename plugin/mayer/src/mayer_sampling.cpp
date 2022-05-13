@@ -21,7 +21,6 @@ bool MayerSampling::is_accepted(
   const double energy_new = acceptance->energy_new();
   const double beta = system.thermo_params().beta();
   const double f12 = std::exp(-beta*energy_new) - 1.;
-  bool is_accepted;
   TRACE("*** MayerSampling ***");
   TRACE("energy new " << energy_new);
   TRACE("f12 " << f12);
@@ -33,12 +32,12 @@ bool MayerSampling::is_accepted(
     set_current_energy(energy_new);
     set_current_energy_profile(acceptance->energy_profile_new());
     f12old_ = f12;
-    is_accepted = true;
+    was_accepted_ = true;
     TRACE("computing ref");
     f12ref_ = std::exp(-beta*acceptance->energy_ref()) - 1.;
     TRACE("f12ref " << f12ref_);
   } else {
-    is_accepted = false;
+    was_accepted_ = false;
   }
   if (f12old_ < 0) {
     mayer_.accumulate(-1.);
@@ -46,8 +45,8 @@ bool MayerSampling::is_accepted(
     mayer_.accumulate(1.);
   }
   mayer_ref_.accumulate(f12ref_/std::abs(f12old_));
-  TRACE("is accepted? " << is_accepted);
-  return is_accepted;
+  TRACE("is accepted? " << was_accepted_);
+  return was_accepted_;
 }
 
 class MapMayerSampling {

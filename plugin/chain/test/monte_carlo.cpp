@@ -25,7 +25,7 @@
 #include "monte_carlo/include/trial_select_dihedral.h"
 #include "monte_carlo/include/perturb_dihedral.h"
 #include "steppers/include/log.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/wrap_particles.h"
@@ -100,7 +100,7 @@ TEST(MonteCarlo, chain) {
   mc.add(MakeCheckEnergy({
     {"trials_per", str(trials_per)},
     {"tolerance", "1e-10"}}));
-  mc.add(MakeTune({{"trials_per", str(trials_per)}}));
+  mc.add(MakeTune());
   mc.attempt(3e2);
 
   MonteCarlo mc2 = test_serialize(mc);
@@ -155,7 +155,8 @@ TEST(MonteCarlo, TrialGrow_LONG) {
     EXPECT_EQ(50, mc.trial(1).weight());
     EXPECT_EQ(100, mc.trial(2).weight());
     mc.add(MakeLogAndMovie({{"trials_per", str(1e0)}, {"file_name", "tmp/lj"}}));
-    mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e0)}, {"tolerance", str(1e-9)}}));
+    mc.add(MakeCheckEnergy({{"trials_per", str(1e0)}, {"tolerance", str(1e-9)}}));
+    mc.add(MakeTune());
     EXPECT_EQ(3, mc.trials().num());
     EXPECT_TRUE(mc.trial(0).stage(0).trial_select().is_ghost());   // add
     EXPECT_FALSE(mc.trial(1).stage(0).trial_select().is_ghost());  // remove
@@ -214,7 +215,8 @@ MonteCarlo cg7mab2(const std::string& data, const int num, const int trials_per 
       {{"angle", "1"}, {"mobile_site", "5"}, {"anchor_site", "6"}, {"anchor_site2", "0"}}}));
   }
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/" + data}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeTune());
   return mc;
 }
 
@@ -306,7 +308,8 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer2d"}, {"trials_per", trials_per}}));
   mc.add(MakeChirality2D());
   mc.add(MakeAnalyzeBonds());
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
+  mc.add(MakeCheckEnergy({{"trials_per", trials_per}}));
+  mc.add(MakeTune());
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e6);
   const Analyze& chiral = SeekAnalyze().reference("Chirality2D", mc2);
@@ -422,7 +425,7 @@ TEST(MonteCarlo, cg4_flexible_LONG) {
   std::string trials_per = "1e4";
   mc.add(MakeLog({{"trials_per", trials_per}, {"file_name", "tmp/cg4.txt"}}));
   mc.add(MakeMovie({{"trials_per", trials_per}, {"file_name", "tmp/cg4.xyz"}}));
-  mc.add(MakeTune({{"trials_per", trials_per}}));
+  mc.add(MakeTune());
   auto bonds = MakeAnalyzeBonds({{"bond_bin_width", "0.05"}});
   mc.add(bonds);
   mc.attempt(1e6);
@@ -826,7 +829,8 @@ TEST(MonteCarlo, ethane) {
   const std::string trials_per = "1e0";
   mc->add(MakeWrapParticles({{"trials_per", trials_per}}));
   mc->add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/ethane.txt"}}));
-  mc->add(MakeCheckEnergyAndTune({{"trials_per", trials_per}, {"tolerance", str(1e-2)}}));
+  mc->add(MakeCheckEnergy({{"trials_per", trials_per}, {"tolerance", str(1e-2)}}));
+  mc->add(MakeTune());
   mc->attempt(1e1);
 }
 
@@ -874,7 +878,8 @@ TEST(MonteCarlo, water) {
   const std::string trials_per = "1e0";
   mc->add(MakeWrapParticles({{"trials_per", trials_per}}));
   mc->add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/water"}}));
-  mc->add(MakeCheckEnergyAndTune({{"trials_per", trials_per}, {"tolerance", str(1e-2)}}));
+  mc->add(MakeCheckEnergy({{"trials_per", trials_per}, {"tolerance", str(1e-2)}}));
+  mc->add(MakeTune());
   mc->attempt(1e1);
 }
 

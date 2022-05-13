@@ -58,7 +58,8 @@ def mc(thread, mn, mx):
     else:
         mc.add(fst.MakeTrialRotate(fst.args({"weight": "1.", "tunable_param": "1."})))
         mc.add(fst.MakeTrialTransfer(fst.args({"particle_type": "0", "weight": "4"})))
-    mc.add(fst.MakeCheckEnergyAndTune(fst.args({"trials_per": str(args.trials_per), "tolerance": "0.0001"})))
+    mc.add(fst.MakeCheckEnergy(fst.args({"trials_per": str(args.trials_per), "tolerance": "0.0001"})))
+    mc.add(fst.MakeTune())
     mc.add(fst.MakeLogAndMovie(fst.args({"trials_per": str(args.trials_per), "file_name": "clones" + str(thread)})))
     mc.add(fst.MakeCriteriaUpdater(fst.args({"trials_per": str(args.trials_per)})))
     mc.add(fst.MakeCriteriaWriter(fst.args({

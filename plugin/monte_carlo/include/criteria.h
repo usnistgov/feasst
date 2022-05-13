@@ -12,8 +12,10 @@ namespace feasst {
 
 class Random;
 class Constraint;
+class FlatHistogram;
 class Macrostate;
 class Bias;
+
 
 /**
   Determine whether to accept or reject a trial.
@@ -155,10 +157,13 @@ class Criteria {
   virtual int set_soft_min(const int index, const System& sys);
   virtual void set_cm(const bool inc_max, const int macro, const Criteria& crit);
   virtual void adjust_bounds(const bool left_most, const bool right_most,
+    const bool left_complete, const bool right_complete,
+    const bool all_min_size,
     const int min_size, const System& system, const System * upper_sys,
-    Criteria * criteria);
+    Criteria * criteria, bool * adjusted_up, std::vector<int> * states);
   virtual const Macrostate& macrostate() const;
   virtual const Bias& bias() const;
+  virtual const FlatHistogram& flat_histogram() const;
 
   // serialize
   std::string class_name() const { return class_name_; }

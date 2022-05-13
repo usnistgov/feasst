@@ -26,7 +26,7 @@ FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
   : FlatHistogram() {
   init_(macrostate, bias);
 }
-FlatHistogram::FlatHistogram(argtype * args) {
+FlatHistogram::FlatHistogram(argtype * args) : FlatHistogram() {
   ASSERT(!used("num_iterations_to_complete", *args),
     "FlatHistogram does not use the argument num_iterations_to_complete");
   init_(MacrostateEnergy().factory(str("Macrostate", args), args),
@@ -115,6 +115,9 @@ std::string FlatHistogram::write() const {
      << std::endl;
   const Histogram& hist = macrostate_->histogram();
   for (int bin = 0; bin < hist.size(); ++bin) {
+//  for (int bin = macrostate_->soft_min();
+//           bin <= macrostate_->soft_max();
+//           ++bin) {
     ss << hist.center_of_bin(bin) << ","
        << bias_->write_per_bin(bin)
        << std::endl;
@@ -132,7 +135,8 @@ void FlatHistogram::finalize(const Acceptance& acceptance) {
                 macrostate_new_,
                 acceptance.ln_metropolis_prob(),
                 was_accepted_,
-                acceptance.endpoint());
+                acceptance.endpoint(),
+                *macrostate_);
 }
 
 void FlatHistogram::revert_(const bool accepted, const bool endpoint, const double ln_prob) {
@@ -154,7 +158,7 @@ void FlatHistogram::imitate_trial_rejection_(const double ln_prob,
     const bool endpoint) {
   DEBUG("hi");
   DEBUG(state_old << " " <<  state_new << " " << ln_prob << " " << endpoint);
-  bias_->update(state_old, state_new, ln_prob, false, endpoint);
+  bias_->update(state_old, state_new, ln_prob, false, endpoint, *macrostate_);
 }
 
 class MapFlatHistogram {
@@ -170,7 +174,7 @@ static MapFlatHistogram mapper_ = MapFlatHistogram();
 FlatHistogram::FlatHistogram(std::istream& istr)
   : Criteria(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 937, "version mismatch: " << version);
+  ASSERT(version == 6079, "version mismatch: " << version);
   // feasst_deserialize_fstdr(bias_, istr);
   { // HWH for unknown reasons the above template function does not work
     int existing;
@@ -196,7 +200,7 @@ FlatHistogram::FlatHistogram(std::istream& istr)
 void FlatHistogram::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_criteria_(ostr);
-  feasst_serialize_version(937, ostr);
+  feasst_serialize_version(6079, ostr);
   feasst_serialize_fstdr(bias_, ostr);
   feasst_serialize_fstdr(macrostate_, ostr);
   feasst_serialize(macrostate_old_, ostr);
@@ -248,52 +252,10 @@ void FlatHistogram::set_cm(const bool inc_max, const int macro, const Criteria& 
   bias_->set_cm(macro, crit.bias());
 }
 
-void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
+void FlatHistogram::check_left_and_right_most_(const bool left_most, const bool right_most,
+  const bool all_min_size,
   const int min_size, const System& system, const System * upper_sys,
   Criteria * criteria) {
-  DEBUG("left_most " << left_most);
-  DEBUG("right_most " << right_most);
-  if (upper_sys) {
-    bool adjusted_up = false; // prevent hot potato adjustment
-    bool not_reject = true;
-    while (not_reject) {
-      not_reject = false;
-      const int lower_max = macrostate().soft_max();
-      if (num_iterations() < criteria->num_iterations()) {
-        if (lower_max - macrostate().soft_min() + 1 > min_size) {
-          DEBUG("move macrostate from lower to upper");
-          if (set_soft_max(lower_max - 1, system) > 0) {
-            criteria->set_cm(false, lower_max, *this);
-            not_reject = true;
-            adjusted_up = true;
-          }
-        }
-      }
-      if (not_reject) {
-        update();
-        criteria->update();
-      }
-    }
-    not_reject = true;
-    while (not_reject && !adjusted_up) {
-      not_reject = false;
-      const int upper_min = criteria->macrostate().soft_min();
-      if (num_iterations() > criteria->num_iterations()) {
-        if (criteria->macrostate().soft_max() - upper_min + 1 > min_size) {
-          DEBUG("move macrostate from upper to lower");
-          if (criteria->set_soft_min(upper_min + 1, *upper_sys) > 0) {
-            set_cm(true, upper_min, *criteria);
-            not_reject = true;
-          }
-        }
-      }
-      if (not_reject) {
-        update();
-        criteria->update();
-      }
-    }
-  }
-
   // HWH this only works if using new sweeps definition in TM
   if (left_most) {
     // consider increasing the soft_min if the existing visits are
@@ -301,11 +263,15 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
     bool not_reject = true;
     while (not_reject) {
       not_reject = false;
-      if (bias().visits(macrostate().soft_min(), 0) >= num_iterations_to_complete() &&
-          bias().visits(macrostate().soft_min(), 1) >= num_iterations_to_complete()) {
-        if (macrostate().soft_max() - macrostate().soft_min() + 1 > min_size) {
-          if (set_soft_min(macrostate().soft_min() + 1, system) != 0) {
-            not_reject = true;
+      if (all_min_size && is_complete()) {
+        set_soft_min(0, system);
+      } else {
+        if (bias().visits(macrostate().soft_min(), 0) >= num_iterations_to_complete() &&
+            bias().visits(macrostate().soft_min(), 1) >= num_iterations_to_complete()) {
+          if (macrostate().soft_max() - macrostate().soft_min() + 1 > min_size) {
+            if (set_soft_min(macrostate().soft_min() + 1, system) != 0) {
+              not_reject = true;
+            }
           }
         }
       }
@@ -317,7 +283,9 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
     bool not_reject = true;
     while (not_reject) {
       not_reject = false;
-      if (upper_sys) {
+      if (all_min_size && criteria->is_complete()) {
+        criteria->set_soft_max(criteria->num_states() - 1, *upper_sys);
+      } else if (upper_sys) {
         if (criteria->bias().visits(criteria->macrostate().soft_max(), 0) >= criteria->num_iterations_to_complete() &&
             criteria->bias().visits(criteria->macrostate().soft_max(), 1) >= criteria->num_iterations_to_complete()) {
           if (criteria->macrostate().soft_max() - criteria->macrostate().soft_min() + 1 > min_size) {
@@ -338,8 +306,64 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
       }
     }
   }
-  INFO(macrostate().soft_min() << " " << macrostate().soft_max());
-  //INFO(macrostate().soft_min() << " " << criteria->macrostate().soft_max());
+}
+void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
+  const bool left_complete, const bool right_complete,
+  const bool all_min_size,
+  const int min_size, const System& system, const System * upper_sys,
+  Criteria * criteria, bool * adjusted_up, std::vector<int> * states) {
+  DEBUG("left_most " << left_most);
+  DEBUG("right_most " << right_most);
+  check_left_and_right_most_(left_most, right_most, all_min_size, min_size, system, upper_sys, criteria);
+  if (upper_sys) {
+    *adjusted_up = false; // prevent hot potato adjustment. Only up, or only down, per adjust.
+    bool not_reject = true;
+    while (not_reject) {
+      not_reject = false;
+      const int lower_max = macrostate().soft_max();
+      // if its left_most and already finished, don't send macrostates to upper
+      if (num_iterations() < criteria->num_iterations() &&
+           (!left_most || right_complete || all_min_size || num_iterations() < num_iterations_to_complete())) {
+        if (lower_max - macrostate().soft_min() + 1 > min_size) {
+          DEBUG("move macrostate from lower to upper");
+          if (set_soft_max(lower_max - 1, system) > 0) {
+            criteria->set_cm(false, lower_max, *this);
+            not_reject = true;
+            *adjusted_up = true;
+            states->push_back(lower_max);
+          }
+        }
+      }
+      if (not_reject) {
+        update();
+        criteria->update();
+      }
+    }
+    DEBUG("adjusted_up " << *adjusted_up);
+    not_reject = true;
+    while (not_reject && !*adjusted_up) {
+      not_reject = false;
+      const int upper_min = criteria->macrostate().soft_min();
+      // if its right_most and already finished, don't send macrostates to lower
+      if (num_iterations() > criteria->num_iterations() &&
+          (!right_most || left_complete || all_min_size || criteria->num_iterations() < criteria->num_iterations_to_complete())) {
+        if (criteria->macrostate().soft_max() - upper_min + 1 > min_size) {
+          DEBUG("move macrostate from upper to lower");
+          if (criteria->set_soft_min(upper_min + 1, *upper_sys) > 0) {
+            set_cm(true, upper_min, *criteria);
+            not_reject = true;
+            states->push_back(upper_min);
+          }
+        }
+      }
+      if (not_reject) {
+        update();
+        criteria->update();
+      }
+    }
+    DEBUG("states: " << feasst_str(*states));
+  }
+  check_left_and_right_most_(left_most, right_most, all_min_size, min_size, system, upper_sys, criteria);
 }
 
 }  // namespace feasst

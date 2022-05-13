@@ -95,37 +95,37 @@ void parse_cm(std::string line) {
   // read next line for Checkpoint
   std::getline(std::cin, line);
   ASSERT(line.substr(0, 10) == "Checkpoint",
-    "CollectionMatrixSplice must be followed with Window then Checkpoint. Instead, " << line);
+    "CollectionMatrixSplice must be followed with Window then Checkpoint. " <<
+    "Instead, the following line was given: " << line);
   line_pair = parse_line(line, &variables, &assign_to_list);
   cm.set(MakeCheckpoint(line_pair.second));
 
   arglist list = parse_mc();
   std::vector<int> complete(window->num(), 0);
+  cm.set_size(window->num());
   #ifdef _OPENMP
   #pragma omp parallel
   {
+    ASSERT(MakeThreadOMP()->num() >= window->num(),
+      "asked for " << window->num() << " windows but there are only "
+      << MakeThreadOMP()->num() << " OMP threads");
     const int thread = omp_get_thread_num();
-    ASSERT(thread < window->num(), "thread: " << thread << " should be less "
-      << "than the number of windows: " << window->num());
-  #else // _OPENMP
-  for (int thread = 0; thread < window->num(); ++thread) {
-  #endif // _OPENMP
-    arglist list2 = list;
-    replace_value("[soft_macro_min]", str(window->boundaries()[thread][0]), &list2);
-    replace_value("[soft_macro_max]", str(window->boundaries()[thread][1]), &list2);
-    replace_in_value("[sim_index]", str(thread), &list2);
-    auto mc = std::make_shared<MonteCarlo>(list2);
-    #ifdef _OPENMP
-    #pragma omp critical
-    #endif // _OPENMP
-    {
+    if (thread < window->num()) {
+      arglist list2 = list;
+      replace_value("[soft_macro_min]", str(window->boundaries()[thread][0]), &list2);
+      replace_value("[soft_macro_max]", str(window->boundaries()[thread][1]), &list2);
+      replace_in_value("[sim_index]", str(thread), &list2);
+      auto mc = std::make_shared<MonteCarlo>(list2);
       cm.set(thread, mc);
-    }
-    complete[thread] = 1;
-    while (std::accumulate(complete.begin(), complete.end(), 0) < window->num()) {
-      cm.get_clone(thread)->attempt(10);
+      complete[thread] = 1;
+      while (std::accumulate(complete.begin(), complete.end(), 0) < window->num()) {
+        cm.get_clone(thread)->attempt(10);
+      }
     }
   }
+  #else // _OPENMP
+    FATAL("CollectionMatrixSplice requires OMP");
+  #endif // _OPENMP
   cm.run_until_all_are_complete();
 }
 

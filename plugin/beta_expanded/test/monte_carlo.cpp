@@ -13,7 +13,8 @@
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/check_energy.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/wltm.h"
@@ -43,7 +44,8 @@ TEST(MonteCarlo, beta_expanded) {
   mc.add(MakeTrialBeta({{"fixed_beta_change", delta_beta}}));
   const std::string trials_per(str(1e4));
   mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj_beta"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
+  mc.add(MakeCheckEnergy({{"trials_per", trials_per}}));
+  mc.add(MakeTune());
   mc.add(MakeCriteriaUpdater({{"trials_per", trials_per}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per", trials_per},

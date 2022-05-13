@@ -16,7 +16,7 @@ Metropolis
 Log file_name lj.csv max_precision true clear_file true
 Run num_trials 1
 """.format(**params))
-    syscode = subprocess.call("~/feasst/build/bin/fst < launch.txt > launch.log", shell=True, executable='/bin/bash')
+    syscode = subprocess.call("../../../../build/bin/fst < launch.txt > launch.log", shell=True, executable='/bin/bash')
     if syscode > 0: sys.exit(1)
 
 class TestMonteCarloLJRef(unittest.TestCase):
@@ -38,9 +38,9 @@ class TestMonteCarloLJRef(unittest.TestCase):
         enlrc = (8./3.)*math.pi*2**2/ 8**3*((1./3.)*rcut**(-9) - rcut**(-3))
 
         # Compare the analytical results with the FEASST computed energies.
-        self.assertAlmostEqual(enlj, df['LennardJones'][0], 15)
-        self.assertAlmostEqual(enlrc, df['LongRangeCorrections'][0], 15)
-        self.assertAlmostEqual(enlj + enlrc, df['energy'][0], 15)
+        self.assertAlmostEqual(enlj, df['LennardJones'][0], 12)
+        self.assertAlmostEqual(enlrc, df['LongRangeCorrections'][0], 12)
+        self.assertAlmostEqual(enlj + enlrc, df['energy'][0], 12)
 
     def test_srsw_ref_config(self):
         """Test the LJ potential against a configuration of 30 particles.
@@ -53,9 +53,9 @@ class TestMonteCarloLJRef(unittest.TestCase):
         self.assertEqual(df['p0'][0], 30)
         enlj = -16.790321304625856
         enlrc = -0.5451660014945704
-        self.assertAlmostEqual(enlj, df['LennardJones'][0], 15)
-        self.assertAlmostEqual(enlrc, df['LongRangeCorrections'][0], 15)
-        self.assertAlmostEqual(enlj + enlrc, df['energy'][0], 15)
+        self.assertAlmostEqual(enlj, df['LennardJones'][0], 12)
+        self.assertAlmostEqual(enlrc, df['LongRangeCorrections'][0], 12)
+        self.assertAlmostEqual(enlj + enlrc, df['energy'][0], 12)
 
     def test_srsw_ref_config_triclinic(self):
         """Test the LJ potential against a configuration of 300 particles in a trinclinic cell.
@@ -70,8 +70,8 @@ class TestMonteCarloLJRef(unittest.TestCase):
         self.assertEqual(df['p0'][0], 300)
         enlj = -505.78567945268367
         enlrc = -29.37186430697248
-        self.assertAlmostEqual(enlj, df['LennardJones'][0], 15)
-        self.assertAlmostEqual(enlrc, df['LongRangeCorrections'][0], 15)
-        self.assertAlmostEqual(enlj + enlrc, df['energy'][0], 15)
+        self.assertAlmostEqual(enlj, df['LennardJones'][0], 12)
+        self.assertAlmostEqual(enlrc, df['LongRangeCorrections'][0], 12)
+        self.assertAlmostEqual(enlj + enlrc, df['energy'][0], 12)
 
 unittest.main(argv=[''], verbosity=2, exit=False)

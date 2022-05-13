@@ -84,6 +84,48 @@ void ModifyFactory::trial(Criteria * criteria,
   }
 }
 
+void ModifyFactory::write_to_file(Criteria * criteria,
+  System * system,
+  TrialFactory * trial_factory) {
+  if (is_multistate()) {
+    if (is_multistate_aggregate()) {
+      std::stringstream ss;
+      for (int state = 0; state < num(); ++state) {
+        if (state == 0) {
+          ss << "state,";
+          ss << modifiers_[state]->header(*criteria, *system, *trial_factory);
+        }
+        ss << state << ",";
+        ss << modifiers_[state]->write(criteria, system, trial_factory);
+      }
+      printer(ss.str(), file_name(*criteria));
+    } else {
+      modifiers_[criteria->state()]->write_to_file(criteria, system, trial_factory);
+    }
+  } else {
+    for (int index = 0; index < num(); ++index) {
+      modifiers_[index]->write_to_file(criteria, system, trial_factory);
+    }
+  }
+}
+
+void ModifyFactory::adjust_bounds(const bool adjusted_up,
+    const std::vector<int>& states,
+    ModifyFactory * modify_factory) {
+  for (int ai = 0; ai < num(); ++ai) {
+    if (modify(ai).is_multistate()) {
+      DEBUG("ai " << ai);
+      for (const int state : states) {
+        if (adjusted_up) {
+          *modify_factory->get_modify(ai)->get_modify(state) = modify(ai).modify(state);
+        } else {
+          *get_modify(ai)->get_modify(state) = modify_factory->modify(ai).modify(state);
+        }
+      }
+    }
+  }
+}
+
 ModifyFactory::ModifyFactory(std::istream& istr) : Modify(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 7177, "unrecognized verison: " << version);

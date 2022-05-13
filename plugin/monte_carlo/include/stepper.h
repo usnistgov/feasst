@@ -108,6 +108,9 @@ class Stepper {
     const System& system,
     const TrialFactory& trials) const { return std::string(""); }
 
+  /// Write to standard output if file name is not set. Otherwise, output file.
+  void printer(const std::string output, const std::string& file_name);
+
   virtual std::string class_name() const { return std::string("Stepper"); }
 
   void serialize(std::ostream& ostr) const;
@@ -130,9 +133,6 @@ class Stepper {
 
   /// Check if it is time to update or write. Return true if so.
   bool is_time(const int trials_per, int * trials_since);
-
-  /// Write to standard output if file name is not set. Otherwise, output file.
-  void printer(const std::string output, const std::string& file_name);
 
   /// Set file output to append.
   void set_append() { append_ = true; }

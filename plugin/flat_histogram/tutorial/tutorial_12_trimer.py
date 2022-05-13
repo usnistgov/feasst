@@ -40,7 +40,7 @@ def mc(thread, mn, mx, trials_per=str(int(1e6))):
     mc.add(fst.MakeTrialRotate(fst.args({"weight": "1.", "tunable_param": "20."})))
     mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": "0"})))
     mc.add(fst.MakeCheckEnergy(fst.args({"trials_per": trials_per, "tolerance": "0.0001"})))
-    mc.add(fst.MakeTune(fst.args({"trials_per": trials_per, "stop_after_phase": "0"})))
+    mc.add(fst.MakeTune(fst.args({"stop_after_phase": "0"})))
     mc.add(fst.MakeLogAndMovie(fst.args({"trials_per": trials_per,
                                          "file_name": "clones" + str(thread),
                                          "file_name_append_phase": "True"})))

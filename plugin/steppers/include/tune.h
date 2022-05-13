@@ -7,17 +7,36 @@
 namespace feasst {
 
 /**
-  Periodically adjust Trial parameters based on acceptance.
+  Each state and trial has a tunable value stored in this object.
+  Every update, check if state has changed and replace with stored values.
+  Also, Tune the stored values.
  */
-class Tune : public ModifyUpdateOnly {
+class Tune : public Modify {
  public:
+  /**
+    args:
+    - trials_per_tune: number of attempted trials per tune (default: 1e3).
+    - stop_after_iteration: stop tuning when Criteria reaches this number
+      of iterations. If -1, always tune (default: -1).
+   */
   explicit Tune(argtype args = argtype());
   explicit Tune(argtype * args);
 
+  std::string header(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trials) const override;
+
+  void initialize(Criteria * criteria,
+      System * system,
+      TrialFactory * trial_factory) override;
+
   void update(Criteria * criteria,
       System * system,
-      TrialFactory * trial_factory) override {
-    trial_factory->tune(); }
+      TrialFactory * trial_factory) override;
+
+  std::string write(Criteria * criteria,
+      System * system,
+      TrialFactory * trial_factory) override;
 
   // serialize
   std::string class_name() const override { return std::string("Tune"); }
@@ -27,6 +46,15 @@ class Tune : public ModifyUpdateOnly {
   std::shared_ptr<Modify> create(argtype * args) const override {
     return std::make_shared<Tune>(args); }
   explicit Tune(std::istream& istr);
+
+ private:
+  int trials_per_tune_;
+  int stop_after_iteration_;
+  std::vector<double> values_;
+  std::vector<int> num_attempts_;
+  std::vector<int> num_accepted_;
+
+  int min_num(const TrialFactory& trial_factory) const;
 };
 
 inline std::shared_ptr<Tune> MakeTune(argtype args = argtype()) {

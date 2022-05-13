@@ -131,9 +131,13 @@ class MonteCarlo {
   Criteria * get_criteria() { return criteria_.get(); }
   Random * get_random() { return random_.get(); }
   TrialFactory * get_trial_factory() { return &trial_factory_; }
+  AnalyzeFactory * get_analyze_factory() { return &analyze_factory_; }
+  ModifyFactory * get_modify_factory() { return &modify_factory_; }
 
   // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
   void adjust_bounds(const bool left_most, const bool right_most,
+    const bool left_complete, const bool right_complete,
+    const bool all_min_size,
     const int min_size, MonteCarlo * mc);
 
   /// The fourth action is to set the Criteria.
@@ -270,6 +274,9 @@ class MonteCarlo {
   // Unload random numbers and energy calculations from cache.
   void unload_cache_(const MonteCarlo& mc);
   void synchronize_(const MonteCarlo& mc, const Select& perturbed);
+
+  /// Write all Analyze and Modify.
+  void write_to_file();
 
   virtual void serialize(std::ostream& ostr) const;
   explicit MonteCarlo(std::istream& istr);

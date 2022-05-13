@@ -48,9 +48,17 @@ void Modify::trial(Criteria * criteria,
     if (criteria->phase() > start_after_phase()) {
       check_update_(criteria, system, trial_factory);
       if (is_time(trials_per_write(), &trials_since_write_)) {
-        printer(write(criteria, system, trial_factory), file_name(*criteria));
+        write_to_file(criteria, system, trial_factory);
       }
     }
+  }
+}
+
+void Modify::write_to_file(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
+  if (trials_per_write() != -1) {
+    printer(write(criteria, system, trial_factory), file_name(*criteria));
   }
 }
 
@@ -63,7 +71,8 @@ void Modify::update(Criteria * criteria,
 std::string Modify::write(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  FATAL("not implemented");
+  DEBUG(trials_per_write());
+  FATAL(class_name() << " not implemented");
   return std::string("");
 }
 
@@ -72,6 +81,10 @@ const std::vector<std::shared_ptr<Modify> >& Modify::modifiers() const {
 }
 
 const Modify& Modify::modify(const int index) const {
+  FATAL("not implemented");
+}
+
+Modify * Modify::get_modify(const int index) {
   FATAL("not implemented");
 }
 

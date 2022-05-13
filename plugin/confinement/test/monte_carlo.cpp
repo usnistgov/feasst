@@ -25,7 +25,7 @@
 #include "monte_carlo/include/run.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/check_energy.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/density_profile.h"
 #include "confinement/include/model_hard_shape.h"
 #include "confinement/include/model_table_cartesian.h"
@@ -233,7 +233,8 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "25."}}));
   mc.add(MakeLogAndMovie({{"trials_per", "1e4"}, {"file_name", "tutorial_0"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", "1e4"}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", "1e4"}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeTune());
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "15"}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));

@@ -14,7 +14,8 @@
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_updater.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/check_energy.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "morph/include/trial_morph.h"
 #include "morph/include/trial_morph_expanded.h"
@@ -46,7 +47,8 @@ void test_morph(const System& system) {
   mc.add(MakeTrialMorph({{"particle_type0", "1"},
                                  {"particle_type_morph0", "0"}}));
   mc.add(MakeLogAndMovie({{"trials_per", str(1e2)}, {"file_name", "tmp/growth"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e2)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(1e2)}}));
+  mc.add(MakeTune());
   mc.attempt(1e3);
   EXPECT_EQ(mc.configuration().num_particles_of_type(0), 4);
   EXPECT_EQ(mc.configuration().num_particles_of_type(1), 0);
@@ -96,7 +98,8 @@ MonteCarlo test_morph_expanded_lj(
     {{"reference_index", "0"}}));//, {"shift", str(-1*num_parts_in_grow)}}));
   const std::string trials_per = str(int(1e3));
   mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/grow_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
+  mc.add(MakeCheckEnergy({{"trials_per", trials_per}}));
+  mc.add(MakeTune());
   mc.add(MakeCriteriaUpdater({{"trials_per", trials_per}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per", trials_per},
@@ -203,7 +206,8 @@ MonteCarlo test_morph_expanded(const std::string trials_per) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialMorphExpanded(grow_sequence));
   mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/growth"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
+  mc.add(MakeCheckEnergy({{"trials_per", trials_per}}));
+  mc.add(MakeTune());
   mc.add(MakeCriteriaUpdater({{"trials_per_write", trials_per}}));
   mc.add(MakeCriteriaWriter({{"trials_per_write", trials_per}, {"file_name", "tmp/growth_crit.txt"}}));
   mc.add(MakeEnergy({{"file_name", "tmp/growth_energy"},
@@ -280,7 +284,8 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   mc.add(MakeTrialMorphExpanded(grow_sequence, {{"reference_index", "0"}}));
   const std::string trials_per = str(int(1e3));
   mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/growth"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
+  mc.add(MakeCheckEnergy({{"trials_per", trials_per}}));
+  mc.add(MakeTune());
   mc.add(MakeCriteriaUpdater({{"trials_per_write", trials_per}}));
   mc.add(MakeCriteriaWriter({{"trials_per_write", trials_per}, {"file_name", "tmp/growth_crit.txt"}}));
   mc.add(MakeEnergy({{"file_name", "tmp/growth_energy"},

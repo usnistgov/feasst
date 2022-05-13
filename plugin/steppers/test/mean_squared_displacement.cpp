@@ -2,7 +2,8 @@
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "steppers/include/mean_squared_displacement.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/tune.h"
+#include "steppers/include/check_energy.h"
 #include "steppers/include/log_and_movie.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/run.h"
@@ -25,7 +26,8 @@ TEST(MeanSquaredDisplacement, msd) {
   mc.run(MakeRun({{"until_num_particles", "50"}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeTune());
   mc.add(MakeMeanSquaredDisplacement({
     {"trials_per_update", "10"},
     {"trials_per_write", "100"},

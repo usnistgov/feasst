@@ -31,12 +31,12 @@ int main(int argc, char ** argv) {
   // nvt equilibration
   mc.run(feasst::MakeRemoveTrial({{"name", "TrialAdd"}}));
   mc.set(feasst::MakeThermoParams({{"beta", args.get("--beta")}}));
-  mc.add(feasst::MakeCheckEnergyAndTune(
-   {{"trials_per", "1e5"}, {"tolerance", "1e-8"}}));
-  mc.run(feasst::MakeRun({{"num_attempts", "1e5"}}));
+  mc.add(feasst::MakeCheckEnergy({{"trials_per", "1e5"}, {"tolerance", "1e-8"}}));
+  mc.add(feasst::MakeTune());
+  mc.run(feasst::MakeRun({{"num_trials", "1e5"}}));
 
   // nvt production
   mc.add(feasst::MakeLogAndMovie(
    {{"trials_per", "1e5"}, {"file_name", "lj"}}));
-  mc.run(feasst::MakeRun({{"num_attempts", args.get("--trials")}}));
+  mc.run(feasst::MakeRun({{"num_trials", args.get("--trials")}}));
 }

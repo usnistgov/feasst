@@ -37,8 +37,8 @@ int main(int argc, char ** argv) {
   mc.add(feasst::MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(feasst::MakeRun({{"until_num_particles", args.get("--num")}}));
   mc.run(feasst::MakeRemoveTrial({{"name", "TrialAdd"}}));
-  mc.add(feasst::MakeCheckEnergyAndTune(
-   {{"trials_per", feasst::str(1e5)}, {"tolerance", "1e-8"}}));
+  mc.add(feasst::MakeCheckEnergy({{"trials_per", feasst::str(1e5)}, {"tolerance", "1e-8"}}));
+  mc.add(feasst::MakeTune());
   mc.set(feasst::MakeCheckpoint({{"file_name", "checkpoint.fst"},
                                  {"num_hours", feasst::str(0.95*args.get_double("--num_hours"))},
                                  {"num_hours_terminate", feasst::str(0.95*args.get_double("--num_hours"))}}));

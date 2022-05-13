@@ -28,11 +28,12 @@ class Bias {
 
   /// Update only.
   virtual void update(
-      const int macrostate_old,
-      const int macrostate_new,
-      const double ln_metropolis_prob,
-      const bool is_accepted,
-      const bool is_endpoint) = 0;
+    const int macrostate_old,
+    const int macrostate_new,
+    const double ln_metropolis_prob,
+    const bool is_accepted,
+    const bool is_endpoint,
+    const Macrostate& macro) = 0;
 
   /// Perform an infrequent update to the bias.
   virtual void infrequent_update(const Macrostate& macro) {}

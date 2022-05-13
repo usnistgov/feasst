@@ -79,4 +79,3 @@ def line_beginning_with_state(csv_file):
             if line.split(',')[0] == 'state':
                 return count
             count += 1
-

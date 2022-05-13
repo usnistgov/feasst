@@ -31,7 +31,8 @@ void TransitionMatrix::update(
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_endpoint) {
+    const bool is_endpoint,
+    const Macrostate& macro) {
   DEBUG("macro old/new " << macrostate_old << " " << macrostate_new);
   DEBUG("is_accepted " << is_accepted);
   DEBUG("is_endpoint " << is_endpoint);
@@ -46,6 +47,9 @@ void TransitionMatrix::update(
     // double count endpoints because transitions beyond bounds are impossible
     if (is_endpoint) {
       ++visits_[macrostate_new][1-vindex];
+    }
+    if (new_sweep_ != 0) {
+      num_sweeps_ = min_vis_calc_(macro);
     }
   }
   double metropolis_prob = std::min(1., std::exp(ln_metropolis_prob));
@@ -95,15 +99,7 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
   return ss.str();
 }
 
-void TransitionMatrix::infrequent_update(const Macrostate& macro) {
-  DEBUG("TransitionMatrix::infrequent_update_()");
-  DEBUG("update the macrostate distribution");
-  collection_.compute_ln_prob(&ln_prob_);
-
-  DEBUG("update the number of sweeps");
-//  const int min_vis = *std::min_element(visits_.begin() + macro.soft_min(),
-//                                        visits_.begin() + macro.soft_max());
-  // find minimum visits in soft range
+int TransitionMatrix::min_vis_calc_(const Macrostate& macro) const {
   int min_vis = 1e9;
   for (int bin = macro.soft_min(); bin < macro.soft_max() + 1; ++bin) {
     int vis = *std::min_element(visits_[bin].begin(), visits_[bin].end());
@@ -111,11 +107,18 @@ void TransitionMatrix::infrequent_update(const Macrostate& macro) {
       min_vis = vis;
     }
   }
+  ASSERT(min_vis != 1e9, "error");
+  return min_vis;
+}
 
-  if (new_sweep_ != 0) {
-    num_sweeps_ = min_vis;
-  } else {
-    if (min_vis >= min_visits_) {
+void TransitionMatrix::infrequent_update(const Macrostate& macro) {
+  DEBUG("TransitionMatrix::infrequent_update_()");
+  DEBUG("update the macrostate distribution");
+  collection_.compute_ln_prob(&ln_prob_);
+
+  DEBUG("update the number of sweeps");
+  if (new_sweep_ == 0) {
+    if (min_vis_calc_(macro) >= min_visits_) {
       double sum_vis = 0;
       for (int bin = macro.soft_min(); bin < macro.soft_max() + 1; ++bin) {
         sum_vis += visits_[bin][0] + visits_[bin][1];
@@ -134,6 +137,8 @@ void TransitionMatrix::infrequent_update(const Macrostate& macro) {
   DEBUG("check if complete");
   if (num_sweeps_ >= min_sweeps_) {
     set_complete_();
+  } else {
+    set_incomplete_();
   }
   DEBUG("here");
 }

@@ -45,7 +45,8 @@ class TransitionMatrix : public Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_endpoint) override;
+    const bool is_endpoint,
+    const Macrostate& macro) override;
 
   /// Return the minimum sweeps required for completion.
   int min_sweeps() const { return min_sweeps_; }
@@ -99,6 +100,9 @@ class TransitionMatrix : public Bias {
   int reset_sweeps_ = -1;
   int average_visits_ = 0;
   int new_sweep_ = 0;
+
+  // find minimum visits in soft range
+  int min_vis_calc_(const Macrostate& macro) const;
 };
 
 inline std::shared_ptr<TransitionMatrix> MakeTransitionMatrix(

@@ -35,7 +35,7 @@ for fl in `find ../ -name 'tutorial_failures.txt'`; do
 done
 
 #tail -1 tutorial_failures.txt >> summary.log
-echo "********** launch py **********" >> summary.log
-python ../dev/tools/lnch_tutorials.py >> summary_long_long.log 2>&1
-tail -1 launch_failures.txt >> summary.log
+#echo "********** launch py **********" >> summary.log
+#python ../dev/tools/lnch_tutorials.py >> summary_long_long.log 2>&1
+#tail -1 launch_failures.txt >> summary.log
 

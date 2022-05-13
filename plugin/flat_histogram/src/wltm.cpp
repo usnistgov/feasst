@@ -26,12 +26,13 @@ void WLTM::update(
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_endpoint) {
+    const bool is_endpoint,
+    const Macrostate& macro) {
   DEBUG("num_flatness " << wang_landau_->num_flatness());
   if (wang_landau_->num_flatness() < min_flatness_) {
     DEBUG("wl update");
     wang_landau_->update(macrostate_old, macrostate_new,
-      ln_metropolis_prob, is_accepted, is_endpoint);
+      ln_metropolis_prob, is_accepted, is_endpoint, macro);
   } else {
     if (production_ == 0) {
       production_ = 1;
@@ -41,7 +42,7 @@ void WLTM::update(
   if (wang_landau_->num_flatness() >= collect_flatness_) {
     DEBUG("tm update");
     transition_matrix_->update(macrostate_old, macrostate_new,
-      ln_metropolis_prob, is_accepted, is_endpoint);
+      ln_metropolis_prob, is_accepted, is_endpoint, macro);
   }
   if (transition_matrix_->is_complete()) set_complete_();
 }

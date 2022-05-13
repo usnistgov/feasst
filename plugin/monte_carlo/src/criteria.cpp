@@ -216,17 +216,17 @@ void Criteria::set_cm(const bool inc_max, const int macro, const Criteria& crit)
 }
 
 void Criteria::adjust_bounds(const bool left_most, const bool right_most,
+  const bool left_complete, const bool right_complete,
+  const bool all_min_size,
   const int min_size, const System& system, const System * upper_sys,
-  Criteria * criteria) {
+  Criteria * criteria, bool * adjusted_up, std::vector<int> * states) {
   FATAL("not implemented");
 }
 
-const Macrostate& Criteria::macrostate() const {
-  FATAL("not implemented");
-}
+const Macrostate& Criteria::macrostate() const { FATAL("not implemented"); }
 
-const Bias& Criteria::bias() const {
-  FATAL("not implemented");
-}
+const Bias& Criteria::bias() const { FATAL("not implemented"); }
+
+const FlatHistogram& Criteria::flat_histogram() const { FATAL("not implemented"); }
 
 }  // namespace feasst

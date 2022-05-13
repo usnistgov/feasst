@@ -49,7 +49,8 @@ void WangLandau::update(
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_endpoint) {
+    const bool is_endpoint,
+    const Macrostate& macro) {
   int bin = bin_(macrostate_old, macrostate_new, is_accepted);
   ln_prob_.add(bin, add_to_ln_probability_);
   ++visited_states_[bin];

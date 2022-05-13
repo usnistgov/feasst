@@ -18,7 +18,7 @@
 #include "steppers/include/num_particles.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/check_energy.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/energy_map_neighbor.h"
@@ -34,14 +34,14 @@ namespace feasst {
 
 /// Without single particle translations, rigid cluster moves should reject
 /// cluster coalescence and breakup to satisfy detailed balance.
-TEST(MonteCarlo, cluster) {
+TEST(MonteCarlo, cluster_LONG) {
   //for (auto single_particle_translate : {false}) {
   //for (auto single_particle_translate : {true}) {
   for (auto single_particle_translate : {true, false}) {
     MonteCarlo mc;
     //mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
     mc.add(MakeConfiguration({{"cubic_box_length", "8"},
-      {"particle_type", "../forcefield/lj.fstprt"},
+      {"particle_type0", "../forcefield/lj.fstprt"},
       {"add_particles_of_type0", "3"}}));
     mc.get_system()->get_configuration()->update_positions({{0, 0, 0}, {2, 0, 0}, {4, 0, 0}});
     mc.add(MakePotential(MakeLennardJones(),
@@ -55,17 +55,17 @@ TEST(MonteCarlo, cluster) {
     scluster->select_cluster(0, mc.system());
     const int cluster_size = scluster->mobile().num_particles();
     mc.add(MakeTrialRigidCluster({
-      {"particle_type", "7"},
+      {"particle_type", "0"},
       {"neighbor_index", "0"},
       {"rotate_param", "50"},
       {"translate_param", "1"}}));
     const int trials_per = 1e2;
     mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergy({{"trials_per", "1"}}));
-    mc.add(MakeTune({{"trials_per", str(trials_per)}}));
+    mc.add(MakeTune({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/tune.txt"}}));
     // conduct the trials
     const VisitModelInner& inner = mc.system().potential(0).visit_model().inner();
-    for (int trial = 0; trial < 1e4; ++trial) {
+    for (int trial = 0; trial < 1e5; ++trial) {
       //INFO("trial " << trial);
       mc.attempt(1);
       EXPECT_NEAR(inner.energy_map().total_energy(),
@@ -110,7 +110,8 @@ TEST(MonteCarlo, GCMCmap) {
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     const std::string trials_per = str(1e4);
     mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj"}}));
-    mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
+    mc.add(MakeCheckEnergy({{"trials_per", trials_per}}));
+    mc.add(MakeTune());
     std::shared_ptr<EnergyMap> map;
     if (mapstr == "all") {
       map = MakeEnergyMapAll();

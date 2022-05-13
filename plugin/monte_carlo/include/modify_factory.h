@@ -34,9 +34,20 @@ class ModifyFactory : public Modify {
       System * system,
       TrialFactory * trial_factory) override;
 
+  /// Write all Modify immediately.
+  void write_to_file(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) override;
+
+  /// For use with CollectionMatrixSplice, transfer multistate between threads.
+  void adjust_bounds(const bool adjusted_up, const std::vector<int>& states,
+    ModifyFactory * analyze_factory);
+
   void trial(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override;
+
+  Modify * get_modify(const int index) override { return modifiers_[index].get(); }
 
   std::string class_name() const override {
     return std::string("ModifyFactory"); }

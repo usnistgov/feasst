@@ -47,9 +47,17 @@ void Analyze::trial(const Criteria& criteria,
     if (criteria.phase() > start_after_phase()) {
       check_update_(criteria, system, trial_factory);
       if (is_time(trials_per_write(), &trials_since_write_)) {
-        printer(write(criteria, system, trial_factory), file_name(criteria));
+        write_to_file(criteria, system, trial_factory);
       }
     }
+  }
+}
+
+void Analyze::write_to_file(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trial_factory) {
+  if (trials_per_write() != -1) {
+    printer(write(criteria, system, trial_factory), file_name(criteria));
   }
 }
 
@@ -71,6 +79,10 @@ const std::vector<std::shared_ptr<Analyze> >& Analyze::analyzers() const {
 }
 
 const Analyze& Analyze::analyze(const int index) const {
+  FATAL("not implemented");
+}
+
+Analyze * Analyze::get_analyze(const int index) {
   FATAL("not implemented");
 }
 

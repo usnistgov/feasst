@@ -31,7 +31,7 @@ Run until_num_particles {num_particles}
 
 # nvt equilibration
 RemoveTrial name TrialAdd
-Tune trials_per {trials_per}
+Tune
 CheckEnergy trials_per {trials_per} tolerance 1e-8
 Run num_trials {equilibration}
 
@@ -80,9 +80,9 @@ def run(sim):
         params["seed"] = random.randrange(1e9)
         file_name = "launch_run"+str(sim)+".txt"
         mc_lj(params, file_name=file_name)
-        syscode = subprocess.call("~/feasst/build/bin/fst < " + file_name + " > launch_run"+str(sim)+".log", shell=True, executable='/bin/bash')
+        syscode = subprocess.call("../../build/bin/fst < " + file_name + " > launch_run"+str(sim)+".log", shell=True, executable='/bin/bash')
     else:
-        syscode = subprocess.call("~/feasst/build/bin/rst checkpoint" + str(sim) + ".fst", shell=True, executable='/bin/bash')
+        syscode = subprocess.call("../../build/bin/rst checkpoint" + str(sim) + ".fst", shell=True, executable='/bin/bash')
     return syscode
 
 if __name__ == "__main__":

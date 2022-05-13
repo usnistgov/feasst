@@ -5,7 +5,8 @@
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "steppers/include/wall_clock_limit.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/check_energy.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/seek_modify.h"
 
@@ -21,12 +22,14 @@ TEST(SeekModify, seek) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeTune());
+  mc.add(MakeTune());
   mc.add(MakeWallClockLimit({{"max_hours", "1e-9"}}));
   EXPECT_EQ(0, SeekModify().index("CheckEnergy", mc)[0]);
-  EXPECT_EQ(0, SeekModify().index("CheckEnergy", mc)[1]);
-  EXPECT_EQ(0, SeekModify().index("Tune", mc)[0]);
-  EXPECT_EQ(1, SeekModify().index("Tune", mc)[1]);
+  EXPECT_EQ(-1, SeekModify().index("CheckEnergy", mc)[1]);
+  EXPECT_EQ(1, SeekModify().index("Tune", mc)[0]);
+  EXPECT_EQ(-1, SeekModify().index("Tune", mc)[1]);
   EXPECT_EQ(-1, SeekModify().index("MagicalUnicorn", mc)[0]);
   EXPECT_EQ(-1, SeekModify().index("MagicalUnicorn", mc)[0]);
 }

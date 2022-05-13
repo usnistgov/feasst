@@ -38,10 +38,14 @@ class Modify : public Stepper {
   virtual std::string write(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory);
+  virtual void write_to_file(Criteria * criteria,
+      System * system,
+      TrialFactory * trial_factory);
 
   // Access to factory of Modify objects.
   virtual const std::vector<std::shared_ptr<Modify> >& modifiers() const;
   virtual const Modify& modify(const int index) const;
+  virtual Modify * get_modify(const int index);
 
   // serialization
   std::string class_name() const override { return std::string("Modify"); }

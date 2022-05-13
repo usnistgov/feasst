@@ -68,7 +68,7 @@ void Run::run(MonteCarlo * mc) {
   }
   if (until_criteria_complete_) {
     while (!mc->criteria().is_complete()) {
-      mc->attempt(100);
+      mc->attempt(10);
     }
   }
 }

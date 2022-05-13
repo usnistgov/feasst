@@ -19,12 +19,12 @@
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/tune.h"
-#include "steppers/include/tune_per_state.h"
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_physicality.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/check_energy.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "charge/include/ewald.h"
 #include "charge/include/charge_screened.h"
@@ -107,7 +107,7 @@ TEST(MonteCarlo, hard_sphere_LONG) {
   const std::string trials_per = "100";
   mc.add(MakeCheckEnergy({{"trials_per", trials_per}, {"tolerance", "0.0001"}}));
   mc.add(MakeCheckPhysicality({{"trials_per", "1"}}));
-  mc.add(MakeTune({{"trials_per", trials_per}, {"stop_after_phase", "0"}}));
+  mc.add(MakeTune({{"stop_after_phase", "0"}}));
   mc.add(MakeLogAndMovie({{"trials_per", trials_per},
                           {"file_name", "hs_fh"},
                           {"file_name_append_phase", "True"}}));
@@ -200,7 +200,7 @@ MonteCarlo test_lj_fh(const int num_steps,
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/lj_fh"}}));
   mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}}));
   //mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
-  mc.add(MakeTunePerState({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/tune.txt"}}));
+  mc.add(MakeTune({{"multistate", "true"}, {"trials_per_write", str(trials_per)}, {"file_name", "tmp/tune.txt"}}));
   mc.add(MakeCriteriaUpdater({{"trials_per", str(1)}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per", trials_per},
@@ -427,7 +427,7 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
   mc.set(criteria);
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/spce_fh"}}));
   mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", str(1e-6)}}));
-  mc.add(MakeTunePerState({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/spce_tune.txt"}}));
+  mc.add(MakeTune({{"multistate", "true"}, {"trials_per_write", str(trials_per)}, {"file_name", "tmp/spce_tune.txt"}}));
   mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per", str(trials_per)},
@@ -614,7 +614,8 @@ MonteCarlo rpm_fh_test(
   // mc.add(MakeCPUTime({{"trials_per", str(5*trials_per)}}));
   mc.add(MakeCheckNetCharge());
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/rpm_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}}));
+  mc.add(MakeTune());
   mc.add(MakeEnergy({
     {"file_name", "tmp/rpm_fh_energy"},
     {"trials_per_update", "1"},
@@ -686,7 +687,8 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
     {"trials_per", str(trials_per)},
     {"file_name", "tmp/dival_fh_crit.txt"}}));
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/dival_fh"}}));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}, {"tolerance", str(1e-4)}}));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", str(1e-4)}}));
+  mc.add(MakeTune());
   mc.add(MakeCheckNetCharge({{"trials_per", str(trials_per)}}));
   const int en_index = mc.num_analyzers();
   mc.add(MakeEnergy({
@@ -741,7 +743,7 @@ MonteCarlo nvtw(const int num) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
 //  mc.add(MakeTrialGrow({{{"translate", "true"}, {"particle_type", "0"}, {"tunable_param", "1"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}, {"weight", "4"}}));
-  mc.add(MakeTune({{"trials_per", trials_per}}));
+  mc.add(MakeTune());
   mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}}));
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/lj_fh"}}));
   mc.run(MakeRun({{"until_num_particles", str(num)}}));

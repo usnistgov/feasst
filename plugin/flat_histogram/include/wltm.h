@@ -33,7 +33,8 @@ class WLTM : public Bias {
     const int macrostate_new,
     const double ln_metropolis_prob,
     const bool is_accepted,
-    const bool is_endpoint) override;
+    const bool is_endpoint,
+    const Macrostate& macro) override;
 
   /// Updates min_sweeps, but neither flatness.
   int num_iterations_to_complete() const override {

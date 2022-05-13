@@ -34,11 +34,20 @@ class AnalyzeFactory : public Analyze {
   const Analyze& analyze(const int index) const override {
     return const_cast<Analyze&>(*analyzers_[index]); }
 
+  /// Write all Analyze immediately.
+  void write_to_file(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trial_factory) override;
+
+  /// For use with CollectionMatrixSplice, transfer multistate between threads.
+  void adjust_bounds(const bool adjusted_up, const std::vector<int>& states,
+    AnalyzeFactory * analyze_factory);
+
   void trial(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) override;
 
-  Analyze * get_analyze(const int index) { return analyzers_[index].get(); }
+  Analyze * get_analyze(const int index) override { return analyzers_[index].get(); }
 
   // serialize
   std::string class_name() const override {

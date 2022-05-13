@@ -8,7 +8,8 @@
 #include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_add.h"
-#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/check_energy.h"
+#include "steppers/include/tune.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/criteria_writer.h"
@@ -46,9 +47,10 @@ MonteCarlo monte_carlo2(const int thread, const int min, const int max,
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}}),
       {{"soft_macro_min", str(soft_min)}, {"soft_macro_max", str(soft_max)}}),
-    MakeWLTM({{"min_sweeps", "100000"}, {"new_sweep", "1"}, {"min_flatness", "25"}, {"collect_flatness", "20"}})));//, {"max_block_operations", "6"}})));
-    //MakeTransitionMatrix({{"min_sweeps", "100000"}, {"new_sweep", "1"}})));//, {"max_block_operations", "6"}})));
-  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
+    //MakeWLTM({{"min_sweeps", "100000"}, {"new_sweep", "1"}, {"min_flatness", "25"}, {"collect_flatness", "20"}})));//, {"max_block_operations", "6"}})));
+    MakeTransitionMatrix({{"min_sweeps", "100000"}, {"new_sweep", "1"}})));//, {"max_block_operations", "6"}})));
+  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}}));
+  mc.add(MakeTune({{"trials_per_write", str(trials_per)}, {"multistate", "true"}, {"file_name", "tune" + str(thread)}}));
   mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)},
     {"file_name", "tmp/clones" + str(thread)}}));
   mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
@@ -118,13 +120,15 @@ TEST(CollectionMatrixSplice, lj_fh) {
 
 TEST(CollectionMatrixSplice, lj_fh_LONG) {
   CollectionMatrixSplice clones2 = make_splice(5, 1);
+  clones2.get_clone(0)->write_to_file();
   while (!clones2.are_all_complete()) {
     clones2.run(0.0001);
     DEBUG("swap");
     clones2.adjust_bounds();
   }
   clones2.write("tmp/ln_prob.txt");
-  //clones2.run_until_all_are_complete();
+  clones2.get_clone(0)->write_to_file();
+//  clones2.run_until_all_are_complete();
   LnProbability lnpi = clones2.ln_prob();
   EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.04);
   EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.04);
@@ -149,6 +153,9 @@ TEST(CollectionMatrixSplice, lj_fh_LONG) {
   EXPECT_NEAR(clones2.clone(1).analyze(en_index[0]).analyze(3).accumulator().average(), -0.1784570533333333, 0.004*3);
   EXPECT_NEAR(clones2.clone(1).analyze(en_index[0]).analyze(4).accumulator().average(), -0.29619201333333334, 0.006*3);
 //  INFO(SeekAnalyze().reference("Energy", clones2.clone(1)).accumulator().average());
+
+  MakeCheckpoint({{"file_name", "tmp/clones.fst"}})->write(clones2);
+  auto clones3 = MakeCollectionMatrixSplice("tmp/clones.fst");
 }
 
 }  // namespace feasst
