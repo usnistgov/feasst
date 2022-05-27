@@ -14,7 +14,7 @@ FormulaSineWave::FormulaSineWave(argtype args) : Formula(&args) {
   width_ = dble("width", &args, 2*PI);
   phase_ = dble("phase", &args, 0.);
   shift_ = dble("shift", &args, default_shift());
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapFormulaSineWave {

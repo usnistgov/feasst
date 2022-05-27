@@ -52,6 +52,14 @@ void MonteCarlo::parse_(arglist * args) {
     return;
   }
 
+  // parse NeighborCriteria
+  if (args->begin()->first == "NeighborCriteria") {
+    DEBUG("parsing NeighborCriteria");
+    add(MakeNeighborCriteria(args->begin()->second));
+    args->erase(args->begin());
+    return;
+  }
+
   // parse Potential
   if (args->begin()->first == "Potential") {
     DEBUG("parsing Potential");

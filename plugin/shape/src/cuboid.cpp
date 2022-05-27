@@ -8,20 +8,40 @@ namespace feasst {
 class MapCuboid {
  public:
   MapCuboid() {
-    auto obj = MakeCuboid(
-      Position({1, 1, 1}),
-      Position({0, 0, 0}));
+    auto obj = MakeCuboid({{"side_length", "s"}});
     obj->deserialize_map()["Cuboid"] = obj;
   }
 };
 
 static MapCuboid mapper_ = MapCuboid();
 
-Cuboid::Cuboid(const Position& side_lengths,
-    const Position& center) : Shape() {
+Cuboid::Cuboid(argtype * args) : Shape() {
   class_name_ = "Cuboid";
-  side_lengths_ = side_lengths;
-  center_ = center;
+
+  DEBUG("parse cubic_side_length");
+  if (used("cubic_side_length", *args)) {
+    const double len = dble("cubic_side_length", args);
+    ASSERT(len > 0, "len: " << len << " must be > 0");
+    side_lengths_ = Position({len, len, len});
+  } else {
+    DEBUG("parse side_length");
+    side_lengths_ = Position(parse_dimensional(str("side_length", args), args, 4));
+  }
+  
+  DEBUG("parse center");
+  center_.set_to_origin(side_lengths_.size());
+  const std::string center_key = str("center", args, "");
+  if (!center_key.empty()) {
+    for (int dim = 0; dim < side_lengths_.size(); ++dim) {
+      const std::string key = center_key+str(dim);
+      if (used(key, *args)) {
+        center_.set_coord(dim, dble(key, args));
+      }
+    }
+  }
+}
+Cuboid::Cuboid(argtype args) : Cuboid(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 double Cuboid::nearest_distance(const Position& point) const {

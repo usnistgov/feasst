@@ -19,8 +19,7 @@ TEST(ModelTwoBodyTable, spce) {
     {"add_particles_of_type1", "1"}});
   config->update_positions({{0, 0, 0}, {0, 0, 2}});
   config->add_or_set_model_param("alpha", 0.2);
-  //auto model = MakeLennardJones();
-  auto model = MakeModelTwoBodyFactory({MakeLennardJones()});
+  auto model = MakeLennardJones();
   //auto model = MakeCoulomb();
   //auto model = MakeChargeScreened({{"table_size", "0"}});
 

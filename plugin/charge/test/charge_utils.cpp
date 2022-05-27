@@ -33,8 +33,8 @@ System spce(argtype args) {
     install_dir() + "/forcefield/spce.fstprt");
   system.add(Configuration(&args));
   system.add(MakePotential(std::make_shared<Ewald>(&args)));
-  system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                                    MakeChargeScreened({{"table_size", "0"}})}),
+  system.add(MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
+                                                   MakeChargeScreened({{"table_size", "0"}})),
                            MakeVisitModelCutoffOuter(),
                            {{"table_size", str("table_size", &args, str(1e6))}}));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
@@ -45,15 +45,15 @@ System spce(argtype args) {
 //  system.add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
     std::shared_ptr<Potential> ref;
-    ref = MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                                 MakeChargeScreened()}),
+    ref = MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
+                                                MakeChargeScreened()),
                         MakeVisitModelCell({{"min_length", str(dual_cut)}}));
     ref->set_model_params(system.configuration());
     ref->set_model_param("cutoff", 0, dual_cut);
     ref->set_model_param("cutoff", 1, dual_cut);
     system.add_to_reference(ref);
   }
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
   return system;
 }
 
@@ -93,19 +93,19 @@ System rpm(argtype args) {
     system.add(config);
   }
   system.add(MakePotential(std::make_shared<Ewald>(&args)));
-  system.add(MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                                MakeChargeScreened()})));
+  system.add(MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
+                                                   MakeChargeScreened())));
   system.add(MakePotential(MakeChargeSelf()));
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
-    auto ref = MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                                      MakeChargeScreened()}),
+    auto ref = MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
+                                                     MakeChargeScreened()),
                         MakeVisitModelCell({{"min_length", str(dual_cut)}}));
     ref->set_model_params(system.configuration());
     ref->set_model_param("cutoff", 0, dual_cut);
     ref->set_model_param("cutoff", 1, dual_cut);
     system.add_to_reference(ref);
   }
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
   return system;
 }
 

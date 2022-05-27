@@ -12,7 +12,7 @@ SeekNumParticles::SeekNumParticles(const int num, argtype args) :
   num_(num) {
   particle_type_ = integer("particle_type", &args, -1);
   max_attempts_ = integer("max_attempts", &args, 1e8);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 SeekNumParticles SeekNumParticles::with_thermo_params(argtype args) {
@@ -43,7 +43,7 @@ SeekNumParticles SeekNumParticles::with_trial_add(argtype args) {
     typed_args.insert({"particle_type", type});
   }
   extra_trials_.add(MakeTrialAdd(typed_args));
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
   return *this;
 }
 

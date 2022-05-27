@@ -43,11 +43,13 @@ TrialAddMultiple::TrialAddMultiple(argtype * args) : Trial(args) {
   const std::vector<int> pt = ptypes(args);
   std::vector<argtype> new_args;
   set(std::make_shared<ComputeAddMultiple>(args));
+  const std::string reference_index = feasst::str("reference_index", args, "-1");
+  const std::string num_steps = feasst::str("num_steps", args, "1");
   for (int p : pt) {
     argtype nag = *args;
     nag.insert({"particle_type", str(p)});
-    const std::string num_steps = feasst::str("num_steps", &nag, "1");
     nag.insert({"num_steps", num_steps});
+    nag.insert({"reference_index", reference_index});
     nag.insert({"exclude_perturbed", "true"});
     new_args.push_back(nag);
   }
@@ -56,11 +58,11 @@ TrialAddMultiple::TrialAddMultiple(argtype * args) : Trial(args) {
       std::make_shared<TrialSelectParticle>(&arg),
       std::make_shared<PerturbAdd>(&arg),
       &arg);
-    check_all_used(arg);
+    FEASST_CHECK_ALL_USED(arg);
   }
 }
 TrialAddMultiple::TrialAddMultiple(argtype args) : TrialAddMultiple(&args) {
-  //check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialAddMultiple::TrialAddMultiple(std::istream& istr) : Trial(istr) {

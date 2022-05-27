@@ -19,11 +19,15 @@ class AHalfB : public Constraint {
     - particle_type_B: particle type for B (default: 1).
     - extra: allow |2*A - B| <= extra (default: 0).
    */
-  AHalfB(argtype args = argtype());
+  explicit AHalfB(argtype args = argtype());
+  explicit AHalfB(argtype * args);
   bool is_allowed(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override;
-  std::shared_ptr<Constraint> create(std::istream& istr) const override;
+  std::shared_ptr<Constraint> create(std::istream& istr) const override {
+    return std::make_shared<AHalfB>(istr); }
+  std::shared_ptr<Constraint> create(argtype * args) const override {
+    return std::make_shared<AHalfB>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit AHalfB(std::istream& istr);
   virtual ~AHalfB() {}

@@ -27,7 +27,7 @@ ThermoParams::ThermoParams(argtype args) {
 
   if (used("pH", args)) set_pH(dble("pH", &args));
   if (used("pressure", args)) set_pressure(dble("pressure", &args));
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void ThermoParams::set_beta(const double beta) {

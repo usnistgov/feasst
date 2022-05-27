@@ -69,7 +69,7 @@ HalfSpaceSine::HalfSpaceSine(std::shared_ptr<FormulaSineWave> sine_wave,
   // solver_ = MakeSolverBisection({{"tolerance", str(1e-8)}});
   // solver_ = MakeSolverNewtonRaphson({{"tolerance", str(1e-8)}, {"guess", "0"}});
   init_sine_dist_deriv_();
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 bool HalfSpaceSine::is_inside(const Position& point) const {

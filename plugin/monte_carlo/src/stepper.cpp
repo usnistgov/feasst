@@ -10,7 +10,7 @@
 namespace feasst {
 
 Stepper::Stepper(argtype args) : Stepper(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 Stepper::Stepper(argtype * args) {
   set_trials_per_write(integer("trials_per_write", args, 1));

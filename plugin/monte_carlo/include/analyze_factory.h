@@ -23,6 +23,9 @@ class AnalyzeFactory : public Analyze {
   /// Add an Analyze object.
   void add(std::shared_ptr<Analyze> analyze) { analyzers_.push_back(analyze); }
 
+  /// Remove an Analyze object.
+  void remove(const int index) { analyzers_.erase(analyzers_.begin() + index); }
+
   /// Return the number.
   int num() const { return static_cast<int>(analyzers_.size()); }
 

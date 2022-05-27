@@ -21,6 +21,7 @@ namespace feasst {
 class LennardJonesForceShift : public LennardJonesAlpha {
  public:
   explicit LennardJonesForceShift(argtype args = argtype());
+  explicit LennardJonesForceShift(argtype * args);
 
   // HWH - optimize better: sqrt is used twice for distance
   /// Precompute the shift factor for optimization, given existing model parameters.
@@ -34,6 +35,8 @@ class LennardJonesForceShift : public LennardJonesAlpha {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<LennardJonesForceShift>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<LennardJonesForceShift>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit LennardJonesForceShift(std::istream& istr);
   virtual ~LennardJonesForceShift() {}

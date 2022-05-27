@@ -47,7 +47,7 @@ TrialMorph::TrialMorph(argtype * args) : Trial(args) {
   set(MakeComputeMorph());
 }
 TrialMorph::TrialMorph(argtype args) : TrialMorph(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialMorph::TrialMorph(std::istream& istr) : Trial(istr) {

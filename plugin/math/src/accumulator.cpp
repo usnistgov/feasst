@@ -16,7 +16,7 @@ Accumulator::Accumulator(argtype * args) {
 }
 
 Accumulator::Accumulator(argtype args) : Accumulator(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Accumulator::accumulate(double value) {

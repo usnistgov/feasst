@@ -51,7 +51,6 @@ class MapTrialGrow {
 static MapTrialGrow mapper_ = MapTrialGrow();
 
 void TrialGrow::build_(std::vector<argtype> * args) {
-  class_name_ = "TrialGrow";
   const int num_args = static_cast<int>(args->size());
   ASSERT(num_args > 0, "TrialGrow requires args.size: " << num_args << " > 0");
   double weight = dble("weight", &(*args)[0], -1.);
@@ -243,9 +242,9 @@ void TrialGrow::build_(std::vector<argtype> * args) {
         {"reference_index", str("reference_index", &iargs, default_reference_index)},
         {"new_only", str("new_only", &iargs, default_new_only)},
       };
-      check_all_used(iargs);
+      FEASST_CHECK_ALL_USED(iargs);
       trial->add_stage(select, perturb, &stage_args);
-      check_all_used(stage_args);
+      FEASST_CHECK_ALL_USED(stage_args);
     }
     trial->set(compute);
     DEBUG("compute " << compute->class_name());
@@ -254,6 +253,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
 }
 
 TrialGrow::TrialGrow(std::vector<argtype> args) : TrialFactoryNamed() {
+  class_name_ = "TrialGrow";
   build_(&args);
 }
 
@@ -276,6 +276,7 @@ void TrialGrowFile::add_(const argtype add_args, std::vector<argtype> * args) {
 
 // Convert file contents to a list of argtypes to use in the above constructor
 TrialGrowFile::TrialGrowFile(argtype * args) : TrialGrow() {
+  class_name_ = "TrialGrowFile";
   const std::string file_name = str("file_name", args);
   std::vector<argtype> reformated;
   std::ifstream file(file_name);
@@ -303,5 +304,7 @@ TrialGrowFile::TrialGrowFile(argtype * args) : TrialGrow() {
   }
 }
 TrialGrowFile::TrialGrowFile(argtype args) : TrialGrowFile(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
+
 }  // namespace feasst

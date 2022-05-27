@@ -17,7 +17,8 @@ class ModelTwoBody;
 // HWH rename to VisitInner (consider it can be used by BondVisitor, etc)
 class VisitModelInner {
  public:
-  VisitModelInner() {}
+  explicit VisitModelInner(argtype args = argtype());
+  explicit VisitModelInner(argtype * args);
 
   explicit VisitModelInner(const std::shared_ptr<EnergyMap> map) {
     set_energy_map(map); }
@@ -112,8 +113,11 @@ class VisitModelInner {
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<VisitModelInner> create(std::istream& istr) const {
     return std::make_shared<VisitModelInner>(istr); }
+  virtual std::shared_ptr<VisitModelInner> create(argtype * args) const {
+    return std::make_shared<VisitModelInner>(args); }
   std::map<std::string, std::shared_ptr<VisitModelInner> >& deserialize_map();
   std::shared_ptr<VisitModelInner> deserialize(std::istream& istr);
+  std::shared_ptr<VisitModelInner> factory(const std::string name, argtype * args);
   explicit VisitModelInner(std::istream& istr);
   virtual ~VisitModelInner() {}
 

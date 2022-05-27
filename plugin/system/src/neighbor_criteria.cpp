@@ -9,24 +9,26 @@
 
 namespace feasst {
 
-NeighborCriteria::NeighborCriteria(argtype args) {
-  reference_potential_ = integer("reference_potential", &args, -1);
-  potential_index_ = integer("potential_index", &args, 0);
-  energy_maximum_ = dble("energy_maximum", &args, std::numeric_limits<double>::max());
+NeighborCriteria::NeighborCriteria(argtype * args) {
+  reference_potential_ = integer("reference_potential", args, -1);
+  potential_index_ = integer("potential_index", args, 0);
+  energy_maximum_ = dble("energy_maximum", args, std::numeric_limits<double>::max());
   DEBUG("energy_maximum " << energy_maximum_);
 //  ASSERT(energy_maximum_ < 0.,
 //    "energy_maximum:" << energy_maximum_ << " must be less than zero. " <<
 //    "Otherwise, self interactions and particles outside of cutoff will be added");
-  minimum_distance_sq_ = std::pow(dble("minimum_distance", &args, 0), 2);
+  minimum_distance_sq_ = std::pow(dble("minimum_distance", args, 0), 2);
   maximum_distance_sq_ = std::pow(
-    dble("maximum_distance", &args, std::sqrt(NEAR_INFINITY)), 2);
-  site_type0_ = integer("site_type0", &args, -1);
-  site_type1_ = integer("site_type1", &args, -1);
+    dble("maximum_distance", args, std::sqrt(NEAR_INFINITY)), 2);
+  site_type0_ = integer("site_type0", args, -1);
+  site_type1_ = integer("site_type1", args, -1);
   ASSERT((site_type0_ == -1 && site_type1_ == -1) ||
          (site_type0_ != -1 && site_type1_ != -1),
     "site_type0: " << site_type0_ << " and site_type1: " << site_type1_ <<
     " must be either both -1 or neither -1");
-  check_all_used(args);
+}
+NeighborCriteria::NeighborCriteria(argtype args) : NeighborCriteria(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 bool NeighborCriteria::is_accepted(const double energy,

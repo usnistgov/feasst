@@ -9,7 +9,7 @@ namespace feasst {
 class TestArgs {
  public:
   TestArgs(argtype args = argtype()) : TestArgs(&args) {
-    check_all_used(args);
+    FEASST_CHECK_ALL_USED(args);
   }
   TestArgs(argtype * args) {
     key1_ = str("strkey", args);
@@ -40,7 +40,7 @@ TEST(Arguments, args) {
   EXPECT_EQ(1, args.size());
   append("key1", &args, "a");
   EXPECT_EQ("val1a", str("key1", &args));
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 
@@ -132,6 +132,15 @@ TEST(Arguments, line_to_argtype) {
   argtype args = line_to_argtype("key1 val1 key2 val2");
   argtype expected = {{"key1", "val1"}, {"key2", "val2"}};
   EXPECT_EQ(args, expected);
+}
+
+TEST(Arguments, parse_dimensional) {
+  argtype args = {{"x0", "1"}, {"x1", "2"}};
+  std::vector<double> dat = parse_dimensional("x", &args, 4);
+  EXPECT_EQ(args.size(), 0);
+  EXPECT_EQ(dat.size(), 2);
+  EXPECT_EQ(dat[0], 1);
+  EXPECT_EQ(dat[1], 2);
 }
 
 }  // namespace feasst

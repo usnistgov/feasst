@@ -47,6 +47,8 @@ class MayerSampling : public Criteria {
    */
   double second_virial_ratio_block_stdev() const;
 
+  std::string write() const override;
+
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<MayerSampling>(istr); }
   std::shared_ptr<Criteria> create(argtype * args) const override {

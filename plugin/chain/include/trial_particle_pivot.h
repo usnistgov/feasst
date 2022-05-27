@@ -10,8 +10,8 @@ namespace feasst {
 /// Rigidly pivot a random particle about one of its sites.
 class TrialParticlePivot : public TrialMove {
  public:
-  TrialParticlePivot(argtype args = argtype());
-  TrialParticlePivot(argtype * args);
+  explicit TrialParticlePivot(argtype args = argtype());
+  explicit TrialParticlePivot(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialParticlePivot>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -21,7 +21,8 @@ class TrialParticlePivot : public TrialMove {
   virtual ~TrialParticlePivot() {}
 };
 
-inline std::shared_ptr<TrialParticlePivot> MakeTrialParticlePivot(argtype args = argtype()) {
+inline std::shared_ptr<TrialParticlePivot> MakeTrialParticlePivot(
+  argtype args = argtype()) {
   return std::make_shared<TrialParticlePivot>(args); }
 
 }  // namespace feasst

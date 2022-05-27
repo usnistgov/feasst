@@ -3,23 +3,28 @@
 #include "math/include/utils_math.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
-#include "system/include/visit_model_cell.h"
 #include "system/include/model_two_body.h"
 #include "system/include/model_one_body.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/visit_model_cell.h"
 
 namespace feasst {
 
-VisitModelCell::VisitModelCell(argtype * args) : VisitModel() {
+VisitModelCell::VisitModelCell(argtype * args) : VisitModel(args) {
   class_name_ = "VisitModelCell";
-  DEBUG("parse cells");
-  if (used("min_length", *args)) {
-    min_length_ = dble("min_length", args);
-    group_index_ = integer("cell_group", args, 0);
-    ASSERT(group_index_ >= 0, "invalid group_index: " << group_index_);
+  min_length_ = dble("min_length", args);
+  if (used("cell_group_index", *args)) {
+    group_index_ = integer("cell_group_index", args);
+    ASSERT(!used("cell_group", *args),
+      "do not use both cell_group_index and cell_group at the same time.");
+  } else {
+    group_index_ = 0;
+    group_ = str("cell_group", args, "");
   }
+  ASSERT(group_index_ >= 0, "invalid group_index: " << group_index_);
 }
 VisitModelCell::VisitModelCell(argtype args) : VisitModelCell(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 VisitModelCell::VisitModelCell(std::shared_ptr<VisitModelInner> inner,
   argtype args) : VisitModelCell(args) {
@@ -56,6 +61,9 @@ void VisitModelCell::precompute(Configuration * config) {
   ASSERT(config->domain().side_lengths().size() > 0,
     "cannot define cells before domain sides");
   ASSERT(!config->domain().is_tilted(), "implement triclinic");
+  if (!group_.empty()) {
+    group_index_ = config->group_index(group_);
+  }
   if (cells_.type() == -1) {
     Cells cells;
     cells.create(min_length_, config->domain().side_lengths().coord());
@@ -217,7 +225,7 @@ void VisitModelCell::position_tracker_(const Select& select,
       DEBUG("sel " << sel.str());
       DEBUG("is group empty: " << sel.is_group_empty());
       const Group& group = config->group_selects()[group_index].group();
-      if (group.is_in(part)) {
+      if (group.is_in(part, particle_index)) {
         const Site& site = part.site(site_index);
         if (group.is_in(site)) {
           const int cell_new = cell_id_opt_(config->domain(), site.position());
@@ -261,7 +269,7 @@ void VisitModelCell::finalize(const Select& select, Configuration * config) {
       const int group_index = cells_.group();
       const Particle& part = config->select_particle(particle_index);
       const Group& group = config->group_selects()[group_index].group();
-      if (group.is_in(part)) {
+      if (group.is_in(part, particle_index)) {
         for (int site_index = 0; site_index < part.num_sites(); ++site_index) {
           const Site& site = part.site(site_index);
           if (group.is_in(site)) {
@@ -303,7 +311,7 @@ void VisitModelCell::check(const Configuration& config) const {
 class MapVisitModelCell {
  public:
   MapVisitModelCell() {
-    auto obj = MakeVisitModelCell({{"min_length", "1"}});
+    auto obj = std::make_shared<VisitModelCell>();
     obj->deserialize_map()["VisitModelCell"] = obj;
   }
 };
@@ -315,6 +323,7 @@ VisitModelCell::VisitModelCell(std::istream& istr) : VisitModel(istr) {
   ASSERT(755 == version, version);
   feasst_deserialize(&min_length_, istr);
   feasst_deserialize(&group_index_, istr);
+  feasst_deserialize(&group_, istr);
   feasst_deserialize_fstobj(&opt_origin_, istr);
   feasst_deserialize_fstobj(&opt_rel_, istr);
   feasst_deserialize_fstobj(&opt_pbc_, istr);
@@ -327,6 +336,7 @@ void VisitModelCell::serialize(std::ostream& ostr) const {
   feasst_serialize_version(755, ostr);
   feasst_serialize(min_length_, ostr);
   feasst_serialize(group_index_, ostr);
+  feasst_serialize(group_, ostr);
   feasst_serialize_fstobj(opt_origin_, ostr);
   feasst_serialize_fstobj(opt_rel_, ostr);
   feasst_serialize_fstobj(opt_pbc_, ostr);

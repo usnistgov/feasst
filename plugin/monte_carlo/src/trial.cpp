@@ -16,12 +16,14 @@ class MapTrial {
 
 static MapTrial mapper_ = MapTrial();
 
-Trial::Trial(argtype args) : Trial(&args) { check_all_used(args); }
 Trial::Trial(argtype * args) {
   set_finalize_delayed();
   weight_ = dble("weight", args, 1);
   data_.get_int64_1D()->resize(3);
   reset_stats();
+}
+Trial::Trial(argtype args) : Trial(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Trial::add_stage(

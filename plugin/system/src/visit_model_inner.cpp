@@ -26,6 +26,15 @@ std::map<std::string, std::shared_ptr<VisitModelInner> >&
   return *ans;
 }
 
+VisitModelInner::VisitModelInner(argtype * args) {
+  if (used("EnergyMap", *args)) {
+    set_energy_map(EnergyMap().factory(str("EnergyMap", args), args));
+  }
+}
+VisitModelInner::VisitModelInner(argtype args) : VisitModelInner(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
+
 void VisitModelInner::compute(
     const int part1_index,
     const int site1_index,
@@ -150,6 +159,11 @@ void VisitModelInner::precompute(Configuration * config) {
   cutoff_index_ = config->model_params().index("cutoff");
   cutoff_outer_index_ = config->model_params().index("cutoff_outer");
   //TRACE("cutoff_outer_index " << cutoff_outer_index_);
+}
+
+std::shared_ptr<VisitModelInner> VisitModelInner::factory(const std::string name, argtype * args) {
+  DEBUG("name: " << name << ", args: " << str(*args));
+  return template_factory(deserialize_map(), name, args);
 }
 
 }  // namespace feasst

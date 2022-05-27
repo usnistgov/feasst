@@ -32,6 +32,7 @@ namespace feasst {
 class LennardJonesCutShift : public LennardJonesAlpha {
  public:
   explicit LennardJonesCutShift(argtype args = argtype());
+  explicit LennardJonesCutShift(argtype * args);
 
   // HWH some issues with this implementation include
   // - what if model params change, or is defined different by a special potential
@@ -47,7 +48,8 @@ class LennardJonesCutShift : public LennardJonesAlpha {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<LennardJonesCutShift>(istr); }
-
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<LennardJonesCutShift>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit LennardJonesCutShift(std::istream& istr);
   virtual ~LennardJonesCutShift() {}

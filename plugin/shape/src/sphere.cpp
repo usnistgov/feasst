@@ -9,23 +9,24 @@ namespace feasst {
 class MapSphere {
  public:
   MapSphere() {
-    auto obj = MakeSphere(
-      {{"radius", "1"}},
-      Position().set_vector({0, 0, 0})
-    );
+    auto obj = MakeSphere();
     obj->deserialize_map()["Sphere"] = obj;
   }
 };
 
 static MapSphere mapper_ = MapSphere();
 
-Sphere::Sphere(argtype args, const Position center) : Sphere(&args, center) {
-  check_all_used(args);
-}
-Sphere::Sphere(argtype * args, const Position center) : Shape() {
+Sphere::Sphere(argtype * args) : Shape() {
   class_name_ = "Sphere";
-  radius_ = dble("radius", args);
-  center_ = center;
+  radius_ = dble("radius", args, 1);
+  if (used("center", *args)) {
+    center_ = Position(parse_dimensional(str("center", args), args, 4));
+  } else {
+    center_ = Position({0, 0, 0});
+  }
+}
+Sphere::Sphere(argtype args) : Sphere(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 double Sphere::nearest_distance(const Position& point) const {

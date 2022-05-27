@@ -25,6 +25,7 @@ class Position {
     - z: z-coordinate. Requires explicit y.
    */
   explicit Position(argtype args);
+  explicit Position(argtype * args);
 
   /// Initialize coordinates by brace initialized position vector.
   explicit Position(std::vector<double> vec) { coord_ = vec; }

@@ -18,7 +18,7 @@ CheckEnergy::CheckEnergy(argtype * args) : ModifyUpdateOnly(args) {
   check_ = MakeCheck();
 }
 CheckEnergy::CheckEnergy(argtype args) : CheckEnergy(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void CheckEnergy::update(Criteria * criteria,

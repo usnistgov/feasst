@@ -84,8 +84,10 @@ class Shape {
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Shape> create(std::istream& istr) const;
+  virtual std::shared_ptr<Shape> create(argtype * args) const;
   std::map<std::string, std::shared_ptr<Shape> >& deserialize_map();
   std::shared_ptr<Shape> deserialize(std::istream& istr);
+  std::shared_ptr<Shape> factory(const std::string name, argtype * args);
   virtual ~Shape() {}
 
  protected:
@@ -105,6 +107,7 @@ class ShapedEntity {
   ShapedEntity() {}
   ShapedEntity(std::shared_ptr<Shape> shape) { shape_ = shape; }
 
+  void set_shape(std::shared_ptr<Shape> shape) { shape_ = shape; }
   /// Return the shape.
   const std::shared_ptr<Shape> shape() const { return shape_; }
 

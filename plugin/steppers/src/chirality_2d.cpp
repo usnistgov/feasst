@@ -21,7 +21,7 @@ Chirality2D::Chirality2D(argtype * args) : Analyze(args) {
   sign_error_ = integer("sign_error", args, 0);
 }
 Chirality2D::Chirality2D(argtype args) : Chirality2D(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 std::string Chirality2D::header(const Criteria& criteria,

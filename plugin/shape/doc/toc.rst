@@ -10,6 +10,7 @@
    Cuboid
    Cylinder
    ShapeUnion
+   ShapeFile
    ShapeIntersect
    SlabSine
    FiniteCylinder

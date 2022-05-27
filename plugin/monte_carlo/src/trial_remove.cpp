@@ -36,7 +36,7 @@ TrialRemove::TrialRemove(argtype * args) : Trial(args) {
   set(std::make_shared<TrialComputeRemove>(args));
 }
 TrialRemove::TrialRemove(argtype args) : TrialRemove(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialRemove::TrialRemove(std::istream& istr) : Trial(istr) {

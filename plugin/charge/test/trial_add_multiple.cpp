@@ -5,7 +5,8 @@ namespace feasst {
 
 TEST(TrialAddMultiple, serialize) {
   auto add = MakeTrialAddMultiple({{"particle_type0", "2"},
-                               {"particle_type1", "3"}});
+                                   {"particle_type1", "3"},
+                                   {"reference_index", "-1"}});
   EXPECT_EQ(add->stage(0).trial_select().particle_type(), 2);
   EXPECT_EQ(add->stage(1).trial_select().particle_type(), 3);
 //  std::stringstream ss;

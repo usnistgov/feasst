@@ -41,6 +41,7 @@
 #include "shape/include/cuboid.h"
 #include "shape/include/cylinder.h"
 #include "shape/include/shape_union.h"
+#include "shape/include/shape_file.h"
 #include "shape/include/shape_intersect.h"
 #include "shape/include/slab_sine.h"
 #include "shape/include/finite_cylinder.h"
@@ -139,6 +140,7 @@
 #include "steppers/include/density_profile.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "steppers/include/log_and_movie.h"
+#include "cluster/include/analyze_cluster.h"
 #include "steppers/include/seek_analyze.h"
 #include "steppers/include/wall_clock_limit.h"
 #include "steppers/include/profile_trials.h"
@@ -153,6 +155,8 @@
 #include "steppers/include/log.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
+#include "chain/include/end_to_end_distance.h"
+#include "chain/include/radius_of_gyration.h"
 #include "monte_carlo/include/modify.h"
 #include "steppers/include/pair_distribution.h"
 #include "steppers/include/check_energy.h"
@@ -290,5 +294,13 @@
 #include "flat_histogram/include/clones.h"
 #include "flat_histogram/include/macrostate_energy.h"
 std::shared_ptr<feasst::ComputeBeta> __feasst__ComputeBeta = std::make_shared<feasst::ComputeBeta>();
+std::shared_ptr<feasst::TrialGrow> __feasst__TrialGrow = std::make_shared<feasst::TrialGrow>();
+std::shared_ptr<feasst::TrialParticlePivot> __feasst__TrialParticlePivot = std::make_shared<feasst::TrialParticlePivot>();
+std::shared_ptr<feasst::ModelHardShape> __feasst__ModelHardShape = std::make_shared<feasst::ModelHardShape>();
+std::shared_ptr<feasst::Sphere> __feasst__Sphere = std::make_shared<feasst::Sphere>();
+std::shared_ptr<feasst::AEqualB> __feasst__AEqualB = std::make_shared<feasst::AEqualB>();
+std::shared_ptr<feasst::Ewald> __feasst__Ewald = std::make_shared<feasst::Ewald>();
+std::shared_ptr<feasst::MayerSampling> __feasst__MayerSampling = std::make_shared<feasst::MayerSampling>();
 std::shared_ptr<feasst::LennardJonesAlpha> __feasst__LennardJonesAlpha = std::make_shared<feasst::LennardJonesAlpha>();
+std::shared_ptr<feasst::VisitModelInnerPatch> __feasst__VisitModelInnerPatch = std::make_shared<feasst::VisitModelInnerPatch>();
 std::shared_ptr<feasst::Tune> __feasst__Tune = std::make_shared<feasst::Tune>();

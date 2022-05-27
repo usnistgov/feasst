@@ -260,7 +260,7 @@ void System::synchronize_(const System& system, const Select& perturbed) {
 
 void System::change_volume(const double delta_volume, argtype args) {
   change_volume(delta_volume, &args);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void System::change_volume(const double delta_volume, argtype * args) {

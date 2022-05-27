@@ -18,8 +18,11 @@ class MapEnergyMapNeighbor {
 
 static MapEnergyMapNeighbor mapper_ = MapEnergyMapNeighbor();
 
-EnergyMapNeighbor::EnergyMapNeighbor(const argtype& args) : EnergyMap(args) {
+EnergyMapNeighbor::EnergyMapNeighbor(argtype * args) : EnergyMap(args) {
   class_name_ = "EnergyMapNeighbor";
+}
+EnergyMapNeighbor::EnergyMapNeighbor(argtype args) : EnergyMapNeighbor(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 EnergyMapNeighbor::EnergyMapNeighbor(std::istream& istr) : EnergyMap(istr) {

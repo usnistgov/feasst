@@ -10,9 +10,11 @@ std::map<std::string, std::shared_ptr<EnergyMap> >& EnergyMap::deserialize_map()
   return *ans;
 }
 
-EnergyMap::EnergyMap(argtype args) {
-  default_value_ = dble("default_value", &args, 0.);
-  check_all_used(args);
+EnergyMap::EnergyMap(argtype * args) {
+  default_value_ = dble("default_value", args, 0.);
+}
+EnergyMap::EnergyMap(argtype args) : EnergyMap(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void EnergyMap::clear(
@@ -148,5 +150,40 @@ double EnergyMap::energy(const int part1_index, const int site1_index) const {
 //    const int site1, const int site2) const {
 //  FATAL("not implemented");
 //}
+
+std::shared_ptr<EnergyMap> EnergyMap::create(std::istream& istr) const {
+  FATAL("not implemented");
+}
+std::shared_ptr<EnergyMap> EnergyMap::create(argtype * args) const {
+  FATAL("not implemented");
+}
+
+std::shared_ptr<EnergyMap> EnergyMap::factory(const std::string name, argtype * args) {
+  DEBUG("name: " << name << ", args: " << str(*args));
+  return template_factory(deserialize_map(), name, args);
+}
+
+void EnergyMap::resize_(const int part1_index,
+                       const int site1_index,
+                       const int part2_index,
+                       const int site2_index) {
+  FATAL("not implemented");
+}
+std::vector<double> * EnergyMap::smap_(const int part1_index,
+                                       const int site1_index,
+                                       const int part2_index,
+                                       const int site2_index) {
+  FATAL("not implemented");
+}
+std::vector<double> * EnergyMap::smap_new_(const int part1_index,
+                                           const int site1_index,
+                                           const int part2_index,
+                                           const int site2_index) {
+  FATAL("not implemented");
+}
+const std::vector<std::vector<std::vector<std::vector<std::vector<
+    double> > > > >& EnergyMap::map() const {
+  FATAL("not implemented");
+}
 
 }  // namespace feasst

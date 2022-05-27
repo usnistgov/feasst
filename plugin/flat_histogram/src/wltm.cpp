@@ -18,7 +18,7 @@ WLTM::WLTM(argtype * args) {
   transition_matrix_ = std::make_shared<TransitionMatrix>(args);
 }
 WLTM::WLTM(argtype args) : WLTM(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void WLTM::update(

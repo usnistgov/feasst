@@ -1,9 +1,9 @@
 TrialGrowFile
 
 # (re)grow entire particle
-transfer true regrow true site 0
+transfer true regrow true site 0 particle_type 0 weight 100 default_num_steps 3 default_reference_index 2
 bond true mobile_site 1 anchor_site 0 num_steps 2
 
-bond true mobile_site 1 anchor_site 0 weight 0.1
+bond true mobile_site 1 anchor_site 0 weight 0.1 particle_type 0
 
-bond true mobile_site 0 anchor_site 1 reference_index 15
+bond true mobile_site 0 anchor_site 1 reference_index 15 particle_type 0 weight 100

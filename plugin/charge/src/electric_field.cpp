@@ -20,7 +20,7 @@ ElectricField::ElectricField(argtype args) {
   class_name_ = "ElectricField";
   dimension_ = integer("dimension", &args, 0);
   field_strength_ = dble("field_strength", &args);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void ElectricField::precompute(const ModelParams& existing) {

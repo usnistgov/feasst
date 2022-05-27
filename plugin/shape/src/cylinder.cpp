@@ -7,25 +7,21 @@ namespace feasst {
 class MapCylinder {
  public:
   MapCylinder() {
-    auto obj = MakeCylinder(
-      {{"radius", "1"}},
-      Position().set_vector({0, 0, 0}),
-      Position().set_vector({0, 0, 1})
-    );
+    auto obj = MakeCylinder({{"radius", "1"}, {"first_point", "f"}, {"f0", "0"}, {"second_point", "s"}, {"s0", "0"}});
     obj->deserialize_map()["Cylinder"] = obj;
   }
 };
 
 static MapCylinder mapper_ = MapCylinder();
 
-Cylinder::Cylinder(argtype args,
-    const Position point0,
-    const Position point1) {
+Cylinder::Cylinder(argtype * args) {
   class_name_ = "Cylinder";
-  radius_ = dble("radius", &args);
-  point0_ = point0;
-  point1_ = point1;
-  check_all_used(args);
+  radius_ = dble("radius", args);
+  point0_ = Position(parse_dimensional(str("first_point", args), args, 4));
+  point1_ = Position(parse_dimensional(str("second_point", args), args, 4));
+}
+Cylinder::Cylinder(argtype args) : Cylinder(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 double Cylinder::nearest_distance(const Position& point) const {

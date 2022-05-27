@@ -60,6 +60,8 @@ class ModelLJShape : public ModelOneBody,
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelLJShape>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<ModelLJShape>(); }
   explicit ModelLJShape(std::istream& istr);
   virtual ~ModelLJShape() {}
 

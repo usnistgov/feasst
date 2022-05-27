@@ -16,16 +16,16 @@ class Sphere : public Shape {
  public:
   /**
     args:
-    - radius: Set the radius of the sphere.
+    - radius: Set the radius of the sphere (default: 1).
+    - center: set the unique key for the center positions.
+      Thus, arguments of "key[i]" are expected to follow.
+      The "[i]" is to be substituted for integer dimensions 0, 1, 2, ...
+      The "[i]" are also expected to be in order, starting from 0.
+      If center arg is not used, a three dimensional origin is assumed.
    */
-  Sphere(argtype args,
-    /// position of the center of the sphere in absolute coordinates.
-    const Position center);
-  Sphere(argtype * args, const Position center);
-
-  /// Same as above, but the center is assumed to be the origin.
-  Sphere(argtype args) : Sphere(args, Position({0, 0, 0})) {}
-
+  explicit Sphere(argtype args = argtype());
+  explicit Sphere(argtype * args);
+  const Position& center() const { return center_; }
   double nearest_distance(const Position& point) const override;
   double surface_area() const override;
   double volume() const override;
@@ -45,6 +45,8 @@ class Sphere : public Shape {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<Sphere>(istr); }
+  std::shared_ptr<Shape> create(argtype * args) const override {
+    return std::make_shared<Sphere>(args); }
   explicit Sphere(std::istream& istr);
   virtual ~Sphere() {}
 
@@ -53,13 +55,7 @@ class Sphere : public Shape {
   Position center_;
 };
 
-inline std::shared_ptr<Sphere> MakeSphere(
-    argtype args,
-    const Position center) {
-  return std::make_shared<Sphere>(args, center);
-}
-
-inline std::shared_ptr<Sphere> MakeSphere(argtype args) {
+inline std::shared_ptr<Sphere> MakeSphere(argtype args = argtype()) {
   return std::make_shared<Sphere>(args);
 }
 

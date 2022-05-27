@@ -49,7 +49,7 @@ TrialAddAVBDivalent::TrialAddAVBDivalent(argtype * args) : Trial(args) {
     MakeTrialSelectParticle(sel0_args),
     perturb0,
     &parsed_args);
-  check_all_used(parsed_args);
+  FEASST_CHECK_ALL_USED(parsed_args);
 
   // stage1
   argtype sel1_args;
@@ -64,7 +64,7 @@ TrialAddAVBDivalent::TrialAddAVBDivalent(argtype * args) : Trial(args) {
     MakeSelectParticleAVBDivalent(sel1_args),
     perturb1,
     &parsed_args);
-  check_all_used(parsed_args);
+  FEASST_CHECK_ALL_USED(parsed_args);
 
   // stage2
   argtype sel2_args;
@@ -79,11 +79,11 @@ TrialAddAVBDivalent::TrialAddAVBDivalent(argtype * args) : Trial(args) {
     MakeSelectParticleAVBDivalent(sel2_args),
     perturb2,
     &parsed_args);
-  check_all_used(parsed_args);
+  FEASST_CHECK_ALL_USED(parsed_args);
   set(MakeComputeAddAVBDivalent({{"neighbor_index", neighbor}}));
 }
 TrialAddAVBDivalent::TrialAddAVBDivalent(argtype args) : TrialAddAVBDivalent(&args) {
-  //check_all_used(args);
+  //FEASST_CHECK_ALL_USED(args);
 }
 
 TrialAddAVBDivalent::TrialAddAVBDivalent(std::istream& istr) : Trial(istr) {
@@ -135,7 +135,7 @@ TrialRemoveAVBDivalent::TrialRemoveAVBDivalent(argtype * args) : Trial(args) {
     MakeTrialSelectParticle(sel0_args),
     MakePerturbRemove(),
     &parsed_args);
-  check_all_used(parsed_args);
+  FEASST_CHECK_ALL_USED(parsed_args);
 
   // stage1
   argtype sel1_args;
@@ -147,7 +147,7 @@ TrialRemoveAVBDivalent::TrialRemoveAVBDivalent(argtype * args) : Trial(args) {
     MakeSelectParticleAVBDivalent(sel1_args),
     MakePerturbRemove(),
     &parsed_args);
-  check_all_used(parsed_args);
+  FEASST_CHECK_ALL_USED(parsed_args);
 
   // stage2
   argtype sel2_args;
@@ -159,11 +159,11 @@ TrialRemoveAVBDivalent::TrialRemoveAVBDivalent(argtype * args) : Trial(args) {
     MakeSelectParticleAVBDivalent(sel2_args),
     MakePerturbRemove(),
     &parsed_args);
-  check_all_used(parsed_args);
+  FEASST_CHECK_ALL_USED(parsed_args);
   set(MakeComputeRemoveAVBDivalent({{"neighbor_index", neighbor}}));
 }
 TrialRemoveAVBDivalent::TrialRemoveAVBDivalent(argtype args) : TrialRemoveAVBDivalent(&args) {
-  //check_all_used(args);
+  //FEASST_CHECK_ALL_USED(args);
 }
 
 TrialRemoveAVBDivalent::TrialRemoveAVBDivalent(std::istream& istr) : Trial(istr) {
@@ -200,6 +200,6 @@ TrialTransferAVBDivalent::TrialTransferAVBDivalent(argtype * args) : TrialFactor
   add(trial_remove);
 }
 TrialTransferAVBDivalent::TrialTransferAVBDivalent(argtype args) : TrialTransferAVBDivalent(&args) {
-  // check_all_used(args);
+  // FEASST_CHECK_ALL_USED(args);
 }
 }  // namespace feasst

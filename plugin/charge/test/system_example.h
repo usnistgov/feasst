@@ -43,8 +43,8 @@ inline System chain(const double alpha,
                {"alpha", str(5.6/system.configuration().domain().inscribed_sphere_diameter())}});
   system.add(MakePotential(ewald,
                      {{"prevent_cache", "true"}}));
-  system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                                MakeChargeScreened()})));
+  system.add(MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
+                                                   MakeChargeScreened())));
   //system.add(MakePotential(MakeChargeScreenedIntra(),
   //                     MakeVisitModelIntra({{"cutoff", "0"}})));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));

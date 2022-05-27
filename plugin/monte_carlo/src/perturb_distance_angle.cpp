@@ -8,7 +8,7 @@ namespace feasst {
 
 PerturbDistanceAngle::PerturbDistanceAngle(argtype args)
   : PerturbDistanceAngle(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 PerturbDistanceAngle::PerturbDistanceAngle(argtype * args)
   : PerturbDistance(args) {

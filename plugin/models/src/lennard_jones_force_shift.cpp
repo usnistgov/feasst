@@ -14,9 +14,12 @@ class MapLennardJonesForceShift {
 
 static MapLennardJonesForceShift map_lennard_jones_force_shift_ = MapLennardJonesForceShift();
 
-LennardJonesForceShift::LennardJonesForceShift(argtype args)
-  : LennardJonesAlpha(&args) {
+LennardJonesForceShift::LennardJonesForceShift(argtype * args)
+  : LennardJonesAlpha(args) {
   class_name_ = "LennardJonesForceShift";
+}
+LennardJonesForceShift::LennardJonesForceShift(argtype args) : LennardJonesForceShift(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void LennardJonesForceShift::serialize(std::ostream& ostr) const {

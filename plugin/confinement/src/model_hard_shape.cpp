@@ -3,6 +3,7 @@
 #include "configuration/include/site.h"
 #include "configuration/include/model_params.h"
 #include "confinement/include/model_hard_shape.h"
+#include "shape/include/shape_file.h"
 
 namespace feasst {
 
@@ -15,6 +16,13 @@ class MapModelHardShape {
 };
 
 static MapModelHardShape map_model_hard_shape_ = MapModelHardShape();
+
+ModelHardShape::ModelHardShape(argtype * args) : ModelHardShape() {
+  set_shape(std::make_shared<ShapeFile>(args));
+}
+ModelHardShape::ModelHardShape(argtype args) : ModelHardShape(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
 
 void ModelHardShape::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

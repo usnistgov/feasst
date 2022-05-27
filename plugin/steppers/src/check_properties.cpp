@@ -15,7 +15,7 @@ static MapCheckProperties mapper_check_properties_ = MapCheckProperties();
 CheckProperties::CheckProperties(argtype args)
   : ModifyUpdateOnly(&args) {
   tolerance_ = dble("tolerance", &args, 1e-15);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void CheckProperties::update(Criteria * criteria,

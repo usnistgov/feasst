@@ -9,7 +9,7 @@ namespace feasst {
 class PerturbPivot : public PerturbRotate {
  public:
   PerturbPivot(argtype args = argtype()) : PerturbPivot(&args) {
-    check_all_used(args);
+    FEASST_CHECK_ALL_USED(args);
   }
   PerturbPivot(argtype * args) : PerturbRotate(args) {
     class_name_ = "PerturbPivot";

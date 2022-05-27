@@ -141,7 +141,7 @@ MonteCarlo test_lj_fh(const int num_steps,
     }
   } else {
     ref = 0;
-    mc.run(MakeAddReference({{"cutoff", "1"}, {"use_cell", "true"}}));
+    mc.run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));
   }
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
@@ -718,8 +718,8 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
   EXPECT_NEAR(en[1]->accumulator().average(), -1.3278876302141585, 0.05);
   EXPECT_NEAR(en[2]->accumulator().average(), -3.0162868737745732, 0.05);
   EXPECT_NEAR(en[3]->accumulator().average(), -4.8648645814174927, 0.055);
-  EXPECT_NEAR(en[4]->accumulator().average(), -6.8089768188067694, 0.06);
-  EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.062);
+  EXPECT_NEAR(en[4]->accumulator().average(), -6.8089768188067694, 0.065);
+  EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.07);
 //  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
 //  EXPECT_NEAR(en[1]->accumulator().average(), -1.30701, 0.03);
 //  EXPECT_NEAR(en[2]->accumulator().average(), -2.98115, 0.03);

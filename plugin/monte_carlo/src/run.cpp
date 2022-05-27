@@ -12,12 +12,13 @@ namespace feasst {
 Run::Run(argtype * args) {
   num_trials_ = integer("num_trials", args, -1);
   until_num_particles_ = integer("until_num_particles", args, -1);
+  particle_type_ = integer("particle_type", args, -1);
   for_hours_ = dble("for_hours", args, -1);
   until_criteria_complete_ = boolean("until_criteria_complete", args, false);
   class_name_ = "Run";
 }
 Run::Run(argtype args) : Run(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapRun {
@@ -35,6 +36,7 @@ Run::Run(std::istream& istr) : Action(istr) {
   ASSERT(version == 3854, "mismatch version: " << version);
   feasst_deserialize(&num_trials_, istr);
   feasst_deserialize(&until_num_particles_, istr);
+  feasst_deserialize(&particle_type_, istr);
   feasst_deserialize(&for_hours_, istr);
   feasst_deserialize(&until_criteria_complete_, istr);
 }
@@ -45,18 +47,20 @@ void Run::serialize(std::ostream& ostr) const {
   feasst_serialize_version(3854, ostr);
   feasst_serialize(num_trials_, ostr);
   feasst_serialize(until_num_particles_, ostr);
+  feasst_serialize(particle_type_, ostr);
   feasst_serialize(for_hours_, ostr);
   feasst_serialize(until_criteria_complete_, ostr);
 }
 
 void Run::run(MonteCarlo * mc) {
-  while(num_trials_ > 0) {
+  while (num_trials_ > 0) {
     mc->attempt(1);
     --num_trials_;
     DEBUG("num_trials " << num_trials_);
   }
-  while(until_num_particles_ > 0 &&
-        mc->configuration().num_particles() != until_num_particles_) {
+  while ((until_num_particles_ > 0) &&
+         ((particle_type_ == -1 && (mc->configuration().num_particles() != until_num_particles_)) ||
+          (particle_type_ != -1 && (mc->configuration().num_particles_of_type(particle_type_) != until_num_particles_)))) {
     mc->attempt(1);
     DEBUG("num_particles " << mc->configuration().num_particles());
   }
@@ -80,7 +84,7 @@ RemoveTrial::RemoveTrial(argtype * args) {
   all_ = boolean("all", args, false);
 }
 RemoveTrial::RemoveTrial(argtype args) : RemoveTrial(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapRemoveTrial {
@@ -120,6 +124,7 @@ void RemoveTrial::run(MonteCarlo * mc) {
         break;
       }
     }
+    ASSERT(index_ != -1, "No Trial of name: " << name_);
   }
   if (index_ >= 0) {
     mc->remove_trial(index_);
@@ -132,6 +137,71 @@ void RemoveTrial::run(MonteCarlo * mc) {
   }
 }
 
+RemoveAnalyze::RemoveAnalyze(argtype * args) {
+  class_name_ = "RemoveAnalyze";
+  index_ = integer("index", args, -1);
+  name_ = str("name", args, "");
+  all_ = boolean("all", args, false);
+}
+RemoveAnalyze::RemoveAnalyze(argtype args) : RemoveAnalyze(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
+
+class MapRemoveAnalyze {
+ public:
+  MapRemoveAnalyze() {
+    auto obj = MakeRemoveAnalyze();
+    obj->deserialize_map()["RemoveAnalyze"] = obj;
+  }
+};
+
+static MapRemoveAnalyze mapper_RemoveAnalyze = MapRemoveAnalyze();
+
+RemoveAnalyze::RemoveAnalyze(std::istream& istr) : Action(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 7985, "mismatch version: " << version);
+  feasst_deserialize(&index_, istr);
+  feasst_deserialize(&name_, istr);
+  feasst_deserialize(&all_, istr);
+}
+
+void RemoveAnalyze::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_action_(ostr);
+  feasst_serialize_version(7985, ostr);
+  feasst_serialize(index_, ostr);
+  feasst_serialize(name_, ostr);
+  feasst_serialize(all_, ostr);
+}
+
+void RemoveAnalyze::run(MonteCarlo * mc) {
+  DEBUG("name " << name_);
+  if (!name_.empty()) {
+    for (int analyze = 0; analyze < mc->num_analyzers(); ++analyze) {
+      DEBUG("an " << mc->analyze(analyze).class_name());
+      if (mc->analyze(analyze).class_name() == name_) {
+        ASSERT(index_ < 0 || analyze == index_,
+          "RemoveAnalyze cannot specify both index and name");
+        index_ = analyze;
+        DEBUG("removing " << analyze);
+        break;
+      }
+    }
+    ASSERT(index_ != -1, "No Analyze of name: " << name_);
+  }
+  DEBUG("index " << index_);
+  if (index_ >= 0) {
+    DEBUG("removing " << index_);
+    mc->remove_analyze(index_);
+  }
+  if (all_) {
+    for (int i = 0; mc->num_analyzers() > 0; ++i) {
+      mc->remove_analyze(0);
+      ASSERT(i < 1e5, "Infinite loop?");
+    }
+  }
+}
+
 RemoveModify::RemoveModify(argtype * args) {
   class_name_ = "RemoveModify";
   index_ = integer("index", args, -1);
@@ -139,7 +209,7 @@ RemoveModify::RemoveModify(argtype * args) {
   all_ = boolean("all", args, false);
 }
 RemoveModify::RemoveModify(argtype args) : RemoveModify(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapRemoveModify {
@@ -182,6 +252,7 @@ void RemoveModify::run(MonteCarlo * mc) {
         break;
       }
     }
+    ASSERT(index_ != -1, "No Modify of name: " << name_);
   }
   DEBUG("index " << index_);
   if (index_ >= 0) {
@@ -200,7 +271,7 @@ WriteCheckpoint::WriteCheckpoint(argtype * args) {
   class_name_ = "WriteCheckpoint";
 }
 WriteCheckpoint::WriteCheckpoint(argtype args) : WriteCheckpoint(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapWriteCheckpoint {
@@ -228,27 +299,27 @@ void WriteCheckpoint::run(MonteCarlo * mc) {
   mc->write_checkpoint();
 }
 
-AddReference::AddReference(argtype * args) {
-  class_name_ = "AddReference";
+ConvertToRefPotential::ConvertToRefPotential(argtype * args) {
+  class_name_ = "ConvertToRefPotential";
   potential_index_ = integer("potential_index", args, 0);
   cutoff_ = dble("cutoff", args, -1);
   use_cell_ = boolean("use_cell", args, false);
 }
-AddReference::AddReference(argtype args) : AddReference(&args) {
-  check_all_used(args);
+ConvertToRefPotential::ConvertToRefPotential(argtype args) : ConvertToRefPotential(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
-class MapAddReference {
+class MapConvertToRefPotential {
  public:
-  MapAddReference() {
-    auto obj = MakeAddReference();
-    obj->deserialize_map()["AddReference"] = obj;
+  MapConvertToRefPotential() {
+    auto obj = MakeConvertToRefPotential();
+    obj->deserialize_map()["ConvertToRefPotential"] = obj;
   }
 };
 
-static MapAddReference mapper_AddReference = MapAddReference();
+static MapConvertToRefPotential mapper_ConvertToRefPotential = MapConvertToRefPotential();
 
-AddReference::AddReference(std::istream& istr) : Action(istr) {
+ConvertToRefPotential::ConvertToRefPotential(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 8473, "mismatch version: " << version);
   feasst_deserialize(&potential_index_, istr);
@@ -256,7 +327,7 @@ AddReference::AddReference(std::istream& istr) : Action(istr) {
   feasst_deserialize(&use_cell_, istr);
 }
 
-void AddReference::serialize(std::ostream& ostr) const {
+void ConvertToRefPotential::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_action_(ostr);
   feasst_serialize_version(8473, ostr);
@@ -265,7 +336,7 @@ void AddReference::serialize(std::ostream& ostr) const {
   feasst_serialize(use_cell_, ostr);
 }
 
-void AddReference::run(MonteCarlo * mc) {
+void ConvertToRefPotential::run(MonteCarlo * mc) {
   const Potential& pot = mc->system().potential(potential_index_);
   std::stringstream ss;
   pot.serialize(ss);
@@ -284,6 +355,42 @@ void AddReference::run(MonteCarlo * mc) {
   } else {
     ASSERT(!use_cell_, "use_cell requires cutoff");
   }
+}
+
+RefPotential::RefPotential(argtype * args) {
+  class_name_ = "RefPotential";
+  args_ = *args;
+  args->clear();
+}
+RefPotential::RefPotential(argtype args) : RefPotential(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
+
+class MapRefPotential {
+ public:
+  MapRefPotential() {
+    auto obj = MakeRefPotential();
+    obj->deserialize_map()["RefPotential"] = obj;
+  }
+};
+
+static MapRefPotential mapper_RefPotential = MapRefPotential();
+
+RefPotential::RefPotential(std::istream& istr) : Action(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 4017, "mismatch version: " << version);
+  feasst_deserialize(&args_, istr);
+}
+
+void RefPotential::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_action_(ostr);
+  feasst_serialize_version(4017, ostr);
+  feasst_serialize(args_, ostr);
+}
+
+void RefPotential::run(MonteCarlo * mc) {
+  mc->add_to_reference(MakePotential(args_));
 }
 
 }  // namespace feasst

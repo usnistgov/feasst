@@ -70,7 +70,7 @@ PairDistribution::PairDistribution(argtype * args) : Modify(args) {
   DEBUG("file name " << file_name());
 }
 PairDistribution::PairDistribution(argtype args) : PairDistribution(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void PairDistribution::initialize(Criteria * criteria,

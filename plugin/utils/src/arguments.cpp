@@ -104,20 +104,6 @@ void append(const std::string& key, argtype * args, const std::string& append) {
   }
 }
 
-void check_all_used(const argtype& args) {
-  if (args.size() != 0) {
-    DEBUG(args.size());
-    DEBUG(args.begin()->first);
-    DEBUG(args.begin()->second);
-    ASSERT(args.size() == 1 && args.begin()->first.empty() &&
-      args.begin()->second.empty(),
-      "unused argument(s): " << str(args) << ". If the arguments are unused " <<
-      "then that means the objects did not expect the first keyword " <<
-      "supplied in the above argument pair(s). Thus, there was likely a " <<
-      "typo or the keyword is intended for a different class.");
-  }
-}
-
 std::string str(const arglist& args) {
   std::stringstream out;
   out << "{{";
@@ -165,6 +151,59 @@ void replace_in_value(const std::string& from, const std::string& to,
       replace(from, to, &pair2.second);
     }
   }
+}
+
+std::vector<double> parse_dimensional(const std::string& key, argtype * args, const int max) {
+  int dim = 0;
+  std::stringstream ss;
+  ss << key << dim;
+  std::vector<double> data;
+  while (used(ss.str(), *args)) {
+    data.push_back(dble(ss.str(), args));
+    ASSERT(dim < max, "dim: " << dim << " is > max: " << max);
+    ++dim;
+    ss.str("");
+    ss << key << dim;
+  }
+  return data;
+}
+
+std::pair<std::string, argtype> parse_line(const std::string line,
+  argtype * variables,
+  bool * assign_to_list) {
+  std::stringstream ss(line);
+  std::string major;
+  ss >> major;
+  argtype args;
+  while(!ss.eof()) {
+    std::string minor, value;
+    ss >> minor >> value;
+    ASSERT(!value.empty(), "Error parsing text file on line: \"" << ss.str()
+      << "\". Line syntax typically requires an odd number of space-separated "
+      << "strings (e.g., Object key0 value0 ... keyN valueN."
+      << " This error typically occurs when one of a key/value pair is missing.");
+    DEBUG("major " << major << " minor " << minor << " value " << value);
+    if (major == "set_variable") {
+      DEBUG("setting variable");
+      ASSERT(variables, "set_variable found when not expected");
+      (*variables)[minor] = value;
+      *assign_to_list = false;
+    } else if (variables && variables->count(value) > 0) {
+      DEBUG("using variable");
+      args[minor] = (*variables)[value];
+    } else {
+      DEBUG("no variable: " << value << " sz " << value.size());
+      if (value.size() > 7) {
+        DEBUG(value.substr(0, 7));
+        if (value.substr(0, 7) == "/feasst") {
+          DEBUG("replaced: " << value);
+          value.replace(0, 7, install_dir());
+        }
+      }
+      args[minor] = value;
+    }
+  }
+  return std::pair<std::string, argtype>(major, args);
 }
 
 }  // namespace feasst

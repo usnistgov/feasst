@@ -19,7 +19,7 @@ Movie::Movie(argtype * args) : AnalyzeWriteOnly(args) {
   args->insert({"append", "true"}); // always append
   xyz_ = FileXYZ(args);
 }
-Movie::Movie(argtype args) : Movie(&args) { check_all_used(args); }
+Movie::Movie(argtype args) : Movie(&args) { FEASST_CHECK_ALL_USED(args); }
 
 void Movie::initialize(Criteria * criteria,
     System * system,

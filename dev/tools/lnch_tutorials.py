@@ -30,12 +30,13 @@ while not finished:
     with open('squeue.txt') as f: squeue = f.read().splitlines()
     #print(squeue)
     finished = True
-    for num in nums[0]:
-        for line in squeue:
-            if num in line:
-                finished = False
-                print('num', num, 'line', line)
-        # if num in squeue.txt
+    for nms in nums:
+        for num in nms:
+            for line in squeue:
+                if num in line:
+                    finished = False
+                    print('num', num, 'line', line)
+            # if num in squeue.txt
     import time
     time.sleep(60)
 
@@ -43,7 +44,11 @@ while not finished:
 for filename in Path('../').rglob('hostname_*.out'):
     with pyfeasst.cd(filename.parent):
         pyfeasst.bash_command("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt")
+        pyfeasst.bash_command("grep \"Throw\" " + str(filename.name) + " >> launch_failures.txt")
+        pyfeasst.bash_command("grep \"No such file or directory\" " + str(filename.name) + " >> launch_failures.txt")
     pyfeasst.bash_command("grep \"Err\" " + str(filename) + " >> launch_failures.txt")
+    pyfeasst.bash_command("grep \"Throw\" " + str(filename) + " >> launch_failures.txt")
+    pyfeasst.bash_command("grep \"No such file or directory\" " + str(filename) + " >> launch_failures.txt")
 
 for filename in Path('../').rglob('launch.log'):
     with pyfeasst.cd(filename.parent):

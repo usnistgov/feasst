@@ -13,7 +13,7 @@ VisitModelIntra::VisitModelIntra(argtype * args) : VisitModel() {
   set_cutoff(integer("cutoff", args, -1));
 }
 VisitModelIntra::VisitModelIntra(argtype args) : VisitModelIntra(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void VisitModelIntra::compute(

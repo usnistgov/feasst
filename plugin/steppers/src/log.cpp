@@ -12,7 +12,7 @@ class MapLog {
 
 static MapLog mapper_ = MapLog();
 
-Log::Log(argtype args) : Log(&args) { check_all_used(args); }
+Log::Log(argtype args) : Log(&args) { FEASST_CHECK_ALL_USED(args); }
 Log::Log(argtype * args) : AnalyzeWriteOnly(args) {
   if (boolean("append", args, true)) {
     set_append();

@@ -192,6 +192,14 @@ TEST(Configuration, group) {
 //  EXPECT_EQ(300, config->num_sites());
 }
 
+TEST(Configuration, group_as_arg) {
+  auto config = MakeConfiguration({
+    {"xyz_file", install_dir() + "/plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
+    {"particle_type0", "../forcefield/lj.fstprt"},
+    {"group0", "first"}, {"first_particle_type0", "0"}});
+  EXPECT_EQ(2, config->num_groups());
+}
+
 TEST(Configuration, select_particle_by_group) {
   Configuration config = spce_sample1();
   config.add(MakeGroup({{"site_type", "0"}}));

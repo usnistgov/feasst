@@ -11,12 +11,9 @@ namespace feasst {
 // HWH optimize, set anchor one site next from selection.
 class SelectEndSegment : public SelectSegment {
  public:
-  SelectEndSegment(argtype args = argtype()) : SelectEndSegment(&args) {
-    check_all_used(args);
-  }
-  SelectEndSegment(argtype * args) : SelectSegment(args) {
-    class_name_ = "SelectEndSegment";
-  }
+  explicit SelectEndSegment(argtype args = argtype());
+  explicit SelectEndSegment(argtype * args);
+
   void precompute(System * system) override;
 
   /// Select all sites between a random endpoint and a randomly selectioned site in a randomly selected particle in group.

@@ -33,7 +33,7 @@ TrialAddAVB::TrialAddAVB(argtype * args) : Trial(args) {
   set(MakeComputeAddAVB());
 }
 TrialAddAVB::TrialAddAVB(argtype args) : TrialAddAVB(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialAddAVB::TrialAddAVB(std::istream& istr) : Trial(istr) {
@@ -68,7 +68,7 @@ TrialRemoveAVB::TrialRemoveAVB(argtype * args) : Trial(args) {
   set(MakeComputeRemoveAVB());
 }
 TrialRemoveAVB::TrialRemoveAVB(argtype args) : TrialRemoveAVB(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialRemoveAVB::TrialRemoveAVB(std::istream& istr) : Trial(istr) {
@@ -103,7 +103,7 @@ TrialTransferAVB::TrialTransferAVB(argtype * args) : TrialFactoryNamed() {
   add(trial_remove);
 }
 TrialTransferAVB::TrialTransferAVB(argtype args) : TrialTransferAVB(&args) {
-  // check_all_used(args);
+  // FEASST_CHECK_ALL_USED(args);
 }
 
 }  // namespace feasst

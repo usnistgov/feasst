@@ -21,7 +21,8 @@ class Mie : public ModelTwoBody {
     - n: set the value of \f$n\f$ (default: 12).
     - m: set the value of \f$m\f$ (default: 6).
    */
-  Mie(argtype args = argtype());
+  explicit Mie(argtype args = argtype());
+  explicit Mie(argtype * args);
 
   /// Return the value of n.
   const double& n() const { return n_; }
@@ -36,9 +37,9 @@ class Mie : public ModelTwoBody {
       const ModelParams& model_params) override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
-    return std::make_shared<Mie>(istr);
-  }
-
+    return std::make_shared<Mie>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<Mie>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit Mie(std::istream& istr);
   virtual ~Mie() {}

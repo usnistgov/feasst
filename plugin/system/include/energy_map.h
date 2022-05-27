@@ -26,7 +26,8 @@ class EnergyMap {
     args:
     - default_value: set initial or cleared values to this.
    */
-  EnergyMap(argtype args = argtype());
+  explicit EnergyMap(argtype args = argtype());
+  explicit EnergyMap(argtype * args);
 
   /// Return the default value.
   double default_value() const { return default_value_; }
@@ -118,9 +119,11 @@ class EnergyMap {
   virtual void serialize(std::ostream& ostr) const {
     serialize_energy_map_(ostr); }
   explicit EnergyMap(std::istream& istr);
-  virtual std::shared_ptr<EnergyMap> create(std::istream& istr) const = 0;
+  virtual std::shared_ptr<EnergyMap> create(std::istream& istr) const;
+  virtual std::shared_ptr<EnergyMap> create(argtype * args) const;
   std::map<std::string, std::shared_ptr<EnergyMap> >& deserialize_map();
   std::shared_ptr<EnergyMap> deserialize(std::istream& istr);
+  std::shared_ptr<EnergyMap> factory(const std::string name, argtype * args);
   virtual ~EnergyMap() {}
 
  protected:
@@ -131,19 +134,19 @@ class EnergyMap {
   virtual void resize_(const int part1_index,
                        const int site1_index,
                        const int part2_index,
-                       const int site2_index) = 0;
+                       const int site2_index);
 
   virtual std::vector<double> * smap_(const int part1_index,
                                       const int site1_index,
                                       const int part2_index,
-                                      const int site2_index) = 0;
+                                      const int site2_index);
   virtual std::vector<double> * smap_new_(const int part1_index,
                                           const int site1_index,
                                           const int part2_index,
-                                          const int site2_index) = 0;
+                                          const int site2_index);
 
   virtual const std::vector<std::vector<std::vector<std::vector<std::vector<
-    double> > > > >& map() const = 0;
+    double> > > > >& map() const;
   int dimen() const { return dimen_; }
   int site_max() const { return site_max_; }
 

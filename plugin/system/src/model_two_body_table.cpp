@@ -8,7 +8,7 @@
 namespace feasst {
 
 ModelTwoBodyTable::ModelTwoBodyTable(argtype args) : ModelTwoBodyTable(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 ModelTwoBodyTable::ModelTwoBodyTable(argtype * args) {

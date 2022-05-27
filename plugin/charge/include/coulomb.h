@@ -34,6 +34,8 @@ class Coulomb : public ModelTwoBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<Coulomb>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<Coulomb>(); }
   void serialize(std::ostream& ostr) const override;
   explicit Coulomb(std::istream& istr);
   virtual ~Coulomb() {}

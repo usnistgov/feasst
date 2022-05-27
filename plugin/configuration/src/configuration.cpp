@@ -12,7 +12,7 @@
 namespace feasst {
 
 Configuration::Configuration(argtype args) : Configuration(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 Configuration::Configuration(argtype * args) {
   domain_ = std::make_shared<Domain>(args);
@@ -25,8 +25,8 @@ Configuration::Configuration(argtype * args) {
   std::stringstream ss(str("physical_constants", args, "CODATA2018"));
   set_physical_constants(MakeCODATA2014()->deserialize(ss));
 
-  std::string start;
   DEBUG("parse types");
+  std::string start;
   // if only one particle type, allow drop the subscript
   start.assign("particle_type");
   if (used(start, *args)) {
@@ -59,6 +59,21 @@ Configuration::Configuration(argtype * args) {
     FileXYZ().load(xyz_file, this);
   }
 
+  DEBUG("parse groups");
+  start = "group";
+  int index = 0;
+  std::stringstream key;
+  key << start << index;
+  while (used(key.str(), *args)) {
+    const std::string name = str(key.str(), args);
+    args->insert({"prepend", name});
+    auto group = std::make_shared<Group>(args);
+    add(group, name);
+    ++index;
+    key.str("");
+    key << start << index;
+  }
+
   if (boolean("set_cutoff_min_to_sigma", args, false)) {
     unique_types_.set_cutoff_min_to_sigma();
   }
@@ -78,8 +93,6 @@ Configuration::Configuration(argtype * args) {
       std::string param_arg = param + str(site_type);
       if (used(param_arg, *args)) {
         set_model_param(param, site_type, dble(param_arg, args));
-      } else {
-        param_arg = param;
       }
     }
     for (int site1 = 0; site1 < num_site_types(); ++site1) {
@@ -368,7 +381,7 @@ void Configuration::add_to_selection_(const int particle_index,
                                       Select * select) const {
   const Particle& part = select_particle(particle_index);
   const Group& group = select->group();
-  if (group.is_in(part)) {
+  if (group.is_in(part, particle_index)) {
     select->add_particle(particle_index, group.site_indices(part));
   }
 }
@@ -377,7 +390,7 @@ void Configuration::update_selection_(const int particle_index,
                                       Select * select) const {
   const Particle& part = select_particle(particle_index);
   const Group& group = select->group();
-  if (group.is_in(part)) {
+  if (group.is_in(part, particle_index)) {
     select->add_particle(particle_index, group.site_indices(part), true);
   } else {
     select->remove_particle(particle_index);
@@ -797,7 +810,7 @@ void Configuration::set_particle_type(const int ptype,
 void Configuration::change_volume(const double delta_volume,
     argtype args) {
   change_volume(delta_volume, &args);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Configuration::change_volume(const double delta_volume,
@@ -818,6 +831,16 @@ void Configuration::change_volume(const double delta_volume,
   }
   particles_.scale_particle_positions(dimen, factor);
   position_tracker_();
+}
+
+int Configuration::group_index(const std::string& name) const {
+  for (int index = 0; index < static_cast<int>(group_selects_.size()); ++index) {
+    const Select& sel = group_selects_[index];
+    if (sel.group().has_property(name)) {
+      return index;
+    }
+  }
+  FATAL("There is no group with name: " << name);
 }
 
 }  // namespace feasst

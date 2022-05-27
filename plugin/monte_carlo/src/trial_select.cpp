@@ -5,7 +5,7 @@
 namespace feasst {
 
 TrialSelect::TrialSelect(argtype args) : TrialSelect(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 TrialSelect::TrialSelect(argtype * args) {
   // defaults
@@ -23,6 +23,12 @@ TrialSelect::TrialSelect(argtype * args) {
   } else {
     if (used("group_index", *args)) {
       group_index_ = integer("group_index", args);
+      ASSERT(!used("group", *args),
+        "cant specify both group_index and group name");
+    } else {
+      if (used("group", *args)) {
+        group_ = str("group", args);
+      }
     }
   }
 
@@ -41,6 +47,8 @@ void TrialSelect::precompute(System * system) {
     group_index_ = system->get_configuration()->particle_type_to_group_create(
       particle_type_);
     DEBUG("group_index_ " << group_index_);
+  } else if (!group_.empty()) {
+    group_index_ = system->configuration().group_index(group_);
   }
 }
 

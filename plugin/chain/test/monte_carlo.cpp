@@ -883,4 +883,31 @@ TEST(MonteCarlo, water) {
   mc->attempt(1e1);
 }
 
+TEST(MonteCarlo, chainarglist) {
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"cubic_box_length", "20"},
+                       {"particle_type0", "../plugin/chain/forcefield/chain20.fstprt"}}},
+    {"Potential", {{"Model", "IdealGas"}}},
+    {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential0", "10"}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"tunable_param", "0.2"},
+                        {"tunable_target_acceptance", "0.2"}}},
+    {"TrialAdd", {{"particle_type", "0"}}},
+    //{"TrialAddMultiple", {{"particle_type0", "0"}, {"particle_type1", "1"}}},
+//    {"TrialAddMultiple", {{"particle_type0", "0"}, {"particle_type1", "1"}, {"reference_index", "0"}}},
+    {"TrialGrowFile", {{"file_name", "../plugin/chain/test/data/dimer_grow_file.txt"}}},
+    {"Log", {{"trials_per", str(1e2)}, {"file_name", "tmp/lj.txt"}}},
+    {"Movie", {{"trials_per", str(1e2)}, {"file_name", "tmp/lj.xyz"}}},
+    {"CheckEnergy", {{"trials_per", str(1e2)}, {"tolerance", "1e-8"}}},
+    {"Tune", {{}}},
+//    {"Run", {{"until_num_particles", "50"}}},
+//    {"ThermoParams", {{"beta", "1.2"}}},
+//    {"RemoveTrial", {{"name", "TrialAdd"}}},
+//    {"Run", {{"num_trials", str(1e3)}}},
+//    {"RemoveModify", {{"name", "Tune"}}},
+//    {"Run", {{"num_trials", str(1e3)}}},
+//    {"WriteCheckpoint", {{}}},
+  }});
+}
+
 }  // namespace feasst

@@ -27,7 +27,7 @@ TrialTransfer::TrialTransfer(argtype * args) : TrialFactoryNamed() {
   add(trial_remove);
 }
 TrialTransfer::TrialTransfer(argtype args) : TrialTransfer(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 }  // namespace feasst

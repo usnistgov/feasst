@@ -5,7 +5,7 @@
 namespace feasst {
 
 Action::Action(argtype * args) {}
-Action::Action(argtype args) : Action(&args) { check_all_used(args); }
+Action::Action(argtype args) : Action(&args) { FEASST_CHECK_ALL_USED(args); }
 
 std::map<std::string, std::shared_ptr<Action> >& Action::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Action> >* ans =

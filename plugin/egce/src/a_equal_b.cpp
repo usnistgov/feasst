@@ -3,16 +3,18 @@
 
 namespace feasst {
 
-AEqualB::AEqualB(argtype args) {
+AEqualB::AEqualB(argtype * args) : Constraint() {
   class_name_ = "AEqualB";
-  extra_A_ = integer("extra_A", &args, 0);
+  extra_A_ = integer("extra_A", args, 0);
   num_A_ = ConstrainNumParticles({
-    {"type", str("particle_type_A", &args, "0")}});
+    {"type", str("particle_type_A", args, "0")}});
   num_B_ = ConstrainNumParticles({
-    {"type", str("particle_type_B", &args, "1")}});
+    {"type", str("particle_type_B", args, "1")}});
   ASSERT(num_A_.type() != num_B_.type(), "particle_type_A: " << num_A_.type()
     << " == particle_type_B_: " << num_B_.type());
-  check_all_used(args);
+}
+AEqualB::AEqualB(argtype args) : AEqualB(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 bool AEqualB::is_allowed(const System& system,
@@ -37,10 +39,6 @@ class MapAEqualB {
 };
 
 static MapAEqualB mapper_ = MapAEqualB();
-
-std::shared_ptr<Constraint> AEqualB::create(std::istream& istr) const {
-  return std::make_shared<AEqualB>(istr);
-}
 
 AEqualB::AEqualB(std::istream& istr)
   : Constraint(istr) {

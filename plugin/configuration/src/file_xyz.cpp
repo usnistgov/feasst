@@ -49,7 +49,7 @@ FileXYZ::FileXYZ(argtype * args) {
   append_ = boolean("append", args, false);
 }
 FileXYZ::FileXYZ(argtype args) : FileXYZ(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void FileXYZ::load(const std::string file_name, Configuration * config) const {

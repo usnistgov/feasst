@@ -28,7 +28,8 @@ class ChargeScreenedIntra : public ModelTwoBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ChargeScreenedIntra>(istr); }
-
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<ChargeScreenedIntra>(); }
   void serialize(std::ostream& ostr) const override;
   explicit ChargeScreenedIntra(std::istream& istr);
   virtual ~ChargeScreenedIntra() {}

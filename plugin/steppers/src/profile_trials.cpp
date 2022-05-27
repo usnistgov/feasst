@@ -16,7 +16,7 @@ static MapProfileTrials mapper_ = MapProfileTrials();
 
 ProfileTrials::ProfileTrials(argtype * args) : Analyze(args) {}
 ProfileTrials::ProfileTrials(argtype args) : ProfileTrials(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void ProfileTrials::initialize(Criteria * criteria,

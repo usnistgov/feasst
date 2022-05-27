@@ -1,4 +1,5 @@
 #include "utils/include/io.h"
+#include "utils/include/debug.h"
 #include "configuration/test/config_utils.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/domain.h"
@@ -22,7 +23,7 @@ Configuration two_particle_configuration(argtype args) {
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   config.update_positions({{0, 0, 0}, {1.25, 0, 0}});
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
   return config;
 }
 

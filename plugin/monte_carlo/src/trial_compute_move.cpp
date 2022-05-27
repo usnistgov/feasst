@@ -4,7 +4,7 @@
 namespace feasst {
 
 TrialComputeMove::TrialComputeMove(argtype args) : TrialComputeMove(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 TrialComputeMove::TrialComputeMove(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeMove";

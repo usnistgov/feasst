@@ -26,6 +26,8 @@ class IdealGas : public ModelTwoBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<IdealGas>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<IdealGas>(); }
   void serialize(std::ostream& ostr) const override;
   explicit IdealGas(std::istream& istr);
   virtual ~IdealGas() {}

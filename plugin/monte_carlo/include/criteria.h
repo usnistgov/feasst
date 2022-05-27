@@ -28,6 +28,7 @@ class Criteria {
     args:
     - num_iterations_to_complete: set the number of iterations for a simulation
       to be considered complete (default: 20).
+    - Constraint: ConstrainNumParticles, AHalfB, etc.
    */
   explicit Criteria(argtype args = argtype());
   explicit Criteria(argtype * args);

@@ -16,6 +16,14 @@ std::shared_ptr<Constraint> Constraint::create(std::istream& istr) const {
   FATAL("not implemented");
 }
 
+std::shared_ptr<Constraint> Constraint::create(argtype * args) const {
+  FATAL("not implemented");
+}
+
+std::shared_ptr<Constraint> Constraint::factory(const std::string name, argtype * args) {
+  return template_factory(deserialize_map(), name, args);
+}
+
 std::shared_ptr<Constraint> Constraint::deserialize(std::istream& istr) {
   return template_deserialize(deserialize_map(), istr,
     // true argument denotes rewinding to reread class name

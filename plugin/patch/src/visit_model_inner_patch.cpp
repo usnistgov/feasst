@@ -8,9 +8,11 @@
 
 namespace feasst {
 
-VisitModelInnerPatch::VisitModelInnerPatch(argtype args) {
+VisitModelInnerPatch::VisitModelInnerPatch(argtype * args) : VisitModelInner(args) {
   class_name_ = "VisitModelInnerPatch";
-  check_all_used(args);
+}
+VisitModelInnerPatch::VisitModelInnerPatch(argtype args) : VisitModelInnerPatch(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void VisitModelInnerPatch::compute(

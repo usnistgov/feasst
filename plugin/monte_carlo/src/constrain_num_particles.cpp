@@ -4,12 +4,14 @@
 
 namespace feasst {
 
-ConstrainNumParticles::ConstrainNumParticles(argtype args) {
+ConstrainNumParticles::ConstrainNumParticles(argtype * args) : Constraint() {
   class_name_ = "ConstrainNumParticles";
-  maximum_ = integer("maximum", &args, -1);
-  minimum_ = integer("minimum", &args, 0);
-  type_ = integer("type", &args, -1);
-  check_all_used(args);
+  maximum_ = integer("maximum", args, -1);
+  minimum_ = integer("minimum", args, 0);
+  type_ = integer("type", args, -1);
+}
+ConstrainNumParticles::ConstrainNumParticles(argtype args) : ConstrainNumParticles(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 int ConstrainNumParticles::num_particles(const System& system,
@@ -55,10 +57,6 @@ class MapConstrainNumParticles {
 };
 
 static MapConstrainNumParticles mapper_ = MapConstrainNumParticles();
-
-std::shared_ptr<Constraint> ConstrainNumParticles::create(std::istream& istr) const {
-  return std::make_shared<ConstrainNumParticles>(istr);
-}
 
 ConstrainNumParticles::ConstrainNumParticles(std::istream& istr)
   : Constraint(istr) {

@@ -33,7 +33,7 @@ CollectionMatrixSplice::CollectionMatrixSplice(argtype * args) {
 }
 CollectionMatrixSplice::CollectionMatrixSplice(argtype args) :
   CollectionMatrixSplice(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 const MonteCarlo& CollectionMatrixSplice::clone(const int index) const {
@@ -169,7 +169,12 @@ void CollectionMatrixSplice::run_until_all_are_complete() {
       }
       #pragma omp barrier
     }
-    clones_[thread]->write_to_file();
+    if (thread == 0) {
+      write(ln_prob_file_);
+    }
+    if (thread < num()) {
+      clones_[thread]->write_to_file();
+    }
   }
   #else // _OPENMP
     FATAL("OMP required for CollectionMatrixSplice::run_until_all_are_complete()");

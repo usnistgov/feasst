@@ -6,7 +6,7 @@
 namespace feasst {
 
 TrialFactory::TrialFactory(argtype args) : TrialFactory(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 TrialFactory::TrialFactory(argtype * args) : Trial(args) {
   class_name_ = "TrialFactory";

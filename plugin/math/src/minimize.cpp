@@ -28,7 +28,7 @@ Minimize::Minimize(argtype args) {
   tolerance_ = dble("tolerance", &args);
   set_lower(dble("lower", &args));
   set_upper(dble("upper", &args));
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Minimize::serialize_solver_(std::ostream& ostr) const {

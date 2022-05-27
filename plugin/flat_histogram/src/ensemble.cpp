@@ -132,7 +132,7 @@ void ExtrapolateBetaGCE::extrapolateBetaGCE_(
     "assumes first marcostate is 0 particles for N and <NU>");
   const double beta_new = dble("beta_new", &args);
   const double beta_original = dble("beta_original", &args);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
   const double dbeta = beta_new - beta_original;
   DEBUG("dbeta " << dbeta);
   std::vector<double> nu(ln_prob_original_.size());

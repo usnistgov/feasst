@@ -16,24 +16,32 @@ class Random;
  */
 class Cuboid : public Shape {
  public:
-  /// Construct given side lengths and center.
-  Cuboid(const Position& side_lengths, const Position& center);
-
-  /// Same as above, but the center is assumed to be the origin (in 3D).
-  Cuboid(const Position& side_lengths)
-    : Cuboid(side_lengths, Position({0, 0, 0})) {}
-
-  /// Same as above, but all the side lengths are the same (cube, in 3D).
-  Cuboid(const double cubic_side_length)
-    : Cuboid(Position({cubic_side_length, cubic_side_length, cubic_side_length})) {}
+  /**
+    args:
+    - cubic_side_length: side length of cube.
+    - side_length: set the unique key for the side_length positions.
+      Thus, arguments of "key[i]" are expected to follow.
+      The "[i]" is to be substituted for integer dimensions 0, 1, 2, ...
+      The "[i]" are also expected to be in order, starting from 0.
+      Cannot be used in conjunction with cubic_side_length.
+    - center: set the unique key for the center positions.
+      Thus, arguments of "key[i]" are expected to follow.
+      The "[i]" is to be substituted for integer dimensions 0, 1, 2, ...
+      The default value is 0 up to the same dimensions as (cubic_)side_length.
+   */
+  explicit Cuboid(argtype args);
+  explicit Cuboid(argtype * args);
 
   double nearest_distance(const Position& point) const override;
   double surface_area() const override;
   double volume() const override;
+  const Position& center() const { return center_; }
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<Cuboid>(istr); }
+  std::shared_ptr<Shape> create(argtype * args) const override {
+    return std::make_shared<Cuboid>(args); }
   explicit Cuboid(std::istream& istr);
   virtual ~Cuboid() {}
 
@@ -41,23 +49,8 @@ class Cuboid : public Shape {
   Position side_lengths_, center_;
 };
 
-inline std::shared_ptr<Cuboid> MakeCuboid(
-    const Position& side_lengths,
-    const Position& center) {
-  return std::make_shared<Cuboid>(side_lengths, center);
-}
-
-inline std::shared_ptr<Cuboid> MakeCuboid(const Position& side_lengths) {
-  return std::make_shared<Cuboid>(side_lengths);
-}
-
-inline std::shared_ptr<Cuboid> MakeCuboid(const double cubic_side_length) {
-  return std::make_shared<Cuboid>(cubic_side_length);
-}
-
-inline std::shared_ptr<Cuboid> MakeCube(const double side_length) {
-  return MakeCuboid(side_length);
-}
+inline std::shared_ptr<Cuboid> MakeCuboid(argtype args) {
+  return std::make_shared<Cuboid>(args); }
 
 }  // namespace feasst
 

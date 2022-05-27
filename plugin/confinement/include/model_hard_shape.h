@@ -16,6 +16,14 @@ class ModelHardShape : public ModelOneBody,
  public:
   // for serialization only
   ModelHardShape() { class_name_ = "ModelHardShape"; }
+
+  /**
+    args:
+    - Same arguments as ShapeFile.
+   */
+  explicit ModelHardShape(argtype args);
+  explicit ModelHardShape(argtype * args);
+
   ModelHardShape(std::shared_ptr<Shape> shape)
     : ModelOneBody(), ShapedEntity(shape) { class_name_ = "ModelHardShape"; }
 
@@ -28,6 +36,8 @@ class ModelHardShape : public ModelOneBody,
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelHardShape>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<ModelHardShape>(args); }
   explicit ModelHardShape(std::istream& istr);
   virtual ~ModelHardShape() {}
 };
@@ -36,6 +46,9 @@ inline std::shared_ptr<ModelHardShape> MakeModelHardShape(
     std::shared_ptr<Shape> shape) {
   return std::make_shared<ModelHardShape>(shape);
 }
+
+inline std::shared_ptr<ModelHardShape> MakeModelHardShape(argtype args) {
+  return std::make_shared<ModelHardShape>(args); }
 
 }  // namespace feasst
 

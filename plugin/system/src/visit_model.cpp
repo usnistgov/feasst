@@ -12,6 +12,12 @@
 
 namespace feasst {
 
+VisitModel::VisitModel(argtype * args) {
+  set_inner(VisitModelInner().factory(str("VisitModelInner", args, "VisitModelInner"), args));
+}
+VisitModel::VisitModel(argtype args) : VisitModel(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
 void VisitModel::compute(
     ModelOneBody * model,
     const ModelParams& model_params,
@@ -267,7 +273,7 @@ std::shared_ptr<VisitModel> VisitModel::deserialize(std::istream& istr) {
 }
 
 std::shared_ptr<VisitModel> VisitModel::factory(const std::string name, argtype * args) {
-  DEBUG("name: " << name << " args " << str(*args));
+  DEBUG("name: " << name << ", args: " << str(*args));
   return template_factory(deserialize_map(), name, args);
 }
 

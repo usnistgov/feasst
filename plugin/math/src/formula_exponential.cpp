@@ -43,7 +43,7 @@ double FormulaExponential::evaluate(const double x) const {
 }
 
 FormulaExponential::FormulaExponential(argtype args)
-  : FormulaExponential(&args) { check_all_used(args); }
+  : FormulaExponential(&args) { FEASST_CHECK_ALL_USED(args); }
 FormulaExponential::FormulaExponential(argtype * args) : Formula(args) {
   class_name_ = "FormulaExponential";
   set_f0(dble("f0", args, 0.));

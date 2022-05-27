@@ -88,7 +88,7 @@ PhysicalConstantsCustom::PhysicalConstantsCustom(argtype args)
   permitivity_vacuum_ = dble("permitivity_vacuum", &args);
   elementary_charge_ = dble("elementary_charge", &args);
   compute_derived_();
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void PhysicalConstantsCustom::serialize(std::ostream& ostr) const {

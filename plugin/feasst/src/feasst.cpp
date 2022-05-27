@@ -6,47 +6,6 @@
 
 using namespace feasst;
 
-// HWH no need for parse_args to be a function
-void parse_args(const std::string major, std::stringstream& ss, argtype * args, argtype * variables, bool * assign_to_list) {
-}
-
-std::pair<std::string, argtype> parse_line(const std::string line,
-  argtype * variables,
-  bool * assign_to_list) {
-  std::stringstream ss(line);
-  std::string major;
-  ss >> major;
-  argtype args;
-  while(!ss.eof()) {
-    std::string minor, value;
-    ss >> minor >> value;
-    ASSERT(!value.empty(), "Error parsing text file on line: \"" << ss.str()
-      << "\". Line syntax typically requires an odd number of space-separated "
-      << "strings (e.g., Object key0 value0 ... keyN valueN."
-      << " This error typically occurs when one of a key/value pair is missing.");
-    DEBUG("major " << major << " minor " << minor << " value " << value);
-    if (major == "set_variable") {
-      DEBUG("setting variable");
-      (*variables)[minor] = value;
-      *assign_to_list = false;
-    } else if (variables->count(value) > 0) {
-      DEBUG("using variable");
-      args[minor] = (*variables)[value];
-    } else {
-      DEBUG("no variable: " << value << " sz " << value.size());
-      if (value.size() > 7) {
-        DEBUG(value.substr(0, 7));
-        if (value.substr(0, 7) == "/feasst") {
-          DEBUG("replaced: " << value);
-          value.replace(0, 7, install_dir());
-        }
-      }
-      args[minor] = value;
-    }
-  }
-  return std::pair<std::string, argtype>(major, args);
-}
-
 arglist parse_mc(argtype variables = argtype()) {
   std::string line;
   arglist list;

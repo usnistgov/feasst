@@ -36,8 +36,8 @@ class HalfSpace : public Shape {
     - direction: Set the direction at the intersection which is inside.
       The only accepted values are "1" or "-1".
    */
-  HalfSpace(argtype args = argtype());
-  HalfSpace(argtype * args);
+  explicit HalfSpace(argtype args = argtype());
+  explicit HalfSpace(argtype * args);
 
   /// Return dimension argument.
   int dimension() const { return dimension_; }

@@ -83,8 +83,8 @@ TEST(MonteCarlo, spce_gce_LONG) {
   { const double sigma = mc.configuration().model_params().select("sigma").value(0);
     INFO("sigma " << sigma);
     mc.add_to_reference(MakePotential(
-      MakeModelTwoBodyFactory({MakeLennardJones(),
-                               MakeChargeScreened()}),
+      MakeModelTwoBodyFactory(MakeLennardJones(),
+                              MakeChargeScreened()),
       MakeVisitModelCell({{"min_length", str(sigma)}})));
   }
   const double beta = 1/kelvin2kJpermol(525);
@@ -189,6 +189,39 @@ TEST(MonteCarlo, rpm) {
   mc.add(MakeTune());
   mc.attempt(1e3);
   test_serialize(mc);
+}
+
+TEST(MonteCarlo, spcearglist) {
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"cubic_box_length", "20"},
+                       {"particle_type0", "../forcefield/spce.fstprt"},
+                       {"particle_type1", "../plugin/charge/forcefield/rpm_plus.fstprt"}}},
+    {"Potential", {{"VisitModel", "Ewald"}, {"alpha", str(5.6/20)}, {"kmax_squared", "38"}}},
+    {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"VisitModel", "VisitModelCutoffOuter"}, {"table_size", "1e6"}}},
+    {"Potential", {{"Model", "ChargeScreenedIntra"}, {"VisitModel", "VisitModelBond"}}},
+    {"Potential", {{"Model", "ChargeSelf"}}},
+    {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
+//    {"ConvertToRefPotential", {{"potential_index", "2"}, {"cutoff", "1"}}},
+    {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential0", "10"}, {"chemical_potential1", "10"}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"tunable_param", "0.2"},
+                        {"tunable_target_acceptance", "0.2"}}},
+    {"TrialAdd", {{"particle_type", "0"}}},
+    //{"TrialAddMultiple", {{"particle_type0", "0"}, {"particle_type1", "1"}}},
+//    {"TrialAddMultiple", {{"particle_type0", "0"}, {"particle_type1", "1"}, {"reference_index", "0"}}},
+    {"Log", {{"trials_per", str(1e2)}, {"file_name", "tmp/lj.txt"}}},
+    {"Movie", {{"trials_per", str(1e2)}, {"file_name", "tmp/lj.xyz"}}},
+    {"CheckEnergy", {{"trials_per", str(1e2)}, {"tolerance", "1e-8"}}},
+    {"Tune", {{}}},
+    {"Run", {{"until_num_particles", "50"}}},
+    {"ThermoParams", {{"beta", "1.2"}}},
+    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Run", {{"num_trials", str(1e3)}}},
+    {"RemoveModify", {{"name", "Tune"}}},
+    {"Run", {{"num_trials", str(1e3)}}},
+    {"WriteCheckpoint", {{}}},
+  }});
+  EXPECT_EQ("ModelTwoBodyTable", mc->system().potential(1).model().class_name());
 }
 
 }  // namespace feasst

@@ -25,7 +25,7 @@ TrialTranslate::TrialTranslate(argtype * args) :
   set_description("TrialTranslate");
 }
 TrialTranslate::TrialTranslate(argtype args) : TrialTranslate(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialTranslate::TrialTranslate(std::istream& istr) : TrialMove(istr) {

@@ -32,7 +32,8 @@ class ChargeScreened : public ModelTwoBody {
    - table_size: size of linearly-interpolated tabular potential (default: 0).
      disable table if this value is less than or equal to zero.
    */
-  ChargeScreened(argtype args = argtype());
+  explicit ChargeScreened(argtype args = argtype());
+  explicit ChargeScreened(argtype * args);
 
   double energy(
       const double squared_distance,
@@ -48,6 +49,8 @@ class ChargeScreened : public ModelTwoBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ChargeScreened>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<ChargeScreened>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit ChargeScreened(std::istream& istr);
   virtual ~ChargeScreened() {}

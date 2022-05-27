@@ -14,9 +14,26 @@ class MapModelTwoBodyFactory {
 
 static MapModelTwoBodyFactory mapper_ = MapModelTwoBodyFactory();
 
-ModelTwoBodyFactory::ModelTwoBodyFactory(
-    std::vector<std::shared_ptr<ModelTwoBody> > models)
-  : ModelTwoBodyFactory() {
+ModelTwoBodyFactory::ModelTwoBodyFactory(argtype * args) {
+  class_name_ = "ModelTwoBodyFactory";
+  int model_index = 0;
+  std::stringstream key;
+  key << "model" << model_index;
+  while (used(key.str(), *args)) {
+    const std::string model_name = str(key.str(), args); 
+    auto model = ModelTwoBody().factory(model_name, args);
+    models_.push_back(model);
+    ++model_index;
+    key.str("");
+    key << "model" << model_index;
+  }
+}
+ModelTwoBodyFactory::ModelTwoBodyFactory(argtype args) : ModelTwoBodyFactory(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
+
+void ModelTwoBodyFactory::add(
+    std::vector<std::shared_ptr<ModelTwoBody> > models) {
   for (auto model : models) {
     add(model);
   }

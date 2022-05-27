@@ -8,7 +8,7 @@
 namespace feasst {
 
 PerturbDistance::PerturbDistance(argtype args) : PerturbDistance(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 PerturbDistance::PerturbDistance(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbDistance";

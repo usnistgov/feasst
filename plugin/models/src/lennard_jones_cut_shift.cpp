@@ -16,9 +16,12 @@ class MapLennardJonesCutShift {
 static MapLennardJonesCutShift map_lennard_jones_cut_shift_ =
   MapLennardJonesCutShift();
 
-LennardJonesCutShift::LennardJonesCutShift(argtype args)
-  : LennardJonesAlpha(&args) {
+LennardJonesCutShift::LennardJonesCutShift(argtype * args)
+  : LennardJonesAlpha(args) {
   class_name_ = "LennardJonesCutShift";
+}
+LennardJonesCutShift::LennardJonesCutShift(argtype args) : LennardJonesCutShift(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void LennardJonesCutShift::serialize(std::ostream& ostr) const {

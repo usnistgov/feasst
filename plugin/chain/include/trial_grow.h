@@ -139,7 +139,7 @@ class TrialGrowFile : public TrialGrow {
    - file_name: name of TrialGrowFile file with the following format:
      line1: TrialGrowFile
      line2: optional space
-     line3: stage with key pair separated by space (e.g., "particle_type 1 transfer true")
+     line3: stage with key pair separated by space (e.g., "transfer true site 0")
      lineX: additional stages until end of file or empty line (repeat line 2/3).
    */
   explicit TrialGrowFile(argtype args);

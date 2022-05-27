@@ -27,7 +27,7 @@ TrialVolume::TrialVolume(argtype * args) : Trial(args) {
   set(MakeTrialComputeVolume());
 }
 TrialVolume::TrialVolume(argtype args) : TrialVolume(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialVolume::TrialVolume(std::istream& istr) : Trial(istr) {

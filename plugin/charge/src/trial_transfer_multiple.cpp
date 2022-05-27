@@ -17,17 +17,17 @@ static MapTrialTransferMultiple mapper_ = MapTrialTransferMultiple();
 
 TrialTransferMultiple::TrialTransferMultiple(argtype * args) : TrialFactoryNamed() {
   class_name_ = "TrialTransferMultiple";
-  argtype rm_args = *args, add_args = *args;
-  str("shift", &add_args, ""); // remove shift
-  auto trial_add = MakeTrialAddMultiple(add_args);
+  argtype orig_args = *args;
+  str("shift", args, ""); // remove shift
+  auto trial_add = std::make_shared<TrialAddMultiple>(args);
   trial_add->set_weight(trial_add->weight()/2.);
   add(trial_add);
-  auto trial_remove = MakeTrialRemoveMultiple(rm_args);
+  auto trial_remove = MakeTrialRemoveMultiple(orig_args);
   trial_remove->set_weight(trial_remove->weight()/2.);
   add(trial_remove);
 }
 TrialTransferMultiple::TrialTransferMultiple(argtype args) : TrialTransferMultiple(&args) {
-  //check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 }  // namespace feasst

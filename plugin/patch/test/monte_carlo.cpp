@@ -40,12 +40,12 @@ MonteCarlo patchmc(const int min, const int max) {
     mc.add(config);
   }
   mc.add(MakePotential(MakeHardSphere(),
-                       MakeVisitModelCell({{"min_length", "1"}, {"cell_group", "1"}}),
+                       MakeVisitModelCell({{"min_length", "1"}, {"cell_group_index", "1"}}),
                        {{"group_index", "1"}}));
   mc.add(MakePotential(
     MakeSquareWell(),
     MakeVisitModelCell(MakeVisitModelInnerPatch(),
-        {{"min_length", "1.5"}, {"cell_group", "1"}}),
+        {{"min_length", "1.5"}, {"cell_group_index", "1"}}),
     {{"group_index", "1"}}));
   DEBUG(mc.configuration().model_params().select("patch_angle").str());
   DEBUG(mc.configuration().model_params().select("cos_patch_angle").str());
@@ -133,5 +133,19 @@ TEST(MonteCarlo, patch_LONG) {
 //  clones.get_clone(0)->initialize_criteria();
 ////  FATAL("cosacut is changing for some reason, from the correct value of 0.3 to 0.866");
 //}
+
+TEST(MonteCarlo, patch_arglist) {
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"particle_type0", install_dir()+"/plugin/patch/forcefield/janus.fstprt"},
+      {"xyz_file", "../plugin/patch/test/data/patch5.xyz"},
+      {"cutoff", "3"},
+      {"group0", "centers"}, {"centers_site_type0", "0"}}},
+    {"Potential", {{"Model", "SquareWell"}, {"VisitModelInner", "VisitModelInnerPatch"}, {"group", "centers"}}},
+    {"ThermoParams", {{"beta", "1"}}},
+    {"Metropolis", {{}}}
+  }});
+
+  EXPECT_NEAR(-3., mc->criteria().current_energy(), NEAR_ZERO);
+}
 
 }  // namespace feasst

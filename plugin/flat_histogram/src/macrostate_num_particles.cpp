@@ -12,11 +12,11 @@ MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
 }
 MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
     argtype args) : MacrostateNumParticles(histogram, &args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 MacrostateNumParticles::MacrostateNumParticles(argtype args) :
     MacrostateNumParticles(Histogram(&args), &args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 std::shared_ptr<Macrostate> MacrostateNumParticles::create(argtype * args) const {
   return std::make_shared<MacrostateNumParticles>(args);

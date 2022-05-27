@@ -14,6 +14,12 @@ class MapSelectEndSegment {
 
 static MapSelectEndSegment mapper_ = MapSelectEndSegment();
 
+SelectEndSegment::SelectEndSegment(argtype * args) : SelectSegment(args) {
+  class_name_ = "SelectEndSegment";
+}
+SelectEndSegment::SelectEndSegment(argtype args) : SelectEndSegment(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
 std::shared_ptr<TrialSelect> SelectEndSegment::create(std::istream& istr) const {
   return std::make_shared<SelectEndSegment>(istr);
 }

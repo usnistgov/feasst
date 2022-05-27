@@ -30,6 +30,9 @@ class VisitModel {
       std::make_shared<VisitModelInner>()) {
     set_inner(inner); }
 
+  explicit VisitModel(argtype args);
+  explicit VisitModel(argtype * args);
+
   void set_inner(const std::shared_ptr<VisitModelInner> inner) {
     inner_ = inner; }
 
@@ -148,7 +151,7 @@ class VisitModel {
   virtual std::shared_ptr<VisitModel> create(std::istream& istr) const {
     return std::make_shared<VisitModel>(istr); }
   virtual std::shared_ptr<VisitModel> create(argtype * args) const {
-    return std::make_shared<VisitModel>(); }
+    return std::make_shared<VisitModel>(args); }
   std::map<std::string, std::shared_ptr<VisitModel> >& deserialize_map();
   std::shared_ptr<VisitModel> deserialize(std::istream& istr);
   std::shared_ptr<VisitModel> factory(const std::string name, argtype * args);

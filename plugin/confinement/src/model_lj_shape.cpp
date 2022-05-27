@@ -19,7 +19,7 @@ static MapModelLJShape map_model_hard_shape_ = MapModelLJShape();
 
 ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
   argtype args) : ModelLJShape(shape, &args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,

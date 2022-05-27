@@ -4,16 +4,18 @@
 
 namespace feasst {
 
-AHalfB::AHalfB(argtype args) {
+AHalfB::AHalfB(argtype * args) : Constraint() {
   class_name_ = "AHalfB";
-  extra_ = integer("extra", &args, 0);
+  extra_ = integer("extra", args, 0);
   num_A_ = ConstrainNumParticles({
-    {"type", str("particle_type_A", &args, "0")}});
+    {"type", str("particle_type_A", args, "0")}});
   num_B_ = ConstrainNumParticles({
-    {"type", str("particle_type_B", &args, "1")}});
+    {"type", str("particle_type_B", args, "1")}});
   ASSERT(num_A_.type() != num_B_.type(), "particle_type_A: " << num_A_.type()
     << " == particle_type_B_: " << num_B_.type());
-  check_all_used(args);
+}
+AHalfB::AHalfB(argtype args) : AHalfB(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 bool AHalfB::is_allowed(const System& system,
@@ -39,10 +41,6 @@ class MapAHalfB {
 };
 
 static MapAHalfB mapper_ = MapAHalfB();
-
-std::shared_ptr<Constraint> AHalfB::create(std::istream& istr) const {
-  return std::make_shared<AHalfB>(istr);
-}
 
 AHalfB::AHalfB(std::istream& istr)
   : Constraint(istr) {

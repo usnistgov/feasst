@@ -6,8 +6,10 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <iostream>
 #include "utils/include/io.h"
 #include "utils/include/utils.h"
+#include "utils/include/debug.h"
 
 namespace feasst {
 
@@ -93,7 +95,17 @@ bool boolean(const std::string& key, argtype * args,
 void append(const std::string& key, argtype * args, const std::string& append);
 
 /// Check that all arguments are used.
-void check_all_used(const argtype& args);
+# define FEASST_CHECK_ALL_USED(args) \
+{ \
+  if (args.size() != 0) { \
+    ASSERT(args.size() == 1 && args.begin()->first.empty() && \
+      args.begin()->second.empty(), \
+      "unused argument(s): " << feasst::str(args) << ". If the arguments are unused " << \
+      "then that means the objects did not expect the first keyword " << \
+      "supplied in the above argument pair(s). Thus, there was likely a " << \
+      "typo or the keyword is intended for a different class."); \
+  } \
+}
 
 /// If args contains derived class of T, return factory pointer and remove from
 /// args.
@@ -112,7 +124,8 @@ std::shared_ptr<T> parse(T * obj, arglist * args) {
   //if (map.count((*args)[iarg].first) > 0) {
   //if (find_in_map((*args)[iarg].first, map, &find)) {
     new_obj = obj->factory(args->begin()->first, &args->begin()->second);
-    check_all_used(args->begin()->second);
+    //INFO(new_obj->class_name());
+    FEASST_CHECK_ALL_USED(args->begin()->second);
     //new_obj = obj->factory((*args)[iarg].first, &(*args)[iarg].second);
     args->erase(args->begin());
     //args->erase(args->begin() + iarg);
@@ -141,6 +154,19 @@ void replace_value(const std::string search, const std::string replace,
 /// Find all values that contain "search" in args and replace with "replace"
 void replace_in_value(const std::string& from, const std::string& to,
                       arglist * args);
+
+/// Read data from arguments beginning with key and counting from 0 up.
+/// For example, "{{"x0", "1"}, {"x1", "2"}}" will return {1, 2} vector.
+std::vector<double> parse_dimensional(const std::string& key, argtype * args, const int max);
+
+/// Parse a text interface line.
+/// These typically begin with an object Name, then space-separated arguments.
+/// First, look for set_variable, to generate a list of variables to use for
+/// name substitution.
+/// Finally, replace any value beginnig with /feasst with the install_dir().
+std::pair<std::string, argtype> parse_line(const std::string line,
+  argtype * variables,
+  bool * assign_to_list);
 
 }  // namespace feasst
 

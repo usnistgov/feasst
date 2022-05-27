@@ -15,7 +15,7 @@ static MapEnergy mapper_ = MapEnergy();
 
 Energy::Energy(argtype * args) : Analyze(args) {}
 Energy::Energy(argtype args) : Energy(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Energy::initialize(Criteria * criteria,

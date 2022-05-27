@@ -24,7 +24,7 @@ TrialReptate::TrialReptate(argtype * args) :
   set_description("TrialReptate");
 }
 TrialReptate::TrialReptate(argtype args) : TrialReptate(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialReptate::TrialReptate(std::istream& istr) : TrialMove(istr) {

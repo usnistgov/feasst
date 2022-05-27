@@ -13,7 +13,7 @@ VisitModelIntraMap::VisitModelIntraMap(argtype * args) : VisitModel() {
   exclude_angles_ = boolean("exclude_angles", args, false);
 }
 VisitModelIntraMap::VisitModelIntraMap(argtype args) : VisitModelIntraMap(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void VisitModelIntraMap::precompute(Configuration * config) {

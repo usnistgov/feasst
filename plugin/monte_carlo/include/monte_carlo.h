@@ -185,6 +185,9 @@ class MonteCarlo {
    */
   void add(std::shared_ptr<Analyze> analyze);
 
+  /// Remove an analyze by index.
+  void remove_analyze(const int index) { analyze_factory_.remove(index); }
+
   /// Return all analyzers.
   const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
     return analyze_factory_.analyzers(); }

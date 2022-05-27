@@ -24,7 +24,7 @@ TrialPivot::TrialPivot(argtype * args) :
   set_description("TrialPivot");
 }
 TrialPivot::TrialPivot(argtype args) : TrialPivot(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialPivot::TrialPivot(std::istream& istr) : TrialMove(istr) {

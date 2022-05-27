@@ -28,6 +28,8 @@ class ChargeSelf : public ModelOneBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ChargeSelf>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<ChargeSelf>(); }
   void serialize(std::ostream& ostr) const override;
   explicit ChargeSelf(std::istream& istr);
   virtual ~ChargeSelf() {}

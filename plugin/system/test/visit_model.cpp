@@ -73,9 +73,9 @@ TEST(VisitModel, reference_config) {
   visit.check_energy(&model, &config);
 
   // test factory double counts with two identical LJ models.
-  ModelTwoBodyFactory factory({MakeLennardJones(), MakeLennardJones()});
-  factory.precompute(config.model_params());
-  factory.compute(&config, &visit);
+  auto factory = MakeModelTwoBodyFactory(MakeLennardJones(), MakeLennardJones());
+  factory->precompute(config.model_params());
+  factory->compute(&config, &visit);
   EXPECT_NEAR(2.*energy_prev, visit.energy(), NEAR_ZERO);
 
   // Energy map is not used by default

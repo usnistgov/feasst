@@ -350,14 +350,13 @@ To Do List
 * Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.
 * (repeat) regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
 * Add more documentation for Trials (TrialStage: Perturb/Select, TrialCompute. When finialize? reference?)
-* Early tutorials are in ipynb, but transition out of that into .py, include .py on the website
 * When swig4 finally works, can use multimap for dictionaries with more than one of same first key
 * Rename Movie->XYZ
 * Rename Stepper.
 * Patch custom model params not present in mc.configuration().model_params (affects FileXYZPatch).
 * early rejection scheme: https://doi.org/10.1080/00268976.2014.897392
 * get rid of 'time' and 'default' values for Random seed argument.
-* when moving to future tutorials: feature C++ feasst install, python for later.
-* CollectionMatrixSplice (enable use with WLTM, and, text interface (via Window argument to CollectionMatrixSplice at beginning, plus min overlap, periodic check, and.. how to checkpointing?))
 * Windows with non-integer macrostates?
-
+* For unknown reasons, VisitModelOuterCutoff had energy issues with RPM
+* Remove old pyfeasst, make new one that is more stand-alone (pip installable), but... is somehow tied to the feasst version
+* Allow CollectionMatrix to have a reference chemical_potential, then CriteriaUpdater can change mu to get a target (density in middle range, or...)

@@ -18,9 +18,12 @@ class MapEnergyMapAll {
 
 static MapEnergyMapAll mapper_ = MapEnergyMapAll();
 
-EnergyMapAll::EnergyMapAll(const argtype& args) : EnergyMap(args) {
+EnergyMapAll::EnergyMapAll(argtype * args) : EnergyMap(args) {
   class_name_ = "EnergyMapAll";
   data_.get_dble_6D()->resize(2);
+}
+EnergyMapAll::EnergyMapAll(argtype args) : EnergyMapAll(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 EnergyMapAll::EnergyMapAll(std::istream& istr) : EnergyMap(istr) {

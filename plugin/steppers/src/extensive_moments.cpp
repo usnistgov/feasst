@@ -19,7 +19,7 @@ ExtensiveMoments::ExtensiveMoments(argtype * args) : Analyze(args) {
   max_order_ = integer("max_order", args, 3);
 }
 ExtensiveMoments::ExtensiveMoments(argtype args) : ExtensiveMoments(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void ExtensiveMoments::initialize(Criteria * criteria,

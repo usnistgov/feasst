@@ -74,6 +74,10 @@ class Configuration {
     - [parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type.
       The "[i]/[j]" is to be substituted for an integer 0, 1, 2, ...
       These are applied after (overriding) the above argument for single types.
+    - group[i]: set the name of the "i"-th group.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      All following arguments of the group are then expected to have the name
+      appended (e.g., "group0 water water_particle_type 0").
    */
   explicit Configuration(argtype args = argtype());
   explicit Configuration(argtype * args);
@@ -194,6 +198,9 @@ class Configuration {
 
   /// Same as above, except create the group if it does not already exist.
   int particle_type_to_group_create(const int particle_type);
+
+  /// Return the index of the group with the given name.
+  int group_index(const std::string& name) const;
 
   /// Return the group-based selections.
   const std::vector<Select>& group_selects() const {

@@ -22,20 +22,19 @@ class Random;
  */
 class FlatHistogram : public Criteria {
  public:
+  FlatHistogram() {} // do not use this constructor.
+
   /**
-    This is a flattened constructor which takes arguments for macrostate, the
-    macrostate histogram and the bias, as well as the following two arguments.
+    This is a flattened constructor which takes arguments for Macrostate,
+    Bias and Criteria arguments (e.g., Constraints).
 
     args:
     - Macrostate: MacrostateNumParticles, MacrostateEnergy, etc
     - Bias: WangLandau, TransitionMatrix, WLTM, etc.
+    - Criteria args.
    */
   explicit FlatHistogram(argtype args);
   explicit FlatHistogram(argtype * args);
-
-  // HWH remove, considering EnsembleAverage?
-  // Only used for reweighting
-  FlatHistogram();
 
   /// Construct with a macrostate and a bias
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,

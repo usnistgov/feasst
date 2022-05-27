@@ -10,7 +10,7 @@ namespace feasst {
 class PerturbCrankshaftSmall : public PerturbRotate {
  public:
   PerturbCrankshaftSmall(argtype args = argtype()) : PerturbCrankshaftSmall(&args) {
-    check_all_used(args);
+    FEASST_CHECK_ALL_USED(args);
   }
   PerturbCrankshaftSmall(argtype * args) : PerturbRotate(args) {
     class_name_ = "PerturbCrankshaftSmall";

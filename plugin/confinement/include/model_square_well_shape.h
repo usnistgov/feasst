@@ -35,6 +35,8 @@ class ModelSquareWellShape : public ModelOneBody,
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelSquareWellShape>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<ModelSquareWellShape>(); }
   explicit ModelSquareWellShape(std::istream& istr);
   virtual ~ModelSquareWellShape() {}
 };

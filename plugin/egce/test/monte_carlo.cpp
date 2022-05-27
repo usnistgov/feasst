@@ -192,8 +192,8 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
                                {"site_type0", "0"},
                                {"site_type1", "1"},
                                {"potential_index", "1"}}));
-  mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                                   MakeChargeScreened()}),
+  mc.set(1, MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
+                                                  MakeChargeScreened()),
                       //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapNeighborCriteria(neighbor_criteria)))));
                       //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
                       //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapAll()))));
@@ -425,8 +425,8 @@ TEST(MonteCarlo, rpm_egce_avb_divalent_LONG) {
   MonteCarlo mc = dival_egce(min);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                                   MakeChargeScreened()}),
+  mc.set(1, MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
+                                                  MakeChargeScreened()),
                           MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
 //  mc.set(MakeThermoParams({{"beta", str(mc.criteria().beta())},
 //     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
@@ -460,8 +460,8 @@ TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
   MonteCarlo mc = dival_egce(min, max, trials_per);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                                   MakeChargeScreened()}),
+  mc.set(1, MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
+                                                  MakeChargeScreened()),
                           MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.add(MakeNeighborCriteria({{"maximum_distance", "7.5"},
                                {"minimum_distance", "1"},
@@ -489,8 +489,8 @@ TEST(MonteCarlo, rpm_divalent_avb_VERY_LONG) {
   MonteCarlo mc = dival_egce(min, max, trials_per);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                                   MakeChargeScreened()}),
+  mc.set(1, MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
+                                                  MakeChargeScreened()),
                           MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
 //  mc.set(MakeThermoParams({{"beta", str(mc.criteria().beta())},
@@ -652,7 +652,7 @@ TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
-  mc.run(MakeAddReference({{"cutoff", "1"}, {"use_cell", "true"}}));
+  mc.run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));
   mc.get_system()->get_configuration()->add_particle_of_type(0);
   mc.set(MakeThermoParams({{"beta", str(1/1.5)}, {"chemical_potential", "-2.352321"}}));
   mc.set(MakeMetropolis());

@@ -8,7 +8,7 @@
 namespace feasst {
 
 PerturbToAnchor::PerturbToAnchor(argtype args) : PerturbToAnchor(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 PerturbToAnchor::PerturbToAnchor(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbToAnchor";

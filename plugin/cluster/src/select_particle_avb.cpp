@@ -8,7 +8,7 @@
 namespace feasst {
 
 SelectParticleAVB::SelectParticleAVB(argtype args) : SelectParticleAVB(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 SelectParticleAVB::SelectParticleAVB(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectParticleAVB";

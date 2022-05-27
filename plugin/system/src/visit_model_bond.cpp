@@ -10,7 +10,7 @@ VisitModelBond::VisitModelBond(argtype * args) : VisitModel() {
   class_name_ = "VisitModelBond";
 }
 VisitModelBond::VisitModelBond(argtype args) : VisitModelBond(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void VisitModelBond::compute(

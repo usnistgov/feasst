@@ -9,8 +9,6 @@
 
 namespace feasst {
 
-// HWH: chain-setters don't work well with python.
-// HWH: use arguments instead
 /**
   Define groups based on particle and site types.
   In the future, other metrics may be used, such as position-based ones, etc.
@@ -19,16 +17,23 @@ class Group : public PropertiedEntity {
  public:
   /**
     args:
+    - prepend: expect all other arguments to have this prepended with underscore.
+      For example, if prepend==water, the following argument would expect
+      "water_site_type0" (default: empty).
     - site_type[i]: add the i-th site type. If none, all sites included.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       If only one site type, the "[i]" is optional.
     - particle_type[i]: add the i-th particle type. If none, all included.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       If only one particle type, the "[i]" is optional.
+    - particle_index[i]: add the i-th particle index. If none, all included.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      If only one particle index, the "[i]" is optional.
     - dynamic: set true if groups should be updated (default: true).
     - spatial: set true if group is based on location (default: false).
    */
   explicit Group(argtype args = argtype());
+  explicit Group(argtype * args);
 
   /// Return the list of site types in the group.
   const std::vector<int> site_types() const { return site_types_; }
@@ -49,7 +54,7 @@ class Group : public PropertiedEntity {
   bool is_in(const Site& site) const;
 
   /// Return true if the particle is in the group.
-  bool is_in(const Particle& particle) const;
+  bool is_in(const Particle& particle, const int particle_index) const;
 
   /// Remove sites from the particle which are not in the group.
   void remove_sites(Particle * particle) const;
@@ -61,9 +66,11 @@ class Group : public PropertiedEntity {
   explicit Group(std::istream& istr);
 
  private:
-  /// If no site types are listed, do not screen by site types.
+  /// If no types or indices are listed, do not screen by types or indices.
   std::vector<int> site_types_;
   std::vector<int> particle_types_;
+  //std::vector<int> site_indices_;
+  std::vector<int> particle_indices_;
   bool dynamic_;
   bool spatial_;
 };

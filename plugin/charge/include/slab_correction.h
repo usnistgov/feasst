@@ -34,6 +34,7 @@ class SlabCorrection : public VisitModel {
     - dimension: dimension of periodically replicated slab.
    */
   explicit SlabCorrection(argtype args);
+  explicit SlabCorrection(argtype * args);
 
   //void precompute(Configuration * config) override;
 
@@ -67,6 +68,8 @@ class SlabCorrection : public VisitModel {
 
   std::shared_ptr<VisitModel> create(std::istream& istr) const override {
     return std::make_shared<SlabCorrection>(istr); }
+  std::shared_ptr<VisitModel> create(argtype * args) const override {
+    return std::make_shared<SlabCorrection>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit SlabCorrection(std::istream& istr);
   virtual ~SlabCorrection() {}

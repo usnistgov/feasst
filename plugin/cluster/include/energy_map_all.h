@@ -22,7 +22,8 @@ namespace feasst {
  */
 class EnergyMapAll : public EnergyMap {
  public:
-  EnergyMapAll(const argtype& args = argtype());
+  explicit EnergyMapAll(argtype args = argtype());
+  explicit EnergyMapAll(argtype * args);
   double energy(const int part1_index, const int site1_index) const override;
   void revert(const Select& select) override;
   void finalize(const Select& select) override;
@@ -49,6 +50,8 @@ class EnergyMapAll : public EnergyMap {
   std::string class_name() const override { return class_name_; }
   std::shared_ptr<EnergyMap> create(std::istream& istr) const override {
     return std::make_shared<EnergyMapAll>(istr); }
+  std::shared_ptr<EnergyMap> create(argtype * args) const override {
+    return std::make_shared<EnergyMapAll>(args); }
   void serialize(std::ostream& ostr) const override;
   EnergyMapAll(std::istream& istr);
   virtual ~EnergyMapAll() {}

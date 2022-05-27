@@ -88,7 +88,8 @@ class LennardJonesAlpha : public LennardJones {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<LennardJonesAlpha>(istr); }
-
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<LennardJonesAlpha>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit LennardJonesAlpha(std::istream& istr);
   virtual ~LennardJonesAlpha() {}

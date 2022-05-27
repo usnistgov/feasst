@@ -36,6 +36,9 @@ class ShapeIntersect : public Shape {
   explicit ShapeIntersect(std::istream& istr);
   virtual ~ShapeIntersect() {}
 
+ protected:
+  void serialize_shape_intersect_(std::ostream& ostr) const;
+
  private:
   std::shared_ptr<Shape> shape1_, shape2_;
 };

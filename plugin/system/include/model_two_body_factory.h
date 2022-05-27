@@ -16,11 +16,16 @@ namespace feasst {
  */
 class ModelTwoBodyFactory : public ModelTwoBody {
  public:
-  ModelTwoBodyFactory() { class_name_ = "ModelTwoBodyFactory"; }
+  /**
+    args:
+    - model[i]: add the i-th model.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+   */
+  explicit ModelTwoBodyFactory(argtype args = argtype());
+  explicit ModelTwoBodyFactory(argtype * args);
 
-  /// Construct with a vector of two body models.
-  explicit ModelTwoBodyFactory(
-    std::vector<std::shared_ptr<ModelTwoBody> > models);
+  /// Add a vector of two body models.
+  void add(std::vector<std::shared_ptr<ModelTwoBody> > models);
 
   /// Add a two body model.
   void add(std::shared_ptr<ModelTwoBody> model) {
@@ -43,6 +48,8 @@ class ModelTwoBodyFactory : public ModelTwoBody {
   // serialize
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelTwoBodyFactory>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<ModelTwoBodyFactory>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit ModelTwoBodyFactory(std::istream& istr);
 
@@ -50,13 +57,8 @@ class ModelTwoBodyFactory : public ModelTwoBody {
   std::vector<std::shared_ptr<Model> > models_;
 };
 
-inline std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory() {
-  return std::make_shared<ModelTwoBodyFactory>();
-}
-
-inline std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory(
-    std::vector<std::shared_ptr<ModelTwoBody> > models) {
-  return std::make_shared<ModelTwoBodyFactory>(models);
+inline std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory(argtype args = argtype()) {
+  return std::make_shared<ModelTwoBodyFactory>(args);
 }
 
 std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory(

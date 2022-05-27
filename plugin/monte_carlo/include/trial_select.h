@@ -20,7 +20,8 @@ class TrialSelect {
  public:
   /**
     args:
-    - group_index: index of group definied within system (default: 0).
+    - group_index: index of group defined within system (default: 0).
+    - group: name of group defined within system (default: "").
     - particle_type: type of particle in configuration (default: -1)
    */
   explicit TrialSelect(argtype args = argtype());
@@ -99,7 +100,8 @@ class TrialSelect {
 
   /// Return printable properties.
   const std::map<std::string, Accumulator>& printable() const { return printable_; }
-  const Accumulator& printable(const std::string str) { return printable_[str]; }
+  const Accumulator& printable(const std::string str) const {
+    return const_cast<const Accumulator&>(printable_.at(str)); }
 
   /// Return true if constraints are satisfied.
   virtual bool are_constraints_satisfied(const System& system) const {
@@ -157,6 +159,7 @@ class TrialSelect {
 
  private:
   int group_index_;
+  std::string group_;
   int particle_type_;
   bool is_particle_type_set_ = false;
   bool is_ghost_;

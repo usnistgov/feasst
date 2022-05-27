@@ -18,11 +18,13 @@ class MapSlabCorrection {
 
 static MapSlabCorrection map_charge_screened_ = MapSlabCorrection();
 
-SlabCorrection::SlabCorrection(argtype args) {
+SlabCorrection::SlabCorrection(argtype * args) {
   class_name_ = "SlabCorrection";
-  dimension_ = integer("dimension", &args);
+  dimension_ = integer("dimension", args);
   data_.get_dble_1D()->resize(1);
-  check_all_used(args);
+}
+SlabCorrection::SlabCorrection(argtype args) : SlabCorrection(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void SlabCorrection::serialize(std::ostream& ostr) const {

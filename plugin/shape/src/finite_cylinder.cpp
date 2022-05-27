@@ -8,12 +8,15 @@
 
 namespace feasst {
 
-FiniteCylinder::FiniteCylinder(const argtype &args,
-    const Position& point0,
-    const Position& point1) : ShapeIntersect() {
-  set(MakeShapeIntersect(MakeCylinder(args, point0, point1),
-                         MakeHalfSpaceTilted(point0, point1)),
-    MakeHalfSpaceTilted(point1, point0));
+FiniteCylinder::FiniteCylinder(argtype * args) : ShapeIntersect() {
+  auto cyl = std::make_shared<Cylinder>(args);
+  ASSERT(args->size() == 0, "unrecognized args: " << str(*args));
+  auto first_endcap = MakeHalfSpaceTilted(cyl->first_point(), cyl->second_point());
+  auto second_endcap = MakeHalfSpaceTilted(cyl->second_point(), cyl->first_point());
+  set(MakeShapeIntersect(cyl, first_endcap), second_endcap);
+}
+FiniteCylinder::FiniteCylinder(argtype args) : FiniteCylinder(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 }  // namespace feasst

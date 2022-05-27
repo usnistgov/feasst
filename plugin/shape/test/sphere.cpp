@@ -7,20 +7,21 @@
 namespace feasst {
 
 TEST(Shape, Sphere) {
-  Sphere sphere(
-    {{"radius", "2"}},
-    Position().set_vector({0, 0, 0})
-  );
+  auto sphere = MakeSphere({{"radius", "2"}, {"center", "c"}, {"c0", "0"}, {"c1", "0"}, {"c2", "0"}});
   Position point;
   point.set_vector({1.5, 0, 0});
-  EXPECT_NEAR(-0.5, sphere.nearest_distance(point), 1e-15);
-  EXPECT_TRUE(sphere.is_inside(point));
-  EXPECT_TRUE(sphere.is_inside(point, 0.9999));
-  EXPECT_FALSE(sphere.is_inside(point, 1.00001));
+  EXPECT_NEAR(-0.5, sphere->nearest_distance(point), 1e-15);
+  EXPECT_TRUE(sphere->is_inside(point));
+  EXPECT_TRUE(sphere->is_inside(point, 0.9999));
+  EXPECT_FALSE(sphere->is_inside(point, 1.00001));
 
-  std::shared_ptr<Shape> sphere2 = test_serialize<Sphere, Shape>(sphere);
+  std::shared_ptr<Shape> sphere2 = test_serialize<Sphere, Shape>(*sphere);
   EXPECT_TRUE(sphere2->is_inside(point, 0.9999));
   EXPECT_FALSE(sphere2->is_inside(point, 1.00001));
+
+  auto sphere3 = MakeSphere({{"radius", "2"}});
+  EXPECT_EQ(sphere3->center().size(), 3);
+  EXPECT_EQ(sphere3->center().coord(0), 0);
 }
 
 TEST(Sphere, surface_mesh) {

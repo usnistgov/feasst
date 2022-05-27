@@ -5,11 +5,13 @@
 
 namespace feasst {
 
-Metropolis::Metropolis(argtype args) : Criteria(&args) {
+Metropolis::Metropolis(argtype * args) : Criteria(args) {
   class_name_ = "Metropolis";
   num_attempts_per_iteration_ =
-    integer("num_attempts_per_iteration", &args, 1e9);
-  check_all_used(args);
+    integer("num_attempts_per_iteration", args, 1e9);
+}
+Metropolis::Metropolis(argtype args) : Metropolis(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 Metropolis::Metropolis(std::shared_ptr<Constraint> constraint) : Metropolis() {

@@ -10,7 +10,7 @@ MayerSampling::MayerSampling(argtype args) : Criteria(&args) {
   class_name_ = "MayerSampling";
   num_attempts_per_iteration_ =
     integer("num_attempts_per_iteration", &args, 1e9);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 bool MayerSampling::is_accepted(
@@ -93,6 +93,15 @@ double MayerSampling::second_virial_ratio_block_stdev() const {
   return std::sqrt(
     pow(mayer_.block_stdev()/mayer_ref_.average(), 2) +
     pow(second_virial_ratio()*mayer_ref_.block_stdev()/mayer_ref_.average(), 2));
+}
+
+std::string MayerSampling::write() const {
+  std::stringstream ss;
+  ss << "{\"second_virial_ratio\": " << second_virial_ratio() << ", "
+     << "\"second_virial_ratio_block_stdev\": " << second_virial_ratio_block_stdev() << "}" << std::endl;
+  ss << "mayer" << std::endl << mayer().str() << std::endl;
+  ss << "mayer_ref" << std::endl << mayer_ref().str() << std::endl;
+  return ss.str();
 }
 
 }  // namespace feasst

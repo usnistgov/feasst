@@ -38,6 +38,10 @@ double ChargeSelf::energy(
     const ModelParams& model_params) {
   const int type = site.type();
   const double charge = model_params.select(charge_index()).value(type);
+  TRACE("charge " << charge);
+  TRACE("alpha " << alpha_);
+  TRACE("PI " << PI);
+  TRACE("conversion_factor_ " << conversion_factor_);
   return -charge*charge*conversion_factor_*alpha_/std::sqrt(PI);
 }
 
@@ -45,6 +49,7 @@ void ChargeSelf::precompute(const ModelParams& existing) {
   Model::precompute(existing);
   alpha_ = existing.property("alpha");
   conversion_factor_ = existing.constants().charge_conversion();
+  DEBUG("conversion_factor_ " << conversion_factor_);
 }
 
 }  // namespace feasst

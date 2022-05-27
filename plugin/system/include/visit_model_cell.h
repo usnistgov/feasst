@@ -17,7 +17,9 @@ class VisitModelCell : public VisitModel {
   /**
     args:
     - min_length: build cell list with given minimum distance between cells.
-    - cell_group: compute cells only in given group index (default: 0).
+    - cell_group_index: compute cells only in given group index (default: 0).
+    - cell_group: as above, but use the name of the group, not the index.
+      Do not use at the same time as cell_group_index (default: "").
    */
   explicit VisitModelCell(argtype args);
   explicit VisitModelCell(argtype * args);
@@ -60,12 +62,14 @@ class VisitModelCell : public VisitModel {
     return std::make_shared<VisitModelCell>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelCell(std::istream& istr);
+  VisitModelCell() {} // for mapper only
   virtual ~VisitModelCell() {}
 
  private:
   Cells cells_;
   double min_length_;
   int group_index_;
+  std::string group_;
   Position opt_origin_, opt_rel_, opt_pbc_;
 
   // temporary and not serialized

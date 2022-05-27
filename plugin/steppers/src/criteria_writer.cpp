@@ -5,7 +5,7 @@ namespace feasst {
 
 CriteriaWriter::CriteriaWriter(argtype * args) : AnalyzeWriteOnly(args) {}
 CriteriaWriter::CriteriaWriter(argtype args) : CriteriaWriter(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapCriteriaWriter {

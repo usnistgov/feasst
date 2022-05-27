@@ -20,6 +20,7 @@ class ConstrainNumParticles : public Constraint {
     - type: particle type. If -1, all types (default: -1).
    */
   explicit ConstrainNumParticles(argtype args = argtype());
+  explicit ConstrainNumParticles(argtype * args);
 
   /// Return the particle type.
   int type() const { return type_; }
@@ -32,7 +33,10 @@ class ConstrainNumParticles : public Constraint {
   /// (e.g., add or delete) from a trial move.
   int num_particles(const System& system, const Acceptance& acceptance) const;
 
-  std::shared_ptr<Constraint> create(std::istream& istr) const override;
+  std::shared_ptr<Constraint> create(std::istream& istr) const override {
+    return std::make_shared<ConstrainNumParticles>(istr); }
+  std::shared_ptr<Constraint> create(argtype * args) const override {
+    return std::make_shared<ConstrainNumParticles>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit ConstrainNumParticles(std::istream& istr);
   virtual ~ConstrainNumParticles() {}

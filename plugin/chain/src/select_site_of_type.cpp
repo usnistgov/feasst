@@ -38,7 +38,7 @@ void SelectSiteOfType::serialize(std::ostream& ostr) const {
 }
 
 SelectSiteOfType::SelectSiteOfType(argtype args) : SelectSiteOfType(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 SelectSiteOfType::SelectSiteOfType(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectSiteOfType";

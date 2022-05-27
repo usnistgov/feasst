@@ -44,8 +44,10 @@ TEST(MonteCarlo, cluster_LONG) {
       {"particle_type0", "../forcefield/lj.fstprt"},
       {"add_particles_of_type0", "3"}}));
     mc.get_system()->get_configuration()->update_positions({{0, 0, 0}, {2, 0, 0}, {4, 0, 0}});
-    mc.add(MakePotential(MakeLennardJones(),
-      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
+    mc.add(MakePotential({{"Model", "LennardJones"}, {"EnergyMap", "EnergyMapNeighbor"}}));
+    //mc.add(MakePotential({{"Model", "LennardJones"}, {"VisitModel", "VisitModel"}, {"VisitModelInner", "VisitModelInner"}, {"EnergyMap", "EnergyMapNeighbor"}}));
+    //mc.add(MakePotential(MakeLennardJones(),
+    //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
     mc.set(MakeThermoParams({{"beta", "40"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
@@ -148,8 +150,9 @@ MonteCarlo mc_avb_test(
   monte_carlo.add(MakeConfiguration({{"cubic_box_length", "6"},
                                      {"particle_type", "../forcefield/lj.fstprt"}}));
   if (avb) {
-    monte_carlo.add(MakePotential(MakeLennardJones(),
-      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+    monte_carlo.add(MakePotential({{"Model", "LennardJones"}, {"EnergyMap", "EnergyMapAll"}}));
+    //monte_carlo.add(MakePotential(MakeLennardJones(),
+    //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
   } else {
     monte_carlo.add(MakePotential(MakeLennardJones()));

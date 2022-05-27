@@ -49,6 +49,10 @@ double ShapeIntersect::nearest_distance(const Position& point) const {
 
 void ShapeIntersect::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_shape_intersect_(ostr);
+}
+
+void ShapeIntersect::serialize_shape_intersect_(std::ostream& ostr) const {
   serialize_shape_(ostr);
   feasst_serialize_version(822, ostr);
   feasst_serialize_fstdr(shape1_, ostr);

@@ -28,6 +28,7 @@ class AnalyzeBonds : public AnalyzeUpdateOnly {
     - dihedral_bin_center: center of first bin in dihedral histogram (default: 0).
    */
   explicit AnalyzeBonds(argtype args = argtype());
+  explicit AnalyzeBonds(argtype * args);
 
   void update(const Criteria& criteria,
     const System& system,
@@ -59,6 +60,8 @@ class AnalyzeBonds : public AnalyzeUpdateOnly {
   std::string class_name() const override { return std::string("AnalyzeBonds"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<AnalyzeBonds>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<AnalyzeBonds>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit AnalyzeBonds(std::istream& istr);
 

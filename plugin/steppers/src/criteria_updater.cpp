@@ -5,7 +5,7 @@ namespace feasst {
 
 CriteriaUpdater::CriteriaUpdater(argtype * args) : ModifyUpdateOnly(args) {}
 CriteriaUpdater::CriteriaUpdater(argtype args) : CriteriaUpdater(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapCriteriaUpdater {

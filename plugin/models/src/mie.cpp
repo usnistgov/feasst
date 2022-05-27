@@ -5,11 +5,14 @@
 
 namespace feasst {
 
-Mie::Mie(argtype args) {
+Mie::Mie(argtype * args) {
   class_name_ = "Mie";
-  n_ = dble("n", &args, 12);
-  m_ = dble("m", &args, 6);
+  n_ = dble("n", args, 12);
+  m_ = dble("m", args, 6);
   prefactor_ = (n_/(n_ - m_))*std::pow(n_/m_, m_/(n_ - m_));
+}
+Mie::Mie(argtype args) : Mie(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapMie {

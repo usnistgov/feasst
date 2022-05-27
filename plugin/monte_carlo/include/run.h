@@ -20,6 +20,7 @@ class Run : public Action {
     args:
     - num_trials: run this many trials (default: -1. e.g., None)
     - until_num_particles: run until this many particles (default: -1. e.g., None)
+    - particle_type: type of particle to count. If -1, all particles (default: -1).
     - for_hours: run for this many CPU hours (default: -1 e.g., None).
     - until_criteria_complete: run until Criteria is complete (default: false)
    */
@@ -37,6 +38,7 @@ class Run : public Action {
  private:
   int num_trials_;
   int until_num_particles_;
+  int particle_type_;
   double for_hours_;
   bool until_criteria_complete_;
 };
@@ -80,13 +82,47 @@ inline std::shared_ptr<RemoveTrial> MakeRemoveTrial(argtype args = argtype()) {
 }
 
 /**
+  Remove a Analyze.
+ */
+class RemoveAnalyze : public Action {
+ public:
+  /**
+    args:
+    - index: index of analyze to remove, in the order added.
+      If -1, do nothing. (default: -1).
+    - name: remove first analyze with this class name, if not empty.
+      (default: empty).
+    - all: remove all analyzers (default: false)
+   */
+  explicit RemoveAnalyze(argtype args = argtype());
+  explicit RemoveAnalyze(argtype * args);
+  void run(MonteCarlo * mc) override;
+  std::shared_ptr<Action> create(std::istream& istr) const override {
+    return std::make_shared<RemoveAnalyze>(istr); }
+  std::shared_ptr<Action> create(argtype * args) const override {
+    return std::make_shared<RemoveAnalyze>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit RemoveAnalyze(std::istream& istr);
+  virtual ~RemoveAnalyze() {}
+
+ private:
+  int index_;
+  std::string name_;
+  bool all_;
+};
+
+inline std::shared_ptr<RemoveAnalyze> MakeRemoveAnalyze(argtype args = argtype()) {
+  return std::make_shared<RemoveAnalyze>(args);
+}
+
+/**
   Remove a Modify.
  */
 class RemoveModify : public Action {
  public:
   /**
     args:
-    - index: index of modify to remove, in order of modifies added.
+    - index: index of modify to remove, in the order added.
       If -1, do nothing. (default: -1).
     - name: remove first modify with this class name, if not empty.
       (default: empty).
@@ -140,7 +176,7 @@ inline std::shared_ptr<WriteCheckpoint> MakeWriteCheckpoint(argtype args = argty
 /**
   Make a new reference potential based on an existing potential.
  */
-class AddReference : public Action {
+class ConvertToRefPotential : public Action {
  public:
   /**
     args:
@@ -150,16 +186,16 @@ class AddReference : public Action {
       Ignore if -1 (default: -1).
     - use_cell: use VisitModelCell with cutoff as min_length (default: false).
    */
-  explicit AddReference(argtype args = argtype());
-  explicit AddReference(argtype * args);
+  explicit ConvertToRefPotential(argtype args = argtype());
+  explicit ConvertToRefPotential(argtype * args);
   void run(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
-    return std::make_shared<AddReference>(istr); }
+    return std::make_shared<ConvertToRefPotential>(istr); }
   std::shared_ptr<Action> create(argtype * args) const override {
-    return std::make_shared<AddReference>(args); }
+    return std::make_shared<ConvertToRefPotential>(args); }
   void serialize(std::ostream& ostr) const override;
-  explicit AddReference(std::istream& istr);
-  virtual ~AddReference() {}
+  explicit ConvertToRefPotential(std::istream& istr);
+  virtual ~ConvertToRefPotential() {}
 
  private:
   int potential_index_;
@@ -167,8 +203,38 @@ class AddReference : public Action {
   bool use_cell_;
 };
 
-inline std::shared_ptr<AddReference> MakeAddReference(argtype args = argtype()) {
-  return std::make_shared<AddReference>(args);
+inline std::shared_ptr<ConvertToRefPotential> MakeConvertToRefPotential(
+    argtype args = argtype()) {
+  return std::make_shared<ConvertToRefPotential>(args);
+}
+
+/**
+  Add a reference potential.
+ */
+class RefPotential : public Action {
+ public:
+  /**
+    args:
+    - Same arguments as Potential.
+   */
+  explicit RefPotential(argtype args = argtype());
+  explicit RefPotential(argtype * args);
+  void run(MonteCarlo * mc) override;
+  std::shared_ptr<Action> create(std::istream& istr) const override {
+    return std::make_shared<RefPotential>(istr); }
+  std::shared_ptr<Action> create(argtype * args) const override {
+    return std::make_shared<RefPotential>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit RefPotential(std::istream& istr);
+  virtual ~RefPotential() {}
+
+ private:
+  argtype args_;
+};
+
+inline std::shared_ptr<RefPotential> MakeRefPotential(
+    argtype args = argtype()) {
+  return std::make_shared<RefPotential>(args);
 }
 
 }  // namespace feasst

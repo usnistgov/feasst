@@ -25,7 +25,7 @@ TrialTranslateCluster::TrialTranslateCluster(argtype * args) : Trial(args) {
   set(std::make_shared<ComputeMoveCluster>());
 }
 TrialTranslateCluster::TrialTranslateCluster(argtype args) : TrialTranslateCluster(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialTranslateCluster::TrialTranslateCluster(std::istream& istr) : Trial(istr) {
@@ -57,7 +57,7 @@ TrialRotateCluster::TrialRotateCluster(argtype * args) : Trial(args) {
   set(std::make_shared<ComputeMoveCluster>());
 }
 TrialRotateCluster::TrialRotateCluster(argtype args) : TrialRotateCluster(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialRotateCluster::TrialRotateCluster(std::istream& istr) : Trial(istr) {
@@ -88,14 +88,16 @@ TrialRigidCluster::TrialRigidCluster(argtype * args) : TrialFactoryNamed() {
   const std::string tran_param = str("translate_param", args, "0.1");
   const std::string rot_param = str("rotate_param", args, "25");
   argtype rot_args = *args;
-  argtype trans_args = *args;
-  trans_args.insert({"tunable_param", tran_param});
+  args->insert({"tunable_param", tran_param});
   rot_args.insert({"tunable_param", rot_param});
-  add(MakeTrialTranslateCluster(trans_args));
+  DEBUG("trans_args " << str(*args));
+  add(std::make_shared<TrialTranslateCluster>(args));
+  DEBUG("rot_args " << str(rot_args));
   add(MakeTrialRotateCluster(rot_args));
+  DEBUG("args" << str(*args));
 }
 TrialRigidCluster::TrialRigidCluster(argtype args) : TrialRigidCluster(&args) {
-  // check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 }  // namespace feasst

@@ -19,7 +19,7 @@ WallClockLimit::WallClockLimit(argtype * args) : AnalyzeUpdateOnly(args) {
   set_trials_per(integer("trials_per", args, 1));
 }
 WallClockLimit::WallClockLimit(argtype args) : WallClockLimit(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void WallClockLimit::update(const Criteria& criteria,

@@ -20,7 +20,7 @@ ProgressReport::ProgressReport(argtype args) {
   if (used("file_name", args)) file_name_ = str("file_name", &args);
   ASSERT(percent_per_write_ > 0.01, "percent_per_write: " << percent_per_write_
     << " must be > 0.01");
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void ProgressReport::serialize(std::ostream& ostr) const {

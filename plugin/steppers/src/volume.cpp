@@ -16,7 +16,7 @@ static MapVolume mapper_ = MapVolume();
 
 Volume::Volume(argtype * args) : Analyze(args) {}
 Volume::Volume(argtype args) : Volume(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Volume::initialize(Criteria * criteria,

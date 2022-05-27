@@ -51,7 +51,7 @@ MonteCarlo * Clones::get_clone(const int index) {
 void Clones::initialize(const int upper_index, argtype args) {
   const int attempt_batch = integer("attempt_batch", &args, 1);
   const int max_batch = integer("max_batch", &args, -1);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
   Acceptance empty;
   MonteCarlo * lower = clones_[upper_index - 1].get();
   MonteCarlo * upper = clones_[upper_index].get();
@@ -134,7 +134,7 @@ void Clones::run_until_complete_omp_(argtype run_args,
   if (used("ln_prob_file", run_args)) {
     ln_prob_file = str("ln_prob_file", &run_args);
   }
-  check_all_used(run_args);
+  FEASST_CHECK_ALL_USED(run_args);
   std::vector<bool> is_complete(num(), false);
   std::vector<bool> is_initialized(num(), false);
   is_initialized[0] = true;

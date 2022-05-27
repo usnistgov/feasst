@@ -11,7 +11,7 @@
 namespace feasst {
 
 PerturbBranch::PerturbBranch(argtype args) : PerturbBranch(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 PerturbBranch::PerturbBranch(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbBranch";

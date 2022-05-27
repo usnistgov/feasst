@@ -11,6 +11,8 @@ py/__pycache__
 
 # file types
 *.swp
+*.log
+*.out
 *.bak
 *.txt
 *.vmd

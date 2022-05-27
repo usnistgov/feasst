@@ -1,12 +1,13 @@
 #include <vector>
 #include <cmath>
+#include "utils/include/debug.h"
 #include "flat_histogram/include/window_exponential.h"
 
 namespace feasst {
 
 WindowExponential::WindowExponential(argtype args) : Window(&args) {
   alpha_ = dble("alpha", &args, 1.5);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 std::vector<double> WindowExponential::segment() const {

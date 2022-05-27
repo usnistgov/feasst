@@ -123,7 +123,7 @@ void ModelTableCart1DHard::compute_table(
     table->set_data(bin, minimize.minimum(&objective));
     report->check();
   }
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapModelTableCart2DIntegr {

@@ -14,8 +14,8 @@ namespace feasst {
  */
 class TrialTranslateCluster : public Trial {
  public:
-  TrialTranslateCluster(argtype args = argtype());
-  TrialTranslateCluster(argtype * args);
+  explicit TrialTranslateCluster(argtype args = argtype());
+  explicit TrialTranslateCluster(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialTranslateCluster>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -33,8 +33,8 @@ inline std::shared_ptr<TrialTranslateCluster> MakeTrialTranslateCluster(argtype 
  */
 class TrialRotateCluster : public Trial {
  public:
-  TrialRotateCluster(argtype args = argtype());
-  TrialRotateCluster(argtype * args);
+  explicit TrialRotateCluster(argtype args = argtype());
+  explicit TrialRotateCluster(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialRotateCluster>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -56,8 +56,8 @@ inline std::shared_ptr<TrialRotateCluster> MakeTrialRotateCluster(argtype args =
  */
 class TrialRigidCluster : public TrialFactoryNamed {
  public:
-  TrialRigidCluster(argtype args = argtype());
-  TrialRigidCluster(argtype * args);
+  explicit TrialRigidCluster(argtype args = argtype());
+  explicit TrialRigidCluster(argtype * args);
   std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
     return std::make_shared<TrialRigidCluster>(args); }
   virtual ~TrialRigidCluster() {}

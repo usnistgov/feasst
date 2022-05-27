@@ -24,7 +24,7 @@ TrialCrankshaft::TrialCrankshaft(argtype * args) :
   set_description("TrialCrankshaft");
 }
 TrialCrankshaft::TrialCrankshaft(argtype args) : TrialCrankshaft(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialCrankshaft::TrialCrankshaft(std::istream& istr) : TrialMove(istr) {

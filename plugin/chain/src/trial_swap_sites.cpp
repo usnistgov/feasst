@@ -31,7 +31,7 @@ TrialSwapSites::TrialSwapSites(argtype * args) : Trial(args) {
     MakeSelectSiteOfType({{"site_type", str(site_type1)}, {"particle_type", part_type}}),
     MakePerturbSiteType({{"type", str(site_type2)}}),
     &stage_args);
-  check_all_used(stage_args);
+  FEASST_CHECK_ALL_USED(stage_args);
   add_stage(
     MakeSelectSiteOfType({{"site_type", str(site_type2)}, {"particle_type", part_type}}),
     MakePerturbSiteType({{"type", str(site_type1)}}),
@@ -40,7 +40,7 @@ TrialSwapSites::TrialSwapSites(argtype * args) : Trial(args) {
   set(MakeTrialComputeMove());
 }
 TrialSwapSites::TrialSwapSites(argtype args) : TrialSwapSites(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialSwapSites::TrialSwapSites(std::istream& istr) : Trial(istr) {

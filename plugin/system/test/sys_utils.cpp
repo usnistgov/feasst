@@ -16,7 +16,7 @@ System two_particle_system(argtype args) {
   System sys;
   sys.add(two_particle_configuration(args));
   sys.add_to_unoptimized(MakePotential(MakeLennardJones()));
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
   return sys;
 }
 

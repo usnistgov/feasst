@@ -6,6 +6,7 @@
    EnergyMapNeighborCriteria
    EnergyMapAllCriteria
    PerturbPointReflect
+   AnalyzeCluster
    TrialAVB2Half
    TrialTranslateCluster
    TrialAddAVBDivalent

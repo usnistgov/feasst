@@ -25,7 +25,8 @@ class AlwaysReject : public Criteria {
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<AlwaysReject>(istr); }
-
+  std::shared_ptr<Criteria> create(argtype * args) const override {
+    return std::make_shared<AlwaysReject>(); }
   void serialize(std::ostream& ostr) const override;
   AlwaysReject(std::istream& istr);
   ~AlwaysReject() {}

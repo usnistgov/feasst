@@ -16,7 +16,7 @@ class MapLennardJones {
 static MapLennardJones mapper_ = MapLennardJones();
 
 LennardJones::LennardJones(argtype args) : LennardJones(&args) {
-  check_all_used(args); }
+  FEASST_CHECK_ALL_USED(args); }
 LennardJones::LennardJones(argtype * args) {
   class_name_ = "LennardJones";
   const double thres = dble("hard_sphere_threshold", args, 0.2);

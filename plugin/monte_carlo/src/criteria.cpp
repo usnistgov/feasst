@@ -6,12 +6,10 @@
 #include "math/include/constants.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/constraint.h"
+#include "monte_carlo/include/constrain_num_particles.h"
 
 namespace feasst {
 
-Criteria::Criteria(argtype args) : Criteria(&args) {
-  check_all_used(args);
-}
 Criteria::Criteria(argtype * args) {
   set_expanded_state();
   data_.get_dble_1D()->resize(1);
@@ -20,6 +18,12 @@ Criteria::Criteria(argtype * args) {
   *num_iterations_() = 0;
   *num_attempt_since_last_iteration_() = 0;
   num_iterations_to_complete_ = integer("num_iterations_to_complete", args, 0);
+  if (used("Constraint", *args)) {
+    add(ConstrainNumParticles().factory(str("Constraint", args), args));
+  }
+}
+Criteria::Criteria(argtype args) : Criteria(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 Criteria::Criteria(std::shared_ptr<Constraint> constraint, argtype args)

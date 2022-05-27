@@ -24,8 +24,10 @@ class Constraint {
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Constraint> create(std::istream& istr) const;
+  virtual std::shared_ptr<Constraint> create(argtype * args) const;
   std::map<std::string, std::shared_ptr<Constraint> >& deserialize_map();
   std::shared_ptr<Constraint> deserialize(std::istream& istr);
+  std::shared_ptr<Constraint> factory(const std::string name, argtype * args);
   virtual ~Constraint() {}
 
  protected:

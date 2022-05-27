@@ -13,12 +13,12 @@ MacrostateEnergy::MacrostateEnergy(const Histogram& histogram,
   //ASSERT(num_.type() >= -1, "particle_type: " << num_.type());
 MacrostateEnergy::MacrostateEnergy(const Histogram& histogram,
     argtype args) : MacrostateEnergy(histogram, &args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 MacrostateEnergy::MacrostateEnergy(argtype args) :
     MacrostateEnergy(Histogram(&args), &args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 double MacrostateEnergy::value(const System& system,

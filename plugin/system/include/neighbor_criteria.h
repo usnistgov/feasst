@@ -31,6 +31,7 @@ class NeighborCriteria {
       If -1, consider all sites (default: -1).
    */
   explicit NeighborCriteria(argtype args = argtype());
+  explicit NeighborCriteria(argtype * args);
 
   int reference_potential() const { return reference_potential_; }
   int potential_index() const { return potential_index_; }

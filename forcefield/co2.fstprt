@@ -22,8 +22,8 @@ Site Labels
 
 Site Properties
 
-0 sigma 2.80 epsilon 0.2244904906901375 cutoff 14.0 charge  0.7
-1 sigma 3.05 epsilon 0.6568425468341059 cutoff 14.0 charge -0.35
+0 sigma 2.80 epsilon 0.2244904906901375 cutoff 14.0 charge  0.7  cutoff_outer 1.16
+1 sigma 3.05 epsilon 0.6568425468341059 cutoff 14.0 charge -0.35 cutoff_outer 1.16
 
 Sites
 

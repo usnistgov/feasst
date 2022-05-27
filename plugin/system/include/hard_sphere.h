@@ -36,6 +36,8 @@ class HardSphere : public ModelTwoBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<HardSphere>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<HardSphere>(); }
   void serialize(std::ostream& ostr) const override;
   explicit HardSphere(std::istream& istr);
   virtual ~HardSphere() {}

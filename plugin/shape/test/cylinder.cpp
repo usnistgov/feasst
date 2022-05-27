@@ -5,11 +5,9 @@
 namespace feasst {
 
 TEST(Shape, Cylinder) {
-  Cylinder cylinder(
-    {{"radius", "2"}},
-    Position().set_vector({0, 0, 0}),
-    Position().set_vector({0, 0, 1})
-  );
+  Cylinder cylinder({{"radius", "2"},
+    {"first_point", "f"}, {"f0", "0"}, {"f1", "0"}, {"f2", "0"},
+    {"second_point", "s"}, {"s0", "0"}, {"s1", "0"}, {"s2", "1"}});
   Position point;
   point.set_vector({1.5, 0, 13.535});
   EXPECT_NEAR(-0.5, cylinder.nearest_distance(point), 1e-15);

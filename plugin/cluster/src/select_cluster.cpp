@@ -4,7 +4,7 @@
 namespace feasst {
 
 SelectCluster::SelectCluster(argtype args) : SelectCluster(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 SelectCluster::SelectCluster(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectCluster";

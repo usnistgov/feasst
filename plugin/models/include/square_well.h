@@ -24,6 +24,8 @@ class SquareWell : public ModelTwoBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<SquareWell>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<SquareWell>(); }
   void serialize(std::ostream& ostr) const override;
   explicit SquareWell(std::istream& istr);
   virtual ~SquareWell() {}

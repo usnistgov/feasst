@@ -11,12 +11,8 @@ namespace feasst {
 /// expanded ensemble. Particular particle, not random particle.
 class SelectPerturbed : public TrialSelect {
  public:
-  SelectPerturbed(argtype args = argtype()) : SelectPerturbed(&args) {
-    check_all_used(args);
-  }
-  SelectPerturbed(argtype * args) : TrialSelect(args) {
-    class_name_ = "SelectPerturbed";
-  }
+  explicit SelectPerturbed(argtype args = argtype());
+  explicit SelectPerturbed(argtype * args);
 
   bool select(const Select& perturbed, System* system, Random * random) override {
     if (perturbed.num_sites() == 0) return false;

@@ -13,21 +13,28 @@ namespace feasst {
  */
 class Cylinder : public Shape {
  public:
-  Cylinder(
-    /**
-      radius : Set the radius of the cylinder.
-     */
-    argtype args,
-    /// one point on the cylinder's axis of symmetry
-    const Position point0,
-    /// a second point on the cylinder's axis of symmetry
-    const Position point1);
+  /**
+    args:
+    - radius: radius of the cylinder.
+    - first_point: set the unique key for the first_point positions.
+      Thus, arguments of "key[i]" are expected to follow.
+      The "[i]" is to be substituted for integer dimensions 0, 1, 2, ...
+      The "[i]" are also expected to be in order, starting from 0.
+    - second_point: as described for first_point.
+   */
+  explicit Cylinder(argtype args);
+  explicit Cylinder(argtype * args);
+
+  const Position& first_point() const { return point0_; }
+  const Position& second_point() const { return point1_; }
 
   double nearest_distance(const Position& point) const override;
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<Cylinder>(istr); }
+  std::shared_ptr<Shape> create(argtype * args) const override {
+    return std::make_shared<Cylinder>(args); }
   explicit Cylinder(std::istream& istr);
   virtual ~Cylinder() {}
 
@@ -36,11 +43,8 @@ class Cylinder : public Shape {
   Position point0_, point1_;
 };
 
-inline std::shared_ptr<Cylinder> MakeCylinder(
-    argtype args,
-    const Position point0,
-    const Position point1) {
-  return std::make_shared<Cylinder>(args, point0, point1);
+inline std::shared_ptr<Cylinder> MakeCylinder(argtype args) {
+  return std::make_shared<Cylinder>(args);
 }
 
 }  // namespace feasst

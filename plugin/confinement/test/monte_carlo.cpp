@@ -15,6 +15,7 @@
 #include "shape/include/slab_sine.h"
 #include "shape/include/shape_union.h"
 #include "shape/include/shape_intersect.h"
+#include "shape/include/shape_file.h"
 #include "shape/include/cylinder.h"
 #include "shape/include/half_space_sine.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -45,9 +46,7 @@ TEST(MonteCarlo, ShapeUnion) {
     {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeShapeUnion(
-    MakeSphere(
-      {{"radius", "2"}},
-      Position({{"x", "0"}, {"y", "0"}, {"z", "0"}})),
+    MakeSphere({{"radius", "2"}}),
     MakeSlab({{"dimension", "2"}, {"bound0", "-1"}, {"bound1", "1"}})))));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
@@ -63,22 +62,21 @@ TEST(MonteCarlo, ShapeUnion) {
 }
 
 std::shared_ptr<Shape> porous_network() {
-  auto network = MakeShapeUnion(
-    MakeSphere(
-      {{"radius", "5"}},
-      Position({{"x", "0"}, {"y", "0"}, {"z", "0"}})),
-    MakeCylinder({{"radius", "2"}},
-      Position({{"x", "0"}, {"y", "0"}, {"z", "0"}}),
-      Position({{"x", "0"}, {"y", "0"}, {"z", "1"}})));
-  network = MakeShapeUnion(network,
-    MakeCylinder({{"radius", "2"}},
-      Position({{"x", "0"}, {"y", "0"}, {"z", "0"}}),
-      Position({{"x", "0"}, {"y", "1"}, {"z", "0"}})));
-  network = MakeShapeUnion(network,
-    MakeCylinder({{"radius", "2"}},
-      Position({{"x", "0"}, {"y", "0"}, {"z", "0"}}),
-      Position({{"x", "1"}, {"y", "0"}, {"z", "0"}})));
-  return network;
+//  auto network = MakeShapeUnion(
+//    MakeSphere({{"radius", "5"}}),
+//    MakeCylinder({{"radius", "2"},
+//      {"first_point", "f0"}, {"f00", "0"}, {"f01", "0"}, {"f02", "0"},
+//      {"second_point", "s0"}, {"s00", "0"}, {"s01", "0"}, {"s02", "1"}}));
+//  network = MakeShapeUnion(network,
+//    MakeCylinder({{"radius", "2"},
+//      {"first_point", "f1"}, {"f10", "0"}, {"f11", "0"}, {"f12", "0"},
+//      {"second_point", "s1"}, {"s10", "0"}, {"s11", "1"}, {"s12", "0"}}));
+//  network = MakeShapeUnion(network,
+//    MakeCylinder({{"radius", "2"},
+//      {"first_point", "f2"}, {"f20", "0"}, {"f21", "0"}, {"f22", "0"},
+//      {"second_point", "s2"}, {"s20", "1"}, {"s21", "0"}, {"s22", "0"}}));
+//  return network;
+  return MakeShapeFile({{"file_name", "../plugin/shape/test/data/shape.txt"}});
 }
 
 TEST(MonteCarlo, ShapeUnion_LONG) {
@@ -86,7 +84,8 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
   mc.add(MakeConfiguration({{"cubic_box_length", "20"},
     {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
-  mc.add(MakePotential(MakeModelHardShape(porous_network())));
+  mc.add(MakePotential(MakeModelHardShape({{"file_name", "../plugin/shape/test/data/network.txt"}})));
+  //mc.add(MakePotential(MakeModelHardShape(porous_network())));
   mc.set(MakeThermoParams({{"beta", "1.5"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
@@ -289,8 +288,8 @@ TEST(Ewald, henry_coefficient_LONG) {
   system.add(MakePotential(
     MakeEwald({{"kmax_squared", "38"},
                {"alpha", str(5.6/system.configuration().domain().inscribed_sphere_diameter())}})));
-  system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                                    MakeChargeScreened()})));
+  system.add(MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
+                                                   MakeChargeScreened())));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
   system.add(MakePotential(MakeChargeSelf()));
   system.add(MakePotential(MakeLongRangeCorrections()));

@@ -34,7 +34,7 @@ TrialAVB4::TrialAVB4(argtype * args) : Trial(args) {
   set(MakeComputeAVB4());
 }
 TrialAVB4::TrialAVB4(argtype args) : TrialAVB4(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialAVB4::TrialAVB4(std::istream& istr) : Trial(istr) {

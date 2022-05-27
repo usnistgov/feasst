@@ -11,7 +11,7 @@ WindowCustom::WindowCustom(const std::vector<double> segment,
   ASSERT(Window::minimum() == 0, "do not use minimum: " << Window::minimum());
   ASSERT(Window::maximum() == -1, "do not use maximum: " << Window::maximum());
   ASSERT(Window::num() == -1, "do not use num: " << Window::num());
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 }  // namespace feasst

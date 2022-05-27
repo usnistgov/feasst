@@ -9,6 +9,10 @@ Run
    :project: FEASST
    :members:
 
+.. doxygenclass:: feasst::RemoveAnalyze
+   :project: FEASST
+   :members:
+
 .. doxygenclass:: feasst::RemoveModify
    :project: FEASST
    :members:
@@ -17,6 +21,10 @@ Run
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::AddReference
+.. doxygenclass:: feasst::ConvertToRefPotential
+   :project: FEASST
+   :members:
+
+.. doxygenclass:: feasst::RefPotential
    :project: FEASST
    :members:

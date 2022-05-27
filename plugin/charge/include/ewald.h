@@ -204,7 +204,10 @@ class Ewald : public VisitModel {
 
   void synchronize_(const VisitModel& visit, const Select& perturbed) override;
 
-  std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  std::shared_ptr<VisitModel> create(std::istream& istr) const override {
+    return std::make_shared<Ewald>(istr); }
+  std::shared_ptr<VisitModel> create(argtype * args) const override {
+    return std::make_shared<Ewald>(args); }
   Ewald(std::istream& istr);
   void serialize(std::ostream& ostr) const override;
 

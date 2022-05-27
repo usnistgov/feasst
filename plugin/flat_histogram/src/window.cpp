@@ -8,7 +8,7 @@
 namespace feasst {
 
 Window::Window(argtype args) : Window(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 Window::Window(argtype * args) {
   minimum_ = integer("minimum", args, 0);

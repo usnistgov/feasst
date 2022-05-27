@@ -11,7 +11,7 @@
 
 namespace feasst {
 
-Histogram::Histogram(argtype args) : Histogram(&args) { check_all_used(args); }
+Histogram::Histogram(argtype args) : Histogram(&args) { FEASST_CHECK_ALL_USED(args); }
 Histogram::Histogram(argtype * args) {
   // optionally construct a constant width bin
   if (used("width", *args)) {

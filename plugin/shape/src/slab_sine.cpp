@@ -30,7 +30,7 @@ SlabSine::SlabSine(std::shared_ptr<FormulaSineWave> sine_wave,
     {"direction", str(1)},
   });
   set(half0, half1);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 }  // namespace feasst

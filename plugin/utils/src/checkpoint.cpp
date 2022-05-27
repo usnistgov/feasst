@@ -10,7 +10,7 @@ Checkpoint::Checkpoint(argtype args) {
   file_name_ = str("file_name", &args, " ");
   writes_per_backup_ = integer("writes_per_backup", &args, -1);
   first_hours_ = cpu_hours();
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Checkpoint::serialize(std::ostream& ostr) const {

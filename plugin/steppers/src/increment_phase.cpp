@@ -16,7 +16,7 @@ IncrementPhase::IncrementPhase(argtype * args) : ModifyUpdateOnly(args) {
   num_trials_ = integer("num_trials", args, -1);
 }
 IncrementPhase::IncrementPhase(argtype args) : IncrementPhase(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void IncrementPhase::update(Criteria * criteria,

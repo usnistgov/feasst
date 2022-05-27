@@ -21,6 +21,7 @@ class Metropolis : public Criteria {
       or attempts (as measured by number of calls to is_accepted) default: 1e9.
    */
   explicit Metropolis(argtype args = argtype());
+  explicit Metropolis(argtype * args);
 
   /// Same as above, but with an added constraint.
   explicit Metropolis(std::shared_ptr<Constraint> constraint);
@@ -33,7 +34,7 @@ class Metropolis : public Criteria {
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<Metropolis>(istr); }
   std::shared_ptr<Criteria> create(argtype * args) const override {
-    return std::make_shared<Metropolis>(); }
+    return std::make_shared<Metropolis>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit Metropolis(std::istream& istr);
   ~Metropolis() {}
@@ -42,8 +43,8 @@ class Metropolis : public Criteria {
   int num_attempts_per_iteration_;
 };
 
-inline std::shared_ptr<Metropolis> MakeMetropolis() {
-  return std::make_shared<Metropolis>();
+inline std::shared_ptr<Metropolis> MakeMetropolis(argtype args = argtype()) {
+  return std::make_shared<Metropolis>(args);
 }
 
 inline std::shared_ptr<Metropolis> MakeMetropolis(

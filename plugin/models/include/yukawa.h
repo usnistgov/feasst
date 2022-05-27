@@ -28,6 +28,8 @@ class Yukawa : public ModelTwoBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<Yukawa>(istr); }
+  std::shared_ptr<Model> create(argtype * args) const override {
+    return std::make_shared<Yukawa>(); }
   void serialize(std::ostream& ostr) const override;
   explicit Yukawa(std::istream& istr);
   virtual ~Yukawa() {}

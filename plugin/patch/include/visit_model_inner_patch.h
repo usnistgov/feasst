@@ -38,6 +38,7 @@ namespace feasst {
 class VisitModelInnerPatch : public VisitModelInner {
  public:
   explicit VisitModelInnerPatch(argtype args = argtype());
+  explicit VisitModelInnerPatch(argtype * args);
   void precompute(Configuration * config) override;
   void compute(
     const int part1_index,
@@ -55,8 +56,10 @@ class VisitModelInnerPatch : public VisitModelInner {
 
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<VisitModelInnerPatch>(istr); }
+  std::shared_ptr<VisitModelInner> create(argtype * args) const override {
+    return std::make_shared<VisitModelInnerPatch>(args); }
   void serialize(std::ostream& ostr) const override;
-  VisitModelInnerPatch(std::istream& istr);
+  explicit VisitModelInnerPatch(std::istream& istr);
   virtual ~VisitModelInnerPatch() {}
 
  private:

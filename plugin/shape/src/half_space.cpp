@@ -18,7 +18,7 @@ class MapHalfSpace {
 static MapHalfSpace mapper_ = MapHalfSpace();
 
 HalfSpace::HalfSpace(argtype args) : HalfSpace(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 HalfSpace::HalfSpace(argtype * args) : Shape() {
   class_name_ = "HalfSpace";

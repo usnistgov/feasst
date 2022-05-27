@@ -19,11 +19,15 @@ class AEqualB : public Constraint {
     - particle_type_B: particle type for B (default: 1).
     - extra_A: allow this many extra A particles (default: 0).
    */
-  AEqualB(argtype args = argtype());
+  explicit AEqualB(argtype args = argtype());
+  explicit AEqualB(argtype * args);
   bool is_allowed(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override;
-  std::shared_ptr<Constraint> create(std::istream& istr) const override;
+  std::shared_ptr<Constraint> create(std::istream& istr) const override {
+    return std::make_shared<AEqualB>(istr); }
+  std::shared_ptr<Constraint> create(argtype * args) const override {
+    return std::make_shared<AEqualB>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit AEqualB(std::istream& istr);
   virtual ~AEqualB() {}

@@ -39,7 +39,7 @@ void SelectSegment::serialize(std::ostream& ostr) const {
 }
 
 SelectSegment::SelectSegment(argtype args) : SelectSegment(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 SelectSegment::SelectSegment(argtype * args) : TrialSelectParticle(args) {
   class_name_ = "SelectSegment";

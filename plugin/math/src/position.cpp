@@ -229,14 +229,14 @@ double Position::nearest_distance_to_axis(const Position& point1,
 //  return ((p01.cross_product(p02)).distance())/p21.distance();
 }
 
-Position::Position(argtype args) {
+Position::Position(argtype * args) {
   double x = 0, y = 0, z = 0;
-  if (used("x", args)) {
-    x = dble("x", &args);
-    if (used("y", args)) {
-      y = dble("y", &args);
-      if (used("z", args)) {
-        z = dble("z", &args);
+  if (used("x", *args)) {
+    x = dble("x", args);
+    if (used("y", *args)) {
+      y = dble("y", args);
+      if (used("z", *args)) {
+        z = dble("z", args);
         set_vector({x, y, z});
       } else {
         set_vector({x, y});
@@ -245,7 +245,9 @@ Position::Position(argtype args) {
       set_vector({x});
     }
   }
-  check_all_used(args);
+}
+Position::Position(argtype args) : Position(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Position::orthogonal(const Position& orthogonal) {

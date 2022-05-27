@@ -6,7 +6,7 @@
 namespace feasst {
 
 PerturbAddAVB::PerturbAddAVB(argtype args) : PerturbAddAVB(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 PerturbAddAVB::PerturbAddAVB(argtype * args) : Perturb(args) {
   class_name_ = "PerturbAddAVB";

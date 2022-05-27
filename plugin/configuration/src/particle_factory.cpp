@@ -208,7 +208,7 @@ void ParticleFactory::remove(const Group group) {
        index >= 0;
        --index) {
     Particle * part = &particles_[index];
-    if (group.is_in(*part)) {
+    if (group.is_in(*part, index)) {
       group.remove_sites(part);
       //*part = group.remove_sites(*part);
     } else {

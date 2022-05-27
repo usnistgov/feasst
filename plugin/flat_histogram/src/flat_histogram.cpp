@@ -18,22 +18,20 @@ void FlatHistogram::init_(std::shared_ptr<Macrostate> macrostate,
   bias_->resize(macrostate_->histogram());
 }
 
-FlatHistogram::FlatHistogram() : Criteria() {
-  class_name_ = "FlatHistogram";
-}
 FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
-    std::shared_ptr<Bias> bias)
-  : FlatHistogram() {
+    std::shared_ptr<Bias> bias) {
+  class_name_ = "FlatHistogram";
   init_(macrostate, bias);
 }
-FlatHistogram::FlatHistogram(argtype * args) : FlatHistogram() {
+FlatHistogram::FlatHistogram(argtype * args) : Criteria(args) {
+  class_name_ = "FlatHistogram";
   ASSERT(!used("num_iterations_to_complete", *args),
     "FlatHistogram does not use the argument num_iterations_to_complete");
   init_(MacrostateEnergy().factory(str("Macrostate", args), args),
         MakeWangLandau({{"min_flatness", "1"}})->factory(str("Bias", args), args));
 }
 FlatHistogram::FlatHistogram(argtype args) : FlatHistogram(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
@@ -164,8 +162,8 @@ void FlatHistogram::imitate_trial_rejection_(const double ln_prob,
 class MapFlatHistogram {
  public:
   MapFlatHistogram() {
-    FlatHistogram().deserialize_map()["FlatHistogram"] =
-      MakeFlatHistogram();
+    auto obj = std::make_shared<FlatHistogram>();
+    obj->deserialize_map()["FlatHistogram"] = obj;
   }
 };
 

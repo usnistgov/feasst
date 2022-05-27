@@ -22,7 +22,7 @@ Prefetch::Prefetch(argtype args) {
   #ifdef DEBUG_SERIAL_MODE_5324634
     WARN("DEBUG_SERIAL_MODE_5324634");
   #endif
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Prefetch::reset_trial_stats() {

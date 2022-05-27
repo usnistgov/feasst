@@ -24,7 +24,7 @@ void Table1D::calc_d_() {
   bin_spacing_ = bin_spacing(num());
 }
 
-Table1D::Table1D(argtype args) : Table1D(&args) { check_all_used(args); }
+Table1D::Table1D(argtype args) : Table1D(&args) { FEASST_CHECK_ALL_USED(args); }
 Table1D::Table1D(argtype * args) : Table() {
   const int num = integer("num", args, 1);
   data_.resize(num, dble("default_value", args, 0.));
@@ -104,7 +104,7 @@ void Table2D::calc_d_() {
     bin_spacing(num1())});
 }
 
-Table2D::Table2D(argtype args) : Table2D(&args) { check_all_used(args); }
+Table2D::Table2D(argtype args) : Table2D(&args) { FEASST_CHECK_ALL_USED(args); }
 Table2D::Table2D(argtype * args) : Table() {
   const int num0 = integer("num0", args, 1);
   const int num1 = integer("num1", args, 1);
@@ -187,7 +187,7 @@ void Table3D::calc_d_() {
     bin_spacing(num2())});
 }
 
-Table3D::Table3D(argtype args) : Table3D(&args) { check_all_used(args); }
+Table3D::Table3D(argtype args) : Table3D(&args) { FEASST_CHECK_ALL_USED(args); }
 Table3D::Table3D(argtype * args) : Table() {
   const int num0 = integer("num0", args, 1);
   const int num1 = integer("num1", args, 1);

@@ -51,7 +51,7 @@ void TrialGrowLinear::precompute(Criteria * criteria, System * system) {
     std::make_shared<TrialSelectParticle>(&first_args),
     std::make_shared<PerturbAnywhere>(),
     &first_args);
-  check_all_used(first_args);
+  FEASST_CHECK_ALL_USED(first_args);
 
   // for the rest, grow based on bond length only
   for (int site = 1; site < num_sites; ++site) {
@@ -63,7 +63,7 @@ void TrialGrowLinear::precompute(Criteria * criteria, System * system) {
       std::make_shared<PerturbDistance>(&args),
       &args
     );
-    check_all_used(args);
+    FEASST_CHECK_ALL_USED(args);
   }
 
   // precompute stages

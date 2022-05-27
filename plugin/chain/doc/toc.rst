@@ -5,6 +5,8 @@
    SelectPerturbed
    SelectParticlePivot
    AnalyzeBonds
+   EndToEndDistance
+   RadiusOfGyration
    TrialGrow
    TrialSwapSites
    TrialPivot

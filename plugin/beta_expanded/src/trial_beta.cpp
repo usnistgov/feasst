@@ -26,7 +26,7 @@ TrialBeta::TrialBeta(argtype * args) : Trial(args) {
   set(MakeComputeBeta());
 }
 TrialBeta::TrialBeta(argtype args) : TrialBeta(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 TrialBeta::TrialBeta(std::istream& istr) : Trial(istr) {

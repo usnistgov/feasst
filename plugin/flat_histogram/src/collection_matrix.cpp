@@ -16,7 +16,7 @@ CollectionMatrix::CollectionMatrix(argtype * args) {
 }
 CollectionMatrix::CollectionMatrix(argtype args)
   : CollectionMatrix(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 bool CollectionMatrix::if_zero_(const int macro, const int block, const bool lower) const {

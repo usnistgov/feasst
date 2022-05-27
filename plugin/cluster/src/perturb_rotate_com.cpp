@@ -14,7 +14,7 @@ class MapPerturbRotateCOM {
 static MapPerturbRotateCOM mapper_ = MapPerturbRotateCOM();
 
 PerturbRotateCOM::PerturbRotateCOM(argtype args) : PerturbRotateCOM(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 PerturbRotateCOM::PerturbRotateCOM(argtype * args) : PerturbRotate(args) {
   class_name_ = "PerturbRotateCOM";

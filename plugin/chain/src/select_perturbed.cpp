@@ -13,6 +13,13 @@ class MapSelectPerturbed {
 
 static MapSelectPerturbed mapper_ = MapSelectPerturbed();
 
+SelectPerturbed::SelectPerturbed(argtype * args) : TrialSelect(args) {
+  class_name_ = "SelectPerturbed";
+}
+SelectPerturbed::SelectPerturbed(argtype args) : SelectPerturbed(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
+
 std::shared_ptr<TrialSelect> SelectPerturbed::create(std::istream& istr) const {
   return std::make_shared<SelectPerturbed>(istr);
 }

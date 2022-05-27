@@ -8,7 +8,7 @@
 
 namespace feasst {
 
-Ewald::Ewald(argtype args) : Ewald(&args) { check_all_used(args); }
+Ewald::Ewald(argtype args) : Ewald(&args) { FEASST_CHECK_ALL_USED(args); }
 Ewald::Ewald(argtype * args) {
   class_name_ = "Ewald";
   if (used("tolerance", *args)) {
@@ -430,10 +430,6 @@ void Ewald::serialize(std::ostream& ostr) const {
   feasst_serialize(wz_, ostr);
   feasst_serialize(struct_fact_real_new_, ostr);
   feasst_serialize(struct_fact_imag_new_, ostr);
-}
-
-std::shared_ptr<VisitModel> Ewald::create(std::istream& istr) const {
-  return std::make_shared<Ewald>(istr);
 }
 
 Ewald::Ewald(std::istream& istr) : VisitModel(istr) {

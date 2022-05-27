@@ -34,7 +34,8 @@ typedef std::vector<map3type> map4type;
  */
 class EnergyMapNeighbor : public EnergyMap {
  public:
-  EnergyMapNeighbor(const argtype& args = argtype());
+  explicit EnergyMapNeighbor(argtype args = argtype());
+  explicit EnergyMapNeighbor(argtype * args);
   double energy(const int part1_index, const int site1_index) const override;
   double update(
       const double energy,
@@ -81,6 +82,8 @@ class EnergyMapNeighbor : public EnergyMap {
   std::string class_name() const override { return class_name_; }
   std::shared_ptr<EnergyMap> create(std::istream& istr) const override {
     return std::make_shared<EnergyMapNeighbor>(istr); }
+  std::shared_ptr<EnergyMap> create(argtype * args) const override {
+    return std::make_shared<EnergyMapNeighbor>(args); }
   void serialize(std::ostream& ostr) const override;
   EnergyMapNeighbor(std::istream& istr);
   virtual ~EnergyMapNeighbor() {}

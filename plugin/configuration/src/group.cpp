@@ -5,18 +5,23 @@
 
 namespace feasst {
 
-Group::Group(argtype args) {
+Group::Group(argtype * args) {
+  std::string pre = str("prepend", args, "");
+  if (!pre.empty()) {
+    pre += "_";
+  }
+
   std::string start;
   // if only one site type, allow drop the subscript
-  start.assign("site_type");
-  if (used(start, args)) {
-    site_types_.push_back(integer(start, &args));
+  start.assign(pre+"site_type");
+  if (used(start, *args)) {
+    site_types_.push_back(integer(start, args));
   } else {
     int type = site_types_.size();
     std::stringstream key;
     key << start << type;
-    while (used(key.str(), args)) {
-      site_types_.push_back(integer(key.str(), &args));
+    while (used(key.str(), *args)) {
+      site_types_.push_back(integer(key.str(), args));
       ++type;
       ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
       key.str("");
@@ -25,15 +30,15 @@ Group::Group(argtype args) {
   }
 
   // if only one particle type, allow drop the subscript
-  start.assign("particle_type");
-  if (used(start, args)) {
-    particle_types_.push_back(integer(start, &args));
+  start.assign(pre+"particle_type");
+  if (used(start, *args)) {
+    particle_types_.push_back(integer(start, args));
   } else {
     int type = particle_types_.size();
     std::stringstream key;
     key << start << type;
-    while (used(key.str(), args)) {
-      particle_types_.push_back(integer(key.str(), &args));
+    while (used(key.str(), *args)) {
+      particle_types_.push_back(integer(key.str(), args));
       ++type;
       ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
       key.str("");
@@ -41,10 +46,29 @@ Group::Group(argtype args) {
     }
   }
 
-  dynamic_ = boolean("dynamic", &args, true);
-  spatial_ = boolean("spatial", &args, false);
+  // if only one particle index, allow drop the subscript
+  start.assign(pre+"particle_index");
+  if (used(start, *args)) {
+    particle_indices_.push_back(integer(start, args));
+  } else {
+    int index = particle_indices_.size();
+    std::stringstream key;
+    key << start << index;
+    while (used(key.str(), *args)) {
+      particle_indices_.push_back(integer(key.str(), args));
+      ++index;
+      ASSERT(index < 1e8, "index(" << index << ") is very high. Infinite loop?");
+      key.str("");
+      key << start << index;
+    }
+  }
+
+  dynamic_ = boolean(pre+"dynamic", args, true);
+  spatial_ = boolean(pre+"spatial", args, false);
   ASSERT(!spatial_, "spatial groups are not implemented");
-  check_all_used(args);
+}
+Group::Group(argtype args) : Group(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 bool Group::is_empty() const {
@@ -56,23 +80,26 @@ bool Group::is_empty() const {
 }
 
 bool Group::is_in(const Site& site) const {
-  if (site_types_.size() == 0) {
-    return true;
+  bool type = false;
+  if ((site_types_.size() == 0) ||
+      find_in_list(site.type(), site_types_)) {
+    type = true;
   }
-  if (find_in_list(site.type(), site_types_)) {
-    return true;
-  }
-  return false;
+  return type;
 }
 
-bool Group::is_in(const Particle& particle) const {
-  if (particle_types_.size() == 0) {
-    return true;
+bool Group::is_in(const Particle& particle, const int particle_index) const {
+  bool type = false;
+  if ((particle_types_.size() == 0) ||
+      find_in_list(particle.type(), particle_types_)) {
+    type = true;
   }
-  if (find_in_list(particle.type(), particle_types_)) {
-    return true;
+  bool index = false;
+  if ((particle_indices_.size() == 0) ||
+      find_in_list(particle_index, particle_indices_)) {
+    index = true;
   }
-  return false;
+  return (type && index);
 }
 
 void Group::remove_sites(Particle * particle) const {
@@ -122,6 +149,8 @@ void Group::serialize(std::ostream& ostr) const {
   ostr << "1 "; // version
   feasst_serialize(site_types_, ostr);
   feasst_serialize(particle_types_, ostr);
+  //feasst_serialize(site_indices_, ostr);
+  feasst_serialize(particle_indices_, ostr);
   ostr << dynamic_ << " " << spatial_ << " ";
 }
 
@@ -130,6 +159,8 @@ Group::Group(std::istream& istr) {
   istr >> version;
   feasst_deserialize(&site_types_, istr);
   feasst_deserialize(&particle_types_, istr);
+  //feasst_deserialize(&site_indices_, istr);
+  feasst_deserialize(&particle_indices_, istr);
   istr >> dynamic_ >> spatial_;
 }
 

@@ -7,7 +7,7 @@ namespace feasst {
 CheckNetCharge::CheckNetCharge(argtype args) : AnalyzeUpdateOnly(&args) {
   minimum_ = dble("minimum", &args, 0.);
   maximum_ = dble("maximum", &args, 0.);
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void CheckNetCharge::update(const Criteria& criteria,

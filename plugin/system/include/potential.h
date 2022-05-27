@@ -25,12 +25,15 @@ class Potential {
     args:
     - group_index: set the index of the group in the configuration which
       contributes to this potential (default: 0, representing entire config).
+    - group: name of group defined within system (default: "").
+      Cannot be used with group_index.
     - cell_index: set the index of the cell, only used with VisitModelCell.
       This also overrides group_index.
     - prevent_cache: set this to true in order to prevent the use of cache
       (default: False)
     - table_size: set size of tabular potential (default: 0).
       Do not use table if size <= 0.
+    - set model parameters [parameter]/[i]/[j] as described in Configuration.
    */
   explicit Potential(argtype * args);
 
@@ -76,9 +79,24 @@ class Potential {
   void set_model_params(const Configuration& config);
 
   /// Modify model parameter of a given site type and name to value.
-  void set_model_param(const char* name,
+  void set_model_param(const std::string& name,
                        const int site_type,
                        const double value);
+  void set_model_param(const std::string& name,
+                       const int site_type,
+                       const double value,
+                       const Configuration& config);
+
+  /// Modify model parameter of given site types and name to value.
+  void set_model_param(const std::string& name,
+                       const int site_type0,
+                       const int site_type1,
+                       const double value);
+  void set_model_param(const std::string& name,
+                       const int site_type0,
+                       const int site_type1,
+                       const double value,
+                       const Configuration& config);
 
   /// Return the model parameters.
   const ModelParams& model_params() const;
@@ -139,6 +157,7 @@ class Potential {
 
  private:
   int group_index_;
+  std::string group_;
   std::shared_ptr<VisitModel> visit_model_;
   std::shared_ptr<Model> model_;
   double stored_energy_ = 0.;
@@ -147,6 +166,7 @@ class Potential {
   Cache cache_;
   bool prevent_cache_;
   int table_size_;
+  argtype override_args_;
 };
 
 inline std::shared_ptr<Potential> MakePotential(argtype args = argtype()) {

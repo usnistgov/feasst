@@ -339,7 +339,7 @@ TEST(MonteCarlo, GCMC_cell) {
   mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
-  mc.run(MakeAddReference({{"cutoff", "1"}, {"use_cell", "true"}}));
+  mc.run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));
   EXPECT_EQ(mc.system().num_references(), 1);
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
@@ -375,9 +375,8 @@ TEST(MonteCarlo, ConstrainNumParticles) {
     mc.add(MakeTune());
     mc.get_system()->get_configuration()->add_particle_of_type(0);
     mc.set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
-    mc.set(MakeMetropolis(
-      MakeConstrainNumParticles({{"minimum", str(minimum)},
-                                 {"maximum", str(minimum+1)}})));
+    mc.set(MakeMetropolis({{"Constraint", "ConstrainNumParticles"},
+      {"minimum", str(minimum)}, {"maximum", str(minimum+1)}}));
     mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
     const int index = mc.num_analyzers();
     mc.add(MakeNumParticles({{"trials_per_write", "10000"}}));
@@ -651,5 +650,25 @@ TEST(MonteCarlo, gen_5_spce_in_triclinic) {
 //    {"WriteCheckpoint", {{}}},
 //  }});
 //}
+
+TEST(MonteCarlo, group_in_arglist) {
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
+      {"particle_type0", "../forcefield/lj.fstprt"}, {"group0", "first"}, {"first_particle_index", "0"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"ThermoParams", {{"beta", "1.2"}, {"chemical_potential", "1."}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}, {"group", "first"}}},
+    {"Checkpoint", {{"num_hours", "0.0001"}, {"file_name", "tmp/ljrst"}}},
+    {"Log", {{"trials_per", str(1e0)}, {"file_name", "tmp/lj.txt"}}},
+    {"Movie", {{"trials_per", str(1e0)}, {"file_name", "tmp/lj.xyz"}}},
+    {"CheckEnergy", {{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}},
+    {"Tune", {{}}},
+    {"Run", {{"num_trials", "1e2"}}},
+  }});
+  EXPECT_EQ(2, mc->configuration().num_groups());
+  EXPECT_NEAR(-2.060346185437E+00, mc->configuration().particle(2).site(0).position().coord(0), NEAR_ZERO);
+  EXPECT_TRUE(std::abs(mc->configuration().particle(0).site(0).position().coord(0)-1.077169909511E+00)>1e-8);
+}
 
 }  // namespace feasst

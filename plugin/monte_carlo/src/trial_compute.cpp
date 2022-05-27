@@ -5,7 +5,7 @@
 namespace feasst {
 
 TrialCompute::TrialCompute(argtype args) : TrialCompute(&args) {
-  check_all_used(args); }
+  FEASST_CHECK_ALL_USED(args); }
 TrialCompute::TrialCompute(argtype * args) {}
 
 void TrialCompute::compute_rosenbluth(

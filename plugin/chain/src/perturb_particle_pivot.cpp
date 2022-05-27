@@ -7,7 +7,7 @@
 namespace feasst {
 
 PerturbParticlePivot::PerturbParticlePivot(argtype args) : PerturbParticlePivot(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 PerturbParticlePivot::PerturbParticlePivot(argtype * args) : PerturbRotate(args) {
   class_name_ = "PerturbParticlePivot";

@@ -7,7 +7,7 @@ namespace feasst {
 
 SelectParticlePivot::SelectParticlePivot(argtype args)
   : SelectParticlePivot(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 SelectParticlePivot::SelectParticlePivot(argtype * args) : TrialSelect(args) {

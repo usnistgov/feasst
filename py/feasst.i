@@ -64,6 +64,7 @@
 #include "shape/include/cuboid.h"
 #include "shape/include/cylinder.h"
 #include "shape/include/shape_union.h"
+#include "shape/include/shape_file.h"
 #include "shape/include/shape_intersect.h"
 #include "shape/include/slab_sine.h"
 #include "shape/include/finite_cylinder.h"
@@ -162,6 +163,7 @@
 #include "steppers/include/density_profile.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "steppers/include/log_and_movie.h"
+#include "cluster/include/analyze_cluster.h"
 #include "steppers/include/seek_analyze.h"
 #include "steppers/include/wall_clock_limit.h"
 #include "steppers/include/profile_trials.h"
@@ -176,6 +178,8 @@
 #include "steppers/include/log.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
+#include "chain/include/end_to_end_distance.h"
+#include "chain/include/radius_of_gyration.h"
 #include "monte_carlo/include/modify.h"
 #include "steppers/include/pair_distribution.h"
 #include "steppers/include/check_energy.h"
@@ -360,9 +364,11 @@ using namespace std;
 %shared_ptr(feasst::Action);
 %shared_ptr(feasst::Run);
 %shared_ptr(feasst::RemoveTrial);
+%shared_ptr(feasst::RemoveAnalyze);
 %shared_ptr(feasst::RemoveModify);
 %shared_ptr(feasst::WriteCheckpoint);
-%shared_ptr(feasst::AddReference);
+%shared_ptr(feasst::ConvertToRefPotential);
+%shared_ptr(feasst::RefPotential);
 %shared_ptr(feasst::PhysicalConstants);
 %shared_ptr(feasst::CODATA2018);
 %shared_ptr(feasst::CODATA2014);
@@ -390,6 +396,7 @@ using namespace std;
 %shared_ptr(feasst::Cuboid);
 %shared_ptr(feasst::Cylinder);
 %shared_ptr(feasst::ShapeUnion);
+%shared_ptr(feasst::ShapeFile);
 %shared_ptr(feasst::ShapeIntersect);
 %shared_ptr(feasst::SlabSine);
 %shared_ptr(feasst::FiniteCylinder);
@@ -502,6 +509,7 @@ using namespace std;
 %shared_ptr(feasst::DensityProfile);
 %shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::LogAndMovie);
+%shared_ptr(feasst::AnalyzeCluster);
 %shared_ptr(feasst::AnalyzeData);
 %shared_ptr(feasst::AccumulatorAverage);
 %shared_ptr(feasst::AccumulatorSum);
@@ -521,6 +529,8 @@ using namespace std;
 %shared_ptr(feasst::Log);
 %shared_ptr(feasst::Energy);
 %shared_ptr(feasst::CriteriaWriter);
+%shared_ptr(feasst::EndToEndDistance);
+%shared_ptr(feasst::RadiusOfGyration);
 %shared_ptr(feasst::Modify);
 %shared_ptr(feasst::ModifyUpdateOnly);
 %shared_ptr(feasst::PairDistributionInner);
@@ -720,6 +730,7 @@ using namespace std;
 %include shape/include/cuboid.h
 %include shape/include/cylinder.h
 %include shape/include/shape_union.h
+%include shape/include/shape_file.h
 %include shape/include/shape_intersect.h
 %include shape/include/slab_sine.h
 %include shape/include/finite_cylinder.h
@@ -818,6 +829,7 @@ using namespace std;
 %include steppers/include/density_profile.h
 %include monte_carlo/include/analyze_factory.h
 %include steppers/include/log_and_movie.h
+%include cluster/include/analyze_cluster.h
 %include steppers/include/seek_analyze.h
 %include steppers/include/wall_clock_limit.h
 %include steppers/include/profile_trials.h
@@ -832,6 +844,8 @@ using namespace std;
 %include steppers/include/log.h
 %include steppers/include/energy.h
 %include steppers/include/criteria_writer.h
+%include chain/include/end_to_end_distance.h
+%include chain/include/radius_of_gyration.h
 %include monte_carlo/include/modify.h
 %include steppers/include/pair_distribution.h
 %include steppers/include/check_energy.h

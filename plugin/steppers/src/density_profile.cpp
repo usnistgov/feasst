@@ -26,7 +26,7 @@ DensityProfile::DensityProfile(argtype * args) : Analyze(args) {
   center_ = dble("center", args, 0.);
 }
 DensityProfile::DensityProfile(argtype args) : DensityProfile(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void DensityProfile::initialize(Criteria * criteria,

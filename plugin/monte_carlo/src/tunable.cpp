@@ -13,7 +13,7 @@ Tunable::Tunable(argtype * args) {
   set_percent_change(dble("tunable_percent_change", args, 1));
 }
 Tunable::Tunable(argtype args) : Tunable(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Tunable::set_min_and_max(const double min, const double max) {

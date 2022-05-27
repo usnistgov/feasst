@@ -4,7 +4,7 @@
 namespace feasst {
 
 PerturbSiteType::PerturbSiteType(argtype args) : PerturbSiteType(&args) {
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 PerturbSiteType::PerturbSiteType(argtype * args) : Perturb(args) {
   class_name_ = "PerturbSiteType";

@@ -43,8 +43,9 @@ Shape::Shape(std::istream& istr) {
 }
 
 std::shared_ptr<Shape> Shape::create(std::istream& istr) const {
-  FATAL("not implemented");
-}
+  FATAL("not implemented"); }
+std::shared_ptr<Shape> Shape::create(argtype * args) const {
+  FATAL("not implemented"); }
 
 std::shared_ptr<Shape> Shape::deserialize(std::istream& istr) {
   return template_deserialize(deserialize_map(), istr,
@@ -163,7 +164,7 @@ double Shape::integrate(
     }
     ++irad;
   }
-  check_all_used(args);
+  FEASST_CHECK_ALL_USED(args);
   return sum;
 }
 
@@ -192,6 +193,11 @@ std::vector<Position> Shape::grid(const Position& upper, const Position& lower,
     }
   }
   return grid;
+}
+
+std::shared_ptr<Shape> Shape::factory(const std::string name, argtype * args) {
+  DEBUG("name: " << name << ", args: " << str(*args));
+  return template_factory(deserialize_map(), name, args);
 }
 
 }  // namespace feasst
