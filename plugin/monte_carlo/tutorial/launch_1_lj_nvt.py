@@ -11,7 +11,7 @@ params = {
     "num_particles": 500, "density": 0.001, "trials_per": 1e5,
     "beta": 1./0.9, "fstprt": "/feasst/forcefield/lj.fstprt",
     "equilibration": 1e7, "production": 1e7,
-    "seed": random.randrange(1e9), "num_hours": 1}
+    "seed": random.randrange(1e9), "num_hours": 1, "script": __file__}
 params["box_length"] = (params["num_particles"]/params["density"])**(1./3.)
 params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]
@@ -23,7 +23,7 @@ MonteCarlo
 Checkpoint file_name checkpoint.fst
 RandomMT19937 seed time
 Configuration cubic_box_length {box_length} particle_type0 {fstprt}
-Potential Model LennardJones
+Potential Model LennardJones VisitModel VisitModelCell min_length 3
 Potential VisitModel LongRangeCorrections
 ThermoParams beta 0.1 chemical_potential 10
 Metropolis
@@ -51,7 +51,7 @@ def slurm_queue():
 #SBATCH -n {procs_per_node} -N {num_nodes} -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
 echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
-python launch_1_lj_nvt.py --run_type 1 --task $SLURM_ARRAY_TASK_ID
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID

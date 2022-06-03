@@ -42,6 +42,7 @@ void WangLandau::infrequent_update(const Macrostate& macro) {
       (min_visit >= flatness_threshold_ * average)) {
     flatness_update_();
   }
+  ln_prob_.normalize();
 }
 
 void WangLandau::update(

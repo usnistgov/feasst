@@ -47,6 +47,7 @@ class Window {
     - num: number of windows (default: -1).
     - num_from_omp: obtain num from OMP threads (default: false).
     - overlap: number of macrostate overlaps between windows (default: 1).
+    - min_size: minimum size of each window (default: 1).
    */
   explicit Window(argtype args = argtype());
   explicit Window(argtype * args);
@@ -73,7 +74,7 @@ class Window {
   virtual ~Window() {}
 
  private:
-  int minimum_, maximum_, num_, overlap_;
+  int minimum_, maximum_, num_, overlap_, min_size_;
 };
 
 }  // namespace feasst

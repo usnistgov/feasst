@@ -67,4 +67,8 @@ TEST(IO, is_found_in) {
   EXPECT_FALSE(is_found_in("empty", "this"));
 }
 
+TEST(IO, sized_int_to_str) {
+  EXPECT_EQ("01", sized_int_to_str(1, 16));
+}
+
 }  // namespace feasst

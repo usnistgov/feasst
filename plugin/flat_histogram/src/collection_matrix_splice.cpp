@@ -47,7 +47,11 @@ MonteCarlo * CollectionMatrixSplice::get_clone(const int index) {
 }
 
 const FlatHistogram& CollectionMatrixSplice::flat_histogram(const int index) const {
-  return clone(index).criteria().flat_histogram();
+  const FlatHistogram& fh = clone(index).criteria().flat_histogram();
+  const int window_size = fh.macrostate().num_macrostates_in_soft_range();
+  ASSERT(window_size >= min_window_size_,
+    "window size: " << window_size << " < min: " << min_window_size_);
+  return fh;
 }
 
 void CollectionMatrixSplice::serialize(std::ostream& ostr) const {

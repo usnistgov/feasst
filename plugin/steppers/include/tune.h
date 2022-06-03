@@ -16,8 +16,6 @@ class Tune : public Modify {
   /**
     args:
     - trials_per_tune: number of attempted trials per tune (default: 1e3).
-    - stop_after_iteration: stop tuning when Criteria reaches this number
-      of iterations. If -1, always tune (default: -1).
    */
   explicit Tune(argtype args = argtype());
   explicit Tune(argtype * args);
@@ -49,7 +47,6 @@ class Tune : public Modify {
 
  private:
   int trials_per_tune_;
-  int stop_after_iteration_;
   std::vector<double> values_;
   std::vector<int> num_attempts_;
   std::vector<int> num_accepted_;

@@ -233,4 +233,8 @@ const Bias& Criteria::bias() const { FATAL("not implemented"); }
 
 const FlatHistogram& Criteria::flat_histogram() const { FATAL("not implemented"); }
 
+int Criteria::num_iterations(const int state) const {
+  return const_num_iterations_();
+}
+
 }  // namespace feasst

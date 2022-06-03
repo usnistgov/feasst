@@ -46,12 +46,12 @@ inline System chain(const double alpha,
   system.add(MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
                                                    MakeChargeScreened())));
   //system.add(MakePotential(MakeChargeScreenedIntra(),
-  //                     MakeVisitModelIntra({{"cutoff", "0"}})));
+  //                     MakeVisitModelIntra({{"intra_cut", "0"}})));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
   system.add(MakePotential(MakeChargeSelf()));
 //  system.add(MakePotential(MakeLongRangeCorrections()));
 //  auto ewald = add_ewald_with(MakeLennardJones(), &system, kmax_squared);
-  system.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"cutoff", "1"}})));
+  system.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"intra_cut", "1"}})));
 //  DEBUG("kxmax " << ewald->kxmax());
 //  DEBUG("kymax " << ewald->kymax());
 //  DEBUG("kzmax " << ewald->kzmax());

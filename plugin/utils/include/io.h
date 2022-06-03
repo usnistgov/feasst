@@ -98,6 +98,9 @@ double str_to_double(const std::string& str);
 /// Convert a string to a boolean.
 bool str_to_bool(const std::string& str);
 
+/// Print an integer with the maximum number of digits as given largest integer.
+std::string sized_int_to_str(const int num, const int largest_num);
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_IO_H_

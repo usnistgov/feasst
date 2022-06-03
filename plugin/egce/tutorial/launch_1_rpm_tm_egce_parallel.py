@@ -13,7 +13,7 @@ params = {
     "minus": "/feasst/plugin/charge/forcefield/rpm_minus.fstprt",
     "max_particles": 20, "min_particles": 0, "min_sweeps": 1e3, "beta_mu": -13.94,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 4, "dccb_cut": 2**(1./6.)}
+    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 4, "script": __file__, "dccb_cut": 2**(1./6.)}
 params["alpha"] = 6.87098396396261/params["cubic_box_length"]
 params["mu"] = params["beta_mu"]/params["beta"]
 params["charge_plus"] = 1./math.sqrt(1.602176634E-19**2/(4*math.pi*8.8541878128E-12*1e3/1e10/6.02214076E+23))
@@ -78,7 +78,7 @@ def slurm_queue():
 echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
 export OMP_NUM_THREADS={procs_per_node}
-python launch_1_rpm_tm_egce_parallel.py --run_type 1 --task $SLURM_ARRAY_TASK_ID
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID

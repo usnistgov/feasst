@@ -57,8 +57,10 @@ PotentialFactory * System::reference_(const int index) {
 }
 
 void System::add_to_reference(std::shared_ptr<Potential> ref, const int index) {
-  if (index == 0 and references_.size() == 0) {
+  if (index == static_cast<int>(references_.size())) {
     references_.push_back(PotentialFactory());
+  } else if (index > static_cast<int>(references_.size())) {
+    FATAL("references must be added in order");
   }
   // HWH assume one config
   reference_(index)->add(ref);

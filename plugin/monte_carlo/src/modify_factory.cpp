@@ -38,9 +38,14 @@ void ModifyFactory::trial(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
   DEBUG(" class? " << class_name());
-  if ( (stop_after_phase() != -1 &&
-        criteria->phase() > stop_after_phase()) ||
-       (criteria->phase() <= start_after_phase()) ) {
+  int stt = -1;
+  if (is_multistate()) {
+    stt = criteria->state();
+  }
+  if ( (stop_after_phase() != -1 && criteria->phase() > stop_after_phase()) ||
+       (stop_after_iteration() != -1 && criteria->num_iterations(stt) > stop_after_iteration()) ||
+       (criteria->phase() <= start_after_phase()) ||
+       (criteria->num_iterations(stt) <= start_after_iteration()) ) {
     return;
   }
   if (is_multistate()) {

@@ -12,7 +12,7 @@ TEST(ChargeScreenedIntra, SRSW_refconfig) {
       std::make_tuple(MakeCODATA2014(), 23363.573722131176),
       std::make_tuple(MakeCODATA2018(), 23363.573741866534) },
     MakeChargeScreenedIntra(),
-    MakeVisitModelIntra({{"cutoff", "0"}})
+    MakeVisitModelIntra({{"intra_cut", "0"}})
   );
 
   test_cases(
@@ -30,7 +30,7 @@ TEST(ChargeScreenedIntra, SRSW_refconfig_bond) {
   config->add_model_param("alpha", 5.6/config->domain().inscribed_sphere_diameter());
   config->add_particle_of_type(0);
   auto model = MakeChargeScreenedIntra();
-  auto intra = MakeVisitModelIntra({{"cutoff", "0"}});
+  auto intra = MakeVisitModelIntra({{"intra_cut", "0"}});
   auto bond = MakeVisitModelBond();
   Potential p1(model, intra);
   p1.precompute(config.get());

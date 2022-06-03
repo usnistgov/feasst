@@ -13,7 +13,7 @@ params = {
     "num_particles": 512, "cubic_box_length": 24.8586887, "trials_per": 1e5,
     "temperature": 298, "fstprt": "/feasst/forcefield/spce.fstprt",
     "equilibration": 1e6, "production": 1e6,
-    "seed": random.randrange(1e9), "num_hours": 1}
+    "seed": random.randrange(1e9), "num_hours": 1, "script": __file__}
 params["cutoff"] = params["cubic_box_length"]/2.
 params["alpha"] = 5.6/params["cubic_box_length"]
 R = 1.3806488E-23*6.02214129E+23 # J/mol/K
@@ -60,7 +60,7 @@ def slurm_queue():
 #SBATCH -n {procs_per_node} -N {num_nodes} -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
 echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
-python launch_1_spce_nvt.py --run_type 1 --task $SLURM_ARRAY_TASK_ID
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID

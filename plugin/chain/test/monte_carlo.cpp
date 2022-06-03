@@ -573,7 +573,7 @@ TEST(TrialGrow, reptate) {
   mc.add(MakeConfiguration({{"cubic_box_length", "20"},
     {"particle_type0", "../plugin/chain/forcefield/chain5.fstprt"},
     {"add_particles_of_type0", "1"}}));
-  mc.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"cutoff", "1"}})));
+  mc.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"intra_cut", "1"}})));
   mc.set(MakeThermoParams({{"beta", "1"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialGrow({
@@ -762,7 +762,7 @@ TEST(MonteCarlo, single_butane) {
     {"add_particles_of_type0", "1"},
     {"cubic_box_length", "100"}}));
   mc.add(MakePotential(MakeLennardJones(),
-                       MakeVisitModelIntra({{"cutoff",  "4"}})));
+                       MakeVisitModelIntra({{"intra_cut",  "4"}})));
   mc.set(MakeThermoParams({{"beta", "1"}}));
   mc.set(MakeMetropolis());
   DEBUG("initial energy " << mc.criteria().current_energy());

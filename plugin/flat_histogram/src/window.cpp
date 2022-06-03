@@ -14,6 +14,11 @@ Window::Window(argtype * args) {
   minimum_ = integer("minimum", args, 0);
   maximum_ = integer("maximum", args, -1);
   num_ = integer("num", args, -1);
+  DEBUG(num_ << " " << maximum_ << " " << minimum_);
+  ASSERT(num_ <= maximum_ - minimum_ + 1,
+    "The number of windows: " << num_ << " is more than the macrostate range. "
+    << "max: " << maximum_ << " min: " << minimum_);
+  min_size_ = integer("min_size", args, 1);
   if (boolean("num_from_omp", args, false)) {
     ASSERT(num_ == -1, "cannot use both num and num_from_omp args");
     num_ = ThreadOMP().num();
@@ -42,6 +47,10 @@ std::vector<std::vector<int> > Window::boundaries() const {
   }
 
   // check that windows are large enough.
+  for (const std::vector<int> win : windows) {
+    const int size = win[1] - win[0] + 1;
+    ASSERT(size >= min_size_, "size: " << size << " < min: " << min_size_);
+  }
   if (overlap() > 0) {
     for (const std::vector<int> win : windows) {
       int max_overlap = overlap() - 1;

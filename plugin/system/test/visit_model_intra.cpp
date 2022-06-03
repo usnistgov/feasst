@@ -14,7 +14,7 @@ TEST(VisitModelIntra, energy) {
   LennardJones model;
   model.precompute(config->model_params());
   // don't compute intraparticle interactions between bonded sites.
-  auto visit = MakeVisitModelIntra({{"cutoff", "1"}});
+  auto visit = MakeVisitModelIntra({{"intra_cut", "1"}});
   visit->precompute(config.get());
   // set cut-off to 2.5 so only beads 2 away can interact.
   // due to periodic boundary conditions matching exactly the length,

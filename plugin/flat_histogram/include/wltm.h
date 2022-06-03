@@ -17,14 +17,15 @@ class WLTM : public Bias {
  public:
   /**
     args:
+    - WangLandau arguments.
+    - TransitionMatrix arguments.
     - collect_flatness: Begin populating the collection matrix when Wang-Landau
       has completed this many flatness checks.
       Note that populating the collection matrix does not necessarily mean that
       the collection matrix is used to compute the bias.
-    - min_flatness: After this many flatness checks have been completed
-      with Wang-Landau, use the bias from the collection matrix instead.
-      Also, increment the phase when this occurs.
-    - min_sweeps: Number of sweeps required for completion.
+    - min_collect_sweeps: In addition to WangLandau::min_flatness, do not use
+      TransitionMatrix as bias until it has this minimum number of sweeps.
+      If -1, do nothing (default: -1).
    */
   explicit WLTM(argtype args = argtype());
   explicit WLTM(argtype * args);
@@ -41,8 +42,7 @@ class WLTM : public Bias {
     return transition_matrix_->num_iterations_to_complete(); }
   void set_num_iterations_to_complete(const int sweeps) override {
     transition_matrix_->set_num_iterations_to_complete(sweeps); }
-  int num_iterations() const override {
-    return transition_matrix_->num_iterations(); }
+  int num_iterations(const int state) const override;
   const TransitionMatrix& transition_matrix() const {
     return const_cast<TransitionMatrix&>(*transition_matrix_); }
   const LnProbability& ln_prob() const override;
@@ -71,9 +71,12 @@ class WLTM : public Bias {
  private:
   int collect_flatness_;
   int min_flatness_;
+  int min_collect_sweeps_;
   int production_ = 0;
   std::shared_ptr<WangLandau> wang_landau_;
   std::shared_ptr<TransitionMatrix> transition_matrix_;
+
+  bool is_wl_bias_();
 };
 
 inline std::shared_ptr<WLTM> MakeWLTM(argtype args = argtype()) {

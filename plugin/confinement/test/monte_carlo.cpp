@@ -61,31 +61,12 @@ TEST(MonteCarlo, ShapeUnion) {
   mc2.attempt(1e3);
 }
 
-std::shared_ptr<Shape> porous_network() {
-//  auto network = MakeShapeUnion(
-//    MakeSphere({{"radius", "5"}}),
-//    MakeCylinder({{"radius", "2"},
-//      {"first_point", "f0"}, {"f00", "0"}, {"f01", "0"}, {"f02", "0"},
-//      {"second_point", "s0"}, {"s00", "0"}, {"s01", "0"}, {"s02", "1"}}));
-//  network = MakeShapeUnion(network,
-//    MakeCylinder({{"radius", "2"},
-//      {"first_point", "f1"}, {"f10", "0"}, {"f11", "0"}, {"f12", "0"},
-//      {"second_point", "s1"}, {"s10", "0"}, {"s11", "1"}, {"s12", "0"}}));
-//  network = MakeShapeUnion(network,
-//    MakeCylinder({{"radius", "2"},
-//      {"first_point", "f2"}, {"f20", "0"}, {"f21", "0"}, {"f22", "0"},
-//      {"second_point", "s2"}, {"s20", "1"}, {"s21", "0"}, {"s22", "0"}}));
-//  return network;
-  return MakeShapeFile({{"file_name", "../plugin/shape/test/data/shape.txt"}});
-}
-
 TEST(MonteCarlo, ShapeUnion_LONG) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_box_length", "20"},
     {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape({{"file_name", "../plugin/shape/test/data/network.txt"}})));
-  //mc.add(MakePotential(MakeModelHardShape(porous_network())));
   mc.set(MakeThermoParams({{"beta", "1.5"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
@@ -103,7 +84,7 @@ TEST(MonteCarlo, ShapeTable_LONG) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_box_length", "20"}, {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
-  auto pore = porous_network();
+  auto pore = MakeShapeFile({{"file_name", "../plugin/shape/test/data/network.txt"}});
   mc.add(MakePotential(MakeModelHardShape(pore)));
   const bool read_table = false;
   //const bool read_table = true;

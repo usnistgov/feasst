@@ -135,7 +135,6 @@ class TrialGrowFile : public TrialGrow {
   TrialGrowFile() : TrialGrow() {}
   /**
    args:
-   - particle_type: index of particle type to grow.
    - file_name: name of TrialGrowFile file with the following format:
      line1: TrialGrowFile
      line2: optional space

@@ -15,7 +15,6 @@ static MapTune mapper_ = MapTune();
 Tune::Tune(argtype * args) : Modify(args) {
   trials_per_tune_ = integer("trials_per_tune", args, 1e3);
   ASSERT(trials_per_update() == 1, "requires 1 trial per update");
-  stop_after_iteration_ = integer("stop_after_iteration", args, -1);
 }
 Tune::Tune(argtype args) : Tune(&args) { FEASST_CHECK_ALL_USED(args); }
 
@@ -23,7 +22,6 @@ void Tune::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(256, ostr);
   feasst_serialize(trials_per_tune_, ostr);
-  feasst_serialize(stop_after_iteration_, ostr);
   feasst_serialize(values_, ostr);
   feasst_serialize(num_attempts_, ostr);
   feasst_serialize(num_accepted_, ostr);
@@ -33,7 +31,6 @@ Tune::Tune(std::istream& istr) : Modify(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 256, "version mismatch:" << version);
   feasst_deserialize(&trials_per_tune_, istr);
-  feasst_deserialize(&stop_after_iteration_, istr);
   feasst_deserialize(&values_, istr);
   feasst_deserialize(&num_attempts_, istr);
   feasst_deserialize(&num_accepted_, istr);
@@ -76,23 +73,20 @@ void Tune::update(Criteria * criteria,
           trial_factory->trial(trial).stage(0).perturb().tunable();
         if (tunable.is_enabled()) {
           double * value = &values_[trial];
-          if (stop_after_iteration_ == -1 ||
-              stop_after_iteration_ > criteria->num_iterations()) {
-            DEBUG("num_accepted: " << *num_accepted);
-            DEBUG("trials_per_tune_: " << trials_per_tune_);
-            if (*num_attempts == trials_per_tune_) {
-              const double acceptance = *num_accepted/
-                    static_cast<double>(*num_attempts);
-              DEBUG("acceptance: " << acceptance);
-              double val = *value;
-              val *= 1 + tunable.percent_change()*(acceptance - tunable.target());
-              if (!tunable.is_bound() ||
-                  (val <= tunable.max() && val >= tunable.min())) {
-                *value = val;
-              }
-              *num_accepted = 0;
-              *num_attempts = 0;
+          DEBUG("num_accepted: " << *num_accepted);
+          DEBUG("trials_per_tune_: " << trials_per_tune_);
+          if (*num_attempts == trials_per_tune_) {
+            const double acceptance = *num_accepted/
+                  static_cast<double>(*num_attempts);
+            DEBUG("acceptance: " << acceptance);
+            double val = *value;
+            val *= 1 + tunable.percent_change()*(acceptance - tunable.target());
+            if (!tunable.is_bound() ||
+                (val <= tunable.max() && val >= tunable.min())) {
+              *value = val;
             }
+            *num_accepted = 0;
+            *num_attempts = 0;
           }
           trial_factory->set_tunable(trial, *value);
         }

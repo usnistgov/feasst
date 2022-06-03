@@ -70,7 +70,7 @@ def mc(thread, mn, mx):
             mc.get_system().get_configuration().set_model_param("cutoff", site_type, args.cutoff)
     mc.add(fst.MakePotential(fst.MakeLennardJones()))
     mc.add(fst.MakePotential(fst.MakeLennardJones(),
-                             fst.MakeVisitModelIntra(fst.args({"cutoff": "4"}))))
+                             fst.MakeVisitModelIntra(fst.args({"intra_cut": "4"}))))
     mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
     if mx > args.dccb_begin:
         reference = fst.Potential(fst.MakeLennardJones(), fst.MakeVisitModelCell(fst.args({"min_length": str(args.dccb_cutoff)})))
@@ -79,7 +79,7 @@ def mc(thread, mn, mx):
             reference.set_model_param("cutoff", site_type, args.dccb_cutoff)
         mc.add_to_reference(reference)
         #mc.add_to_reference(fst.MakePotential(fst.MakeLennardJones(),
-        #                    fst.MakeVisitModelIntra(fst.args({"cutoff": "4"}))))
+        #                    fst.MakeVisitModelIntra(fst.args({"intra_cut": "4"}))))
         stage_args = {"reference_index": "0", "num_steps": "4"}
     else:
         mc.add_to_reference(fst.MakePotential(fst.DontVisitModel()))

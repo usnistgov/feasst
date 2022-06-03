@@ -11,7 +11,7 @@ import random
 params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1.2,
     "num_particles": 50, "equilibration": 1e6, "production": 1e8,
-    "trials_per": 1e5, "seed": random.randrange(1e9), "num_hours": 1}
+    "trials_per": 1e5, "seed": random.randrange(1e9), "num_hours": 1, "script": __file__}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]
 
@@ -51,7 +51,7 @@ def slurm_queue():
 #SBATCH -n {procs_per_node} -N {num_nodes} -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
 echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
-python launch.py --run_type 1 --task $SLURM_ARRAY_TASK_ID
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID

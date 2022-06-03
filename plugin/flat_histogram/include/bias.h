@@ -69,7 +69,7 @@ class Bias {
   /// Set the number of iterations required for completion.
   virtual void set_num_iterations_to_complete(const int iteration) = 0;
 
-  virtual int num_iterations() const = 0;
+  virtual int num_iterations(const int state) const = 0;
   bool is_complete() const { return is_complete_; }
 
   // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.

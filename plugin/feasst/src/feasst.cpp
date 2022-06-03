@@ -65,15 +65,16 @@ void parse_cm(std::string line) {
   #ifdef _OPENMP
   #pragma omp parallel
   {
-    ASSERT(MakeThreadOMP()->num() >= window->num(),
+    const int num_threads = MakeThreadOMP()->num();
+    ASSERT(num_threads >= window->num(),
       "asked for " << window->num() << " windows but there are only "
-      << MakeThreadOMP()->num() << " OMP threads");
+      << num_threads << " OMP threads");
     const int thread = omp_get_thread_num();
     if (thread < window->num()) {
       arglist list2 = list;
       replace_value("[soft_macro_min]", str(window->boundaries()[thread][0]), &list2);
       replace_value("[soft_macro_max]", str(window->boundaries()[thread][1]), &list2);
-      replace_in_value("[sim_index]", str(thread), &list2);
+      replace_in_value("[sim_index]", sized_int_to_str(thread, num_threads), &list2);
       auto mc = std::make_shared<MonteCarlo>(list2);
       cm.set(thread, mc);
       complete[thread] = 1;

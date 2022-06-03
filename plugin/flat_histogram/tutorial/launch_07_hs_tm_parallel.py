@@ -9,7 +9,7 @@ params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/atom.fstprt",
     "max_particles": 256, "min_particles": 0, "min_sweeps": 1e3, "mu": -2.352321,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32}
+    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "script": __file__}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
 params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_per_node"]
@@ -19,8 +19,8 @@ params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"
 def mc_hs(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice min_window_size 2 hours_per {hours_per_adjust} ln_prob_file hs_lnpi.txt bounds_file hs_bounds.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file hs_lnpi.txt bounds_file hs_bounds.txt num_adjust_per_write 10
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5 min_size 2
 Checkpoint file_name hs_checkpoint.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone
@@ -62,7 +62,7 @@ def slurm_queue():
 echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
 export OMP_NUM_THREADS={procs_per_node}
-python launch_07_hs_tm_parallel.py --run_type 1 --task $SLURM_ARRAY_TASK_ID
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID
@@ -79,7 +79,7 @@ parser.add_argument('--task', type=int, default=0, help="input by slurm schedule
 args = parser.parse_args()
 
 # after the simulation is complete, perform some tests
-class TestFlatHistogramLJ(unittest.TestCase):
+class TestFlatHistogramHS(unittest.TestCase):
     def test(self):
         # compare to EOS in SRSW: https://www.nist.gov/mml/csd/chemical-informatics-research-group/hard-sphere-thermodynamic-and-transport-properties
         import math

@@ -8,19 +8,20 @@ import unittest
 params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.5,
     "max_particles": 370, "min_particles": 0, "min_sweeps": 1e4, "mu": -2.352321,
-    "trials_per": 1e7, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "dccb_cut": 2**(1./6.)}
+    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
+    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 4, "script", __file__, "dccb_cut": 2**(1./6.)}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
 params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_per_node"]
 params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
+params["mu_init"] = params["mu"] + 1
 
 # write fst script to run a single simulation
 def mc_lj(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice min_window_size 2 hours_per {hours_per_adjust} ln_prob_file lj_lnpi.txt bounds_file lj_bounds.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file lj_lnpi.txt bounds_file lj_bounds.txt num_adjust_per_write 10
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5 min_size 2
 Checkpoint file_name lj_checkpoint.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone
@@ -29,7 +30,7 @@ Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
 Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
 ConvertToRefPotential cutoff {dccb_cut} use_cell true
-ThermoParams beta {beta} chemical_potential {mu}
+ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 Log trials_per {trials_per} file_name lj[sim_index].txt
@@ -45,9 +46,9 @@ Run num_trials {equilibration}
 RemoveModify name Tune
 
 # gcmc tm production
+ThermoParams beta {beta} chemical_potential {mu}
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
-#Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20
+Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
 TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 4
 Tune trials_per_write {trials_per} file_name lj_tune[sim_index].txt multistate true
 Movie trials_per {trials_per} file_name lj[sim_index].xyz
@@ -64,7 +65,7 @@ def slurm_queue():
 echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
 export OMP_NUM_THREADS={procs_per_node}
-python launch_04_lj_tm_parallel.py --run_type 1 --task $SLURM_ARRAY_TASK_ID
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID

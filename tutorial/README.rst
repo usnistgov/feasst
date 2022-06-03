@@ -10,7 +10,7 @@ Tutorials
 Additional tutorials
 ===============================
 
-After completing this basic tutorial, check out the tutorials specific to each `Plugin <../plugin/README.html>`_.
+After completing these basic tutorials, check out the tutorials specific to each `Plugin <../plugin/README.html>`_.
 For example, see the tutorials of the `MonteCarlo <../plugin/monte_carlo/README.html>`_ and `FlatHistogram <../plugin/flat_histogram/README.html>`_ plugins.
 
 Python and C++ interface

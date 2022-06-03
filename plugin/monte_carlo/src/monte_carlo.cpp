@@ -353,6 +353,8 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
       {"trials_per_update", "1"},
       {"stop_after_phase", str(analyze->stop_after_phase())},
       {"start_after_phase", str(analyze->start_after_phase())},
+      {"stop_after_iteration", str(analyze->stop_after_iteration())},
+      {"start_after_iteration", str(analyze->start_after_iteration())},
       {"file_name_append_phase", str(analyze->file_name_append_phase())},
       {"multistate_aggregate", str(analyze->is_multistate_aggregate())}});
     DEBUG("making multi " << multi->is_multistate());
@@ -400,6 +402,8 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
       {"trials_per_update", "1"},
       {"stop_after_phase", str(modify->stop_after_phase())},
       {"start_after_phase", str(modify->start_after_phase())},
+      {"stop_after_iteration", str(modify->stop_after_iteration())},
+      {"start_after_iteration", str(modify->start_after_iteration())},
       {"file_name_append_phase", str(modify->file_name_append_phase())},
       {"multistate_aggregate", str(modify->is_multistate_aggregate())}});
     DEBUG("making multi " << multi->is_multistate());

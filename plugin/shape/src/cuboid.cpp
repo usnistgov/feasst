@@ -27,7 +27,7 @@ Cuboid::Cuboid(argtype * args) : Shape() {
     DEBUG("parse side_length");
     side_lengths_ = Position(parse_dimensional(str("side_length", args), args, 4));
   }
-  
+
   DEBUG("parse center");
   center_.set_to_origin(side_lengths_.size());
   const std::string center_key = str("center", args, "");

@@ -43,9 +43,10 @@ void Modify::check_update_(Criteria * criteria,
 void Modify::trial(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  if (stop_after_phase() == -1 ||
-      criteria->phase() <= stop_after_phase()) {
-    if (criteria->phase() > start_after_phase()) {
+  if ((stop_after_phase() == -1 || criteria->phase() <= stop_after_phase()) &&
+      (stop_after_iteration() == -1 || criteria->num_iterations() <= stop_after_iteration())) {
+    if ((criteria->phase() > start_after_phase()) &&
+        (criteria->num_iterations() > start_after_iteration())) {
       check_update_(criteria, system, trial_factory);
       if (is_time(trials_per_write(), &trials_since_write_)) {
         write_to_file(criteria, system, trial_factory);

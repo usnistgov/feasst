@@ -10,7 +10,7 @@ namespace feasst {
 
 VisitModelIntra::VisitModelIntra(argtype * args) : VisitModel() {
   class_name_ = "VisitModelIntra";
-  set_cutoff(integer("cutoff", args, -1));
+  set_intra_cut(integer("intra_cut", args, -1));
 }
 VisitModelIntra::VisitModelIntra(argtype args) : VisitModelIntra(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -81,7 +81,7 @@ void VisitModelIntra::compute(
           }
 
           // forced exclude takes precedent over forced include
-          if ( (include || std::abs(site1_index - site2_index) > cutoff_) &&
+          if ( (include || std::abs(site1_index - site2_index) > intra_cut_) &&
                (!exclude) ) {
             TRACE("sites: " << site1_index << " " << site2_index);
             get_inner_()->compute(part1_index, site1_index, part1_index,
@@ -108,14 +108,14 @@ static MapVisitModelIntra mapper_ = MapVisitModelIntra();
 VisitModelIntra::VisitModelIntra(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(754 == version, version);
-  feasst_deserialize(&cutoff_, istr);
+  feasst_deserialize(&intra_cut_, istr);
 }
 
 void VisitModelIntra::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
   feasst_serialize_version(754, ostr);
-  feasst_serialize(cutoff_, ostr);
+  feasst_serialize(intra_cut_, ostr);
 }
 
 void VisitModelIntra::compute(

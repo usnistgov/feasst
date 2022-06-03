@@ -216,6 +216,7 @@ class RefPotential : public Action {
   /**
     args:
     - Same arguments as Potential.
+    - reference_index: index of reference potential (default: 0).
    */
   explicit RefPotential(argtype args = argtype());
   explicit RefPotential(argtype * args);
@@ -229,6 +230,7 @@ class RefPotential : public Action {
   virtual ~RefPotential() {}
 
  private:
+  int reference_index_;
   argtype args_;
 };
 

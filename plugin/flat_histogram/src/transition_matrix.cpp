@@ -107,7 +107,7 @@ int TransitionMatrix::min_vis_calc_(const Macrostate& macro) const {
       min_vis = vis;
     }
   }
-  ASSERT(min_vis != 1e9, "error");
+  // ASSERT(min_vis != 1e9, "error");
   return min_vis;
 }
 
@@ -252,6 +252,13 @@ void TransitionMatrix::set_cm(const CollectionMatrix& cm) {
   ln_prob_.resize(size);
   feasst::resize(size, 2, &visits_);
   collection_.compute_ln_prob(&ln_prob_);
+}
+
+int TransitionMatrix::num_iterations(const int state) const {
+  if (new_sweep_ == 0 || state == -1) {
+    return num_sweeps_;
+  }
+  return std::min(visits_[state][0], visits_[state][1]);
 }
 
 }  // namespace feasst

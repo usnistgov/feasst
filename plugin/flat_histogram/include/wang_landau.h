@@ -42,7 +42,7 @@ class WangLandau : public Bias {
     const Macrostate& macro) override;
   int num_iterations_to_complete() const override { return min_flatness_; }
   void set_num_iterations_to_complete(const int flatness) override;
-  int num_iterations() const override { return num_flatness_;}
+  int num_iterations(const int state) const override { return num_flatness_;}
   const LnProbability& ln_prob() const override {
     return ln_prob_; }
   void resize(const Histogram& histogram) override;

@@ -106,7 +106,9 @@ class Criteria {
     num_iterations_to_complete_ = num; }
 
   /// Return the current number of iterations.
-  virtual int num_iterations() const { return const_num_iterations_(); }
+  virtual int num_iterations(
+    /// If != -1, return iterations of a particular state (TM/WLTM only).
+    const int state = -1) const;
 
   /// Return true if the number of iterations for completion has been reached.
   virtual bool is_complete() const {

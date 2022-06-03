@@ -4,12 +4,13 @@ import argparse
 import random
 import unittest
 
-# define parameters of a pure component NVT MC SPC/E simulation
+# define parameters of a pure component NVT MC SPCE simulation
 params = {
-    "cubic_box_length": 20, "fstprt": "/feasst/forcefield/spce.fstprt", "temperature": 525,
-    "max_particles": 265, "min_particles": 0, "min_sweeps": 200, "beta_mu": -8.14,
+    "cubic_box_length": 20, "fstprt": "/feasst/forcefield/spce.fstprt", "min_particles": 0,
+    "temperature": 525, "max_particles": 265,  "min_sweeps": 400, "beta_mu": -8.14,
+    #"temperature": 300, "max_particles": 296,  "min_sweeps": 200, "beta_mu": -15.24,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "dccb_cut": 3.165*2**(1./6.)}
+    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "script": __file__, "dccb_cut": 0.9*3.165}
 params["alpha"] = 5.6/params["cubic_box_length"]
 R = 1.3806488E-23*6.02214129E+23 # J/mol/K
 params["beta"] = 1./(params["temperature"]*R/1e3) # mol/kJ
@@ -18,61 +19,74 @@ params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
 params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_per_node"]
 params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
+params["mu_init"] = -7
+params["dccb_cut"] = params["cubic_box_length"]/int(params["cubic_box_length"]/params["dccb_cut"]) # maximize inside box
 
-# write fst script to run a single simulation
+# write TrialGrowFile for SPCE
+with open('spce_grow.txt', 'w') as f:
+    f.write("""TrialGrowFile
+
+particle_type 0 weight 2 transfer true site 0 num_steps 10 reference_index 0
+bond true mobile_site 1 anchor_site 0 reference_index 0
+angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0
+""")
+
+# write fst script
 def mc_spce(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice min_window_size 2 hours_per {hours_per_adjust} ln_prob_file spce_lnpi.txt bounds_file spce_bounds.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file spce_lnpi.txt bounds_file spce_bounds.txt num_adjust_per_write 10
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5 min_size 2
 Checkpoint file_name spce_checkpoint.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} physical_constants CODATA2010
+Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} physical_constants CODATA2010 \
+    group0 oxygen oxygen_site_type 0
 Potential VisitModel Ewald alpha {alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened VisitModel VisitModelCutoffOuter table_size 1e6
-ConvertToRefPotential potential_index 1 cutoff {dccb_cut} use_cell true
+RefPotential Model HardSphere group oxygen cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut} cell_group oxygen
 Potential Model ChargeScreenedIntra VisitModel VisitModelBond
 Potential Model ChargeSelf
 Potential VisitModel LongRangeCorrections
-ThermoParams beta {beta} chemical_potential {mu}
+ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
 Log trials_per {trials_per} file_name spce[sim_index].txt
 Tune
 CheckEnergy trials_per {trials_per} tolerance 1e-4
-#Checkpoint file_name spce_checkpoint[sim_index].fst num_hours {hours_per_checkpoint}
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
 Run until_num_particles [soft_macro_min]
 RemoveTrial name TrialAdd
+ThermoParams beta {beta} chemical_potential {mu}
+Metropolis
 Run num_trials {equilibration}
 RemoveModify name Tune
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
-#Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20
-TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 8
-Tune trials_per_write {trials_per} file_name spce_tune[sim_index].txt multistate true
+Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
+TrialGrowFile file_name spce_grow.txt
+RemoveAnalyze name Log
+Log trials_per {trials_per} file_name spce[sim_index].txt
 Movie trials_per {trials_per} file_name spce[sim_index].xyz
-Energy trials_per_write {trials_per} file_name spce_en[sim_index].txt multistate true
-CriteriaUpdater trials_per {trials_per}
+Tune trials_per_write {trials_per} file_name spce_tune[sim_index].txt multistate true stop_after_iteration 20
+Energy trials_per_write {trials_per} file_name spce_en[sim_index].txt multistate true start_after_iteration 20
+CriteriaUpdater trials_per 1e5
 CriteriaWriter trials_per {trials_per} file_name spce_crit[sim_index].txt
-#Run until_criteria_complete true
 """.format(**params))
 
-# write slurm script to fill nodes with simulations
+# write slurm script to fill node(s) with simulations
 def slurm_queue():
     with open("slurm.txt", "w") as myfile: myfile.write("""#!/bin/bash
 #SBATCH -n {procs_per_node} -N {num_nodes} -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
 echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
 export OMP_NUM_THREADS={procs_per_node}
-python launch_05_spce_tm_parallel.py --run_type 1 --task $SLURM_ARRAY_TASK_ID
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID
@@ -97,7 +111,8 @@ class TestFlatHistogramSPCE(unittest.TestCase):
         df=pd.read_csv('spce_lnpi.txt')
         df=pd.concat([df, pd.read_csv('../test/data/stat_spce_525.csv')], axis=1)
         df['deltalnPI'] = df.lnPI - df.lnPI.shift(1)
-        diverged=df[df.deltalnPI-df.delta_ln_prob > 4*df.delta_ln_prob_stdev]
+        diverged=df[df.deltalnPI-df.delta_ln_prob > 6*df.delta_ln_prob_stdev]
+        print(diverged)
         self.assertTrue(len(diverged) == 0)
 
 # run the simulation and, if complete, analyze.

@@ -34,6 +34,26 @@ class CollectionMatrix {
  public:
   /**
     args:
+    - delta_ln_prob_guess: if the CollectionMatrix lacks transitions to compute
+      a delta_ln_prob, use this value instead (default: 0).
+      This guess can affect the initial convergence.
+      When a simulation starts at low macrostate, a negative number encourages
+      acceptance of macrostates that have not yet been visited.
+      And for high macrostate, a positive number may help.
+      If the value is too large, a very low probability trial may be accepted,
+      creating a large free energy difference that will make it difficult to
+      sample the reverse transition.
+      If a simulation appears "stuck" in a subset of the macrostate range,
+      then the guess may be too large.
+    - visits_per_delta_ln_prob_boost: In the case where a guess is needed,
+      if "n" attempts to increase the macrostate, decrease delta_ln_prob_guess
+      by 0.01 per "n".
+      Alternatively, if "n" attempts to decrease macrostate, increase
+      delta_ln_prob_guess by 0.01 per "n".
+      If visits_per_delta_ln_prob_boost is -1, do nothing (default: -1).
+    - exp_for_boost: ratio of neighboring probabilities must be within
+      10^exp or 10^-exp for boosting.
+      If -1, ignore (default: 2).
    */
   explicit CollectionMatrix(argtype args = argtype());
   explicit CollectionMatrix(argtype * args);
@@ -80,9 +100,12 @@ class CollectionMatrix {
   explicit CollectionMatrix(std::istream& istr);
 
  private:
+  double delta_ln_prob_guess_;
+  int visits_per_delta_ln_prob_boost_;
+  double exp_for_boost_;
   std::vector<std::vector<Accumulator> > matrix_;
 
-  bool if_zero_(const int macro, const int block, const bool lower) const;
+  int visits_(const int macro, const int block, const bool lower) const;
 };
 
 inline std::shared_ptr<CollectionMatrix> MakeCollectionMatrix(

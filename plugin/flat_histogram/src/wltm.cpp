@@ -10,6 +10,7 @@ namespace feasst {
 WLTM::WLTM(argtype * args) {
   class_name_ = "WLTM";
   collect_flatness_ = integer("collect_flatness", args);
+  min_collect_sweeps_ = integer("min_collect_sweeps", args, -1);
   wang_landau_ = std::make_shared<WangLandau>(args);
   min_flatness_ = wang_landau_->min_flatness();
   ASSERT(collect_flatness_ < min_flatness_,
@@ -21,6 +22,14 @@ WLTM::WLTM(argtype args) : WLTM(&args) {
   FEASST_CHECK_ALL_USED(args);
 }
 
+bool WLTM::is_wl_bias_() {
+  if ((wang_landau_->num_flatness() < min_flatness_) ||
+      (transition_matrix_->num_iterations() < min_collect_sweeps_)) {
+    return true;
+  }
+  return false;
+}
+
 void WLTM::update(
     const int macrostate_old,
     const int macrostate_new,
@@ -29,7 +38,7 @@ void WLTM::update(
     const bool is_endpoint,
     const Macrostate& macro) {
   DEBUG("num_flatness " << wang_landau_->num_flatness());
-  if (wang_landau_->num_flatness() < min_flatness_) {
+  if (is_wl_bias_()) {
     DEBUG("wl update");
     wang_landau_->update(macrostate_old, macrostate_new,
       ln_metropolis_prob, is_accepted, is_endpoint, macro);
@@ -61,7 +70,7 @@ void WLTM::resize(const Histogram& histogram) {
 }
 
 void WLTM::infrequent_update(const Macrostate& macro) {
-  if (wang_landau_->num_flatness() < min_flatness_) {
+  if (is_wl_bias_()) {
     return wang_landau_->infrequent_update(macro);
   }
   if (wang_landau_->num_flatness() >= collect_flatness_) {
@@ -108,11 +117,24 @@ class MapWLTM {
 
 static MapWLTM mapper_ = MapWLTM();
 
+std::shared_ptr<Bias> WLTM::create(std::istream& istr) const {
+  return std::make_shared<WLTM>(istr);
+}
+
+int WLTM::num_iterations(const int state) const {
+  if (production_ == 1) {
+    return transition_matrix_->num_iterations(state);
+  } else {
+    return 0;
+  }
+}
+
 WLTM::WLTM(std::istream& istr) : Bias(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 1946, "mismatch version: " << version);
   feasst_deserialize(&collect_flatness_, istr);
   feasst_deserialize(&min_flatness_, istr);
+  feasst_deserialize(&min_collect_sweeps_, istr);
   feasst_deserialize(&production_, istr);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize_fstdr(wang_landau_, istr);
@@ -128,16 +150,13 @@ WLTM::WLTM(std::istream& istr) : Bias(istr) {
   }
 }
 
-std::shared_ptr<Bias> WLTM::create(std::istream& istr) const {
-  return std::make_shared<WLTM>(istr);
-}
-
 void WLTM::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_bias_(ostr);
   feasst_serialize_version(1946, ostr);
   feasst_serialize(collect_flatness_, ostr);
   feasst_serialize(min_flatness_, ostr);
+  feasst_serialize(min_collect_sweeps_, ostr);
   feasst_serialize(production_, ostr);
   feasst_serialize_fstdr(wang_landau_, ostr);
   feasst_serialize_fstdr(transition_matrix_, ostr);

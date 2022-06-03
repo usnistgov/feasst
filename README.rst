@@ -74,12 +74,12 @@ Tutorial
 ================================================================================
 
 `Tutorial <tutorial/README.html>`_ describes an example Lennard-Jones Monte Carlo simulation.
-Also check out tutorials specific to each :doc:`/plugin/README`.
+Also check out tutorials for :doc:`/plugin/README`.
 In particular, `MonteCarlo <plugin/monte_carlo/README.html>`_ and `FlatHistogram <plugin/flat_histogram/README.html>`_.
 
 The search box for the html documentation was disabled for security reasons.
 But the html is generated entirely from the downloaded code.
-Thus, the grep command is a great option to search for more information on keywords.
+Thus, the bash command "grep" is a great option to search for more information on classes and their arguments.
 For example, if you would like more information on `RandomMT19937 <plugin/math/doc/RandomMT19937.html>`_ but are not sure where to find it, you could search headers files
 
 .. code-block:: bash
@@ -127,7 +127,7 @@ Ubuntu 16
 * Update to CMake 3 (https://cmake.org/download/)
 
 Ubuntu 18, 20 and macOS Mojave
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * We are not aware of any issues with these OS.
 

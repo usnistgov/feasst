@@ -28,6 +28,7 @@ class TransitionMatrix : public Bias {
  public:
   /**
     args:
+    - CollectionMatrix arguments.
     - min_visits: A sweep is performed when all macrostates are visited by
       another macrostate this number of times (default: 100).
     - average_visits: A sweep is performed when macrostates are visited by
@@ -56,7 +57,7 @@ class TransitionMatrix : public Bias {
 
   int num_iterations_to_complete() const override { return min_sweeps_;}
   void set_num_iterations_to_complete(const int sweeps) override;
-  int num_iterations() const override { return num_sweeps_; }
+  int num_iterations(const int state = -1) const override;
   const LnProbability& ln_prob() const override {
     return ln_prob_; }
   void resize(const int size);

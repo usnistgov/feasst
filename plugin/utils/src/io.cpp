@@ -127,4 +127,11 @@ bool replace(const std::string& from, const std::string& to, std::string * str) 
   return true;
 }
 
+std::string sized_int_to_str(const int num, const int largest_num) {
+  const int num_digits = static_cast<int>(std::log10(largest_num) + 1);
+  std::ostringstream os;
+  os << std::setfill('0') << std::setw(num_digits) << num;
+  return os.str();
+}
+
 }  // namespace feasst

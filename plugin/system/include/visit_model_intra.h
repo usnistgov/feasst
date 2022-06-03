@@ -18,13 +18,13 @@ class VisitModelIntra : public VisitModel {
  public:
   /**
     args:
-    - cutoff: ignore the interaction between a pair of sites when the difference
-      between their indices, |i-j| <= cutoff (integer, default: -1).
+    - intra_cut: ignore the interaction between a pair of sites when the difference
+      between their indices, |i-j| <= intra_cut (integer, default: -1).
    */
   explicit VisitModelIntra(argtype args = argtype());
   explicit VisitModelIntra(argtype * args);
-  int cutoff() const { return cutoff_; }
-  void set_cutoff(const int cut) { cutoff_ = cut; }
+  int intra_cut() const { return intra_cut_; }
+  void set_intra_cut(const int cut) { intra_cut_ = cut; }
   void compute(
       ModelTwoBody * model,
       const ModelParams& model_params,
@@ -45,7 +45,7 @@ class VisitModelIntra : public VisitModel {
   ~VisitModelIntra() {}
 
  private:
-  int cutoff_;
+  int intra_cut_;
 };
 
 inline std::shared_ptr<VisitModelIntra> MakeVisitModelIntra(

@@ -11,7 +11,7 @@ params = {
     "cubic_box_length": 8, "fstprt": "/feasst/plugin/patch/forcefield/two_patch_linear.fstprt",
     "max_particles": 370, "min_particles": 0, "min_sweeps": 1e3, "mu": -1.5, "beta": 1/0.7, "chi": 0.7, "cutoff": 1.5,
     "trials_per": 1e5, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 32}
+    "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 32, "script": __file__}
 params["patch_angle"] = 2*math.asin(math.sqrt(params['chi']/2))*180/math.pi
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
@@ -22,9 +22,8 @@ params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"
 def mc_kf(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice min_window_size 2 hours_per {hours_per_adjust} ln_prob_file \
-  kf_lnpi.txt bounds_file kf_bounds.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file kf_lnpi.txt bounds_file kf_bounds.txt num_adjust_per_write 10
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5 min_size 2
 Checkpoint file_name kf_checkpoint.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone
@@ -32,8 +31,7 @@ RandomMT19937 seed {seed}
 Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} \
   patch_angle1 {patch_angle} group0 centers centers_site_type0 0 \
   cutoff {cutoff}
-Potential Model HardSphere group centers
-#Potential Model SquareWell VisitModelInner VisitModelInnerPatch group centers
+Potential Model HardSphere VisitModel VisitModelCell min_length 1 cell_group centers group centers
 Potential Model SquareWell VisitModel VisitModelCell min_length {cutoff} cell_group centers \
   VisitModelInner VisitModelInnerPatch group centers
 ThermoParams beta {beta} chemical_potential {mu}
@@ -71,7 +69,7 @@ def slurm_queue():
 echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
 export OMP_NUM_THREADS={procs_per_node}
-python launch_09_kf_tm_parallel.py --run_type 1 --task $SLURM_ARRAY_TASK_ID
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID
@@ -97,10 +95,10 @@ class TestFlatHistogramKF(unittest.TestCase):
         lnpi['ln_prob'] -= np.log(sum(np.exp(lnpi['ln_prob'])))  # renormalize
         lnpi['ln_prob_prev'] = [-15.9976474469475, -11.9104563420586,  -8.48324267323538, -5.42988602574393, -2.64984051640555, -0.07824246342703]
         lnpi['ln_prob_prev_stdev'] = [0.035, 0.03, 0.025, 0.02, 0.015, 0.01]
-        diverged=lnpi[lnpi.ln_prob-lnpi.ln_prob_prev > 2*lnpi.ln_prob_prev_stdev]
+        diverged=lnpi[lnpi.ln_prob-lnpi.ln_prob_prev > 6*lnpi.ln_prob_prev_stdev]
         print(diverged)
         self.assertTrue(len(diverged) == 0)
-        en=pd.read_csv('kf_en0.txt')
+        en=pd.read_csv('kf_en00.txt')
         en=en[:6]
         en['prev'] = [0, 0, -0.038758392176564, -0.116517384264731, -0.232665619265520, -0.387804181572135]
         diverged=en[en.average-en.prev > 10*en.block_stdev]
