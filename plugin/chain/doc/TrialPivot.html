@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>TrialPivot &mdash; FEASST v0.19.0 documentation</title>
+  <title>TrialPivot &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="TrialReptate" href="TrialReptate.html" />
+    <link rel="next" title="TrialParticlePivot" href="TrialParticlePivot.html" />
     <link rel="prev" title="TrialSwapSites" href="TrialSwapSites.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -122,19 +122,27 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrow.html">TrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSwapSites.html">TrialSwapSites</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialGrow.html">TrialGrow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialSwapSites.html">TrialSwapSites</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
@@ -289,7 +297,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="TrialReptate.html" class="btn btn-neutral float-right" title="TrialReptate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="TrialParticlePivot.html" class="btn btn-neutral float-right" title="TrialParticlePivot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="TrialSwapSites.html" class="btn btn-neutral float-left" title="TrialSwapSites" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

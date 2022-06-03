@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Cylinder &mdash; FEASST v0.19.0 documentation</title>
+  <title>Cylinder &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -132,6 +132,7 @@
 <li class="toctree-l4"><a class="reference internal" href="Cuboid.html">Cuboid</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Cylinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ShapeUnion.html">ShapeUnion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ShapeFile.html">ShapeFile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ShapeIntersect.html">ShapeIntersect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SlabSine.html">SlabSine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FiniteCylinder.html">FiniteCylinder</a></li>
@@ -279,16 +280,13 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Cylinder8CylinderE7argtypeK8PositionK8Position">
-<span class="target" id="classfeasst_1_1Cylinder_1a0da5dcc9b49c49fa4bf9ac4a4f2748ad"></span><code class="sig-name descname">Cylinder</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <em>point0</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <em>point1</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Cylinder8CylinderE7argtypeK8PositionK8Position" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code>: radius : Set the radius of the cylinder. </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">point0</span></code>: one point on the cylinder’s axis of symmetry </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">point1</span></code>: a second point on the cylinder’s axis of symmetry </p></li>
+<dt id="_CPPv4N6feasst8Cylinder8CylinderE7argtype">
+<span class="target" id="classfeasst_1_1Cylinder_1a62e27c6a5d8d3796337c4953e5d22172"></span><code class="sig-name descname">Cylinder</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Cylinder8CylinderE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>radius: radius of the cylinder.</p></li>
+<li><p>first_point: set the unique key for the first_point positions. Thus, arguments of “key[i]” are expected to follow. The “[i]” is to be substituted for integer dimensions 0, 1, 2, … The “[i]” are also expected to be in order, starting from 0.</p></li>
+<li><p>second_point: as described for first_point. </p></li>
 </ul>
-</dd>
-</dl>
 </p>
 </dd></dl>
 

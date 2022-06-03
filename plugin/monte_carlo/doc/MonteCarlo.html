@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>MonteCarlo &mdash; FEASST v0.19.0 documentation</title>
+  <title>MonteCarlo &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -122,20 +122,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -158,6 +152,12 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -389,9 +389,16 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst10MonteCarlo16add_to_referenceENSt10shared_ptrI9PotentialEE">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a38d7bb0f9c10885a610bda158636c7d6"></span>void <code class="sig-name descname">add_to_reference</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="../../system/doc/Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; <em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo16add_to_referenceENSt10shared_ptrI9PotentialEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst10MonteCarlo16add_to_referenceENSt10shared_ptrI9PotentialEEKi">
+<span class="target" id="classfeasst_1_1MonteCarlo_1a5063bbbb4f6afbac816e10c2ccea4eac"></span>void <code class="sig-name descname">add_to_reference</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="../../system/doc/Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; <em>potential</em>, <em class="property">const</em> int <em>index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo16add_to_referenceENSt10shared_ptrI9PotentialEEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add potential to reference. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">index</span></code>: Store different references by index. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -491,6 +498,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst10MonteCarlo14remove_analyzeEKi">
+<span class="target" id="classfeasst_1_1MonteCarlo_1a8fc14d0a9a64fb4d66cee38aebf0fdbe"></span>void <code class="sig-name descname">remove_analyze</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo14remove_analyzeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove an analyze by index. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10MonteCarlo9analyzersEv">
 <span class="target" id="classfeasst_1_1MonteCarlo_1ab7b045e700b8c7a182553bdde8143c90"></span><em class="property">const</em> std::vector&lt;std::shared_ptr&lt;<a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a>&gt;&gt; &amp;<code class="sig-name descname">analyzers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo9analyzersEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return all analyzers. </p>
@@ -579,6 +592,12 @@
 <dt id="_CPPv4N6feasst10MonteCarlo13attempt_trialEKi">
 <span class="target" id="classfeasst_1_1MonteCarlo_1a7d14d9b8705bbabd97f431bf92591ce2"></span>bool <code class="sig-name descname">attempt_trial</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo13attempt_trialEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempt trial index without analyzers, modifiers or checkpoints. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst10MonteCarlo13write_to_fileEv">
+<span class="target" id="classfeasst_1_1MonteCarlo_1aca968fb920624a5b4f4742d9952343a6"></span>void <code class="sig-name descname">write_to_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo13write_to_fileEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write all <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> and <a class="reference internal" href="Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a>. </p>
 </dd></dl>
 
 </div>

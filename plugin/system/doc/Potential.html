@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Potential &mdash; FEASST v0.19.0 documentation</title>
+  <title>Potential &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,14 +104,13 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">System</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
@@ -145,6 +144,7 @@
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Cells.html">Cells</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CutoffOuter.html">CutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
@@ -306,9 +306,11 @@
 <span class="target" id="classfeasst_1_1Potential_1a7ca84211f96da8a5c3762148a60075d6"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>group_index: set the index of the group in the configuration which contributes to this potential (default: 0, representing entire config).</p></li>
+<li><p>group: name of group defined within system (default: “”). Cannot be used with group_index.</p></li>
 <li><p>cell_index: set the index of the cell, only used with <a class="reference internal" href="VisitModelCell.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">VisitModelCell</span></a>. This also overrides group_index.</p></li>
 <li><p>prevent_cache: set this to true in order to prevent the use of cache (default: False)</p></li>
-<li><p>table_size: set size of tabular potential (default: 0). Do not use table if size &lt;= 0. </p></li>
+<li><p>table_size: set size of tabular potential (default: 0). Do not use table if size &lt;= 0.</p></li>
+<li><p>set model parameters [parameter]/[i]/[j] as described in <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -379,9 +381,15 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst9Potential15set_model_paramEPKcKiKd">
-<span class="target" id="classfeasst_1_1Potential_1a23ef95556a7541d4bdcd4ac529e7c512"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, <em class="property">const</em> int <em>site_type</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential15set_model_paramEPKcKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Potential15set_model_paramERKNSt6stringEKiKd">
+<span class="target" id="classfeasst_1_1Potential_1a8a7600c31289162e19ba6dfefa704d1c"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em>, <em class="property">const</em> int <em>site_type</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential15set_model_paramERKNSt6stringEKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> model parameter of a given site type and name to value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst9Potential15set_model_paramERKNSt6stringEKiKiKd">
+<span class="target" id="classfeasst_1_1Potential_1af59c17e701675f853d21cf3a80362299"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em>, <em class="property">const</em> int <em>site_type0</em>, <em class="property">const</em> int <em>site_type1</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential15set_model_paramERKNSt6stringEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> model parameter of given site types and name to value. </p>
 </dd></dl>
 
 <dl class="cpp function">

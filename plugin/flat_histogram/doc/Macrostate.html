@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Macrostate &mdash; FEASST v0.19.0 documentation</title>
+  <title>Macrostate &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -124,7 +124,7 @@
 <li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
@@ -133,6 +133,7 @@
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
@@ -287,8 +288,8 @@
 <dt id="_CPPv4N6feasst10Macrostate10MacrostateERK9Histogram7argtype">
 <span class="target" id="classfeasst_1_1Macrostate_1a7b7422167ad7275c3b9d593f2176cbe7"></span><code class="sig-name descname">Macrostate</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> &amp;<em>histogram</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate10MacrostateERK9Histogram7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>soft_max : optionally, set a soft maximum (default: last histogram bin). These soft limits may be changed during a simulation. Note that this max is an integer bin number.</p></li>
-<li><p>soft_min : minimum as described above (default: same as histogram). </p></li>
+<li><p>soft_macro_max : optionally, set a soft maximum (default: last histogram bin). These soft limits may be changed during a simulation. Note that this max is a macrostate value, not an integer bin index.</p></li>
+<li><p>soft_macro_min : minimum as described above (default: same as histogram). </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -314,13 +315,19 @@
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Macrostate8soft_maxEv">
 <span class="target" id="classfeasst_1_1Macrostate_1ad6498996f9873f55e2cac709f8327d48"></span><em class="property">const</em> int <code class="sig-name descname">soft_max</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Macrostate8soft_maxEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the soft maximum. </p>
+<dd><p>Return the soft maximum as an integer bin index, not a macrostate. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Macrostate8soft_minEv">
 <span class="target" id="classfeasst_1_1Macrostate_1a32ed3d9c5804b2ed7015e77bc4e6a005"></span><em class="property">const</em> int <code class="sig-name descname">soft_min</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Macrostate8soft_minEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the soft minimum. </p>
+<dd><p>Return the soft minimum as an integer bin index, not a macrostate. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst10Macrostate29num_macrostates_in_soft_rangeEv">
+<span class="target" id="classfeasst_1_1Macrostate_1a93901bfc5d33f66b8f3b93efb5011413"></span><em class="property">const</em> int <code class="sig-name descname">num_macrostates_in_soft_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Macrostate29num_macrostates_in_soft_rangeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of macrostates in the soft range. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -345,12 +352,6 @@
 <dt id="_CPPv4NK6feasst10Macrostate10is_allowedERK6SystemRK8CriteriaRK10Acceptance">
 <span class="target" id="classfeasst_1_1Macrostate_1aaf4187440c198cd02567fba4be2e9c87"></span>bool <code class="sig-name descname">is_allowed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> &amp;<em>acceptance</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Macrostate10is_allowedERK6SystemRK8CriteriaRK10Acceptance" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return whether the current system macrostate is within permissible range given by the input histogram. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst10Macrostate16swap_soft_boundsEP10Macrostate">
-<span class="target" id="classfeasst_1_1Macrostate_1a05d38cb740f3feb35ef884cb3c246c2b"></span>void <code class="sig-name descname">swap_soft_bounds</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> *<em>macrostate</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate16swap_soft_boundsEP10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Swap the soft bounds with another macrostate. </p>
 </dd></dl>
 
 </div>

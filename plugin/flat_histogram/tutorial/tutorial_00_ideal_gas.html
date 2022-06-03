@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Parallelize a flat histogram simulation &mdash; FEASST v0.19.0 documentation</title>
+  <title>Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Grand canonical ensemble transition-matrix Monte Carlo with RPM" href="tutorial_6_rpm_gcmc.html" />
-    <link rel="prev" title="Grand canonical ensemble transition-matrix Monte Carlo with SPC/E" href="tutorial_4_spce_gcmc.html" />
+    <link rel="next" title="Grand canonical ensemble transition-matrix Monte Carlo" href="tutorial_01_lj_gcmc.html" />
+    <link rel="prev" title="Flat histogram" href="../README.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -117,14 +117,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="tutorial_10_hs.html">Analysis of a hard sphere simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Parallelize a flat histogram simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_03_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_04_lj_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_05_spce_tm_parallel.html">Grand Canonical Flat Histogram Simulation of SPC/E</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_06_rpm_tm_parallel.html">Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
@@ -224,7 +226,7 @@
         
           <li><a href="../README.html">Flat histogram</a> &raquo;</li>
         
-      <li>Parallelize a flat histogram simulation</li>
+      <li>Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -511,85 +513,136 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Parallelize-a-flat-histogram-simulation">
-<h1>Parallelize a flat histogram simulation<a class="headerlink" href="#Parallelize-a-flat-histogram-simulation" title="Permalink to this headline">¶</a></h1>
-<p>A grand canonical ensemble transition-matrix Monte Carlo simulation is parallelized by dividing the macrostate ranges of each processor into overlapping windows.</p>
-<p>As an exercise, compare the macrostate probability distribution output for all windows with the individual windows in the files (crit#.txt). Attempt to unify these individual macrostate probability distributions.</p>
+<div class="section" id="Ideal-gas-equation-of-state-using-grand-canonical-ensemble-transition-matrix-Monte-Carlo">
+<h1>Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo<a class="headerlink" href="#Ideal-gas-equation-of-state-using-grand-canonical-ensemble-transition-matrix-Monte-Carlo" title="Permalink to this headline">¶</a></h1>
+<p>In this example, the ideal gas equation of state is obtained as a test of the flat histogram method.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
-<span class="kn">import</span> <span class="nn">pyfeasst</span>
+<span></span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">1.2</span><span class="p">,</span> <span class="s2">&quot;mu&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">}</span>
+<span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">MonteCarlo</span>
+<span class="s2">Configuration cubic_box_length </span><span class="si">{cubic_box_length}</span><span class="s2"> particle_type /feasst/forcefield/atom.fstprt</span>
+<span class="s2">Potential Model IdealGas</span>
+<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu}</span><span class="s2"></span>
+<span class="s2">FlatHistogram Macrostate MacrostateNumParticles width 1 min 0 max 50 </span><span class="se">\</span>
+<span class="s2">              Bias TransitionMatrix min_sweeps 100</span>
+<span class="s2">TrialTransfer particle_type 0</span>
+<span class="s2">CriteriaUpdater trials_per 1e5</span>
+<span class="s2">CriteriaWriter trials_per 1e5 file_name id_fh.txt</span>
+<span class="s2">Run until_criteria_complete true</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">mc</span><span class="p">(</span><span class="n">thread</span><span class="p">,</span> <span class="n">mn</span><span class="p">,</span> <span class="n">mx</span><span class="p">):</span>
-    <span class="n">steps_per</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">)</span>
-    <span class="n">mc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeMonteCarlo</span><span class="p">()</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
-                                           <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">1.5</span><span class="p">),</span>
-                                          <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;-2.352321&quot;</span><span class="p">})))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeFlatHistogram</span><span class="p">(</span>
-        <span class="n">fst</span><span class="o">.</span><span class="n">MakeMacrostateNumParticles</span><span class="p">(</span>
-              <span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">mx</span><span class="p">),</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">mn</span><span class="p">)}))),</span>
-        <span class="n">fst</span><span class="o">.</span><span class="n">MakeTransitionMatrix</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;min_sweeps&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTransfer</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">})))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0001&quot;</span><span class="p">})))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;clones&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">thread</span><span class="p">)})))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaUpdater</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
-    <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaWriter</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-        <span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
-        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;clones&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">thread</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_crit.txt&quot;</span><span class="p">})))</span>
-    <span class="k">return</span> <span class="n">mc</span>
-
-<span class="n">windows</span><span class="o">=</span><span class="n">fst</span><span class="o">.</span><span class="n">WindowExponential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-  <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;maximum&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;extra_overlap&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}))</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">windows</span><span class="p">)</span>
-
-<span class="n">clones</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">Clones</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">proc</span><span class="p">,</span> <span class="n">win</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">windows</span><span class="p">):</span>
-    <span class="n">clones</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">mc</span><span class="p">(</span><span class="n">proc</span><span class="p">,</span> <span class="n">win</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">win</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-<span class="n">clones</span><span class="o">.</span><span class="n">initialize_and_run_until_complete</span><span class="p">()</span>
-<span class="c1">#print(clones.ln_prob().values())</span>
-<span class="nb">open</span><span class="p">(</span><span class="s1">&#39;clones.fst&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">clones</span><span class="o">.</span><span class="n">serialize</span><span class="p">())</span>
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">script</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">subprocess</span>
+    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;~/feasst/build/bin/fst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
+<span class="n">run</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-((0, 35), (33, 50))
+# FEASST version: v0.19.0-59-gb2fd5186f4-dirty-hwh/newtutorials
+Configuration cubic_box_length 8 particle_type /home/hwh/feasst/forcefield/atom.fstprt
+Potential Model IdealGas
+ThermoParams beta 0.8333333333333334 chemical_potential -3
+FlatHistogram Bias TransitionMatrix Macrostate MacrostateNumParticles max 50 min 0 min_sweeps 100 width 1
+TrialTransfer particle_type 0
+CriteriaUpdater trials_per 1e5
+CriteriaWriter file_name id_fh.txt trials_per 1e5
+Run until_criteria_complete true
+# initializing random number generator with seed: 1652465998
+
+ exit: 0
 </pre></div></div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-175281
-</pre></div></div>
-</div>
-<p>You may post-process the simulations from the rst file.</p>
-<div class="nbinput nblast docutils container">
+<p>Check the ideal gas relationship, <span class="math notranslate nohighlight">\(\beta P = \rho\)</span></p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">clones2</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">Clones</span><span class="p">()</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">pyfeasst</span><span class="o">.</span><span class="n">read_checkpoint</span><span class="p">(</span><span class="s1">&#39;clones.fst&#39;</span><span class="p">))</span>
-<span class="c1"># import matplotlib.pyplot as plt</span>
-<span class="c1"># plt.plot(clones2.ln_prob().values())</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">fh</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;id_fh.txt&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+<span class="c1">#print(fh)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N betaPV difference&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">delta_conjugate</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">):</span>
+    <span class="n">fh</span><span class="p">[</span><span class="s1">&#39;ln_prob_rw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fh</span><span class="p">[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">fh</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">delta_conjugate</span> <span class="o">-</span> <span class="n">fh</span><span class="p">[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>  <span class="c1"># avoid negative log</span>
+    <span class="n">fh</span><span class="p">[</span><span class="s1">&#39;ln_prob_rw&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="s1">&#39;ln_prob_rw&#39;</span><span class="p">])))</span>   <span class="c1"># renormalize</span>
+    <span class="k">if</span> <span class="n">fh</span><span class="p">[</span><span class="s1">&#39;ln_prob_rw&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">6</span><span class="p">:</span>
+        <span class="c1">#plt.plot(fh[&#39;ln_prob_rw&#39;])</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="s2">&quot;ln_prob_rw&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">fh</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">betaPV</span> <span class="o">=</span> <span class="o">-</span><span class="n">fh</span><span class="p">[</span><span class="s2">&quot;ln_prob_rw&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="s2">&quot;ln_prob_rw&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">betaPV</span><span class="p">,</span> <span class="n">N</span><span class="o">-</span><span class="n">betaPV</span><span class="p">)</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">betaPV</span><span class="o">/</span><span class="n">N</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-2</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+N betaPV difference
+0.281615437360333 0.28143886331769313 0.00017657404263987653
+0.3112721290573395 0.3110584748658264 0.00021365419151309073
+0.34405568678745374 0.3437974829119714 0.0002582038754823657
+0.38029641695368716 0.37998481251059724 0.00031160444308991897
+0.4203595816256132 0.41998413789932987 0.0003754437262833421
+0.46464908608091554 0.46419755942857654 0.000451526652338996
+0.5136115446272471 0.513069667880601 0.000541876746646075
+0.5677407591737768 0.5670920357124472 0.0006487234613296033
+0.6275826471274961 0.626808178308256 0.0007744688192401483
+0.69374065753872 0.6928190320982597 0.0009216254404603719
+0.7668817173956256 0.7657890004354689 0.00109271696015667
+0.847742754248729 0.846452622510358 0.0012901317383710031
+0.9371378480250632 0.9356219255100562 0.0015159225150069844
+1.0359660755637645 1.0341945260068717 0.0017715495568928485
+1.1452201281579077 1.1431625536913854 0.0020575744665223272
+1.2659958075469175 1.263622479772529 0.0023733277743884784
+1.3995025412074162 1.39678594459229 0.0027165966151261323
+1.5470751033002865 1.5439916952887414 0.0030834080115451634
+1.71018677860628 1.7067187655177012 0.003468013088578914
+1.8904642504813418 1.8866010553042536 0.003863195177088219
+2.0897045054846926 2.0854434981879484 0.004261007296744168
+2.309893987873797 2.3052400299070386 0.004653957966758604
+2.553230057674812 2.5481935884175315 0.005036469257280629
+2.822144465709936 2.8167383648224287 0.005406100887507481
+3.119328065709423 3.113564472459403 0.0057635932500201825
+3.4477554610686054 3.441645096550535 0.006110364518070455
+3.8107080496964585 3.8042660405155924 0.006442009180866126
+4.211794531409895 4.205057451718698 0.006737079691196968
+4.654970032129825 4.64802750556704 0.006942526562784934
+5.14455891263224 5.1375981235764145 0.006960789055825423
+5.685291299670026 5.678643555343836 0.006647744326190086
+6.282366707172363 6.276533855295848 0.005832851876514944
+6.941555272789914 6.937186551724324 0.004368721065590719
+7.669334194062063 7.667130300977221 0.0022038930848422567
+8.473035855257057 8.473583056287525 -0.0005472010304679031
+9.360967714364946 9.364543987165762 -0.0035762728008155165
+10.342472739296538 10.348894541569006 -0.006421802272468469
+11.42794236676585 11.436502837741468 -0.008560470975618628
+12.628844475097726 12.63832946216202 -0.009484987064293904
+13.957828172984959 13.966539616250655 -0.008711443265696062
+15.428891102633221 15.434629404273574 -0.0057383016403527165
+17.05751515320802 17.057568189799145 -5.30365911259878e-05
+18.860674701457423 18.85194880475239 0.008725896705033875
+20.856642001532833 20.836129084981156 0.020512916551677307
+23.06456423690229 23.03034185572321 0.03422238117907739
+25.504157779887613 25.45676336580384 0.04739441408377232
+28.195739894729734 28.13957463872861 0.05616525600112254
+31.155436173521586 31.104879531643448 0.050556641878138464
+</pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>
@@ -600,8 +653,8 @@ div.rendered_html tbody tr:hover {
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="tutorial_6_rpm_gcmc.html" class="btn btn-neutral float-right" title="Grand canonical ensemble transition-matrix Monte Carlo with RPM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="tutorial_4_spce_gcmc.html" class="btn btn-neutral float-left" title="Grand canonical ensemble transition-matrix Monte Carlo with SPC/E" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial_01_lj_gcmc.html" class="btn btn-neutral float-right" title="Grand canonical ensemble transition-matrix Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../README.html" class="btn btn-neutral float-left" title="Flat histogram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

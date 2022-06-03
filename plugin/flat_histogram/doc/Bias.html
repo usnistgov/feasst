@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Bias &mdash; FEASST v0.19.0 documentation</title>
+  <title>Bias &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="TransitionMatrix" href="TransitionMatrix.html" />
-    <link rel="prev" title="TripleBandedCollectionMatrix" href="TripleBandedCollectionMatrix.html" />
+    <link rel="prev" title="CollectionMatrix" href="CollectionMatrix.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -124,7 +124,7 @@
 <li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
@@ -133,6 +133,7 @@
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
@@ -290,20 +291,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4Bias16update_or_revertEKiKiKdKbKb">
-<span class="target" id="classfeasst_1_1Bias_1a310b530b6ecc91b5a4147373569399c1"></span><em class="property">virtual</em> void <code class="sig-name descname">update_or_revert</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em>, <em class="property">const</em> bool <em>revert</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias16update_or_revertEKiKiKdKbKb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Update the bias due to an attempted transition. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst4Bias6updateEKiKiKdKb">
-<span class="target" id="classfeasst_1_1Bias_1a21612a6f793d69637e8292b1e9f24fd6"></span>void <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias6updateEKiKiKdKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst4Bias6updateEKiKiKdKbKbRK10Macrostate">
+<span class="target" id="classfeasst_1_1Bias_1af727feb866cdaf9142b923cc8a62805d"></span><em class="property">virtual</em> void <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em>, <em class="property">const</em> bool <em>is_endpoint</em>, <em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> &amp;<em>macro</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias6updateEKiKiKdKbKbRK10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update only. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4Bias17infrequent_updateEv">
-<span class="target" id="classfeasst_1_1Bias_1ab9607e9c816b84e4ec3fc1b5fd44838f"></span><em class="property">virtual</em> void <code class="sig-name descname">infrequent_update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias17infrequent_updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst4Bias17infrequent_updateERK10Macrostate">
+<span class="target" id="classfeasst_1_1Bias_1ad5b82aab88de3fc84942d8b53ddd7780"></span><em class="property">virtual</em> void <code class="sig-name descname">infrequent_update</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> &amp;<em>macro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias17infrequent_updateERK10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform an infrequent update to the bias. </p>
 </dd></dl>
 
@@ -355,7 +350,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="TransitionMatrix.html" class="btn btn-neutral float-right" title="TransitionMatrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="TripleBandedCollectionMatrix.html" class="btn btn-neutral float-left" title="TripleBandedCollectionMatrix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="CollectionMatrix.html" class="btn btn-neutral float-left" title="CollectionMatrix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -19,9 +19,9 @@
    CriteriaWriter
    PairDistributionInner
    CheckEnergy
-   CheckEnergyAndTune
    IncrementPhase
    SeekModify
+   WrapParticles
    CheckProperties
    CriteriaUpdater
    Tune

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ModelTwoBodyFactory &mdash; FEASST v0.19.0 documentation</title>
+  <title>ModelTwoBodyFactory &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,14 +104,13 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">System</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
@@ -145,6 +144,7 @@
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Cells.html">Cells</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CutoffOuter.html">CutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
@@ -302,9 +302,18 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst19ModelTwoBodyFactory19ModelTwoBodyFactoryENSt6vectorINSt10shared_ptrI12ModelTwoBodyEEEE">
-<span class="target" id="classfeasst_1_1ModelTwoBodyFactory_1a8be31fa546937dd6edd1bbf69fcacb19"></span><code class="sig-name descname">ModelTwoBodyFactory</code><span class="sig-paren">(</span>std::vector&lt;std::shared_ptr&lt;<a class="reference internal" href="ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a>&gt;&gt; <em>models</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst19ModelTwoBodyFactory19ModelTwoBodyFactoryENSt6vectorINSt10shared_ptrI12ModelTwoBodyEEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Construct with a vector of two body models. </p>
+<dt id="_CPPv4N6feasst19ModelTwoBodyFactory19ModelTwoBodyFactoryE7argtype">
+<span class="target" id="classfeasst_1_1ModelTwoBodyFactory_1a6f88a8ccd1f9324c768d733c09709b83"></span><code class="sig-name descname">ModelTwoBodyFactory</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst19ModelTwoBodyFactory19ModelTwoBodyFactoryE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>model[i]: add the i-th model. The “[i]” is to be substituted for an integer 0, 1, 2, … </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst19ModelTwoBodyFactory3addENSt6vectorINSt10shared_ptrI12ModelTwoBodyEEEE">
+<span class="target" id="classfeasst_1_1ModelTwoBodyFactory_1a616890c9f33648b3207704fe7bcc9b7f"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::vector&lt;std::shared_ptr&lt;<a class="reference internal" href="ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a>&gt;&gt; <em>models</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst19ModelTwoBodyFactory3addENSt6vectorINSt10shared_ptrI12ModelTwoBodyEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a vector of two body models. </p>
 </dd></dl>
 
 <dl class="cpp function">

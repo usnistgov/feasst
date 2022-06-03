@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E &mdash; FEASST v0.19.0 documentation</title>
+  <title>Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Parallelize a flat histogram simulation" href="tutorial_5_lj_gcmc_parallel.html" />
-    <link rel="prev" title="Analysis of a two-phase (phase separated) simulation" href="tutorial_3_reweight_phase_separation.html" />
+    <link rel="next" title="Mayer" href="../../mayer/README.html" />
+    <link rel="prev" title="MoviePatch" href="../doc/MoviePatch.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -115,24 +115,19 @@
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Patch</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../doc/PatchAngle.html">PatchAngle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/VisitModelInnerPatch.html">VisitModelInnerPatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/FileVMDPatch.html">FileVMDPatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/MoviePatch.html">MoviePatch</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="tutorial_10_hs.html">Analysis of a hard sphere simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
@@ -222,9 +217,9 @@
         
           <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
-          <li><a href="../README.html">Flat histogram</a> &raquo;</li>
+          <li><a href="../README.html">Patch</a> &raquo;</li>
         
-      <li>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</li>
+      <li>Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -511,92 +506,68 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Grand-canonical-ensemble-transition-matrix-Monte-Carlo-with-SPC/E">
-<h1>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E<a class="headerlink" href="#Grand-canonical-ensemble-transition-matrix-Monte-Carlo-with-SPC/E" title="Permalink to this headline">¶</a></h1>
-<p>This example is similar to the Lennard Jones tutorial, except this time we simulate the SPC/E water model.</p>
-<div class="nbinput nblast docutils container">
+<div class="section" id="Second-virial-coefficient-calculation-of-a-Kern-Frenkel-patch-using-Mayer-Sampling">
+<h1>Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling<a class="headerlink" href="#Second-virial-coefficient-calculation-of-a-Kern-Frenkel-patch-using-Mayer-Sampling" title="Permalink to this headline">¶</a></h1>
+<p>Here, we reproduce the virial coefficient of a Kern-Frenkel patchy particle and compare to Eq. 8 of <a class="reference external" href="https://doi.org/10.1063/1.1569473">https://doi.org/10.1063/1.1569473</a></p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
+<span></span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;trials_per&quot;</span><span class="p">:</span> <span class="mf">1e4</span><span class="p">}</span> <span class="c1"># 1/K</span>
 
-<span class="k">class</span> <span class="nc">TestFlatHistogramSPCE</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Test flat histogram grand canonical ensemble Monte Carlo simulations&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">test_serial_5max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compare the free energies and potential energies with the NIST SRSW</span>
-<span class="sd">        https://www.nist.gov/programs-projects/nist-standard-reference-simulation-website</span>
-<span class="sd">        https://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;physical_constants&quot;</span><span class="p">:</span> <span class="s2">&quot;CODATA2010&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/spce.fstprt&quot;</span><span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeEwald</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">5.6</span><span class="o">/</span><span class="mi">20</span><span class="p">),</span>
-            <span class="s2">&quot;kmax_squared&quot;</span><span class="p">:</span> <span class="s2">&quot;38&quot;</span><span class="p">}))))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeModelTwoBodyFactory</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">(),</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeScreened</span><span class="p">()),</span>
-                                          <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;table_size&quot;</span><span class="p">:</span> <span class="s2">&quot;1e6&quot;</span><span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeScreenedIntra</span><span class="p">(),</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeVisitModelBond</span><span class="p">()))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeSelf</span><span class="p">()))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
-        <span class="n">temperature</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">kelvin2kJpermol</span><span class="p">(</span><span class="mi">525</span><span class="p">,</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">configuration</span><span class="p">())</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">temperature</span><span class="p">),</span>
-                                                       <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="o">-</span><span class="mf">8.14</span><span class="o">*</span><span class="n">temperature</span><span class="p">)})))</span>
-        <span class="n">criteria</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeFlatHistogram</span><span class="p">(</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">MakeMacrostateNumParticles</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">}))),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">MakeTransitionMatrix</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;min_sweeps&quot;</span><span class="p">:</span> <span class="s2">&quot;20&quot;</span><span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">criteria</span><span class="p">)</span>
-        <span class="n">steps_per</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e4</span><span class="p">)</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">())</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTransfer</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaUpdater</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaWriter</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span>
-                                            <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;spce_fh.txt&quot;</span><span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeEnergy</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span>
-                                        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;spce_en.txt&quot;</span><span class="p">,</span>
-                                        <span class="s2">&quot;multistate&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">()</span>
+<span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">MonteCarlo</span>
+<span class="s2">Configuration particle_type0 /feasst/plugin/patch/forcefield/janus.fstprt </span><span class="se">\</span>
+<span class="s2">    xyz_file /feasst/plugin/patch/test/data/patch5.xyz </span><span class="se">\</span>
+<span class="s2">    group0 centers centers_site_type0 0 </span><span class="se">\</span>
+<span class="s2">    cutoff 3</span>
+<span class="s2">Potential Model HardSphere group centers</span>
+<span class="s2">Potential Model SquareWell VisitModelInner VisitModelInnerPatch group centers</span>
+<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"></span>
+<span class="s2">Metropolis</span>
+<span class="s2">Log file_name patch.txt max_precision true clear_file true</span>
+<span class="s2">MoviePatch trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name patch.xyz</span>
+<span class="s2">Run num_trials 1</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
-        <span class="n">lnpi_previous</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">2.7207</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.8523</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.54708</span><span class="p">,</span> <span class="mf">0.016</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.51786</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.6479</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.8786</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">]]</span>
-        <span class="n">energy_previous</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-11</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">0.0879115</span><span class="p">,</span> <span class="mf">1.1293158298007674394e-05</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">2.326</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">6.806</span><span class="p">,</span> <span class="mf">0.24</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">13.499</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">22.27</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]</span>
-        <span class="k">for</span> <span class="n">macro</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">num_states</span><span class="p">()):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span>
-                <span class="n">lnpi_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-                <span class="n">criteria</span><span class="o">.</span><span class="n">bias</span><span class="p">()</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">macro</span><span class="p">),</span>
-                <span class="n">delta</span><span class="o">=</span><span class="mf">15.</span><span class="o">*</span><span class="n">lnpi_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-            <span class="p">)</span>
-            <span class="n">energy_analyzer</span> <span class="o">=</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">num_analyzers</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="n">energy_accumulator</span> <span class="o">=</span> <span class="n">energy_analyzer</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span><span class="o">.</span><span class="n">accumulator</span><span class="p">()</span>
-            <span class="n">stdev</span> <span class="o">=</span> <span class="p">(</span><span class="n">energy_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">energy_accumulator</span><span class="o">.</span><span class="n">block_stdev</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span>
-                <span class="n">energy_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-                <span class="n">energy_accumulator</span><span class="o">.</span><span class="n">average</span><span class="p">(),</span>
-                <span class="c1">#criteria.bias().ln_prob().value(macro),</span>
-                <span class="n">delta</span><span class="o">=</span><span class="mi">15</span><span class="o">*</span><span class="n">stdev</span>
-            <span class="p">)</span>
-
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# FEASST version: v0.19.0-107-gda43557a2e-dirty-hwh/newtutorials
+Configuration centers_site_type0 0 cutoff 3 group0 centers particle_type0 /home/hwh/feasst/plugin/patch/forcefield/janus.fstprt xyz_file /home/hwh/feasst/plugin/patch/test/data/patch5.xyz
+Potential Model HardSphere group centers
+Potential Model SquareWell VisitModelInner VisitModelInnerPatch group centers
+ThermoParams beta 0.1
+Metropolis
+Log clear_file true file_name patch.txt max_precision true
+MoviePatch file_name patch.xyz trials_per 10000.0
+Run num_trials 1
+
+ exit: 0
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">time</span>  # Note: any line starting with % is only to be used with ipynb
+<span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="k">class</span> <span class="nc">TestMayerSamplingTrimer</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;patch.txt&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mf">1e-8</span><span class="p">)</span>
 <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -606,39 +577,21 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-test_serial_5max (__main__.TestFlatHistogramSPCE)
-Compare the free energies and potential energies with the NIST SRSW ...
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-CPU times: user 4 µs, sys: 1 µs, total: 5 µs
-Wall time: 7.63 µs
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-ok
+test (__main__.TestMayerSamplingTrimer) ... ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 5.525s
+Ran 1 test in 0.003s
 
 OK
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f09e0449e20&gt;
+&lt;unittest.main.TestProgram at 0x7ff9f85a0370&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
@@ -650,8 +603,8 @@ OK
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="tutorial_5_lj_gcmc_parallel.html" class="btn btn-neutral float-right" title="Parallelize a flat histogram simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="tutorial_3_reweight_phase_separation.html" class="btn btn-neutral float-left" title="Analysis of a two-phase (phase separated) simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../mayer/README.html" class="btn btn-neutral float-right" title="Mayer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../doc/MoviePatch.html" class="btn btn-neutral float-left" title="MoviePatch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

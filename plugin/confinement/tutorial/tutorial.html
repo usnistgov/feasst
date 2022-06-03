@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Slab, cylindrical, spherical and mixed confinement &mdash; FEASST v0.19.0 documentation</title>
+  <title>Slab, cylindrical, spherical and mixed confinement &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -502,132 +502,168 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Slab,-cylindrical,-spherical-and-mixed-confinement">
 <h1>Slab, cylindrical, spherical and mixed confinement<a class="headerlink" href="#Slab,-cylindrical,-spherical-and-mixed-confinement" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
-
-<span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="n">confinement</span><span class="p">):</span>
+<span></span><span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="n">confinement</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">confinement</span> <span class="o">==</span> <span class="s2">&quot;slab&quot;</span><span class="p">:</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeSlab</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;bound0&quot;</span><span class="p">:</span> <span class="s2">&quot;-1&quot;</span><span class="p">,</span> <span class="s2">&quot;bound1&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">}))</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Slab dimension 2 bound0 -1 bound1 1&quot;&quot;&quot;</span>
     <span class="k">elif</span> <span class="n">confinement</span> <span class="o">==</span> <span class="s2">&quot;cylinder&quot;</span><span class="p">:</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeCylinder</span><span class="p">(</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">}),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})))</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Cylinder radius 4 first_point f f0 0 f1 0 f2 0 </span><span class="se">\</span>
+<span class="s2">second_point s s0 0 s1 0 s2 1&quot;&quot;&quot;</span>
     <span class="k">elif</span> <span class="n">confinement</span> <span class="o">==</span> <span class="s2">&quot;sphere&quot;</span><span class="p">:</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeSphere</span><span class="p">(</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">}),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Sphere radius 4&quot;&quot;&quot;</span>
     <span class="k">elif</span> <span class="n">confinement</span> <span class="o">==</span> <span class="s2">&quot;union&quot;</span><span class="p">:</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeShapeUnion</span><span class="p">(</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">MakeSphere</span><span class="p">(</span>
-                <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="s2">&quot;2.5&quot;</span><span class="p">}),</span>
-                <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">}))),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">MakeSlab</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;bound0&quot;</span><span class="p">:</span> <span class="s2">&quot;-1&quot;</span><span class="p">,</span> <span class="s2">&quot;bound1&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})))</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Sphere radius 2.5</span>
+<span class="s2">union Slab dimension 2 bound0 -1 bound1 1&quot;&quot;&quot;</span>
     <span class="k">elif</span> <span class="n">confinement</span> <span class="o">==</span> <span class="s2">&quot;network&quot;</span><span class="p">:</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeSphere</span><span class="p">(</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">}),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeShapeUnion</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeCylinder</span><span class="p">(</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">}))))</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeShapeUnion</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeCylinder</span><span class="p">(</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">}))))</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeShapeUnion</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeCylinder</span><span class="p">(</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})),</span>
-            <span class="n">fst</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">}))))</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Sphere radius 5</span>
+<span class="s2">union Cylinder radius 2 first_point f f0 0 f1 0 f2 0 second_point s s0 1 s1 0 s2 0</span>
+<span class="s2">union Cylinder radius 2 first_point f f0 0 f1 0 f2 0 second_point s s0 0 s1 1 s2 0</span>
+<span class="s2">union Cylinder radius 2 first_point f f0 0 f1 0 f2 0 second_point s s0 0 s1 0 s2 1&quot;&quot;&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="kc">False</span> <span class="c1"># unrecognized</span>
-    <span class="k">return</span> <span class="n">shape</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">confinement</span><span class="o">+</span><span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">confinement</span><span class="p">,</span> <span class="n">cubic_box_length</span><span class="p">,</span> <span class="n">num_particles</span><span class="p">):</span>
-    <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">cubic_box_length</span><span class="p">),</span>
-                                           <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeModelHardShape</span><span class="p">(</span><span class="n">shape</span><span class="p">(</span><span class="n">confinement</span><span class="p">))))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-        <span class="p">{</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-        <span class="p">{</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialAdd</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">)),</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="n">confinement</span><span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">))})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">confinement</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;slab&quot;</span><span class="p">,</span> <span class="s2">&quot;cylinder&quot;</span><span class="p">,</span> <span class="s2">&quot;sphere&quot;</span><span class="p">,</span> <span class="s2">&quot;union&quot;</span><span class="p">,</span> <span class="s2">&quot;network&quot;</span><span class="p">]:</span>
+    <span class="n">shape</span><span class="p">(</span><span class="n">confinement</span><span class="p">)</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;confinement&quot;</span><span class="p">:</span> <span class="n">confinement</span><span class="p">,</span> <span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;num_particles&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">confinement</span> <span class="o">==</span> <span class="s1">&#39;network&#39;</span><span class="p">:</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">20</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_particles&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">500</span>
+    <span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">MonteCarlo</span>
+<span class="s2">Configuration cubic_box_length </span><span class="si">{cubic_box_length}</span><span class="s2"> particle_type0 /feasst/forcefield/lj.fstprt</span>
+<span class="s2">Potential Model LennardJones</span>
+<span class="s2">Potential VisitModel LongRangeCorrections</span>
+<span class="s2">Potential Model ModelHardShape file_name </span><span class="si">{confinement}</span><span class="s2">.txt</span>
+<span class="s2">ThermoParams beta 1.5 chemical_potential0 1</span>
+<span class="s2">Metropolis</span>
+<span class="s2">TrialTranslate weight 1 tunable_param 2</span>
+<span class="s2">TrialAdd particle_type 0</span>
+<span class="s2">Run until_num_particles </span><span class="si">{num_particles}</span><span class="s2"></span>
+<span class="s2">RemoveTrial name TrialAdd</span>
+<span class="s2">Log trials_per 1e4 file_name </span><span class="si">{confinement}</span><span class="s2">.log</span>
+<span class="s2">Movie trials_per 1e4 file_name </span><span class="si">{confinement}</span><span class="s2">.xyz</span>
+<span class="s2">CheckEnergy trials_per 1e4</span>
+<span class="s2">Tune</span>
+<span class="s2">Run num_trials 1e5</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">TestConfinement1LJ</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">confinement</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;slab&quot;</span><span class="p">,</span> <span class="s2">&quot;cylinder&quot;</span><span class="p">,</span> <span class="s2">&quot;sphere&quot;</span><span class="p">,</span> <span class="s2">&quot;union&quot;</span><span class="p">,</span> <span class="s2">&quot;network&quot;</span><span class="p">]:</span>
-            <span class="n">cubic_box_length</span> <span class="o">=</span> <span class="mi">8</span>
-            <span class="n">num_particles</span> <span class="o">=</span> <span class="mi">50</span>
-            <span class="k">if</span> <span class="n">confinement</span> <span class="o">==</span> <span class="s1">&#39;network&#39;</span><span class="p">:</span>
-                <span class="n">cubic_box_length</span><span class="o">=</span><span class="mi">20</span>
-                <span class="n">num_particles</span><span class="o">=</span><span class="mi">500</span>
-            <span class="n">run</span><span class="p">(</span><span class="n">confinement</span><span class="o">=</span><span class="n">confinement</span><span class="p">,</span>
-                <span class="n">cubic_box_length</span><span class="o">=</span><span class="n">cubic_box_length</span><span class="p">,</span>
-                <span class="n">num_particles</span><span class="o">=</span><span class="n">num_particles</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">subprocess</span>
+    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">time</span>
-<span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-test (__main__.TestConfinement1LJ) ...
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-CPU times: user 2 µs, sys: 0 ns, total: 2 µs
-Wall time: 4.05 µs
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-ok
-
-----------------------------------------------------------------------
-Ran 1 test in 11.686s
-
-OK
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f7527b9c4c0&gt;
+# FEASST version: v0.19.0-95-g62bcb048ca-dirty-hwh/newtutorials
+Configuration cubic_box_length 8 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+Potential Model ModelHardShape file_name slab.txt
+# Info 0 [plugin/confinement/src/model_hard_shape.cpp:21] args file_name slab.txt
+ThermoParams beta 1.5 chemical_potential0 1
+Metropolis
+TrialTranslate tunable_param 2 weight 1
+TrialAdd particle_type 0
+Run until_num_particles 50
+# initializing random number generator with seed: 1653487009
+RemoveTrial name TrialAdd
+Log file_name slab.log trials_per 1e4
+Movie file_name slab.xyz trials_per 1e4
+CheckEnergy trials_per 1e4
+Tune
+Run num_trials 1e5
+
+ exit: 0
+# FEASST version: v0.19.0-95-g62bcb048ca-dirty-hwh/newtutorials
+Configuration cubic_box_length 8 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+Potential Model ModelHardShape file_name cylinder.txt
+# Info 0 [plugin/confinement/src/model_hard_shape.cpp:21] args file_name cylinder.txt
+ThermoParams beta 1.5 chemical_potential0 1
+Metropolis
+TrialTranslate tunable_param 2 weight 1
+TrialAdd particle_type 0
+Run until_num_particles 50
+# initializing random number generator with seed: 1653487010
+RemoveTrial name TrialAdd
+Log file_name cylinder.log trials_per 1e4
+Movie file_name cylinder.xyz trials_per 1e4
+CheckEnergy trials_per 1e4
+Tune
+Run num_trials 1e5
+
+ exit: 0
+# FEASST version: v0.19.0-95-g62bcb048ca-dirty-hwh/newtutorials
+Configuration cubic_box_length 8 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+Potential Model ModelHardShape file_name sphere.txt
+# Info 0 [plugin/confinement/src/model_hard_shape.cpp:21] args file_name sphere.txt
+ThermoParams beta 1.5 chemical_potential0 1
+Metropolis
+TrialTranslate tunable_param 2 weight 1
+TrialAdd particle_type 0
+Run until_num_particles 50
+# initializing random number generator with seed: 1653487011
+RemoveTrial name TrialAdd
+Log file_name sphere.log trials_per 1e4
+Movie file_name sphere.xyz trials_per 1e4
+CheckEnergy trials_per 1e4
+Tune
+Run num_trials 1e5
+
+ exit: 0
+# FEASST version: v0.19.0-95-g62bcb048ca-dirty-hwh/newtutorials
+Configuration cubic_box_length 8 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+Potential Model ModelHardShape file_name union.txt
+# Info 0 [plugin/confinement/src/model_hard_shape.cpp:21] args file_name union.txt
+ThermoParams beta 1.5 chemical_potential0 1
+Metropolis
+TrialTranslate tunable_param 2 weight 1
+TrialAdd particle_type 0
+Run until_num_particles 50
+# initializing random number generator with seed: 1653487012
+RemoveTrial name TrialAdd
+Log file_name union.log trials_per 1e4
+Movie file_name union.xyz trials_per 1e4
+CheckEnergy trials_per 1e4
+Tune
+Run num_trials 1e5
+
+ exit: 0
+# FEASST version: v0.19.0-95-g62bcb048ca-dirty-hwh/newtutorials
+Configuration cubic_box_length 20 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+Potential Model ModelHardShape file_name network.txt
+# Info 0 [plugin/confinement/src/model_hard_shape.cpp:21] args file_name network.txt
+ThermoParams beta 1.5 chemical_potential0 1
+Metropolis
+TrialTranslate tunable_param 2 weight 1
+TrialAdd particle_type 0
+Run until_num_particles 500
+# initializing random number generator with seed: 1653487013
+RemoveTrial name TrialAdd
+Log file_name network.log trials_per 1e4
+Movie file_name network.xyz trials_per 1e4
+CheckEnergy trials_per 1e4
+Tune
+Run num_trials 1e5
+
+ exit: 0
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Criteria &mdash; FEASST v0.19.0 documentation</title>
+  <title>Criteria &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Metropolis" href="Metropolis.html" />
+    <link rel="next" title="Constraint" href="Constraint.html" />
     <link rel="prev" title="Acceptance" href="Acceptance.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -122,20 +122,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Criteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -158,6 +152,12 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -320,7 +320,8 @@
 <dt id="_CPPv4N6feasst8Criteria8CriteriaE7argtype">
 <span class="target" id="classfeasst_1_1Criteria_1aefcff52f184cab89b3731470ee7b668c"></span><code class="sig-name descname">Criteria</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Criteria8CriteriaE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>num_iterations_to_complete: set the number of iterations for a simulation to be considered complete (default: 20). </p></li>
+<li><p>num_iterations_to_complete: set the number of iterations for a simulation to be considered complete (default: 20).</p></li>
+<li><p><a class="reference internal" href="Constraint.html#classfeasst_1_1Constraint"><span class="std std-ref">Constraint</span></a>: <a class="reference internal" href="ConstrainNumParticles.html#classfeasst_1_1ConstrainNumParticles"><span class="std std-ref">ConstrainNumParticles</span></a>, <a class="reference internal" href="../../egce/doc/AHalfB.html#classfeasst_1_1AHalfB"><span class="std std-ref">AHalfB</span></a>, etc. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -350,16 +351,21 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Criteria11is_acceptedERK10AcceptanceRK6SystemP6Random">
-<span class="target" id="classfeasst_1_1Criteria_1aabfa2f0c4fc96a8c1ddcfd351d9c499d"></span><em class="property">virtual</em> bool <code class="sig-name descname">is_accepted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> &amp;<em>acceptance_</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst8Criteria11is_acceptedERK10AcceptanceRK6SystemP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Criteria11is_acceptedERK6SystemP10AcceptanceP6Random">
+<span class="target" id="classfeasst_1_1Criteria_1a6fc3b88fc85374a4c6ed635c3e052985"></span><em class="property">virtual</em> bool <code class="sig-name descname">is_accepted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <a class="reference internal" href="Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> *<em>acceptance</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst8Criteria11is_acceptedERK6SystemP10AcceptanceP6Random" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return whether or not the trial attempt should be accepted. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Criteria12was_acceptedEv">
+<span class="target" id="classfeasst_1_1Criteria_1af6fd7010cd21d5275dab515c6973cd99"></span>bool <code class="sig-name descname">was_accepted</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Criteria12was_acceptedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return whether or not the last trial attempt was accepted. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst8Criteria18set_current_energyEKd">
 <span class="target" id="classfeasst_1_1Criteria_1a48ece578b0a5e643adc1eaba1ec4f877"></span>void <code class="sig-name descname">set_current_energy</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Criteria18set_current_energyEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return whether or not the last trial attempt was accepted. </p>
-<p>Set the current total energy based on energy changes per trial in order to avoid recomputation of the energy of the entire configuration. For example, <a class="reference internal" href="Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> Monte Carlo trials are concerned with the change in energy, and this variable tracks the total from the changes. </p>
+<dd><p>Set the current total energy based on energy changes per trial in order to avoid recomputation of the energy of the entire configuration. For example, <a class="reference internal" href="Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> Monte Carlo trials are concerned with the change in energy, and this variable tracks the total from the changes. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -369,14 +375,26 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Criteria13status_headerEv">
-<span class="target" id="classfeasst_1_1Criteria_1a1c66ae2ff191869a5a0b0a6a58b55f75"></span>std::string <code class="sig-name descname">status_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Criteria13status_headerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Criteria26set_current_energy_profileERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Criteria_1a4c4f18acc084eef0cb4f7d726df6c035"></span>void <code class="sig-name descname">set_current_energy_profile</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Criteria26set_current_energy_profileERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, except for energy profiles instead of total energy. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Criteria22current_energy_profileEv">
+<span class="target" id="classfeasst_1_1Criteria_1a5a2eb033c9ddedacdaaa896f946d3422"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">current_energy_profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Criteria22current_energy_profileEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the current energy profile based on energy changes per trial. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst8Criteria13status_headerERK6System">
+<span class="target" id="classfeasst_1_1Criteria_1abbf78c4627f6d5a45d6f756104800b91"></span>std::string <code class="sig-name descname">status_header</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Criteria13status_headerERK6System" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the header of the status for periodic output. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Criteria6statusEv">
-<span class="target" id="classfeasst_1_1Criteria_1a048cb4f461735f6c0d636806408326f5"></span>std::string <code class="sig-name descname">status</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Criteria6statusEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Criteria6statusEKb">
+<span class="target" id="classfeasst_1_1Criteria_1a63b6bfdd2a4f30f67c1de85933192130"></span>std::string <code class="sig-name descname">status</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>max_precision</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Criteria6statusEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the brief status for periodic output. </p>
 </dd></dl>
 
@@ -411,9 +429,16 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Criteria14num_iterationsEv">
-<span class="target" id="classfeasst_1_1Criteria_1a5fb20e7dade61320c4c3150a23f018cf"></span><em class="property">virtual</em> int <code class="sig-name descname">num_iterations</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Criteria14num_iterationsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Criteria14num_iterationsEKi">
+<span class="target" id="classfeasst_1_1Criteria_1a490b42c5abf98189dcf469faeddc7480"></span><em class="property">virtual</em> int <code class="sig-name descname">num_iterations</code><span class="sig-paren">(</span><em class="property">const</em> int <em>state</em> = -1<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Criteria14num_iterationsEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the current number of iterations. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">state</span></code>: If != -1, return iterations of a particular state (TM/WLTM only). </p></li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -481,7 +506,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="Metropolis.html" class="btn btn-neutral float-right" title="Metropolis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Constraint.html" class="btn btn-neutral float-right" title="Constraint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="Acceptance.html" class="btn btn-neutral float-left" title="Acceptance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

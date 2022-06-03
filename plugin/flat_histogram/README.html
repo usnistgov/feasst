@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Flat histogram &mdash; FEASST v0.19.0 documentation</title>
+  <title>Flat histogram &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Analysis of a hard sphere simulation" href="tutorial/tutorial_10_hs.html" />
+    <link rel="next" title="Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo" href="tutorial/tutorial_00_ideal_gas.html" />
     <link rel="prev" title="Movie" href="../steppers/doc/Movie.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/README.html">Utilities</a></li>
@@ -117,14 +117,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Flat histogram</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_10_hs.html">Analysis of a hard sphere simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_03_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_04_lj_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_05_spce_tm_parallel.html">Grand Canonical Flat Histogram Simulation of SPC/E</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_06_rpm_tm_parallel.html">Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#tools">Tools</a></li>
@@ -134,7 +136,7 @@
 <li class="toctree-l4"><a class="reference internal" href="doc/WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/LnProbability.html">LnProbability</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/WangLandau.html">WangLandau</a></li>
@@ -143,6 +145,7 @@
 <li class="toctree-l4"><a class="reference internal" href="doc/MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Clones.html">Clones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
@@ -293,18 +296,20 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_10_hs.html">Analysis of a hard sphere simulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial_2_reweight_supercritical.html#Grand-canonical-ensemble-averages">Grand canonical ensemble averages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial_2_reweight_supercritical.html#Histogram-reweighting">Histogram reweighting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial_02_reweight_supercritical.html#Grand-canonical-ensemble-averages">Grand canonical ensemble averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial_02_reweight_supercritical.html#Histogram-reweighting">Histogram reweighting</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_03_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_04_lj_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_05_spce_tm_parallel.html">Grand Canonical Flat Histogram Simulation of SPC/E</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_06_rpm_tm_parallel.html">Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
 </ul>
 </div>
 </div>
@@ -326,7 +331,7 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
 <li class="toctree-l1"><a class="reference internal" href="doc/WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/LnProbability.html">LnProbability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Bias.html">Bias</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/WangLandau.html">WangLandau</a></li>
@@ -335,6 +340,7 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
 <li class="toctree-l1"><a class="reference internal" href="doc/MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Ensemble.html">Ensemble</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Clones.html">Clones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
@@ -348,7 +354,7 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="tutorial/tutorial_10_hs.html" class="btn btn-neutral float-right" title="Analysis of a hard sphere simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial/tutorial_00_ideal_gas.html" class="btn btn-neutral float-right" title="Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="../steppers/doc/Movie.html" class="btn btn-neutral float-left" title="Movie" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

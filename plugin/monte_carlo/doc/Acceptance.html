@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Acceptance &mdash; FEASST v0.19.0 documentation</title>
+  <title>Acceptance &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -122,20 +122,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -158,6 +152,12 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -346,6 +346,18 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst10Acceptance8endpointEv">
+<span class="target" id="classfeasst_1_1Acceptance_1a2396d6b78143d2f3c1fd8f9f98965015"></span>bool <code class="sig-name descname">endpoint</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance8endpointEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return whether or not to the trial was at a macrostate endpoint. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst10Acceptance12set_endpointEKb">
+<span class="target" id="classfeasst_1_1Acceptance_1a5fe2619ff83469cefbde816f97449ed1"></span>void <code class="sig-name descname">set_endpoint</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>endpoint</em> = true<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance12set_endpointEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the above quantity. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance5resetEv">
 <span class="target" id="classfeasst_1_1Acceptance_1ab7a25b4b9db4f40201c8485ffae33d8c"></span>void <code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance5resetEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Reset all stored quantities before each trial. </p>
@@ -370,6 +382,30 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst10Acceptance18energy_profile_newEv">
+<span class="target" id="classfeasst_1_1Acceptance_1af33e76284742bc0ed1fb1eacb4ed7cf2"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">energy_profile_new</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance18energy_profile_newEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the energy profile of the new configuration. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst10Acceptance22set_energy_profile_newERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Acceptance_1ab32a55c1a49d5a59a16a6a9460c60a85"></span>void <code class="sig-name descname">set_energy_profile_new</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance22set_energy_profile_newERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the above quantity. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst10Acceptance25add_to_energy_profile_newERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Acceptance_1ae4e39e7cbc260e78065ae7701d25107c"></span>void <code class="sig-name descname">add_to_energy_profile_new</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance25add_to_energy_profile_newERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add to the above quantity. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst10Acceptance32subtract_from_energy_profile_newERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Acceptance_1ac79b3c242142b66de17fca5e2a1dc2b3"></span>void <code class="sig-name descname">subtract_from_energy_profile_new</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance32subtract_from_energy_profile_newERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Subtract from the above quantity. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Acceptance10energy_oldEv">
 <span class="target" id="classfeasst_1_1Acceptance_1a9418e2a6e90cc96cfc7b54d11c25390f"></span>double <code class="sig-name descname">energy_old</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance10energy_oldEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the energy of the old configuration. </p>
@@ -384,7 +420,25 @@
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance17add_to_energy_oldEKd">
 <span class="target" id="classfeasst_1_1Acceptance_1a6da0384b41197c093fceb3dc4bfa72f6"></span>void <code class="sig-name descname">add_to_energy_old</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance17add_to_energy_oldEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the above quantity. </p>
+<dd><p>Add to the above quantity. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst10Acceptance18energy_profile_oldEv">
+<span class="target" id="classfeasst_1_1Acceptance_1a0d21e54708fd9de5b814def3fdcfb020"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">energy_profile_old</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance18energy_profile_oldEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the energy profile of the old configuration. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst10Acceptance22set_energy_profile_oldERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Acceptance_1aa420f9468671c856ebcc7a4368076aeb"></span>void <code class="sig-name descname">set_energy_profile_old</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance22set_energy_profile_oldERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the above quantity. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst10Acceptance25add_to_energy_profile_oldERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Acceptance_1a1209963e976960c93497f387b1e179e8"></span>void <code class="sig-name descname">add_to_energy_profile_old</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance25add_to_energy_profile_oldERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add to the above quantity. </p>
 </dd></dl>
 
 <dl class="cpp function">

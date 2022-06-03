@@ -3,19 +3,27 @@
 
    SelectSiteOfType
    SelectPerturbed
+   SelectParticlePivot
+   AnalyzeBonds
+   EndToEndDistance
+   RadiusOfGyration
+   TrialGrow
+   TrialSwapSites
+   TrialPivot
+   TrialParticlePivot
+   TrialReptate
+   TrialCrankshaftSmall
+   TrialCrankshaft
    SelectBranch
+   SelectCrankshaftSmall
    SelectSegment
    SelectEndSegment
    SelectReptate
    PerturbReptate
-   AnalyzeBonds
-   TrialGrow
-   TrialSwapSites
-   TrialPivot
-   TrialReptate
-   TrialCrankshaft
    PerturbBranch
    PerturbPivot
+   PerturbCrankshaftSmall
+   PerturbParticlePivot
    PerturbCrankshaft
    PerturbSiteType
    TrialGrowLinear

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>TransitionMatrix &mdash; FEASST v0.19.0 documentation</title>
+  <title>TransitionMatrix &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -124,7 +124,7 @@
 <li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
@@ -133,6 +133,7 @@
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
@@ -281,24 +282,30 @@
 <span class="target" id="classfeasst_1_1TransitionMatrix"></span><em class="property">class </em><code class="sig-name descname">TransitionMatrix</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrixE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Transition matrix flat histogram bias.</p>
 <p>Direct calculation of liquid–vapor phase equilibria from transition matrix Monte Carlo simulation <a class="reference external" href="https://doi.org/10.1063/1.1572463">https://doi.org/10.1063/1.1572463</a></p>
-<p>Elucidating the effects of adsorbent flexibility on fluid adsorption using simple models and flat-histogram sampling methods. <a class="reference external" href="https://doi.org/10.1063/1.4884124">https://doi.org/10.1063/1.4884124</a> </p>
+<p>Elucidating the effects of adsorbent flexibility on fluid adsorption using simple models and flat-histogram sampling methods. <a class="reference external" href="https://doi.org/10.1063/1.4884124">https://doi.org/10.1063/1.4884124</a></p>
+<p>A count of all accepted transitions between macrostates is used for a newly developed sweep metric. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst16TransitionMatrix16TransitionMatrixE7argtype">
 <span class="target" id="classfeasst_1_1TransitionMatrix_1ab08fbee4c991cbc6b8edb31396d93c31"></span><code class="sig-name descname">TransitionMatrix</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix16TransitionMatrixE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
+<li><p><a class="reference internal" href="CollectionMatrix.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> arguments.</p></li>
 <li><p>min_visits: A sweep is performed when all macrostates are visited by another macrostate this number of times (default: 100).</p></li>
+<li><p>average_visits: A sweep is performed when macrostates are visited by another macrostate more than this average number of times (default: 0).</p></li>
 <li><p>min_sweeps: Number of sweeps required for completion.</p></li>
-<li><p>reset_sweeps: The ‘phase’ counter increments from 0 to 1 when reset_sweeps are completed (default: -1 [counter will never increment]) </p></li>
+<li><p>reset_sweeps: The ‘phase’ counter increments from 0 to 1 when reset_sweeps are completed (default: -1 [counter will never increment])</p></li>
+<li><p><p>new_sweep: if set to 1, use new sweep definition of “the minimum number</p>
+<p>  of accepted transitions for each possible” (default: 0). </p>
+</p></li>
 </ul>
 </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16TransitionMatrix16update_or_revertEKiKiKdKbKb">
-<span class="target" id="classfeasst_1_1TransitionMatrix_1a8e6cad97710e045823dd463c37f54f85"></span>void <code class="sig-name descname">update_or_revert</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em>, <em class="property">const</em> bool <em>revert</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix16update_or_revertEKiKiKdKbKb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Update the bias due to an attempted transition. </p>
+<dt id="_CPPv4N6feasst16TransitionMatrix6updateEKiKiKdKbKbRK10Macrostate">
+<span class="target" id="classfeasst_1_1TransitionMatrix_1ae53ae4dfb39d522ed5ddb87fc8237e4f"></span>void <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em>, <em class="property">const</em> bool <em>is_endpoint</em>, <em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> &amp;<em>macro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix6updateEKiKiKdKbKbRK10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update only. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -338,14 +345,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16TransitionMatrix17infrequent_updateEv">
-<span class="target" id="classfeasst_1_1TransitionMatrix_1a90132d3d2a0aa5ecd08f123025b3b68c"></span>void <code class="sig-name descname">infrequent_update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix17infrequent_updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst16TransitionMatrix17infrequent_updateERK10Macrostate">
+<span class="target" id="classfeasst_1_1TransitionMatrix_1abfddeb7e0d66e28cc0acba3572f21fdd"></span>void <code class="sig-name descname">infrequent_update</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> &amp;<em>macro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix17infrequent_updateERK10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform an infrequent update to the bias. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst16TransitionMatrix10collectionEv">
-<span class="target" id="classfeasst_1_1TransitionMatrix_1ad19cbd79d8cd6e84a1d7c656dc73397e"></span><em class="property">const</em> <a class="reference internal" href="TripleBandedCollectionMatrix.html#_CPPv4N6feasst28TripleBandedCollectionMatrixE" title="feasst::TripleBandedCollectionMatrix">TripleBandedCollectionMatrix</a> &amp;<code class="sig-name descname">collection</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16TransitionMatrix10collectionEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1TransitionMatrix_1a5e70943f1be2c45779d95514a2cea2ea"></span><em class="property">const</em> <a class="reference internal" href="CollectionMatrix.html#_CPPv4N6feasst16CollectionMatrixE" title="feasst::CollectionMatrix">CollectionMatrix</a> &amp;<code class="sig-name descname">collection</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16TransitionMatrix10collectionEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the collection matrix. </p>
 </dd></dl>
 

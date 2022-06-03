@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Prefetch example &mdash; FEASST v0.19.0 documentation</title>
+  <title>Prefetch example &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -518,7 +518,7 @@ div.rendered_html tbody tr:hover {
        <span class="n">density</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
        <span class="n">cutoff</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
        <span class="n">temperature</span><span class="o">=</span><span class="mf">0.88</span><span class="p">,</span>
-       <span class="n">steps_per</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">),</span>
+       <span class="n">trials_per</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">),</span>
        <span class="p">):</span>
     <span class="n">box_length</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">cutoff</span>
     <span class="n">file_app</span> <span class="o">=</span> <span class="s2">&quot;_a&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_acceptance</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_r&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cutoff</span><span class="p">)</span>
@@ -527,7 +527,7 @@ div.rendered_html tbody tr:hover {
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;target_acceptance&#39;</span><span class="p">,</span> <span class="n">target_acceptance</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;tunable_param&#39;</span><span class="p">,</span> <span class="n">tunable_param</span><span class="p">)</span>
 
-    <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">Prefetch</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per_check&quot;</span><span class="p">:</span> <span class="s2">&quot;10000000&quot;</span><span class="p">}))</span>
+    <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">Prefetch</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;trials_per_check&quot;</span><span class="p">:</span> <span class="s2">&quot;10000000&quot;</span><span class="p">}))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">activate_prefetch</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">box_length</span><span class="p">),</span>
                                        <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
@@ -546,20 +546,21 @@ div.rendered_html tbody tr:hover {
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_particles</span><span class="p">)})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-        <span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
+        <span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span>
         <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;movie&quot;</span><span class="o">+</span><span class="n">file_app</span><span class="p">,</span>
         <span class="s2">&quot;clear_file&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
-    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergy</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">)})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTune</span><span class="p">())</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">))</span> <span class="c1">#equilibrate</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">activate_prefetch</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMeanSquaredDisplacement</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-        <span class="s2">&quot;steps_per_update&quot;</span><span class="p">:</span> <span class="s2">&quot;10000&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;trials_per_update&quot;</span><span class="p">:</span> <span class="s2">&quot;10000&quot;</span><span class="p">,</span>
         <span class="s2">&quot;updates_per_origin&quot;</span><span class="p">:</span> <span class="s2">&quot;1000&quot;</span><span class="p">,</span>
         <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;msd&quot;</span> <span class="o">+</span> <span class="n">file_app</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))})))</span>
+        <span class="s2">&quot;trials_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCPUTime</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-        <span class="s2">&quot;steps_per_update&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
-        <span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
+        <span class="s2">&quot;trials_per_update&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span>
+        <span class="s2">&quot;trials_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span>
         <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span> <span class="o">+</span> <span class="n">file_app</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">))</span>
 

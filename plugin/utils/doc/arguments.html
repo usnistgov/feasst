@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>utils/include/arguments &mdash; FEASST v0.19.0 documentation</title>
+  <title>utils/include/arguments &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
@@ -268,6 +268,15 @@
 </style>
 <div class="section" id="utils-include-arguments">
 <h1>utils/include/arguments<a class="headerlink" href="#utils-include-arguments" title="Permalink to this headline">¶</a></h1>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Defines</p>
+<dl class="cpp macro">
+<dt id="c.FEASST_CHECK_ALL_USED">
+<span class="target" id="arguments_8h_1a4c2d53478786220add820e34a764b116"></span><code class="sig-name descname">FEASST_CHECK_ALL_USED</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_CHECK_ALL_USED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check that all arguments are used. </p>
+</dd></dl>
+
+</div>
 <dl class="cpp type">
 <dt id="_CPPv46feasst">
 <span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
@@ -366,12 +375,6 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst14check_all_usedERK7argtype">
-<span class="target" id="namespacefeasst_1a7ae6b2106441aa08a76944c8527af455"></span>void <code class="sig-name descname">check_all_used</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst14check_all_usedERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that all arguments are used. </p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt id="_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist">
 <span class="target" id="namespacefeasst_1aebbed83ae486bd5fca53c0d4de494d84"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />std::shared_ptr&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist" title="feasst::feasst::parse::T">T</a>&gt; <code class="sig-name descname">parse</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist" title="feasst::feasst::parse::T">T</a> *<em>obj</em>, <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist">arglist</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>If args contains derived class of T, return factory pointer and remove from args. </p>
@@ -387,6 +390,30 @@
 <dt id="_CPPv4N6feasst6feasst15line_to_argtypeEKNSt6stringE">
 <span class="target" id="namespacefeasst_1a4093eefca42e5f2e6c68f3aae849c879"></span><a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <code class="sig-name descname">line_to_argtype</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>line</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15line_to_argtypeEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>convert a space-delimited string into argtype </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst13replace_valueEKNSt6stringEKNSt6stringEP7arglist">
+<span class="target" id="namespacefeasst_1a934148e9648fb937cb362322eaf48cd6"></span>void <code class="sig-name descname">replace_value</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>search</em>, <em class="property">const</em> std::string <em>replace</em>, <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist">arglist</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst13replace_valueEKNSt6stringEKNSt6stringEP7arglist" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Find all values equal to “search” in args and replace with “replace”. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst16replace_in_valueERKNSt6stringERKNSt6stringEP7arglist">
+<span class="target" id="namespacefeasst_1a3a24849895706a4cdeff9a08eca8adcc"></span>void <code class="sig-name descname">replace_in_value</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>from</em>, <em class="property">const</em> std::string &amp;<em>to</em>, <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist">arglist</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16replace_in_valueERKNSt6stringERKNSt6stringEP7arglist" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Find all values that contain “search” in args and replace with “replace”. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst17parse_dimensionalERKNSt6stringEP7argtypeKi">
+<span class="target" id="namespacefeasst_1a5badf6ebf274067bc83bcdd6e12e18a1"></span>std::vector&lt;double&gt; <code class="sig-name descname">parse_dimensional</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> int <em>max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst17parse_dimensionalERKNSt6stringEP7argtypeKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read data from arguments beginning with key and counting from 0 up. For example, “{{“x0”, “1”}, {“x1”, “2”}}” will return {1, 2} vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst10parse_lineEKNSt6stringEP7argtypePb">
+<span class="target" id="namespacefeasst_1a221d543ac9dc05376e059367aedccc32"></span>std::pair&lt;std::string, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>&gt; <code class="sig-name descname">parse_line</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>line</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>variables</em>, bool *<em>assign_to_list</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst10parse_lineEKNSt6stringEP7argtypePb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parse a text interface line. These typically begin with an object Name, then space-separated arguments. First, look for set_variable, to generate a list of variables to use for name substitution. Finally, replace any value beginnig with /feasst with the <a class="reference internal" href="io.html#namespacefeasst_1acd9da1f51a54bf39c2005aa94a79a0eb"><span class="std std-ref">install_dir()</span></a>. </p>
 </dd></dl>
 
 </div>

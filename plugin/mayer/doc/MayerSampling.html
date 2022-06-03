@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>MayerSampling &mdash; FEASST v0.19.0 documentation</title>
+  <title>MayerSampling &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -274,8 +274,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13MayerSampling11is_acceptedERK10AcceptanceRK6SystemP6Random">
-<span class="target" id="classfeasst_1_1MayerSampling_1a3c9a357f2876f54c5612001009195e2d"></span>bool <code class="sig-name descname">is_accepted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> &amp;<em>acceptance_</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13MayerSampling11is_acceptedERK10AcceptanceRK6SystemP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst13MayerSampling11is_acceptedERK6SystemP10AcceptanceP6Random">
+<span class="target" id="classfeasst_1_1MayerSampling_1a1e6d175c26013492c1b1fde09c48158d"></span>bool <code class="sig-name descname">is_accepted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> *<em>acceptance</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13MayerSampling11is_acceptedERK6SystemP10AcceptanceP6Random" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return whether or not the trial attempt should be accepted. </p>
 </dd></dl>
 
@@ -303,6 +303,12 @@
 <dd><p>Return the block standard deviation of the second_virial_ratio. This is computed using the error propogation formula variance formula:</p>
 <p><span class="math notranslate nohighlight">\(f = mayer/mayer_ref\)</span></p>
 <p><span class="math notranslate nohighlight">\(\sigma_f = \sqrt{(\sigma_{mayer}/mayer_ref)^2 + (f\sigma_{mayer_ref}/mayer_ref)^2}\)</span> </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13MayerSampling5writeEv">
+<span class="target" id="classfeasst_1_1MayerSampling_1ac3d4d4373381e49169316b24e2e815ec"></span>std::string <code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13MayerSampling5writeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a human-readable output of all data (not as brief as status). </p>
 </dd></dl>
 
 </div>

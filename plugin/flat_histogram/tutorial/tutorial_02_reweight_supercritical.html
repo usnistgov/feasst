@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.19.0 documentation</title>
+  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Analysis of a two-phase (phase separated) simulation" href="tutorial_3_reweight_phase_separation.html" />
-    <link rel="prev" title="Grand canonical ensemble transition-matrix Monte Carlo" href="tutorial_1_lj_gcmc.html" />
+    <link rel="next" title="Analysis of a two-phase (phase separated) simulation" href="tutorial_03_reweight_phase_separation.html" />
+    <link rel="prev" title="Grand canonical ensemble transition-matrix Monte Carlo" href="tutorial_01_lj_gcmc.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -117,14 +117,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="tutorial_10_hs.html">Analysis of a hard sphere simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Analysis of a one-phase (supercritical) simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_03_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_04_lj_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_05_spce_tm_parallel.html">Grand Canonical Flat Histogram Simulation of SPC/E</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_06_rpm_tm_parallel.html">Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
@@ -518,57 +520,45 @@ due to statistical error.</p>
 <p>We begin with canonical ensemble average properties at each value of <span class="math notranslate nohighlight">\(N\)</span> as well as the probability to observe this <span class="math notranslate nohighlight">\(N\)</span> for a given <span class="math notranslate nohighlight">\(\mu\)</span>. From the plots below, we can estimate our most probable state is approximately <span class="math notranslate nohighlight">\(N=310\)</span>, with an average energy of approximately <span class="math notranslate nohighlight">\(-1250\)</span>. But there is a more rigorous way to compute grand canonical ensemble averages as described below, which will yield a more precise result and, with the help of histogram reweighting, will yield
 properties continuously in <span class="math notranslate nohighlight">\(N\)</span>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
-<span class="n">dfsrsw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/flat_histogram/test/data/stat150.csv&quot;</span><span class="p">)</span>
-<span class="n">gce</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">GrandCanonicalEnsemble</span><span class="p">(</span>
-    <span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
-                                          <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])})),</span>
-    <span class="n">fst</span><span class="o">.</span><span class="n">LnProbability</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">DoubleVector</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">])),</span>
-    <span class="o">-</span><span class="mf">1.568214</span><span class="p">)</span>
-
-<span class="c1"># plot macrostate and energy</span>
-<span class="c1"># Note: any line starting with % is only to be used with ipynb</span>
-<span class="c1"># import matplotlib.pyplot as plt  # uncomment this line if using plain python, not ipynb</span>
+<span class="n">dfsrsw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../test/data/stat150.csv&quot;</span><span class="p">)</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;lnPI&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">310</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">310</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="o">-</span><span class="mi">1250</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.lines.Line2D at 0x7f422d543860&gt;
+&lt;matplotlib.lines.Line2D at 0x7fae55409280&gt;
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_2_reweight_supercritical_1_1.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_2_reweight_supercritical_1_1.svg" /></div>
+<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_1_1.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_1_1.svg" /></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_2_reweight_supercritical_1_2.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_2_reweight_supercritical_1_2.svg" /></div>
+<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_1_2.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_1_2.svg" /></div>
 </div>
 <p>Note that this macrostate distribution has only one maximum and therefore only one stable phase. The next tutorial will consider a lower temperature with phase separation.</p>
 <div class="section" id="Grand-canonical-ensemble-averages">
@@ -586,21 +576,17 @@ properties continuously in <span class="math notranslate nohighlight">\(N\)</spa
 <p>The grand canonical averaged quantity, <span class="math notranslate nohighlight">\(A\)</span>, must be extensive. To obtain an intensive quantity, divide <span class="math notranslate nohighlight">\(\langle A\rangle_{\mu VT}\)</span> by <span class="math notranslate nohighlight">\(\langle N\rangle_{\mu VT}\)</span>.</p>
 <p>As an example, <span class="math notranslate nohighlight">\(\langle N\rangle_{\mu VT}\)</span> and <span class="math notranslate nohighlight">\(\langle U\rangle_{\mu VT}\)</span> are computed as:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">N_muvt</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
+<span></span><span class="n">N_muvt</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N =&#39;</span><span class="p">,</span> <span class="n">N_muvt</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">N_muvt</span> <span class="o">==</span> <span class="mf">310.4179421879679</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">N_muvt</span> <span class="o">==</span> <span class="mf">310.41794218796804</span><span class="p">)</span>
 
-<span class="n">U_muvt</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">DoubleVector</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]))</span>
+<span class="n">U_muvt</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U =&#39;</span><span class="p">,</span> <span class="n">U_muvt</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">U_muvt</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1241.6148817462106</span><span class="p">)</span>
-
-<span class="c1"># exercise: verify calculations in python</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">N_muvt</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mf">1e-11</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">U_muvt</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mf">1e-11</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">U_muvt</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1241.6148817462101</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -609,8 +595,8 @@ properties continuously in <span class="math notranslate nohighlight">\(N\)</spa
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-N = 310.4179421879679
-U = -1241.6148817462106
+N = 310.41794218796804
+U = -1241.6148817462101
 </pre></div></div>
 </div>
 <p>Now that the grand canonical ensemble averages are computed for the particular value of the chemical potential, <span class="math notranslate nohighlight">\(\mu\)</span>, the macrostate distribution can be reweighted to different chemical potentials, <span class="math notranslate nohighlight">\(\mu\)</span>. Thus, with a continuous variation in <span class="math notranslate nohighlight">\(\mu\)</span> one can also obtain a continuous variation in the grand canonical ensemble averages, within the limits of <span class="math notranslate nohighlight">\(N_{min}\)</span>, <span class="math notranslate nohighlight">\(N_{max}\)</span>.</p>
@@ -627,39 +613,32 @@ U = -1241.6148817462106
 \[\ln\Pi(N; \mu, V, \beta) = \ln\Pi_0(N; \mu_0, V, \beta) + N\beta(\mu - \mu_0) + C.\]</div>
 <p>Thus, to reweight a histogram to a different value of <span class="math notranslate nohighlight">\(\mu\)</span>, use the equation above and remove the constant by renormalization, <span class="math notranslate nohighlight">\(\sum \Pi = 1\)</span>. The thermodynamic conjugate to <span class="math notranslate nohighlight">\(N\)</span> is <span class="math notranslate nohighlight">\(\beta\mu\)</span>, while the conjugate of <span class="math notranslate nohighlight">\(U\)</span> is <span class="math notranslate nohighlight">\(-\beta\)</span>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># reweight to a different mu and calculate the average number of particles and energy</span>
 <span class="n">beta_mu_rw</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.333333333333333333</span>
-<span class="c1"># thermodynamic conjugate to N is beta*mu</span>
-<span class="n">delta_conjugate</span> <span class="o">=</span> <span class="n">beta_mu_rw</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">beta_mu</span><span class="p">()</span>
-<span class="n">gce</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="n">delta_conjugate</span><span class="p">)</span>
+<span class="n">beta_mu</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.568214</span>
 
-<span class="n">N_muvt_rw</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
+<span class="c1"># thermodynamic conjugate to N is beta*mu</span>
+<span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPI&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">beta_mu_rw</span> <span class="o">-</span> <span class="n">beta_mu</span><span class="p">)</span> <span class="o">-</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>  <span class="c1"># avoid negative log</span>
+<span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">])))</span>   <span class="c1"># renormalize</span>
+
+<span class="n">N_muvt_rw</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPIrw&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N(beta_mu =&#39;</span><span class="p">,</span> <span class="n">beta_mu_rw</span><span class="p">,</span> <span class="s1">&#39;) =&#39;</span><span class="p">,</span> <span class="n">N_muvt_rw</span><span class="p">)</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">N_muvt_rw</span> <span class="o">-</span> <span class="mf">153.44171767002885</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-11</span><span class="p">)</span>
 
-<span class="n">U_muvt_rw</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">DoubleVector</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]))</span>
+<span class="n">U_muvt_rw</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPIrw&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U(beta_mu =&#39;</span><span class="p">,</span> <span class="n">beta_mu_rw</span><span class="p">,</span> <span class="s1">&#39;) =&#39;</span><span class="p">,</span> <span class="n">U_muvt_rw</span><span class="p">)</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">U_muvt_rw</span> <span class="o">+</span> <span class="mf">321.87522543435364</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">)</span>
-
-<span class="c1"># exercise: verify calculations in python</span>
-<span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPI&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">beta_mu_rw</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">original_conjugate</span><span class="p">())</span>\
-                 <span class="o">-</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>  <span class="c1"># avoid negative log</span>
-<span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">])))</span>   <span class="c1"># renormalize</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">N_muvt_rw</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPIrw&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mf">1e-11</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">U_muvt_rw</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPIrw&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">&lt;</span> <span class="mf">1e-11</span><span class="p">)</span>
 
 <span class="c1"># plot</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;lnPIrw&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">N_muvt_rw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">N_muvt_rw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">U_muvt_rw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
 </pre></div>
 </div>
 </div>
@@ -668,30 +647,30 @@ U = -1241.6148817462106
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-N(beta_mu = -2.3333333333333335 ) = 153.44171767002885
-U(beta_mu = -2.3333333333333335 ) = -321.87522543435364
+N(beta_mu = -2.3333333333333335 ) = 153.4417176700283
+U(beta_mu = -2.3333333333333335 ) = -321.8752254343525
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.lines.Line2D at 0x7f41fe5e5630&gt;
+&lt;matplotlib.lines.Line2D at 0x7fae5554ce50&gt;
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_2_reweight_supercritical_5_2.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_2_reweight_supercritical_5_2.svg" /></div>
+<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_5_2.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_5_2.svg" /></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_2_reweight_supercritical_5_3.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_2_reweight_supercritical_5_3.svg" /></div>
+<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_5_3.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_5_3.svg" /></div>
 </div>
 <p>Note that decreasing the chemical potential leads to a smaller number of particles.</p>
 <p>When there are multiple peaks in <span class="math notranslate nohighlight">\(\ln\Pi\)</span> whose locations are nearly invariant to system size, this often corresponds to different macroscopic phases.</p>
@@ -704,8 +683,8 @@ U(beta_mu = -2.3333333333333335 ) = -321.87522543435364
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="tutorial_3_reweight_phase_separation.html" class="btn btn-neutral float-right" title="Analysis of a two-phase (phase separated) simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="tutorial_1_lj_gcmc.html" class="btn btn-neutral float-left" title="Grand canonical ensemble transition-matrix Monte Carlo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial_03_reweight_phase_separation.html" class="btn btn-neutral float-right" title="Analysis of a two-phase (phase separated) simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial_01_lj_gcmc.html" class="btn btn-neutral float-left" title="Grand canonical ensemble transition-matrix Monte Carlo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>TrialMorphExpanded &mdash; FEASST v0.19.0 documentation</title>
+  <title>TrialMorphExpanded &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -265,7 +265,9 @@
 <dt id="_CPPv4N6feasst18TrialMorphExpandedE">
 <span class="target" id="classfeasst_1_1TrialMorphExpanded"></span><em class="property">class </em><code class="sig-name descname">TrialMorphExpanded</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst18TrialMorphExpandedE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Grand canonical insert/deletion by gradual growth/shrink with expanded ensembles.</p>
-<p>As currently implemented, only one <a class="reference internal" href="MacrostateMorph.html#classfeasst_1_1MacrostateMorph"><span class="std std-ref">MacrostateMorph</span></a> can be used at a time, due to the way that the current state is tracked. </p>
+<p>As currently implemented, only one <a class="reference internal" href="MacrostateMorph.html#classfeasst_1_1MacrostateMorph"><span class="std std-ref">MacrostateMorph</span></a> can be used at a time, due to the way that the current state is tracked.</p>
+<p>While this methodology is essentially equivalent to the growth expanded ensemble, it was renamed morph because it is more general than adding sites to a polymer chain. However, each particle type could be a polymer chain with a variable number of interacting sites (e.g., modified epsilon/sigma). Thus morph expanded is equivalent to growth expanded in this special case.</p>
+<p>Each particle type in the growth sequence can have simultaneous changes in <a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1ModelParams"><span class="std std-ref">ModelParams</span></a> such as <a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1Epsilon"><span class="std std-ref">Epsilon</span></a>, <a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1Sigma"><span class="std std-ref">Sigma</span></a>, <a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1CutOff"><span class="std std-ref">CutOff</span></a> and <a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1Charge"><span class="std std-ref">Charge</span></a> as the particle is slowly morphed from an particle with a high insertion/deletion acceptance to the desired particle. Note that the chemical potential of each particle type may be manually-tuned in an attempt to reduce the free-energy differences during morph trials. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">

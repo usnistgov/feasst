@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Beta expanded ensemble &mdash; FEASST v0.19.0 documentation</title>
+  <title>Beta expanded ensemble &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -510,47 +510,75 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Beta-expanded-ensemble">
 <h1>Beta expanded ensemble<a class="headerlink" href="#Beta-expanded-ensemble" title="Permalink to this headline">¶</a></h1>
 <p>Example expanded ensemble simulation inverse temperature.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
-
-<span class="n">mc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
-                                       <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.2&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
-<span class="n">beta_min</span> <span class="o">=</span> <span class="mf">0.8</span>
-<span class="n">beta_max</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;beta_min&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s2">&quot;beta_max&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">}</span>
 <span class="n">beta_num</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">delta_beta</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">beta_max</span> <span class="o">-</span> <span class="n">beta_min</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">beta_num</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeFlatHistogram</span><span class="p">(</span>
-    <span class="n">fst</span><span class="o">.</span><span class="n">MakeMacrostateBeta</span><span class="p">(</span>
-        <span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">delta_beta</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta_max</span><span class="p">),</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta_min</span><span class="p">)}))),</span>
-    <span class="n">fst</span><span class="o">.</span><span class="n">MakeWLTM</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;collect_flatness&quot;</span><span class="p">:</span> <span class="s2">&quot;18&quot;</span><span class="p">,</span> <span class="s2">&quot;min_flatness&quot;</span><span class="p">:</span> <span class="s2">&quot;22&quot;</span><span class="p">,</span> <span class="s2">&quot;min_sweeps&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialAdd</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialBeta</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;fixed_beta_change&quot;</span><span class="p">:</span> <span class="n">delta_beta</span><span class="p">})))</span>
-<span class="n">steps_per</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj_beta&quot;</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaUpdater</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaWriter</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj_beta_crit.txt&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;file_name_append_phase&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeEnergy</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-    <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj_beta_energy&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;file_name_append_phase&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;steps_per_update&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="n">steps_per</span><span class="p">,</span>
-    <span class="s2">&quot;multistate&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">))</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;delta_beta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;beta_max&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;beta_min&quot;</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">beta_num</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">MonteCarlo</span>
+<span class="s2">Configuration cubic_box_length 8 particle_type0 /feasst/forcefield/lj.fstprt</span>
+<span class="s2">Potential Model LennardJones</span>
+<span class="s2">Potential VisitModel LongRangeCorrections</span>
+<span class="s2">ThermoParams beta 1.2 chemical_potential0 1</span>
+<span class="s2">FlatHistogram Macrostate MacrostateBeta width </span><span class="si">{delta_beta}</span><span class="s2"> max </span><span class="si">{beta_max}</span><span class="s2"> min </span><span class="si">{beta_min}</span><span class="s2"> </span><span class="se">\</span>
+<span class="s2">    Bias WLTM collect_flatness 18 min_flatness 22 min_sweeps 10</span>
+<span class="s2">TrialTranslate weight 1 tunable_param 1</span>
+<span class="s2">TrialAdd particle_type 0</span>
+<span class="s2">Run until_num_particles 10</span>
+<span class="s2">RemoveTrial name TrialAdd</span>
+<span class="s2">TrialBeta fixed_beta_change </span><span class="si">{delta_beta}</span><span class="s2"></span>
+<span class="s2">set_variable trials_per 1e4</span>
+<span class="s2">Log trials_per trials_per file_name lj_beta.txt</span>
+<span class="s2">Movie trials_per trials_per file_name lj_beta.xyz</span>
+<span class="s2">CheckEnergy trials_per trials_per</span>
+<span class="s2">Tune</span>
+<span class="s2">CriteriaUpdater trials_per trials_per</span>
+<span class="s2">CriteriaWriter trials_per trials_per file_name lj_beta_crit.txt file_name_append_phase true</span>
+<span class="s2">Energy file_name lj_beta_energy file_name_append_phase true trials_per_update 1 </span><span class="se">\</span>
+<span class="s2">    trials_per_write trials_per multistate true</span>
+<span class="s2">Run num_trials 1e6</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# FEASST version: v0.19.0-74-g840261d210-dirty-hwh/newtutorials
+Configuration cubic_box_length 8 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+ThermoParams beta 1.2 chemical_potential0 1
+FlatHistogram Bias WLTM Macrostate MacrostateBeta collect_flatness 18 max 1.2 min 0.8 min_flatness 22 min_sweeps 10 width 0.09999999999999998
+TrialTranslate tunable_param 1 weight 1
+TrialAdd particle_type 0
+Run until_num_particles 10
+# initializing random number generator with seed: 1652882325
+RemoveTrial name TrialAdd
+TrialBeta fixed_beta_change 0.09999999999999998
+Log file_name lj_beta.txt trials_per 1e4
+Movie file_name lj_beta.xyz trials_per 1e4
+CheckEnergy trials_per 1e4
+Tune
+CriteriaUpdater trials_per 1e4
+CriteriaWriter file_name lj_beta_crit.txt file_name_append_phase true trials_per 1e4
+Energy file_name lj_beta_energy file_name_append_phase true multistate true trials_per_update 1 trials_per_write 1e4
+Run num_trials 1e6
+
+ exit: 0
+</pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>

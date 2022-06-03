@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>utils/include/io &mdash; FEASST v0.19.0 documentation</title>
+  <title>utils/include/io &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
@@ -360,6 +360,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst7replaceERKNSt6stringERKNSt6stringEPNSt6stringE">
+<span class="target" id="namespacefeasst_1a86efa79ead3f49e28a490ff87e38bd7a"></span>bool <code class="sig-name descname">replace</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>from</em>, <em class="property">const</em> std::string &amp;<em>to</em>, std::string *<em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7replaceERKNSt6stringERKNSt6stringEPNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Replace substring “from” in “str” to “to”. Return true if replaced. <a class="reference external" href="https://stackoverflow.com/questions/3418231/replace-part-of-a-string-with-another-string">https://stackoverflow.com/questions/3418231/replace-part-of-a-string-with-another-string</a> </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst6feasst10str_to_intERKNSt6stringE">
 <span class="target" id="namespacefeasst_1a4698cc2a492b6bf10bd0c98e1e6138e0"></span>int <code class="sig-name descname">str_to_int</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst10str_to_intERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Convert a string to an integer. </p>
@@ -375,6 +381,12 @@
 <dt id="_CPPv4N6feasst6feasst11str_to_boolERKNSt6stringE">
 <span class="target" id="namespacefeasst_1ac3250df340fa154e922373a4689d28af"></span>bool <code class="sig-name descname">str_to_bool</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst11str_to_boolERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Convert a string to a boolean. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst16sized_int_to_strEKiKi">
+<span class="target" id="namespacefeasst_1af712eba4bcb0835cac14b6d6fc539f3e"></span>std::string <code class="sig-name descname">sized_int_to_str</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num</em>, <em class="property">const</em> int <em>largest_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16sized_int_to_strEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print an integer with the maximum number of digits as given largest integer. </p>
 </dd></dl>
 
 </div>

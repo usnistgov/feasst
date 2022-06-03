@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>README &mdash; FEASST v0.19.0 documentation</title>
+  <title>README &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tutorial" href="tutorial/tutorial.html" />
+    <link rel="next" title="Tutorials" href="tutorial/README.html" />
     <link rel="prev" title="FEASST: Free Energy and Advanced Sampling Simulation Toolkit" href="index.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -106,15 +106,12 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tutorial">Tutorial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#build-from-source-code">Build from source code</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#python-install">Python install</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#c-install">C++ install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-install-e-g-compile-the-executables">How to install (e.g., compile the executables).</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#troubleshooting-install">Troubleshooting install</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#macos-mojave">macOS Mojave</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#centos-7">CentOS 7</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#windows-10">Windows 10</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ubuntu-16">Ubuntu 16</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ubuntu-18-or-20">Ubuntu 18 or 20</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ubuntu-18-20-and-macos-mojave">Ubuntu 18, 20 and macOS Mojave</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cray-nersc-cori">Cray (NERSC CORI)</a></li>
 </ul>
 </li>
@@ -131,7 +128,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield and Units</a></li>
@@ -310,105 +307,38 @@ Some features include but are not limited to the following:</p>
 </div>
 <div class="section" id="tutorial">
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="tutorial/tutorial.html">Tutorial</a> describes an example Lennard-Jones Monte Carlo simulation.
-After completing this basic tutorial, check out tutorials specific to each <a class="reference internal" href="plugin/README.html"><span class="doc">Plugins</span></a>.
-For example, see the tutorials of <a class="reference external" href="plugin/system/README.html">System</a>, <a class="reference external" href="plugin/monte_carlo/README.html">MonteCarlo</a> and <a class="reference external" href="plugin/flat_histogram/README.html">FlatHistogram</a>.</p>
+<p><a class="reference external" href="tutorial/README.html">Tutorial</a> describes an example Lennard-Jones Monte Carlo simulation.
+Also check out tutorials for <a class="reference internal" href="plugin/README.html"><span class="doc">Plugins</span></a>.
+In particular, <a class="reference external" href="plugin/monte_carlo/README.html">MonteCarlo</a> and <a class="reference external" href="plugin/flat_histogram/README.html">FlatHistogram</a>.</p>
 <p>The search box for the html documentation was disabled for security reasons.
 But the html is generated entirely from the downloaded code.
-Thus, the grep command is a great option to search for more information on keywords.
+Thus, the bash command “grep” is a great option to search for more information on classes and their arguments.
 For example, if you would like more information on <a class="reference external" href="plugin/math/doc/RandomMT19937.html">RandomMT19937</a> but are not sure where to find it, you could search headers files</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>grep -r --include<span class="o">=</span>*.h RandomMT19937
 </pre></div>
 </div>
-<p>And find that the class is part of the <a class="reference external" href="plugin/math/README.html">Math</a> plugin.</p>
+<p>And find that the class is part of the <a class="reference external" href="plugin/math/README.html">Math</a> plugin.
+Searching the GitHub repository is another option.</p>
 </div>
-<div class="section" id="build-from-source-code">
-<h2>Build from source code<a class="headerlink" href="#build-from-source-code" title="Permalink to this headline">¶</a></h2>
-<p>To begin, [apt/yum/brew] install g++ cmake git.</p>
-<div class="section" id="python-install">
-<h3>Python install<a class="headerlink" href="#python-install" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>SWIG is required. Version 3.0.12 is recommended if your current SWIG version does not work properly.</p></li>
-<li><p>Python 3 is recommended.</p></li>
-<li><p>CMake attempts to find the python libraries during compilation.
-But you may want to specify them manually.</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
+<div class="section" id="how-to-install-e-g-compile-the-executables">
+<h2>How to install (e.g., compile the executables).<a class="headerlink" href="#how-to-install-e-g-compile-the-executables" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>apt/yum/brew<span class="o">]</span> install g++ cmake git
+git clone https://github.com/usnistgov/feasst.git
 mkdir feasst/build
 <span class="nb">cd</span> feasst/build
-
-<span class="c1"># install python virtual environment for feasst usage</span>
-sudo apt install python3-dev
-mkdir ~/.pyenv
-<span class="nb">pushd</span> ~/.pyenv
-python3 -m venv feasst
-<span class="nb">source</span> ~/.pyenv/feasst/bin/activate <span class="c1"># may add this to your .bash_profile</span>
-pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
-<span class="nb">popd</span>
-<span class="c1"># # alternatively, using Anaconda:</span>
-<span class="c1"># conda env create -f ../py/feasst.yml</span>
-<span class="c1"># conda activate feasst</span>
-
-cmake -DUSE_SWIG<span class="o">=</span>ON ..
-<span class="c1"># alternatively, for manually setting the python path</span>
-<span class="c1"># cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.[so/dylib] ..</span>
-
-make -j4
-make install -j4
-python ../py/test.py <span class="c1"># optional test</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="c-install">
-<h3>C++ install<a class="headerlink" href="#c-install" title="Permalink to this headline">¶</a></h3>
-<p>First, install the C++ library.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
-mkdir feasst/build
-<span class="nb">cd</span> feasst/build
-cmake ..          <span class="c1"># optionally, include -DUSE_GTEST=ON for gtest</span>
-make install -j4
-make <span class="nb">test</span>         <span class="c1"># optional test</span>
-</pre></div>
-</div>
-<p>Then, compile the specific simulation you wish to run (e.g., tutorial).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /path/to/feasst/tutorial/
-mkdir build<span class="p">;</span> <span class="nb">cd</span> build
 cmake ..
-make
-./tutorial
+make install -j4
+pip install jupyter matplotlib pandas scipy <span class="c1"># optional for tutorials</span>
 </pre></div>
 </div>
-<p>CMake defaults to install in the build directory.
-But you can also specify the path as follows.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span>/path/to/install/dir ..
-</pre></div>
-</div>
-<p>Later, when you build your tutorial executable, if your build directory is not <cite>~/feasst/build</cite>, then specify the path to the build directory as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/install/dir ..
-</pre></div>
-</div>
-<p>Sometimes running the executable results in an error that a plugin cannot be found.
-In that case <cite>LD_LIBRARY_PATH</cite> needs to be set as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/path/to/feasst/build/:</span><span class="nv">$LD_LIBRARY_PATH</span><span class="s2"></span>
-</pre></div>
-</div>
-</div>
+<p>The executables <cite>fst</cite>, which is used to start a simulation, and <cite>rst</cite>, which is used to restart a simulation, should now be located in <cite>/path/to/feasst/build/bin/</cite>.</p>
 <div class="section" id="troubleshooting-install">
 <h3>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Permalink to this headline">¶</a></h3>
 <p>Please <a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us if you run into an issue not listed below.</p>
-<div class="section" id="macos-mojave">
-<h4>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p>SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst.
-Try SWIG version 3 instead.</p></li>
-<li><p>Sometimes CMake has trouble finding python, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so</p></li>
-</ul>
-</div>
 <div class="section" id="centos-7">
 <h4>CentOS 7<a class="headerlink" href="#centos-7" title="Permalink to this headline">¶</a></h4>
-<p>CMake and SWIG versions are usually too old.
-Try the command cmake3 instead of cmake.
-Otherwise, install SWIG 3.</p>
+<p>CMake version is usually too old.
+Try the command cmake3 instead of cmake.</p>
 </div>
 <div class="section" id="windows-10">
 <h4>Windows 10<a class="headerlink" href="#windows-10" title="Permalink to this headline">¶</a></h4>
@@ -421,13 +351,12 @@ Otherwise, install SWIG 3.</p>
 <h4>Ubuntu 16<a class="headerlink" href="#ubuntu-16" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>Update to CMake 3 (<a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a>)</p></li>
-<li><p>sudo apt install swig</p></li>
 </ul>
 </div>
-<div class="section" id="ubuntu-18-or-20">
-<h4>Ubuntu 18 or 20<a class="headerlink" href="#ubuntu-18-or-20" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="ubuntu-18-20-and-macos-mojave">
+<h4>Ubuntu 18, 20 and macOS Mojave<a class="headerlink" href="#ubuntu-18-20-and-macos-mojave" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>We are not aware of any issues with an Ubuntu 18 or 20 install.</p></li>
+<li><p>We are not aware of any issues with these OS.</p></li>
 </ul>
 </div>
 <div class="section" id="cray-nersc-cori">
@@ -487,7 +416,7 @@ Otherwise, install SWIG 3.</p>
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="tutorial/tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial/README.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="index.html" class="btn btn-neutral float-left" title="FEASST: Free Energy and Advanced Sampling Simulation Toolkit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

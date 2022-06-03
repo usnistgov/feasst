@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>AnalyzeFactory &mdash; FEASST v0.19.0 documentation</title>
+  <title>AnalyzeFactory &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -122,20 +122,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -158,6 +152,12 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -329,6 +329,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst14AnalyzeFactory6removeEKi">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1a1b9dec21872bc96453191dda8da2587b"></span>void <code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory6removeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove an <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> object. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst14AnalyzeFactory3numEv">
 <span class="target" id="classfeasst_1_1AnalyzeFactory_1a03426fb455050c9896005f935600bb1a"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14AnalyzeFactory3numEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number. </p>
@@ -344,6 +350,18 @@
 <dt id="_CPPv4NK6feasst14AnalyzeFactory7analyzeEKi">
 <span class="target" id="classfeasst_1_1AnalyzeFactory_1af5334a8a4ac1acd971e812c7d617b4df"></span><em class="property">const</em> <a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a> &amp;<code class="sig-name descname">analyze</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14AnalyzeFactory7analyzeEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return an <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> object by index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst14AnalyzeFactory13write_to_fileERK8CriteriaRK6SystemRK12TrialFactory">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1a2a54115e701dd9a227eab7e60a3851e7"></span>void <code class="sig-name descname">write_to_file</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> &amp;<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory13write_to_fileERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write all <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> immediately. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst14AnalyzeFactory13adjust_boundsEKbRKNSt6vectorIiEEP14AnalyzeFactory">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1ac3c3e5980292273023883724d3aaa238"></span>void <code class="sig-name descname">adjust_bounds</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>adjusted_up</em>, <em class="property">const</em> std::vector&lt;int&gt; &amp;<em>states</em>, <a class="reference internal" href="#_CPPv4N6feasst14AnalyzeFactoryE" title="feasst::AnalyzeFactory">AnalyzeFactory</a> *<em>analyze_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory13adjust_boundsEKbRKNSt6vectorIiEEP14AnalyzeFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For use with <a class="reference internal" href="../../flat_histogram/doc/CollectionMatrixSplice.html#classfeasst_1_1CollectionMatrixSplice"><span class="std std-ref">CollectionMatrixSplice</span></a>, transfer multistate between threads. </p>
 </dd></dl>
 
 <dl class="cpp function">

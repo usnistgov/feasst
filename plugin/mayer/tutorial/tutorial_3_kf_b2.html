@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Analysis of a two-phase (phase separated) simulation &mdash; FEASST v0.19.0 documentation</title>
+  <title>Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Grand canonical ensemble transition-matrix Monte Carlo with SPC/E" href="tutorial_4_spce_gcmc.html" />
-    <link rel="prev" title="Analysis of a one-phase (supercritical) simulation" href="tutorial_2_reweight_supercritical.html" />
+    <link rel="next" title="XTC" href="../../xtc/README.html" />
+    <link rel="prev" title="Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling" href="tutorial_2_ethane.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -115,25 +115,19 @@
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="tutorial_10_hs.html">Analysis of a hard sphere simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Analysis of a two-phase (phase separated) simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Mayer</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../doc/MayerSampling.html">MayerSampling</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
@@ -222,9 +216,9 @@
         
           <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
-          <li><a href="../README.html">Flat histogram</a> &raquo;</li>
+          <li><a href="../README.html">Mayer</a> &raquo;</li>
         
-      <li>Analysis of a two-phase (phase separated) simulation</li>
+      <li>Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -511,32 +505,50 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Analysis-of-a-two-phase-(phase-separated)-simulation">
-<h1>Analysis of a two-phase (phase separated) simulation<a class="headerlink" href="#Analysis-of-a-two-phase-(phase-separated)-simulation" title="Permalink to this headline">¶</a></h1>
-<p>In this previous example, we analyzed a simulation conducted above the critical temperature. In this tutorial, we now consider an LJ simulation with potentially two phases at <span class="math notranslate nohighlight">\(T^*=1.2\)</span>.</p>
+<div class="section" id="Second-virial-coefficient-calculation-of-a-Kern-Frenkel-patch-using-Mayer-Sampling">
+<h1>Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling<a class="headerlink" href="#Second-virial-coefficient-calculation-of-a-Kern-Frenkel-patch-using-Mayer-Sampling" title="Permalink to this headline">¶</a></h1>
+<p>Here, we reproduce the virial coefficient of a Kern-Frenkel patchy particle and compare to Eq. 8 of <a class="reference external" href="https://doi.org/10.1063/1.1569473">https://doi.org/10.1063/1.1569473</a></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
-<span class="kn">import</span> <span class="nn">pyfeasst</span>
+<span></span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;trials_per&quot;</span><span class="p">:</span> <span class="mf">1e4</span><span class="p">}</span> <span class="c1"># 1/K</span>
 
-<span class="c1"># load the SRSW data from file</span>
-<span class="n">dfsrsw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/flat_histogram/test/data/stat120.csv&quot;</span><span class="p">)</span>
-<span class="n">ln_prob</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">LnProbability</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">DoubleVector</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">]))</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">1.2</span>
+<span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">MonteCarlo</span>
+<span class="s2">Configuration cubic_box_length 100 particle_type0 /feasst/plugin/patch/forcefield/janus.fstprt </span><span class="se">\</span>
+<span class="s2">    add_particles_of_type0 2 </span><span class="se">\</span>
+<span class="s2">    group0 first first_particle_index 0 </span><span class="se">\</span>
+<span class="s2">    group1 centers centers_site_type0 0</span>
+<span class="s2">Potential Model HardSphere group centers</span>
+<span class="s2">Potential Model SquareWell VisitModel VisitModel VisitModelInner VisitModelInnerPatch group centers</span>
+<span class="s2">RefPotential Model HardSphere group centers</span>
+<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"></span>
+<span class="s2">MayerSampling</span>
+<span class="s2">TrialTranslate new_only true reference_index 0 tunable_param 1 group first</span>
+<span class="s2">TrialRotate new_only true reference_index 0 tunable_param 40</span>
+<span class="s2">CriteriaWriter trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name patch_b2.txt</span>
+<span class="s2">Log trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name patch.txt</span>
+<span class="s2">MoviePatch trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name patch.xyz</span>
 
-<span class="c1"># plot macrostate and energy</span>
-<span class="c1"># Note: any line starting with % is only to be used with ipynb</span>
-<span class="c1"># import matplotlib.pyplot as plt  # uncomment this line if using plain python, not ipynb</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;lnPI&#39;</span><span class="p">)</span>
-<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
+<span class="s2"># tune trial parameters</span>
+<span class="s2">Tune</span>
+<span class="s2">Run num_trials 1e5</span>
+<span class="s2">RemoveModify name Tune</span>
+
+<span class="s2"># equilibrate</span>
+<span class="s2">Run num_trials 1e6</span>
+
+<span class="s2"># production</span>
+<span class="s2">MayerSampling</span>
+<span class="s2">Run num_trials 1e7</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -544,126 +556,89 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_3_reweight_phase_separation_1_0.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_3_reweight_phase_separation_1_0.svg" /></div>
+<div class="highlight"><pre>
+# FEASST version: v0.19.0-107-gda43557a2e-dirty-hwh/newtutorials
+Configuration add_particles_of_type0 2 centers_site_type0 0 cubic_box_length 100 first_particle_index 0 group0 first group1 centers particle_type0 /home/hwh/feasst/plugin/patch/forcefield/janus.fstprt
+Potential Model HardSphere group centers
+Potential Model SquareWell VisitModel VisitModel VisitModelInner VisitModelInnerPatch group centers
+RefPotential Model HardSphere group centers
+ThermoParams beta 0.1
+MayerSampling
+TrialTranslate group first new_only true reference_index 0 tunable_param 1
+TrialRotate new_only true reference_index 0 tunable_param 40
+CriteriaWriter file_name patch_b2.txt trials_per 10000.0
+Log file_name patch.txt trials_per 10000.0
+MoviePatch file_name patch.xyz trials_per 10000.0
+Tune
+Run num_trials 1e5
+# initializing random number generator with seed: 1653578111
+RemoveModify name Tune
+Run num_trials 1e6
+MayerSampling
+Run num_trials 1e7
+
+ exit: 0
+</pre></div></div>
 </div>
-<p>Note that this macrostate distribution may contain a second maximum depending on the value of the chemical potential. But at the chemical potential simulated, the low density phase is unstable and there is no minimum.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ln_prob</span><span class="o">.</span><span class="n">minima</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>However, a minima appears after reweighting to a lower chemical potential.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">gce</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">GrandCanonicalEnsemble</span><span class="p">(</span>
-    <span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])})),</span>
-    <span class="n">ln_prob</span><span class="p">,</span>
-    <span class="o">-</span><span class="mf">2.902929</span><span class="p">)</span> <span class="c1"># original conjugate, beta_mu = lnz</span>
-<span class="n">gce</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-<span class="n">minima</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">minima</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">minima</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">152</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">minima</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;low density phase&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;high density phase</span><span class="se">\n</span><span class="s1">(more probable)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\ln\Pi$&#39;</span><span class="p">)</span>
-<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
+<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">class</span> <span class="nc">TestMayerSamplingTrimer</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">b2_reduced</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mf">1.5</span><span class="o">**</span><span class="mi">3</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;patch_b2.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">firstline</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+            <span class="n">b2</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="n">firstline</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">b2</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">b2_reduced</span><span class="p">,</span> <span class="n">b2</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio&#39;</span><span class="p">],</span>
+                               <span class="n">delta</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">b2</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio_block_stdev&#39;</span><span class="p">])</span>
+<span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Text(0, 0.5, &#39;$\\ln\\Pi$&#39;)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_3_reweight_phase_separation_5_1.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_3_reweight_phase_separation_5_1.svg" /></div>
-</div>
-<p>Find the chemical potential at phase equilibrium subject to the constraint that the probability of observing the two phases are equal.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">gce</span> <span class="o">=</span> <span class="n">pyfeasst</span><span class="o">.</span><span class="n">find_equilibrium</span><span class="p">(</span><span class="n">gce</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;saturated vapor&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;saturated liquid&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\ln\Pi$&#39;</span><span class="p">)</span>
-<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
-</pre></div>
-</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+test (__main__.TestMayerSamplingTrimer) ...
+</pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Text(0, 0.5, &#39;$\\ln\\Pi$&#39;)
+{&#39;second_virial_ratio&#39;: 0.937239, &#39;second_virial_ratio_block_stdev&#39;: 0.00101948}
+0.937239
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_3_reweight_phase_separation_7_1.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_3_reweight_phase_separation_7_1.svg" /></div>
-</div>
-<p>Compare chemical potential and equilibrium properties with published results.</p>
-<p><a class="reference external" href="https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-long-range">https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-long-range</a></p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mf">3.03</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">beta_mu</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">)</span>
-<span class="n">mins</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">mins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">166</span><span class="p">)</span>
-
-<span class="n">volume</span> <span class="o">=</span> <span class="mi">8</span><span class="o">**</span><span class="mi">3</span>
-<span class="n">pressure</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">beta</span><span class="o">/</span><span class="n">volume</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pressure:&#39;</span><span class="p">,</span> <span class="n">pressure</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.07722559602858005</span> <span class="o">-</span> <span class="n">pressure</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
-
-<span class="c1"># pressure of both phases are equivalent</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1e-5</span><span class="p">)</span>
-
-<span class="n">vapor_density</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span> <span class="c1"># phase 0 is vapor</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;vapor_density:&#39;</span><span class="p">,</span> <span class="n">vapor_density</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.1003523021979188</span> <span class="o">-</span> <span class="n">vapor_density</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
-
-<span class="n">liquid_density</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span> <span class="c1"># phase 1 is liquid</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liquid_density:&#39;</span><span class="p">,</span> <span class="n">liquid_density</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.5631867734067794</span> <span class="o">-</span> <span class="n">liquid_density</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-pressure: 0.077225595915682
-vapor_density: 0.10035230188742573
-liquid_density: 0.563186772959535
+&lt;unittest.main.TestProgram at 0x7f9134066310&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
@@ -675,8 +650,8 @@ liquid_density: 0.563186772959535
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="tutorial_4_spce_gcmc.html" class="btn btn-neutral float-right" title="Grand canonical ensemble transition-matrix Monte Carlo with SPC/E" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="tutorial_2_reweight_supercritical.html" class="btn btn-neutral float-left" title="Analysis of a one-phase (supercritical) simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../xtc/README.html" class="btn btn-neutral float-right" title="XTC" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial_2_ethane.html" class="btn btn-neutral float-left" title="Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

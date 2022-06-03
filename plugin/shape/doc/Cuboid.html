@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Cuboid &mdash; FEASST v0.19.0 documentation</title>
+  <title>Cuboid &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -132,6 +132,7 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Cuboid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Cylinder.html">Cylinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ShapeUnion.html">ShapeUnion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ShapeFile.html">ShapeFile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ShapeIntersect.html">ShapeIntersect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SlabSine.html">SlabSine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FiniteCylinder.html">FiniteCylinder</a></li>
@@ -279,21 +280,14 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Cuboid6CuboidERK8PositionRK8Position">
-<span class="target" id="classfeasst_1_1Cuboid_1a5b9c6f641285c62b437107ffd2df17a7"></span><code class="sig-name descname">Cuboid</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>side_lengths</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>center</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Cuboid6CuboidERK8PositionRK8Position" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Construct given side lengths and center. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6Cuboid6CuboidERK8Position">
-<span class="target" id="classfeasst_1_1Cuboid_1a32d1fb512c921adedb629c30b45276ab"></span><code class="sig-name descname">Cuboid</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>side_lengths</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Cuboid6CuboidERK8Position" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as above, but the center is assumed to be the origin (in 3D). </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6Cuboid6CuboidEKd">
-<span class="target" id="classfeasst_1_1Cuboid_1a4579df6bd04d75310ed7d60319a61253"></span><code class="sig-name descname">Cuboid</code><span class="sig-paren">(</span><em class="property">const</em> double <em>cubic_side_length</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Cuboid6CuboidEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as above, but all the side lengths are the same (cube, in 3D). </p>
+<dt id="_CPPv4N6feasst6Cuboid6CuboidE7argtype">
+<span class="target" id="classfeasst_1_1Cuboid_1a1e23f6894c8fabfb0dde30323eb18623"></span><code class="sig-name descname">Cuboid</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Cuboid6CuboidE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>cubic_side_length: side length of cube.</p></li>
+<li><p>side_length: set the unique key for the side_length positions. Thus, arguments of “key[i]” are expected to follow. The “[i]” is to be substituted for integer dimensions 0, 1, 2, … The “[i]” are also expected to be in order, starting from 0. Cannot be used in conjunction with cubic_side_length.</p></li>
+<li><p>center: set the unique key for the center positions. Thus, arguments of “key[i]” are expected to follow. The “[i]” is to be substituted for integer dimensions 0, 1, 2, … The default value is 0 up to the same dimensions as (cubic_)side_length. </p></li>
+</ul>
+</p>
 </dd></dl>
 
 <dl class="cpp function">

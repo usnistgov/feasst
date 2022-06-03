@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Configuration &mdash; FEASST v0.19.0 documentation</title>
+  <title>Configuration &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -296,7 +296,8 @@
 <li><p>set_cutoff_min_to_sigma: if true and cutoff &lt; sigma, cutoff = sigma (default: false). This is typically used for <a class="reference internal" href="../../system/doc/HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> models that didn’t specify cutoff.</p></li>
 <li><p>[parameter]: optionally set the [parameter] of all types to this value. The “[parameter]” is to be substituted for epsilon, sigma, cutoff, etc.</p></li>
 <li><p>[parameter][i]: optionally set the [parameter] of the i-th site type. The “[i]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for all types.</p></li>
-<li><p>[parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type. The “[i]/[j]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for single types. </p></li>
+<li><p>[parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type. The “[i]/[j]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for single types.</p></li>
+<li><p>group[i]: set the name of the “i”-th group. The “[i]” is to be substituted for an integer 0, 1, 2, … All following arguments of the group are then expected to have the name appended (e.g., “group0 water water_particle_type 0”). </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -471,6 +472,12 @@
 <dt id="_CPPv4N6feasst13Configuration29particle_type_to_group_createEKi">
 <span class="target" id="classfeasst_1_1Configuration_1ad6d80b288da71f687ec6264b86d321c3"></span>int <code class="sig-name descname">particle_type_to_group_create</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration29particle_type_to_group_createEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above, except create the group if it does not already exist. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13Configuration11group_indexERKNSt6stringE">
+<span class="target" id="classfeasst_1_1Configuration_1a43012415f386e2e6bd319076d60bb825"></span>int <code class="sig-name descname">group_index</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration11group_indexERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the index of the group with the given name. </p>
 </dd></dl>
 
 <dl class="cpp function">

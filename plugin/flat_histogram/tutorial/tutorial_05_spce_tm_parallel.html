@@ -1,0 +1,542 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Grand Canonical Flat Histogram Simulation of SPC/E &mdash; FEASST v0.20.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Grand Canonical Flat Histogram Simulation of RPM" href="tutorial_06_rpm_tm_parallel.html" />
+    <link rel="prev" title="Grand Canonical Flat Histogram Simulation of Lennard-Jones" href="tutorial_04_lj_tm_parallel.html" />
+
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.20.0
+              </div>
+            
+          
+
+          
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_03_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_04_lj_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Grand Canonical Flat Histogram Simulation of SPC/E</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_06_rpm_tm_parallel.html">Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FEASST</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          <header class="nist-header" id="nist-header" role="banner">
+
+  <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
+    <svg aria-hidden="true" class="nist-header__logo-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+      <path d="M20.911 5.375l-9.482 9.482 9.482 9.482c0.446 0.446 0.446 1.161 0 1.607l-2.964 2.964c-0.446 0.446-1.161 0.446-1.607 0l-13.25-13.25c-0.446-0.446-0.446-1.161 0-1.607l13.25-13.25c0.446-0.446 1.161-0.446 1.607 0l2.964 2.964c0.446 0.446 0.446 1.161 0 1.607z"></path>
+    </svg>
+    <svg class="nist-header__logo-image" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-237 385.7 109.7 29.3">
+      <title>National Institute of Standards and Technology</title>
+      <g>
+        <path class="st0" d="M-231,415h-6v-23.1c0,0,0-4.4,4.4-5.8c4-1.3,6.6,1.3,6.6,1.3l19.7,21.3c1,0.6,1.4,0,1.4-0.6v-22h6.1V409
+          c0,1.9-1.6,4.4-4,5.3c-2.4,0.9-4.9,0.9-7.9-1.7l-18.5-20c-0.5-0.5-1.8-0.6-1.8,0.4L-231,415L-231,415z"/>
+        <path class="st0" d="M-195,386.1h6.1v20.7c0,2.2,1.9,2.2,3.6,2.2h26.8c1.1,0,2.4-1.3,2.4-2.7c0-1.4-1.3-2.8-2.5-2.8H-176
+          c-3,0.1-9.2-2.7-9.2-8.5c0-7.1,5.9-8.8,8.6-9h49.4v6.1h-12.3V415h-6v-22.9h-30.2c-2.9-0.2-4.9,4.7-0.2,5.4h18.6
+          c2.8,0,7.4,2.4,7.5,8.4c0,6.1-3.6,9-7.5,9H-185c-4.5,0-6.2-1.1-7.8-2.5c-1.5-1.5-1.7-2.3-2.2-5.3L-195,386.1
+          C-194.9,386.1-195,386.1-195,386.1z"/>
+      </g>
+    </svg>
+  </a>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
+        
+          <li><a href="../README.html">Flat histogram</a> &raquo;</li>
+        
+      <li>Grand Canonical Flat Histogram Simulation of SPC/E</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="grand-canonical-flat-histogram-simulation-of-spc-e">
+<h1>Grand Canonical Flat Histogram Simulation of SPC/E<a class="headerlink" href="#grand-canonical-flat-histogram-simulation-of-spc-e" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="c1"># define parameters of a pure component NVT MC SPCE simulation</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;fstprt&quot;</span><span class="p">:</span> <span class="s2">&quot;/feasst/forcefield/spce.fstprt&quot;</span><span class="p">,</span> <span class="s2">&quot;min_particles&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mi">525</span><span class="p">,</span> <span class="s2">&quot;max_particles&quot;</span><span class="p">:</span> <span class="mi">265</span><span class="p">,</span>  <span class="s2">&quot;min_sweeps&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span> <span class="s2">&quot;beta_mu&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">8.14</span><span class="p">,</span>
+    <span class="c1">#&quot;temperature&quot;: 300, &quot;max_particles&quot;: 296,  &quot;min_sweeps&quot;: 200, &quot;beta_mu&quot;: -15.24,</span>
+    <span class="s2">&quot;trials_per&quot;</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s2">&quot;hours_per_adjust&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s2">&quot;hours_per_checkpoint&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mf">1e9</span><span class="p">),</span> <span class="s2">&quot;num_hours&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="o">*</span><span class="mi">24</span><span class="p">,</span>
+    <span class="s2">&quot;equilibration&quot;</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s2">&quot;num_nodes&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;procs_per_node&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s2">&quot;script&quot;</span><span class="p">:</span> <span class="vm">__file__</span><span class="p">,</span> <span class="s2">&quot;dccb_cut&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="o">*</span><span class="mf">3.165</span><span class="p">}</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.6</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">]</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mf">1.3806488E-23</span><span class="o">*</span><span class="mf">6.02214129E+23</span> <span class="c1"># J/mol/K</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">R</span><span class="o">/</span><span class="mf">1e3</span><span class="p">)</span> <span class="c1"># mol/kJ</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;beta_mu&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_minutes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_hours&quot;</span><span class="p">]</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;hours_per_adjust&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;hours_per_adjust&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;procs_per_node&quot;</span><span class="p">]</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;hours_per_checkpoint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;hours_per_checkpoint&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;procs_per_node&quot;</span><span class="p">]</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_hours_terminate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.95</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_hours&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;procs_per_node&quot;</span><span class="p">]</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;mu_init&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;dccb_cut&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">]</span><span class="o">/</span><span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;dccb_cut&quot;</span><span class="p">])</span> <span class="c1"># maximize inside box</span>
+
+<span class="c1"># write TrialGrowFile for SPCE</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;spce_grow.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;TrialGrowFile</span>
+
+<span class="s2">particle_type 0 weight 2 transfer true site 0 num_steps 10 reference_index 0</span>
+<span class="s2">bond true mobile_site 1 anchor_site 0 reference_index 0</span>
+<span class="s2">angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="c1"># write fst script</span>
+<span class="k">def</span> <span class="nf">mc_spce</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s2">&quot;launch.txt&quot;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># first, initialize multiple clones into windows</span>
+<span class="s2">CollectionMatrixSplice hours_per </span><span class="si">{hours_per_adjust}</span><span class="s2"> ln_prob_file spce_lnpi.txt bounds_file spce_bounds.txt num_adjust_per_write 10</span>
+<span class="s2">WindowExponential maximum </span><span class="si">{max_particles}</span><span class="s2"> minimum </span><span class="si">{min_particles}</span><span class="s2"> num </span><span class="si">{procs_per_node}</span><span class="s2"> overlap 0 alpha 2.5 min_size 2</span>
+<span class="s2">Checkpoint file_name spce_checkpoint.fst num_hours </span><span class="si">{hours_per_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{num_hours_terminate}</span><span class="s2"></span>
+
+<span class="s2"># begin description of each MC clone</span>
+<span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span><span class="s2"></span>
+<span class="s2">Configuration cubic_box_length </span><span class="si">{cubic_box_length}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> physical_constants CODATA2010 </span><span class="se">\</span>
+<span class="s2">    group0 oxygen oxygen_site_type 0</span>
+<span class="s2">Potential VisitModel Ewald alpha </span><span class="si">{alpha}</span><span class="s2"> kmax_squared 38</span>
+<span class="s2">Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened VisitModel VisitModelCutoffOuter table_size 1e6</span>
+<span class="s2">RefPotential Model HardSphere group oxygen cutoff </span><span class="si">{dccb_cut}</span><span class="s2"> VisitModel VisitModelCell min_length </span><span class="si">{dccb_cut}</span><span class="s2"> cell_group oxygen</span>
+<span class="s2">Potential Model ChargeScreenedIntra VisitModel VisitModelBond</span>
+<span class="s2">Potential Model ChargeSelf</span>
+<span class="s2">Potential VisitModel LongRangeCorrections</span>
+<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu_init}</span><span class="s2"></span>
+<span class="s2">Metropolis</span>
+<span class="s2">TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25</span>
+<span class="s2">TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25</span>
+<span class="s2">Log trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name spce[sim_index].txt</span>
+<span class="s2">Tune</span>
+<span class="s2">CheckEnergy trials_per </span><span class="si">{trials_per}</span><span class="s2"> tolerance 1e-4</span>
+
+<span class="s2"># gcmc initialization and nvt equilibration</span>
+<span class="s2">TrialAdd particle_type 0</span>
+<span class="s2">Run until_num_particles [soft_macro_min]</span>
+<span class="s2">RemoveTrial name TrialAdd</span>
+<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu}</span><span class="s2"></span>
+<span class="s2">Metropolis</span>
+<span class="s2">Run num_trials </span><span class="si">{equilibration}</span><span class="s2"></span>
+<span class="s2">RemoveModify name Tune</span>
+
+<span class="s2"># gcmc tm production</span>
+<span class="s2">FlatHistogram Macrostate MacrostateNumParticles width 1 max </span><span class="si">{max_particles}</span><span class="s2"> min </span><span class="si">{min_particles}</span><span class="s2"> soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] </span><span class="se">\</span>
+<span class="s2">Bias WLTM min_sweeps </span><span class="si">{min_sweeps}</span><span class="s2"> new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20</span>
+<span class="s2">TrialGrowFile file_name spce_grow.txt</span>
+<span class="s2">RemoveAnalyze name Log</span>
+<span class="s2">Log trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name spce[sim_index].txt</span>
+<span class="s2">Movie trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name spce[sim_index].xyz</span>
+<span class="s2">Tune trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name spce_tune[sim_index].txt multistate true stop_after_iteration 20</span>
+<span class="s2">Energy trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name spce_en[sim_index].txt multistate true start_after_iteration 20</span>
+<span class="s2">CriteriaUpdater trials_per 1e5</span>
+<span class="s2">CriteriaWriter trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name spce_crit[sim_index].txt</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+
+<span class="c1"># write slurm script to fill node(s) with simulations</span>
+<span class="k">def</span> <span class="nf">slurm_queue</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;slurm.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;#!/bin/bash</span>
+<span class="s2">#SBATCH -n </span><span class="si">{procs_per_node}</span><span class="s2"> -N </span><span class="si">{num_nodes}</span><span class="s2"> -t </span><span class="si">{num_minutes}</span><span class="s2">:00 -o hostname_%j.out -e hostname_%j.out</span>
+<span class="s2">echo &quot;Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD&quot;</span>
+<span class="s2">cd $PWD</span>
+<span class="s2">export OMP_NUM_THREADS=</span><span class="si">{procs_per_node}</span><span class="s2"></span>
+<span class="s2">python </span><span class="si">{script}</span><span class="s2"> --run_type 1 --task $SLURM_ARRAY_TASK_ID</span>
+<span class="s2">if [ $? == 0 ]; then</span>
+<span class="s2">  echo &quot;Job is done&quot;</span>
+<span class="s2">  scancel $SLURM_ARRAY_JOB_ID</span>
+<span class="s2">else</span>
+<span class="s2">  echo &quot;Job is terminating, to be restarted again&quot;</span>
+<span class="s2">fi</span>
+<span class="s2">echo &quot;Time is $(date)&quot;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+
+<span class="c1"># parse arguments</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--run_type&#39;</span><span class="p">,</span> <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;0: submit batch to scheduler, 1: run batch on host&quot;</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--task&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;input by slurm scheduler. If &gt;0, restart from checkpoint.&quot;</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="c1"># after the simulation is complete, perform some tests</span>
+<span class="k">class</span> <span class="nc">TestFlatHistogramSPCE</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># compare the lnpi with the srsw</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+        <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;spce_lnpi.txt&#39;</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../test/data/stat_spce_525.csv&#39;</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;deltalnPI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">lnPI</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">lnPI</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">diverged</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">deltalnPI</span><span class="o">-</span><span class="n">df</span><span class="o">.</span><span class="n">delta_ln_prob</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="o">*</span><span class="n">df</span><span class="o">.</span><span class="n">delta_ln_prob_stdev</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># run the simulation and, if complete, analyze.</span>
+<span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;spce_launch.txt&quot;</span>
+        <span class="n">mc_spce</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; &quot;</span> <span class="o">+</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot; &gt; spce_launch.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/rst spce_checkpoint.fst&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">syscode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">syscode</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">run_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">slurm_queue</span><span class="p">()</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;sbatch --array=0-10%1 slurm.txt | awk &#39;{print $4}&#39; &gt;&gt; launch_ids.txt&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">run_type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">syscode</span> <span class="o">=</span> <span class="n">run</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">syscode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># unrecognized run_type</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="tutorial_06_rpm_tm_parallel.html" class="btn btn-neutral float-right" title="Grand Canonical Flat Histogram Simulation of RPM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial_04_lj_tm_parallel.html" class="btn btn-neutral float-left" title="Grand Canonical Flat Histogram Simulation of Lennard-Jones" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+	<br></br>
+	<footer class="nist-footer">
+  <div class="nist-footer__inner">
+    <div class="nist-footer__menu" role="navigation">
+      <ul>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy">Privacy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#privpolicy">Privacy Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#secnot">Security Notice</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#accesstate">Accessibility Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy">NIST Privacy Program</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/disclaimer">Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/office-director/freedom-information-act">FOIA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#cookie">Cookie Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity Summary</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/nist-information-quality-standards">NIST Information Quality Standards</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://business.usa.gov/">Business USA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.commerce.gov/">Commerce.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.healthcare.gov/">Healthcare.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.science.gov/">Science.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.usa.gov/">USA.gov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nist-footer__logo">
+    <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-footer__logo-link" rel="home">
+      <img src="https://pages.nist.gov/nist-header-footer/images/nist_logo_centered_rev.svg" alt="National Institute of Standards and Technology logo" />
+    </a>
+  </div>
+</footer>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115121490-6');
+  </script>
+
+
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

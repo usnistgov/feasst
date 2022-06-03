@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Window &mdash; FEASST v0.19.0 documentation</title>
+  <title>Window &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -124,7 +124,7 @@
 <li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
@@ -133,6 +133,7 @@
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
@@ -279,10 +280,13 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst6WindowE">
 <span class="target" id="classfeasst_1_1Window"></span><em class="property">class </em><code class="sig-name descname">Window</code><a class="headerlink" href="#_CPPv4N6feasst6WindowE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> ranges are often broken into separate windows for parallelization. The relative size of these windows can be optimized depending upon the system. Each window must share atleast one macrostate with its neighbors in order to recover the free energy of the entire range.</p>
+<dd><p><a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> ranges are often broken into separate windows for parallelization. The relative size of these windows can be optimized depending upon the system.</p>
 <p>A segment is a countinuous, theoretical formula for analytically spacing macrostate ranges. This line segment includes both the minimum, maximum, and intermediate values. Thus, a 4 window segment would contain 5 values.</p>
 <p>Boundaries are integer macrostate minimums and maximums utilized by each window. Thus, 4 window boundaries would contain 4 min and max values. Boundaries use the given line segment, either from formula or user input, and then account for rounding and extra overlap between windows.</p>
-<p>For example, 4 windows with segments given by [0, 100.00, 141.42, 173.21, 200] with 4 extra overlap and rounding would result in the following boundaries: [[0, 100], [96, 141], [137, 173], [169, 200]] where each of the 4 window is expressed as a [min, max] pair. </p>
+<p>For example, 4 windows with segments given by [0, 100.00, 141.42, 173.21, 200] with 5 overlap and rounding would result in the following boundaries: [[0, 100], [96, 141], [137, 173], [169, 200]] where each of the 4 window is expressed as a [min, max] pair.</p>
+<p>In order to recover the free energy over all of the windows, it is possible to splice either (1) the probability distribution or (2) the collection matrix elements.</p>
+<p>For (1) probability distribution splicing, each window must share atleast one macrostate (overlap) with its neighbors.</p>
+<p>For (2) collection matrix splicing, windows cannot share any macrostates but the boundaries must be adjacent and all trial moves of the windows must be exactly the same. </p>
 <p>Subclassed by <a class="reference internal" href="WindowCustom.html#classfeasst_1_1WindowCustom"><span class="std std-ref">feasst::WindowCustom</span></a>, <a class="reference internal" href="WindowExponential.html#classfeasst_1_1WindowExponential"><span class="std std-ref">feasst::WindowExponential</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -294,7 +298,8 @@
 <li><p>maximum: maximum in macrostate range (default: -1).</p></li>
 <li><p>num: number of windows (default: -1).</p></li>
 <li><p>num_from_omp: obtain num from OMP threads (default: false).</p></li>
-<li><p>extra_overlap: additional overlap of the windows in addition to the one macrostate that they must share (default: 0). </p></li>
+<li><p>overlap: number of macrostate overlaps between windows (default: 1).</p></li>
+<li><p>min_size: minimum size of each window (default: 1). </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -318,9 +323,9 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Window13extra_overlapEv">
-<span class="target" id="classfeasst_1_1Window_1aec2326dc5775dd7fa1bd373ce2398012"></span>int <code class="sig-name descname">extra_overlap</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Window13extra_overlapEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the extra overlap. </p>
+<dt id="_CPPv4NK6feasst6Window7overlapEv">
+<span class="target" id="classfeasst_1_1Window_1ad2e3bcfc30bca38b453af4375b9f25d8"></span>int <code class="sig-name descname">overlap</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Window7overlapEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the overlap. </p>
 </dd></dl>
 
 <dl class="cpp function">

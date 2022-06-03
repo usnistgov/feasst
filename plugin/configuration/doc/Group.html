@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Group &mdash; FEASST v0.19.0 documentation</title>
+  <title>Group &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -282,8 +282,10 @@
 <dt id="_CPPv4N6feasst5Group5GroupE7argtype">
 <span class="target" id="classfeasst_1_1Group_1af42a8c40dd14029d63db5651f4f58fca"></span><code class="sig-name descname">Group</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Group5GroupE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
+<li><p>prepend: expect all other arguments to have this prepended with underscore. For example, if prepend==water, the following argument would expect “water_site_type0” (default: empty).</p></li>
 <li><p>site_type[i]: add the i-th site type. If none, all sites included. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one site type, the “[i]” is optional.</p></li>
 <li><p>particle_type[i]: add the i-th particle type. If none, all included. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional.</p></li>
+<li><p>particle_index[i]: add the i-th particle index. If none, all included. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle index, the “[i]” is optional.</p></li>
 <li><p>dynamic: set true if groups should be updated (default: true).</p></li>
 <li><p>spatial: set true if group is based on location (default: false). </p></li>
 </ul>
@@ -327,8 +329,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Group5is_inERK8Particle">
-<span class="target" id="classfeasst_1_1Group_1a4590b28bee9a634103d6bda1c0725b59"></span>bool <code class="sig-name descname">is_in</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group5is_inERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Group5is_inERK8ParticleKi">
+<span class="target" id="classfeasst_1_1Group_1a19d6b0a6496d9cbee664ae8b98d15390"></span>bool <code class="sig-name descname">is_in</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em>, <em class="property">const</em> int <em>particle_index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group5is_inERK8ParticleKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if the particle is in the group. </p>
 </dd></dl>
 

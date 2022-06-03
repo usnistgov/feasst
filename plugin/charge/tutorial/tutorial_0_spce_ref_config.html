@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Reference configuration of SPC/E water in non-cuboid domain &mdash; FEASST v0.19.0 documentation</title>
+  <title>Reference configuration of SPC/E water in non-cuboid domain &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Canonical ensemble Monte Carlo of bulk SPC/E water" href="tutorial_1_spce_nvt.html" />
+    <link rel="next" title="Canonical ensemble average energy of a bulk SPC/E fluid" href="tutorial_1_spce_nvt.html" />
     <link rel="prev" title="Charge" href="../README.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -125,7 +125,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Charge</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Reference configuration of SPC/E water in non-cuboid domain</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial_1_spce_nvt.html">Canonical ensemble Monte Carlo of bulk SPC/E water</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1_spce_nvt.html">Canonical ensemble average energy of a bulk SPC/E fluid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -506,70 +506,70 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Reference-configuration-of-SPC/E-water-in-non-cuboid-domain">
 <h1>Reference configuration of SPC/E water in non-cuboid domain<a class="headerlink" href="#Reference-configuration-of-SPC/E-water-in-non-cuboid-domain" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
-<span class="k">class</span> <span class="nc">TestEwald0SPCE</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test_srsw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">system</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
-        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-            <span class="s2">&quot;side_length0&quot;</span><span class="p">:</span> <span class="s2">&quot;30.0&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;side_length1&quot;</span><span class="p">:</span> <span class="s2">&quot;28.97777478867205&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;side_length2&quot;</span><span class="p">:</span> <span class="s2">&quot;29.51512917398008&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;xy&quot;</span><span class="p">:</span> <span class="s2">&quot;7.764571353075622&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;xz&quot;</span><span class="p">:</span> <span class="s2">&quot;-2.6146722824297473&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;yz&quot;</span><span class="p">:</span> <span class="s2">&quot;-4.692615336756641&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;xyz_file&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;particle_type0&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/spce.fstprt&quot;</span><span class="p">,</span>
-        <span class="p">})))</span>
-        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
-        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
-        <span class="n">ewald</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeEwald</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
-            <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">0.2850</span><span class="p">),</span>
-            <span class="s1">&#39;kxmax&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
-            <span class="s1">&#39;kymax&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
-            <span class="s1">&#39;kzmax&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">7</span><span class="p">)}))</span>
-        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">ewald</span><span class="p">))</span>
-        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeScreened</span><span class="p">()))</span>
-        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeScreenedIntra</span><span class="p">(),</span>
-                                     <span class="n">fst</span><span class="o">.</span><span class="n">MakeVisitModelBond</span><span class="p">()))</span>
-        <span class="n">system</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeChargeSelf</span><span class="p">()))</span>
-        <span class="n">system</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_vectors&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">num_vectors</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kxmax&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">kxmax</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kymax&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">kymax</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kzmax&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">kzmax</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_kx&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">num_kx</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_ky&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">num_ky</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_kz&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">num_kz</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kmax_squared&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">kmax_squared</span><span class="p">())</span>
-        <span class="n">kindex</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kindex&#39;</span><span class="p">,</span> <span class="n">kindex</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kx, ky, kz&#39;</span><span class="p">,</span>
-              <span class="n">ewald</span><span class="o">.</span><span class="n">wave_num</span><span class="p">(</span><span class="n">kindex</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-              <span class="n">ewald</span><span class="o">.</span><span class="n">wave_num</span><span class="p">(</span><span class="n">kindex</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-              <span class="n">ewald</span><span class="o">.</span><span class="n">wave_num</span><span class="p">(</span><span class="n">kindex</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;wave_prefactor&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">wave_prefactor</span><span class="p">()[</span><span class="n">kindex</span><span class="p">])</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;struct_factor real&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">struct_fact_real</span><span class="p">(</span><span class="n">kindex</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;struct_factor imag&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">struct_fact_real</span><span class="p">(</span><span class="n">kindex</span><span class="p">))</span>
-        <span class="n">part_index</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">site_index</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;eikxr&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">eik</span><span class="p">(</span><span class="n">part_index</span><span class="p">,</span> <span class="n">site_index</span><span class="p">,</span> <span class="n">kindex</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;eikxi&#39;</span><span class="p">,</span> <span class="n">ewald</span><span class="o">.</span><span class="n">eik</span><span class="p">(</span><span class="n">part_index</span><span class="p">,</span> <span class="n">site_index</span><span class="p">,</span> <span class="n">kindex</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">931.15451</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#lj</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="mf">34.16569</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#lrc</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">2</span><span class="p">],</span> <span class="mf">371.46525</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#fourier</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">3</span><span class="p">],</span> <span class="o">-</span><span class="mf">6046.43627</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#charge screened</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">4</span><span class="p">],</span> <span class="mf">95078.89447</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#intra</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">stored_energy_profile</span><span class="p">()[</span><span class="mi">5</span><span class="p">],</span> <span class="o">-</span><span class="mf">96297.75579</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span> <span class="c1">#self</span>
+<span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">MonteCarlo</span>
+<span class="s2">Configuration side_length0 30.0 side_length1 28.97777478867205 side_length2 29.51512917398008 </span><span class="se">\</span>
+<span class="s2">    xy 7.764571353075622 xz -2.6146722824297473 yz -4.692615336756641 </span><span class="se">\</span>
+<span class="s2">    xyz_file /feasst/plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz </span><span class="se">\</span>
+<span class="s2">    particle_type0 /feasst/forcefield/spce.fstprt</span>
+<span class="s2">Potential Model LennardJones</span>
+<span class="s2">Potential VisitModel LongRangeCorrections</span>
+<span class="s2">Potential VisitModel Ewald alpha 0.2850 kxmax 7 kymax 7 kzmax 7</span>
+<span class="s2">Potential Model ChargeScreened</span>
+<span class="s2">Potential Model ChargeScreenedIntra VisitModel VisitModelBond</span>
+<span class="s2">Potential Model ChargeSelf</span>
+<span class="s2">ThermoParams beta 1000000</span>
+<span class="s2">Metropolis</span>
+<span class="s2">Log file_name en.csv max_precision true clear_file true</span>
+<span class="s2">Run num_trials 1</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# FEASST version: v0.19.0-85-gdff8cb12e2-dirty-hwh/newtutorials
+Configuration particle_type0 /home/hwh/feasst/forcefield/spce.fstprt side_length0 30.0 side_length1 28.97777478867205 side_length2 29.51512917398008 xy 7.764571353075622 xyz_file /home/hwh/feasst/plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz xz -2.6146722824297473 yz -4.692615336756641
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+Potential VisitModel Ewald alpha 0.2850 kxmax 7 kymax 7 kzmax 7
+# Info 0 [plugin/charge/src/ewald.cpp:190] alpha: 0.285
+# Info 0 [plugin/charge/src/ewald.cpp:191] kmax_squared 2.3037
+# Info 0 [plugin/charge/src/ewald.cpp:190] alpha: 0.285
+# Info 0 [plugin/charge/src/ewald.cpp:191] kmax_squared 2.3037
+Potential Model ChargeScreened
+# Info 0 [plugin/charge/src/ewald.cpp:190] alpha: 0.285
+# Info 0 [plugin/charge/src/ewald.cpp:191] kmax_squared 2.3037
+Potential Model ChargeScreenedIntra VisitModel VisitModelBond
+# Info 0 [plugin/charge/src/ewald.cpp:190] alpha: 0.285
+# Info 0 [plugin/charge/src/ewald.cpp:191] kmax_squared 2.3037
+Potential Model ChargeSelf
+# Info 0 [plugin/charge/src/ewald.cpp:190] alpha: 0.285
+# Info 0 [plugin/charge/src/ewald.cpp:191] kmax_squared 2.3037
+ThermoParams beta 1000000
+Metropolis
+# Info 0 [plugin/charge/src/ewald.cpp:190] alpha: 0.285
+# Info 0 [plugin/charge/src/ewald.cpp:191] kmax_squared 2.3037
+Log clear_file true file_name en.csv max_precision true
+Run num_trials 1
+
+ exit: 0
+</pre></div></div>
 </div>
 <p>If the test passes, the energy is within the tolerance of the SRSW value and the two ensemble average methods agreed.</p>
 <div class="nbinput docutils container">
@@ -577,7 +577,16 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">time</span>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="k">class</span> <span class="nc">TestEwald0SPCE</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_srsw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;en.csv&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;LennardJones&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mf">931.15451</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;LongRangeCorrections&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mf">34.16569</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Ewald&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mf">371.46525</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ChargeScreened&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mf">6046.43627</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ChargeScreenedIntra&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mf">95078.89447</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ChargeSelf&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mf">96297.75579</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
 <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -587,42 +596,10 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-test_srsw (__main__.TestEwald0SPCE) ...
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-CPU times: user 2 µs, sys: 0 ns, total: 2 µs
-Wall time: 5.96 µs
-num_vectors 831
-kxmax 7
-kymax 7
-kzmax 7
-num_kx 8
-num_ky 15
-num_kz 15
-kmax_squared 2.3036990918300595
-kindex 0
-kx, ky, kz 0 -6 -2
-wave_prefactor 1.8660742244996213e-07
-struct_factor real -3.7251965721854834
-struct_factor imag -3.7251965721854834
-eikxr 1.0
-eikxi 0.0
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-ok
+test_srsw (__main__.TestEwald0SPCE) ... ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.111s
+Ran 1 test in 0.004s
 
 OK
 </pre></div></div>
@@ -633,7 +610,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f46242f7250&gt;
+&lt;unittest.main.TestProgram at 0x7ff5484bd850&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
@@ -645,7 +622,7 @@ OK
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="tutorial_1_spce_nvt.html" class="btn btn-neutral float-right" title="Canonical ensemble Monte Carlo of bulk SPC/E water" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial_1_spce_nvt.html" class="btn btn-neutral float-right" title="Canonical ensemble average energy of a bulk SPC/E fluid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="../README.html" class="btn btn-neutral float-left" title="Charge" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

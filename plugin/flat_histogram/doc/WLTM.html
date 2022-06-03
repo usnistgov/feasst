@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>WLTM &mdash; FEASST v0.19.0 documentation</title>
+  <title>WLTM &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -124,7 +124,7 @@
 <li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
@@ -133,6 +133,7 @@
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
@@ -286,17 +287,18 @@
 <dt id="_CPPv4N6feasst4WLTM4WLTME7argtype">
 <span class="target" id="classfeasst_1_1WLTM_1a825f37398d0eede6ee72defcfc48254b"></span><code class="sig-name descname">WLTM</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4WLTM4WLTME7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
+<li><p><a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> arguments.</p></li>
+<li><p><a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> arguments.</p></li>
 <li><p>collect_flatness: Begin populating the collection matrix when Wang-Landau has completed this many flatness checks. Note that populating the collection matrix does not necessarily mean that the collection matrix is used to compute the bias.</p></li>
-<li><p>min_flatness: After this many flatness checks have been completed with Wang-Landau, use the bias from the collection matrix instead. Also, increment the phase when this occurs.</p></li>
-<li><p>min_sweeps: Number of sweeps required for completion. </p></li>
+<li><p>min_collect_sweeps: In addition to WangLandau::min_flatness, do not use <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> as bias until it has this minimum number of sweeps. If -1, do nothing (default: -1). </p></li>
 </ul>
 </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4WLTM16update_or_revertEKiKiKdKbKb">
-<span class="target" id="classfeasst_1_1WLTM_1a60ee37c51dd212ccd67c4b016bc09d56"></span>void <code class="sig-name descname">update_or_revert</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em>, <em class="property">const</em> bool <em>revert</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4WLTM16update_or_revertEKiKiKdKbKb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Update the bias due to an attempted transition. </p>
+<dt id="_CPPv4N6feasst4WLTM6updateEKiKiKdKbKbRK10Macrostate">
+<span class="target" id="classfeasst_1_1WLTM_1ae6cb248ecbb811c84bc312396412faf3"></span>void <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em>, <em class="property">const</em> bool <em>is_endpoint</em>, <em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> &amp;<em>macro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4WLTM6updateEKiKiKdKbKbRK10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update only. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -318,8 +320,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4WLTM17infrequent_updateEv">
-<span class="target" id="classfeasst_1_1WLTM_1a8b6e452dd5974ac6919b8774ec7cedc0"></span>void <code class="sig-name descname">infrequent_update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4WLTM17infrequent_updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst4WLTM17infrequent_updateERK10Macrostate">
+<span class="target" id="classfeasst_1_1WLTM_1ac79e49e6714c945fbc7cee07cca7a11f"></span>void <code class="sig-name descname">infrequent_update</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> &amp;<em>macro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4WLTM17infrequent_updateERK10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform an infrequent update to the bias. </p>
 </dd></dl>
 

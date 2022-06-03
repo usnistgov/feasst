@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Log &mdash; FEASST v0.19.0 documentation</title>
+  <title>Log &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -133,9 +133,9 @@
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CheckEnergyAndTune.html">CheckEnergyAndTune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="IncrementPhase.html">IncrementPhase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SeekModify.html">SeekModify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WrapParticles.html">WrapParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tune.html">Tune</a></li>
@@ -290,6 +290,15 @@
 <p>By default, the first number printed for a <a class="reference internal" href="../../monte_carlo/doc/Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> is its <a class="reference internal" href="../../monte_carlo/doc/Trial.html#classfeasst_1_1Trial_1ac2a26211b3e582196cb3ba53df6c3de5"><span class="std std-ref">Trial::acceptance</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst3Log3LogE7argtype">
+<span class="target" id="classfeasst_1_1Log_1ac80ff1aedf2270ba1dc7138a0cda785e"></span><code class="sig-name descname">Log</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst3Log3LogE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>max_precision: use maximum precision if true (default: false). </p></li>
+</ul>
+</p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst3Log6headerERK8CriteriaRK6SystemRK12TrialFactory">
 <span class="target" id="classfeasst_1_1Log_1aea6ec539fad6bb4207b80383ba69f45b"></span>std::string <code class="sig-name descname">header</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> &amp;<em>trials</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst3Log6headerERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>

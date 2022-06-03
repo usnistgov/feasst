@@ -1,0 +1,870 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Tutorial &mdash; FEASST v0.20.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.20.0
+              </div>
+            
+          
+
+          
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plugin/README.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CITATION.html">Citation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FEASST</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          <header class="nist-header" id="nist-header" role="banner">
+
+  <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
+    <svg aria-hidden="true" class="nist-header__logo-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+      <path d="M20.911 5.375l-9.482 9.482 9.482 9.482c0.446 0.446 0.446 1.161 0 1.607l-2.964 2.964c-0.446 0.446-1.161 0.446-1.607 0l-13.25-13.25c-0.446-0.446-0.446-1.161 0-1.607l13.25-13.25c0.446-0.446 1.161-0.446 1.607 0l2.964 2.964c0.446 0.446 0.446 1.161 0 1.607z"></path>
+    </svg>
+    <svg class="nist-header__logo-image" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-237 385.7 109.7 29.3">
+      <title>National Institute of Standards and Technology</title>
+      <g>
+        <path class="st0" d="M-231,415h-6v-23.1c0,0,0-4.4,4.4-5.8c4-1.3,6.6,1.3,6.6,1.3l19.7,21.3c1,0.6,1.4,0,1.4-0.6v-22h6.1V409
+          c0,1.9-1.6,4.4-4,5.3c-2.4,0.9-4.9,0.9-7.9-1.7l-18.5-20c-0.5-0.5-1.8-0.6-1.8,0.4L-231,415L-231,415z"/>
+        <path class="st0" d="M-195,386.1h6.1v20.7c0,2.2,1.9,2.2,3.6,2.2h26.8c1.1,0,2.4-1.3,2.4-2.7c0-1.4-1.3-2.8-2.5-2.8H-176
+          c-3,0.1-9.2-2.7-9.2-8.5c0-7.1,5.9-8.8,8.6-9h49.4v6.1h-12.3V415h-6v-22.9h-30.2c-2.9-0.2-4.9,4.7-0.2,5.4h18.6
+          c2.8,0,7.4,2.4,7.5,8.4c0,6.1-3.6,9-7.5,9H-185c-4.5,0-6.2-1.1-7.8-2.5c-1.5-1.5-1.7-2.3-2.2-5.3L-195,386.1
+          C-194.9,386.1-195,386.1-195,386.1z"/>
+      </g>
+    </svg>
+  </a>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Tutorial">
+<h1>Tutorial<a class="headerlink" href="#Tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Installation">
+<h2>Installation<a class="headerlink" href="#Installation" title="Permalink to this headline">¶</a></h2>
+<p>SWIG is required. Version 3.0.12 is recommended if your current SWIG version does not work properly. Python 3 is recommended. CMake attempts to find the python libraries during compilation. But you may want to specify them manually.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">usnistgov</span><span class="o">/</span><span class="n">feasst</span><span class="o">.</span><span class="n">git</span>
+<span class="n">mkdir</span> <span class="n">feasst</span><span class="o">/</span><span class="n">build</span>
+<span class="n">cd</span> <span class="n">feasst</span><span class="o">/</span><span class="n">build</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="install-python-virtual-environment-for-feasst-usage">
+<h1>install python virtual environment for feasst usage<a class="headerlink" href="#install-python-virtual-environment-for-feasst-usage" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">mkdir</span> <span class="o">~/.</span><span class="n">pyenv</span>
+<span class="n">pushd</span> <span class="o">~/.</span><span class="n">pyenv</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="n">feasst</span>
+<span class="n">source</span> <span class="o">~/.</span><span class="n">pyenv</span><span class="o">/</span><span class="n">feasst</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span> <span class="c1"># may add this to your .bash_profile</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">jupyter</span> <span class="n">matplotlib</span> <span class="n">pandas</span> <span class="n">scipy</span> <span class="c1"># for tutorials</span>
+<span class="n">popd</span>
+<span class="c1"># # alternatively, using Anaconda:</span>
+<span class="c1"># conda env create -f ../py/feasst.yml</span>
+<span class="c1"># conda activate feasst</span>
+
+<span class="n">cmake</span> <span class="o">-</span><span class="n">DUSE_SWIG</span><span class="o">=</span><span class="n">ON</span> <span class="o">..</span>
+<span class="c1"># alternatively, for manually setting the python path</span>
+<span class="c1"># cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.[so/dylib] ..</span>
+
+<span class="n">make</span> <span class="o">-</span><span class="n">j4</span>
+<span class="n">make</span> <span class="n">install</span> <span class="o">-</span><span class="n">j4</span>
+<span class="n">python</span> <span class="o">../</span><span class="n">py</span><span class="o">/</span><span class="n">test</span><span class="o">.</span><span class="n">py</span> <span class="c1"># optional test</span>
+</pre></div>
+</div>
+<div class="section" id="C++-install">
+<h2>C++ install<a class="headerlink" href="#C++-install" title="Permalink to this headline">¶</a></h2>
+<p>First, install the C++ library.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">usnistgov</span><span class="o">/</span><span class="n">feasst</span><span class="o">.</span><span class="n">git</span>
+<span class="n">mkdir</span> <span class="n">feasst</span><span class="o">/</span><span class="n">build</span>
+<span class="n">cd</span> <span class="n">feasst</span><span class="o">/</span><span class="n">build</span>
+<span class="n">cmake</span> <span class="o">..</span>          <span class="c1"># optionally, include -DUSE_GTEST=ON for gtest</span>
+<span class="n">make</span> <span class="n">install</span> <span class="o">-</span><span class="n">j4</span>
+<span class="n">make</span> <span class="n">test</span>         <span class="c1"># optional test</span>
+</pre></div>
+</div>
+<p>Then, compile the specific simulation you wish to run (e.g., tutorial).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">feasst</span><span class="o">/</span><span class="n">tutorial</span><span class="o">/</span>
+<span class="n">mkdir</span> <span class="n">build</span><span class="p">;</span> <span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">..</span>
+<span class="n">make</span>
+<span class="o">./</span><span class="n">tutorial</span>
+</pre></div>
+</div>
+<p>CMake defaults to install in the build directory. But you can also specify the path as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="nb">dir</span> <span class="o">..</span>
+</pre></div>
+</div>
+<p>Later, when you build your tutorial executable, if your build directory is not <code class="docutils literal notranslate"><span class="pre">~/feasst/build</span></code>, then specify the path to the build directory as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">-</span><span class="n">DCMAKE_PREFIX_PATH</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="nb">dir</span> <span class="o">..</span>
+</pre></div>
+</div>
+<p>Sometimes running the executable results in an error that a plugin cannot be found. In that case <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> needs to be set as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/path/to/feasst/build/:$LD_LIBRARY_PATH</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Troubleshooting-install">
+<h2>Troubleshooting install<a class="headerlink" href="#Troubleshooting-install" title="Permalink to this headline">¶</a></h2>
+<p>Please <a class="reference internal" href="../../CONTACT.html"><span class="doc">contact</span></a> us if you run into an issue not listed below.</p>
+<p>macOS Mojave</p>
+<ul class="simple">
+<li><p>SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst. Try SWIG version 3 instead.</p></li>
+<li><p>Sometimes CMake has trouble finding python, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so</p></li>
+</ul>
+<p>CentOS 7</p>
+<ul class="simple">
+<li><p>CMake and SWIG versions are usually too old.</p></li>
+<li><p>Try the command cmake3 instead of cmake.</p></li>
+<li><p>Otherwise, install SWIG 3.</p></li>
+</ul>
+<p>Windows 10</p>
+<ul class="simple">
+<li><p>Install Windows subsystem for Linux (Ubuntu 16)</p></li>
+<li><p>See Ubuntu 16</p></li>
+</ul>
+<p>Ubuntu 16</p>
+<ul class="simple">
+<li><p>Update to CMake 3 (<a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a>)</p></li>
+<li><p>sudo apt install swig</p></li>
+</ul>
+<div class="section" id="Python-or-C++?">
+<h3>Python or C++?<a class="headerlink" href="#Python-or-C++?" title="Permalink to this headline">¶</a></h3>
+<p>Although this tutorial will focus upon the python interface, FEASST may also be utilized as a C++ library. For a C++ example, see the file <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.cpp</span></code> which is virtually identical to the Python tutorial. Thus Python tutorials are sufficient for learning the C++ library. While the majority of FEASST users prefer the Python interface, FEASST is written almost entirely in C++ for speed. Thus, both interfaces will be supported in the long term.</p>
+<p>Some HPC clusters may not have the required Python libraries. If that is the case, do not hesitate to give the C++ interface a try, even if you have never written C++ before. For example, the only minor differences between <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> are the argument parsing syntax, semi-colons at the end of every line, and compiling any binary with <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">main()</span></code>.</p>
+</div>
+</div>
+<div class="section" id="Canonical-ensemble-Lennard-Jones-Monte-Carlo">
+<h2>Canonical ensemble Lennard-Jones Monte Carlo<a class="headerlink" href="#Canonical-ensemble-Lennard-Jones-Monte-Carlo" title="Permalink to this headline">¶</a></h2>
+<p>The following simulation based on <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> demonstrates the basics of FEASST.</p>
+<p>To begin, FEASST is imported, and it is recommended to log the exact version used for the simulation. Note that the version shown may not match your version.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">feasst</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;version:&quot;</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">version</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+version: v0.19.0-29-g791da1d05f-hwh/multistate_tunable2
+</pre></div></div>
+</div>
+<p>Then a <a class="reference internal" href="../../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created and the random number generator is initialized using the C++ implementation of the Mersenne Twister seeded by the time and date.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})))</span>
+</pre></div>
+</div>
+</div>
+<p>Care must be taken not to run two identical simulations at the same second on an HPC node using the time and date, or they will have the same seed and may be equivalent. Instead, consider using a thread safe random number generator to seed the simulations.</p>
+<p>FEASST standard output and error goes to the Jupyter notebook terminal. Thus, you should see output like “# Info 0 [plugin/math/src/random.cpp:30] time(seed): 1572362164” but with a different seed. This seed is provided in case you wanted to reproduce your simulation exactly, which we will do now. Note that your simulation may still be different than presented here, possibly because of different compiler implementations.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;1572362164&quot;</span><span class="p">})))</span>
+</pre></div>
+</div>
+</div>
+<p>The second step is to add a <a class="reference internal" href="../../plugin/configuration/README.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box of length 8 is defined with a single type of particle as described in <code class="docutils literal notranslate"><span class="pre">forcefield/lj.fstprt</span></code>. See <a class="reference internal" href="../../forcefield/README.html"><span class="doc">Forcefield</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
+</pre></div>
+</div>
+</div>
+<p>FEASST arguments are input as a dictionary of strings with limited type checking. Thus, care must be taken to input strings which follow the documentation.</p>
+<p>If there is a typo in the arguments, this may result in an exception which will print to the terminal and crash the notebook kernel. You can test this now by changing the <code class="docutils literal notranslate"><span class="pre">cubic_box_length</span></code> argument to a non-existent argument such as <code class="docutils literal notranslate"><span class="pre">cubic_box_len</span></code>.</p>
+<p>Next, initializing the <a class="reference internal" href="../../plugin/system/doc/Potential.html"><span class="doc">Potential</span></a> proceeds as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<p>In this example, we introduce both the pair-wise <a class="reference internal" href="../../plugin/system/doc/LennardJones.html"><span class="doc">Lennard-Jones (LJ) model</span></a>, and also <a class="reference internal" href="../../plugin/system/doc/LongRangeCorrections.html"><span class="doc">long-range corrections</span></a>, which approximately account for the cut off of the LJ potential by assuming a pair-wise radial distance distribution function of unity. A FEASST convention is to use a helper function which appends the word <code class="docutils literal notranslate"><span class="pre">Make</span></code> onto the class name when creating pointers to FEASST derived class
+objects. This serves two purposes involving C++11 smart pointers and brace enclosed initializer lists.</p>
+<p>Initialize <a class="reference internal" href="../../plugin/system/doc/ThermoParams.html"><span class="doc">ThermoParams</span></a>, such as temperature, and the acceptance <a class="reference internal" href="../../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>. Note that the initial configuration will be generated with grand canonical particle additions, so a large chemical potential is included, but will not contribute to canonical ensemble production simulations.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential0&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p>A <a class="reference internal" href="../../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a> is then introduced which attempts to translate a random particle by a random distance which is bound in each dimension by a <code class="docutils literal notranslate"><span class="pre">tunable_param</span></code>. This parameter may be adjusted to obtain a desired acceptance ratio, <code class="docutils literal notranslate"><span class="pre">tunable_target_acceptance</span></code>, with the help of <a class="reference internal" href="../../plugin/steppers/doc/Tune.html"><span class="doc">Tune</span></a>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_target_acceptance&quot;</span><span class="p">:</span> <span class="s2">&quot;0.2&quot;</span><span class="p">})))</span>
+<span class="n">trials_per</span> <span class="o">=</span> <span class="s2">&quot;1e3&quot;</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTune</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p>With the help of <a class="reference internal" href="../../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a> and <a class="reference internal" href="../../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialAdd</span></a>, we can now generate an initial configuration with the desired number of particles.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialAdd</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">})))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
+</pre></div>
+</div>
+</div>
+<p>A grand canonical simulation is performed here by utilizing a temporary <a class="reference internal" href="../../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialAdd</span></a>, which is why chemical potential was input to <a class="reference internal" href="../../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
+<p>Additional <a class="reference internal" href="../../plugin/monte_carlo/doc/Analyze.html"><span class="doc">Analyze</span></a> or <a class="reference internal" href="../../plugin/monte_carlo/doc/Modify.html"><span class="doc">Modify</span></a> may be added at any time to perform some task contingent upon the number of attempted trials.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLog</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span>
+                                            <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;log.txt&quot;</span><span class="p">,</span>
+                                            <span class="s2">&quot;clear_file&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMovie</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;movie.xyz&quot;</span><span class="p">})))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeCheckEnergy</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span> <span class="s2">&quot;tolerance&quot;</span> <span class="p">:</span> <span class="s2">&quot;1e-8&quot;</span><span class="p">})))</span>
+</pre></div>
+</div>
+</div>
+<p>In this example, <a class="reference internal" href="../../plugin/steppers/doc/Log.html"><span class="doc">Log</span></a> outputs the current status of the trials, <a class="reference internal" href="../../plugin/steppers/doc/Movie.html"><span class="doc">Movie</span></a> outputs the configuration, and <a class="reference internal" href="../../plugin/steppers/doc/CheckEnergy.html"><span class="doc">CheckEnergy</span></a> asserts that the optimized energy calculations match the unoptimized ones.</p>
+<p>The simulation is finally run for a number of trial attempts.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">time</span>  # Note: any line starting with % is only to be used with ipynb
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 3 µs, sys: 0 ns, total: 3 µs
+Wall time: 5.72 µs
+</pre></div></div>
+</div>
+<p>Now we can analyze the simulation by, for example, plotting the instantaneous energy as a function of the number of attempts.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Note: any line starting with % is only to be used with ipynb</span>
+<span class="c1"># import matplotlib.pyplot as plt  # uncomment this line if using plain python, not ipynb</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;attempt&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;AxesSubplot:xlabel=&#39;attempt&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_library_tutorial_21_1.svg" src="../../_images/tutorial_library_tutorial_21_1.svg" /></div>
+</div>
+<p>You should also find the <code class="docutils literal notranslate"><span class="pre">movie.xyz</span></code> trajectory file with an automatically-generated <code class="docutils literal notranslate"><span class="pre">movie.xyz.vmd</span></code> file for use with VMD (e.g., <code class="docutils literal notranslate"><span class="pre">vmd</span> <span class="pre">-e</span> <span class="pre">movie.xyz.vmd</span></code>).</p>
+<p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
+</div>
+<div class="section" id="Additional-tutorials">
+<h2>Additional tutorials<a class="headerlink" href="#Additional-tutorials" title="Permalink to this headline">¶</a></h2>
+<p>See additional examples in the directory <code class="docutils literal notranslate"><span class="pre">/path/to/feasst/tutorial/library/</span></code>. After completing this basic tutorial, check out the tutorials specific to each <a class="reference internal" href="../../plugin/README.html"><span class="doc">Plugin</span></a>. For example, see the tutorials of the <a class="reference internal" href="../../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> and <a class="reference internal" href="../../plugin/flat_histogram/README.html"><span class="doc">flat histogram</span></a> plugins.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+	<br></br>
+	<footer class="nist-footer">
+  <div class="nist-footer__inner">
+    <div class="nist-footer__menu" role="navigation">
+      <ul>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy">Privacy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#privpolicy">Privacy Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#secnot">Security Notice</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#accesstate">Accessibility Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy">NIST Privacy Program</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/disclaimer">Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/office-director/freedom-information-act">FOIA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#cookie">Cookie Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity Summary</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/nist-information-quality-standards">NIST Information Quality Standards</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://business.usa.gov/">Business USA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.commerce.gov/">Commerce.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.healthcare.gov/">Healthcare.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.science.gov/">Science.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.usa.gov/">USA.gov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nist-footer__logo">
+    <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-footer__logo-link" rel="home">
+      <img src="https://pages.nist.gov/nist-header-footer/images/nist_logo_centered_rev.svg" alt="National Institute of Standards and Technology logo" />
+    </a>
+  </div>
+</footer>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115121490-6');
+  </script>
+
+
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

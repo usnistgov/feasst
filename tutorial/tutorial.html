@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Tutorial &mdash; FEASST v0.19.0 documentation</title>
+  <title>Canonical ensemble Lennard-Jones Monte Carlo &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Plugins" href="../plugin/README.html" />
-    <link rel="prev" title="README" href="../README.html" />
+    <link rel="next" title="HPC/SLURM script with checkpointed restarts" href="launch.html" />
+    <link rel="prev" title="Tutorials" href="README.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,13 +104,11 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Installation-and-Interface">Installation and Interface</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Python-or-C++?">Python or C++?</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#Canonical-ensemble-Lennard-Jones-Monte-Carlo">Canonical ensemble Lennard-Jones Monte Carlo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Additional-tutorials">Additional tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Canonical ensemble Lennard-Jones Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launch.html">HPC/SLURM script with checkpointed restarts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#additional-tutorials">Additional tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugins</a></li>
@@ -187,7 +185,9 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Tutorial</li>
+          <li><a href="README.html">Tutorials</a> &raquo;</li>
+        
+      <li>Canonical ensemble Lennard-Jones Monte Carlo</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -474,28 +474,28 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Tutorial">
-<h1>Tutorial<a class="headerlink" href="#Tutorial" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="Installation-and-Interface">
-<h2>Installation and Interface<a class="headerlink" href="#Installation-and-Interface" title="Permalink to this headline">¶</a></h2>
-<p>Installation is described in the README of the base directory of FEASST. Or visit the website at <a class="reference external" href="https://pages.nist.gov/feasst">https://pages.nist.gov/feasst</a></p>
-<div class="section" id="Python-or-C++?">
-<h3>Python or C++?<a class="headerlink" href="#Python-or-C++?" title="Permalink to this headline">¶</a></h3>
-<p>Although this tutorial will focus upon the python interface, FEASST may also be utilized as a C++ library. For a C++ example, see the file <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.cpp</span></code> which is virtually identical to the Python tutorial. Thus Python tutorials are sufficient for learning the C++ library. While the majority of FEASST users prefer the Python interface, FEASST is written almost entirely in C++ for speed. Thus, both interfaces will be supported in the long term.</p>
-<p>Some HPC clusters may not have the required Python libraries. If that is the case, do not hesitate to give the C++ interface a try, even if you have never written C++ before. For example, the only minor differences between <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> are the argument parsing syntax, semi-colons at the end of every line, and compiling any binary with <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">main()</span></code>.</p>
-</div>
-</div>
 <div class="section" id="Canonical-ensemble-Lennard-Jones-Monte-Carlo">
-<h2>Canonical ensemble Lennard-Jones Monte Carlo<a class="headerlink" href="#Canonical-ensemble-Lennard-Jones-Monte-Carlo" title="Permalink to this headline">¶</a></h2>
-<p>The following simulation based on <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> demonstrates the basics of FEASST.</p>
-<p>To begin, FEASST is imported, and it is recommended to log the exact version used for the simulation. Note that the version shown may not match your version.</p>
+<h1>Canonical ensemble Lennard-Jones Monte Carlo<a class="headerlink" href="#Canonical-ensemble-Lennard-Jones-Monte-Carlo" title="Permalink to this headline">¶</a></h1>
+<p>In this example, we will reproduce the average energy reported in the NIST SRSW <a class="reference external" href="https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm">https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm</a> at T*=0.9 and <span class="math notranslate nohighlight">\(\rho*=0.009\)</span> using a Monte Carlo simulation of a bulk Lennard Jones fluid. The simulation will be initialized with a desired number of particles in a cubic box, equilibrated while tuning the maximum trial displacement and then simulated to obtain the ensemble average energy.</p>
+<p>To begin, a Python string, <code class="docutils literal notranslate"><span class="pre">script</span></code>, is used to write the file, <code class="docutils literal notranslate"><span class="pre">script.txt</span></code>, which is then run by the <code class="docutils literal notranslate"><span class="pre">fst</span></code> executable. Within <code class="docutils literal notranslate"><span class="pre">script</span></code>, a <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created. Then, a random number generator is given a seed. The available arguments of <a class="reference internal" href="../plugin/math/doc/RandomMT19937.html"><span class="doc">RandomMT19937</span></a> can be found in the documentation of that object, or its base-class, <a class="reference internal" href="../plugin/math/doc/Random.html"><span class="doc">Random</span></a>. Arguments of objects are separated by
+a space and are provided first as the name of the argument and then the value. In this case, <code class="docutils literal notranslate"><span class="pre">seed</span></code> is the argument name and <code class="docutils literal notranslate"><span class="pre">1572362164</span></code> is the argument value.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">feasst</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;version:&quot;</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">version</span><span class="p">())</span>
+<span></span><span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># comments begin with the &#39;#&#39; symbol</span>
+<span class="s2">MonteCarlo</span>
+<span class="s2">RandomMT19937 seed 1572362164</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">script</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">subprocess</span>
+    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../build/bin/fst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
+<span class="n">run</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -504,119 +504,228 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-version: v0.17.3-2-g5cfe911b25-dirty-hwh/nosysutil
+# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit
+RandomMT19937 seed 1572362164
+# initializing random number generator with seed: 1572362164
+
+ exit: 0
 </pre></div></div>
 </div>
-<p>Then a <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created and the random number generator is initialized using the C++ implementation of the Mersenne Twister seeded by the time and date.</p>
-<div class="nbinput nblast docutils container">
+<p>The output of <code class="docutils literal notranslate"><span class="pre">fst</span></code> in <code class="docutils literal notranslate"><span class="pre">script.log</span></code> is displayed. It includes the FEASST version as well as a confirmation of the seed. Note that the version shown may not match your version.</p>
+<p>If there is a typo in the arguments, this may result in an exception which will print to the terminal. You may test this now by changing the <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument to <code class="docutils literal notranslate"><span class="pre">sd</span></code>. Because the argument <code class="docutils literal notranslate"><span class="pre">sd</span></code> is not recognized by <a class="reference internal" href="../plugin/math/doc/RandomMT19937.html"><span class="doc">RandomMT19937</span></a>, a nonzero system code should be returned and a verbose error should appear in your terminal.</p>
+<p>The next step is to add a <a class="reference internal" href="../plugin/configuration/README.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box is defined based on the number of particles and density. Because the cubic length needs to be input to high precision, a Python format string is used to input a variable enclosed in curly brackets.</p>
+<p>In addition, the first particle type with an index of <code class="docutils literal notranslate"><span class="pre">0</span></code> is defined by the file <code class="docutils literal notranslate"><span class="pre">lj.fstprt</span></code>. Any argument value beginning with “/feasst” will have that beginning replaced with <a class="reference internal" href="../plugin/utils/doc/io.html"><span class="doc">feasst::install_dir()</span></a>, and thus the full path to the file <code class="docutils literal notranslate"><span class="pre">lj.fstprt</span></code> is displayed in <code class="docutils literal notranslate"><span class="pre">script.log</span></code> shown below. See <a class="reference internal" href="../forcefield/README.html"><span class="doc">Forcefield</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})))</span>
+<span></span><span class="n">num_particles</span><span class="o">=</span><span class="mi">500</span>
+<span class="n">density</span><span class="o">=</span><span class="mf">0.009</span>
+<span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Configuration cubic_box_length </span><span class="si">{length}</span><span class="s2"> particle_type0 /feasst/forcefield/lj.fstprt</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="p">(</span><span class="n">num_particles</span><span class="o">/</span><span class="n">density</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">))</span>
+<span class="n">run</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Care must be taken not to run two identical simulations at the same second on an HPC node using the time and date, or they will have the same seed and may be equivalent. Instead, consider using a thread safe random number generator to seed the simulations.</p>
-<p>FEASST standard output and error goes to the Jupyter notebook terminal. Thus, you should see output like “# Info 0 [plugin/math/src/random.cpp:30] time(seed): 1572362164” but with a different seed. This seed is provided in case you wanted to reproduce your simulation exactly, which we will do now. Note that your simulation may still be different than presented here, possibly because of different compiler implementations.</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit
+RandomMT19937 seed 1572362164
+# initializing random number generator with seed: 1572362164
+Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+
+ exit: 0
+</pre></div></div>
+</div>
+<p>Two <a class="reference internal" href="../plugin/system/doc/Potential.html"><span class="doc">Potentials</span></a> are introduced. First, the pair-wise <a class="reference internal" href="../plugin/system/doc/LennardJones.html"><span class="doc">Lennard-Jones (LJ) model</span></a>. Because the domain is large compared to the potential cutoff, a <a class="reference internal" href="../plugin/system/doc/VisitModelCell.html"><span class="doc">cell list</span></a> is used. Second, <a class="reference internal" href="../plugin/system/doc/LongRangeCorrections.html"><span class="doc">long-range corrections</span></a>, which approximately account for the cut off of the LJ potential by assuming a pair-wise radial distribution function of
+unity.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;1572362164&quot;</span><span class="p">})))</span>
+<span></span><span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Potential Model LennardJones VisitModel VisitModelCell min_length 3</span>
+<span class="s2">Potential VisitModel LongRangeCorrections</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
-<p>The second step is to add a <a class="reference internal" href="../plugin/configuration/README.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box of length 8 is defined with a single type of particle as described in <code class="docutils literal notranslate"><span class="pre">forcefield/lj.fstprt</span></code>. See <a class="reference internal" href="../forcefield/README.html"><span class="doc">Forcefield</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
+<p>Next, set <a class="reference internal" href="../plugin/system/doc/ThermoParams.html"><span class="doc">ThermoParams</span></a>, such as temperature and chemical potential of each particle type. The initial configuration will be generated with grand canonical particle additions, so a chemical potential is included, but will not contribute to canonical ensemble production simulations.</p>
+<p>In addition, <a class="reference internal" href="../plugin/monte_carlo/doc/Metropolis.html"><span class="doc">Metropolis</span></a> acceptance criteria is utilized.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
-     <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
+<span></span><span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential0 -1</span>
+<span class="s2">Metropolis</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>FEASST arguments are input as a dictionary of strings with limited type checking. Thus, care must be taken to input strings which follow the documentation.</p>
-<p>If there is a typo in the arguments, this may result in an exception which will print to the terminal and crash the notebook kernel. You can test this now by changing the <code class="docutils literal notranslate"><span class="pre">cubic_box_length</span></code> argument to a non-existent argument such as <code class="docutils literal notranslate"><span class="pre">cubic_box_len</span></code>.</p>
-<p>Next, initializing the <a class="reference internal" href="../plugin/system/doc/Potential.html"><span class="doc">Potential</span></a> proceeds as follows:</p>
-<div class="nbinput nblast docutils container">
+<p>A <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a> is then introduced which attempts to translate a random particle by a random distance which is bound in each dimension by a <code class="docutils literal notranslate"><span class="pre">tunable_param</span></code>. This parameter may be adjusted to obtain a desired acceptance ratio, <code class="docutils literal notranslate"><span class="pre">tunable_target_acceptance</span></code>, with the help of <a class="reference internal" href="../plugin/steppers/doc/Tune.html"><span class="doc">Tune</span></a>.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakePotential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
+<span></span><span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">TrialTranslate weight 1 tunable_param 2 tunable_target_acceptance 0.2</span>
+<span class="s2">Tune</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">run</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>In this example, we introduce both the pair-wise <a class="reference internal" href="../plugin/system/doc/LennardJones.html"><span class="doc">Lennard-Jones (LJ) model</span></a>, and also <a class="reference internal" href="../plugin/system/doc/LongRangeCorrections.html"><span class="doc">long-range corrections</span></a>, which approximately account for the cut off of the LJ potential by assuming a pair-wise radial distance distribution function of unity. A FEASST convention is to use a helper function which appends the word <code class="docutils literal notranslate"><span class="pre">Make</span></code> onto the class name when creating pointers to FEASST derived class objects. This
-serves two purposes involving C++11 smart pointers and brace enclosed initializer lists.</p>
-<p>Initialize <a class="reference internal" href="../plugin/system/doc/ThermoParams.html"><span class="doc">ThermoParams</span></a>, such as temperature, and the acceptance <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>. Note that the initial configuration will be generated with grand canonical particle additions, so a large chemical potential is included, but will not contribute to canonical ensemble production simulations.</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit
+RandomMT19937 seed 1572362164
+# initializing random number generator with seed: 1572362164
+Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Potential Model LennardJones VisitModel VisitModelCell min_length 3
+Potential VisitModel LongRangeCorrections
+ThermoParams beta 1.1111111111111112 chemical_potential0 -1
+Metropolis
+TrialTranslate tunable_param 2 tunable_target_acceptance 0.2 weight 1
+Tune
+
+ exit: 0
+</pre></div></div>
+</div>
+<p><a class="reference internal" href="../plugin/steppers/doc/CheckEnergy.html"><span class="doc">CheckEnergy</span></a> asserts that the optimized energy calculations match the unoptimized calculations within a tolerance. Because the unoptimized energy calculation can be expensive, this check is only performed every <code class="docutils literal notranslate"><span class="pre">trials_per</span></code>. The line <code class="docutils literal notranslate"><span class="pre">set_variable</span> <span class="pre">name</span> <span class="pre">value</span></code> will replace any use of <code class="docutils literal notranslate"><span class="pre">name</span></code> in subsequent values, as shown in <code class="docutils literal notranslate"><span class="pre">script.log</span></code>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeThermoParams</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential0&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">())</span>
+<span></span><span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">set_variable trials_per 1e4</span>
+<span class="s2">CheckEnergy trials_per trials_per tolerance 1e-8</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
-<p>A <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a> is then introduced which attempts to translate a random particle by a random distance which is bound in each dimension by a <code class="docutils literal notranslate"><span class="pre">tunable_param</span></code>. This parameter may be adjusted to obtain a desired acceptance ratio, <code class="docutils literal notranslate"><span class="pre">tunable_target_acceptance</span></code>, with the help of <a class="reference internal" href="../plugin/steppers/doc/Tune.html"><span class="doc">Tune</span></a>.</p>
-<div class="nbinput nblast docutils container">
+<p>With the help of <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialAdd</span></a>, we can now generate an initial configuration with a <a class="reference internal" href="../plugin/monte_carlo/doc/Run.html"><span class="doc">Run</span></a> until the desired number of particles are reached. <a class="reference internal" href="../plugin/monte_carlo/doc/Run.html"><span class="doc">RemoveTrial</span></a> is then used to revert back to the Canonical ensemble.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_target_acceptance&quot;</span><span class="p">:</span> <span class="s2">&quot;0.2&quot;</span><span class="p">})))</span>
-<span class="n">steps_per</span> <span class="o">=</span> <span class="s2">&quot;1e3&quot;</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTune</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="n">steps_per</span><span class="p">})))</span>
+<span></span><span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">TrialAdd weight 2 particle_type 0</span>
+<span class="s2">Run until_num_particles </span><span class="si">{num_particles}</span><span class="s2"></span>
+<span class="s2">RemoveTrial name TrialAdd</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_particles</span><span class="o">=</span><span class="n">num_particles</span><span class="p">)</span>
+<span class="n">run</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>With the help of <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a> and <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialAdd</span></a>, we can now generate an initial configuration with the desired number of particles.</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit
+RandomMT19937 seed 1572362164
+# initializing random number generator with seed: 1572362164
+Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Potential Model LennardJones VisitModel VisitModelCell min_length 3
+Potential VisitModel LongRangeCorrections
+ThermoParams beta 1.1111111111111112 chemical_potential0 -1
+Metropolis
+TrialTranslate tunable_param 2 tunable_target_acceptance 0.2 weight 1
+Tune
+CheckEnergy tolerance 1e-8 trials_per 1e4
+TrialAdd particle_type 0 weight 2
+Run until_num_particles 500
+RemoveTrial name TrialAdd
+
+ exit: 0
+</pre></div></div>
+</div>
+<p>The simulation is then <a class="reference internal" href="../plugin/monte_carlo/doc/Run.html"><span class="doc">Run</span></a> for a number of equilibration trials before <a class="reference internal" href="../plugin/monte_carlo/doc/Run.html"><span class="doc">RemoveModify</span></a> disables tuning of the maximum displacement.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialAdd</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRun</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;until_num_particles&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
+<span></span><span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Run num_trials 1e5</span>
+<span class="s2">RemoveModify name Tune</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
-<p>A grand canonical simulation is performed here by utilizing a temporary <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialAdd</span></a>, which is why chemical potential was input to <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
-<p>Additional <a class="reference internal" href="../plugin/monte_carlo/doc/Analyze.html"><span class="doc">Analyze</span></a> or <a class="reference internal" href="../plugin/monte_carlo/doc/Modify.html"><span class="doc">Modify</span></a> may be added at any time to perform some task contingent upon the number of attempted trials.</p>
-<div class="nbinput nblast docutils container">
+<p>Finally, it is time to obtain the ensemble average energy from a production simulation. First, a <a class="reference internal" href="../plugin/steppers/doc/Log.html"><span class="doc">Log</span></a> periodically outputs the instantaneous status of the trials, but it is more useful for watching the progress of a simulation than actually calculating quantities. Instead of analyzing the Log file, <a class="reference internal" href="../plugin/steppers/doc/Energy.html"><span class="doc">Energy</span></a> may be used to more precisely compute the average energy by accumulating its value after every trial. A trajectory in
+the XYZ format may also be produced using <a class="reference internal" href="../plugin/steppers/doc/Movie.html"><span class="doc">Movie</span></a>.</p>
+<p>Additional <a class="reference internal" href="../plugin/monte_carlo/doc/Analyze.html"><span class="doc">Analyze</span></a> or <a class="reference internal" href="../plugin/monte_carlo/doc/Modify.html"><span class="doc">Modify</span></a> may be added to perform some task contingent upon the number of attempted trials.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLog</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
-                                            <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;log.txt&quot;</span><span class="p">,</span>
-                                            <span class="s2">&quot;clear_file&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMovie</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;movie.xyz&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeCheckEnergy</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;tolerance&quot;</span> <span class="p">:</span> <span class="s2">&quot;1e-8&quot;</span><span class="p">})))</span>
+<span></span><span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Log trials_per trials_per file_name lj.txt</span>
+<span class="s2">Energy trials_per_write trials_per file_name lj_en.txt</span>
+<span class="s2">Movie trials_per trials_per file_name lj.xyz</span>
+<span class="s2">Run num_trials 1e6</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">run</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>In this example, <a class="reference internal" href="../plugin/steppers/doc/Log.html"><span class="doc">Log</span></a> outputs the current status of the trials, <a class="reference internal" href="../plugin/steppers/doc/Movie.html"><span class="doc">Movie</span></a> outputs the configuration, and <a class="reference internal" href="../plugin/steppers/doc/CheckEnergy.html"><span class="doc">CheckEnergy</span></a> asserts that the optimized energy calculations match the unoptimized ones.</p>
-<p>The simulation is finally run for a number of trial attempts.</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit
+RandomMT19937 seed 1572362164
+# initializing random number generator with seed: 1572362164
+Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Potential Model LennardJones VisitModel VisitModelCell min_length 3
+Potential VisitModel LongRangeCorrections
+ThermoParams beta 1.1111111111111112 chemical_potential0 -1
+Metropolis
+TrialTranslate tunable_param 2 tunable_target_acceptance 0.2 weight 1
+Tune
+CheckEnergy tolerance 1e-8 trials_per 1e4
+TrialAdd particle_type 0 weight 2
+Run until_num_particles 500
+RemoveTrial name TrialAdd
+Run num_trials 1e5
+RemoveModify name Tune
+Log file_name lj.txt trials_per 1e4
+Energy file_name lj_en.txt trials_per_write 1e4
+Movie file_name lj.xyz trials_per 1e4
+Run num_trials 1e6
+
+ exit: 0
+</pre></div></div>
+</div>
+<p>Compare the average energy to the NIST SRSW <a class="reference external" href="https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm">https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm</a></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">time</span>  # Note: any line starting with % is only to be used with ipynb
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj_en.txt&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U_FEASST/N=&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">num_particles</span><span class="p">,</span> <span class="s1">&#39;+/-&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">num_particles</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U_SRSW/N=&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.9936E-02</span><span class="p">,</span> <span class="s1">&#39;+/-&#39;</span><span class="p">,</span> <span class="mf">2.44E-05</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mf">8.9936E-02</span><span class="o">-</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">num_particles</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.44E-05</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">num_particles</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -625,48 +734,12 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 4 µs, sys: 1 µs, total: 5 µs
-Wall time: 7.39 µs
+U_FEASST/N= -0.09030193615567321 +/- 0.00048147353358693576
+U_SRSW/N= -0.089936 +/- 2.44e-05
 </pre></div></div>
 </div>
-<p>Now we can analyze the simulation by, for example, plotting the instantaneous energy as a function of the number of attempts.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Note: any line starting with % is only to be used with ipynb</span>
-<span class="c1"># import matplotlib.pyplot as plt  # uncomment this line if using plain python, not ipynb</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;attempt&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">)</span>
-<span class="c1"># plt.show()  # uncomment this line if using plain python, not ipynb</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-&lt;AxesSubplot:xlabel=&#39;attempt&#39;&gt;
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/tutorial_tutorial_21_1.svg" src="../_images/tutorial_tutorial_21_1.svg" /></div>
-</div>
-<p>You should also find the <code class="docutils literal notranslate"><span class="pre">movie.xyz</span></code> trajectory file with an automatically-generated <code class="docutils literal notranslate"><span class="pre">movie.xyz.vmd</span></code> file for use with VMD (e.g., <code class="docutils literal notranslate"><span class="pre">vmd</span> <span class="pre">-e</span> <span class="pre">movie.xyz.vmd</span></code>).</p>
+<p>You should also find the <code class="docutils literal notranslate"><span class="pre">lj.xyz</span></code> trajectory file with an automatically-generated <code class="docutils literal notranslate"><span class="pre">lj.xyz.vmd</span></code> file for use with VMD (e.g., <code class="docutils literal notranslate"><span class="pre">vmd</span> <span class="pre">-e</span> <span class="pre">lj.xyz.vmd</span></code>).</p>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
-</div>
-<div class="section" id="Additional-tutorials">
-<h2>Additional tutorials<a class="headerlink" href="#Additional-tutorials" title="Permalink to this headline">¶</a></h2>
-<p>After completing this basic tutorial, check out the tutorials specific to each <a class="reference internal" href="../plugin/README.html"><span class="doc">Plugin</span></a>. For example, see the tutorials of the <a class="reference internal" href="../plugin/system/README.html"><span class="doc">System</span></a>, <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> and <a class="reference internal" href="../plugin/flat_histogram/README.html"><span class="doc">flat histogram</span></a> plugins.</p>
-</div>
 </div>
 
 
@@ -675,8 +748,8 @@ Wall time: 7.39 µs
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../plugin/README.html" class="btn btn-neutral float-right" title="Plugins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="../README.html" class="btn btn-neutral float-left" title="README" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="launch.html" class="btn btn-neutral float-right" title="HPC/SLURM script with checkpointed restarts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="README.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

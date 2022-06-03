@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.19.0 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -83,7 +83,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -103,7 +103,7 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield and Units</a></li>
@@ -284,105 +284,38 @@ Some features include but are not limited to the following:</p>
 </div>
 <div class="section" id="tutorial">
 <h3>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference external" href="tutorial/tutorial.html">Tutorial</a> describes an example Lennard-Jones Monte Carlo simulation.
-After completing this basic tutorial, check out tutorials specific to each <a class="reference internal" href="plugin/README.html"><span class="doc">Plugins</span></a>.
-For example, see the tutorials of <a class="reference external" href="plugin/system/README.html">System</a>, <a class="reference external" href="plugin/monte_carlo/README.html">MonteCarlo</a> and <a class="reference external" href="plugin/flat_histogram/README.html">FlatHistogram</a>.</p>
+<p><a class="reference external" href="tutorial/README.html">Tutorial</a> describes an example Lennard-Jones Monte Carlo simulation.
+Also check out tutorials for <a class="reference internal" href="plugin/README.html"><span class="doc">Plugins</span></a>.
+In particular, <a class="reference external" href="plugin/monte_carlo/README.html">MonteCarlo</a> and <a class="reference external" href="plugin/flat_histogram/README.html">FlatHistogram</a>.</p>
 <p>The search box for the html documentation was disabled for security reasons.
 But the html is generated entirely from the downloaded code.
-Thus, the grep command is a great option to search for more information on keywords.
+Thus, the bash command “grep” is a great option to search for more information on classes and their arguments.
 For example, if you would like more information on <a class="reference external" href="plugin/math/doc/RandomMT19937.html">RandomMT19937</a> but are not sure where to find it, you could search headers files</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>grep -r --include<span class="o">=</span>*.h RandomMT19937
 </pre></div>
 </div>
-<p>And find that the class is part of the <a class="reference external" href="plugin/math/README.html">Math</a> plugin.</p>
+<p>And find that the class is part of the <a class="reference external" href="plugin/math/README.html">Math</a> plugin.
+Searching the GitHub repository is another option.</p>
 </div>
-<div class="section" id="build-from-source-code">
-<h3>Build from source code<a class="headerlink" href="#build-from-source-code" title="Permalink to this headline">¶</a></h3>
-<p>To begin, [apt/yum/brew] install g++ cmake git.</p>
-<div class="section" id="python-install">
-<h4>Python install<a class="headerlink" href="#python-install" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p>SWIG is required. Version 3.0.12 is recommended if your current SWIG version does not work properly.</p></li>
-<li><p>Python 3 is recommended.</p></li>
-<li><p>CMake attempts to find the python libraries during compilation.
-But you may want to specify them manually.</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
+<div class="section" id="how-to-install-e-g-compile-the-executables">
+<h3>How to install (e.g., compile the executables).<a class="headerlink" href="#how-to-install-e-g-compile-the-executables" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>apt/yum/brew<span class="o">]</span> install g++ cmake git
+git clone https://github.com/usnistgov/feasst.git
 mkdir feasst/build
 <span class="nb">cd</span> feasst/build
-
-<span class="c1"># install python virtual environment for feasst usage</span>
-sudo apt install python3-dev
-mkdir ~/.pyenv
-<span class="nb">pushd</span> ~/.pyenv
-python3 -m venv feasst
-<span class="nb">source</span> ~/.pyenv/feasst/bin/activate <span class="c1"># may add this to your .bash_profile</span>
-pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
-<span class="nb">popd</span>
-<span class="c1"># # alternatively, using Anaconda:</span>
-<span class="c1"># conda env create -f ../py/feasst.yml</span>
-<span class="c1"># conda activate feasst</span>
-
-cmake -DUSE_SWIG<span class="o">=</span>ON ..
-<span class="c1"># alternatively, for manually setting the python path</span>
-<span class="c1"># cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/include/python3.7m -DPYTHON_LIBRARY=/path/to/lib/libpython3.7m.[so/dylib] ..</span>
-
-make -j4
-make install -j4
-python ../py/test.py <span class="c1"># optional test</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="c-install">
-<h4>C++ install<a class="headerlink" href="#c-install" title="Permalink to this headline">¶</a></h4>
-<p>First, install the C++ library.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
-mkdir feasst/build
-<span class="nb">cd</span> feasst/build
-cmake ..          <span class="c1"># optionally, include -DUSE_GTEST=ON for gtest</span>
-make install -j4
-make <span class="nb">test</span>         <span class="c1"># optional test</span>
-</pre></div>
-</div>
-<p>Then, compile the specific simulation you wish to run (e.g., tutorial).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /path/to/feasst/tutorial/
-mkdir build<span class="p">;</span> <span class="nb">cd</span> build
 cmake ..
-make
-./tutorial
+make install -j4
+pip install jupyter matplotlib pandas scipy <span class="c1"># optional for tutorials</span>
 </pre></div>
 </div>
-<p>CMake defaults to install in the build directory.
-But you can also specify the path as follows.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span>/path/to/install/dir ..
-</pre></div>
-</div>
-<p>Later, when you build your tutorial executable, if your build directory is not <cite>~/feasst/build</cite>, then specify the path to the build directory as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/install/dir ..
-</pre></div>
-</div>
-<p>Sometimes running the executable results in an error that a plugin cannot be found.
-In that case <cite>LD_LIBRARY_PATH</cite> needs to be set as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/path/to/feasst/build/:</span><span class="nv">$LD_LIBRARY_PATH</span><span class="s2"></span>
-</pre></div>
-</div>
-</div>
+<p>The executables <cite>fst</cite>, which is used to start a simulation, and <cite>rst</cite>, which is used to restart a simulation, should now be located in <cite>/path/to/feasst/build/bin/</cite>.</p>
 <div class="section" id="troubleshooting-install">
 <h4>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Permalink to this headline">¶</a></h4>
 <p>Please <a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us if you run into an issue not listed below.</p>
-<div class="section" id="macos-mojave">
-<h5>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Permalink to this headline">¶</a></h5>
-<ul class="simple">
-<li><p>SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst.
-Try SWIG version 3 instead.</p></li>
-<li><p>Sometimes CMake has trouble finding python, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so</p></li>
-</ul>
-</div>
 <div class="section" id="centos-7">
 <h5>CentOS 7<a class="headerlink" href="#centos-7" title="Permalink to this headline">¶</a></h5>
-<p>CMake and SWIG versions are usually too old.
-Try the command cmake3 instead of cmake.
-Otherwise, install SWIG 3.</p>
+<p>CMake version is usually too old.
+Try the command cmake3 instead of cmake.</p>
 </div>
 <div class="section" id="windows-10">
 <h5>Windows 10<a class="headerlink" href="#windows-10" title="Permalink to this headline">¶</a></h5>
@@ -395,13 +328,12 @@ Otherwise, install SWIG 3.</p>
 <h5>Ubuntu 16<a class="headerlink" href="#ubuntu-16" title="Permalink to this headline">¶</a></h5>
 <ul class="simple">
 <li><p>Update to CMake 3 (<a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a>)</p></li>
-<li><p>sudo apt install swig</p></li>
 </ul>
 </div>
-<div class="section" id="ubuntu-18-or-20">
-<h5>Ubuntu 18 or 20<a class="headerlink" href="#ubuntu-18-or-20" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="ubuntu-18-20-and-macos-mojave">
+<h5>Ubuntu 18, 20 and macOS Mojave<a class="headerlink" href="#ubuntu-18-20-and-macos-mojave" title="Permalink to this headline">¶</a></h5>
 <ul class="simple">
-<li><p>We are not aware of any issues with an Ubuntu 18 or 20 install.</p></li>
+<li><p>We are not aware of any issues with these OS.</p></li>
 </ul>
 </div>
 <div class="section" id="cray-nersc-cori">
@@ -459,15 +391,12 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="README.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#tutorial">Tutorial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#build-from-source-code">Build from source code</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="README.html#python-install">Python install</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#c-install">C++ install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#how-to-install-e-g-compile-the-executables">How to install (e.g., compile the executables).</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="README.html#troubleshooting-install">Troubleshooting install</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="README.html#macos-mojave">macOS Mojave</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#centos-7">CentOS 7</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#windows-10">Windows 10</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-16">Ubuntu 16</a></li>
-<li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-18-or-20">Ubuntu 18 or 20</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-18-20-and-macos-mojave">Ubuntu 18, 20 and macOS Mojave</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#cray-nersc-cori">Cray (NERSC CORI)</a></li>
 </ul>
 </li>
@@ -484,13 +413,11 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l2"><a class="reference internal" href="README.html#license">License</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#Installation-and-Interface">Installation and Interface</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/tutorial.html#Python-or-C++?">Python or C++?</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#Canonical-ensemble-Lennard-Jones-Monte-Carlo">Canonical ensemble Lennard-Jones Monte Carlo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#Additional-tutorials">Additional tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html">Canonical ensemble Lennard-Jones Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/launch.html">HPC/SLURM script with checkpointed restarts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/README.html#additional-tutorials">Additional tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugins</a><ul>
@@ -568,10 +495,6 @@ Otherwise, install SWIG 3.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/system/README.html">System</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/tutorial/tutorial.html">Lennard Jones reference configuration</a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Model.html">Model</a></li>
@@ -605,6 +528,7 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Cells.html">Cells</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/CutoffOuter.html">CutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/PotentialFactory.html">PotentialFactory</a></li>
@@ -615,9 +539,8 @@ Otherwise, install SWIG 3.</p>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/monte_carlo/README.html">Monte Carlo</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_1_lj_nvt.html">Canonical ensemble Monte Carlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_2_lj_gcmc.html">Grand canonical ensemble Monte Carlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_4_block_average.html">Block Averaging Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_0_ref_configs.html">Lennard Jones reference configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_1_lj_nvt.html">Canonical ensemble average energy of a bulk LJ fluid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -629,20 +552,14 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Criteria.html">Criteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Trial.html">Trial</a></li>
@@ -665,6 +582,12 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbVolume.html">PerturbVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbRotate.html">PerturbRotate</a></li>
@@ -697,7 +620,7 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesForceShift.html">LennardJonesForceShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/Mie.html">Mie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/models/tutorial/tutorial.html">Lennard Jones reference configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -722,9 +645,9 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/PairDistributionInner.html">PairDistributionInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckEnergy.html">CheckEnergy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckEnergyAndTune.html">CheckEnergyAndTune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/IncrementPhase.html">IncrementPhase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/SeekModify.html">SeekModify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/WrapParticles.html">WrapParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Tune.html">Tune</a></li>
@@ -734,18 +657,20 @@ Otherwise, install SWIG 3.</p>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/flat_histogram/README.html">Flat histogram</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_10_hs.html">Analysis of a hard sphere simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_2_reweight_supercritical.html#Grand-canonical-ensemble-averages">Grand canonical ensemble averages</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_2_reweight_supercritical.html#Histogram-reweighting">Histogram reweighting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_02_reweight_supercritical.html#Grand-canonical-ensemble-averages">Grand canonical ensemble averages</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_02_reweight_supercritical.html#Histogram-reweighting">Histogram reweighting</a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_03_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_04_lj_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_05_spce_tm_parallel.html">Grand Canonical Flat Histogram Simulation of SPC/E</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_06_rpm_tm_parallel.html">Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#tools">Tools</a></li>
@@ -755,7 +680,7 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/LnProbability.html">LnProbability</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/WangLandau.html">WangLandau</a></li>
@@ -764,6 +689,7 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Clones.html">Clones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
@@ -776,8 +702,7 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html">FileVMDPatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html">MoviePatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/patch/tutorial/tutorial_1_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/patch/tutorial/tutorial_2_kf_fh.html">Flat Histogram simulation of a Kern-Frenkel patch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/patch/tutorial/tutorial_0_ref_config.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -787,8 +712,8 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l3"><a class="reference internal" href="plugin/mayer/doc/MayerSampling.html">MayerSampling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/mayer/README.html#tutorial">Tutorial</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_3_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_4_n-pentane.html">Second virial coefficient calculation of TraPPE n-pentane using Mayer-Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/mayer/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -802,19 +727,27 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l2"><a class="reference internal" href="plugin/chain/README.html">Chain</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectPerturbed.html">SelectPerturbed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectParticlePivot.html">SelectParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/EndToEndDistance.html">EndToEndDistance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/RadiusOfGyration.html">RadiusOfGyration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialGrow.html">TrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialSwapSites.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialPivot.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialParticlePivot.html">TrialParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectBranch.html">SelectBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/SelectReptate.html">SelectReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialGrow.html">TrialGrow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialSwapSites.html">TrialSwapSites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialPivot.html">TrialPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialReptate.html">TrialReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbParticlePivot.html">PerturbParticlePivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
@@ -839,6 +772,7 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/Cuboid.html">Cuboid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/Cylinder.html">Cylinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/ShapeUnion.html">ShapeUnion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/ShapeFile.html">ShapeFile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/ShapeIntersect.html">ShapeIntersect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/SlabSine.html">SlabSine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/FiniteCylinder.html">FiniteCylinder</a></li>
@@ -866,7 +800,7 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l2"><a class="reference internal" href="plugin/charge/README.html">Charge</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/charge/README.html#tutorial">Tutorial</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/tutorial/tutorial_0_spce_ref_config.html">Reference configuration of SPC/E water in non-cuboid domain</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/charge/tutorial/tutorial_1_spce_nvt.html">Canonical ensemble Monte Carlo of bulk SPC/E water</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/charge/tutorial/tutorial_1_spce_nvt.html">Canonical ensemble average energy of a bulk SPC/E fluid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/charge/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -906,16 +840,13 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/EnergyMapNeighbor.html">EnergyMapNeighbor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/SelectCluster.html">SelectCluster</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/AnalyzeCluster.html">AnalyzeCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/TrialAVB2Half.html">TrialAVB2Half</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/TrialTranslateCluster.html">TrialTranslateCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/TrialAddAVBDivalent.html">TrialAddAVBDivalent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/TrialAddAVB.html">TrialAddAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/TrialAVB4.html">TrialAVB4</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/ComputeMoveCluster.html">ComputeMoveCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/ComputeAddAVB.html">ComputeAddAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/ComputeGCA.html">ComputeGCA</a></li>
@@ -923,6 +854,10 @@ Otherwise, install SWIG 3.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/ComputeRemoveAVBDivalent.html">ComputeRemoveAVBDivalent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB2.html">ComputeAVB2</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB4.html">ComputeAVB4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/SelectCluster.html">SelectCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/ComputeMoveCluster.html">ComputeMoveCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/PerturbRotateCOM.html">PerturbRotateCOM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/PerturbMoveAVB.html">PerturbMoveAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/doc/PerturbAddAVB.html">PerturbAddAVB</a></li>
@@ -931,7 +866,7 @@ Otherwise, install SWIG 3.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/egce/README.html">Expanded Grand Canonical Ensemble</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/egce/tutorial/tutorial_1_rpm_egce.html">Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/egce/tutorial/tutorial_1_rpm_tm_egce_parallel.html">Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/egce/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/egce/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/egce/doc/AEqualB.html">AEqualB</a></li>

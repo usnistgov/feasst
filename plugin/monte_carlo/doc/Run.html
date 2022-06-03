@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Run &mdash; FEASST v0.19.0 documentation</title>
+  <title>Run &mdash; FEASST v0.20.0 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.19.0
+                v0.20.0
               </div>
             
           
@@ -104,7 +104,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -122,20 +122,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -158,6 +152,12 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -312,15 +312,19 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst3RunE">
 <span class="target" id="classfeasst_1_1Run"></span><em class="property">class </em><code class="sig-name descname">Run</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Action.html#_CPPv4N6feasst6ActionE" title="feasst::Action">Action</a><a class="headerlink" href="#_CPPv4N6feasst3RunE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Perform a number of attempts. </p>
+<dd><p>Perform a number of trials. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst3Run3RunE7argtype">
 <span class="target" id="classfeasst_1_1Run_1a29d5977a6d7e37455ef0c7aaf50d75f7"></span><code class="sig-name descname">Run</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst3Run3RunE7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>num_attempts: run this many <a class="reference internal" href="Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> attempts (default: -1. e.g., None)</p></li>
-<li><p>until_num_particles: run until this many particles (default: -1. e.g., None) </p></li>
+<dd><p>The following arguments are completed in the order listed.</p>
+<p>args:<ul class="simple">
+<li><p>num_trials: run this many trials (default: -1. e.g., None)</p></li>
+<li><p>until_num_particles: run until this many particles (default: -1. e.g., None)</p></li>
+<li><p>particle_type: type of particle to count. If -1, all particles (default: -1).</p></li>
+<li><p>for_hours: run for this many CPU hours (default: -1 e.g., None).</p></li>
+<li><p>until_criteria_complete: run until <a class="reference internal" href="Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> is complete (default: false) </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -349,6 +353,26 @@
 </dd></dl>
 
 <dl class="cpp class">
+<dt id="_CPPv4N6feasst13RemoveAnalyzeE">
+<span class="target" id="classfeasst_1_1RemoveAnalyze"></span><em class="property">class </em><code class="sig-name descname">RemoveAnalyze</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Action.html#_CPPv4N6feasst6ActionE" title="feasst::Action">Action</a><a class="headerlink" href="#_CPPv4N6feasst13RemoveAnalyzeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove a <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst13RemoveAnalyze13RemoveAnalyzeE7argtype">
+<span class="target" id="classfeasst_1_1RemoveAnalyze_1a7f4c02d00f4bd789c59fd3e42e4bfeeb"></span><code class="sig-name descname">RemoveAnalyze</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13RemoveAnalyze13RemoveAnalyzeE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>index: index of analyze to remove, in the order added. If -1, do nothing. (default: -1).</p></li>
+<li><p>name: remove first analyze with this class name, if not empty. (default: empty).</p></li>
+<li><p>all: remove all analyzers (default: false) </p></li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
 <dt id="_CPPv4N6feasst12RemoveModifyE">
 <span class="target" id="classfeasst_1_1RemoveModify"></span><em class="property">class </em><code class="sig-name descname">RemoveModify</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Action.html#_CPPv4N6feasst6ActionE" title="feasst::Action">Action</a><a class="headerlink" href="#_CPPv4N6feasst12RemoveModifyE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Remove a <a class="reference internal" href="Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a>. </p>
@@ -358,7 +382,7 @@
 <dt id="_CPPv4N6feasst12RemoveModify12RemoveModifyE7argtype">
 <span class="target" id="classfeasst_1_1RemoveModify_1aef070a72ebf0b718b6cd26a0e42f788b"></span><code class="sig-name descname">RemoveModify</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12RemoveModify12RemoveModifyE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>index: index of modify to remove, in order of modifies added. If -1, do nothing. (default: -1).</p></li>
+<li><p>index: index of modify to remove, in the order added. If -1, do nothing. (default: -1).</p></li>
 <li><p>name: remove first modify with this class name, if not empty. (default: empty).</p></li>
 <li><p>all: remove all modifiers (default: false) </p></li>
 </ul>
@@ -384,18 +408,37 @@
 </dd></dl>
 
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst12AddReferenceE">
-<span class="target" id="classfeasst_1_1AddReference"></span><em class="property">class </em><code class="sig-name descname">AddReference</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Action.html#_CPPv4N6feasst6ActionE" title="feasst::Action">Action</a><a class="headerlink" href="#_CPPv4N6feasst12AddReferenceE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst21ConvertToRefPotentialE">
+<span class="target" id="classfeasst_1_1ConvertToRefPotential"></span><em class="property">class </em><code class="sig-name descname">ConvertToRefPotential</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Action.html#_CPPv4N6feasst6ActionE" title="feasst::Action">Action</a><a class="headerlink" href="#_CPPv4N6feasst21ConvertToRefPotentialE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Make a new reference potential based on an existing potential. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12AddReference12AddReferenceE7argtype">
-<span class="target" id="classfeasst_1_1AddReference_1af8c0c09cf4cc66eb5dde54a5c4262430"></span><code class="sig-name descname">AddReference</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12AddReference12AddReferenceE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst21ConvertToRefPotential21ConvertToRefPotentialE7argtype">
+<span class="target" id="classfeasst_1_1ConvertToRefPotential_1aa2e7d2e2c3249c03eeb8d28dca53c0d3"></span><code class="sig-name descname">ConvertToRefPotential</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst21ConvertToRefPotential21ConvertToRefPotentialE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>potential_index: index of the full potential to copy as a template (default: 0).</p></li>
 <li><p>cutoff: set cutoff of all site_types to this value. Ignore if -1 (default: -1).</p></li>
 <li><p>use_cell: use <a class="reference internal" href="../../system/doc/VisitModelCell.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">VisitModelCell</span></a> with cutoff as min_length (default: false). </p></li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst12RefPotentialE">
+<span class="target" id="classfeasst_1_1RefPotential"></span><em class="property">class </em><code class="sig-name descname">RefPotential</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Action.html#_CPPv4N6feasst6ActionE" title="feasst::Action">Action</a><a class="headerlink" href="#_CPPv4N6feasst12RefPotentialE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a reference potential. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst12RefPotential12RefPotentialE7argtype">
+<span class="target" id="classfeasst_1_1RefPotential_1a0f402f5282f57d876fa59bc2a726f007"></span><code class="sig-name descname">RefPotential</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12RefPotential12RefPotentialE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>Same arguments as <a class="reference internal" href="../../system/doc/Potential.html#classfeasst_1_1Potential"><span class="std std-ref">Potential</span></a>.</p></li>
+<li><p>reference_index: index of reference potential (default: 0). </p></li>
 </ul>
 </p>
 </dd></dl>

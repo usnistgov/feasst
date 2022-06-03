@@ -32,6 +32,7 @@
    LongRangeCorrections
    ModelTwoBodyTable
    Cells
+   CutoffOuter
    VisitModelCell
    Potential
    PotentialFactory
