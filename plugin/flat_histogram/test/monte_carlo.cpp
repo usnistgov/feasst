@@ -281,6 +281,20 @@ TEST(MonteCarlo, lj_fh_block) {
 //  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
 }
 
+TEST(MonteCarlo, soft_min_macro) {
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"particle_type0", "../forcefield/lj.fstprt"},
+                       {"cubic_box_length", "8"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"ThermoParams", {{"beta", "1.2"}, {"chemical_potential", "1."}}},
+    {"FlatHistogram", {{"Macrostate", "MacrostateNumParticles"}, {"width", "1"},
+      {"max", "5"}, {"min", "0"}, {"soft_macro_min", "1"}, {"soft_macro_max", "4"},
+      {"Bias", "TransitionMatrix"}, {"min_sweeps", "10"}}},
+  }});
+  const FlatHistogram& fh = FlatHistogram(mc->criteria());
+  EXPECT_NEAR(1, fh.macrostate().value(0), NEAR_ZERO);
+}
+
 TEST(MonteCarlo, lj_fh_with0) {
   //for (int num_steps : {1}) {
   for (int num_steps : {1, 2}) {

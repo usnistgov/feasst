@@ -42,7 +42,7 @@ class WLTM : public Bias {
     return transition_matrix_->num_iterations_to_complete(); }
   void set_num_iterations_to_complete(const int sweeps) override {
     transition_matrix_->set_num_iterations_to_complete(sweeps); }
-  int num_iterations(const int state) const override;
+  int num_iterations(const int state, const Macrostate& macro) const override;
   const TransitionMatrix& transition_matrix() const {
     return const_cast<TransitionMatrix&>(*transition_matrix_); }
   const LnProbability& ln_prob() const override;
@@ -60,6 +60,7 @@ class WLTM : public Bias {
     return transition_matrix().collection(); }
   const int visits(const int macro, const int index) const override {
     return transition_matrix().visits(macro, index); }
+  bool is_adjust_allowed(const Macrostate& macro) const override;
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   std::shared_ptr<Bias> create(argtype * args) const override {
@@ -76,7 +77,7 @@ class WLTM : public Bias {
   std::shared_ptr<WangLandau> wang_landau_;
   std::shared_ptr<TransitionMatrix> transition_matrix_;
 
-  bool is_wl_bias_();
+  bool is_wl_bias_(const Macrostate& macro) const;
 };
 
 inline std::shared_ptr<WLTM> MakeWLTM(argtype args = argtype()) {

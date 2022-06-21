@@ -254,11 +254,22 @@ void TransitionMatrix::set_cm(const CollectionMatrix& cm) {
   collection_.compute_ln_prob(&ln_prob_);
 }
 
-int TransitionMatrix::num_iterations(const int state) const {
+int TransitionMatrix::num_iterations(const int state, const Macrostate& macro) const {
   if (new_sweep_ == 0 || state == -1) {
+    if (new_sweep_ != 0) {
+      return min_vis_calc_(macro);
+    }
     return num_sweeps_;
   }
   return std::min(visits_[state][0], visits_[state][1]);
+}
+
+bool TransitionMatrix::is_adjust_allowed(const Macrostate& macro) const {
+  if (new_sweep_ == 1) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 }  // namespace feasst

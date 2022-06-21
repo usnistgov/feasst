@@ -55,6 +55,14 @@ void feasst_deserialize_endcap(const std::string name, std::istream& istr) {
     << "but was found to be: " << read_name);
 }
 
+void feasst_serialize(const double val, std::ostream& ostr) {
+  if (std::abs(val) < std::numeric_limits<double>::min()) {
+    ostr << "0 ";
+  } else {
+    ostr << MAX_PRECISION << val << " ";
+  }
+}
+
 void feasst_deserialize(double * val, std::istream& ostr) {
   std::string valstr;
   ostr >> valstr;

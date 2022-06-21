@@ -67,6 +67,7 @@ class FileXYZ {
   /**
     args:
     - group_index: print the coordinates of this group index only (default: 0).
+    - group: name of group defined within system (default: "").
     - append: append file output if set to true.
       Do not append if false (default: "false").
    */
@@ -97,6 +98,7 @@ class FileXYZ {
 
  private:
   int group_index_;
+  std::string group_;
   bool append_;
 };
 

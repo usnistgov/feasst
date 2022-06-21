@@ -9,7 +9,7 @@ params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.5,
     "max_particles": 370, "min_particles": 0, "min_sweeps": 1e4, "mu": -2.352321,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 4, "script", __file__, "dccb_cut": 2**(1./6.)}
+    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "script": __file__, "dccb_cut": 2**(1./6.)}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
 params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_per_node"]
@@ -62,7 +62,7 @@ CriteriaWriter trials_per {trials_per} file_name lj_crit[sim_index].txt
 def slurm_queue():
     with open("slurm.txt", "w") as myfile: myfile.write("""#!/bin/bash
 #SBATCH -n {procs_per_node} -N {num_nodes} -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
-echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
+echo "Running {script} ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
 export OMP_NUM_THREADS={procs_per_node}
 python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID

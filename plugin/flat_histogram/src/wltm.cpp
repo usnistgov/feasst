@@ -22,9 +22,9 @@ WLTM::WLTM(argtype args) : WLTM(&args) {
   FEASST_CHECK_ALL_USED(args);
 }
 
-bool WLTM::is_wl_bias_() {
+bool WLTM::is_wl_bias_(const Macrostate& macro) const {
   if ((wang_landau_->num_flatness() < min_flatness_) ||
-      (transition_matrix_->num_iterations() < min_collect_sweeps_)) {
+      (transition_matrix_->num_iterations(-1, macro) < min_collect_sweeps_)) {
     return true;
   }
   return false;
@@ -38,7 +38,7 @@ void WLTM::update(
     const bool is_endpoint,
     const Macrostate& macro) {
   DEBUG("num_flatness " << wang_landau_->num_flatness());
-  if (is_wl_bias_()) {
+  if (is_wl_bias_(macro)) {
     DEBUG("wl update");
     wang_landau_->update(macrostate_old, macrostate_new,
       ln_metropolis_prob, is_accepted, is_endpoint, macro);
@@ -70,7 +70,7 @@ void WLTM::resize(const Histogram& histogram) {
 }
 
 void WLTM::infrequent_update(const Macrostate& macro) {
-  if (is_wl_bias_()) {
+  if (is_wl_bias_(macro)) {
     return wang_landau_->infrequent_update(macro);
   }
   if (wang_landau_->num_flatness() >= collect_flatness_) {
@@ -121,11 +121,18 @@ std::shared_ptr<Bias> WLTM::create(std::istream& istr) const {
   return std::make_shared<WLTM>(istr);
 }
 
-int WLTM::num_iterations(const int state) const {
-  if (production_ == 1) {
-    return transition_matrix_->num_iterations(state);
-  } else {
+int WLTM::num_iterations(const int state, const Macrostate& macro) const {
+  if (is_wl_bias_(macro)) {
     return 0;
+  }
+  return transition_matrix_->num_iterations(state, macro);
+}
+
+bool WLTM::is_adjust_allowed(const Macrostate& macro) const {
+  if (is_wl_bias_(macro)) {
+    return wang_landau_->is_adjust_allowed(macro);
+  } else {
+    return transition_matrix_->is_adjust_allowed(macro);
   }
 }
 

@@ -27,6 +27,21 @@ TEST(Serialize, inf) {
   EXPECT_EQ(inf, inf2);
 }
 
+TEST(Serialize, zero) {
+  const double zero = 1e-320;
+  std::stringstream ss;
+  feasst_serialize(zero, ss);
+  DEBUG(ss.str());
+  double zero2;
+  feasst_deserialize(&zero2, ss);
+  DEBUG(zero2);
+  EXPECT_EQ(zero, zero);
+
+  const double z = 0;
+  feasst_serialize(z, ss);
+  INFO(ss.str());
+}
+
 TEST(Serialize, argtype) {
   const argtype& args = {{"hi", "you"}, {"0", "12"}};
   std::stringstream ss;

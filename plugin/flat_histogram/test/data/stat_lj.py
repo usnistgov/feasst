@@ -4,7 +4,8 @@ import os
 import pandas as pd
 import numpy as np
 
-temps = ["120", "150"]
+temps = ["070"]
+#temps = ["120", "150", "070"]
 
 for temp in temps:
     os.system('tar -xf lj.t' + str(temp) + '.tar.gz')

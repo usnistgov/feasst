@@ -58,7 +58,7 @@ class FlatHistogram : public Criteria {
   void set_num_iterations_to_complete(const int num) override {
     bias_->set_num_iterations_to_complete(num); }
   int num_iterations(const int state = -1) const override {
-    return bias_->num_iterations(state); }
+    return bias_->num_iterations(state, *macrostate_); }
   bool is_complete() const override { return bias_->is_complete(); }
 
   void before_attempt(const System& system) override;

@@ -74,7 +74,7 @@ void Accumulator::reset() {
   block_averages_.resize(max_block_operations_);
   block_size_.resize(max_block_operations_);
   blocks_.resize(max_block_operations_);
-  sum_block_.resize(max_block_operations_, 0.);
+  sum_block_.resize(max_block_operations_, 0.0L);
   for (int bop = 0; bop < max_block_operations_; ++bop) {
     block_size_[bop] = std::pow(block_power_, bop);
     block_averages_[bop] = MakeAccumulator({{"max_block_operations", "0"},

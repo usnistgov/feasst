@@ -26,6 +26,7 @@ class Macrostate {
       These soft limits may be changed during a simulation.
       Note that this max is a macrostate value, not an integer bin index.
     - soft_macro_min : minimum as described above (default: same as histogram).
+      This argument also requires the use of soft_macro_max.
    */
   Macrostate(const Histogram& histogram, argtype args = argtype());
   Macrostate(const Histogram& histogram, argtype * args);
@@ -69,7 +70,7 @@ class Macrostate {
     return histogram_.bin(value(system, criteria, acceptance)); }
 
   /// Return the value of the bin.
-  double value(const int bin) const { return histogram_.center_of_bin(bin); }
+  double value(const int bin) const;
 
   /// Return whether the current system macrostate is within permissible range
   /// given by the input histogram.

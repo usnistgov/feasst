@@ -116,4 +116,8 @@ int Macrostate::set_soft_min(const int index, const System& sys, const Criteria&
   }
 }
 
+double Macrostate::value(const int bin) const {
+  return histogram_.center_of_bin(bin + soft_min_);
+}
+
 }  // namespace feasst

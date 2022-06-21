@@ -45,7 +45,16 @@ void FileVMD::write(const std::string file_name,
 }
 
 FileXYZ::FileXYZ(argtype * args) {
-  group_index_ = integer("group_index", args, 0);
+  group_index_ = 0;
+  if (used("group_index", *args)) {
+    group_index_ = integer("group_index", args);
+    ASSERT(!used("group", *args),
+      "cant specify both group_index and group name");
+  } else {
+    if (used("group", *args)) {
+      group_ = str("group", args);
+    }
+  }
   append_ = boolean("append", args, false);
 }
 FileXYZ::FileXYZ(argtype args) : FileXYZ(&args) {
@@ -121,6 +130,10 @@ void PrinterXYZ::work(const Site& site,
 void FileXYZ::write(const std::string file_name,
                     const Configuration& config,
                     const int num_places) const {
+  int gindex = group_index_;
+  if (!group_.empty()) {
+    gindex = config.group_index(group_);
+  }
   auto file = std::make_shared<std::ofstream>();
   if (append_ == 0) {
     file->open(file_name);
@@ -128,7 +141,7 @@ void FileXYZ::write(const std::string file_name,
     file->open(file_name, std::ofstream::app);
   }
   const Domain& domain = config.domain();
-  (*file.get()) << config.group_selects()[group_index_].num_sites() << std::endl
+  (*file.get()) << config.group_selects()[gindex].num_sites() << std::endl
     << "-1 ";
   (*file.get()) << std::setprecision(num_places);
   for (int dim = 0; dim < domain.dimension(); ++dim) {
@@ -139,7 +152,7 @@ void FileXYZ::write(const std::string file_name,
     << domain.yz() << " "
     << std::endl;
   PrinterXYZ printer(file);
-  VisitConfiguration().loop(config, &printer, group_index_);
+  VisitConfiguration().loop(config, &printer, gindex);
 }
 
 void FileXYZ::write_for_vmd(const std::string file_name,
@@ -153,6 +166,7 @@ void FileXYZ::write_for_vmd(const std::string file_name,
 void FileXYZ::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2867, ostr);
   feasst_serialize(group_index_, ostr);
+  feasst_serialize(group_, ostr);
   feasst_serialize(append_, ostr);
 }
 
@@ -160,6 +174,7 @@ FileXYZ::FileXYZ(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 2867, "version mismatch: " << version);
   feasst_deserialize(&group_index_, istr);
+  feasst_deserialize(&group_, istr);
   feasst_deserialize(&append_, istr);
 }
 

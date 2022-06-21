@@ -57,7 +57,7 @@ class TransitionMatrix : public Bias {
 
   int num_iterations_to_complete() const override { return min_sweeps_;}
   void set_num_iterations_to_complete(const int sweeps) override;
-  int num_iterations(const int state = -1) const override;
+  int num_iterations(const int state, const Macrostate& macro) const override;
   const LnProbability& ln_prob() const override {
     return ln_prob_; }
   void resize(const int size);
@@ -82,6 +82,7 @@ class TransitionMatrix : public Bias {
     return collection_; }
   const int visits(const int macro, const int index) const override {
     return visits_[macro][index]; }
+  bool is_adjust_allowed(const Macrostate& macro) const override;
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   std::shared_ptr<Bias> create(argtype * args) const override {

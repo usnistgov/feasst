@@ -234,10 +234,16 @@ FlatHistogram::FlatHistogram(const Criteria& criteria) {
 }
 
 int FlatHistogram::set_soft_max(const int index, const System& sys) {
+  if (!bias_->is_adjust_allowed(*macrostate_)) {
+    return 0.;
+  }
   return macrostate_->set_soft_max(index, sys, *this);
 }
 
 int FlatHistogram::set_soft_min(const int index, const System& sys) {
+  if (!bias_->is_adjust_allowed(*macrostate_)) {
+    return 0.;
+  }
   return macrostate_->set_soft_min(index, sys, *this);
 }
 
@@ -320,8 +326,8 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
       not_reject = false;
       const int lower_max = macrostate().soft_max();
       // if its left_most and already finished, don't send macrostates to upper
-      if (num_iterations() < criteria->num_iterations() &&
-           (!left_most || right_complete || all_min_size || num_iterations() < num_iterations_to_complete())) {
+      if (num_iterations() < criteria->num_iterations()) {
+//      && (!left_most || right_complete || all_min_size || num_iterations() < num_iterations_to_complete())) {
         if (lower_max - macrostate().soft_min() + 1 > min_size) {
           DEBUG("move macrostate from lower to upper");
           if (set_soft_max(lower_max - 1, system) > 0) {
@@ -343,8 +349,8 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
       not_reject = false;
       const int upper_min = criteria->macrostate().soft_min();
       // if its right_most and already finished, don't send macrostates to lower
-      if (num_iterations() > criteria->num_iterations() &&
-          (!right_most || left_complete || all_min_size || criteria->num_iterations() < criteria->num_iterations_to_complete())) {
+      if (num_iterations() > criteria->num_iterations()) {
+//      && (!right_most || left_complete || all_min_size || criteria->num_iterations() < criteria->num_iterations_to_complete())) {
         if (criteria->macrostate().soft_max() - upper_min + 1 > min_size) {
           DEBUG("move macrostate from upper to lower");
           if (criteria->set_soft_min(upper_min + 1, *upper_sys) > 0) {

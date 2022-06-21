@@ -244,22 +244,24 @@ void CollectionMatrixSplice::adjust_bounds() {
       }
     }
 
-    bool left_complete = clones_.front()->criteria().is_complete();
+    // HWH do not use left/right_complete
+    //bool left_complete = clones_.front()->criteria().is_complete();
+    bool left_complete = false;
     bool right_complete = false;
     for (int sim = 0; sim < num() - 1; ++sim) {
       DEBUG("sim " << sim);
       if (sim == num() - 2) {
         right_most = true;
       }
-      if (!clones_[sim]->criteria().is_complete() && left_complete) {
-        left_complete = false;
-      }
-      right_complete = true;
-      for (int jsim = sim+1; jsim < num(); ++jsim) {
-        if (!clones_[jsim]->criteria().is_complete()) {
-          right_complete = false;
-        }
-      }
+//      if (!clones_[sim]->criteria().is_complete() && left_complete) {
+//        left_complete = false;
+//      }
+//      right_complete = true;
+//      for (int jsim = sim+1; jsim < num(); ++jsim) {
+//        if (!clones_[jsim]->criteria().is_complete()) {
+//          right_complete = false;
+//        }
+//      }
       clones_[sim]->adjust_bounds(left_most, right_most, left_complete, right_complete, all_min_size, min_window_size_,
                                   clones_[sim + 1].get());
       left_most = false;

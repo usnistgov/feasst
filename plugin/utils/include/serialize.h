@@ -38,6 +38,9 @@ void feasst_serialize(const std::string str, std::ostream& ostr);
 /// Deserialize string.
 void feasst_deserialize(std::string * str, std::istream& istr);
 
+/// Serialize double. Handle zero.
+void feasst_serialize(const double val, std::ostream& ostr);
+
 /// Deserialize double. Handle inf.
 void feasst_deserialize(double * val, std::istream& istr);
 

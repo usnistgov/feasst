@@ -59,7 +59,7 @@ PairDistribution trials_per_update 1000 trials_per_write {trials_per} \
 def slurm_queue():
     with open("slurm.txt", "w") as myfile: myfile.write("""#!/bin/bash
 #SBATCH -n {procs_per_node} -N {num_nodes} -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
-echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
+echo "Running {script} ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
 export OMP_NUM_THREADS={procs_per_node}
 python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
