@@ -28,8 +28,7 @@ class ShapeFile : public Shape {
     return shape_->is_inside(point); }
   bool is_inside(const Position& point, const double diameter) const override {
     return shape_->is_inside(point, diameter); }
-  double nearest_distance(const Position& point) const override {
-    return nearest_distance(point); }
+  double nearest_distance(const Position& point) const override;
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {

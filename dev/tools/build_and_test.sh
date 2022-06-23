@@ -5,7 +5,7 @@ cd build
 python3 -m venv feasst_test_env
 source feasst_test_env/bin/activate
 pip install --upgrade pip
-pip install jupyter matplotlib pandas scipy
+pip install pyfeasst numpy jupyter matplotlib pandas scipy
 cmake -DUSE_GTEST=ON -DUSE_SWIG=ON ..
 make feasst -j4
 make install -j4
@@ -23,6 +23,14 @@ cat summary_long_allt.log >> summary_long.log
 echo "********** all gtest **********" >> summary.log
 grep FAIL summary_long_allt.log >> summary.log
 grep Throw summary_long_allt.log >> summary.log
+
+pushd ../pyfeasst/src/pyfeasst
+  for f in *.py; do
+    python "$f" >> summary_pyfeasst.log
+  done
+popd
+echo "********** pyfeasst **********" >> summary.log
+tail -1 ../pyfeasst/src/pyfeasst/summary_pyfeasst.log >> summary.log
 
 python ../py/test.py >> summary_long.log 2>&1
 echo "********** pytest **********" >> summary.log

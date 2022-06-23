@@ -100,7 +100,7 @@ How to install (e.g., compile the executables).
     cd feasst/build
     cmake ..
     make install -j4
-    pip install jupyter matplotlib pandas scipy # optional for tutorials
+    pip install pyfeasst jupyter matplotlib pandas scipy # optional for tutorials
 
 The executables `fst`, which is used to start a simulation, and `rst`, which is used to restart a simulation, should now be located in `/path/to/feasst/build/bin/`.
 
@@ -126,15 +126,20 @@ Ubuntu 16
 
 * Update to CMake 3 (https://cmake.org/download/)
 
-Ubuntu 18, 20 and macOS Mojave
+macOS Mojave
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* We are not aware of any issues with these OS.
+* for omp, try brew install libomp
 
 Cray (NERSC CORI)
 ~~~~~~~~~~~~~~~~~~
 
 * OpenMP functions apparently do not work unless the cray programming environment is disabled.
+
+Ubuntu 18, 20
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* We are not aware of any issues with these OS.
 
 .. include:: CONTACT.rst
 

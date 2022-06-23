@@ -13,7 +13,6 @@ required = parser.add_argument_group('required arguments')
 required.add_argument("--source_dir", "-s", help="/path/to/feasst", type=str, required=True)
 args = parser.parse_args()
 import sys
-import pyfeasst
 
 verbose=False
 #verbose=True
@@ -53,10 +52,10 @@ def dependency(path):
         if '/include/' in relFile and [d for d in include_plugin if d in relFile]:
           if is_header(relFile):
             headers.append(relFile)
-            depends.append([relFile, included(relFile)])
+            depends.append([relFile, included(path+relFile)])
             if verbose:
               print('***************************')
-              print(relFile, included(relFile))
+              print(relFile, included(path+relFile))
   # check if the includes are clean
   for dep in depends:
     for dep1 in dep[1]:
@@ -107,20 +106,19 @@ def read_class(file_name):
 
 # obtain the headers sorted by dependency
 # write the swig interface file
-with pyfeasst.cd(args.source_dir+'/plugin/'):
-  deps=bubble_sort(dependency('./'))
-  classes=list()
-  # note this method for reading classes is copied below for doc
-  for dep in deps:
-    header = dep[0]
-    cls = read_class(header)
-    classes.append(cls)
+plugin_dir = args.source_dir+'/plugin/'
+deps=bubble_sort(dependency(plugin_dir))
+classes=list()
+# note this method for reading classes is copied below for doc
+for dep in deps:
+  header = dep[0]
+  cls = read_class(plugin_dir+header)
+  classes.append(cls)
 
 # obtain the headers sorted by dependency
 # write the swig interface file
-with pyfeasst.cd(args.source_dir+'/plugin/'):
-  with open('../py/feasst.i', 'w') as swig_file:
-    swig_file.write(
+with open(args.source_dir+'/py/feasst.i', 'w') as swig_file:
+  swig_file.write(
 "/* This is an interface file for swig.\n\
    This file is created by dev/tools/depend.py . Modifications to this\n\
    file will likely be overwritten in the future. Thus, edit depend.py\n\
@@ -145,9 +143,9 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
 \n\
 %{\n\
 ")
-    for dep in deps:
-      swig_file.write('#include "' + dep[0] + '"\n')
-    swig_file.write(
+  for dep in deps:
+    swig_file.write('#include "' + dep[0] + '"\n')
+  swig_file.write(
 "using namespace feasst;\n%}\n\
 %include \"std_string.i\"\n\
 %include \"std_vector.i\"\n\
@@ -168,21 +166,21 @@ using namespace std;\n\
 ")
 #%template(arglist) std::map<std::string, std::map<std::string, std::string> >;\n\
 
-    if 'system' in include_plugin:
-        swig_file.write("%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;\n")
-        swig_file.write("%feature(\"director\") Potential;\n")
-        swig_file.write("%include \"std_pair.i\"\n")
-        swig_file.write("%template(Map2) std::vector<std::pair<int, std::vector<double>>>;\n")
-        swig_file.write("%template(Map3) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>;\n")
-        swig_file.write("%template(Map4) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>;\n")
-        swig_file.write("%template(MapNew) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>>>;\n")
-        swig_file.write("%template(MapOld) std::vector<std::vector<std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>;\n")
+  if 'system' in include_plugin:
+      swig_file.write("%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;\n")
+      swig_file.write("%feature(\"director\") Potential;\n")
+      swig_file.write("%include \"std_pair.i\"\n")
+      swig_file.write("%template(Map2) std::vector<std::pair<int, std::vector<double>>>;\n")
+      swig_file.write("%template(Map3) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>;\n")
+      swig_file.write("%template(Map4) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>;\n")
+      swig_file.write("%template(MapNew) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>>>;\n")
+      swig_file.write("%template(MapOld) std::vector<std::vector<std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>;\n")
 
-    for cls in classes:
-      for icl in cls:
-        swig_file.write("%shared_ptr(feasst::" + icl + ");\n")
-    for dep in deps:
-      swig_file.write('%include ' + dep[0] + '\n')
+  for cls in classes:
+    for icl in cls:
+      swig_file.write("%shared_ptr(feasst::" + icl + ");\n")
+  for dep in deps:
+    swig_file.write('%include ' + dep[0] + '\n')
 # Attempting to add SWIG wrap to serialization of all classes
 #    for cls in classes:
 #      for icl in cls:
@@ -190,89 +188,87 @@ using namespace std;\n\
 #          swig_file.write("%template(" + ser + icl + ") feasst::" + ser + "<feasst::" + icl + ">;\n")
 
 # write the docs
-with pyfeasst.cd(args.source_dir+'/plugin/'):
-  doc = ''
-  for mod in next(os.walk('.'))[1]:
-    if [d for d in include_plugin if d in mod]:
-      if verbose:
-        print('mod', mod, 'cd', args.source_dir+'/plugin/')
-      with open(mod+'/doc/toc.rst', 'w') as toc:
-        toc.write('\n.. toctree::\n\n')
-        for dep in deps:
-          header = dep[0]
-          cls = read_class(header)
-          if verbose:
-            print('cls', cls, 'header', header)
-          if re.search(mod+'/include/', header):
-            if cls:
-              doc = mod + '/doc/' + cls[0] + '.rst'
-              toc.write('   ' + cls[0] + '\n')
+doc = ''
+for mod in next(os.walk(plugin_dir))[1]:
+  if [d for d in include_plugin if d in mod]:
+    if verbose:
+      print('mod', mod, 'cd', args.source_dir+'/plugin/')
+    with open(plugin_dir+mod+'/doc/toc.rst', 'w') as toc:
+      toc.write('\n.. toctree::\n\n')
+      for dep in deps:
+        header = dep[0]
+        cls = read_class(plugin_dir+header)
+        if verbose:
+          print('cls', cls, 'header', header)
+        if re.search(mod+'/include/', header):
+          if cls:
+            doc = mod + '/doc/' + cls[0] + '.rst'
+            toc.write('   ' + cls[0] + '\n')
+          else:
+            funcfile = re.sub(mod+r'/include/', '', re.sub(r'.h$', '', header))
+            if verbose:
+              print('functfile', funcfile, 'mod', mod)
+              print('funcfile', funcfile)
+            toc.write('   ' + funcfile + '\n')
+            if 'include' in funcfile:
+              doc = re.sub(r'include', r'doc', funcfile)
+              if 'rst' not in funcfile:
+                doc = doc + '.rst'
             else:
-              funcfile = re.sub(mod+r'/include/', '', re.sub(r'.h$', '', header))
-              if verbose:
-                print('functfile', funcfile, 'mod', mod)
-                print('funcfile', funcfile)
-              toc.write('   ' + funcfile + '\n')
-              if 'include' in funcfile:
-                doc = re.sub(r'include', r'doc', funcfile)
-                if 'rst' not in funcfile:
-                  doc = doc + '.rst'
-              else:
-                #funcfile[:len(mod)] == mod:
-                doc = mod + '/doc/' + funcfile + '.rst'
-                funcfile = mod + '/include/' + funcfile
-              if verbose:
-                print('doc', doc)
-            with open(doc, 'w') as fle:
-              if verbose:
-                print('doc', doc)
-              if cls:
-                fle.write(cls[0]+'\n')
-              else:
-                fle.write(funcfile + '\n')
-              fle.write('=====================================================\n')
-              if cls:
-                for cl in cls:
-                  fle.write('\n')
-                  fle.write('.. doxygenclass:: feasst::' + cl + '\n')
-                  fle.write('   :project: FEASST\n')
-                  fle.write('   :members:\n')
-              else:
-                  fle.write('\n')
-                  fle.write('.. doxygenfile:: ' + funcfile + '.h\n   :project: FEASST\n')
+              #funcfile[:len(mod)] == mod:
+              doc = mod + '/doc/' + funcfile + '.rst'
+              funcfile = mod + '/include/' + funcfile
+            if verbose:
+              print('doc', doc)
+          with open(plugin_dir+doc, 'w') as fle:
+            if verbose:
+              print('doc', doc)
+            if cls:
+              fle.write(cls[0]+'\n')
+            else:
+              fle.write(funcfile + '\n')
+            fle.write('=====================================================\n')
+            if cls:
+              for cl in cls:
+                fle.write('\n')
+                fle.write('.. doxygenclass:: feasst::' + cl + '\n')
+                fle.write('   :project: FEASST\n')
+                fle.write('   :members:\n')
+            else:
+                fle.write('\n')
+                fle.write('.. doxygenfile:: ' + funcfile + '.h\n   :project: FEASST\n')
 
 # write the C++ interface feasst.h
-with pyfeasst.cd(args.source_dir+'/plugin/'):
-  with open('feasst/include/feasst.h', 'w') as fsth:
-    for dep in deps:
-      fsth.write('#include \"' + dep[0] + '\"\n')
-    # create an object in each plugin to force initialization of deserialize_map
-    select_classes = list()
-    if 'beta_expanded' in include_plugin: select_classes.append("ComputeBeta")
-    if 'chain' in include_plugin: select_classes.append("TrialGrow")
-    if 'chain' in include_plugin: select_classes.append("TrialParticlePivot")
+with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:
+  for dep in deps:
+    fsth.write('#include \"' + dep[0] + '\"\n')
+  # create an object in each plugin to force initialization of deserialize_map
+  select_classes = list()
+  if 'beta_expanded' in include_plugin: select_classes.append("ComputeBeta")
+  if 'chain' in include_plugin: select_classes.append("TrialGrow")
+  if 'chain' in include_plugin: select_classes.append("TrialParticlePivot")
 #    if 'cluster' in include_plugin: select_classes.append("TrialRigidCluster")
 #    if 'configuration' in include_plugin: select_classes.append("")
-    if 'confinement' in include_plugin: select_classes.append("ModelHardShape")
-    if 'shape' in include_plugin: select_classes.append("Sphere")
-    if 'egce' in include_plugin: select_classes.append("AEqualB")
-    if 'charge' in include_plugin: select_classes.append("Ewald")
+  if 'confinement' in include_plugin: select_classes.append("ModelHardShape")
+  if 'shape' in include_plugin: select_classes.append("Sphere")
+  if 'egce' in include_plugin: select_classes.append("AEqualB")
+  if 'charge' in include_plugin: select_classes.append("Ewald")
 #    if 'example' in include_plugin: select_classes.append("")
 #    if 'flat_histogram' in include_plugin: select_classes.append("")
 #    if 'math' in include_plugin: select_classes.append("")
-    if 'mayer' in include_plugin: select_classes.append("MayerSampling")
-    if 'models' in include_plugin: select_classes.append("LennardJonesAlpha")
+  if 'mayer' in include_plugin: select_classes.append("MayerSampling")
+  if 'models' in include_plugin: select_classes.append("LennardJonesAlpha")
 #    if 'monte_carlo' in include_plugin: select_classes.append("")
 #    if 'morph' in include_plugin: select_classes.append("")
 #    if 'opt_lj' in include_plugin: select_classes.append("")
-    if 'patch' in include_plugin: select_classes.append("VisitModelInnerPatch")
-    #if 'prefetch' in include_plugin: select_classes.append("")
-    #if '' in include_plugin: select_classes.append("")
-    #if '' in include_plugin: select_classes.append("")
-    #if '' in include_plugin: select_classes.append("")
-    if 'steppers' in include_plugin: select_classes.append("Tune")
-    for icl in select_classes:
-      fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")
-    #for cls in classes:
-    #  for icl in cls:
-    #    fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")
+  if 'patch' in include_plugin: select_classes.append("VisitModelInnerPatch")
+  #if 'prefetch' in include_plugin: select_classes.append("")
+  #if '' in include_plugin: select_classes.append("")
+  #if '' in include_plugin: select_classes.append("")
+  #if '' in include_plugin: select_classes.append("")
+  if 'steppers' in include_plugin: select_classes.append("Tune")
+  for icl in select_classes:
+    fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")
+  #for cls in classes:
+  #  for icl in cls:
+  #    fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")

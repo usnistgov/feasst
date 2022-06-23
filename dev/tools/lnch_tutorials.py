@@ -1,19 +1,19 @@
 from pathlib import Path
 import multiprocessing
-#import feasst
-import pyfeasst
+import subprocess
+from pyfeasst import cd
 
 for filename in Path('../').rglob('launch*.py'):
     if 'checkpoint' not in filename.name:
         if 'build' and 'dev' and 'feasst_test_env' not in str(filename.parent):
-            with pyfeasst.cd(filename.parent):
+            with cd.cd(filename.parent):
                 print("Running:", filename.name, "in", filename.parent)
-                pyfeasst.bash_command("python " + str(filename.name) + " 2> launch.log")
-#                pyfeasst.bash_command("jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout=10000 --execute " + str(filename) + " > tutorial_log.txt 2>&1; grep \"Error\|Assertion\" tutorial_log.txt >> tutorial_failures.txt")
-#                pyfeasst.bash_command("grep \"FAILED (fa\" " + str(filename) +" >> tutorial_failures.txt")
-#                pyfeasst.bash_command("grep \"Error\" " + str(filename) +" >> tutorial_failures.txt")
-#                pyfeasst.bash_command("grep \"ERROR\" " + str(filename) +" >> tutorial_failures.txt")
-#                pyfeasst.bash_command("grep \"feasst::CustomException\" " + str(filename) +" >> tutorial_failures.txt")
+                subprocess.call("python " + str(filename.name) + " 2> launch.log", shell=True, executable='/bin/bash')
+#                subprocess.call("jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout=10000 --execute " + str(filename) + " > tutorial_log.txt 2>&1; grep \"Error\|Assertion\" tutorial_log.txt >> tutorial_failures.txt")
+#                subprocess.call("grep \"FAILED (fa\" " + str(filename) +" >> tutorial_failures.txt")
+#                subprocess.call("grep \"Error\" " + str(filename) +" >> tutorial_failures.txt")
+#                subprocess.call("grep \"ERROR\" " + str(filename) +" >> tutorial_failures.txt")
+#                subprocess.call("grep \"feasst::CustomException\" " + str(filename) +" >> tutorial_failures.txt")
 
 # put all ids in nums list
 nums=list()
@@ -26,7 +26,7 @@ for filename in Path('../').rglob('launch_ids.txt'):
 # search squeue for ids. If no ids are present, then jobs are finished. Proceed
 finished = False
 while not finished:
-    pyfeasst.bash_command("squeue -u $LOGNAME > squeue.txt")
+    subprocess.call("squeue -u $LOGNAME > squeue.txt", shell=True, executable='/bin/bash')
     with open('squeue.txt') as f: squeue = f.read().splitlines()
     #print(squeue)
     finished = True
@@ -42,17 +42,17 @@ while not finished:
 
 # scrap job output for errors
 for filename in Path('../').rglob('hostname_*.out'):
-    with pyfeasst.cd(filename.parent):
-        pyfeasst.bash_command("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt")
-        pyfeasst.bash_command("grep \"Throw\" " + str(filename.name) + " >> launch_failures.txt")
-        pyfeasst.bash_command("grep \"No such file or directory\" " + str(filename.name) + " >> launch_failures.txt")
-    pyfeasst.bash_command("grep \"Err\" " + str(filename) + " >> launch_failures.txt")
-    pyfeasst.bash_command("grep \"Throw\" " + str(filename) + " >> launch_failures.txt")
-    pyfeasst.bash_command("grep \"No such file or directory\" " + str(filename) + " >> launch_failures.txt")
+    with cd.cd(filename.parent):
+        subprocess.call("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+        subprocess.call("grep \"Throw\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+        subprocess.call("grep \"No such file or directory\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+    subprocess.call("grep \"Err\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+    subprocess.call("grep \"Throw\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+    subprocess.call("grep \"No such file or directory\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
 
 for filename in Path('../').rglob('launch.log'):
-    with pyfeasst.cd(filename.parent):
-        pyfeasst.bash_command("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt")
-        pyfeasst.bash_command("grep \"FAILED\" " + str(filename.name) + " >> launch_failures.txt")
-    pyfeasst.bash_command("grep \"Err\" " + str(filename) + " >> launch_failures.txt")
+    with cd.cd(filename.parent):
+        subprocess.call("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+        subprocess.call("grep \"FAILED\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+    subprocess.call("grep \"Err\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
 

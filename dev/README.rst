@@ -358,5 +358,4 @@ To Do List
 * get rid of 'time' and 'default' values for Random seed argument.
 * Windows with non-integer macrostates?
 * For unknown reasons, VisitModelOuterCutoff had energy issues with RPM
-* Remove old pyfeasst, make new one that is more stand-alone (pip installable), but... is somehow tied to the feasst version
 * Allow CollectionMatrix to have a reference chemical_potential, then CriteriaUpdater can change mu to get a target (density in middle range, or...)

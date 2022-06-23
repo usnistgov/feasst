@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 # manually list the plugins
 # Note: for developement and testing, reducing plugins decreases compile time
 #set(FEASST_PLUGINS "threads")
-set(FEASST_PLUGINS "threads;utils")
+#set(FEASST_PLUGINS "threads;utils")
 #set(FEASST_PLUGINS "threads;utils;math")
 #set(FEASST_PLUGINS "threads;utils;math;configuration")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system")
@@ -92,6 +92,21 @@ execute_process(
 add_definitions("-DFEASST_VERSION_=\"${GIT_COMMIT_HASH}-${GIT_BRANCH}\"")
 add_definitions("-DFEASST_DIR_=\"${CMAKE_SOURCE_DIR}\"")
 
+# OMP
+if(POLICY CMP0012)
+  cmake_policy(SET CMP0012 NEW)
+endif()
+find_package(OpenMP)
+if(OPENMP_FOUND)
+  include_directories(${OpenMP_C_INCLUDE_DIR})
+  if(${OpenMP_CXX_INCLUDE_DIRS})
+    include_directories( ${OpenMP_CXX_INCLUDE_DIRS} )
+  endif()
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
+
 # FEASST plugins
 set (FEASST_PLUGIN_DIR "${CMAKE_SOURCE_DIR}/plugin")
 include_directories (${FEASST_PLUGIN_DIR})
@@ -102,6 +117,7 @@ foreach (PLUGIN ${FEASST_PLUGINS})
   file (GLOB src_cpp "${PLUGIN_DIR}/src/*.cpp")
   add_library (feasst${PLUGIN} SHARED ${src_cpp})
   target_link_libraries(feasst${PLUGIN} ${EXTRA_LIBS})
+  target_link_libraries(feasst${PLUGIN} OpenMP::OpenMP_CXX)
 endforeach (PLUGIN)
 
 # HWH fix this: clang seems to require these dependencies but g++ does not... ?
@@ -246,17 +262,6 @@ if (USE_CCACHE)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
   endif(CCACHE_PROGRAM)
 endif(USE_CCACHE)
-
-# OMP
-if(POLICY CMP0012)
-  cmake_policy(SET CMP0012 NEW)
-endif()
-find_package(OpenMP)
-if(OPENMP_FOUND)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif()
 
 # SPHINX
 if (USE_SPHINX)
@@ -502,8 +507,6 @@ if (USE_SWIG)
     else ()
       add_dependencies(feasst build-time-make-directory)
     endif ()
-    # put pyfeasst into build
-    configure_file(${CMAKE_SOURCE_DIR}/py/pyfeasst.py ${CMAKE_SOURCE_DIR}/build/pyfeasst.py @ONLY)
 
     # # prep feasst.i (as well as documentation)
     # execute_process(

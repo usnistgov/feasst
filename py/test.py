@@ -1,6 +1,5 @@
 import unittest
 import feasst
-import pyfeasst
 
 print(feasst.version())
 

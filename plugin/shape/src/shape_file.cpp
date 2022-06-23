@@ -81,4 +81,8 @@ ShapeFile::ShapeFile(std::istream& istr) : Shape(istr) {
   }
 }
 
+double ShapeFile::nearest_distance(const Position& point) const {
+  FATAL("not implemented");
+}
+
 }  // namespace feasst

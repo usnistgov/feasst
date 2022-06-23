@@ -8,6 +8,9 @@ trash
 py/__pycache__
 *__pycache__*
 .ipynb_checkpoints
+pyfeasst/dist
+pyfeasst/docs/build
+*egg-info
 
 # file types
 *.swp

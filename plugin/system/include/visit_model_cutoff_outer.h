@@ -38,9 +38,9 @@ class VisitModelCutoffOuter : public VisitModel {
       Configuration * config,
       const int group_index) override;
 
-  std::shared_ptr<VisitModel> create(std::istream& istr) const {
+  std::shared_ptr<VisitModel> create(std::istream& istr) const override {
     return std::make_shared<VisitModelCutoffOuter>(istr); }
-  std::shared_ptr<VisitModel> create(argtype * args) const {
+  std::shared_ptr<VisitModel> create(argtype * args) const override {
     return std::make_shared<VisitModelCutoffOuter>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelCutoffOuter(std::istream& istr);

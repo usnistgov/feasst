@@ -18,8 +18,6 @@ namespace feasst {
 #define MAX_PRECISION std::setprecision(std::numeric_limits<double>::digits10+2)
 
 /// Return the feasst install directory as a string.
-/// Warning: This does not work with pip or conda Python.
-///          Instead, use pyfeasst.forcefield_dir().
 std::string install_dir();
 
 /// Return the feasst version as a string.

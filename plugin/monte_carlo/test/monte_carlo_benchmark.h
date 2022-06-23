@@ -136,7 +136,7 @@ void serial(RandomBenchmark * random) {
 void parallel(RandomBenchmark * random) {
   std::vector<std::vector<double> > xyz = read_xyz();
   std::uniform_real_distribution<double> ran_uniform;
-  int proc_id, num_threads;
+  int proc_id = 0, num_threads = 1;
   #pragma omp parallel private(proc_id)
   {
     proc_id = omp_get_thread_num();
