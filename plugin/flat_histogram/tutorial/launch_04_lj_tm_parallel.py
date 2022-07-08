@@ -50,9 +50,9 @@ ThermoParams beta {beta} chemical_potential {mu}
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
 Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
 TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 4
-Tune trials_per_write {trials_per} file_name lj_tune[sim_index].txt multistate true
 Movie trials_per {trials_per} file_name lj[sim_index].xyz
-Energy trials_per_write {trials_per} file_name lj_en[sim_index].txt multistate true
+Tune trials_per_write {trials_per} file_name lj_tune[sim_index].txt multistate true stop_after_iteration 1
+Energy trials_per_write {trials_per} file_name lj_en[sim_index].txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per {trials_per}
 CriteriaWriter trials_per {trials_per} file_name lj_crit[sim_index].txt
 #Run until_criteria_complete true
@@ -111,4 +111,4 @@ if __name__ == "__main__":
         if syscode != 0:
             sys.exit(1)
     else:
-        assert(False) # unrecognized run_type
+        assert False  # unrecognized run_type

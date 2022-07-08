@@ -111,6 +111,8 @@ class FlatHistogram : public Criteria {
     const int min_size, const System& system, const System * upper_sys,
     Criteria * criteria, bool * adjusted_up, std::vector<int> * states) override;
   const FlatHistogram& flat_histogram() const override { return *this; }
+  int soft_min() const override;
+  int soft_max() const override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<FlatHistogram>(istr); }

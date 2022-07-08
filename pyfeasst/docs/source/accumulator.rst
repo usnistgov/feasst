@@ -1,0 +1,6 @@
+accumulator
+===========================================================
+
+.. automodule:: accumulator
+   :members:
+

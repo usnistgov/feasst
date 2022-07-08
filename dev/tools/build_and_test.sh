@@ -5,7 +5,7 @@ cd build
 python3 -m venv feasst_test_env
 source feasst_test_env/bin/activate
 pip install --upgrade pip
-pip install pyfeasst numpy jupyter matplotlib pandas scipy
+pip install ../pyfeasst numpy jupyter matplotlib pandas scipy
 cmake -DUSE_GTEST=ON -DUSE_SWIG=ON ..
 make feasst -j4
 make install -j4

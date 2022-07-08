@@ -26,11 +26,12 @@ class Table1D;
 class ChargeScreened : public ModelTwoBody {
  public:
   /**
-   args:
-   - hard_sphere_threshold: return NEAR_INFINITY when distance is less than
-     this threshold (default: 0.1).
-   - table_size: size of linearly-interpolated tabular potential (default: 0).
-     disable table if this value is less than or equal to zero.
+    args:
+    - hard_sphere_threshold: return NEAR_INFINITY when distance is less than
+      this threshold (default: 0.1).
+    - erfc_table_size: size of linearly-interpolated tabular potential
+      (default: 0).
+      disable table if this value is less than or equal to zero.
    */
   explicit ChargeScreened(argtype args = argtype());
   explicit ChargeScreened(argtype * args);
@@ -59,7 +60,7 @@ class ChargeScreened : public ModelTwoBody {
   double alpha_;
   double conversion_factor_;
   double hard_sphere_threshold_sq_;
-  int table_size_;
+  int erfc_table_size_;
   std::shared_ptr<Table1D> erfc_;
   void init_erfc_(const double cutoff);
 };

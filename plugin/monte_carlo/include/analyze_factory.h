@@ -68,6 +68,9 @@ class AnalyzeFactory : public Analyze {
     const System& system,
     const TrialFactory& trial_factory,
     const int index);
+
+  int min_block_(const Criteria& criteria) const;
+  std::string write_blocks_(const int min_block, const Accumulator& acc) const;
 };
 
 inline std::shared_ptr<AnalyzeFactory> MakeAnalyzeFactory(

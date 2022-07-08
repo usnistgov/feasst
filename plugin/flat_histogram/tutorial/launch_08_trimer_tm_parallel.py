@@ -51,9 +51,9 @@ Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
 TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 8
 RemoveAnalyze name Log
 Log trials_per {trials_per} file_name trimer[sim_index].txt
-Tune trials_per_write {trials_per} file_name trimer_tune[sim_index].txt multistate true
 Movie trials_per {trials_per} file_name trimer[sim_index].xyz
-Energy trials_per_write {trials_per} file_name trimer_en[sim_index].txt multistate true
+Tune trials_per_write {trials_per} file_name trimer_tune[sim_index].txt multistate true stop_after_iteration 100
+Energy trials_per_write {trials_per} file_name trimer_en[sim_index].txt multistate true start_after_iteration 100
 CriteriaUpdater trials_per {trials_per}
 CriteriaWriter trials_per {trials_per} file_name trimer_crit[sim_index].txt
 """.format(**params))
@@ -108,4 +108,4 @@ if __name__ == "__main__":
         if syscode != 0:
             sys.exit(1)
     else:
-        assert(False) # unrecognized run_type
+        assert False  # unrecognized run_type

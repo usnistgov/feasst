@@ -18,7 +18,7 @@ static MapChargeScreened map_charge_screened_ = MapChargeScreened();
 
 ChargeScreened::ChargeScreened(argtype * args) {
   class_name_ = "ChargeScreened";
-  table_size_ = integer("table_size", args, 0);
+  erfc_table_size_ = integer("erfc_table_size", args, 0);
   const double hs_thres = dble("hard_sphere_threshold", args, 0.1);
   hard_sphere_threshold_sq_ = hs_thres*hs_thres;
 }
@@ -33,7 +33,7 @@ void ChargeScreened::serialize(std::ostream& ostr) const {
   feasst_serialize(alpha_, ostr);
   feasst_serialize(conversion_factor_, ostr);
   feasst_serialize(hard_sphere_threshold_sq_, ostr);
-  feasst_serialize(table_size_, ostr);
+  feasst_serialize(erfc_table_size_, ostr);
   feasst_serialize(erfc_, ostr);
 }
 
@@ -43,7 +43,7 @@ ChargeScreened::ChargeScreened(std::istream& istr) : ModelTwoBody(istr) {
   feasst_deserialize(&alpha_, istr);
   feasst_deserialize(&conversion_factor_, istr);
   feasst_deserialize(&hard_sphere_threshold_sq_, istr);
-  feasst_deserialize(&table_size_, istr);
+  feasst_deserialize(&erfc_table_size_, istr);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize_fstdr(erfc_, istr);
   { int existing;
@@ -87,12 +87,19 @@ void ChargeScreened::precompute(const ModelParams& existing) {
 }
 
 void ChargeScreened::init_erfc_(const double cutoff) {
-  if (table_size_ > 0) {
-    erfc_ = MakeTable1D({{"num", str(table_size_)}});
+  if (erfc_table_size_ > 0) {
+    erfc_ = MakeTable1D({{"num", str(erfc_table_size_)}});
     for (int bin = 0; bin < erfc_->num(); ++bin) {
       const double z = erfc_->bin_to_value(bin);
       const double x = sqrt(z)*(cutoff);
       erfc_->set_data(bin, std::erfc(alpha_*x)/x);
+      if (bin == 1) {
+        ASSERT(x*x < hard_sphere_threshold_sq_,
+          "erfc_table_size: " << erfc_table_size_ << " leads to a spacing " <<
+          "of the first bin as " << x << ". This is larger than the " <<
+          "hard_sphere_threshold: " << std::sqrt(hard_sphere_threshold_sq_) <<
+          ". Either increase this threadhold or the table size.");
+      }
     }
   }
 }

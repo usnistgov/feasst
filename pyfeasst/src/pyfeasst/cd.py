@@ -12,7 +12,7 @@ class cd:
     >>> from pathlib import Path
     >>> import subprocess
     >>> from pyfeasst import cd
-    >>> subprocess.call("mkdir -p tmp", shell=True, executable='/bin/bash')
+    >>> code = subprocess.call("mkdir -p tmp", shell=True, executable='/bin/bash')
     >>> with cd.cd("tmp"): print(Path(os.getcwd()).name)
     tmp
     """

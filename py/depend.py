@@ -70,7 +70,7 @@ def bubble_sort(depends):
   bubbling = True
   while bubbling:
     iteration += 1
-    assert(iteration < 1e4) # something is wrong with the headers
+    assert iteration < 1e4  # something is wrong with the headers
     prev = list()
     bubbling = False
     if verbose:

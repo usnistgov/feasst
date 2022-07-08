@@ -341,6 +341,7 @@ void VisitModelCell::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(opt_rel_, ostr);
   feasst_serialize_fstobj(opt_pbc_, ostr);
   feasst_serialize_fstobj(cells_, ostr);
+  DEBUG("size: " << ostr.tellp());
 }
 
 }  // namespace feasst

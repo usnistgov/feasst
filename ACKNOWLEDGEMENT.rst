@@ -32,8 +32,10 @@ For help in discussion or testing (alphabetical)
 Publications
 ============
 
-Here is a list of publications which use FEASST:
+Some publications which use FEASST include:
 
+#. https://doi.org/10.1021/acs.jpca.0c05242
+#. https://doi.org/10.1021/acs.jpcc.0c02671
 #. https://doi.org/10.1039/C9SM01877H
 #. https://doi.org/10.6028/jres.124.032
 #. https://doi.org/10.1063/1.5123683

@@ -462,6 +462,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
   feasst_serialize(system_set_, ostr);
   feasst_serialize(criteria_set_, ostr);
   feasst_serialize_endcap("MonteCarlo", ostr);
+  DEBUG("size: " << ostr.tellp());
 }
 
 MonteCarlo::MonteCarlo(std::istream& istr) {

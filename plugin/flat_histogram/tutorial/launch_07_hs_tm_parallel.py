@@ -45,9 +45,9 @@ RemoveModify name Tune
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
 Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
 TrialTransfer weight 2 particle_type 0
-Tune trials_per_write {trials_per} file_name hs_tune[sim_index].txt multistate true
 Movie trials_per {trials_per} file_name hs[sim_index].xyz
-#Energy trials_per_write {trials_per} file_name hs_en[sim_index].txt multistate true
+Tune trials_per_write {trials_per} file_name hs_tune[sim_index].txt multistate true stop_after_iteration 100
+#Energy trials_per_write {trials_per} file_name hs_en[sim_index].txt multistate true start_after_iteration 100
 CriteriaUpdater trials_per {trials_per}
 CriteriaWriter trials_per {trials_per} file_name hs_crit[sim_index].txt
 PairDistribution trials_per_update 1000 trials_per_write {trials_per} \
@@ -83,34 +83,23 @@ class TestFlatHistogramHS(unittest.TestCase):
     def test(self):
         # compare to EOS in SRSW: https://www.nist.gov/mml/csd/chemical-informatics-research-group/hard-sphere-thermodynamic-and-transport-properties
         import math
+        import copy
         import numpy as np
         import pandas as pd
-        lnpi=pd.read_csv('hs_lnpi.txt')
+        from pyfeasst import macrostate_distribution
+
+        lnpi = macrostate_distribution.MacrostateDistribution(file_name='hs_lnpi.txt')
         volume=8**3
         srsw=pd.read_csv('../test/data/stat_hs.csv')
         srsw=srsw[:6]
-
-        def gce_av_n(n, lnpi):
-            return (np.exp(lnpi)*n).sum()
-
-        def rw(delta_beta_mu, n, lnpi):
-            lnpirw = lnpi + n*delta_beta_mu - lnpi.min()  # avoid negative log
-            lnpirw -= np.log(sum(np.exp(lnpirw)))   # renormalize
-            return lnpirw
-
-        def objective_fn(target_density, delta_beta_mu, df):
-            lnpirw = rw(delta_beta_mu=delta_beta_mu, n=df['state'], lnpi=df['ln_prob'])
-            return (target_density - gce_av_n(n=df['state'], lnpi=lnpirw)/volume)**2
-
-        from scipy.optimize import minimize
         pressure=list()
+        lnpi_rw = copy.deepcopy(lnpi)
         for target_density in srsw['dens']:
-            res = minimize(lambda delta_beta_mu: objective_fn(target_density, delta_beta_mu[0], lnpi), 1., tol=1e-8)
-            lnpirw = rw(delta_beta_mu=res.x[0], n=lnpi['state'], lnpi=lnpi['ln_prob'])
-            pressure.append(-lnpirw[0]/volume)
+            lnpi_rw.reweight_to_macrostate(target_macrostate=target_density*volume)
+            pressure.append(-lnpi_rw.ln_prob().values[0]/volume)
         srsw['P_FST'] = pressure
         print(srsw[['dens', 'P_MC', 'P_FST', '+/-']])
-        assert(np.any(abs(srsw['P_MC'] - srsw['P_FST']) < 1e-3))
+        assert np.any(abs(srsw['P_MC'] - srsw['P_FST']) < 1e-3)
 
         # Use chemical potential from Carnahan-Starling to compare expected average density
         # http://www.sklogwiki.org/SklogWiki/index.php/Carnahan-Starling_equation_of_state
@@ -119,10 +108,10 @@ class TestFlatHistogramHS(unittest.TestCase):
         eta = math.pi/6*rho
         betamu_ex = (8*eta-9*eta**2+3*eta**3)/(1-eta)**3
         betamu = betamu_ex + math.log(rho)
-        lnpirw = rw(delta_beta_mu=betamu+2.352321, n=lnpi['state'], lnpi=lnpi['ln_prob'])
-        density=gce_av_n(n=lnpi['state'], lnpi=lnpirw)/volume
+        lnpi_rw = lnpi.reweight(delta_beta_mu=betamu+2.352321)
+        density=lnpi_rw.average_macrostate()/volume
         print('target_density', rho, 'density', density)
-        assert(abs(rho - density) < 5e-4)
+        assert abs(rho - density) < 5e-4
 
 # run the simulation and, if complete, analyze.
 def run():
@@ -145,4 +134,4 @@ if __name__ == "__main__":
         if syscode != 0:
             sys.exit(1)
     else:
-        assert(False) # unrecognized run_type
+        assert False  # unrecognized run_type

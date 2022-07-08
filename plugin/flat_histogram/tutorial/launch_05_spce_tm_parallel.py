@@ -36,7 +36,7 @@ def mc_spce(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
 CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file spce_lnpi.txt bounds_file spce_bounds.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5 min_size 2
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 1.75 min_size 2
 Checkpoint file_name spce_checkpoint.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone
@@ -44,7 +44,7 @@ RandomMT19937 seed {seed}
 Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} physical_constants CODATA2010 \
     group0 oxygen oxygen_site_type 0
 Potential VisitModel Ewald alpha {alpha} kmax_squared 38
-Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened VisitModel VisitModelCutoffOuter table_size 1e6
+Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
 RefPotential Model HardSphere group oxygen cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut} cell_group oxygen
 Potential Model ChargeScreenedIntra VisitModel VisitModelBond
 Potential Model ChargeSelf
@@ -73,8 +73,8 @@ TrialGrowFile file_name spce_grow.txt
 RemoveAnalyze name Log
 Log trials_per {trials_per} file_name spce[sim_index].txt
 Movie trials_per {trials_per} file_name spce[sim_index].xyz
-Tune trials_per_write {trials_per} file_name spce_tune[sim_index].txt multistate true stop_after_iteration 20
-Energy trials_per_write {trials_per} file_name spce_en[sim_index].txt multistate true start_after_iteration 20
+Tune trials_per_write {trials_per} file_name spce_tune[sim_index].txt multistate true stop_after_iteration 1
+Energy trials_per_write {trials_per} file_name spce_en[sim_index].txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per 1e5
 CriteriaWriter trials_per {trials_per} file_name spce_crit[sim_index].txt
 """.format(**params))
@@ -136,4 +136,4 @@ if __name__ == "__main__":
         if syscode != 0:
             sys.exit(1)
     else:
-        assert(False) # unrecognized run_type
+        assert False  # unrecognized run_type

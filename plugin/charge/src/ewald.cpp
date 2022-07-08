@@ -430,6 +430,7 @@ void Ewald::serialize(std::ostream& ostr) const {
   feasst_serialize(wz_, ostr);
   feasst_serialize(struct_fact_real_new_, ostr);
   feasst_serialize(struct_fact_imag_new_, ostr);
+  DEBUG("size: " << ostr.tellp());
 }
 
 Ewald::Ewald(std::istream& istr) : VisitModel(istr) {

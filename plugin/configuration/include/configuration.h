@@ -77,7 +77,7 @@ class Configuration {
     - group[i]: set the name of the "i"-th group.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       All following arguments of the group are then expected to have the name
-      appended (e.g., "group0 water water_particle_type 0").
+      prepended (e.g., "group0 water water_particle_type 0").
    */
   explicit Configuration(argtype args = argtype());
   explicit Configuration(argtype * args);

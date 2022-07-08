@@ -165,6 +165,8 @@ class Criteria {
     const int min_size, const System& system, const System * upper_sys,
     Criteria * criteria, bool * adjusted_up, std::vector<int> * states);
   virtual const Macrostate& macrostate() const;
+  virtual int soft_max() const;
+  virtual int soft_min() const;
   virtual const Bias& bias() const;
   virtual const FlatHistogram& flat_histogram() const;
 

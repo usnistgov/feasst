@@ -228,6 +228,8 @@ void Criteria::adjust_bounds(const bool left_most, const bool right_most,
 }
 
 const Macrostate& Criteria::macrostate() const { FATAL("not implemented"); }
+int Criteria::soft_min() const { FATAL("not implemented"); }
+int Criteria::soft_max() const { FATAL("not implemented"); }
 
 const Bias& Criteria::bias() const { FATAL("not implemented"); }
 

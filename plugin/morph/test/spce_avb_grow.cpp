@@ -71,7 +71,7 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
       //{{"table_size", "1e6"}}
     );
     mc.set(1, pot);
-    mc.add(MakePotential(MakeChargeScreened({{"table_size", "0"}})));
+    mc.add(MakePotential(MakeChargeScreened({{"erfc_table_size", "0"}})));
     mc.add_to_reference(MakePotential(MakeDontVisitModel()));
     //mc.add_to_reference(pot);
   }
@@ -186,7 +186,7 @@ TEST(TrialGrow, transfer_avb_spce) {
   system.set_unoptimized(1, pot);
   DEBUG("model name " << system.potential(1).model().class_name());
   DEBUG("sig1 " << system.potential(1).model().sigma_index());
-  system.add(MakePotential(MakeChargeScreened({{"table_size", "0"}})));
+  system.add(MakePotential(MakeChargeScreened({{"erfc_table_size", "0"}})));
   system.add_to_reference(MakePotential(MakeDontVisitModel()));
   const Configuration& config = system.configuration();
   system.energy();

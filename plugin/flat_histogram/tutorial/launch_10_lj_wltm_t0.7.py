@@ -16,10 +16,10 @@ params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "min_particles": 0,
     "beta": 1/0.7, "max_particles": 475, "mu": -4.1603632, "dccb_cut": 1,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32,
+    "equilibration": 1e6, "num_nodes": 2, "procs_per_node": 32,
     "gce_trial": "TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 10",
     "min_sweeps": 200, "window_alpha": 2.5,
-    "script": __file__, "dir": str(pathlib.Path(__file__).parent.resolve())}
+    "script": __file__}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
 params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_per_node"]
@@ -32,7 +32,7 @@ params["ref_potential"]="""RefPotential Model LennardJones cutoff {dccb_cut} Vis
 def mc_lj(params, file_name):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file lj_lnpin{node}.txt bounds_file lj_boundsn{node}.txt num_adjust_per_write 10 ln_prob_file_append true
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file lj_lnpin{node}.txt bounds_file lj_boundsn{node}.txt num_adjust_per_write 10
 WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha {window_alpha} min_size 2
 Checkpoint file_name lj_checkpointn{node}.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
@@ -65,8 +65,8 @@ Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 2
 RemoveAnalyze name Log
 Log trials_per {trials_per} file_name ljn{node}s[sim_index].txt
 Movie trials_per {trials_per} file_name ljn{node}s[sim_index].xyz
-Tune trials_per_write {trials_per} file_name lj_tunen{node}s[sim_index].txt multistate true stop_after_iteration 20
-Energy trials_per_write {trials_per} file_name lj_enn{node}s[sim_index].txt multistate true start_after_iteration 20
+Tune trials_per_write {trials_per} file_name lj_tunen{node}s[sim_index].txt multistate true stop_after_iteration 1
+Energy trials_per_write {trials_per} file_name lj_enn{node}s[sim_index].txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per 1e5
 CriteriaWriter trials_per {trials_per} file_name lj_critn{node}s[sim_index].txt
 """.format(**params))
@@ -77,14 +77,9 @@ def slurm_queue(node):
     with open("slurm"+str(node)+".txt", "w") as myfile: myfile.write("""#!/bin/bash
 #SBATCH -n {procs_per_node} -N 1 -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
 echo "Running {script} ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
-original_dir=$PWD; echo $original_dir
-wrk=/wrk/$LOGNAME/$SLURM_JOB_ID/; mkdir -p $wrk; cd $wrk; echo "wrk:$wrk"
-rsync -au $original_dir/* .; rm hostname_*
-ls
+cd $PWD
 export OMP_NUM_THREADS={procs_per_node}
-python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID --node {node} --dir $original_dir
-echo "sync"
-rsync -au . $original_dir/
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID --node {node}
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID
@@ -99,33 +94,69 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--run_type', '-r', type=int, default=0, help="0: submit batch to scheduler, 1: run batch on host")
 parser.add_argument('--task', type=int, default=0, help="input by slurm scheduler. If >0, restart from checkpoint.")
 parser.add_argument('--node', type=int, default=0, help="break the job into multiple nodes.")
-parser.add_argument('--dir', type=str, default="", help="orginal working directory that the script was launched.")
 args = parser.parse_args()
 params['node']=args.node
-if args.dir:
-    params['dir']=args.dir
 
-# after the simulation is complete, perform some tests
+# after the simulation is complete, perform some analysis
 class TestFlatHistogramLJ(unittest.TestCase):
     def test(self):
         # compare the lnpi with the srsw
         import numpy as np
         import pandas as pd
-        if params['num_nodes'] == 2:
-            df1=pd.read_csv('lj_lnpin0.txt')
-            df2=pd.read_csv('lj_lnpin1.txt')
-            df2['state'] += df1['state'].values[-1]
-            shift=df1['ln_prob'].values[-1] - df2['ln_prob'][0]
-            df2['ln_prob'] += shift
-            df=pd.concat([df1, df2[1:]])
-            df=df.reset_index()
-            df['ln_prob'] -= np.log(sum(np.exp(df['ln_prob'])))   # renormalize
-        else:
-            df=pd.read_csv('lj_lnpin0.txt')
-        df=pd.concat([df, pd.read_csv(params['dir']+'/../test/data/stat070.csv')], axis=1)
+        from pyfeasst import macrostate_distribution
+        from pyfeasst import multistate_accumulator
+        num_block = 32
+        beta_mu_eq = list()
+        rho_vapor = list()
+        rho_liquid = list()
+        en_vapor = list()
+        en_liquid = list()
+        pressure = list()
+        for block in range(-1, num_block):
+            if block == -1:
+                ln_prob_header = 'ln_prob'
+                energy_header = 'e_average'
+            else:
+                ln_prob_header = 'ln_prob' + str(block)
+                energy_header = 'e_block' + str(block)
+            lnpi = macrostate_distribution.splice_files(prefix='lj_lnpin', suffix='.txt',
+                                                        ln_prob_header=ln_prob_header)
+            lnpi.set_minimum_smoothing(30)
+            energy = multistate_accumulator.splice_by_node(prefix='lj_enn', suffix='.txt', num_nodes=params['num_nodes'])
+            lnpi.concat_dataframe(dataframe=energy, add_prefix='e_')
+            delta_beta_mu = lnpi.equilibrium()
+            beta_mu_eq.append(params['beta']*params['mu'] + delta_beta_mu)
+            for index, phase in enumerate(lnpi.split()):
+                n_gce = phase.average_macrostate()
+                rho = n_gce/params['cubic_box_length']**3
+                en = phase.ensemble_average(energy_header)/n_gce
+                if index == 0:
+                    pressure.append(-phase.ln_prob()[0]/params['beta']/params['cubic_box_length']**3)
+                    rho_vapor.append(rho)
+                    en_vapor.append(en)
+                else:
+                    rho_liquid.append(rho)
+                    en_liquid.append(en)
+        data = pd.DataFrame(data={'rho_vapor': rho_vapor, 'rho_liquid': rho_liquid, 'pressure': pressure, 'en_vapor': en_vapor, 'en_liquid': en_liquid, 'beta_mu_eq': beta_mu_eq})
+        data.to_csv('launch_10_lj_wltm_t0.7.csv')
+        for col in data.columns:
+            print(col, data[col][0], '+/-', data[col][1:].std()/np.sqrt(len(data[col][1:])), data[col][1:].mean())
+
+        # check equilibrium properties from https://www.nist.gov/mml/csd/chemical-informatics-group/sat-tmmc-liquid-vapor-coexistence-properties-long-range
+        z_factor = 6
+        self.assertLess(np.abs(data['rho_vapor'][0] - 1.996E-03), z_factor*np.sqrt((data['rho_vapor'][1:].std()/np.sqrt(num_block))**2 + 1.422E-05**2))
+        self.assertLess(np.abs(data['rho_liquid'][0] - 8.437E-01), z_factor*np.sqrt((data['rho_liquid'][1:].std()/np.sqrt(num_block))**2 + 2.49E-04**2))
+        self.assertLess(np.abs(data['pressure'][0] - 1.370E-03), z_factor*np.sqrt((data['pressure'][1:].std()/np.sqrt(num_block))**2 + 9.507E-07**2))
+        self.assertLess(np.abs(data['en_vapor'][0] - -2.500E-02), z_factor*np.sqrt((data['en_vapor'][1:].std()/np.sqrt(num_block))**2 + 3.323E-05**2))
+        self.assertLess(np.abs(data['en_liquid'][0] - -6.106E+00), z_factor*np.sqrt((data['en_liquid'][1:].std()/np.sqrt(num_block))**2 + 1.832E-03**2))
+        self.assertLess(np.abs(data['beta_mu_eq'][0] - -6.257E+00), z_factor*np.sqrt((data['beta_mu_eq'][1:].std()/np.sqrt(num_block))**2 + 4.639E-04**2))
+
+        # check lnpi
+        lnpi = macrostate_distribution.splice_files(prefix='lj_lnpin', suffix='.txt')
+        df=pd.concat([lnpi.dataframe(), pd.read_csv('../test/data/stat070.csv')], axis=1)
         df['deltalnPI']=df.lnPI-df.lnPI.shift(1)
         df.to_csv('lj_lnpi.csv')
-        diverged=df[df.deltalnPI-df.delta_ln_prob > 6*df.delta_ln_prob_stdev]
+        diverged=df[df.deltalnPI-df.delta_ln_prob > z_factor*df.delta_ln_prob_stdev]
         print(diverged)
         self.assertTrue(len(diverged) == 0)
 
@@ -144,9 +175,9 @@ def run():
             if params['node'] == 1:
                 params["min_particles"]=splice_particles
         mc_lj(params=params, file_name=file_name)
-        syscode = subprocess.call(params['dir']+"/../../../build/bin/fst < " + file_name + " > lj_launch"+str(params['node'])+".log", shell=True, executable='/bin/bash')
+        syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > lj_launch"+str(params['node'])+".log", shell=True, executable='/bin/bash')
     else:
-        syscode = subprocess.call(params['dir']+"/../../../build/bin/rst lj_checkpointn"+str(params['node'])+".fst", shell=True, executable='/bin/bash')
+        syscode = subprocess.call("../../../build/bin/rst lj_checkpointn"+str(params['node'])+".fst", shell=True, executable='/bin/bash')
     if syscode == 0 and params['node'] == 1:
         unittest.main(argv=[''], verbosity=2, exit=False)
     return syscode
@@ -161,4 +192,4 @@ if __name__ == "__main__":
         if syscode != 0:
             sys.exit(1)
     else:
-        assert(False) # unrecognized run_type
+        assert False  # unrecognized run_type

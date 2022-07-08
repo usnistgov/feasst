@@ -34,6 +34,36 @@ void AnalyzeFactory::trial_(const Criteria& criteria,
   // timer_.end();
 }
 
+int AnalyzeFactory::min_block_(const Criteria& criteria) const {
+  int min = 1e9;
+  for (int state = criteria.soft_min(); state <= criteria.soft_max(); ++state) {
+    const int num = static_cast<int>(
+      analyzers_[state]->accumulator().blocks()[0].size());
+    if (num < min) {
+      min = num;
+    }
+  }
+  return min;
+}
+
+std::string AnalyzeFactory::write_blocks_(const int min_block,
+  const Accumulator& acc) const {
+  std::stringstream ss;
+  for (int block = 0; block < min_block; ++block) {
+    const std::vector<std::vector<double>>& blocks = acc.blocks();
+    if (static_cast<int>(blocks.size()) > 0) {
+      if (static_cast<int>(blocks[0].size()) > block) {
+        ss << blocks[0][block] << ",";
+      } else {
+        ss << ",";
+      }
+    } else {
+      ss << ",";
+    }
+  }
+  return ss.str();
+}
+
 void AnalyzeFactory::trial(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
@@ -62,18 +92,26 @@ void AnalyzeFactory::trial(const Criteria& criteria,
         << " after a multistate Analyzer?");
       analyzers_[criteria.state()]->check_update_(criteria, system, trial_factory);
       if (is_time(trials_per_write(), &trials_since_write_)) {
+        const int min_block = min_block_(criteria);
         std::stringstream ss;
         for (int state = 0; state < num(); ++state) {
           if (state == 0) {
             ss << "state,";
             ss << analyzers_[state]->header(criteria, system, trial_factory);
+            ss.seekp(-1, ss.cur); // remove endl
+            for (int block = 0; block < min_block; ++block) {
+              ss << "block" << block << ",";
+            }
+            ss << std::endl;
           }
           DEBUG("state " << state);
           DEBUG("crit " << criteria.state());
           DEBUG("crit " << criteria.num_states());
           ss << state << ",";
           ss << analyzers_[state]->write(criteria, system, trial_factory);
-//          ss << std::endl;
+          ss.seekp(-1, ss.cur); // remove endl
+          ss << write_blocks_(min_block, analyzers_[state]->accumulator());
+          ss << std::endl;
         }
         printer(ss.str(), file_name(criteria));
       }
@@ -95,14 +133,23 @@ void AnalyzeFactory::write_to_file(const Criteria& criteria,
   const TrialFactory& trial_factory) {
   if (is_multistate()) {
     if (is_multistate_aggregate()) {
+      const int min_block = min_block_(criteria);
       std::stringstream ss;
       for (int state = 0; state < num(); ++state) {
         if (state == 0) {
           ss << "state,";
           ss << analyzers_[state]->header(criteria, system, trial_factory);
+          ss.seekp(-1, ss.cur); // remove endl
+          for (int block = 0; block < min_block; ++block) {
+            ss << "block" << block << ",";
+          }
+          ss << std::endl;
         }
         ss << state << ",";
         ss << analyzers_[state]->write(criteria, system, trial_factory);
+        ss.seekp(-1, ss.cur); // remove endl
+        ss << write_blocks_(min_block, analyzers_[state]->accumulator());
+        ss << std::endl;
       }
       printer(ss.str(), file_name(criteria));
     } else {

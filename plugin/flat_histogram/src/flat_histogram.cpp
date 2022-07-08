@@ -370,4 +370,7 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
   check_left_and_right_most_(left_most, right_most, all_min_size, min_size, system, upper_sys, criteria);
 }
 
+int FlatHistogram::soft_min() const { return macrostate_->soft_min(); }
+int FlatHistogram::soft_max() const { return macrostate_->soft_max(); }
+
 }  // namespace feasst

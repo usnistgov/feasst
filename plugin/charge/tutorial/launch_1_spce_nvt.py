@@ -114,4 +114,4 @@ if __name__ == "__main__":
             if np.count_nonzero(codes) > 0:
                 sys.exit(1)
     else:
-        assert(False) # unrecognized run_type
+        assert False  # unrecognized run_type
