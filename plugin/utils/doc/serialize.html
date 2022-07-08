@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>utils/include/serialize &mdash; FEASST v0.20.0 documentation</title>
+  <title>utils/include/serialize &mdash; FEASST v0.20.1 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.0
+                v0.20.1
               </div>
             
           
@@ -146,8 +146,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -297,6 +298,12 @@
 <dt id="_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6stringERNSt7istreamE">
 <span class="target" id="namespacefeasst_1af0de0cf6833f1472b9bb81ce76491fb6"></span>void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::string *<em>str</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6stringERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Deserialize string. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst16feasst_serializeEKdRNSt7ostreamE">
+<span class="target" id="namespacefeasst_1a9b78cdd00fb53a7cf388b511af0ceb91"></span>void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> double <em>val</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16feasst_serializeEKdRNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize double. Handle zero. </p>
 </dd></dl>
 
 <dl class="cpp function">

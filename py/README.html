@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pyFEASST &mdash; FEASST v0.20.0 documentation</title>
+  <title>Python interface &mdash; FEASST v0.20.1 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Forcefield and Units" href="../forcefield/README.html" />
-    <link rel="prev" title="Prefetch example" href="../plugin/prefetch/tutorial/tutorial_1_prefetch.html" />
+    <link rel="next" title="Contact" href="../CONTACT.html" />
+    <link rel="prev" title="multistate_accumulator" href="../pyfeasst/docs/source/multistate_accumulator.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.0
+                v0.20.1
               </div>
             
           
@@ -106,14 +106,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugins</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pyFEASST</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pyfeasst-py">pyfeasst.py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#test-py">test.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#feasst-i">feasst.i</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#depend-py">depend.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-py">test.py</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -185,7 +185,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>pyFEASST</li>
+      <li>Python interface</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -226,17 +226,9 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="pyfeasst">
-<h1>pyFEASST<a class="headerlink" href="#pyfeasst" title="Permalink to this headline">¶</a></h1>
-<p>Python support for FEASST includes the following:</p>
-<div class="section" id="pyfeasst-py">
-<h2>pyfeasst.py<a class="headerlink" href="#pyfeasst-py" title="Permalink to this headline">¶</a></h2>
-<p>Collection of utility python functions and classes for use with FEASST.</p>
-</div>
-<div class="section" id="test-py">
-<h2>test.py<a class="headerlink" href="#test-py" title="Permalink to this headline">¶</a></h2>
-<p>Unittests for python interface.</p>
-</div>
+<div class="section" id="python-interface">
+<h1>Python interface<a class="headerlink" href="#python-interface" title="Permalink to this headline">¶</a></h1>
+<p>Python interface for FEASST includes the following:</p>
 <div class="section" id="feasst-i">
 <h2>feasst.i<a class="headerlink" href="#feasst-i" title="Permalink to this headline">¶</a></h2>
 <p>This is the SWIG interface file for wrapping C++ to Python.
@@ -248,6 +240,10 @@ It is generated using a script because the order of including headers is importa
 <p>This script is only used for new documentation or plugins.
 It generates feasst.i and [plugin]/doc/*rst files.</p>
 </div>
+<div class="section" id="test-py">
+<h2>test.py<a class="headerlink" href="#test-py" title="Permalink to this headline">¶</a></h2>
+<p>Unittests for python interface.</p>
+</div>
 </div>
 
 
@@ -256,8 +252,8 @@ It generates feasst.i and [plugin]/doc/*rst files.</p>
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../forcefield/README.html" class="btn btn-neutral float-right" title="Forcefield and Units" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="../plugin/prefetch/tutorial/tutorial_1_prefetch.html" class="btn btn-neutral float-left" title="Prefetch example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../CONTACT.html" class="btn btn-neutral float-right" title="Contact" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../pyfeasst/docs/source/multistate_accumulator.html" class="btn btn-neutral float-left" title="multistate_accumulator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

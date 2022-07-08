@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches &mdash; FEASST v0.20.0 documentation</title>
+  <title>Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches &mdash; FEASST v0.20.1 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="../doc/toc.html" />
+    <link rel="next" title="Grand Canonical Flat Histogram Simulation at low temperature" href="tutorial_10_wltm_lowt.html" />
     <link rel="prev" title="Grand Canonical Flat Histogram Simulation of Patchy Trimers" href="tutorial_08_trimer_tm_parallel.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.0
+                v0.20.1
               </div>
             
           
@@ -127,6 +127,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_10_wltm_lowt.html">Grand Canonical Flat Histogram Simulation at low temperature</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
@@ -149,8 +150,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -326,9 +328,9 @@
 <span class="s2">TrialTransfer weight 2 particle_type 0</span>
 <span class="s2">RemoveAnalyze name Log</span>
 <span class="s2">Log trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name kf[sim_index].txt</span>
-<span class="s2">Tune trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name kf_tune[sim_index].txt multistate true</span>
 <span class="s2">MoviePatch trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name kf[sim_index].xyz</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name kf_en[sim_index].txt multistate true</span>
+<span class="s2">Tune trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name kf_tune[sim_index].txt multistate true stop_after_iteration 100</span>
+<span class="s2">Energy trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name kf_en[sim_index].txt multistate true start_after_iteration 100</span>
 <span class="s2">CriteriaUpdater trials_per </span><span class="si">{trials_per}</span><span class="s2"></span>
 <span class="s2">CriteriaWriter trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name kf_crit[sim_index].txt</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
@@ -337,7 +339,7 @@
 <span class="k">def</span> <span class="nf">slurm_queue</span><span class="p">():</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;slurm.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;#!/bin/bash</span>
 <span class="s2">#SBATCH -n </span><span class="si">{procs_per_node}</span><span class="s2"> -N </span><span class="si">{num_nodes}</span><span class="s2"> -t </span><span class="si">{num_minutes}</span><span class="s2">:00 -o hostname_%j.out -e hostname_%j.out</span>
-<span class="s2">echo &quot;Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD&quot;</span>
+<span class="s2">echo &quot;Running </span><span class="si">{script}</span><span class="s2"> ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD&quot;</span>
 <span class="s2">cd $PWD</span>
 <span class="s2">export OMP_NUM_THREADS=</span><span class="si">{procs_per_node}</span><span class="s2"></span>
 <span class="s2">python </span><span class="si">{script}</span><span class="s2"> --run_type 1 --task $SLURM_ARRAY_TASK_ID</span>
@@ -397,7 +399,7 @@
         <span class="k">if</span> <span class="n">syscode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">assert</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># unrecognized run_type</span>
+        <span class="k">assert</span> <span class="kc">False</span>  <span class="c1"># unrecognized run_type</span>
 </pre></div>
 </div>
 </div>
@@ -408,7 +410,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../doc/toc.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial_10_wltm_lowt.html" class="btn btn-neutral float-right" title="Grand Canonical Flat Histogram Simulation at low temperature" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="tutorial_08_trimer_tm_parallel.html" class="btn btn-neutral float-left" title="Grand Canonical Flat Histogram Simulation of Patchy Trimers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

@@ -10,3 +10,7 @@ build/
 *ipynb_checkpoints*
 *__pycache__*
 build-gtest
+
+pyfeasst/dist
+pyfeasst/src
+pyfeasst/tests

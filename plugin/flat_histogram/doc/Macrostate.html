@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Macrostate &mdash; FEASST v0.20.0 documentation</title>
+  <title>Macrostate &mdash; FEASST v0.20.1 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.0
+                v0.20.1
               </div>
             
           
@@ -155,8 +155,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -289,7 +290,7 @@
 <span class="target" id="classfeasst_1_1Macrostate_1a7b7422167ad7275c3b9d593f2176cbe7"></span><code class="sig-name descname">Macrostate</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> &amp;<em>histogram</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate10MacrostateERK9Histogram7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>soft_macro_max : optionally, set a soft maximum (default: last histogram bin). These soft limits may be changed during a simulation. Note that this max is a macrostate value, not an integer bin index.</p></li>
-<li><p>soft_macro_min : minimum as described above (default: same as histogram). </p></li>
+<li><p>soft_macro_min : minimum as described above (default: same as histogram). This argument also requires the use of soft_macro_max. </p></li>
 </ul>
 </p>
 </dd></dl>

@@ -1,18 +1,8 @@
 ***************************
-pyFEASST
+Python interface
 ***************************
 
-Python support for FEASST includes the following:
-
-pyfeasst.py
-============
-
-Collection of utility python functions and classes for use with FEASST.
-
-test.py
-========
-
-Unittests for python interface.
+Python interface for FEASST includes the following:
 
 feasst.i
 =========
@@ -26,3 +16,9 @@ depend.py
 
 This script is only used for new documentation or plugins.
 It generates feasst.i and [plugin]/doc/\*rst files.
+
+test.py
+========
+
+Unittests for python interface.
+

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.20.0 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.20.1 documentation</title>
   
 
   
@@ -83,7 +83,7 @@
             
             
               <div class="version">
-                v0.20.0
+                v0.20.1
               </div>
             
           
@@ -105,8 +105,9 @@
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugins</a></li>
-<li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -224,8 +225,8 @@
 <div class="section" id="readme">
 <h2>README<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h2>
 <p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
-open-source, modular program to conduct molecular and particle-based
-simulations with flat-histogram Monte Carlo methods.</p>
+open-source, public domain software to conduct molecular and particle-based
+simulations with Monte Carlo methods.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Manuscript: <a class="reference external" href="https://doi.org/10.6028/jres.123.004">https://doi.org/10.6028/jres.123.004</a></p>
@@ -305,7 +306,8 @@ mkdir feasst/build
 <span class="nb">cd</span> feasst/build
 cmake ..
 make install -j4
-pip install jupyter matplotlib pandas scipy <span class="c1"># optional for tutorials</span>
+<span class="c1"># optional python packages for feasst tutorials</span>
+pip install ../pyfeasst jupyter matplotlib pandas scipy
 </pre></div>
 </div>
 <p>The executables <cite>fst</cite>, which is used to start a simulation, and <cite>rst</cite>, which is used to restart a simulation, should now be located in <cite>/path/to/feasst/build/bin/</cite>.</p>
@@ -330,16 +332,22 @@ Try the command cmake3 instead of cmake.</p>
 <li><p>Update to CMake 3 (<a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a>)</p></li>
 </ul>
 </div>
-<div class="section" id="ubuntu-18-20-and-macos-mojave">
-<h5>Ubuntu 18, 20 and macOS Mojave<a class="headerlink" href="#ubuntu-18-20-and-macos-mojave" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="macos-mojave">
+<h5>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Permalink to this headline">¶</a></h5>
 <ul class="simple">
-<li><p>We are not aware of any issues with these OS.</p></li>
+<li><p>for omp, try brew install libomp</p></li>
 </ul>
 </div>
 <div class="section" id="cray-nersc-cori">
 <h5>Cray (NERSC CORI)<a class="headerlink" href="#cray-nersc-cori" title="Permalink to this headline">¶</a></h5>
 <ul class="simple">
 <li><p>OpenMP functions apparently do not work unless the cray programming environment is disabled.</p></li>
+</ul>
+</div>
+<div class="section" id="ubuntu-18-20">
+<h5>Ubuntu 18, 20<a class="headerlink" href="#ubuntu-18-20" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>We are not aware of any issues with these OS.</p></li>
 </ul>
 </div>
 </div>
@@ -396,8 +404,9 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l4"><a class="reference internal" href="README.html#centos-7">CentOS 7</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#windows-10">Windows 10</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-16">Ubuntu 16</a></li>
-<li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-18-20-and-macos-mojave">Ubuntu 18, 20 and macOS Mojave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#macos-mojave">macOS Mojave</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#cray-nersc-cori">Cray (NERSC CORI)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-18-20">Ubuntu 18, 20</a></li>
 </ul>
 </li>
 </ul>
@@ -671,6 +680,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_10_wltm_lowt.html">Grand Canonical Flat Histogram Simulation at low temperature</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#tools">Tools</a></li>
@@ -701,8 +711,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/VisitModelInnerPatch.html">VisitModelInnerPatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html">FileVMDPatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html">MoviePatch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/patch/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/patch/tutorial/tutorial_0_ref_config.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/patch/README.html#tutorial">Tutorial</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -908,13 +917,6 @@ Try the command cmake3 instead of cmake.</p>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="py/README.html#pyfeasst-py">pyfeasst.py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py/README.html#test-py">test.py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py/README.html#feasst-i">feasst.i</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py/README.html#depend-py">depend.py</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield and Units</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="forcefield/README.html#units">Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="forcefield/README.html#data-files">Data files</a><ul>
@@ -929,6 +931,20 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l3"><a class="reference internal" href="forcefield/README.html#trialgrow">TrialGrow</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/cd.html">cd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/accumulator.html">accumulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html">physical_constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html">macrostate_distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/multistate_accumulator.html">multistate_accumulator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="py/README.html">Python interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="py/README.html#feasst-i">feasst.i</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py/README.html#depend-py">depend.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py/README.html#test-py">test.py</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a><ul>

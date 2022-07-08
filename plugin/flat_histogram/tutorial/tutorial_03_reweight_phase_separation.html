@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Analysis of a two-phase (phase separated) simulation &mdash; FEASST v0.20.0 documentation</title>
+  <title>Analysis of a two-phase (phase separated) simulation &mdash; FEASST v0.20.1 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.0
+                v0.20.1
               </div>
             
           
@@ -127,6 +127,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_10_wltm_lowt.html">Grand Canonical Flat Histogram Simulation at low temperature</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
@@ -149,8 +150,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -516,6 +518,8 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Analysis-of-a-two-phase-(phase-separated)-simulation">
 <h1>Analysis of a two-phase (phase separated) simulation<a class="headerlink" href="#Analysis-of-a-two-phase-(phase-separated)-simulation" title="Permalink to this headline">¶</a></h1>
 <p>In this previous example, we analyzed a simulation conducted above the critical temperature. In this tutorial, we now consider an LJ simulation with potentially two phases at <span class="math notranslate nohighlight">\(T^*=1.2\)</span>.</p>
+<p>The python package pyfeasst (<a class="reference external" href="https://pypi.org/project/pyfeasst/">https://pypi.org/project/pyfeasst/</a>) is used for analysis.</p>
+<p>This tutorial uses data from the SRSW. For an example of running and analyzing a phase separated system, see tutorial 10.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -523,36 +527,40 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">pyfeasst</span>
+<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 
-<span class="n">dfsrsw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../test/data/stat120.csv&quot;</span><span class="p">)</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">1.2</span>
+<span class="n">srsw</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s2">&quot;../test/data/stat120.csv&quot;</span><span class="p">,</span>
+                                        <span class="n">macrostate_name</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span>
+                                        <span class="n">ln_prob_name</span><span class="o">=</span><span class="s2">&quot;lnPI&quot;</span><span class="p">)</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;lnPI&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">srsw</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7f880265b700&gt;]
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_03_reweight_phase_separation_1_0.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_03_reweight_phase_separation_1_0.svg" /></div>
+<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_03_reweight_phase_separation_1_1.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_03_reweight_phase_separation_1_1.svg" /></div>
 </div>
 <p>Note that this macrostate distribution may contain a second maximum depending on the value of the chemical potential. But at the chemical potential shown above, the low density phase is unstable and there is no minimum.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># check for minimum within num_smooth macrostates</span>
-<span class="k">def</span> <span class="nf">get_min</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dfcol</span><span class="p">,</span> <span class="n">num_smooth</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dfcol</span><span class="p">[(</span><span class="n">dfcol</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dfcol</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dfcol</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dfcol</span><span class="p">)]</span>
-    <span class="k">for</span> <span class="n">shift</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_smooth</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dfcol</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dfcol</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">shift</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dfcol</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dfcol</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="n">shift</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dfcol</span><span class="p">)]</span>
-    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">get_min</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">,</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">lnPI</span><span class="p">))</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+<span></span><span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">srsw</span><span class="o">.</span><span class="n">minimums</span><span class="p">())</span><span class="o">==</span><span class="mi">0</span>
 </pre></div>
 </div>
 </div>
@@ -562,15 +570,11 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">rw</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">delta_conjugate</span><span class="p">,</span> <span class="n">lnp_col</span><span class="o">=</span><span class="s1">&#39;lnPI&#39;</span><span class="p">,</span> <span class="n">n_col</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">):</span>
-    <span class="n">df</span><span class="p">[</span><span class="n">lnp_col</span><span class="o">+</span><span class="s1">&#39;rw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">lnp_col</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="n">n_col</span><span class="p">]</span><span class="o">*</span><span class="n">delta_conjugate</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">lnp_col</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>  <span class="c1"># avoid negative log</span>
-    <span class="n">df</span><span class="p">[</span><span class="n">lnp_col</span><span class="o">+</span><span class="s1">&#39;rw&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">lnp_col</span><span class="o">+</span><span class="s1">&#39;rw&#39;</span><span class="p">])))</span>   <span class="c1"># renormalize</span>
-    <span class="k">return</span> <span class="n">df</span>
-<span class="n">dfsrsw</span> <span class="o">=</span> <span class="n">rw</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">,</span> <span class="n">delta_conjugate</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">])</span>
-<span class="n">minima</span><span class="o">=</span><span class="n">get_min</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">,</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">lnPIrw</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">minima</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">minima</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">152</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">minima</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span></span><span class="n">srsw_rw</span> <span class="o">=</span> <span class="n">srsw</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="n">delta_beta_mu</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">srsw_rw</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span>
+<span class="n">minima</span><span class="o">=</span><span class="n">srsw_rw</span><span class="o">.</span><span class="n">minimums</span><span class="p">()</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">minima</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">minima</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">152</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">minima</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;low density phase&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;high density phase</span><span class="se">\n</span><span class="s1">(more probable)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">)</span>
@@ -599,31 +603,12 @@ Text(0, 0.5, &#39;$\\ln\\Pi$&#39;)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">equilibrium_objective</span><span class="p">(</span><span class="n">delta_beta_mu</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">num_smooth</span><span class="p">):</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">rw</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">delta_beta_mu</span><span class="p">)</span>
-    <span class="n">mins</span><span class="o">=</span><span class="n">get_min</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">mn</span><span class="o">=</span><span class="n">mins</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">p_lo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;lnPIrw&quot;</span><span class="p">][:</span><span class="n">mn</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-        <span class="n">p_hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;lnPIrw&quot;</span><span class="p">][</span><span class="n">mn</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-        <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">p_lo</span><span class="o">-</span><span class="n">p_hi</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">assert</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># more than one minima</span>
+<span></span><span class="n">delta_beta_mu_equilibrium</span> <span class="o">=</span> <span class="n">srsw</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">()</span>
+<span class="n">mins</span><span class="o">=</span><span class="n">srsw</span><span class="o">.</span><span class="n">minimums</span><span class="p">()</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
+<span class="n">mn</span><span class="o">=</span><span class="n">mins</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="k">def</span> <span class="nf">find_equilibrium</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">delta_beta_mu_guess</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_smooth</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">delta_beta_mu</span><span class="p">:</span> <span class="n">equilibrium_objective</span><span class="p">(</span><span class="n">delta_beta_mu</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df</span><span class="p">,</span> <span class="n">num_smooth</span><span class="p">),</span> <span class="n">delta_beta_mu_guess</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
-    <span class="n">delta_beta_mu_equilibrium</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">rw</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">delta_beta_mu_equilibrium</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">df</span><span class="p">,</span> <span class="n">delta_beta_mu_equilibrium</span>
-
-<span class="n">df</span><span class="p">,</span><span class="n">delta_beta_mu_equilibrium</span> <span class="o">=</span> <span class="n">find_equilibrium</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">)</span>
-<span class="n">mins</span><span class="o">=</span><span class="n">get_min</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">lnPIrw</span><span class="p">)</span>
-<span class="n">mn</span><span class="o">=</span><span class="n">mins</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;lnPIrw&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">srsw</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mn</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;saturated vapor&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;saturated liquid&#39;</span><span class="p">)</span>
@@ -654,22 +639,24 @@ Text(0, 0.5, &#39;$\\ln\\Pi$&#39;)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">mins</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">166</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mf">0.128071</span> <span class="o">-</span> <span class="n">delta_beta_mu_equilibrium</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">)</span>
+<span></span><span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">mins</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">166</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mf">0.128071</span> <span class="o">-</span> <span class="n">delta_beta_mu_equilibrium</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.01</span>
 
 <span class="n">volume</span> <span class="o">=</span> <span class="mi">8</span><span class="o">**</span><span class="mi">3</span>
-<span class="n">betaPV</span> <span class="o">=</span> <span class="o">-</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;lnPIrw&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span>
+<span class="n">vapor</span><span class="p">,</span> <span class="n">liquid</span> <span class="o">=</span> <span class="n">srsw</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">betaPV</span> <span class="o">=</span> <span class="o">-</span><span class="n">vapor</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">1.2</span>
 <span class="n">pressure</span><span class="o">=</span><span class="n">betaPV</span><span class="o">/</span><span class="n">beta</span><span class="o">/</span><span class="n">volume</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pressure:&#39;</span><span class="p">,</span> <span class="n">pressure</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.07767827874744734</span> <span class="o">-</span> <span class="n">pressure</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="mf">0.07722557238264459</span> <span class="o">-</span> <span class="n">pressure</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span>
 
-<span class="n">vapor_density</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;lnPIrw&quot;</span><span class="p">][:</span><span class="n">mn</span><span class="p">])</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">][:</span><span class="n">mn</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="mf">0.5</span><span class="o">/</span><span class="n">volume</span> <span class="c1"># phase 0 is vapor</span>
+<span class="n">vapor_density</span> <span class="o">=</span> <span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="n">volume</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;vapor_density:&#39;</span><span class="p">,</span> <span class="n">vapor_density</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.10035084321906751</span> <span class="o">-</span> <span class="n">vapor_density</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="mf">0.10035100340092683</span> <span class="o">-</span> <span class="n">vapor_density</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span>
 
-<span class="n">liquid_density</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;lnPIrw&quot;</span><span class="p">][</span><span class="n">mn</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">][</span><span class="n">mn</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="mf">0.5</span><span class="o">/</span><span class="n">volume</span> <span class="c1"># phase 1 is liquid</span>
+<span class="n">liquid_density</span> <span class="o">=</span> <span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="n">volume</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liquid_density:&#39;</span><span class="p">,</span> <span class="n">liquid_density</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.5631860451773694</span> <span class="o">-</span> <span class="n">liquid_density</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="mf">0.563188088494581</span> <span class="o">-</span> <span class="n">liquid_density</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span>
 </pre></div>
 </div>
 </div>
@@ -678,9 +665,9 @@ Text(0, 0.5, &#39;$\\ln\\Pi$&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-pressure: 0.07767827874744734
-vapor_density: 0.10035084321906751
-liquid_density: 0.5631860451773694
+pressure: 0.07722557238264459
+vapor_density: 0.10035100340092687
+liquid_density: 0.5631880884945807
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

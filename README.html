@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>README &mdash; FEASST v0.20.0 documentation</title>
+  <title>README &mdash; FEASST v0.20.1 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.0
+                v0.20.1
               </div>
             
           
@@ -111,8 +111,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#centos-7">CentOS 7</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#windows-10">Windows 10</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ubuntu-16">Ubuntu 16</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ubuntu-18-20-and-macos-mojave">Ubuntu 18, 20 and macOS Mojave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macos-mojave">macOS Mojave</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cray-nersc-cori">Cray (NERSC CORI)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ubuntu-18-20">Ubuntu 18, 20</a></li>
 </ul>
 </li>
 </ul>
@@ -130,8 +131,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugins</a></li>
-<li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -247,8 +249,8 @@
 <div class="section" id="readme">
 <h1>README<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h1>
 <p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
-open-source, modular program to conduct molecular and particle-based
-simulations with flat-histogram Monte Carlo methods.</p>
+open-source, public domain software to conduct molecular and particle-based
+simulations with Monte Carlo methods.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Manuscript: <a class="reference external" href="https://doi.org/10.6028/jres.123.004">https://doi.org/10.6028/jres.123.004</a></p>
@@ -328,7 +330,8 @@ mkdir feasst/build
 <span class="nb">cd</span> feasst/build
 cmake ..
 make install -j4
-pip install jupyter matplotlib pandas scipy <span class="c1"># optional for tutorials</span>
+<span class="c1"># optional python packages for feasst tutorials</span>
+pip install ../pyfeasst jupyter matplotlib pandas scipy
 </pre></div>
 </div>
 <p>The executables <cite>fst</cite>, which is used to start a simulation, and <cite>rst</cite>, which is used to restart a simulation, should now be located in <cite>/path/to/feasst/build/bin/</cite>.</p>
@@ -353,16 +356,22 @@ Try the command cmake3 instead of cmake.</p>
 <li><p>Update to CMake 3 (<a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a>)</p></li>
 </ul>
 </div>
-<div class="section" id="ubuntu-18-20-and-macos-mojave">
-<h4>Ubuntu 18, 20 and macOS Mojave<a class="headerlink" href="#ubuntu-18-20-and-macos-mojave" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="macos-mojave">
+<h4>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>We are not aware of any issues with these OS.</p></li>
+<li><p>for omp, try brew install libomp</p></li>
 </ul>
 </div>
 <div class="section" id="cray-nersc-cori">
 <h4>Cray (NERSC CORI)<a class="headerlink" href="#cray-nersc-cori" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>OpenMP functions apparently do not work unless the cray programming environment is disabled.</p></li>
+</ul>
+</div>
+<div class="section" id="ubuntu-18-20">
+<h4>Ubuntu 18, 20<a class="headerlink" href="#ubuntu-18-20" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>We are not aware of any issues with these OS.</p></li>
 </ul>
 </div>
 </div>

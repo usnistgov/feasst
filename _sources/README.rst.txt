@@ -3,8 +3,8 @@ README
 *************************
 
 The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
-open-source, modular program to conduct molecular and particle-based
-simulations with flat-histogram Monte Carlo methods.
+open-source, public domain software to conduct molecular and particle-based
+simulations with Monte Carlo methods.
 
 .. note::
 
@@ -100,7 +100,8 @@ How to install (e.g., compile the executables).
     cd feasst/build
     cmake ..
     make install -j4
-    pip install jupyter matplotlib pandas scipy # optional for tutorials
+    # optional python packages for feasst tutorials
+    pip install ../pyfeasst jupyter matplotlib pandas scipy
 
 The executables `fst`, which is used to start a simulation, and `rst`, which is used to restart a simulation, should now be located in `/path/to/feasst/build/bin/`.
 
@@ -126,15 +127,20 @@ Ubuntu 16
 
 * Update to CMake 3 (https://cmake.org/download/)
 
-Ubuntu 18, 20 and macOS Mojave
+macOS Mojave
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* We are not aware of any issues with these OS.
+* for omp, try brew install libomp
 
 Cray (NERSC CORI)
 ~~~~~~~~~~~~~~~~~~
 
 * OpenMP functions apparently do not work unless the cray programming environment is disabled.
+
+Ubuntu 18, 20
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* We are not aware of any issues with these OS.
 
 .. include:: CONTACT.rst
 

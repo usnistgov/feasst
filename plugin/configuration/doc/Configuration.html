@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Configuration &mdash; FEASST v0.20.0 documentation</title>
+  <title>Configuration &mdash; FEASST v0.20.1 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.0
+                v0.20.1
               </div>
             
           
@@ -150,8 +150,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -297,7 +298,7 @@
 <li><p>[parameter]: optionally set the [parameter] of all types to this value. The “[parameter]” is to be substituted for epsilon, sigma, cutoff, etc.</p></li>
 <li><p>[parameter][i]: optionally set the [parameter] of the i-th site type. The “[i]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for all types.</p></li>
 <li><p>[parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type. The “[i]/[j]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for single types.</p></li>
-<li><p>group[i]: set the name of the “i”-th group. The “[i]” is to be substituted for an integer 0, 1, 2, … All following arguments of the group are then expected to have the name appended (e.g., “group0 water water_particle_type 0”). </p></li>
+<li><p>group[i]: set the name of the “i”-th group. The “[i]” is to be substituted for an integer 0, 1, 2, … All following arguments of the group are then expected to have the name prepended (e.g., “group0 water water_particle_type 0”). </p></li>
 </ul>
 </p>
 </dd></dl>

@@ -13,7 +13,7 @@ Units
 ======
 
 The :doc:`charge plugin </plugin/charge/README>` is the only plugin that assumes units.
-Otherwise, the any other use of FEASST assumes that the user takes care to input values with a consistent set of units.
+Otherwise, any other use of FEASST assumes that the user takes care to input values with a consistent set of units.
 For example, the units of length for positions in the data file should match whatever is used for defining the Domain, and the :cpp:class:`FileXYZ <feasst::FileXYZ>` positions will also be consistent with that user choice.
 The energy scale is given by epsilon-like parameters, as should be consistent with the beta given to :cpp:class:`ThermoParams <feasst::ThermoParams>`.
 That is, beta has units of inverse energy.
