@@ -7,6 +7,7 @@ import argparse
 from multiprocessing import Pool
 import random
 import unittest
+from pyfeasst import physical_constants
 
 # define parameters of a pure component NVT MC SPC/E simulation
 params = {
@@ -16,8 +17,7 @@ params = {
     "seed": random.randrange(1e9), "num_hours": 1, "script": __file__}
 params["cutoff"] = params["cubic_box_length"]/2.
 params["alpha"] = 5.6/params["cubic_box_length"]
-R = 1.3806488E-23*6.02214129E+23 # J/mol/K
-params["beta"] = 1./(params["temperature"]*R/1e3) # mol/kJ
+params["beta"] = 1./(params["temperature"]*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]
 

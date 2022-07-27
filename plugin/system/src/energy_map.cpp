@@ -38,7 +38,8 @@ double EnergyMap::update(
     const int site2_index,
     const int site2_type,
     const double squared_distance,
-    const Position * pbc) {
+    const Position * pbc,
+    const Configuration& config) {
   resize_(part1_index, site1_index, part2_index, site2_index);
   std::vector<double> * smap1 =
     smap_new_(part1_index, site1_index, part2_index, site2_index);

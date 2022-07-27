@@ -78,11 +78,6 @@
 #include "models/include/bond_harmonic.h"
 #include "system/include/bond_square_well.h"
 #include "system/include/rigid_bond.h"
-#include "system/include/neighbor_criteria.h"
-#include "cluster/include/energy_map_all.h"
-#include "cluster/include/energy_map_neighbor.h"
-#include "cluster/include/energy_map_neighbor_criteria.h"
-#include "cluster/include/energy_map_all_criteria.h"
 #include "system/include/bond_four_body.h"
 #include "models/include/dihedral_harmonic.h"
 #include "models/include/dihedral_trappe.h"
@@ -128,6 +123,12 @@
 #include "monte_carlo/include/rosenbluth.h"
 #include "monte_carlo/include/acceptance.h"
 #include "configuration/include/visit_particles.h"
+#include "configuration/include/file_lmp.h"
+#include "configuration/include/neighbor_criteria.h"
+#include "cluster/include/energy_map_all.h"
+#include "cluster/include/energy_map_neighbor.h"
+#include "cluster/include/energy_map_neighbor_criteria.h"
+#include "cluster/include/energy_map_all_criteria.h"
 #include "configuration/include/configuration.h"
 #include "charge/include/ewald.h"
 #include "system/include/potential.h"
@@ -250,7 +251,6 @@
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/file_xyz.h"
 #include "steppers/include/movie.h"
-#include "configuration/include/file_lmp.h"
 #include "configuration/include/domain.h"
 #include "math/include/random.h"
 #include "math/include/random_modulo.h"
@@ -410,11 +410,6 @@ using namespace std;
 %shared_ptr(feasst::BondHarmonic);
 %shared_ptr(feasst::BondSquareWell);
 %shared_ptr(feasst::RigidBond);
-%shared_ptr(feasst::NeighborCriteria);
-%shared_ptr(feasst::EnergyMapAll);
-%shared_ptr(feasst::EnergyMapNeighbor);
-%shared_ptr(feasst::EnergyMapNeighborCriteria);
-%shared_ptr(feasst::EnergyMapAllCriteria);
 %shared_ptr(feasst::BondFourBody);
 %shared_ptr(feasst::DihedralHarmonic);
 %shared_ptr(feasst::DihedralTraPPE);
@@ -471,6 +466,12 @@ using namespace std;
 %shared_ptr(feasst::Acceptance);
 %shared_ptr(feasst::VisitParticles);
 %shared_ptr(feasst::LoopOneBody);
+%shared_ptr(feasst::FileLMP);
+%shared_ptr(feasst::NeighborCriteria);
+%shared_ptr(feasst::EnergyMapAll);
+%shared_ptr(feasst::EnergyMapNeighbor);
+%shared_ptr(feasst::EnergyMapNeighborCriteria);
+%shared_ptr(feasst::EnergyMapAllCriteria);
 %shared_ptr(feasst::Configuration);
 %shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::Potential);
@@ -614,7 +615,6 @@ using namespace std;
 %shared_ptr(feasst::PrinterXYZ);
 %shared_ptr(feasst::FileXYZ);
 %shared_ptr(feasst::Movie);
-%shared_ptr(feasst::FileLMP);
 %shared_ptr(feasst::Domain);
 %shared_ptr(feasst::Random);
 %shared_ptr(feasst::RandomModulo);
@@ -744,11 +744,6 @@ using namespace std;
 %include models/include/bond_harmonic.h
 %include system/include/bond_square_well.h
 %include system/include/rigid_bond.h
-%include system/include/neighbor_criteria.h
-%include cluster/include/energy_map_all.h
-%include cluster/include/energy_map_neighbor.h
-%include cluster/include/energy_map_neighbor_criteria.h
-%include cluster/include/energy_map_all_criteria.h
 %include system/include/bond_four_body.h
 %include models/include/dihedral_harmonic.h
 %include models/include/dihedral_trappe.h
@@ -794,6 +789,12 @@ using namespace std;
 %include monte_carlo/include/rosenbluth.h
 %include monte_carlo/include/acceptance.h
 %include configuration/include/visit_particles.h
+%include configuration/include/file_lmp.h
+%include configuration/include/neighbor_criteria.h
+%include cluster/include/energy_map_all.h
+%include cluster/include/energy_map_neighbor.h
+%include cluster/include/energy_map_neighbor_criteria.h
+%include cluster/include/energy_map_all_criteria.h
 %include configuration/include/configuration.h
 %include charge/include/ewald.h
 %include system/include/potential.h
@@ -916,7 +917,6 @@ using namespace std;
 %include configuration/include/visit_configuration.h
 %include configuration/include/file_xyz.h
 %include steppers/include/movie.h
-%include configuration/include/file_lmp.h
 %include configuration/include/domain.h
 %include math/include/random.h
 %include math/include/random_modulo.h

@@ -5,7 +5,7 @@
 
 namespace feasst {
 
-Group::Group(argtype * args) {
+Group::Group(argtype * args) : PropertiedEntity() {
   std::string pre = str("prepend", args, "");
   if (!pre.empty()) {
     pre += "_";
@@ -146,7 +146,8 @@ std::vector<int> Group::site_indices(const Particle& particle) const {
 }
 
 void Group::serialize(std::ostream& ostr) const {
-  ostr << "1 "; // version
+  PropertiedEntity::serialize(ostr);
+  feasst_serialize_version(1035, ostr);
   feasst_serialize(site_types_, ostr);
   feasst_serialize(particle_types_, ostr);
   //feasst_serialize(site_indices_, ostr);
@@ -154,9 +155,9 @@ void Group::serialize(std::ostream& ostr) const {
   ostr << dynamic_ << " " << spatial_ << " ";
 }
 
-Group::Group(std::istream& istr) {
-  int version;
-  istr >> version;
+Group::Group(std::istream& istr) : PropertiedEntity(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 1035, "unrecognized version: " << version);
   feasst_deserialize(&site_types_, istr);
   feasst_deserialize(&particle_types_, istr);
   //feasst_deserialize(&site_indices_, istr);

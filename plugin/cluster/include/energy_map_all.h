@@ -5,7 +5,7 @@
 #include <vector>
 #include "utils/include/arguments.h"
 #include "system/include/energy_map.h"
-#include "system/include/neighbor_criteria.h"
+#include "configuration/include/neighbor_criteria.h"
 
 namespace feasst {
 

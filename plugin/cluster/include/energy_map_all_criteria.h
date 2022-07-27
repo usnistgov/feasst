@@ -4,7 +4,7 @@
 
 #include <vector>
 #include "utils/include/arguments.h"
-#include "system/include/neighbor_criteria.h"
+#include "configuration/include/neighbor_criteria.h"
 #include "cluster/include/energy_map_all.h"
 
 namespace feasst {
@@ -13,8 +13,12 @@ namespace feasst {
  */
 class EnergyMapAllCriteria : public EnergyMapAll {
  public:
-  EnergyMapAllCriteria(std::shared_ptr<NeighborCriteria> neighbor_criteria,
-      const argtype& args = argtype());
+  /**
+    args:
+    - neighbor_index: NeighborCriteria index contained in Configuration (default: 0).
+   */
+  explicit EnergyMapAllCriteria(argtype args = argtype());
+  explicit EnergyMapAllCriteria(argtype * args);
 
   double update(
       const double energy,
@@ -25,27 +29,27 @@ class EnergyMapAllCriteria : public EnergyMapAll {
       const int site2_index,
       const int site2_type,
       const double squared_distance,
-      const Position * pbc) override;
+      const Position * pbc,
+      const Configuration& config) override;
   bool is_queryable() const override { return false; }
-  const NeighborCriteria& neighbor_criteria() const override {
-    return *neighbor_criteria_; }
 
   // serialization
   std::string class_name() const override { return class_name_; }
   std::shared_ptr<EnergyMap> create(std::istream& istr) const override {
     return std::make_shared<EnergyMapAllCriteria>(istr); }
+  std::shared_ptr<EnergyMap> create(argtype * args) const override {
+    return std::make_shared<EnergyMapAllCriteria>(args); }
   void serialize(std::ostream& ostr) const override;
-  EnergyMapAllCriteria(std::istream& istr);
+  explicit EnergyMapAllCriteria(std::istream& istr);
   virtual ~EnergyMapAllCriteria() {}
 
  private:
-  std::shared_ptr<NeighborCriteria> neighbor_criteria_;
+  int neighbor_index_;
 };
 
 inline std::shared_ptr<EnergyMapAllCriteria> MakeEnergyMapAllCriteria(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args = argtype()) {
-  return std::make_shared<EnergyMapAllCriteria>(neighbor_criteria, args);
+    argtype args = argtype()) {
+  return std::make_shared<EnergyMapAllCriteria>(args);
 }
 
 }  // namespace feasst

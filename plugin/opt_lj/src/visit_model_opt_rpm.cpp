@@ -93,7 +93,7 @@ void VisitModelOptRPM::compute(
                 }
                 const double en = mixed_charge*conversion_factor_*std::erfc(alpha_*distance)/distance;
         get_inner_()->update_ixn(en, part1_index, site1_index, type1, part2_index,
-                   site2_index, type2, squared_distance, &pbc, is_old_config);
+                   site2_index, type2, squared_distance, &pbc, is_old_config, *config);
                 energy += en;
               }
             }
@@ -150,7 +150,7 @@ void VisitModelOptRPM::compute(
                 }
                 const double en = mixed_charge*conversion_factor_*std::erfc(alpha_*distance)/distance;
         get_inner_()->update_ixn(en, part1_index, site1_index, type1, part2_index,
-                   site2_index, type2, squared_distance, &pbc, is_old_config);
+                   site2_index, type2, squared_distance, &pbc, is_old_config, *config);
                 energy += en;
               }
             }
@@ -206,7 +206,7 @@ void VisitModelOptRPM::compute(
                 }
                 const double en = mixed_charge*conversion_factor_*std::erfc(alpha_*distance)/distance;
         get_inner_()->update_ixn(en, part1_index, site1_index, type1, part2_index,
-                   site2_index, type2, squared_distance, &pbc, is_old_config);
+                   site2_index, type2, squared_distance, &pbc, is_old_config, *config);
                 energy += en;
               }
             }

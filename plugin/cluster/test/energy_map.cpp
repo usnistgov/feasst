@@ -25,15 +25,16 @@ TEST(EnergyMap, energy_map) {
     if (mapstr == "all") {
       map = MakeEnergyMapAll();
     } else if (mapstr == "all_criteria") {
-      map = MakeEnergyMapAllCriteria(neighbor_criteria);
+      map = MakeEnergyMapAllCriteria();
     } else if (mapstr == "neighbor") {
       map = MakeEnergyMapNeighbor();
     } else if (mapstr == "neighbor_criteria") {
-      map = MakeEnergyMapNeighborCriteria(neighbor_criteria);
+      map = MakeEnergyMapNeighborCriteria();
     } else {
       FATAL("unrecognized mapstr");
     }
     Configuration config = lj_sample4();
+    config.add(neighbor_criteria);
     LennardJones model;
     model.precompute(config.model_params());
     VisitModel visit(MakeVisitModelInner(map));

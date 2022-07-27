@@ -12,8 +12,9 @@
    ParticleFactory
    Select
    VisitParticles
+   FileLMP
+   NeighborCriteria
    Configuration
    VisitConfiguration
    FileVMD
-   FileLMP
    Domain

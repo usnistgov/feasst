@@ -350,6 +350,7 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
       {"multistate", "true"},
       {"trials_per_write", str(trials_per_write)},
       {"file_name", file_name},
+      {"append", str(analyze->append())},
       {"trials_per_update", "1"},
       {"stop_after_phase", str(analyze->stop_after_phase())},
       {"start_after_phase", str(analyze->start_after_phase())},

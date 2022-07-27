@@ -18,7 +18,7 @@ class SelectCluster : public TrialSelect {
  public:
   /**
     args:
-    - neighbor_index: NeighborCriteria index contained in System (default: 0).
+    - neighbor_index: NeighborCriteria index contained in Configuration (default: 0).
    */
   explicit SelectCluster(argtype args = argtype());
   explicit SelectCluster(argtype * args);

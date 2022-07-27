@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "system/include/neighbor_criteria.h"
+#include "configuration/include/neighbor_criteria.h"
 
 namespace feasst {
 

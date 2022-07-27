@@ -39,7 +39,10 @@ void AnalyzeCluster::update(const Criteria& criteria,
   const int trial = trial_factory.last_index();
   const TrialSelect& sel = trial_factory.trial(trial).stage(0).trial_select();
   if (sel.class_name() == "SelectCluster") {
-    accumulator_.accumulate(sel.printable("cluster_size").last_value());
+    const Accumulator& csize = sel.printable("cluster_size");
+    if (csize.num_values() > 0) {
+      accumulator_.accumulate(csize.last_value());
+    }
   }
 }
 

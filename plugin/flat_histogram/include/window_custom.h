@@ -14,10 +14,19 @@ namespace feasst {
  */
 class WindowCustom : public Window {
  public:
+  /**
+    args:
+    - min[i]: minimum macrostate value of the i-th window.
+    - max: maximum of the largest window.
+   */
+  explicit WindowCustom(argtype args = argtype());
+
   /// Construct by manual input of the segments, defined in Window.
   WindowCustom(const std::vector<double> segment,
                argtype args = argtype());
   std::vector<double> segment() const override { return segment_; }
+  std::vector<std::vector<int> > boundaries() const override {
+    return boundaries_; }
   int minimum() const override { return static_cast<int>(segment_.front()); }
   int maximum() const override { return static_cast<int>(segment_.back()); }
   int num() const override { return static_cast<int>(segment_.size() - 1); }
@@ -25,6 +34,8 @@ class WindowCustom : public Window {
 
  private:
   std::vector<double> segment_;
+  std::vector<std::vector<int> > boundaries_;
+  void init_segment_(std::vector<double> segment);
 };
 
 }  // namespace feasst

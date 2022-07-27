@@ -47,11 +47,12 @@ class VisitModelInner {
       const int site2_type,
       const double squared_distance,
       const Position * pbc,
-      const bool is_old_config) {
+      const bool is_old_config,
+      const Configuration& config) {
     energy_ += energy;
     if (energy_map_ && !is_old_config) {
       energy_map_->update(energy, part1_index, site1_index, site1_type,
-        part2_index, site2_index, site2_type, squared_distance, pbc);
+        part2_index, site2_index, site2_type, squared_distance, pbc, config);
     }
   }
   void clear_ixn(

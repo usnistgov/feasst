@@ -1,6 +1,6 @@
 
-#ifndef FEASST_SYSTEM_NEIGHBOR_CRITERIA_H_
-#define FEASST_SYSTEM_NEIGHBOR_CRITERIA_H_
+#ifndef FEASST_CONFIGURATION_NEIGHBOR_CRITERIA_H_
+#define FEASST_CONFIGURATION_NEIGHBOR_CRITERIA_H_
 
 #include <memory>
 #include "utils/include/arguments.h"
@@ -79,4 +79,4 @@ inline std::shared_ptr<NeighborCriteria> MakeNeighborCriteria(
 
 }  // namespace feasst
 
-#endif  // FEASST_SYSTEM_NEIGHBOR_CRITERIA_H_
+#endif  // FEASST_CONFIGURATION_NEIGHBOR_CRITERIA_H_

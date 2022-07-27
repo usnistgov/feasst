@@ -66,7 +66,7 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
       MakeLennardJones(),
       //MakeModelTwoBodyFactory({MakeLennardJones(), MakeChargeScreened({{"table_size", "0"}})}),
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))//,
-      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighborCriteria(ncrit)))//,
+      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighborCriteria()))//,
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAllCriteria(ncrit)))//,
       //{{"table_size", "1e6"}}
     );
@@ -182,7 +182,7 @@ TEST(TrialGrow, transfer_avb_spce) {
   auto ncrit = MakeNeighborCriteria({{"maximum_distance", "10"}, {"minimum_distance", "2.5"}, {"site_type0", "0"}, {"site_type1", "0"}, {"potential_index", "1"}});
   system.add(ncrit);
   auto pot = MakePotential(MakeLennardJones(),
-    MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighborCriteria(ncrit))));
+    MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighborCriteria())));
   system.set_unoptimized(1, pot);
   DEBUG("model name " << system.potential(1).model().class_name());
   DEBUG("sig1 " << system.potential(1).model().sigma_index());

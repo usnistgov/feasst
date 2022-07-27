@@ -91,7 +91,7 @@ void VisitModelInnerPatch::compute(
                       const double en = model->energy(squared_distance, dir1_type, dir2_type, model_params);
                       TRACE("en " << en);
                       update_ixn(en, part1_index, site1_index, type1, part2_index,
-                                 site2_index, type2, squared_distance, pbc, is_old_config);
+                                 site2_index, type2, squared_distance, pbc, is_old_config, *config);
                     }
                   }
                 }

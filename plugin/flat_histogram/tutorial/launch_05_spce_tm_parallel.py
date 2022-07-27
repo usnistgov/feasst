@@ -3,6 +3,7 @@ import subprocess
 import argparse
 import random
 import unittest
+from pyfeasst import physical_constants
 
 # define parameters of a pure component NVT MC SPCE simulation
 params = {
@@ -12,8 +13,7 @@ params = {
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
     "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "script": __file__, "dccb_cut": 0.9*3.165}
 params["alpha"] = 5.6/params["cubic_box_length"]
-R = 1.3806488E-23*6.02214129E+23 # J/mol/K
-params["beta"] = 1./(params["temperature"]*R/1e3) # mol/kJ
+params["beta"] = 1./(params["temperature"]*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 params["mu"] = params["beta_mu"]/params["beta"]
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]

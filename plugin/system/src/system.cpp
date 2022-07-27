@@ -150,7 +150,6 @@ void System::serialize(std::ostream& sstr) const {
   feasst_serialize(is_optimized_, sstr);
   feasst_serialize_fstobj(references_, sstr);
   feasst_serialize(thermo_params_, sstr);
-  feasst_serialize_fstobj(neighbor_criteria_, sstr);
   feasst_serialize_endcap("System", sstr);
   DEBUG("size: " << sstr.tellp());
 }
@@ -172,7 +171,6 @@ System::System(std::istream& sstr) {
       thermo_params_ = std::make_shared<ThermoParams>(sstr);
     }
   }
-  feasst_deserialize_fstobj(&neighbor_criteria_, sstr);
   feasst_deserialize_endcap("System", sstr);
 }
 

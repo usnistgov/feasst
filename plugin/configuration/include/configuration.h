@@ -8,6 +8,7 @@
 #include "utils/include/arguments.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
+#include "configuration/include/neighbor_criteria.h"
 
 namespace feasst {
 
@@ -448,6 +449,28 @@ class Configuration {
                          const Select& select);
 
   //@}
+  /** @name Neighbor Criteria
+    Define and store various criteria used for defining neighbors
+   */
+  //@{
+
+  /// Add a NeighborCriteria.
+  void add(std::shared_ptr<NeighborCriteria> neighbor_criteria) {
+    neighbor_criteria_.push_back(*neighbor_criteria); }
+
+  /// Return a NeighborCriteria by index in order added.
+  const NeighborCriteria& neighbor_criteria(const int index) const {
+    return neighbor_criteria_[index]; }
+
+  /// Return a NeighborCriteria by index in order added.
+  const std::vector<NeighborCriteria>& neighbor_criteria() const {
+    return neighbor_criteria_; }
+
+  // Return a NeighborCriteria by index in order added.
+  NeighborCriteria * get_neighbor_criteria(const int index) {
+    return &neighbor_criteria_[index]; }
+
+  //@}
   /** @name Checks
     Consistency checks and tests.
    */
@@ -574,6 +597,7 @@ class Configuration {
 
   /// Store the number of particles of each type.
   std::vector<int> num_particles_of_type_;
+  std::vector<NeighborCriteria> neighbor_criteria_;
 };
 
 inline std::shared_ptr<Configuration> MakeConfiguration(

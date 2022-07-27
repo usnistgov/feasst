@@ -65,7 +65,7 @@ void WangLandau::resize(const Histogram& histogram) {
 std::string WangLandau::write() const {
   std::stringstream ss;
   ss << Bias::write();
-  ss << "num_flatness:" << num_flatness_;
+  ss << "\"num_flatness\":" << num_flatness_ << ",";
   return ss.str();
 }
 

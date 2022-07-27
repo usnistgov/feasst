@@ -1,7 +1,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/random.h"
 #include "configuration/include/domain.h"
-#include "system/include/neighbor_criteria.h"
+#include "configuration/include/neighbor_criteria.h"
 #include "cluster/include/perturb_move_avb.h"
 
 namespace feasst {

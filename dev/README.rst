@@ -345,7 +345,6 @@ To Do List
 * Rename xyz files, and/or document more cleary (second line in xyz).
 * Rename plugin chain->config_bias ?
 * in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?
-* EnergyMapNeighborCriteria should be able to take index of energy map stored by System
 * Optimize TrialRemove for new_only by not computing interactions with neighbors
 * Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.
 * (repeat) regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
@@ -358,4 +357,5 @@ To Do List
 * get rid of 'time' and 'default' values for Random seed argument.
 * Windows with non-integer macrostates?
 * For unknown reasons, VisitModelOuterCutoff had energy issues with RPM
-* Allow CollectionMatrix to have a reference chemical_potential, then CriteriaUpdater can change mu to get a target (density in middle range, or...)
+* Add TrialParticlePivot to TrialGrow (randomly orients particle about site). Or, more generally, say num_steps=-1 combines stages into one.
+* better support compressed trajectory formats: xtc, dcd, etc

@@ -1,11 +1,11 @@
 #include <cmath>
-#include "system/include/neighbor_criteria.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "math/include/utils_math.h"
 #include "math/include/constants.h"
 #include "math/include/random.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/neighbor_criteria.h"
 
 namespace feasst {
 

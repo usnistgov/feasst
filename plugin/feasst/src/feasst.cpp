@@ -46,6 +46,8 @@ void parse_cm(std::string line) {
   std::shared_ptr<Window> window;
   if (line_pair.first == "WindowExponential") {
     window = std::make_shared<WindowExponential>(line_pair.second);
+  } else if (line_pair.first == "WindowCustom") {
+    window = std::make_shared<WindowCustom>(line_pair.second);
   } else {
     FATAL("unrecognized: " << line_pair.first);
   }

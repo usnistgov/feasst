@@ -49,7 +49,8 @@ class EnergyMap {
       const int site2_index,
       const int site2_type,
       const double squared_distance,
-      const Position * pbc);
+      const Position * pbc,
+      const Configuration& config);
 
   /// Return true if the total interaction energy is stored (e.g., no criteria
   /// for inclusion.

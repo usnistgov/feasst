@@ -6,7 +6,7 @@
 //#include "utils/include/debug.h"
 #include "utils/include/arguments.h"
 #include "system/include/energy_map.h"
-#include "system/include/neighbor_criteria.h"
+#include "configuration/include/neighbor_criteria.h"
 
 namespace feasst {
 
@@ -46,7 +46,8 @@ class EnergyMapNeighbor : public EnergyMap {
       const int site2_index,
       const int site2_type,
       const double squared_distance,
-      const Position * pbc) override;
+      const Position * pbc,
+      const Configuration& config) override;
   void revert(const Select& select) override;
   void finalize(const Select& select) override;
   double total_energy() const override;

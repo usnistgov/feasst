@@ -1,5 +1,5 @@
 #include "utils/include/serialize.h"
-#include "system/include/neighbor_criteria.h"
+#include "configuration/include/neighbor_criteria.h"
 #include "monte_carlo/include/trial_select.h"
 
 namespace feasst {

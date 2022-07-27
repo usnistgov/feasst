@@ -36,9 +36,11 @@ TEST(Group, multiple_particles) {
 TEST(Group, serialize) {
   auto grp = MakeGroup({{"site_type", "1"},
                         {"particle_type", "0"}});
+  grp->add_property("group_name", 0);
   std::stringstream ss;
   grp->serialize(ss);
   Group grp2(ss);
+  EXPECT_TRUE(grp2.has_property("group_name"));
   std::stringstream ss2;
   grp2.serialize(ss2);
   EXPECT_EQ(ss.str(), ss2.str());
@@ -46,6 +48,8 @@ TEST(Group, serialize) {
   EXPECT_EQ(grp->site_indices(particle), grp2.site_indices(particle));
   std::vector<int> indices = {1, 2};
   EXPECT_EQ(grp->site_indices(particle), indices);
+
+  Group grp3 = test_serialize(*grp);
 }
 
 }  // namespace feasst

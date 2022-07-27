@@ -72,7 +72,8 @@ void VisitModelInner::compute(
         const double energy = model->energy(squared_distance_, type1, type2,
                                            model_params);
         update_ixn(energy, part1_index, site1_index, type1, part2_index,
-                   site2_index, type2, squared_distance_, pbc, is_old_config);
+                   site2_index, type2, squared_distance_, pbc, is_old_config,
+                   *config);
         TRACE("energy " << energy_ << " " << energy);
       } else {
         // if distance is greater than cutoff+outer, then skip the entire

@@ -1,5 +1,5 @@
 """
-This module accumulates statistical values to analyze its means, standard deviation and moments.
+This module accumulates statistical values to analyze its mean, standard deviation and moments.
 """
 
 import numpy as np

@@ -5,17 +5,18 @@ import argparse
 import random
 import unittest
 
-# define parameters of a pure component MC Kern-Frenkel patchy particle fluid
-# see https://doi.org/10.1063/1.1569473
+# define parameters of a pure component MC patchy trimer fluid
+# see Fig 9 of http://dx.doi.org/10.1063/1.4918557
 params = {
-    "cubic_box_length": 8, "fstprt": "/feasst/forcefield/trimer_0.4L.fstprt", "rwca": 2**(1./6.),
-    "max_particles": 100, "min_particles": 0, "min_sweeps": 1e3, "mu": -1, "beta": 1/0.3,
+    "cubic_box_length": 8, "fstprt": "/feasst/forcefield/trimer.fstprt", "rwca": 2**(1./6.),
+    "max_particles": 100, "min_particles": 0, "min_sweeps": 1e3, "mu": -1.375, "beta": 1/0.275,
     "trials_per": 1e5, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
     "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 32, "script": __file__}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
 params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_per_node"]
 params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
+params["trial_rigid_cluster_weight"] = 1./params['max_particles']
 
 # write fst script to run a single simulation
 def mc_trimer(params=params, file_name="launch.txt"):
@@ -28,12 +29,14 @@ Checkpoint file_name trimer_checkpoint.fst num_hours {hours_per_checkpoint} num_
 # begin description of each MC clone
 RandomMT19937 seed {seed}
 Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} cutoff0_1 {rwca} cutoff1_1 {rwca}
-Potential Model LennardJonesForceShift
+NeighborCriteria energy_maximum -0.5 site_type0 0 site_type1 0
+Potential EnergyMap EnergyMapNeighborCriteria neighbor_index 0 Model LennardJonesForceShift
 RefPotential Model LennardJonesForceShift cutoff {rwca} VisitModel VisitModelCell min_length {rwca}
 ThermoParams beta {beta} chemical_potential {mu}
 Metropolis
-TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-TrialParticlePivot weight 1 tunable_param 0.2 tunable_target_acceptance 0.25 particle_type 0
+TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
+TrialParticlePivot weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25 particle_type 0
+TrialRigidCluster weight {trial_rigid_cluster_weight} neighbor_index 0
 Log trials_per {trials_per} file_name trimer[sim_index].txt
 Tune
 CheckEnergy trials_per {trials_per} tolerance 1e-8
@@ -47,11 +50,13 @@ RemoveModify name Tune
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
+Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
 TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 8
 RemoveAnalyze name Log
 Log trials_per {trials_per} file_name trimer[sim_index].txt
 Movie trials_per {trials_per} file_name trimer[sim_index].xyz
+AnalyzeCluster trials_per_write {trials_per} file_name trimer_cluster[sim_index]_eq.txt multistate true stop_after_iteration 100
+AnalyzeCluster trials_per_write {trials_per} file_name trimer_cluster[sim_index].txt multistate true start_after_iteration 100
 Tune trials_per_write {trials_per} file_name trimer_tune[sim_index].txt multistate true stop_after_iteration 100
 Energy trials_per_write {trials_per} file_name trimer_en[sim_index].txt multistate true start_after_iteration 100
 CriteriaUpdater trials_per {trials_per}

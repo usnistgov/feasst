@@ -1,0 +1,4 @@
+#"num_sweeps":0,"soft_min":0,"soft_max":0
+state,ln_prob,delta_ln_prob,visits0,visits1,ln_prob0,ln_prob1,ln_prob2,ln_prob3,ln_prob4,ln_prob5,ln_prob6,ln_prob7,ln_prob8,ln_prob9,ln_prob10,ln_prob11,ln_prob12,ln_prob13,ln_prob14,ln_prob15,ln_prob16,ln_prob17,ln_prob18,ln_prob19,ln_prob20,ln_prob21,ln_prob22,ln_prob23,ln_prob24,ln_prob25,ln_prob26,ln_prob27,ln_prob28,ln_prob29,ln_prob30,ln_prob31,ln_prob32,ln_prob33,ln_prob34,ln_prob35,ln_prob36,ln_prob37,ln_prob38,ln_prob39,ln_prob40,ln_prob41,ln_prob42,ln_prob43,ln_prob44,ln_prob45,ln_prob46,ln_prob47,ln_prob48,ln_prob49,ln_prob50,ln_prob51,ln_prob52,ln_prob53,ln_prob54,ln_prob55,ln_prob56,ln_prob57,ln_prob58,ln_prob59,ln_prob60,delta_ln_prob_stdev,P_down,P_up,P_down_block_std,P_up_block_std
+3,0,NaN,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.0090756983610988662,0.32720914780812665,1.7454099819719652e-05,0.00049831828686037333
+

@@ -69,7 +69,7 @@ class Window {
   virtual std::vector<double> segment() const = 0;
 
   /// Return the boundaries as a vector of vectors.
-  std::vector<std::vector<int> > boundaries() const;
+  virtual std::vector<std::vector<int> > boundaries() const;
 
   virtual ~Window() {}
 
