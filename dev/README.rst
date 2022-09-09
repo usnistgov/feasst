@@ -69,6 +69,8 @@ Pull requests
 
 To create a pull request, fork the usnistgov repo, create a new branch with your changes, and add the pull request, as detailed in https://opensource.com/article/19/7/create-pull-request-github
 
+In addition to the above tutorial, this guide offers some great tips on creating an effective pull request: https://doordash.engineering/2022/08/23/6-best-practices-to-manage-pull-request-creation-and-feedback/
+
 To incorporate the pull request into feasst
 - git fetch usnistgov pull/ID/head:BRANCHNAME
 - git checkout BRANCHNAME
