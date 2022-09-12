@@ -42,8 +42,8 @@ angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0
 def mc_spce(params, file_name):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file spce_lnpin{node}.txt bounds_file spce_boundsn{node}.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha {window_alpha} min_size 2
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file spce_lnpin{node}.txt bounds_file spce_boundsn{node}.txt num_adjust_per_write 10 min_window_size {min_window_size}
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha {window_alpha} min_size {min_window_size}
 Checkpoint file_name spce_checkpointn{node}.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone
@@ -189,14 +189,16 @@ def run():
             params["max_particles"]=splice_particles
             params["gce_trial"]="TrialTransfer weight 2 particle_type 0"
             params["ref_potential"]=""
-            params["min_sweeps"]=5000
+            params["min_sweeps"]=1000
             params["window_alpha"]=1.1
+            params["min_window_size"]=5
         if params['node'] == 1:
             params["min_particles"]=splice_particles
             params["gce_trial"]="TrialGrowFile file_name spce_grow.txt"
             params["ref_potential"]="""RefPotential Model HardSphere group oxygen cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut} cell_group oxygen""".format(**params)
             params["min_sweeps"]=50
-            params["window_alpha"]=2.5
+            params["window_alpha"]=1.25
+            params["min_window_size"]=3
         mc_spce(params=params, file_name=file_name)
         syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > spce_launch"+str(params['node'])+".log", shell=True, executable='/bin/bash')
     else:

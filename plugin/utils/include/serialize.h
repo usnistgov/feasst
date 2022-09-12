@@ -343,7 +343,7 @@ template <typename T>
 void feasst_serialize(const std::vector<std::shared_ptr<T> >& vector,
     std::ostream& ostr) {
   ostr << vector.size() << " ";
-  for (const std::shared_ptr<T> element : vector) {
+  for (const std::shared_ptr<T>& element : vector) {
     feasst_serialize(element, ostr);
   }
 }

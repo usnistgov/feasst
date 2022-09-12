@@ -24,7 +24,7 @@
 namespace feasst {
 
 CollectionMatrixSplice::CollectionMatrixSplice(argtype * args) {
-  min_window_size_ = integer("min_window_size", args, 2);
+  min_window_size_ = integer("min_window_size", args, 5);
   hours_per_ = dble("hours_per", args, 0.01);
   ln_prob_file_ = str("ln_prob_file", args, "");
   ln_prob_file_append_ = boolean("ln_prob_file_append", args, false);

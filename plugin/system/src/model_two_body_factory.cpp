@@ -40,7 +40,7 @@ void ModelTwoBodyFactory::add(
 }
 
 void ModelTwoBodyFactory::precompute(const ModelParams& existing) {
-  for (const std::shared_ptr<Model> model : models_) {
+  for (const std::shared_ptr<Model>& model : models_) {
     model->precompute(existing);
   }
 }

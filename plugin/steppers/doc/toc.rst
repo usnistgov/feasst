@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   Scattering
    DensityProfile
    LogAndMovie
    AnalyzeData

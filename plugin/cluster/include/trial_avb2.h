@@ -21,8 +21,8 @@ namespace feasst {
  */
 class TrialAVB2Half : public Trial {
  public:
-  TrialAVB2Half(argtype args = argtype());
-  TrialAVB2Half(argtype * args);
+  explicit TrialAVB2Half(argtype args = argtype());
+  explicit TrialAVB2Half(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialAVB2Half>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -40,8 +40,8 @@ inline std::shared_ptr<TrialAVB2Half> MakeTrialAVB2Half(argtype args = argtype()
 /// See ComputeAVB2 for more information.
 class TrialAVB2 : public TrialFactoryNamed {
  public:
-  TrialAVB2(argtype args = argtype());
-  TrialAVB2(argtype * args);
+  explicit TrialAVB2(argtype args = argtype());
+  explicit TrialAVB2(argtype * args);
   std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
     return std::make_shared<TrialAVB2>(args); }
   virtual ~TrialAVB2() {}

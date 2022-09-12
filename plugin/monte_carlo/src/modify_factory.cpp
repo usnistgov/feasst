@@ -16,7 +16,7 @@ static MapModifyFactory mapper_ = MapModifyFactory();
 void ModifyFactory::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  for (const std::shared_ptr<Modify> modify : modifiers_) {
+  for (const std::shared_ptr<Modify>& modify : modifiers_) {
     modify->initialize(criteria, system, trial_factory);
   }
 }

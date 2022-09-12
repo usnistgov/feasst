@@ -161,6 +161,7 @@
 #include "monte_carlo/include/analyze.h"
 #include "charge/include/check_net_charge.h"
 #include "chain/include/analyze_bonds.h"
+#include "steppers/include/scattering.h"
 #include "steppers/include/density_profile.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "steppers/include/log_and_movie.h"
@@ -507,6 +508,7 @@ using namespace std;
 %shared_ptr(feasst::AnalyzeUpdateOnly);
 %shared_ptr(feasst::CheckNetCharge);
 %shared_ptr(feasst::AnalyzeBonds);
+%shared_ptr(feasst::Scattering);
 %shared_ptr(feasst::DensityProfile);
 %shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::LogAndMovie);
@@ -827,6 +829,7 @@ using namespace std;
 %include monte_carlo/include/analyze.h
 %include charge/include/check_net_charge.h
 %include chain/include/analyze_bonds.h
+%include steppers/include/scattering.h
 %include steppers/include/density_profile.h
 %include monte_carlo/include/analyze_factory.h
 %include steppers/include/log_and_movie.h

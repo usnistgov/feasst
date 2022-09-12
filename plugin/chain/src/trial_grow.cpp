@@ -93,7 +93,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   const std::string particle_type = str("particle_type", &(*args)[0]);
 
   // Finally, add each trial to the factory
-  for (const std::string trial_type : trial_types) {
+  for (const std::string& trial_type : trial_types) {
     DEBUG("trial_type: " << trial_type);
     std::shared_ptr<Trial> trial = MakeTrial();
     trial->set_description("TrialGrow" + trial_type);

@@ -138,6 +138,7 @@
 #include "monte_carlo/include/analyze.h"
 #include "charge/include/check_net_charge.h"
 #include "chain/include/analyze_bonds.h"
+#include "steppers/include/scattering.h"
 #include "steppers/include/density_profile.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "steppers/include/log_and_movie.h"

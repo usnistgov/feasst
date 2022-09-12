@@ -1,50 +1,71 @@
 # This tutorial is similar to tutorial 4 lj, but for this low temperature simulation,
 # we will split the simulation into two different nodes.
 # The first node will have less particles but a higher number of sweeps required
-# The second node will have dccb.
+# The second node will have dccb but not avb.
 
 import sys
 import subprocess
 import argparse
+import json
 import random
 import unittest
 import pathlib
 
 # define parameters of a pure component LJ simulation
-# the remaining params depend on the node, and are thus defined in the run() function
 params = {
-    "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "min_particles": 0,
-    "beta": 1/0.7, "max_particles": 475, "mu": -4.1603632, "dccb_cut": 1,
+    "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "dccb_cut": 1, "beta": 1/0.7, "mu": -4.1603632,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e6, "num_nodes": 2, "procs_per_node": 32,
-    "gce_trial": "TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 10",
-    "min_sweeps": 200, "window_alpha": 2.5,
-    "script": __file__}
+    "equilibration": 1e6, "num_nodes": 2, "procs_per_node": 32, "script": __file__}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
 params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_per_node"]
 params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
 params["dccb_cut"] = params["cubic_box_length"]/int(params["cubic_box_length"]/params["dccb_cut"]) # maximize inside box
 params["mu_init"]=10
-params["ref_potential"]="""RefPotential Model LennardJones cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut}""".format(**params)
+def per_node_params():
+    splice_particles=375
+    if params['node'] == 0:
+        params["min_particles"]=0
+        params["max_particles"]=splice_particles
+        params["gce_trial"]="TrialTransfer weight 2 particle_type 0\nTrialTransferAVB weight 0.2 particle_type 0"
+        params["lj_potential"]="Potential EnergyMap EnergyMapNeighborCriteria neighbor_index 0 Model LennardJones"
+        params["ref_potential"]=""
+        params["avb_trials"]="TrialAVB2 weight 0.1 particle_type 0\nTrialAVB4 weight 0.1 particle_type 0"
+        params["min_sweeps"]=2000
+        params["window_alpha"]=2
+        params["min_window_size"]=5
+    elif params['node'] == 1:
+        params["min_particles"]=splice_particles
+        params["max_particles"]=475
+        params["gce_trial"] = "TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 10"
+        params["lj_potential"]="Potential Model LennardJones"
+        params["ref_potential"]="""RefPotential Model LennardJones cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut}""".format(**params)
+        params["avb_trials"]=""
+        params["min_sweeps"]=200
+        params["window_alpha"]=1
+        params["min_window_size"]=3
+    else:
+        assert False # unrecognized number of nodes
 
 # write fst script
 def mc_lj(params, file_name):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file lj_lnpin{node}.txt bounds_file lj_boundsn{node}.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha {window_alpha} min_size 2
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file lj_lnpin{node}.txt bounds_file lj_boundsn{node}.txt num_adjust_per_write 10 min_window_size {min_window_size}
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha {window_alpha} min_size {min_window_size}
 Checkpoint file_name lj_checkpointn{node}.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone
 RandomMT19937 seed {seed}
 Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
-Potential Model LennardJones
+NeighborCriteria maximum_distance 1.375 minimum_distance 0.9
+{lj_potential}
 {ref_potential}
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
+{avb_trials}
 Log trials_per {trials_per} file_name ljn{node}s[sim_index].txt
 Tune
 CheckEnergy trials_per {trials_per} tolerance 1e-4
@@ -72,14 +93,13 @@ CriteriaWriter trials_per {trials_per} file_name lj_critn{node}s[sim_index].txt
 """.format(**params))
 
 # write slurm script
-def slurm_queue(node):
-    params["node"]=node
-    with open("slurm"+str(node)+".txt", "w") as myfile: myfile.write("""#!/bin/bash
+def slurm_queue(file_name):
+    with open(file_name, "w") as myfile: myfile.write("""#!/bin/bash
 #SBATCH -n {procs_per_node} -N 1 -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
 echo "Running {script} ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
 cd $PWD
 export OMP_NUM_THREADS={procs_per_node}
-python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID --node {node}
+python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID --params {params}
 if [ $? == 0 ]; then
   echo "Job is done"
   scancel $SLURM_ARRAY_JOB_ID
@@ -93,9 +113,11 @@ echo "Time is $(date)"
 parser = argparse.ArgumentParser()
 parser.add_argument('--run_type', '-r', type=int, default=0, help="0: submit batch to scheduler, 1: run batch on host")
 parser.add_argument('--task', type=int, default=0, help="input by slurm scheduler. If >0, restart from checkpoint.")
-parser.add_argument('--node', type=int, default=0, help="break the job into multiple nodes.")
+parser.add_argument('--params', type=str, default="", help="file name of the params file.")
 args = parser.parse_args()
-params['node']=args.node
+if args.params is not "":
+    with open(args.params) as jsonfile:
+        params = json.loads(json.load(jsonfile))
 
 # after the simulation is complete, perform some analysis
 class TestFlatHistogramLJ(unittest.TestCase):
@@ -164,16 +186,6 @@ class TestFlatHistogramLJ(unittest.TestCase):
 def run():
     if args.task == 0:
         file_name = "lj_launch"+str(params["node"])+".txt"
-        if params['num_nodes'] == 2:
-            splice_particles=375
-            if params['node'] == 0:
-                params["max_particles"]=splice_particles
-                params["gce_trial"]="TrialTransfer weight 2 particle_type 0"
-                params["ref_potential"]=""
-                params["min_sweeps"]=2000
-                params["window_alpha"]=2
-            if params['node'] == 1:
-                params["min_particles"]=splice_particles
         mc_lj(params=params, file_name=file_name)
         syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > lj_launch"+str(params['node'])+".log", shell=True, executable='/bin/bash')
     else:
@@ -185,8 +197,14 @@ def run():
 if __name__ == "__main__":
     if args.run_type == 0:
         for node in range(params['num_nodes']):
-          slurm_queue(node)
-          subprocess.call("sbatch --array=0-2%1 slurm"+str(node)+".txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
+            params["node"] = node
+            params['params'] = 'lj_params'+str(node)
+            per_node_params()
+            with open(params['params'], 'w') as jsonfile:
+                json.dump(json.dumps(params), jsonfile)
+            slurm_file = 'lj_slurm'+str(node)+'.txt'
+            slurm_queue(slurm_file)
+            subprocess.call("sbatch --array=0-1%1 " + slurm_file + " | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
     elif args.run_type == 1:
         syscode = run()
         if syscode != 0:

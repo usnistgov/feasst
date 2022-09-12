@@ -11,8 +11,8 @@ namespace feasst {
 /// Attempt to add a particle with AVB as described in ComputeAddAVB.
 class TrialAddAVB : public Trial {
  public:
-  TrialAddAVB(argtype args = argtype());
-  TrialAddAVB(argtype * args);
+  explicit TrialAddAVB(argtype args = argtype());
+  explicit TrialAddAVB(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialAddAVB>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -28,8 +28,8 @@ inline std::shared_ptr<TrialAddAVB> MakeTrialAddAVB(argtype args = argtype()) {
 /// Attempt to remove a particle with AVB as described in ComputeRemoveAVB.
 class TrialRemoveAVB : public Trial {
  public:
-  TrialRemoveAVB(argtype args = argtype());
-  TrialRemoveAVB(argtype * args);
+  explicit TrialRemoveAVB(argtype args = argtype());
+  explicit TrialRemoveAVB(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialRemoveAVB>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -45,8 +45,8 @@ inline std::shared_ptr<TrialRemoveAVB> MakeTrialRemoveAVB(argtype args = argtype
 /// Attempt TrialAddAVB or TrialRemoveAVB with equal probability.
 class TrialTransferAVB : public TrialFactoryNamed {
  public:
-  TrialTransferAVB(argtype args = argtype());
-  TrialTransferAVB(argtype * args);
+  explicit TrialTransferAVB(argtype args = argtype());
+  explicit TrialTransferAVB(argtype * args);
   std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
     return std::make_shared<TrialTransferAVB>(args); }
   virtual ~TrialTransferAVB() {}

@@ -11,7 +11,7 @@ params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/trimer.fstprt", "rwca": 2**(1./6.),
     "max_particles": 100, "min_particles": 0, "min_sweeps": 1e3, "mu": -1.375, "beta": 1/0.275,
     "trials_per": 1e5, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 32, "script": __file__}
+    "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 16, "script": __file__, "min_window_size": 5}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
 params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_per_node"]
@@ -22,8 +22,8 @@ params["trial_rigid_cluster_weight"] = 1./params['max_particles']
 def mc_trimer(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file trimer_lnpi.txt bounds_file trimer_bounds.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 1.5 min_size 2
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file trimer_lnpi.txt bounds_file trimer_bounds.txt num_adjust_per_write 10 min_window_size {min_window_size}
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 1.25 min_size {min_window_size}
 Checkpoint file_name trimer_checkpoint.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone

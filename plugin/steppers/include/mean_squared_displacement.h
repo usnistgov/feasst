@@ -45,7 +45,7 @@ class MeanSquaredDisplacement : public Analyze {
     return std::make_shared<MeanSquaredDisplacement>(istr); }
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<MeanSquaredDisplacement>(args); }
-  MeanSquaredDisplacement(std::istream& istr);
+  explicit MeanSquaredDisplacement(std::istream& istr);
 
  private:
   int updates_since_origin_;

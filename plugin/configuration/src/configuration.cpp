@@ -309,7 +309,7 @@ void Configuration::check() const {
   }
 
   // check that a particle is not listed as a ghost twice
-  for (const Select ghost : ghosts_) {
+  for (const Select& ghost : ghosts_) {
     ASSERT(!has_duplicate(ghost.particle_indices()),
       "the same particle cannot be listed as a ghost twice");
   }

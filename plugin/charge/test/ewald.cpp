@@ -171,7 +171,7 @@ TEST(Ewald, triclinic) {
   INFO("kmax_squared " << ewald.kmax_squared());
   INFO(system.configuration().num_particles());
   INFO(system.stored_energy());
-  for (const std::shared_ptr<Potential> pot : system.potentials().potentials()) {
+  for (const std::shared_ptr<Potential>& pot : system.potentials().potentials()) {
     INFO(pot->visit_model().class_name() << ":" << pot->model().class_name() <<
       " = " << pot->stored_energy());
   }

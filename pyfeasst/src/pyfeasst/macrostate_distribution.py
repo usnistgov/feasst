@@ -399,10 +399,12 @@ def read_appended(file_name, num_states):
         dists.append([dist,iprm])
     return dists
 
-def splice_collection_matrix(prefix, suffix):
+def splice_collection_matrix(prefix, suffix, use_soft=False):
     """
     Splice collection matrix of files and return a MacrostateDistribution with ln_prob computed
     from the P_up and P_down matrix elements.
+
+    :param bool use_soft: use soft_min and soft_max to trim the file before concatenation.
 
     >>> from pyfeasst import macrostate_distribution
     >>> lnp = macrostate_distribution.splice_collection_matrix(prefix="../../tests/lj_crit",
@@ -412,7 +414,13 @@ def splice_collection_matrix(prefix, suffix):
     """
     lnpis = list()
     for filename in sorted(Path('.').rglob(prefix+'*'+suffix)):
-        lnpis.append(pd.read_csv(filename, comment="#"))
+        frame = pd.read_csv(filename, comment="#")
+        if use_soft:
+            file1 = open(filename, 'r')
+            lines = file1.readlines()
+            exec('iprm={' + lines[0][1:] + '}', globals())
+            frame = frame[iprm['soft_min']:iprm['soft_max']+1]
+        lnpis.append(frame)
     lnp = MacrostateDistribution(file_name=None)
     df = pd.concat(lnpis)
     df.sort_values(by=['state'], inplace=True)
@@ -425,6 +433,7 @@ def splice_collection_matrix(prefix, suffix):
         else:
             df.loc[index, 'ln_prob'] = df['delta_ln_prob'].values[index] + \
                                        df['ln_prob'].values[index-1]
+    df.loc[0, 'delta_ln_prob'] = float('nan')
     lnp.set_dataframe(df)
     return lnp
 

@@ -46,6 +46,7 @@ class PairDistribution : public Modify {
   /**
     args:
     - dr: radial distribution bin size (default: 0.1).
+    - print_intra: print the intramolecular distributions (default: false).
    */
   explicit PairDistribution(argtype args = argtype());
   explicit PairDistribution(argtype * args);
@@ -82,6 +83,7 @@ class PairDistribution : public Modify {
 
  private:
   double dr_;
+  bool print_intra_;
   VisitModel inter_visit_;
   PairDistributionInner inter_;
   VisitModelIntra intra_visit_;

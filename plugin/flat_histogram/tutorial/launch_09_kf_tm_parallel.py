@@ -11,7 +11,7 @@ params = {
     "cubic_box_length": 8, "fstprt": "/feasst/plugin/patch/forcefield/two_patch_linear.fstprt",
     "max_particles": 370, "min_particles": 0, "min_sweeps": 1e3, "mu": -1.5, "beta": 1/0.7, "chi": 0.7, "cutoff": 1.5,
     "trials_per": 1e5, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 32, "script": __file__}
+    "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 32, "script": __file__, "min_window_size": 5}
 params["patch_angle"] = 2*math.asin(math.sqrt(params['chi']/2))*180/math.pi
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
@@ -22,8 +22,8 @@ params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"
 def mc_kf(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file kf_lnpi.txt bounds_file kf_bounds.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5 min_size 2
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file kf_lnpi.txt bounds_file kf_bounds.txt num_adjust_per_write 10 min_window_size {min_window_size}
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.25 min_size {min_window_size}
 Checkpoint file_name kf_checkpoint.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone

@@ -3,8 +3,6 @@ pyfeasst
 
 Python package to analyze FEASST simulations.
 
-https://pypi.org/project/pyfeasst/
-
 .. toctree::
    :maxdepth: 2
    :caption: Modules:

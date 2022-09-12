@@ -232,7 +232,7 @@ TEST(MonteCarlo, lj_fh_01) {
   INFO(tm.collection().min_blocks());
   std::vector<LnProbability> ln_probs = tm.collection().ln_prob_blocks();
   Accumulator acc;
-  for (const auto ln_prob : ln_probs) {
+  for (const auto& ln_prob : ln_probs) {
     acc.accumulate(ln_prob.value(1) - ln_prob.value(0));
 //    INFO(ln_prob.value(1) - ln_prob.value(0));
     //INFO(feasst_str(ln_prob.values()));

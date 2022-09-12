@@ -65,6 +65,7 @@ PairDistribution::PairDistribution(argtype * args) : Modify(args) {
   //DEBUG("class " << class_name());
   //DEBUG("args " << args_.status());
   dr_ = dble("dr", args, 0.1);
+  print_intra_ = boolean("print_intra", args, false);
   DEBUG("is multistate? " << is_multistate());
   DEBUG("is multistate agg? " << is_multistate_aggregate());
   DEBUG("file name " << file_name());
@@ -108,12 +109,18 @@ void PairDistribution::initialize(Criteria * criteria,
 std::string PairDistribution::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
-  std::stringstream ss;
-  ss << "r,";
   const int num_site_types = system.configuration().num_site_types();
+  std::stringstream ss;
+  ss << "#\"num_site_types\":" << num_site_types << "," << std::endl;
+  ss << "r,";
   for (int itype = 0; itype < num_site_types; ++itype) {
     for (int jtype = itype; jtype < num_site_types; ++jtype) {
-      ss << itype << "-" << jtype << ",";
+      std::stringstream tt;
+      tt << itype << "-" << jtype;
+      ss << "g" << tt.str() << "," ;
+      if (print_intra_) {
+        ss << "h"  << tt.str() << "," ;
+      }
     }
   }
   ss << std::endl;
@@ -137,11 +144,25 @@ std::string PairDistribution::write(Criteria * criteria,
   std::stringstream ss;
   ss << header(*criteria, *system, *trial_factory);
   const grtype& rad = radial(system->configuration());
-  for (const grbintype& gr : rad) {
+  const std::vector<std::vector<Histogram> >& hr = intra_.radial_;
+  //ASSERT(static_cast<int>(rad.size()) == hr[0][0].size(), "err");
+  //for (const grbintype& gr : rad) {
+  for (int bin = 0; bin < static_cast<int>(rad.size()); ++bin) {
+    const grbintype& gr = rad[bin];
     ss << gr.first << ",";
     for (int itype = 0; itype < static_cast<int>(gr.second.size()); ++itype) {
       for (int jtype = itype; jtype < static_cast<int>(gr.second.size()); ++jtype) {
         ss << gr.second[itype][jtype] << ",";
+        if (print_intra_) {
+          int h = 0;
+          const Histogram& hrij = hr[itype][jtype];
+          if (bin < hrij.size()) {
+            h = hrij.histogram()[bin]
+              /static_cast<double>(num_updates_)
+              /static_cast<double>(system->configuration().num_particles());
+          }
+          ss << h << ",";
+        }
       }
     }
     ss << std::endl;
@@ -192,6 +213,7 @@ void PairDistribution::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(2034, ostr);
   feasst_serialize(dr_, ostr);
+  feasst_serialize(print_intra_, ostr);
   feasst_serialize_fstobj(inter_visit_, ostr);
   feasst_serialize_fstobj(inter_, ostr);
   feasst_serialize_fstobj(intra_visit_, ostr);
@@ -204,6 +226,7 @@ PairDistribution::PairDistribution(std::istream& istr) : Modify(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 2034, "mismatch version:" << version);
   feasst_deserialize(&dr_, istr);
+  feasst_deserialize(&print_intra_, istr);
   feasst_deserialize_fstobj(&inter_visit_, istr);
   feasst_deserialize_fstobj(&inter_, istr);
   feasst_deserialize_fstobj(&intra_visit_, istr);

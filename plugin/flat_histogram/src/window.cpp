@@ -47,12 +47,12 @@ std::vector<std::vector<int> > Window::boundaries() const {
   }
 
   // check that windows are large enough.
-  for (const std::vector<int> win : windows) {
+  for (const std::vector<int>& win : windows) {
     const int size = win[1] - win[0] + 1;
     ASSERT(size >= min_size_, "size: " << size << " < min: " << min_size_);
   }
   if (overlap() > 0) {
-    for (const std::vector<int> win : windows) {
+    for (const std::vector<int>& win : windows) {
       int max_overlap = overlap() - 1;
       if (win[0] != minimum()) {
         max_overlap *= 2;

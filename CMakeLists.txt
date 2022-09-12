@@ -88,6 +88,13 @@ execute_process(
   OUTPUT_VARIABLE GIT_COMMIT_HASH
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
+execute_process(
+  COMMAND git describe --abbrev=0
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_COMMIT_HASH_SHORT
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
 
 add_definitions("-DFEASST_VERSION_=\"${GIT_COMMIT_HASH}-${GIT_BRANCH}\"")
 add_definitions("-DFEASST_DIR_=\"${CMAKE_SOURCE_DIR}\"")
@@ -500,7 +507,11 @@ if (USE_SWIG)
     SWIG_LINK_LIBRARIES(feasst ${EXTRA_LIBS})
     SWIG_LINK_LIBRARIES(feasst feasstlib)
     if (APPLE)
-      set_target_properties(feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+      if (${CMAKE_VERSION} VERSION_LESS "3.15.0")
+        set_target_properties(_feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+      else ()
+        set_target_properties(feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+      endif ()
     endif (APPLE)
     if (${CMAKE_VERSION} VERSION_LESS "3.15.0")
       add_dependencies(_feasst build-time-make-directory)
@@ -522,7 +533,8 @@ if (USE_SWIG)
 #                       COMMAND python3 setup.py build
 #                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT})
 #    add_custom_target(target ALL DEPENDS ${OUTPUT})
-    install(CODE "execute_process(COMMAND python ${SETUP_PY} install)")
+    install(CODE "execute_process(COMMAND pip install .)")
+    #install(CODE "execute_process(COMMAND python ${SETUP_PY} install)")
 
     add_test(NAME pytest COMMAND python ${CMAKE_SOURCE_DIR}/py/test.py)
     add_test(NAME pytutorial COMMAND python ../dev/tools/run_tutorials.py)

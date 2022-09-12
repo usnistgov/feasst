@@ -11,7 +11,8 @@ params = {
     "temperature": 525, "max_particles": 265,  "min_sweeps": 400, "beta_mu": -8.14,
     #"temperature": 300, "max_particles": 296,  "min_sweeps": 200, "beta_mu": -15.24,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
-    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "script": __file__, "dccb_cut": 0.9*3.165}
+    "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "script": __file__, "dccb_cut": 0.9*3.165,
+    "min_window_size": 5}
 params["alpha"] = 5.6/params["cubic_box_length"]
 params["beta"] = 1./(params["temperature"]*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 params["mu"] = params["beta_mu"]/params["beta"]
@@ -35,8 +36,8 @@ angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0
 def mc_spce(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file spce_lnpi.txt bounds_file spce_bounds.txt num_adjust_per_write 10
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 1.75 min_size 2
+CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file spce_lnpi.txt bounds_file spce_bounds.txt num_adjust_per_write 10 min_window_size {min_window_size}
+WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 1.5 min_size {min_window_size}
 Checkpoint file_name spce_checkpoint.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone

@@ -17,8 +17,8 @@ namespace feasst {
  */
 class TrialAVB4 : public Trial {
  public:
-  TrialAVB4(argtype args = argtype());
-  TrialAVB4(argtype * args);
+  explicit TrialAVB4(argtype args = argtype());
+  explicit TrialAVB4(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialAVB4>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {

@@ -32,7 +32,7 @@ std::string ProfileTrials::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  for (const std::shared_ptr<Trial> trial : trial_factory.trials()) {
+  for (const std::shared_ptr<Trial>& trial : trial_factory.trials()) {
     ss << trial->class_name() << " ";
   }
   ss << std::endl;

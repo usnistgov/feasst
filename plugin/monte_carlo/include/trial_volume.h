@@ -8,10 +8,11 @@
 namespace feasst {
 
 /// Attempt to change the volume.
+/// Not currently fully implemented or tested.
 class TrialVolume : public Trial {
  public:
-  TrialVolume(argtype args = argtype());
-  TrialVolume(argtype * args);
+  explicit TrialVolume(argtype args = argtype());
+  explicit TrialVolume(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialVolume>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {

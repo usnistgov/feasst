@@ -118,31 +118,6 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   struct_fact_imag_new_.resize(num_vectors());
 }
 
-std::vector<std::string> Ewald::eik_gen_() {
-  std::vector<std::string> eiks;
-  std::stringstream ss;
-  for (std::string comp : {"r", "i"}) {
-    for (std::string coord : {"x", "y", "z"}) {
-      int num_k = -1;
-      if (coord == "x") {
-        num_k = num_kx_;
-      } else if (coord == "y") {
-        num_k = num_ky_;
-      } else if (coord == "z") {
-        num_k = num_kz_;
-      } else {
-        ERROR("unrecognized coord: " << coord);
-      }
-      for (int k = 0; k < num_k; ++k) {
-        ss.str("");
-        ss << "eik" << comp << coord << k;
-        eiks.push_back(ss.str());
-      }
-    }
-  }
-  return eiks;
-}
-
 void Ewald::precompute(Configuration * config) {
   VisitModel::precompute(config);
   if (kmax_sq_arg_ && alpha_arg_) {

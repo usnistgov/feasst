@@ -59,7 +59,7 @@ double PotentialFactory::select_energy(const Select& select, Configuration * con
 
 std::vector<double> PotentialFactory::stored_energy_profile() const {
   std::vector<double> en;
-  for (const std::shared_ptr<Potential> potential : potentials_) {
+  for (const std::shared_ptr<Potential>& potential : potentials_) {
     en.push_back(potential->stored_energy());
   }
   return en;
@@ -73,7 +73,7 @@ double PotentialFactory::stored_energy() const {
 std::string PotentialFactory::str() const {
   std::stringstream ss;
   ss << "PotentialFactory: ";
-  for (const std::shared_ptr<Potential> potential : potentials_) {
+  for (const std::shared_ptr<Potential>& potential : potentials_) {
     ss << potential->stored_energy() << " ";
   }
   return ss.str();
@@ -127,7 +127,7 @@ void PotentialFactory::unload_cache(const PotentialFactory& factory) {
 }
 
 void PotentialFactory::check(const Configuration& config) const {
-  for (const std::shared_ptr<Potential> potential : potentials_) {
+  for (const std::shared_ptr<Potential>& potential : potentials_) {
     potential->check(config);
   }
 }

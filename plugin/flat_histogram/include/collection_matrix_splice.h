@@ -37,7 +37,7 @@ class CollectionMatrixSplice {
   /**
     args:
     - min_window_size: minimum size of window boundaries during adjustment.
-      If -1, do not adjust window boundaries (default: 2).
+      If -1, do not adjust window boundaries (default: 5).
     - hours_per: hours per bounds adjustment, checkpoint and writing the
       combined ln_prob (default: 0.01).
     - ln_prob_file: file name for the combined ln_prob, if not empty (default: empty).

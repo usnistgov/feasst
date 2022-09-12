@@ -10,7 +10,7 @@ with open("../dev/README_PYPI.rst", "r") as fh:
 
 setuptools.setup(
     name='feasst',
-    version='${GIT_COMMIT_HASH}',
+    version='${GIT_COMMIT_HASH_SHORT}',
     author='Harold Hatch',
     author_email='harold.hatch@nist.gov',
     description='Free Energy and Advanced Sampling Simulation Toolkit',

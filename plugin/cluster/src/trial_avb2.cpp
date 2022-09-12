@@ -90,17 +90,17 @@ TrialAVB2::TrialAVB2(argtype * args) : TrialFactoryNamed() {
   class_name_ = "TrialAVB2";
   argtype out2in_args(*args);
   out2in_args.insert({"out_to_in", "true"});
-  argtype in2out_args(*args);
-  in2out_args.insert({"out_to_in", "false"});
+  argtype * in2out_args = args;
+  in2out_args->insert({"out_to_in", "false"});
   auto trial_out2in = MakeTrialAVB2Half(out2in_args);
   trial_out2in->set_weight(trial_out2in->weight()/2.);
   add(trial_out2in);
-  auto trial_in2out = MakeTrialAVB2Half(in2out_args);
+  auto trial_in2out = std::make_shared<TrialAVB2Half>(in2out_args);
   trial_in2out->set_weight(trial_in2out->weight()/2.);
   add(trial_in2out);
 }
 TrialAVB2::TrialAVB2(argtype args) : TrialAVB2(&args) {
-  // FEASST_CHECK_ALL_USED(args);
+  FEASST_CHECK_ALL_USED(args);
 }
 
 }  // namespace feasst

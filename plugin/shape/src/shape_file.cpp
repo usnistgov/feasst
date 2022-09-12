@@ -34,7 +34,7 @@ ShapeFile::ShapeFile(argtype * args) : Shape() {
   if (line.empty()) return;
 
   // print every shape available in factory
-  for (const auto mp : deserialize_map()) {
+  for (const auto& mp : deserialize_map()) {
     DEBUG(mp.first);
   }
 

@@ -247,8 +247,6 @@ class Ewald : public VisitModel {
   // temporary
   bool finalizable_ = false;
 
-  std::vector<std::string> eik_gen_();
-
   /// Return the sum of the squared charge.
   double sum_squared_charge_(const Configuration& config) {
     double sum_sq_q = 0.;

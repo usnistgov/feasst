@@ -209,7 +209,7 @@ void ModelParams::add(const Particle& particle) {
   DEBUG("adding");
   // new params added based on properties of unique site types
   for (const Site& site : particle.sites()) {
-    for (const std::string name : site.properties().names()) {
+    for (const std::string& name : site.properties().names()) {
       if (ModelParam().deserialize_map().count(name) != 0) {
         bool found = false;
         for (std::shared_ptr<ModelParam> param : params_) {
@@ -250,7 +250,7 @@ int ModelParams::size() const {
     return 0;
   }
   int size = static_cast<int>(params_[0]->size());
-  for (const std::shared_ptr<ModelParam> param : params_) {
+  for (const std::shared_ptr<ModelParam>& param : params_) {
     ASSERT(size == static_cast<int>(param->size()), "size error");
   }
   return size;
@@ -388,7 +388,7 @@ void ModelParams::set_cutoff_min_to_sigma() {
 
 std::string ModelParams::str() const {
   std::stringstream ss;
-  for (const std::shared_ptr<ModelParam> param : params_) {
+  for (const std::shared_ptr<ModelParam>& param : params_) {
     ss << param->str();
   }
   return ss.str();

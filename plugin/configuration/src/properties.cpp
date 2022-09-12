@@ -10,7 +10,7 @@ void Properties::check() const {
   ASSERT(values_.size() == names_.size(),
     "size error");
   // make sure there are no spaces in property names
-  for (const std::string name : names_) {
+  for (const std::string& name : names_) {
     ASSERT(num_spaces(name) == 0, "spaces are not allowed in property names");
   }
 }
