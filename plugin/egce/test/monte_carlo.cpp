@@ -346,18 +346,18 @@ void compare_lnpi(const MonteCarlo& mc, const int min) {
   INFO(feasst_str(lnpi.values()));
   int index = 0;
   if (min != 1) {
-    EXPECT_NEAR(lnpi.value(index), -6.6615, 0.1);
+    EXPECT_NEAR(lnpi.value(index), -6.6615, 0.12);
     ++index;
   }
-  EXPECT_NEAR(lnpi.value(index), -3.6256, 0.1);
+  EXPECT_NEAR(lnpi.value(index), -3.6256, 0.12);
   ++index;
-  EXPECT_NEAR(lnpi.value(index), -2.1046, 0.1);
+  EXPECT_NEAR(lnpi.value(index), -2.1046, 0.12);
   ++index;
-  EXPECT_NEAR(lnpi.value(index), -1.3685, 0.1);
+  EXPECT_NEAR(lnpi.value(index), -1.3685, 0.12);
   ++index;
-  EXPECT_NEAR(lnpi.value(index), -1.1371, 0.1);
+  EXPECT_NEAR(lnpi.value(index), -1.1371, 0.12);
   ++index;
-  EXPECT_NEAR(lnpi.value(index), -1.2911, 0.1);
+  EXPECT_NEAR(lnpi.value(index), -1.2911, 0.12);
 }
 
 void compare_lnpi_en(const MonteCarlo& mc, const int min) {
@@ -517,7 +517,7 @@ TEST(MonteCarlo, rpm_divalent_avb_VERY_LONG) {
     {"reference_index", "0"}}));
   mc.run_until_complete();
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
-  EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.09);
+  EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.1);
   EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.06);
   EXPECT_NEAR(lnpi.value(2), -2.1178631459398805, 0.03);
   EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.02);

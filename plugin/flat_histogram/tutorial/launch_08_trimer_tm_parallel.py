@@ -10,7 +10,7 @@ import unittest
 params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/trimer.fstprt", "rwca": 2**(1./6.),
     "max_particles": 100, "min_particles": 0, "min_sweeps": 1e3, "mu": -1.375, "beta": 1/0.275,
-    "trials_per": 1e5, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
+    "trials_per": 1e5, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
     "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 16, "script": __file__, "min_window_size": 5}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]

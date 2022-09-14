@@ -14,7 +14,7 @@ import pathlib
 # define parameters of a pure component LJ simulation
 params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "dccb_cut": 1, "beta": 1/0.7, "mu": -4.1603632,
-    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
+    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
     "equilibration": 1e6, "num_nodes": 2, "procs_per_node": 32, "script": __file__}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]

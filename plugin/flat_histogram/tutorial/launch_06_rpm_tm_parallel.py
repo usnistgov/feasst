@@ -12,7 +12,7 @@ params = {
     "plus": "/feasst/plugin/charge/forcefield/rpm_plus.fstprt",
     "minus": "/feasst/plugin/charge/forcefield/rpm_minus.fstprt",
     "max_particles": 100, "min_particles": 0, "min_sweeps": 200, "beta_mu": -13.94,
-    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
+    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
     "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "script": __file__, "dccb_cut": 2**(1./6.), "min_window_size": 3}
 params["alpha"] = 6.87098396396261/params["cubic_box_length"]
 params["mu"] = params["beta_mu"]/params["beta"]

@@ -11,7 +11,7 @@ import random
 params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1.2,
     "num_particles": 50, "equilibration": 1e6, "production": 1e8,
-    "trials_per": 1e5, "seed": random.randrange(1e9), "num_hours": 1, "script": __file__}
+    "trials_per": 1e5, "seed": random.randrange(int(1e9)), "num_hours": 1, "script": __file__}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]
 
@@ -79,7 +79,7 @@ def run(sim):
     if args.task == 0:
         params["sim"] = sim
         params["beta"] = betas[sim]
-        params["seed"] = random.randrange(1e9)
+        params["seed"] = random.randrange(int(1e9))
         file_name = "launch_run"+str(sim)+".txt"
         mc_lj(params, file_name=file_name)
         syscode = subprocess.call("../build/bin/fst < " + file_name + " > launch_run"+str(sim)+".log", shell=True, executable='/bin/bash')

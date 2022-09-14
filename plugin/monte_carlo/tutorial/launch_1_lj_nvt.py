@@ -11,7 +11,7 @@ params = {
     "num_particles": 500, "density": 0.001, "trials_per": 1e5,
     "beta": 1./0.9, "fstprt": "/feasst/forcefield/lj.fstprt",
     "equilibration": 1e7, "production": 1e7,
-    "seed": random.randrange(1e9), "num_hours": 1, "script": __file__}
+    "seed": random.randrange(int(1e9)), "num_hours": 1, "script": __file__}
 params["box_length"] = (params["num_particles"]/params["density"])**(1./3.)
 params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]
@@ -84,7 +84,7 @@ class TestMonteCarloLJ(unittest.TestCase):
 def run(sim):
     if args.task == 0:
         params["sim"] = sim
-        params["seed"] = random.randrange(1e9)
+        params["seed"] = random.randrange(int(1e9))
         file_name = "launch_run"+str(sim)+".txt"
         mc_lj(params, file_name=file_name)
         syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > launch_run"+str(sim)+".log", shell=True, executable='/bin/bash')

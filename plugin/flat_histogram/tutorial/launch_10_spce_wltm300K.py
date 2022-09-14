@@ -16,7 +16,7 @@ from pyfeasst import physical_constants
 params = {
     "cubic_box_length": 20, "fstprt": "/feasst/forcefield/spce.fstprt", "min_particles": 0,
     "temperature": 300, "max_particles": 296, "beta_mu": -15.24,
-    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
+    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
     "equilibration": 1e6, "num_nodes": 2, "procs_per_node": 32, "script": __file__, "dccb_cut": 0.9*3.165}
 params["ewald_alpha"] = 5.6/params["cubic_box_length"]
 params["beta"] = 1./(params["temperature"]*physical_constants.MolarGasConstant(
@@ -75,7 +75,7 @@ RemoveModify name Tune
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
+Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 22 collect_flatness 20 min_collect_sweeps 18
 {gce_trial}
 RemoveAnalyze name Log
 Log trials_per {trials_per} file_name spcen{node}s[sim_index].txt

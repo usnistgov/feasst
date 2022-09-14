@@ -27,6 +27,9 @@ class PerturbBranch : public PerturbMove {
   void place_in_branch(const double distance,  // bond length
     const double angle,  // angle as in PerturbDistanceAngle::place_in_circle
     const double branch_angle,  // angle formed between both mobile sites.
+    /// Angle formed by the first mobile site and both anchors.
+    /// Used to check for a planar branch.
+    const double extra_angle,
     System * system,
     TrialSelect * select,
     Random * random);
@@ -49,7 +52,8 @@ class PerturbBranch : public PerturbMove {
   void solve_branch_(const double x1, const double y1, const double z1,
                      const double x2, const double y2, const double z2,
                      double *x3, double *y3, double *z3, const double c143,
-                     const double c243, Random * random) const;
+                     const double c243, const bool planar,
+                     Random * random) const;
 
   // temporary
   RigidAngle angle_;

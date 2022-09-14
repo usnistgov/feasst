@@ -10,7 +10,7 @@ import unittest
 params = {
     "cubic_box_length": 8, "fstprt": "/feasst/plugin/patch/forcefield/two_patch_linear.fstprt",
     "max_particles": 370, "min_particles": 0, "min_sweeps": 1e3, "mu": -1.5, "beta": 1/0.7, "chi": 0.7, "cutoff": 1.5,
-    "trials_per": 1e5, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
+    "trials_per": 1e5, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
     "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 32, "script": __file__, "min_window_size": 5}
 params["patch_angle"] = 2*math.asin(math.sqrt(params['chi']/2))*180/math.pi
 params["num_minutes"] = round(params["num_hours"]*60)

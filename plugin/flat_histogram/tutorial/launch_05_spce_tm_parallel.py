@@ -7,10 +7,12 @@ from pyfeasst import physical_constants
 
 # define parameters of a pure component NVT MC SPCE simulation
 params = {
-    "cubic_box_length": 20, "fstprt": "/feasst/forcefield/spce.fstprt", "min_particles": 0,
+    "fstprt": "/feasst/forcefield/spce.fstprt",
+    #"fstprt": "/feasst/plugin/charge/forcefield/tip4p.fstprt",
+    "cubic_box_length": 20, "min_particles": 0,
     "temperature": 525, "max_particles": 265,  "min_sweeps": 400, "beta_mu": -8.14,
     #"temperature": 300, "max_particles": 296,  "min_sweeps": 200, "beta_mu": -15.24,
-    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
+    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
     "equilibration": 1e6, "num_nodes": 1, "procs_per_node": 32, "script": __file__, "dccb_cut": 0.9*3.165,
     "min_window_size": 5}
 params["alpha"] = 5.6/params["cubic_box_length"]
@@ -22,6 +24,9 @@ params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_pe
 params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
 params["mu_init"] = -7
 params["dccb_cut"] = params["cubic_box_length"]/int(params["cubic_box_length"]/params["dccb_cut"]) # maximize inside box
+params["place_h"] = "angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0"
+if 'tip4p' in params['fstprt']:
+    params["place_h"] = "branch true mobile_site 2 mobile_site2 3 anchor_site 0 anchor_site2 1 reference_index 0"
 
 # write TrialGrowFile for SPCE
 with open('spce_grow.txt', 'w') as f:
@@ -29,8 +34,8 @@ with open('spce_grow.txt', 'w') as f:
 
 particle_type 0 weight 2 transfer true site 0 num_steps 10 reference_index 0
 bond true mobile_site 1 anchor_site 0 reference_index 0
-angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0
-""")
+{place_h}
+""".format(**params))
 
 # write fst script
 def mc_spce(params=params, file_name="launch.txt"):

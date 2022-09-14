@@ -8,7 +8,7 @@ import unittest
 params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/atom.fstprt",
     "num_particles": 128,
-    "trials_per": 1e6, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 5*24,
+    "trials_per": 1e6, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
     "equilibration": 1e5, "production": 1e6, "num_nodes": 1, "procs_per_node": 1, "script": __file__}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]

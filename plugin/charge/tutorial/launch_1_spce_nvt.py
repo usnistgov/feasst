@@ -14,7 +14,7 @@ params = {
     "num_particles": 512, "cubic_box_length": 24.8586887, "trials_per": 1e5,
     "temperature": 298, "fstprt": "/feasst/forcefield/spce.fstprt",
     "equilibration": 1e6, "production": 1e6,
-    "seed": random.randrange(1e9), "num_hours": 1, "script": __file__}
+    "seed": random.randrange(int(1e9)), "num_hours": 1, "script": __file__}
 params["cutoff"] = params["cubic_box_length"]/2.
 params["alpha"] = 5.6/params["cubic_box_length"]
 params["beta"] = 1./(params["temperature"]*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
@@ -94,7 +94,7 @@ class TestMonteCarloLJ(unittest.TestCase):
 def run(sim):
     if args.task == 0:
         params["sim"] = sim
-        params["seed"] = random.randrange(1e9)
+        params["seed"] = random.randrange(int(1e9))
         file_name = "launch_run"+str(sim)+".txt"
         mc_lj(params, file_name=file_name)
         syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > launch_run"+str(sim)+".log", shell=True, executable='/bin/bash')
