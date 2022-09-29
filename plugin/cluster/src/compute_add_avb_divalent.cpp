@@ -73,6 +73,8 @@ void ComputeAddAVBDivalent::perturb_and_acceptance(
     &neighbors_,
     1);
   const int num_neigh = static_cast<int>(neighbors_.num_sites());
+  ASSERT(num_neigh > 1, "AVBDivalent shouldn't have one or less neighbors." <<
+    " Was a neighbor skipped, for example, using VisitModel::energy_cutoff?");
   const double volume = config.domain().volume();
   const ThermoParams& params = system->thermo_params();
   DEBUG("volume " << volume);

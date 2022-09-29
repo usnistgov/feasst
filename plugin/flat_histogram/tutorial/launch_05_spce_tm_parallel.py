@@ -1,3 +1,10 @@
+"""
+This is an example bulk SPC/E WLTMMC simulation.
+SPC/E is near the critical point at 525 Kelvin.
+Dual-cut configurational bias is used for insertions and deletions with a reference potential of hard spheres on the oxygen sigma.
+The results are are compared with the SRSW https://doi.org/10.18434/T4M88Q (which use CODATA2010 physical constants).
+"""
+
 import sys
 import subprocess
 import argparse
@@ -5,7 +12,6 @@ import random
 import unittest
 from pyfeasst import physical_constants
 
-# define parameters of a pure component NVT MC SPCE simulation
 params = {
     "fstprt": "/feasst/forcefield/spce.fstprt",
     #"fstprt": "/feasst/plugin/charge/forcefield/tip4p.fstprt",
@@ -47,8 +53,7 @@ Checkpoint file_name spce_checkpoint.fst num_hours {hours_per_checkpoint} num_ho
 
 # begin description of each MC clone
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} physical_constants CODATA2010 \
-    group0 oxygen oxygen_site_type 0
+Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} group0 oxygen oxygen_site_type 0
 Potential VisitModel Ewald alpha {alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
 RefPotential Model HardSphere group oxygen cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut} cell_group oxygen

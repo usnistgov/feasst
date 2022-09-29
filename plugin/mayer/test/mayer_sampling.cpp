@@ -222,6 +222,7 @@ TEST(MayerSampling, cg4_rigid_LONG) {
 // https://dx.doi.org/10.1063/1.4918557
 TEST(MayerSampling, trimer_LONG) {
   MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "1663862890"}}));
   { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
     config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt");
     config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt", "2");

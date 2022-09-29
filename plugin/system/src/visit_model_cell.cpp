@@ -125,6 +125,10 @@ void VisitModelCell::compute(
                   get_inner_()->compute(part1_index, site1_index, part2_index,
                                         site2_index, config, model_params,
                                         model, false, &relative_, &pbc_);
+                  if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
+                    set_energy(inner().energy());
+                    return;
+                  }
                 }
               }
             }
@@ -151,6 +155,10 @@ void VisitModelCell::compute(
               get_inner_()->compute(part1_index, site1_index, part2_index,
                                     site2_index, config, model_params, model,
                                     false, &relative_, &pbc_);
+              if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
+                set_energy(inner().energy());
+                return;
+              }
             }
           }
         }
@@ -195,6 +203,10 @@ void VisitModelCell::compute(
               get_inner_()->compute(part1_index, site1_index, part2_index,
                                     site2_index, config, model_params, model,
                                     false, &relative_, &pbc_);
+              if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
+                set_energy(inner().energy());
+                return;
+              }
             }
           }
         }

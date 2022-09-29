@@ -1,7 +1,9 @@
-# This tutorial is similar to tutorial 5 spce, but for this low temperature simulation,
-# we will split the simulation into two different nodes.
-# The first node will have less particles but a higher number of sweeps required
-# The second node will have dccb.
+"""
+This tutorial is similar to tutorial 5 spce, but for this low temperature simulation,
+we will split the simulation into two different nodes.
+The first node will have less particles but a higher number of sweeps required
+The second node will have dccb.
+"""
 
 import sys
 import subprocess
@@ -48,8 +50,7 @@ Checkpoint file_name spce_checkpointn{node}.fst num_hours {hours_per_checkpoint}
 
 # begin description of each MC clone
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} physical_constants CODATA2010 \
-    group0 oxygen oxygen_site_type 0
+Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} group0 oxygen oxygen_site_type 0
 Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
 {ref_potential}

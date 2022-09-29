@@ -488,7 +488,8 @@ TEST(MonteCarlo, rpm_divalent_avb_VERY_LONG) {
   const int min = 0, max = 5, trials_per = 1e3;
   MonteCarlo mc = dival_egce(min, max, trials_per);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  mc.set(MakeRandomMT19937({{"seed", "time"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  // mc.set(MakeRandomMT19937({{"seed", "time"}}));
   mc.set(1, MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
                                                   MakeChargeScreened()),
                           MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

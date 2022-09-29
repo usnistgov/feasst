@@ -27,11 +27,18 @@ class ModelThreeBody;
 class VisitModel {
  public:
   explicit VisitModel(std::shared_ptr<VisitModelInner> inner =
-      std::make_shared<VisitModelInner>()) {
-    set_inner(inner); }
+    std::make_shared<VisitModelInner>());
 
+  /**
+    args:
+    - energy_cutoff: energy above this value will immediately end loop without
+      computing the energy of the remaining sites in the loop.
+      If -1, ignore the cutoff (default: -1).
+   */
   explicit VisitModel(argtype args);
   explicit VisitModel(argtype * args);
+
+  double energy_cutoff() const { return energy_cutoff_; }
 
   void set_inner(const std::shared_ptr<VisitModelInner> inner) {
     inner_ = inner; }
@@ -180,6 +187,7 @@ class VisitModel {
   int sigma_index_ = -1;
   int cutoff_index_ = -1;
   int charge_index_ = -1;
+  double energy_cutoff_;
 };
 
 inline std::shared_ptr<VisitModel> MakeVisitModel() {

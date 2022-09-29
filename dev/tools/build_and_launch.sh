@@ -6,7 +6,7 @@ make install -j12
 
 python3 -m venv feasst_test_env
 source feasst_test_env/bin/activate
-pip install ../pyfeasst numpy jupyter matplotlib pandas scipy
+pip install ../pyfeasst numpy jupyter matplotlib pandas scipy biopandas
 
 echo "" > summary.log
 echo "" > summary_long.log

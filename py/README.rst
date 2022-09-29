@@ -2,6 +2,8 @@
 Python interface
 ***************************
 
+Installation is described in :doc:`/../tutorial/library/tutorial`
+
 Python interface for FEASST includes the following:
 
 feasst.i

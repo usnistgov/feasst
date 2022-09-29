@@ -75,16 +75,16 @@ class TestFlatHistogramHS(unittest.TestCase):
         iq=pd.read_csv('hs_iq.csv', comment="#")
         grp = iq.groupby('q', as_index=False)
         self.assertAlmostEqual(gr['g0-0'][45], 1.2829, delta=0.05)
-        self.assertAlmostEqual(iq['i'][3810], 5.72894, delta=0.2)
-        self.assertAlmostEqual(iq['i'][0]/iq['p0'][0], 1, delta=0.075)
+        self.assertAlmostEqual(iq['i'][3810], 5.72894, delta=0.4)
+        self.assertAlmostEqual(iq['i'][0]/iq['p0'][0]**2, 1, delta=0.075)
 
         # scale the gr closer to one at the tail by dividing by the average of the last 5%
         # A fourier transform of this scaled gr will result in a smoother low-q
         gr_scaled = gr['g0-0']/np.average(gr['g0-0'][int(0.95*len(gr['r'])):])
         import matplotlib.pyplot as plt
         plt.plot(gr['r'], gr['g0-0'], label='gr')
-        plt.scatter(iq['q'], iq['i']/iq['p0'], label='sq_all')
-        plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0'], label='sq_av')
+        plt.scatter(iq['q'], iq['i']/iq['p0']**2, label='sq_all')
+        plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0']**2, label='sq_av')
         qs = np.arange(2*np.pi/8, 10, 0.01)
         sq=list(); sqs=list()
         number_density = params['num_particles']/params['cubic_box_length']**3

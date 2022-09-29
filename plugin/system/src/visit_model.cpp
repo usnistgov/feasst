@@ -12,8 +12,14 @@
 
 namespace feasst {
 
+VisitModel::VisitModel(std::shared_ptr<VisitModelInner> inner) {
+  set_inner(inner);
+  energy_cutoff_ = -1;
+}
 VisitModel::VisitModel(argtype * args) {
   set_inner(VisitModelInner().factory(str("VisitModelInner", args, "VisitModelInner"), args));
+  energy_cutoff_ = dble("energy_cutoff", args, -1);
+  INFO("energy_cutoff_ " << energy_cutoff_);
 }
 VisitModel::VisitModel(argtype args) : VisitModel(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -93,6 +99,11 @@ void VisitModel::compute(
         for (int site2_index : selection.site_indices(select2_index)) {
           get_inner_()->compute(part1_index, site1_index, part2_index,
             site2_index, config, model_params, model, false, &relative_, &pbc_);
+          if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
+            INFO("here");
+            set_energy(inner().energy());
+            return;
+          }
         }
       }
     }
@@ -152,6 +163,11 @@ void VisitModel::compute(
                                     config, model_params, model,
                                     is_old_config,
                                     &relative_, &pbc_);
+              if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
+                INFO("here");
+                set_energy(inner().energy());
+                return;
+              }
             }
           }
         }
@@ -183,6 +199,11 @@ void VisitModel::compute(
                                     config, model_params, model,
                                     is_old_config,
                                     &relative_, &pbc_);
+              if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
+                INFO("energy_cutoff_ " << energy_cutoff_);
+                set_energy(inner().energy());
+                return;
+              }
             }
           }
         }
@@ -213,6 +234,11 @@ void VisitModel::compute(
                                     config, model_params, model,
                                     is_old_config,
                                     &relative_, &pbc_);
+              if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
+                INFO("here");
+                set_energy(inner().energy());
+                return;
+              }
             }
           }
         }
@@ -284,6 +310,7 @@ void VisitModel::serialize_visit_model_(std::ostream& ostr) const {
   feasst_serialize(sigma_index_, ostr);
   feasst_serialize(cutoff_index_, ostr);
   feasst_serialize(charge_index_, ostr);
+  feasst_serialize(energy_cutoff_, ostr);
   feasst_serialize_fstdr(inner_, ostr);
   feasst_serialize_fstobj(data_, ostr);
   feasst_serialize_fstobj(manual_data_, ostr);
@@ -298,6 +325,7 @@ VisitModel::VisitModel(std::istream& istr) {
   feasst_deserialize(&sigma_index_, istr);
   feasst_deserialize(&cutoff_index_, istr);
   feasst_deserialize(&charge_index_, istr);
+  feasst_deserialize(&energy_cutoff_, istr);
   // feasst_deserialize_fstdr(inner_, istr);
   { // for unknown reason, template function above does not work
     int existing;

@@ -454,6 +454,7 @@ TEST(MonteCarlo, cg4_flexible_LONG) {
 // HWH test that distributions are also unchanged whether or not potential_acceptance is used
 TEST(MayerSampling, b2_cg4_flexible_LONG) {
   MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "1663861442"}}));
   //mc.set(MakeRandomMT19937({{"seed", "1629905961"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)},
