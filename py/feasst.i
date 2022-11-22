@@ -92,6 +92,7 @@
 #include "charge/include/charge_screened_intra.h"
 #include "charge/include/coulomb.h"
 #include "charge/include/charge_screened.h"
+#include "charge/include/debye_huckel.h"
 #include "example/include/model_example.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/hard_sphere.h"
@@ -106,6 +107,21 @@
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_bond.h"
 #include "system/include/long_range_corrections.h"
+#include "configuration/include/neighbor_criteria.h"
+#include "cluster/include/energy_map_all.h"
+#include "cluster/include/energy_map_neighbor.h"
+#include "cluster/include/energy_map_neighbor_criteria.h"
+#include "cluster/include/energy_map_all_criteria.h"
+#include "configuration/include/domain.h"
+#include "math/include/random.h"
+#include "math/include/random_modulo.h"
+#include "math/include/constants.h"
+#include "math/include/minimize.h"
+#include "math/include/golden_search.h"
+#include "math/include/quadratic_equation.h"
+#include "math/include/formula_exponential.h"
+#include "math/include/matrix.h"
+#include "math/include/euler.h"
 #include "configuration/include/site.h"
 #include "configuration/include/particle.h"
 #include "configuration/include/model_params.h"
@@ -116,6 +132,7 @@
 #include "system/include/model_two_body_table.h"
 #include "configuration/include/group.h"
 #include "configuration/include/particle_factory.h"
+#include "configuration/include/file_lmp.h"
 #include "configuration/include/select.h"
 #include "system/include/cells.h"
 #include "system/include/visit_model_cutoff_outer.h"
@@ -123,12 +140,6 @@
 #include "monte_carlo/include/rosenbluth.h"
 #include "monte_carlo/include/acceptance.h"
 #include "configuration/include/visit_particles.h"
-#include "configuration/include/file_lmp.h"
-#include "configuration/include/neighbor_criteria.h"
-#include "cluster/include/energy_map_all.h"
-#include "cluster/include/energy_map_neighbor.h"
-#include "cluster/include/energy_map_neighbor_criteria.h"
-#include "cluster/include/energy_map_all_criteria.h"
 #include "configuration/include/configuration.h"
 #include "charge/include/ewald.h"
 #include "system/include/potential.h"
@@ -151,7 +162,24 @@
 #include "monte_carlo/include/perturb_move.h"
 #include "cluster/include/perturb_point_reflect.h"
 #include "monte_carlo/include/perturb_translate.h"
+#include "monte_carlo/include/perturb_distance.h"
+#include "chain/include/perturb_reptate.h"
+#include "monte_carlo/include/perturb_distance_angle.h"
+#include "chain/include/perturb_branch.h"
+#include "monte_carlo/include/perturb_dihedral.h"
 #include "monte_carlo/include/perturb_to_anchor.h"
+#include "monte_carlo/include/perturb_rotate.h"
+#include "chain/include/perturb_pivot.h"
+#include "chain/include/perturb_crankshaft_small.h"
+#include "chain/include/perturb_particle_pivot.h"
+#include "chain/include/perturb_crankshaft.h"
+#include "cluster/include/perturb_rotate_com.h"
+#include "cluster/include/perturb_move_avb.h"
+#include "cluster/include/perturb_add_avb.h"
+#include "monte_carlo/include/perturb_anywhere.h"
+#include "chain/include/perturb_site_type.h"
+#include "monte_carlo/include/perturb_add.h"
+#include "monte_carlo/include/perturb_remove.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 #include "monte_carlo/include/trial.h"
@@ -219,8 +247,8 @@
 #include "cluster/include/compute_remove_avb_divalent.h"
 #include "charge/include/compute_add_multiple.h"
 #include "charge/include/compute_remove_multiple.h"
-#include "morph/include/compute_morph.h"
 #include "monte_carlo/include/trial_compute_translate.h"
+#include "morph/include/compute_morph.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "monte_carlo/include/trial_compute_volume.h"
@@ -242,6 +270,7 @@
 #include "monte_carlo/include/trial_select_dihedral.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "chain/include/select_crankshaft_small.h"
+#include "chain/include/trial_grow_linear.h"
 #include "chain/include/select_segment.h"
 #include "chain/include/select_end_segment.h"
 #include "chain/include/select_reptate.h"
@@ -252,33 +281,6 @@
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/file_xyz.h"
 #include "steppers/include/movie.h"
-#include "configuration/include/domain.h"
-#include "math/include/random.h"
-#include "math/include/random_modulo.h"
-#include "math/include/constants.h"
-#include "math/include/minimize.h"
-#include "math/include/golden_search.h"
-#include "math/include/quadratic_equation.h"
-#include "math/include/formula_exponential.h"
-#include "math/include/matrix.h"
-#include "monte_carlo/include/perturb_distance.h"
-#include "chain/include/perturb_reptate.h"
-#include "monte_carlo/include/perturb_distance_angle.h"
-#include "chain/include/perturb_branch.h"
-#include "monte_carlo/include/perturb_dihedral.h"
-#include "monte_carlo/include/perturb_rotate.h"
-#include "chain/include/perturb_pivot.h"
-#include "chain/include/perturb_crankshaft_small.h"
-#include "chain/include/perturb_particle_pivot.h"
-#include "chain/include/perturb_crankshaft.h"
-#include "cluster/include/perturb_rotate_com.h"
-#include "cluster/include/perturb_move_avb.h"
-#include "cluster/include/perturb_add_avb.h"
-#include "monte_carlo/include/perturb_anywhere.h"
-#include "chain/include/perturb_site_type.h"
-#include "chain/include/trial_grow_linear.h"
-#include "monte_carlo/include/perturb_add.h"
-#include "monte_carlo/include/perturb_remove.h"
 #include "math/include/random_mt19937.h"
 #include "math/include/solver.h"
 #include "math/include/solver_newton_raphson.h"
@@ -286,6 +288,8 @@
 #include "math/include/solver_brent_dekker.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 #include "opt_lj/include/visit_model_opt_rpm.h"
+#include "aniso/include/visit_model_inner_table.h"
+#include "aniso/include/anisotropic.h"
 #include "mayer/include/mayer_sampling.h"
 #include "confinement/include/model_lj_shape.h"
 #include "confinement/include/trial_anywhere.h"
@@ -381,6 +385,9 @@ using namespace std;
 %shared_ptr(feasst::Table1D);
 %shared_ptr(feasst::Table2D);
 %shared_ptr(feasst::Table3D);
+%shared_ptr(feasst::Table4D);
+%shared_ptr(feasst::Table5D);
+%shared_ptr(feasst::Table6D);
 %shared_ptr(feasst::Accumulator);
 %shared_ptr(feasst::Stepper);
 %shared_ptr(feasst::Histogram);
@@ -425,6 +432,7 @@ using namespace std;
 %shared_ptr(feasst::ChargeScreenedIntra);
 %shared_ptr(feasst::Coulomb);
 %shared_ptr(feasst::ChargeScreened);
+%shared_ptr(feasst::DebyeHuckel);
 %shared_ptr(feasst::ModelExample);
 %shared_ptr(feasst::ModelTwoBodyFactory);
 %shared_ptr(feasst::HardSphere);
@@ -439,6 +447,20 @@ using namespace std;
 %shared_ptr(feasst::VisitModelIntra);
 %shared_ptr(feasst::VisitModelBond);
 %shared_ptr(feasst::LongRangeCorrections);
+%shared_ptr(feasst::NeighborCriteria);
+%shared_ptr(feasst::EnergyMapAll);
+%shared_ptr(feasst::EnergyMapNeighbor);
+%shared_ptr(feasst::EnergyMapNeighborCriteria);
+%shared_ptr(feasst::EnergyMapAllCriteria);
+%shared_ptr(feasst::Domain);
+%shared_ptr(feasst::Random);
+%shared_ptr(feasst::RandomModulo);
+%shared_ptr(feasst::Minimize);
+%shared_ptr(feasst::GoldenSearch);
+%shared_ptr(feasst::FormulaExponential);
+%shared_ptr(feasst::Matrix);
+%shared_ptr(feasst::RotationMatrix);
+%shared_ptr(feasst::Euler);
 %shared_ptr(feasst::Site);
 %shared_ptr(feasst::Particle);
 %shared_ptr(feasst::ModelParam);
@@ -458,6 +480,7 @@ using namespace std;
 %shared_ptr(feasst::ModelTwoBodyTable);
 %shared_ptr(feasst::Group);
 %shared_ptr(feasst::ParticleFactory);
+%shared_ptr(feasst::FileLMP);
 %shared_ptr(feasst::Select);
 %shared_ptr(feasst::Cells);
 %shared_ptr(feasst::CutoffOuter);
@@ -467,12 +490,6 @@ using namespace std;
 %shared_ptr(feasst::Acceptance);
 %shared_ptr(feasst::VisitParticles);
 %shared_ptr(feasst::LoopOneBody);
-%shared_ptr(feasst::FileLMP);
-%shared_ptr(feasst::NeighborCriteria);
-%shared_ptr(feasst::EnergyMapAll);
-%shared_ptr(feasst::EnergyMapNeighbor);
-%shared_ptr(feasst::EnergyMapNeighborCriteria);
-%shared_ptr(feasst::EnergyMapAllCriteria);
 %shared_ptr(feasst::Configuration);
 %shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::Potential);
@@ -495,7 +512,24 @@ using namespace std;
 %shared_ptr(feasst::PerturbMove);
 %shared_ptr(feasst::PerturbPointReflect);
 %shared_ptr(feasst::PerturbTranslate);
+%shared_ptr(feasst::PerturbDistance);
+%shared_ptr(feasst::PerturbReptate);
+%shared_ptr(feasst::PerturbDistanceAngle);
+%shared_ptr(feasst::PerturbBranch);
+%shared_ptr(feasst::PerturbDihedral);
 %shared_ptr(feasst::PerturbToAnchor);
+%shared_ptr(feasst::PerturbRotate);
+%shared_ptr(feasst::PerturbPivot);
+%shared_ptr(feasst::PerturbCrankshaftSmall);
+%shared_ptr(feasst::PerturbParticlePivot);
+%shared_ptr(feasst::PerturbCrankshaft);
+%shared_ptr(feasst::PerturbRotateCOM);
+%shared_ptr(feasst::PerturbMoveAVB);
+%shared_ptr(feasst::PerturbAddAVB);
+%shared_ptr(feasst::PerturbAnywhere);
+%shared_ptr(feasst::PerturbSiteType);
+%shared_ptr(feasst::PerturbAdd);
+%shared_ptr(feasst::PerturbRemove);
 %shared_ptr(feasst::TrialStage);
 %shared_ptr(feasst::TrialCompute);
 %shared_ptr(feasst::Trial);
@@ -581,8 +615,8 @@ using namespace std;
 %shared_ptr(feasst::ComputeRemoveAVBDivalent);
 %shared_ptr(feasst::ComputeAddMultiple);
 %shared_ptr(feasst::ComputeRemoveMultiple);
-%shared_ptr(feasst::ComputeMorph);
 %shared_ptr(feasst::TrialComputeTranslate);
+%shared_ptr(feasst::ComputeMorph);
 %shared_ptr(feasst::TrialComputeAdd);
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialComputeVolume);
@@ -604,6 +638,7 @@ using namespace std;
 %shared_ptr(feasst::TrialSelectDihedral);
 %shared_ptr(feasst::TrialSelectParticle);
 %shared_ptr(feasst::SelectCrankshaftSmall);
+%shared_ptr(feasst::TrialGrowLinear);
 %shared_ptr(feasst::SelectSegment);
 %shared_ptr(feasst::SelectEndSegment);
 %shared_ptr(feasst::SelectReptate);
@@ -617,32 +652,6 @@ using namespace std;
 %shared_ptr(feasst::PrinterXYZ);
 %shared_ptr(feasst::FileXYZ);
 %shared_ptr(feasst::Movie);
-%shared_ptr(feasst::Domain);
-%shared_ptr(feasst::Random);
-%shared_ptr(feasst::RandomModulo);
-%shared_ptr(feasst::Minimize);
-%shared_ptr(feasst::GoldenSearch);
-%shared_ptr(feasst::FormulaExponential);
-%shared_ptr(feasst::Matrix);
-%shared_ptr(feasst::RotationMatrix);
-%shared_ptr(feasst::PerturbDistance);
-%shared_ptr(feasst::PerturbReptate);
-%shared_ptr(feasst::PerturbDistanceAngle);
-%shared_ptr(feasst::PerturbBranch);
-%shared_ptr(feasst::PerturbDihedral);
-%shared_ptr(feasst::PerturbRotate);
-%shared_ptr(feasst::PerturbPivot);
-%shared_ptr(feasst::PerturbCrankshaftSmall);
-%shared_ptr(feasst::PerturbParticlePivot);
-%shared_ptr(feasst::PerturbCrankshaft);
-%shared_ptr(feasst::PerturbRotateCOM);
-%shared_ptr(feasst::PerturbMoveAVB);
-%shared_ptr(feasst::PerturbAddAVB);
-%shared_ptr(feasst::PerturbAnywhere);
-%shared_ptr(feasst::PerturbSiteType);
-%shared_ptr(feasst::TrialGrowLinear);
-%shared_ptr(feasst::PerturbAdd);
-%shared_ptr(feasst::PerturbRemove);
 %shared_ptr(feasst::RandomMT19937);
 %shared_ptr(feasst::Solver);
 %shared_ptr(feasst::SolverNewtonRaphson);
@@ -650,6 +659,8 @@ using namespace std;
 %shared_ptr(feasst::SolverBrentDekker);
 %shared_ptr(feasst::VisitModelOptLJ);
 %shared_ptr(feasst::VisitModelOptRPM);
+%shared_ptr(feasst::VisitModelInnerTable);
+%shared_ptr(feasst::Anisotropic);
 %shared_ptr(feasst::MayerSampling);
 %shared_ptr(feasst::ModelLJShape);
 %shared_ptr(feasst::ModelLJShapeEnergyAtCutoff);
@@ -760,6 +771,7 @@ using namespace std;
 %include charge/include/charge_screened_intra.h
 %include charge/include/coulomb.h
 %include charge/include/charge_screened.h
+%include charge/include/debye_huckel.h
 %include example/include/model_example.h
 %include system/include/model_two_body_factory.h
 %include system/include/hard_sphere.h
@@ -774,6 +786,21 @@ using namespace std;
 %include system/include/visit_model_intra.h
 %include system/include/visit_model_bond.h
 %include system/include/long_range_corrections.h
+%include configuration/include/neighbor_criteria.h
+%include cluster/include/energy_map_all.h
+%include cluster/include/energy_map_neighbor.h
+%include cluster/include/energy_map_neighbor_criteria.h
+%include cluster/include/energy_map_all_criteria.h
+%include configuration/include/domain.h
+%include math/include/random.h
+%include math/include/random_modulo.h
+%include math/include/constants.h
+%include math/include/minimize.h
+%include math/include/golden_search.h
+%include math/include/quadratic_equation.h
+%include math/include/formula_exponential.h
+%include math/include/matrix.h
+%include math/include/euler.h
 %include configuration/include/site.h
 %include configuration/include/particle.h
 %include configuration/include/model_params.h
@@ -784,6 +811,7 @@ using namespace std;
 %include system/include/model_two_body_table.h
 %include configuration/include/group.h
 %include configuration/include/particle_factory.h
+%include configuration/include/file_lmp.h
 %include configuration/include/select.h
 %include system/include/cells.h
 %include system/include/visit_model_cutoff_outer.h
@@ -791,12 +819,6 @@ using namespace std;
 %include monte_carlo/include/rosenbluth.h
 %include monte_carlo/include/acceptance.h
 %include configuration/include/visit_particles.h
-%include configuration/include/file_lmp.h
-%include configuration/include/neighbor_criteria.h
-%include cluster/include/energy_map_all.h
-%include cluster/include/energy_map_neighbor.h
-%include cluster/include/energy_map_neighbor_criteria.h
-%include cluster/include/energy_map_all_criteria.h
 %include configuration/include/configuration.h
 %include charge/include/ewald.h
 %include system/include/potential.h
@@ -819,7 +841,24 @@ using namespace std;
 %include monte_carlo/include/perturb_move.h
 %include cluster/include/perturb_point_reflect.h
 %include monte_carlo/include/perturb_translate.h
+%include monte_carlo/include/perturb_distance.h
+%include chain/include/perturb_reptate.h
+%include monte_carlo/include/perturb_distance_angle.h
+%include chain/include/perturb_branch.h
+%include monte_carlo/include/perturb_dihedral.h
 %include monte_carlo/include/perturb_to_anchor.h
+%include monte_carlo/include/perturb_rotate.h
+%include chain/include/perturb_pivot.h
+%include chain/include/perturb_crankshaft_small.h
+%include chain/include/perturb_particle_pivot.h
+%include chain/include/perturb_crankshaft.h
+%include cluster/include/perturb_rotate_com.h
+%include cluster/include/perturb_move_avb.h
+%include cluster/include/perturb_add_avb.h
+%include monte_carlo/include/perturb_anywhere.h
+%include chain/include/perturb_site_type.h
+%include monte_carlo/include/perturb_add.h
+%include monte_carlo/include/perturb_remove.h
 %include monte_carlo/include/trial_stage.h
 %include monte_carlo/include/trial_compute.h
 %include monte_carlo/include/trial.h
@@ -887,8 +926,8 @@ using namespace std;
 %include cluster/include/compute_remove_avb_divalent.h
 %include charge/include/compute_add_multiple.h
 %include charge/include/compute_remove_multiple.h
-%include morph/include/compute_morph.h
 %include monte_carlo/include/trial_compute_translate.h
+%include morph/include/compute_morph.h
 %include monte_carlo/include/trial_compute_add.h
 %include monte_carlo/include/trial_compute_remove.h
 %include monte_carlo/include/trial_compute_volume.h
@@ -910,6 +949,7 @@ using namespace std;
 %include monte_carlo/include/trial_select_dihedral.h
 %include monte_carlo/include/trial_select_particle.h
 %include chain/include/select_crankshaft_small.h
+%include chain/include/trial_grow_linear.h
 %include chain/include/select_segment.h
 %include chain/include/select_end_segment.h
 %include chain/include/select_reptate.h
@@ -920,33 +960,6 @@ using namespace std;
 %include configuration/include/visit_configuration.h
 %include configuration/include/file_xyz.h
 %include steppers/include/movie.h
-%include configuration/include/domain.h
-%include math/include/random.h
-%include math/include/random_modulo.h
-%include math/include/constants.h
-%include math/include/minimize.h
-%include math/include/golden_search.h
-%include math/include/quadratic_equation.h
-%include math/include/formula_exponential.h
-%include math/include/matrix.h
-%include monte_carlo/include/perturb_distance.h
-%include chain/include/perturb_reptate.h
-%include monte_carlo/include/perturb_distance_angle.h
-%include chain/include/perturb_branch.h
-%include monte_carlo/include/perturb_dihedral.h
-%include monte_carlo/include/perturb_rotate.h
-%include chain/include/perturb_pivot.h
-%include chain/include/perturb_crankshaft_small.h
-%include chain/include/perturb_particle_pivot.h
-%include chain/include/perturb_crankshaft.h
-%include cluster/include/perturb_rotate_com.h
-%include cluster/include/perturb_move_avb.h
-%include cluster/include/perturb_add_avb.h
-%include monte_carlo/include/perturb_anywhere.h
-%include chain/include/perturb_site_type.h
-%include chain/include/trial_grow_linear.h
-%include monte_carlo/include/perturb_add.h
-%include monte_carlo/include/perturb_remove.h
 %include math/include/random_mt19937.h
 %include math/include/solver.h
 %include math/include/solver_newton_raphson.h
@@ -954,6 +967,8 @@ using namespace std;
 %include math/include/solver_brent_dekker.h
 %include opt_lj/include/visit_model_opt_lj.h
 %include opt_lj/include/visit_model_opt_rpm.h
+%include aniso/include/visit_model_inner_table.h
+%include aniso/include/anisotropic.h
 %include mayer/include/mayer_sampling.h
 %include confinement/include/model_lj_shape.h
 %include confinement/include/trial_anywhere.h

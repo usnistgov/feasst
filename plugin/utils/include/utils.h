@@ -90,20 +90,26 @@ void resize(const int dim0, const int dim1, const int dim2, const int dim3, cons
   }
 }
 
-/// Fill two dimensional vector with a constant.
-/// Note to HWH: rewrite using variadic templates for arbitrary dimensions
+/// Resize six dimensional vector.
 template<class T>
-void fill(const T value, std::vector<std::vector<T> > *vec) {
-  for (std::vector<T>& inner : *vec) {
-    std::fill(inner.begin(), inner.end(), value);
+void resize(const int dim0, const int dim1, const int dim2, const int dim3, const int dim4, const int dim5,
+  std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > > *vec) {
+  vec->resize(dim0);
+  for (int i = 0; i < static_cast<int>(vec->size()); ++i) {
+    resize(dim1, dim2, dim3, dim4, dim5, &(*vec)[i]);
   }
 }
 
-/// Fill three dimensional vector with a constant.
-/// Note to HWH: rewrite using variadic templates for arbitrary dimensions
-template<class T>
-void fill(const T value, std::vector<std::vector<std::vector<T> > > *vec) {
-  for (std::vector<std::vector<T> >& inner : *vec) {
+/// Fill vector with a constant.
+template<typename T>
+void fill(const T value, std::vector<T> *vec) {
+  std::fill(vec->begin(), vec->end(), value);
+}
+
+/// Fill multi-dimensional vector with a constant.
+template<typename T1, typename T2>
+void fill(const T1 value, std::vector<T2> *vec) {
+  for (auto& inner : *vec) {
     fill(value, &inner);
   }
 }

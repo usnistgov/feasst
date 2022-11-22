@@ -43,8 +43,12 @@ void Prefetch::create(std::vector<Pool> * pool) {
   // Initialize MC clones for each processor in pool_
   ASSERT(pool_.size() == 0, "pool is of size:" << pool_.size());
   if (ThreadOMP().is_enabled()) {
+    #ifdef _OPENMP
     #pragma omp parallel
     {
+    #else
+    {
+    #endif
       num_threads_ = ThreadOMP().num();
     }
   } else {
@@ -383,7 +387,7 @@ void Prefetch::attempt_(
       // perform after trial on all clones/main after multiple trials performed
       // do this in serial so that files are not written to by multiple threads
       // simultaneously
-      #ifndef DEBUG_SERIAL_MODE_5324634
+      #ifdef DEBUG_SERIAL_MODE_5324634
       #pragma omp critical
       {
       #else

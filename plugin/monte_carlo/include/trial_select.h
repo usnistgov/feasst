@@ -63,6 +63,9 @@ class TrialSelect {
   /// Return originally-seleted mobile. These do not change during trial.
   const Select& mobile_original() const { return mobile_original_; }
 
+  /// Set the original mobile, including Euler if anisotropic.
+  void set_mobile_original(const System * system);
+
   /// Return the anchor selection.
   const Select& anchor() const { return anchor_; }
 
@@ -131,6 +134,9 @@ class TrialSelect {
   /// Add a property, or set its value if name already exists.
   void add_or_set_property(const std::string name, const double value) {
     properties_.add_or_set(name, value); }
+
+  /// Return true if all sites in mobile are isotropic.
+  bool is_isotropic(const System * system) const;
 
   // HWH hackish interface to exclude bond energies from lnpmet
   void zero_exclude_energy() { exclude_energy_ = 0.; }

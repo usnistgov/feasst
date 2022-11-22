@@ -1,13 +1,13 @@
 #include <fstream>
 #include <sstream>
-#include "configuration/include/configuration.h"
-#include "configuration/include/file_xyz.h"
-#include "configuration/include/domain.h"
 #include "utils/include/utils.h"
-#include "math/include/utils_math.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
+#include "math/include/utils_math.h"
 #include "math/include/constants.h"
+#include "configuration/include/file_xyz.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
 
 namespace feasst {
 
@@ -55,8 +55,13 @@ Configuration::Configuration(argtype * args) {
   }
 
   const std::string xyz_file = str("xyz_file", args, "");
-  if (!xyz_file.empty()) {
+  const std::string xyz_euler_file = str("xyz_euler_file", args, "");
+  if (!xyz_file.empty() && xyz_euler_file.empty()) {
     FileXYZ().load(xyz_file, this);
+  } else if (xyz_file.empty() && !xyz_euler_file.empty()) {
+    MakeFileXYZ({{"euler", "true"}})->load(xyz_euler_file, this);
+  } else if (!xyz_file.empty() && !xyz_euler_file.empty()) {
+    FATAL("cannot read both xyz and xyz_euler files.");
   }
 
   DEBUG("parse groups");
@@ -81,25 +86,33 @@ Configuration::Configuration(argtype * args) {
   init_wrap(boolean("wrap", args, true));
 
   DEBUG("parse ModelParam");
-  for (std::map<std::string, std::shared_ptr<ModelParam>>::iterator iter = ModelParam().deserialize_map().begin(); iter != ModelParam().deserialize_map().end(); ++iter) {
-    const std::string param = iter->first;
-    if (used(param, *args)) {
-      const double value = dble(param, args);
-      for (int site_type = 0; site_type < num_site_types(); ++site_type) {
-        set_model_param(param, site_type, value);
+  if (args->size() != 0) {
+    for (std::map<std::string, std::shared_ptr<ModelParam>>::iterator iter = ModelParam().deserialize_map().begin(); iter != ModelParam().deserialize_map().end(); ++iter) {
+      const std::string param = iter->first;
+      if (args->size() != 0) {
+        if (used(param, *args)) {
+          const double value = dble(param, args);
+          for (int site_type = 0; site_type < num_site_types(); ++site_type) {
+            set_model_param(param, site_type, value);
+          }
+        }
       }
-    }
-    for (int site_type = 0; site_type < num_site_types(); ++site_type) {
-      std::string param_arg = param + str(site_type);
-      if (used(param_arg, *args)) {
-        set_model_param(param, site_type, dble(param_arg, args));
+      if (args->size() != 0) {
+        for (int site_type = 0; site_type < num_site_types(); ++site_type) {
+          std::string param_arg = param + str(site_type);
+          if (used(param_arg, *args)) {
+            set_model_param(param, site_type, dble(param_arg, args));
+          }
+        }
       }
-    }
-    for (int site1 = 0; site1 < num_site_types(); ++site1) {
-      for (int site2 = site1; site2 < num_site_types(); ++site2) {
-        std::string param_arg = param + str(site1) + "_" + str(site2);
-        if (used(param_arg, *args)) {
-          set_model_param(param, site1, site2, dble(param_arg, args));
+      if (args->size() != 0) {
+        for (int site1 = 0; site1 < num_site_types(); ++site1) {
+          for (int site2 = site1; site2 < num_site_types(); ++site2) {
+            std::string param_arg = param + str(site1) + "_" + str(site2);
+            if (used(param_arg, *args)) {
+              set_model_param(param, site1, site2, dble(param_arg, args));
+            }
+          }
         }
       }
     }
@@ -367,6 +380,28 @@ void Configuration::update_positions(
   }
 }
 
+void Configuration::update_positions(
+    const std::vector<std::vector<double> > coords,
+    const std::vector<std::vector<double> > eulers) {
+  update_positions(coords);
+  ASSERT(dimension() == 3, "Eulers require 3 dimensions.");
+  Euler euler;
+  int iter_site = 0;
+  for (int part_index : group_selects_[0].particle_indices()) {
+    Particle * part = get_particles_()->get_particle(part_index);
+    for (int site_index = 0;
+         site_index < part->num_sites();
+         ++site_index) {
+      Site * site = part->get_site(site_index);
+      euler.set(eulers[iter_site][0],
+                eulers[iter_site][1],
+                eulers[iter_site][2]);
+      site->set_euler(euler);
+      ++iter_site;
+    }
+  }
+}
+
 void Configuration::displace(const Select& selection,
                              const Position &displacement) {
   for (int sp = 0; sp < selection.num_particles(); ++sp) {
@@ -430,6 +465,18 @@ void Configuration::update_positions(const Select& select,
       }
     }
     ++pindex;
+  }
+  if (select.is_anisotropic()) {
+    int pindex = 0;
+    for (int particle_index : select.particle_indices()) {
+      int sindex = 0;
+      for (int site_index : select.site_indices(pindex)) {
+        particles_.get_particle(particle_index)->get_site(site_index)->
+          set_euler(select.site_eulers()[pindex][sindex]);
+        ++sindex;
+      }
+      ++pindex;
+    }
   }
 }
 

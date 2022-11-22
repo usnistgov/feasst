@@ -190,8 +190,8 @@ class VisitModel {
   double energy_cutoff_;
 };
 
-inline std::shared_ptr<VisitModel> MakeVisitModel() {
-  return std::make_shared<VisitModel>();
+inline std::shared_ptr<VisitModel> MakeVisitModel(argtype args = argtype()) {
+  return std::make_shared<VisitModel>(args);
 }
 
 inline std::shared_ptr<VisitModel> MakeVisitModel(

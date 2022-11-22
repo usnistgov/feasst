@@ -7,5 +7,5 @@ dependencies:
   - scipy
   - matplotlib=3.1
   - jupyter
-  - swig=3.0.12
+  - swig=4.0.2
   - cmake=3.12.2

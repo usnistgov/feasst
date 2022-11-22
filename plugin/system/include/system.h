@@ -253,6 +253,10 @@ class System {
   PotentialFactory * potentials_();
 };
 
+inline std::shared_ptr<System> MakeSystem() {
+  return std::make_shared<System>();
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_SYSTEM_SYSTEM_H_

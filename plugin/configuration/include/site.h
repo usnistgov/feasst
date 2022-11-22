@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "math/include/position.h"
+#include "math/include/euler.h"
 #include "configuration/include/typed_entity.h"
 #include "configuration/include/properties.h"
 
@@ -27,6 +28,9 @@ class Site : public PropertiedEntity,
   /// Add to the position.
   void add_position(const Position& position) { position_.add(position); }
 
+  // Get to the position.
+  Position * get_position_() { return &position_; }
+
   /// Return the Position.
   const Position& position() const { return position_; }
 
@@ -35,7 +39,7 @@ class Site : public PropertiedEntity,
     return position_.coord(dimension); }
 
   /// Construct with a position.
-  Site(const Position position) : Site() { set_position(position); }
+  explicit Site(const Position position) : Site() { set_position(position); }
 
   /// Displace the Position of the Site.
   void displace(const Position displacement) {
@@ -63,13 +67,27 @@ class Site : public PropertiedEntity,
   /// Return the number of cells.
   int num_cells() const { return static_cast<int>(cells_.size()); }
 
+  /// Set if anisotropic (default: false).
+  void set_anisotropic(const bool aniso = false);
+
+  /// Set the Euler angles (and sets the site anisotropic).
+  void set_euler(const Euler& euler);
+
+  /// Return the Euler angles.
+  const Euler& euler() const { return euler_; }
+
+  /// Return true if the site is anisotropic.
+  bool is_anisotropic() const;
+
   void serialize(std::ostream& ostr) const;
   explicit Site(std::istream& istr);
   virtual ~Site() {}
 
  private:
   Position position_;
+  Euler euler_;
   bool is_physical_;
+  bool is_anisotropic_ = false;
   std::vector<int> cells_;
 };
 

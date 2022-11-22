@@ -74,8 +74,10 @@ std::string str(const std::string& key, argtype * args,
 double dble(const std::string& key, argtype * args);
 
 /// Same as above, but with a default value should key not be in args.
-double dble(const std::string& key, argtype * args,
-  const double dflt);
+double dble(const std::string& key, argtype * args,  const double dflt);
+
+/// Same as above, but with a default value should key not be in args.
+float flt(const std::string& key, argtype * args, const float dflt);
 
 /// Read an argument and remove it from args, then return as double.
 int integer(const std::string& key, argtype * args);

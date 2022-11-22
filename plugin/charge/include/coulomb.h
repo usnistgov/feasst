@@ -18,7 +18,7 @@ namespace feasst {
     2. energy: kJ/mol
     3. charge: elementary
 
-  Avoid Coulomb explosion by returning a large number when \f$r\f$ is near zero.
+  Avoid singularity by returning a large, positive number when \f$r\f$ is near zero.
  */
 class Coulomb : public ModelTwoBody {
  public:
@@ -41,7 +41,7 @@ class Coulomb : public ModelTwoBody {
   virtual ~Coulomb() {}
 
  private:
-  double conversion_factor_;
+  double conversion_factor_ = 0.;
 };
 
 inline std::shared_ptr<Coulomb> MakeCoulomb() {

@@ -206,31 +206,33 @@ void Potential::precompute(Configuration * config) {
   }
 
   // ModelParam override args
-  argtype args = override_args_;
-  for (std::map<std::string, std::shared_ptr<ModelParam>>::iterator iter = ModelParam().deserialize_map().begin(); iter != ModelParam().deserialize_map().end(); ++iter) {
-    const std::string param = iter->first;
-    if (used(param, args)) {
-      const double value = dble(param, &args);
+  if (override_args_.size() != 0) {
+    argtype args = override_args_;
+    for (std::map<std::string, std::shared_ptr<ModelParam>>::iterator iter = ModelParam().deserialize_map().begin(); iter != ModelParam().deserialize_map().end(); ++iter) {
+      const std::string param = iter->first;
+      if (used(param, args)) {
+        const double value = dble(param, &args);
+        for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
+          set_model_param(param, site_type, value, *config);
+        }
+      }
       for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
-        set_model_param(param, site_type, value, *config);
-      }
-    }
-    for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
-      std::string param_arg = param + str(site_type);
-      if (used(param_arg, args)) {
-        set_model_param(param, site_type, dble(param_arg, &args), *config);
-      }
-    }
-    for (int site1 = 0; site1 < config->num_site_types(); ++site1) {
-      for (int site2 = site1; site2 < config->num_site_types(); ++site2) {
-        std::string param_arg = param + str(site1) + "_" + str(site2);
+        std::string param_arg = param + str(site_type);
         if (used(param_arg, args)) {
-          set_model_param(param, site1, site2, dble(param_arg, &args), *config);
+          set_model_param(param, site_type, dble(param_arg, &args), *config);
+        }
+      }
+      for (int site1 = 0; site1 < config->num_site_types(); ++site1) {
+        for (int site2 = site1; site2 < config->num_site_types(); ++site2) {
+          std::string param_arg = param + str(site1) + "_" + str(site2);
+          if (used(param_arg, args)) {
+            set_model_param(param, site1, site2, dble(param_arg, &args), *config);
+          }
         }
       }
     }
+    FEASST_CHECK_ALL_USED(args);
   }
-  FEASST_CHECK_ALL_USED(args);
 }
 
 void Potential::check(const Configuration& config) const {

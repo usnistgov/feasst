@@ -19,7 +19,7 @@ VisitModel::VisitModel(std::shared_ptr<VisitModelInner> inner) {
 VisitModel::VisitModel(argtype * args) {
   set_inner(VisitModelInner().factory(str("VisitModelInner", args, "VisitModelInner"), args));
   energy_cutoff_ = dble("energy_cutoff", args, -1);
-  INFO("energy_cutoff_ " << energy_cutoff_);
+  //INFO("energy_cutoff_ " << energy_cutoff_);
 }
 VisitModel::VisitModel(argtype args) : VisitModel(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -100,7 +100,6 @@ void VisitModel::compute(
           get_inner_()->compute(part1_index, site1_index, part2_index,
             site2_index, config, model_params, model, false, &relative_, &pbc_);
           if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-            INFO("here");
             set_energy(inner().energy());
             return;
           }
@@ -164,7 +163,6 @@ void VisitModel::compute(
                                     is_old_config,
                                     &relative_, &pbc_);
               if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-                INFO("here");
                 set_energy(inner().energy());
                 return;
               }
@@ -200,7 +198,6 @@ void VisitModel::compute(
                                     is_old_config,
                                     &relative_, &pbc_);
               if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-                INFO("energy_cutoff_ " << energy_cutoff_);
                 set_energy(inner().energy());
                 return;
               }
@@ -235,7 +232,6 @@ void VisitModel::compute(
                                     is_old_config,
                                     &relative_, &pbc_);
               if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-                INFO("here");
                 set_energy(inner().energy());
                 return;
               }

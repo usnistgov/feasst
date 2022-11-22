@@ -61,7 +61,8 @@ class Configuration {
       If only one particle type, the "[i]" is optional.
     - add_particles_of_type[i]: add this many of i-th type particles.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
-    - xyz_file: optionally load xyz file if not empty (default: empty).
+    - xyz_file: optionally load FileXYZ if not empty (default: empty).
+    - xyz_euler_file: optionally load FileXYZEuler if not empty (default: empty).
     - wrap: wrap particle centers within domain (default: true).
     - physical_constants: optional class_name of PhysicalConstants.
     - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
@@ -284,7 +285,16 @@ class Configuration {
   /// Requires coordinates for all sites and dimensions.
   void update_positions(const std::vector<std::vector<double> > coords);
 
+  /**
+    Load coordinates and orientations with a per-site vector containing
+    per-dimension vector.
+    Requires coordinates and orientations for all sites and dimensions.
+   */
+  void update_positions(const std::vector<std::vector<double> > coords,
+                        const std::vector<std::vector<double> > eulers);
+
   /// Update the positions and properties from a selection.
+  /// Includes euler angles.
   void update_positions(const Select& select,
     /// If true, do not wrap. If false, defer to default behavior.
     const bool no_wrap = false);

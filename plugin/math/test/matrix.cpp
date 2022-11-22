@@ -1,8 +1,8 @@
 #include <cmath>
 #include "utils/test/utils.h"
+#include "utils/include/debug.h"
 #include "math/include/matrix.h"
 #include "math/include/constants.h"
-#include "utils/include/debug.h"
 
 namespace feasst {
 
@@ -51,6 +51,21 @@ TEST(Matrix, 2d) {
   mat_inv.invert();
   EXPECT_TRUE(mat_t.is_equal(mat_inv));
   EXPECT_FALSE(mat.is_equal(mat_inv));
+}
+
+TEST(Matrix, multiply) {
+  Matrix A({{1, 2, 3}, {4, 5, 6}});
+  Matrix B({{7, 8}, {9, 10}, {11, 12}});
+  Matrix C = A.multiply(B);
+  EXPECT_EQ(C.value(0, 0), 58);
+  EXPECT_EQ(C.value(0, 1), 64);
+  EXPECT_EQ(C.value(1, 0), 139);
+  EXPECT_EQ(C.value(1, 1), 154);
+}
+
+TEST(Matrix, is_identity) {
+  Matrix mat({{1, 0, 0}, {0, 1, 0}, {0, 0, 1}});
+  EXPECT_TRUE(mat.is_identity());
 }
 
 }  // namespace feasst

@@ -32,3 +32,4 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
    morph/README
    beta_expanded/README
    prefetch/README
+   aniso/README

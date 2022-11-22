@@ -354,4 +354,13 @@ TEST(Configuration, particle_with_different_params) {
   config->model_params().check();
 }
 
+TEST(Configuration, xyz_euler_file) {
+  auto config = MakeConfiguration({
+    {"particle_type0", "../forcefield/euler.fstprt"},
+    {"xyz_euler_file", "../plugin/configuration/test/data/euler.xyze"}});
+  EXPECT_NEAR(200, config->domain().side_length(0), 1e-6);
+  EXPECT_NEAR(35.652456, config->particle(0).site(0).position().coord(0), 1e-6);
+  EXPECT_NEAR(-2.7106179, config->particle(0).site(0).euler().phi(), 1e-6);
+}
+
 }  // namespace feasst

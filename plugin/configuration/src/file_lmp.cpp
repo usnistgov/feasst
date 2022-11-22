@@ -255,10 +255,13 @@ void FileLMP::read_properties_(const std::string property_type,
       const std::string name = properties[2*index + 1 + shift];
       const double value = stod(properties[2*index + 2 + shift]);
       if (property_type == "site") {
-        Site site = particle->site(type);
+        Site * site = particle->get_site(type);
         DEBUG("adding " << name << " "  << value);
-        site.add_property(name, value);
-        particle->set_site(type, site);
+        site->add_property(name, value);
+        if (name == "anisotropic") {
+          site->set_anisotropic("true");
+        }
+        //particle->set_site(type, site);
       } else if (property_type == "bond") {
         DEBUG("adding bond coeff of type " << type << " name " << name << " value " << value);
         particle->add_bond_property(type, name, value);

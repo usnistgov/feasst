@@ -74,6 +74,26 @@ T minimum(const std::vector<std::vector<std::vector<std::vector<T> > > > &vec) {
   return *std::min_element(mins.begin(), mins.end());
 }
 
+/// Return the minimum element of a 5D vector.
+template<class T>
+T minimum(const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > &vec) {
+  std::vector<T> mins;
+  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec1 : vec) {
+    mins.push_back(minimum(vec1));
+  }
+  return *std::min_element(mins.begin(), mins.end());
+}
+
+/// Return the minimum element of a 6D vector.
+template<class T>
+T minimum(const std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > > &vec) {
+  std::vector<T> mins;
+  for (const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > >& vec1 : vec) {
+    mins.push_back(minimum(vec1));
+  }
+  return *std::min_element(mins.begin(), mins.end());
+}
+
 /// Return the maximum element of a vector.
 template<class T>
 T maximum(const std::vector<T> &vec) {
@@ -105,6 +125,26 @@ template<class T>
 T maximum(const std::vector<std::vector<std::vector<std::vector<T> > > > &vec) {
   std::vector<T> maxs;
   for (const std::vector<std::vector<std::vector<T> > >& vec1 : vec) {
+    maxs.push_back(maximum(vec1));
+  }
+  return *std::max_element(maxs.begin(), maxs.end());
+}
+
+/// Return the maximum element of a 5D vector.
+template<class T>
+T maximum(const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > &vec) {
+  std::vector<T> maxs;
+  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec1 : vec) {
+    maxs.push_back(maximum(vec1));
+  }
+  return *std::max_element(maxs.begin(), maxs.end());
+}
+
+/// Return the maximum element of a 6D vector.
+template<class T>
+T maximum(const std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > > &vec) {
+  std::vector<T> maxs;
+  for (const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > >& vec1 : vec) {
     maxs.push_back(maximum(vec1));
   }
   return *std::max_element(maxs.begin(), maxs.end());

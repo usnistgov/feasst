@@ -6,6 +6,9 @@
    EnergyMapNeighborCriteria
    EnergyMapAllCriteria
    PerturbPointReflect
+   PerturbRotateCOM
+   PerturbMoveAVB
+   PerturbAddAVB
    AnalyzeCluster
    TrialAVB2Half
    TrialTranslateCluster
@@ -23,6 +26,3 @@
    SelectCluster
    ComputeMoveCluster
    SelectParticleAVBDivalent
-   PerturbRotateCOM
-   PerturbMoveAVB
-   PerturbAddAVB

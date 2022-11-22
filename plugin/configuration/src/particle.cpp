@@ -312,4 +312,28 @@ const std::vector<std::vector<int> >& Particle::dihedral_neighbors(const int sit
   return dihedral_neighbors_[site];
 }
 
+double Particle::max_distance() const {
+  double max_dist = 0.;
+  for (const Site& site : sites_) {
+    const double dist_sq = site.position().squared_distance();
+    if (dist_sq > max_dist) {
+      max_dist = dist_sq;
+    }
+  }
+  return std::sqrt(max_dist);
+}
+
+const Site& Particle::site(const int index) const {
+  ASSERT(index < num_sites(),
+    "index: " << index << " >= num_sites: " << num_sites());
+  return sites_[index];
+}
+
+void Particle::set_site(const int index, const Site& site) {
+  ASSERT(index < num_sites(),
+    "index: " << index << " >= num_sites: " << num_sites());
+  sites_[index] = site;
+}
+
+
 }  // namespace feasst

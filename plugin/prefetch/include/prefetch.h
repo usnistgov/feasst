@@ -52,6 +52,33 @@ class Pool {
 
 /**
   Farm a trial to each processor, then reconstruct the serial Markov chain.
+
+  Although its quite a simple strategy, the trickiest part is efficiently
+  reproducing the accepted perturbation on all threads (e.g., the synchronizing
+  step) in a way that's general to all MC trials (and potential functions/
+  optimizations).
+  This can get really complicated by cell lists, neighbor lists and k-space.
+  For the synchronize step, I've used two different strategies, sometimes both
+  at the same time, which span the range of ease of implementation vs efficiency.
+
+  1. Cache every random number and energy term generated during the trial, and
+  if that trial is the accepted one, revert the others, then feed those cached
+  RNG/energies back to the other threads to reproduce the same perturbations.
+  There are some issues with FEASST here because the energy calcs are also part
+  of the neighbor/cell/kvector updates.
+  Also, this means going through each config bias step, etc, so its not the most
+  efficient synchronization possible.
+
+  2. A more efficient synchronization method is to give objects a synchronize
+  method which takes as input a reference to the base class its trying to copy
+  and the list of particles/sites that were changed in the trial.
+  For example, in Ewald, VisitModel is the base class of Ewald, and Select has
+  the list of particles/sites that were perturbed.
+  The base class also needs a data structure (SynchronizeData) that all the
+  derived classes use.
+  In the most complex cases, the data is separated between ones that are
+  automatically copied every time, or ones manually choosen based on which
+  sites were perturbed.
  */
 class Prefetch : public MonteCarlo {
  public:

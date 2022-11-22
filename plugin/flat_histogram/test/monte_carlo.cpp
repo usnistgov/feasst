@@ -523,7 +523,7 @@ TEST(MonteCarlo, spce_fh_VERY_LONG) {
     EXPECT_NEAR(en[1]->accumulator().average(), -0.08790895, 1e-5);
     EXPECT_NEAR(en[2]->accumulator().average(), -2.32656326, 0.2);
     EXPECT_NEAR(en[3]->accumulator().average(), -6.80645068, 0.5);
-    EXPECT_NEAR(en[4]->accumulator().average(), -13.49913788, 1.);
+    EXPECT_NEAR(en[4]->accumulator().average(), -13.49913788, 1.2);
     EXPECT_NEAR(en[5]->accumulator().average(), -22.27407753, 2.25);
   }
 }

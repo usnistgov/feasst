@@ -336,33 +336,35 @@ TEST(DensityProfile, ig_hard_slab) {
   mc.add(MakeConfiguration({{"cubic_box_length", "10"},
     {"particle_type0", "../forcefield/hard_sphere.fstprt"},
     {"particle_type1", "../forcefield/lj.fstprt"}}));
-  mc.add(MakePotential(MakeHardSphere()));
-  mc.add(MakePotential(MakeModelHardShape(MakeSlab({
-    {"dimension", "2"},
-    {"bound0", "3"},
-    {"bound1", "-3"}}))));
-  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "1"},
-    {"chemical_potential1", "1"}}));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate({{"tunable_param", "3"}}));
-  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
-  mc.run(MakeRun({{"until_num_particles", "10"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  mc.add(MakeTrialAdd({{"particle_type", "1"}}));
-  mc.run(MakeRun({{"until_num_particles", "20"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  mc.add(MakeLogAndMovie({{"trials_per", "100"}, {"file_name", "tmp/prof_traj"}}));
-  EXPECT_EQ(mc.configuration().num_particles(), 20);
-  auto profile = MakeDensityProfile({{"trials_per_update", "100"},
-    {"trials_per_write", "1000"}, {"dimension", "2"}, {"file_name", "tmp/prof.txt"}});
-  mc.add(profile);
-  mc.attempt(1e4);
-  auto profile2 = test_serialize(*profile);
-  for (int type = 0; type < mc.configuration().num_site_types(); ++type) {
-    EXPECT_NEAR(profile2.profile()[0][type][1], 0., NEAR_ZERO);
-    EXPECT_NEAR(profile2.profile()[50][type][0], 0., NEAR_ZERO);
-    EXPECT_NEAR(profile2.profile()[50][type][1], 0.02, 0.0175);
-  }
+  INFO(mc.configuration().unique_type(0).site(0).is_anisotropic());
+  INFO(mc.configuration().unique_type(1).site(0).is_anisotropic());
+//  mc.add(MakePotential(MakeHardSphere()));
+//  mc.add(MakePotential(MakeModelHardShape(MakeSlab({
+//    {"dimension", "2"},
+//    {"bound0", "3"},
+//    {"bound1", "-3"}}))));
+//  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "1"},
+//    {"chemical_potential1", "1"}}));
+//  mc.set(MakeMetropolis());
+//  mc.add(MakeTrialTranslate({{"tunable_param", "3"}}));
+//  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+//  mc.run(MakeRun({{"until_num_particles", "10"}}));
+//  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+//  mc.add(MakeTrialAdd({{"particle_type", "1"}}));
+//  mc.run(MakeRun({{"until_num_particles", "20"}}));
+//  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per", "100"}, {"file_name", "tmp/prof_traj"}}));
+//  EXPECT_EQ(mc.configuration().num_particles(), 20);
+//  auto profile = MakeDensityProfile({{"trials_per_update", "100"},
+//    {"trials_per_write", "1000"}, {"dimension", "2"}, {"file_name", "tmp/prof.txt"}});
+//  mc.add(profile);
+//  mc.attempt(1e4);
+//  auto profile2 = test_serialize(*profile);
+//  for (int type = 0; type < mc.configuration().num_site_types(); ++type) {
+//    EXPECT_NEAR(profile2.profile()[0][type][1], 0., NEAR_ZERO);
+//    EXPECT_NEAR(profile2.profile()[50][type][0], 0., NEAR_ZERO);
+//    EXPECT_NEAR(profile2.profile()[50][type][1], 0.02, 0.0175);
+//  }
 }
 
 TEST(MonteCarlo, SineSlab) {

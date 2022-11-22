@@ -1,4 +1,5 @@
 #include <sstream>
+#include "utils/include/io.h"
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "configuration/include/domain.h"
@@ -12,7 +13,7 @@ namespace feasst {
 
 VisitModelCell::VisitModelCell(argtype * args) : VisitModel(args) {
   class_name_ = "VisitModelCell";
-  min_length_ = dble("min_length", args);
+  min_length_ = str("min_length", args);
   if (used("cell_group_index", *args)) {
     group_index_ = integer("cell_group_index", args);
     ASSERT(!used("cell_group", *args),
@@ -64,16 +65,24 @@ void VisitModelCell::precompute(Configuration * config) {
   if (!group_.empty()) {
     group_index_ = config->group_index(group_);
   }
+  double min_length = -1;
+  if (min_length_ == "max_sigma") {
+    min_length = config->model_params().select("sigma").mixed_max();
+  } else if (min_length_ == "max_cutoff") {
+    min_length = config->model_params().select("cutoff").mixed_max();
+  } else {
+    min_length = str_to_double(min_length_);
+  }
   if (cells_.type() == -1) {
     Cells cells;
-    cells.create(min_length_, config->domain().side_lengths().coord());
+    cells.create(min_length, config->domain().side_lengths().coord());
     cells.set_type(config->num_cell_lists());
     config->increment_num_cell_lists();
     cells.set_group(group_index_);
     if (cells.num_total() > 0) {
       cells_ = cells;
     } else {
-      FATAL("Requested cell list rejected: min_length:" << min_length_ <<
+      FATAL("Requested cell list rejected: min_length:" << min_length <<
             " did not meet requirements.");
     }
     opt_origin_.set_to_origin(config->dimension());

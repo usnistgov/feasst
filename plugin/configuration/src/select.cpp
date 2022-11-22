@@ -455,4 +455,23 @@ Select::Select(std::istream& sstr) {
   feasst_deserialize_endcap("Select", sstr);
 }
 
+void Select::set_euler(const int particle_index, const int site_index,
+    const Euler& euler) {
+  if (static_cast<int>(site_eulers_.size()) <= particle_index) {
+    site_eulers_.resize(particle_index + 1);
+  }
+  if (static_cast<int>(site_eulers_[particle_index].size()) <= site_index) {
+    site_eulers_[particle_index].resize(site_index + 1);
+  }
+  site_eulers_[particle_index][site_index] = euler;
+}
+
+bool Select::is_anisotropic() const {
+  if (site_eulers_.size() > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 }  // namespace feasst

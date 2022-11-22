@@ -14,9 +14,12 @@ class MapYukawa {
 
 static MapYukawa map_model_lj_alpha_ = MapYukawa();
 
-Yukawa::Yukawa() {
+Yukawa::Yukawa(argtype * args) {
   class_name_ = "Yukawa";
-  set_kappa();
+  set_kappa(dble("kappa", args, 1.));
+}
+Yukawa::Yukawa(argtype args) : Yukawa(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void Yukawa::serialize(std::ostream& ostr) const {

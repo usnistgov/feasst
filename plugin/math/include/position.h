@@ -69,6 +69,9 @@ class Position {
   /// Return the spherical coordinates (r, theta, phi).
   Position spherical() const;
 
+  /// Optimized version of the above for an existing data structure.
+  void spherical(Position * result) const;
+
   /// Get coordinate value of one dimension.
   double coord(const int dimension) const;
 

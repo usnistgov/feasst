@@ -49,11 +49,45 @@ void PerturbRotate::update_selection(const Position& pivot,
   }
 }
 
+void PerturbRotate::update_eulers(const RotationMatrix& rotation,
+    TrialSelect * select,
+    const System * system) {
+  if (select->is_isotropic(system)) {
+    return;
+  }
+  const Configuration& config = system->configuration();
+  Select * rotated = select->get_mobile();
+  for (int select_index = 0;
+       select_index < rotated->num_particles();
+       ++select_index) {
+    const int part_index = rotated->particle_index(select_index);
+    for (int select_site = 0;
+         select_site < static_cast<int>(rotated->site_indices(select_index).size());
+         ++select_site) {
+      const int site_index = rotated->site_index(select_index, select_site);
+      const Particle& part = config.select_particle(part_index);
+      const Site& site = part.site(site_index);
+      const int type = site.type();
+      if (config.unique_type(part.type()).site(type).is_anisotropic()) {
+        site.euler().compute_rotation_matrix(&rot_mat3_);
+        DEBUG("rotation " << rotation.str());
+        rotation.multiply(rot_mat3_, &rot_mat2_, &axis_tmp_, &vec1_);
+        DEBUG("rot_mat3_ " << rot_mat3_.str());
+        DEBUG("rot_mat2_ " << rot_mat2_.str());
+        euler_.set(rot_mat2_);
+        rotated->set_euler(select_index, select_site, euler_);
+        DEBUG("new Euler(" << part_index << "," << site_index << ") " << euler_.str());
+      }
+    }
+  }
+}
+
 void PerturbRotate::move(const Position& pivot,
     const RotationMatrix& rotation,
     System * system,
     TrialSelect * select) {
   update_selection(pivot, rotation, select);
+  update_eulers(rotation, select, system);
   system->get_configuration()->update_positions(select->mobile());
 }
 
@@ -72,12 +106,16 @@ void PerturbRotate::move(System * system,
     TrialSelect * select,
     Random * random,
     const Position& pivot) {
-  if (is_rotation_not_needed_(select, pivot)) return;
+  if (is_rotation_not_needed_(select, pivot)) {
+    if (select->is_isotropic(system)) {
+      return;
+    }
+  }
   const double tune = tunable().value();
   ASSERT(std::abs(tune) > NEAR_ZERO, "max angle is too small");
   const Position& piv_sel = piv_sel_(pivot, select);
-  random->rotation(piv_sel.dimension(), &axis_tmp_, &rot_mat_tmp_, tune);
-  move(piv_sel, rot_mat_tmp_, system, select);
+  random->rotation(piv_sel.dimension(), &axis_tmp_, &rot_mat1_, tune);
+  move(piv_sel, rot_mat1_, system, select);
 }
 
 PerturbRotate::PerturbRotate(std::istream& istr)

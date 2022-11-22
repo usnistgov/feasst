@@ -30,6 +30,11 @@ class PerturbRotate : public PerturbMove {
       const RotationMatrix& rotation,
       TrialSelect * select);
 
+  /// Change the Euler angles in the selection given a rotation matrix.
+  void update_eulers(const RotationMatrix& rotation,
+      TrialSelect * select,
+      const System * system);
+
   /// Change the position of the selection given a pivot and rotation matrix.
   void move(const Position& pivot,
       const RotationMatrix& rotation,
@@ -62,8 +67,9 @@ class PerturbRotate : public PerturbMove {
   int pivot_site_;
 
   // temporary and not serialized
-  RotationMatrix rot_mat_tmp_;
-  Position axis_tmp_;
+  RotationMatrix rot_mat1_, rot_mat2_, rot_mat3_;
+  Position axis_tmp_, vec1_;
+  Euler euler_;
 
   const Position& piv_sel_(const Position& pivot, const TrialSelect * select) {
     if (pivot.dimension() == 0) {

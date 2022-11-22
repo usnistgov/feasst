@@ -112,7 +112,7 @@ class MapCutoffOuter {
   }
 };
 
-static MapCutoffOuter mapper_patch_angle_ = MapCutoffOuter();
+static MapCutoffOuter mapper_cutoff_outer_ = MapCutoffOuter();
 
 void CutoffOuter::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

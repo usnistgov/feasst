@@ -63,6 +63,18 @@ double dble(const std::string& key, argtype * args,
   }
 }
 
+float flt(const std::string& key, argtype * args,
+    const float dflt) {
+  auto pair = args->find(key);
+  if (pair != args->end()) {
+    const std::string return_str = pair->second;
+    args->erase(pair);
+    return str_to_double(return_str);
+  } else {
+    return dflt;
+  }
+}
+
 int integer(const std::string& key, argtype * args) {
   return str_to_int(str(key, args));
 }

@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "math/include/euler.h"
 #include "configuration/include/group.h"
 #include "configuration/include/particle_factory.h"
 
@@ -264,6 +265,20 @@ class Select {
   void reset_excluded_and_bond();
 
   //@}
+  /** @name Euler
+    Orientation
+   */
+  //@{
+
+  void set_euler(const int particle_index, const int site_index,
+    const Euler& euler);
+
+  bool is_anisotropic() const;
+
+  const std::vector<std::vector<Euler> >& site_eulers() const {
+    return site_eulers_; }
+
+  //@}
   /** @name Checks
     Consistency checks and tests.
    */
@@ -298,6 +313,7 @@ class Select {
   std::shared_ptr<Group> group_;
   std::vector<std::vector<Position> > site_positions_;
   std::vector<std::vector<Properties> > site_properties_;
+  std::vector<std::vector<Euler> > site_eulers_;
 
   // remove particle by selection index.
   void remove_particle_(const int select_index);

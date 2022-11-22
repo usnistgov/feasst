@@ -14,7 +14,12 @@ namespace feasst {
  */
 class Yukawa : public ModelTwoBody {
  public:
-  Yukawa();
+  /**
+    args:
+    - kappa: set the value of the kappa parameter (default: 1).
+   */
+  explicit Yukawa(argtype args = argtype());
+  explicit Yukawa(argtype * args);
 
   double energy(
       const double squared_distance,
@@ -29,7 +34,7 @@ class Yukawa : public ModelTwoBody {
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<Yukawa>(istr); }
   std::shared_ptr<Model> create(argtype * args) const override {
-    return std::make_shared<Yukawa>(); }
+    return std::make_shared<Yukawa>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit Yukawa(std::istream& istr);
   virtual ~Yukawa() {}
@@ -38,8 +43,8 @@ class Yukawa : public ModelTwoBody {
   double kappa_;
 };
 
-inline std::shared_ptr<Yukawa> MakeYukawa() {
-  return std::make_shared<Yukawa>();
+inline std::shared_ptr<Yukawa> MakeYukawa(argtype args = argtype()) {
+  return std::make_shared<Yukawa>(args);
 }
 
 }  // namespace feasst

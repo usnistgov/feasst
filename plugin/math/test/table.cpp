@@ -63,4 +63,40 @@ TEST(Table3D, interpolate) {
   EXPECT_EQ(table3->value_to_nearest_bin(0, 0.501), 1);
 }
 
+TEST(Table4D, interpolate) {
+  auto table = MakeTable4D({{"num0", "2"}, {"num1", "2"}, {"num2", "2"},
+    {"num3", "2"}, {"default_value", "0."}});
+  EXPECT_NEAR(table->linear_interpolation(0.5, 0.5, 0.5, 0.5), 0, NEAR_ZERO);
+  table->set_data(0, 0, 0, 0, 1.);
+  auto table2 = std::make_shared<Table4D>(test_serialize(*table));
+  EXPECT_NEAR(table2->linear_interpolation(0.5, 0.5, 0.5, 0.5), 1./std::pow(2, 4), NEAR_ZERO);
+  EXPECT_EQ(table2->bin_to_value(0, 1), 1);
+  EXPECT_EQ(table2->value_to_nearest_bin(0, 0.45), 0);
+  EXPECT_EQ(table2->value_to_nearest_bin(0, 0.501), 1);
+}
+
+TEST(Table5D, interpolate) {
+  auto table = MakeTable5D({{"num0", "2"}, {"num1", "2"}, {"num2", "2"},
+    {"num3", "2"}, {"num4", "2"}, {"default_value", "0."}});
+  EXPECT_NEAR(table->linear_interpolation(0.5, 0.5, 0.5, 0.5, 0.5), 0, NEAR_ZERO);
+  table->set_data(0, 0, 0, 0, 0, 1.);
+  auto table2 = std::make_shared<Table5D>(test_serialize(*table));
+  EXPECT_NEAR(table2->linear_interpolation(0.5, 0.5, 0.5, 0.5, 0.5), 1./std::pow(2, 5), NEAR_ZERO);
+  EXPECT_EQ(table2->bin_to_value(0, 1), 1);
+  EXPECT_EQ(table2->value_to_nearest_bin(0, 0.45), 0);
+  EXPECT_EQ(table2->value_to_nearest_bin(0, 0.501), 1);
+}
+
+TEST(Table6D, interpolate) {
+  auto table = MakeTable6D({{"num0", "2"}, {"num1", "2"}, {"num2", "2"},
+    {"num3", "2"}, {"num4", "2"}, {"num5", "2"}, {"default_value", "0."}});
+  EXPECT_NEAR(table->linear_interpolation(0.5, 0.5, 0.5, 0.5, 0.5, 0.5), 0, NEAR_ZERO);
+  table->set_data(0, 0, 0, 0, 0, 0, 1.);
+  auto table2 = std::make_shared<Table6D>(test_serialize(*table));
+  EXPECT_NEAR(table2->linear_interpolation(0.5, 0.5, 0.5, 0.5, 0.5, 0.5), 1./std::pow(2, 6), NEAR_ZERO);
+  EXPECT_EQ(table2->bin_to_value(0, 1), 1);
+  EXPECT_EQ(table2->value_to_nearest_bin(0, 0.45), 0);
+  EXPECT_EQ(table2->value_to_nearest_bin(0, 0.501), 1);
+}
+
 }  // namespace feasst

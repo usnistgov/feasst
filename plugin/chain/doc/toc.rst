@@ -4,6 +4,13 @@
    SelectSiteOfType
    SelectPerturbed
    SelectParticlePivot
+   PerturbReptate
+   PerturbBranch
+   PerturbPivot
+   PerturbCrankshaftSmall
+   PerturbParticlePivot
+   PerturbCrankshaft
+   PerturbSiteType
    AnalyzeBonds
    EndToEndDistance
    RadiusOfGyration
@@ -16,14 +23,7 @@
    TrialCrankshaft
    SelectBranch
    SelectCrankshaftSmall
+   TrialGrowLinear
    SelectSegment
    SelectEndSegment
    SelectReptate
-   PerturbReptate
-   PerturbBranch
-   PerturbPivot
-   PerturbCrankshaftSmall
-   PerturbParticlePivot
-   PerturbCrankshaft
-   PerturbSiteType
-   TrialGrowLinear

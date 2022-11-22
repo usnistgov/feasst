@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include "math/include/constants.h"
 #include "math/include/position.h"
 
 namespace feasst {
@@ -20,7 +21,7 @@ class Matrix {
   void set_size(const int num_rows, const int num_columns);
 
   /// Alternatively, construct with 2d vector data.
-  Matrix(std::vector<std::vector<double> > matrix) { matrix_ = matrix; }
+  explicit Matrix(std::vector<std::vector<double> > matrix) { matrix_ = matrix; }
 
   /// Return the number of rows.
   int num_rows() const { return static_cast<int>(matrix_.size()); }
@@ -44,6 +45,9 @@ class Matrix {
   /// Switch the rows and columns.
   void transpose();
 
+  /// Optimized version of above with pre-sized temporary.
+  void transpose(Matrix * tmp);
+
   /// Multiply all elements by a constant.
   void multiply(const double constant);
 
@@ -57,6 +61,14 @@ class Matrix {
   /// Same as above, but optimized to avoid construction of Position.
   void multiply(const Position& vec, Position * result) const;
 
+  /// Multiply self with another matrix, m2 (e.g., self*m2).
+  Matrix multiply(const Matrix& matrix) const;
+
+  /// Multiply self with another matrix, m2 (e.g., self*m2).
+  /// This is the optimized verison.
+  void multiply(const Matrix& matrix, Matrix * result,
+    Position* tmp1, Position* tmp2) const;
+
   /// Return true if all elements are equal to the given matrix.
   bool is_equal(const Matrix& matrix) const;
 
@@ -68,6 +80,9 @@ class Matrix {
 
   /// Invert the matrix (only implemented for 2x2 and 3x3 matrices).
   void invert();
+
+  /// Return true if identity matrix.
+  bool is_identity(const double tolerance = NEAR_ZERO) const;
 
   virtual ~Matrix() {}
 

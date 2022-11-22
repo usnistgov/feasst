@@ -262,6 +262,7 @@ with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:
 #    if 'morph' in include_plugin: select_classes.append("")
 #    if 'opt_lj' in include_plugin: select_classes.append("")
   if 'patch' in include_plugin: select_classes.append("VisitModelInnerPatch")
+  if 'aniso' in include_plugin: select_classes.append("VisitModelInnerTable")
   #if 'prefetch' in include_plugin: select_classes.append("")
   #if '' in include_plugin: select_classes.append("")
   #if '' in include_plugin: select_classes.append("")

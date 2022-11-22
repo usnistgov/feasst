@@ -5,6 +5,7 @@
    ChargeScreenedIntra
    Coulomb
    ChargeScreened
+   DebyeHuckel
    ElectricField
    ChargeSelf
    Ewald

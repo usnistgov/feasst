@@ -16,6 +16,7 @@
    quadratic_equation
    FormulaExponential
    Matrix
+   Euler
    RandomMT19937
    Solver
    SolverNewtonRaphson

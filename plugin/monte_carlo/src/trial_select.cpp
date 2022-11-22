@@ -183,4 +183,34 @@ void TrialSelect::add_exclude_energy(const double energy) {
   exclude_energy_ = energy;
 }
 
+bool TrialSelect::is_isotropic(const System * system) const {
+  const Configuration& config = system->configuration();
+  if (config.model_params().index("anisotropic") == -1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+void TrialSelect::set_mobile_original(const System * system) {
+  mobile_original_ = mobile_;
+  if (!is_isotropic(system)) {
+    const Configuration& config = system->configuration();
+    for (int select_index = 0;
+         select_index < mobile_original_.num_particles();
+         ++select_index) {
+      const int part_index = mobile_original_.particle_index(select_index);
+      for (int select_site = 0;
+           select_site < static_cast<int>(mobile_original_.site_indices(select_index).size());
+           ++select_site) {
+        const int site_index = mobile_original_.site_index(select_index, select_site);
+        const Particle& part = config.select_particle(part_index);
+        const Site& site = part.site(site_index);
+        mobile_original_.set_euler(select_index, select_site, site.euler());
+        DEBUG("original Euler(" << part_index << "," << site_index << ") " << site.euler().str());
+      }
+    }
+  }
+}
+
 }  // namespace feasst

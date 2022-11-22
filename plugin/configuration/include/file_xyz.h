@@ -37,12 +37,15 @@ class FileVMD {
 // Utility class to print XYZ files from selection.
 class PrinterXYZ : public LoopConfigOneBody {
  public:
-  PrinterXYZ(std::shared_ptr<std::ofstream> file, const int num_places = 8);
+  PrinterXYZ(std::shared_ptr<std::ofstream> file,
+             const bool euler,
+             const int num_places = 8);
   void work(const Site& site,
     const Configuration& config,
     const LoopDescriptor& data) override;
  private:
   int num_places_;
+  bool euler_;
   std::shared_ptr<std::ofstream> file_;
 };
 
@@ -70,6 +73,7 @@ class FileXYZ {
     - group: name of group defined within system (default: "").
     - append: append file output if set to true.
       Do not append if false (default: "false").
+    - euler: if true, print Euler angles (default: "false").
    */
   explicit FileXYZ(argtype args = argtype());
   explicit FileXYZ(argtype * args);
@@ -99,7 +103,7 @@ class FileXYZ {
  private:
   int group_index_;
   std::string group_;
-  bool append_;
+  bool append_, euler_;
 };
 
 inline std::shared_ptr<FileXYZ> MakeFileXYZ(argtype args = argtype()) {

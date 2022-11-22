@@ -101,7 +101,8 @@ class MacrostateDistribution:
             lnpi = self.ln_prob()
         elif len(args) == 1:
             lnpi = args[0]
-            lnpi -= np.log(sum(np.exp(args[0])))
+            mx = np.max(lnpi) # avoid exp overflow by shifting mx
+            lnpi -= np.log(sum(np.exp(args[0] - mx))) + mx
         else:
             assert False # unrecognized number of arguments.
         return lnpi
@@ -368,7 +369,7 @@ def splice_files(prefix, suffix, ln_prob_header=None, extra_overlap=0):
     0.84318346
     """
     lnpis = list()
-    for filename in sorted(Path('.').rglob(prefix+'*'+suffix)):
+    for filename in sorted(Path('.').glob(prefix+'*'+suffix)):
         if ln_prob_header is None:
             lnpis.append(MacrostateDistribution(file_name=filename))
         else:
@@ -413,13 +414,13 @@ def splice_collection_matrix(prefix, suffix, use_soft=False):
     -12.27534328
     """
     lnpis = list()
-    for filename in sorted(Path('.').rglob(prefix+'*'+suffix)):
+    for filename in sorted(Path('.').glob(prefix+'*'+suffix)):
         frame = pd.read_csv(filename, comment="#")
         if use_soft:
-            file1 = open(filename, 'r')
-            lines = file1.readlines()
-            exec('iprm={' + lines[0][1:] + '}', globals())
-            frame = frame[iprm['soft_min']:iprm['soft_max']+1]
+            with open(filename, 'r') as file1:
+                lines = file1.readlines()
+                exec('iprm={' + lines[0][1:] + '}', globals())
+                frame = frame[iprm['soft_min']:iprm['soft_max']+1]
         lnpis.append(frame)
     lnp = MacrostateDistribution(file_name=None)
     df = pd.concat(lnpis)

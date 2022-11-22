@@ -293,23 +293,28 @@ void Position::reflect(const Position& reflection_point) {
 }
 
 Position Position::spherical() const {
+  Position sph = *this;
+  spherical(&sph);
+  return sph;
+}
+
+void Position::spherical(Position * result) const {
   ASSERT(dimension() == 2 || dimension() == 3,
     "unrecognized dimension: " << dimension());
-  Position spherical = *this;
-  spherical.set_coord(0, distance());
-  if (coord(0) > NEAR_ZERO) {
-    spherical.set_coord(1, std::atan(coord(1)/coord(0)));
+  const double r = distance();
+  result->set_coord(0, r);
+  if (r > NEAR_ZERO) {
+    result->set_coord(1, std::atan2(coord(1), coord(0)));
   } else {
-    spherical.set_coord(1, 0.);
+    result->set_coord(1, 0.);
   }
   if (dimension() == 3) {
-    if (spherical.coord(0) > NEAR_ZERO) {
-      spherical.set_coord(2, std::acos(coord(2)/spherical.coord(0)));
+    if (r > NEAR_ZERO) {
+      result->set_coord(2, std::acos(coord(2)/r));
     } else {
-      spherical.set_coord(2, 0.);
+      result->set_coord(2, 0.);
     }
   }
-  return spherical;
 }
 
 double Position::vertex_angle_radians(const Position& ri, const Position& rk) const {

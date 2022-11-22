@@ -170,7 +170,7 @@ class Table2D : public Table {
 inline std::shared_ptr<Table2D> MakeTable2D(argtype args = argtype()) {
   return std::make_shared<Table2D>(args); }
 
-typedef std::vector<std::vector<std::vector<double> > > vec3;
+typedef std::vector<vec2> vec3;
 
 /**
   This is a three-dimensional implementation of a table.
@@ -258,6 +258,308 @@ inline std::shared_ptr<Table3D> MakeTable3D(argtype args = argtype()) {
 
 inline std::shared_ptr<Table3D> MakeTable3D(const std::string file_name) {
   return std::make_shared<Table3D>(file_name);
+}
+
+typedef std::vector<vec3> vec4;
+
+/**
+  This is a four-dimensional implementation of a table.
+ */
+class Table4D : public Table {
+ public:
+  /**
+    args:
+    - num0: number of values in first dimension (default: 1).
+    - num1: number of values in second dimension (default: 1).
+    - num2: number of values in third dimension (default: 1).
+    - num3: number of values in fourth dimension (default: 1).
+    - default_value: initialize data to this constant (default: 0).
+   */
+  explicit Table4D(argtype args = argtype());
+  explicit Table4D(argtype * args);
+
+  /// Return the number of values in the first dimension
+  int num0() const { return static_cast<int>(data_.size()); }
+
+  /// Return the number of values in the second dimension
+  int num1() const { return static_cast<int>(data_[0].size()); }
+
+  /// Return the number of values in the third dimension
+  int num2() const { return static_cast<int>(data_[0][0].size()); }
+
+  /// Return the number of values in the fourth dimension
+  int num3() const { return static_cast<int>(data_[0][0][0].size()); }
+
+  /// Return the number of values in a given dimension.
+  int num(const int dim) const;
+
+  /// For a given dimension, return the value of a bin.
+  double bin_to_value(const int dim, const int bin) const {
+    return bin_spacing_[dim]*bin; }
+
+  /// The inverse of above.
+  int value_to_nearest_bin(const int dim, const double value) const;
+
+  /// Set data.
+  void set_data(const int dim0, const int dim1, const int dim2, const int dim3,
+    const double value) { data_[dim0][dim1][dim2][dim3] = value; }
+
+  /// Return the data.
+  const vec4& data() const { return data_; }
+
+  /// Add the values of the given table.
+  void add(const Table4D& table);
+
+  /// Return linear interpolation of data given normalized values for each
+  /// dimension that range from 0 to 1, inclusive.
+  double linear_interpolation(const double value0,
+    const double value1,
+    const double value2,
+    const double value3) const;
+
+  double minimum() const override;
+  double maximum() const override;
+
+  /// Write to file.
+  void write(const std::string file_name) const override;
+
+  /// Read from file.
+  explicit Table4D(const std::string file_name);
+
+  void serialize(std::ostream& ostr) const;
+  explicit Table4D(std::istream& istr);
+
+  // HWH python interface cannot handle stringstreams with serialization.
+  std::string serialize() const {
+    std::stringstream ss;
+    serialize(ss);
+    return ss.str();
+  }
+  Table4D deserialize(const std::string str) {
+    std::stringstream ss(str);
+    return Table4D(ss);
+  }
+
+  virtual ~Table4D() {}
+
+ private:
+  vec4 data_;
+  std::vector<double> bin_spacing_;
+  void calc_d_();
+};
+
+inline std::shared_ptr<Table4D> MakeTable4D(argtype args = argtype()) {
+  return std::make_shared<Table4D>(args); }
+
+inline std::shared_ptr<Table4D> MakeTable4D(const std::string file_name) {
+  return std::make_shared<Table4D>(file_name);
+}
+
+typedef std::vector<std::vector<std::vector<std::vector<std::vector<float> > > > > fvec5;
+
+/**
+  This is a five-dimensional implementation of a table.
+ */
+class Table5D : public Table {
+ public:
+  /**
+    args:
+    - num0: number of values in first dimension (default: 1).
+    - num1: number of values in second dimension (default: 1).
+    - num2: number of values in third dimension (default: 1).
+    - num3: number of values in fourth dimension (default: 1).
+    - num4: number of values in fourth dimension (default: 1).
+    - default_value: initialize data to this constant (default: 0).
+   */
+  explicit Table5D(argtype args = argtype());
+  explicit Table5D(argtype * args);
+
+  /// Return the number of values in the first dimension
+  int num0() const { return static_cast<int>(data_.size()); }
+
+  /// Return the number of values in the second dimension
+  int num1() const { return static_cast<int>(data_[0].size()); }
+
+  /// Return the number of values in the third dimension
+  int num2() const { return static_cast<int>(data_[0][0].size()); }
+
+  /// Return the number of values in the fourth dimension
+  int num3() const { return static_cast<int>(data_[0][0][0].size()); }
+
+  /// Return the number of values in the fourth dimension
+  int num4() const { return static_cast<int>(data_[0][0][0][0].size()); }
+
+  /// Return the number of values in a given dimension.
+  int num(const int dim) const;
+
+  /// For a given dimension, return the value of a bin.
+  double bin_to_value(const int dim, const int bin) const {
+    return bin_spacing_[dim]*bin; }
+
+  /// The inverse of above.
+  int value_to_nearest_bin(const int dim, const double value) const;
+
+  /// Set data.
+  void set_data(const int dim0, const int dim1, const int dim2, const int dim3,
+      const int dim4, const double value) {
+    data_[dim0][dim1][dim2][dim3][dim4] = value; }
+
+  /// Return the data.
+  const fvec5& data() const { return data_; }
+
+  /// Add the values of the given table.
+  void add(const Table5D& table);
+
+  /// Return linear interpolation of data given normalized values for each
+  /// dimension that range from 0 to 1, inclusive.
+  double linear_interpolation(const double value0,
+    const double value1,
+    const double value2,
+    const double value3,
+    const double value4) const;
+
+  double minimum() const override;
+  double maximum() const override;
+
+  /// Write to file.
+  void write(const std::string file_name) const override;
+
+  /// Read from file.
+  explicit Table5D(const std::string file_name);
+
+  void serialize(std::ostream& ostr) const;
+  explicit Table5D(std::istream& istr);
+
+  // HWH python interface cannot handle stringstreams with serialization.
+  std::string serialize() const {
+    std::stringstream ss;
+    serialize(ss);
+    return ss.str();
+  }
+  Table5D deserialize(const std::string str) {
+    std::stringstream ss(str);
+    return Table5D(ss);
+  }
+
+  virtual ~Table5D() {}
+
+ private:
+  fvec5 data_;
+  std::vector<double> bin_spacing_;
+  void calc_d_();
+};
+
+inline std::shared_ptr<Table5D> MakeTable5D(argtype args = argtype()) {
+  return std::make_shared<Table5D>(args); }
+
+inline std::shared_ptr<Table5D> MakeTable5D(const std::string file_name) {
+  return std::make_shared<Table5D>(file_name);
+}
+
+typedef std::vector<fvec5> fvec6;
+
+/**
+  This is a six-dimensional implementation of a table.
+ */
+class Table6D : public Table {
+ public:
+  /**
+    args:
+    - num0: number of values in first dimension (default: 1).
+    - num1: number of values in second dimension (default: 1).
+    - num2: number of values in third dimension (default: 1).
+    - num3: number of values in fourth dimension (default: 1).
+    - num4: number of values in fourth dimension (default: 1).
+    - num5: number of values in fourth dimension (default: 1).
+    - default_value: initialize data to this constant (default: 0).
+   */
+  explicit Table6D(argtype args = argtype());
+  explicit Table6D(argtype * args);
+
+  /// Return the number of values in the first dimension
+  int num0() const { return static_cast<int>(data_.size()); }
+
+  /// Return the number of values in the second dimension
+  int num1() const { return static_cast<int>(data_[0].size()); }
+
+  /// Return the number of values in the third dimension
+  int num2() const { return static_cast<int>(data_[0][0].size()); }
+
+  /// Return the number of values in the fourth dimension
+  int num3() const { return static_cast<int>(data_[0][0][0].size()); }
+
+  /// Return the number of values in the fourth dimension
+  int num4() const { return static_cast<int>(data_[0][0][0][0].size()); }
+
+  /// Return the number of values in the fourth dimension
+  int num5() const { return static_cast<int>(data_[0][0][0][0][0].size()); }
+
+  /// Return the number of values in a given dimension.
+  int num(const int dim) const;
+
+  /// For a given dimension, return the value of a bin.
+  double bin_to_value(const int dim, const int bin) const {
+    return bin_spacing_[dim]*bin; }
+
+  /// The inverse of above.
+  int value_to_nearest_bin(const int dim, const double value) const;
+
+  /// Set data.
+  void set_data(const int dim0, const int dim1, const int dim2, const int dim3,
+      const int dim4, const int dim5, const double value) {
+    data_[dim0][dim1][dim2][dim3][dim4][dim5] = value; }
+
+  /// Return the data.
+  const fvec6& data() const { return data_; }
+
+  /// Add the values of the given table.
+  void add(const Table6D& table);
+
+  /// Return linear interpolation of data given normalized values for each
+  /// dimension that range from 0 to 1, inclusive.
+  double linear_interpolation(const double value0,
+    const double value1,
+    const double value2,
+    const double value3,
+    const double value4,
+    const double value5) const;
+
+  double minimum() const override;
+  double maximum() const override;
+
+  /// Write to file.
+  void write(const std::string file_name) const override;
+
+  /// Read from file.
+  explicit Table6D(const std::string file_name);
+
+  void serialize(std::ostream& ostr) const;
+  explicit Table6D(std::istream& istr);
+
+  // HWH python interface cannot handle stringstreams with serialization.
+  std::string serialize() const {
+    std::stringstream ss;
+    serialize(ss);
+    return ss.str();
+  }
+  Table6D deserialize(const std::string str) {
+    std::stringstream ss(str);
+    return Table6D(ss);
+  }
+
+  virtual ~Table6D() {}
+
+ private:
+  fvec6 data_;
+  std::vector<double> bin_spacing_;
+  void calc_d_();
+};
+
+inline std::shared_ptr<Table6D> MakeTable6D(argtype args = argtype()) {
+  return std::make_shared<Table6D>(args); }
+
+inline std::shared_ptr<Table6D> MakeTable6D(const std::string file_name) {
+  return std::make_shared<Table6D>(file_name);
 }
 
 }  // namespace feasst

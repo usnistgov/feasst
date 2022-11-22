@@ -38,10 +38,10 @@ class Particle : public PropertiedEntity,
   void add(Site site) { sites_.push_back(site); }
 
   /// Return a site for a given index.
-  const Site& site(const int index) const { return sites_[index]; }
+  const Site& site(const int index) const;
 
   /// Set the site of a given index.
-  void set_site(const int index, const Site& site) { sites_[index] = site; }
+  void set_site(const int index, const Site& site);
 
   /// Return the sites.
   const std::vector<Site>& sites() const { return sites_; }
@@ -260,6 +260,15 @@ class Particle : public PropertiedEntity,
 //    impropers_[index] = improper; }
 
 //  ~Particle() { check(); }
+
+  //@}
+  /** @name Other
+    Other utility functions for particles
+   */
+  //@{
+
+  /// Return the maximum distance of a site from the origin.
+  double max_distance() const;
 
   // This interface is for optimization and not for typical use
   Site * get_site(const int index) { return &sites_[index]; }

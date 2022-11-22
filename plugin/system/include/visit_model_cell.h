@@ -16,7 +16,10 @@ class VisitModelCell : public VisitModel {
  public:
   /**
     args:
-    - min_length: build cell list with given minimum distance between cells.
+    - min_length: build cell list with given minimum distance between cells
+      as a floating point number.
+      If "max_sigma" then use the largest mixed sigma value.
+      If "max_cutoff" then use the largest mixed cutoff value.
     - cell_group_index: compute cells only in given group index (default: 0).
     - cell_group: as above, but use the name of the group, not the index.
       Do not use at the same time as cell_group_index (default: "").
@@ -67,7 +70,7 @@ class VisitModelCell : public VisitModel {
 
  private:
   Cells cells_;
-  double min_length_;
+  std::string min_length_;
   int group_index_;
   std::string group_;
   Position opt_origin_, opt_rel_, opt_pbc_;

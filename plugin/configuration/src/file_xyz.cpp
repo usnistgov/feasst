@@ -56,6 +56,7 @@ FileXYZ::FileXYZ(argtype * args) {
     }
   }
   append_ = boolean("append", args, false);
+  euler_ = boolean("euler", args, false);
 }
 FileXYZ::FileXYZ(argtype args) : FileXYZ(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -93,8 +94,9 @@ void FileXYZ::load(const std::string file_name, Configuration * config) const {
   }
 
   /// read the coordinates into a 2d vector
-  std::vector<std::vector<double> > coords;
+  std::vector<std::vector<double> > coords, eulers;
   coords.resize(num_sites, std::vector<double>(config->dimension()));
+  eulers.resize(num_sites, std::vector<double>(config->dimension()));
   for (int i = 0; i < num_sites; ++i) {
     std::getline(xyz_file, line);
     std::istringstream iss(line);
@@ -104,13 +106,25 @@ void FileXYZ::load(const std::string file_name, Configuration * config) const {
       iss >> coords[i][dim];
     }
     DEBUG("coord " << coords[i][0]);
+    if (euler_) {
+      ASSERT(config->dimension() == 3, "Euler must have 3 dimensions.");
+      for (int dim = 0; dim < config->dimension(); ++dim) {
+        iss >> eulers[i][dim];
+      }
+      DEBUG("euler " << eulers[i][0]);
+    }
   }
-  config->update_positions(coords);
+  if (euler_) {
+    config->update_positions(coords, eulers);
+  } else {
+    config->update_positions(coords);
+  }
 }
 
-PrinterXYZ::PrinterXYZ(std::shared_ptr<std::ofstream> file,
+PrinterXYZ::PrinterXYZ(std::shared_ptr<std::ofstream> file, const bool euler,
     const int num_places) : file_(file) {
   num_places_ = num_places;
+  euler_ = euler;
 }
 
 void PrinterXYZ::work(const Site& site,
@@ -123,6 +137,12 @@ void PrinterXYZ::work(const Site& site,
   }
   for (int dim = config.dimension(); dim < 3; ++dim) {
     (*file_.get()) << "0 ";
+  }
+  if (euler_) {
+    const Euler& euler = site.euler();
+    (*file_.get()) << euler.phi() << " "
+                   << euler.theta() << " "
+                   << euler.psi();
   }
   (*file_.get()) << std::endl;
 }
@@ -151,7 +171,7 @@ void FileXYZ::write(const std::string file_name,
     << domain.xz() << " "
     << domain.yz() << " "
     << std::endl;
-  PrinterXYZ printer(file);
+  PrinterXYZ printer(file, euler_);
   VisitConfiguration().loop(config, &printer, gindex);
 }
 
@@ -168,6 +188,7 @@ void FileXYZ::serialize(std::ostream& ostr) const {
   feasst_serialize(group_index_, ostr);
   feasst_serialize(group_, ostr);
   feasst_serialize(append_, ostr);
+  feasst_serialize(euler_, ostr);
 }
 
 FileXYZ::FileXYZ(std::istream& istr) {
@@ -176,6 +197,7 @@ FileXYZ::FileXYZ(std::istream& istr) {
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize(&group_, istr);
   feasst_deserialize(&append_, istr);
+  feasst_deserialize(&euler_, istr);
 }
 
 }  // namespace feasst
