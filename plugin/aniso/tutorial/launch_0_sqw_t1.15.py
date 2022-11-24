@@ -70,7 +70,7 @@ Checkpoint file_name sqw_checkpoint.fst num_hours {hours_per_checkpoint} num_hou
 # begin description of each MC clone
 RandomMT19937 seed {seed}
 Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} cutoff {cutoff}
-Potential Model IdealGas VisitModelInner VisitModelInnerTable table_file dat.txt
+Potential Model TwoBodyTable VisitModelInner VisitModelInnerTable table_file dat.txt
 RefPotential Model HardSphere cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut}
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis

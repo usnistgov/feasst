@@ -58,15 +58,21 @@ double Table1D::forward_difference_interpolation(const double value0) const {
   const double sds = value0/bin_spacing_;
   TRACE("sds " << sds);
   const int k = int(sds);
-  ASSERT(k + 2 < num(), "k: " << k << " beyond num: " << num());
+  ASSERT(k < num(), "k: " << k << " beyond num: " << num());
   TRACE("k " << k);
   const double xi = sds - k;
   TRACE("xi " << xi);
   const double vk = data_[k];
   TRACE("vk " << vk);
-  const double vk1 = data_[k + 1];
+  double vk1 = vk;
+  if (k + 1 < num()) {
+    vk1 = data_[k + 1];
+  }
   TRACE("vk1 " << vk1);
-  const double vk2 = data_[k + 2];
+  double vk2 = vk1;
+  if (k + 2 < num()) {
+    vk2 = data_[k + 2];
+  }
   TRACE("vk2 " << vk2);
   const double t1 = vk + (vk1 - vk) * xi;
   TRACE("t1 " << t1);

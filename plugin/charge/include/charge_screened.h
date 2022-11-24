@@ -28,7 +28,7 @@ class ChargeScreened : public ModelTwoBody {
   /**
     args:
     - hard_sphere_threshold: return NEAR_INFINITY when distance is less than
-      this threshold (default: 0.1).
+      this threshold (default: 0.2).
     - erfc_table_size: size of linearly-interpolated tabular potential
       (default: 0).
       disable table if this value is less than or equal to zero.

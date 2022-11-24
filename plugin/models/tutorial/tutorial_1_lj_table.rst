@@ -1,5 +1,5 @@
 ==================================================================
-Average energy of a bulk SPC/E fluid in the canonical ensemble
+User defined tabular potentials
 ==================================================================
 
-.. literalinclude:: launch_1_spce_nvt.py
+.. literalinclude:: launch_1_lj_table.py

@@ -84,10 +84,12 @@
 #include "system/include/rigid_dihedral.h"
 #include "system/include/bond_visitor.h"
 #include "system/include/visit_model.h"
+#include "models/include/table_potential.h"
 #include "charge/include/slab_correction.h"
 #include "system/include/model_two_body.h"
 #include "system/include/lennard_jones.h"
 #include "models/include/yukawa.h"
+#include "models/include/two_body_table.h"
 #include "models/include/square_well.h"
 #include "charge/include/charge_screened_intra.h"
 #include "charge/include/coulomb.h"
@@ -424,10 +426,12 @@ using namespace std;
 %shared_ptr(feasst::RigidDihedral);
 %shared_ptr(feasst::BondVisitor);
 %shared_ptr(feasst::VisitModel);
+%shared_ptr(feasst::TablePotential);
 %shared_ptr(feasst::SlabCorrection);
 %shared_ptr(feasst::ModelTwoBody);
 %shared_ptr(feasst::LennardJones);
 %shared_ptr(feasst::Yukawa);
+%shared_ptr(feasst::TwoBodyTable);
 %shared_ptr(feasst::SquareWell);
 %shared_ptr(feasst::ChargeScreenedIntra);
 %shared_ptr(feasst::Coulomb);
@@ -763,10 +767,12 @@ using namespace std;
 %include system/include/rigid_dihedral.h
 %include system/include/bond_visitor.h
 %include system/include/visit_model.h
+%include models/include/table_potential.h
 %include charge/include/slab_correction.h
 %include system/include/model_two_body.h
 %include system/include/lennard_jones.h
 %include models/include/yukawa.h
+%include models/include/two_body_table.h
 %include models/include/square_well.h
 %include charge/include/charge_screened_intra.h
 %include charge/include/coulomb.h

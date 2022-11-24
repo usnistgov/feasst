@@ -22,7 +22,7 @@ TEST(MonteCarlo, VisitModelInnerTable) {
     //{"Configuration", {{"cubic_box_length", "8"}, {"particle_type0", "../plugin/aniso/forcefield/aniso_tabular.fstprt"},
     //  {"add_particles_of_type0", "1"}}},
     //{"Potential", {{"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},
-    {"Potential", {{"Model", "IdealGas"}, {"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},
+    {"Potential", {{"Model", "TwoBodyTable"}, {"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},
     //{"Potential", {{"Model", "SquareWell"}, {"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},
     //{"Potential", {{"VisitModelInner", "VisitModelInnerTable"}}},
     {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential", "1."}}},

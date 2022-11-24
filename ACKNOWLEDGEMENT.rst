@@ -34,6 +34,8 @@ Publications
 
 Some publications which use FEASST include:
 
+#. https://doi.org/10.1021/acs.jpcb.2c04583
+#. https://doi.org/10.1002/aic.17686
 #. https://doi.org/10.1021/acs.jpca.0c05242
 #. https://doi.org/10.1021/acs.jpcc.0c02671
 #. https://doi.org/10.1039/C9SM01877H

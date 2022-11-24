@@ -309,7 +309,7 @@ void VisitModelInnerTable::compute(
       const double rhg = std::pow(inner, gamma);
       const double rcg = std::pow(outer, gamma);
       const double rg = std::pow(squared_distance, 0.5*gamma);
-      const double z = std::pow((rg - rcg)/(rhg - rcg), 1./gamma);
+      const double z = (rg - rcg)/(rhg - rcg);
       DEBUG("z " << z);
       ASSERT(z >= 0 && z <= 1, "z: " << z);
       en = energy_[type1][type2].linear_interpolation(s1, s2, e1, e2, e3, z);

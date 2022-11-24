@@ -19,7 +19,7 @@ static MapChargeScreened map_charge_screened_ = MapChargeScreened();
 ChargeScreened::ChargeScreened(argtype * args) {
   class_name_ = "ChargeScreened";
   erfc_table_size_ = integer("erfc_table_size", args, 0);
-  const double hs_thres = dble("hard_sphere_threshold", args, 0.1);
+  const double hs_thres = dble("hard_sphere_threshold", args, 0.2);
   hard_sphere_threshold_sq_ = hs_thres*hs_thres;
 }
 ChargeScreened::ChargeScreened(argtype args) : ChargeScreened(&args) {
@@ -65,7 +65,8 @@ double ChargeScreened::energy(
   } else if (erfc_) {
     const double mixed_max_cutoff = model_params.select(cutoff_index()).mixed_max();
     const double z = squared_distance/mixed_max_cutoff/mixed_max_cutoff;
-    const double erffac = erfc_->linear_interpolation(z);
+    const double erffac = erfc_->forward_difference_interpolation(z);
+    //const double erffac = erfc_->linear_interpolation(z);
     TRACE("erffac " << erffac);
     TRACE("U " << mixed_charge*conversion_factor_*erffac);
     return mixed_charge*conversion_factor_*erffac;
@@ -91,7 +92,7 @@ void ChargeScreened::init_erfc_(const double cutoff) {
     erfc_ = MakeTable1D({{"num", str(erfc_table_size_)}});
     for (int bin = 0; bin < erfc_->num(); ++bin) {
       const double z = erfc_->bin_to_value(bin);
-      const double x = sqrt(z)*(cutoff);
+      const double x = sqrt(z)*cutoff;
       erfc_->set_data(bin, std::erfc(alpha_*x)/x);
       if (bin == 1) {
         ASSERT(x*x < hard_sphere_threshold_sq_,

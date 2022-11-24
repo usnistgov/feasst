@@ -73,7 +73,7 @@ class VisitModelInnerTable : public VisitModelInner {
  public:
   /**
     args:
-    - table_file: table file with format described in read_table.
+    - table_file: table file with format described above.
    */
   explicit VisitModelInnerTable(argtype args = argtype());
   explicit VisitModelInnerTable(argtype * args);
