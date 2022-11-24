@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Table &mdash; FEASST v0.20.1 documentation</title>
+  <title>Table &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -124,6 +124,7 @@
 <li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Euler.html">Euler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Solver.html">Solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
@@ -153,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -282,7 +284,7 @@
 <dt id="_CPPv4N6feasst5TableE">
 <span class="target" id="classfeasst_1_1Table"></span><em class="property">class </em><code class="sig-name descname">Table</code><a class="headerlink" href="#_CPPv4N6feasst5TableE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="#classfeasst_1_1Table"><span class="std std-ref">Table</span></a> values are assumed to be equally spaced and vary from 0 to 1. </p>
-<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1Table1D"><span class="std std-ref">feasst::Table1D</span></a>, <a class="reference internal" href="#classfeasst_1_1Table2D"><span class="std std-ref">feasst::Table2D</span></a>, <a class="reference internal" href="#classfeasst_1_1Table3D"><span class="std std-ref">feasst::Table3D</span></a></p>
+<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1Table1D"><span class="std std-ref">feasst::Table1D</span></a>, <a class="reference internal" href="#classfeasst_1_1Table2D"><span class="std std-ref">feasst::Table2D</span></a>, <a class="reference internal" href="#classfeasst_1_1Table3D"><span class="std std-ref">feasst::Table3D</span></a>, <a class="reference internal" href="#classfeasst_1_1Table4D"><span class="std std-ref">feasst::Table4D</span></a>, <a class="reference internal" href="#classfeasst_1_1Table5D"><span class="std std-ref">feasst::Table5D</span></a>, <a class="reference internal" href="#classfeasst_1_1Table6D"><span class="std std-ref">feasst::Table6D</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -576,6 +578,363 @@
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst7Table3D7Table3DEKNSt6stringE">
 <span class="target" id="classfeasst_1_1Table3D_1afdf9877698cbdfae2e7e2d9f3da2ee44"></span><code class="sig-name descname">Table3D</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table3D7Table3DEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read from file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst7Table4DE">
+<span class="target" id="classfeasst_1_1Table4D"></span><em class="property">class </em><code class="sig-name descname">Table4D</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst5TableE" title="feasst::Table">Table</a><a class="headerlink" href="#_CPPv4N6feasst7Table4DE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is a four-dimensional implementation of a table. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table4D7Table4DE7argtype">
+<span class="target" id="classfeasst_1_1Table4D_1a7cff1e69e756278c7c6d9f9b460308c5"></span><code class="sig-name descname">Table4D</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table4D7Table4DE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>num0: number of values in first dimension (default: 1).</p></li>
+<li><p>num1: number of values in second dimension (default: 1).</p></li>
+<li><p>num2: number of values in third dimension (default: 1).</p></li>
+<li><p>num3: number of values in fourth dimension (default: 1).</p></li>
+<li><p>default_value: initialize data to this constant (default: 0). </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D4num0Ev">
+<span class="target" id="classfeasst_1_1Table4D_1af934dda6cab0e6fb013fde703f453c51"></span>int <code class="sig-name descname">num0</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D4num0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the first dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D4num1Ev">
+<span class="target" id="classfeasst_1_1Table4D_1aeae9374f996322bc265d78b3cdfa90eb"></span>int <code class="sig-name descname">num1</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D4num1Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the second dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D4num2Ev">
+<span class="target" id="classfeasst_1_1Table4D_1a1c1463882d28e2fa5bcadfac2c60cf37"></span>int <code class="sig-name descname">num2</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D4num2Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the third dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D4num3Ev">
+<span class="target" id="classfeasst_1_1Table4D_1a78cc403055ee6f14d92b1ab4f0553c02"></span>int <code class="sig-name descname">num3</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D4num3Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the fourth dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D3numEKi">
+<span class="target" id="classfeasst_1_1Table4D_1aef78d9b554d0d1442d25d59f7b73d276"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D3numEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in a given dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D12bin_to_valueEKiKi">
+<span class="target" id="classfeasst_1_1Table4D_1a65a5d87865549844e14ab2d393f5cb07"></span>double <code class="sig-name descname">bin_to_value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em>, <em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D12bin_to_valueEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For a given dimension, return the value of a bin. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D20value_to_nearest_binEKiKd">
+<span class="target" id="classfeasst_1_1Table4D_1ac9a307bde431d81c65eb857ea81c3594"></span>int <code class="sig-name descname">value_to_nearest_bin</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D20value_to_nearest_binEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The inverse of above. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table4D8set_dataEKiKiKiKiKd">
+<span class="target" id="classfeasst_1_1Table4D_1a0a445582684319fb30494c37898f58ea"></span>void <code class="sig-name descname">set_data</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim0</em>, <em class="property">const</em> int <em>dim1</em>, <em class="property">const</em> int <em>dim2</em>, <em class="property">const</em> int <em>dim3</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table4D8set_dataEKiKiKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D4dataEv">
+<span class="target" id="classfeasst_1_1Table4D_1aa640a28c2869f8817124e1783ea6399d"></span><em class="property">const</em> vec4 &amp;<code class="sig-name descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D4dataEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table4D3addERK7Table4D">
+<span class="target" id="classfeasst_1_1Table4D_1ae7da6c1b47de1d2ce7e032c184b2326c"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst7Table4DE" title="feasst::Table4D">Table4D</a> &amp;<em>table</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table4D3addERK7Table4D" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add the values of the given table. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D20linear_interpolationEKdKdKdKd">
+<span class="target" id="classfeasst_1_1Table4D_1afaee897f04b872ba480e42b6371f4f6b"></span>double <code class="sig-name descname">linear_interpolation</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value0</em>, <em class="property">const</em> double <em>value1</em>, <em class="property">const</em> double <em>value2</em>, <em class="property">const</em> double <em>value3</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D20linear_interpolationEKdKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return linear interpolation of data given normalized values for each dimension that range from 0 to 1, inclusive. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D7minimumEv">
+<span class="target" id="classfeasst_1_1Table4D_1aa8524b6d10b6c15fa216d7449b790968"></span>double <code class="sig-name descname">minimum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D7minimumEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the minimum of all elements. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D7maximumEv">
+<span class="target" id="classfeasst_1_1Table4D_1a58b686f87b4b0873818d55ff184db214"></span>double <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D7maximumEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum of all elements. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table4D5writeEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Table4D_1a4539aeb45c52228888beb9abcf28e033"></span>void <code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table4D5writeEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write to file. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table4D7Table4DEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Table4D_1a5a9999282fea4f7acceded3e36528f78"></span><code class="sig-name descname">Table4D</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table4D7Table4DEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read from file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst7Table5DE">
+<span class="target" id="classfeasst_1_1Table5D"></span><em class="property">class </em><code class="sig-name descname">Table5D</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst5TableE" title="feasst::Table">Table</a><a class="headerlink" href="#_CPPv4N6feasst7Table5DE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is a five-dimensional implementation of a table. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table5D7Table5DE7argtype">
+<span class="target" id="classfeasst_1_1Table5D_1aa81828a74f289adb35af34cc73cd20b2"></span><code class="sig-name descname">Table5D</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table5D7Table5DE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>num0: number of values in first dimension (default: 1).</p></li>
+<li><p>num1: number of values in second dimension (default: 1).</p></li>
+<li><p>num2: number of values in third dimension (default: 1).</p></li>
+<li><p>num3: number of values in fourth dimension (default: 1).</p></li>
+<li><p>num4: number of values in fourth dimension (default: 1).</p></li>
+<li><p>default_value: initialize data to this constant (default: 0). </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D4num0Ev">
+<span class="target" id="classfeasst_1_1Table5D_1a6a5d075473ab38f1bfbc03c5e063935b"></span>int <code class="sig-name descname">num0</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D4num0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the first dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D4num1Ev">
+<span class="target" id="classfeasst_1_1Table5D_1ac1b76ef5947a5e75483515e26697b776"></span>int <code class="sig-name descname">num1</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D4num1Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the second dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D4num2Ev">
+<span class="target" id="classfeasst_1_1Table5D_1ac2a28973efef026d476fffe7e901f625"></span>int <code class="sig-name descname">num2</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D4num2Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the third dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D4num3Ev">
+<span class="target" id="classfeasst_1_1Table5D_1aef2b928d97d56fad1c1b59c1755fe3fc"></span>int <code class="sig-name descname">num3</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D4num3Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the fourth dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D4num4Ev">
+<span class="target" id="classfeasst_1_1Table5D_1ae028efdb3a15a2711dd06dbb9c956d16"></span>int <code class="sig-name descname">num4</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D4num4Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the fourth dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D3numEKi">
+<span class="target" id="classfeasst_1_1Table5D_1a069eead8543569b443680f2ff3a52c75"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D3numEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in a given dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D12bin_to_valueEKiKi">
+<span class="target" id="classfeasst_1_1Table5D_1ae81a8fbdbdb6dde3742c94a944bf6342"></span>double <code class="sig-name descname">bin_to_value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em>, <em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D12bin_to_valueEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For a given dimension, return the value of a bin. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D20value_to_nearest_binEKiKd">
+<span class="target" id="classfeasst_1_1Table5D_1acd96979efc4f8eb147edb82d8328d44a"></span>int <code class="sig-name descname">value_to_nearest_bin</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D20value_to_nearest_binEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The inverse of above. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table5D8set_dataEKiKiKiKiKiKd">
+<span class="target" id="classfeasst_1_1Table5D_1a3c6da2a1c0ef74d8942187617e6287c7"></span>void <code class="sig-name descname">set_data</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim0</em>, <em class="property">const</em> int <em>dim1</em>, <em class="property">const</em> int <em>dim2</em>, <em class="property">const</em> int <em>dim3</em>, <em class="property">const</em> int <em>dim4</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table5D8set_dataEKiKiKiKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D4dataEv">
+<span class="target" id="classfeasst_1_1Table5D_1a54abb862baa7c6d4f5a8716151d1b883"></span><em class="property">const</em> fvec5 &amp;<code class="sig-name descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D4dataEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table5D3addERK7Table5D">
+<span class="target" id="classfeasst_1_1Table5D_1aeb8de564063ddbb11e1c96e4827839e0"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst7Table5DE" title="feasst::Table5D">Table5D</a> &amp;<em>table</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table5D3addERK7Table5D" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add the values of the given table. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D20linear_interpolationEKdKdKdKdKd">
+<span class="target" id="classfeasst_1_1Table5D_1a10de4ae7ac498706a2b8e31724e516b3"></span>double <code class="sig-name descname">linear_interpolation</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value0</em>, <em class="property">const</em> double <em>value1</em>, <em class="property">const</em> double <em>value2</em>, <em class="property">const</em> double <em>value3</em>, <em class="property">const</em> double <em>value4</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D20linear_interpolationEKdKdKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return linear interpolation of data given normalized values for each dimension that range from 0 to 1, inclusive. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D7minimumEv">
+<span class="target" id="classfeasst_1_1Table5D_1a378a7430cb25f0cb09f7781e1e4888e8"></span>double <code class="sig-name descname">minimum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D7minimumEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the minimum of all elements. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D7maximumEv">
+<span class="target" id="classfeasst_1_1Table5D_1a6fcacecc547832a34e4499aeb5183c93"></span>double <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D7maximumEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum of all elements. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table5D5writeEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Table5D_1afa9f7734b232a3dc96e5b1d7d5a5d485"></span>void <code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table5D5writeEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write to file. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table5D7Table5DEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Table5D_1a44ea553b26bf6b0c846f4948ed00921a"></span><code class="sig-name descname">Table5D</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table5D7Table5DEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read from file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt id="_CPPv4N6feasst7Table6DE">
+<span class="target" id="classfeasst_1_1Table6D"></span><em class="property">class </em><code class="sig-name descname">Table6D</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst5TableE" title="feasst::Table">Table</a><a class="headerlink" href="#_CPPv4N6feasst7Table6DE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is a six-dimensional implementation of a table. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table6D7Table6DE7argtype">
+<span class="target" id="classfeasst_1_1Table6D_1aded65a435a891eb8ca5afc6f0f32fbbe"></span><code class="sig-name descname">Table6D</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table6D7Table6DE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>num0: number of values in first dimension (default: 1).</p></li>
+<li><p>num1: number of values in second dimension (default: 1).</p></li>
+<li><p>num2: number of values in third dimension (default: 1).</p></li>
+<li><p>num3: number of values in fourth dimension (default: 1).</p></li>
+<li><p>num4: number of values in fourth dimension (default: 1).</p></li>
+<li><p>num5: number of values in fourth dimension (default: 1).</p></li>
+<li><p>default_value: initialize data to this constant (default: 0). </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D4num0Ev">
+<span class="target" id="classfeasst_1_1Table6D_1a4e0da6b9cd7e29e3226d1b0993c29842"></span>int <code class="sig-name descname">num0</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D4num0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the first dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D4num1Ev">
+<span class="target" id="classfeasst_1_1Table6D_1a130362ce222afeabef0e8eb989bad4d0"></span>int <code class="sig-name descname">num1</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D4num1Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the second dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D4num2Ev">
+<span class="target" id="classfeasst_1_1Table6D_1a245371d5ee7867b2d2b0a5e4f0a87fd0"></span>int <code class="sig-name descname">num2</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D4num2Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the third dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D4num3Ev">
+<span class="target" id="classfeasst_1_1Table6D_1af060b30e751eb7a1f051a642b1dc29dc"></span>int <code class="sig-name descname">num3</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D4num3Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the fourth dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D4num4Ev">
+<span class="target" id="classfeasst_1_1Table6D_1a7163e83101c5bf80732d22dde6d4f422"></span>int <code class="sig-name descname">num4</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D4num4Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the fourth dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D4num5Ev">
+<span class="target" id="classfeasst_1_1Table6D_1aca64dc150882ef4437011ea22ecdc29d"></span>int <code class="sig-name descname">num5</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D4num5Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in the fourth dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D3numEKi">
+<span class="target" id="classfeasst_1_1Table6D_1a95bdf46841a46713845a4a2a866f8339"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D3numEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of values in a given dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D12bin_to_valueEKiKi">
+<span class="target" id="classfeasst_1_1Table6D_1a381ef07fd2dd60ded88ecb748805151c"></span>double <code class="sig-name descname">bin_to_value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em>, <em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D12bin_to_valueEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For a given dimension, return the value of a bin. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D20value_to_nearest_binEKiKd">
+<span class="target" id="classfeasst_1_1Table6D_1a6957dc5134b922ddc3af1846464895e8"></span>int <code class="sig-name descname">value_to_nearest_bin</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D20value_to_nearest_binEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The inverse of above. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table6D8set_dataEKiKiKiKiKiKiKd">
+<span class="target" id="classfeasst_1_1Table6D_1aa07b4daaaef59a12cf913171c18f5ed0"></span>void <code class="sig-name descname">set_data</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim0</em>, <em class="property">const</em> int <em>dim1</em>, <em class="property">const</em> int <em>dim2</em>, <em class="property">const</em> int <em>dim3</em>, <em class="property">const</em> int <em>dim4</em>, <em class="property">const</em> int <em>dim5</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table6D8set_dataEKiKiKiKiKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D4dataEv">
+<span class="target" id="classfeasst_1_1Table6D_1aaa3c42b8e4394981c32b0f9ef9e3f942"></span><em class="property">const</em> fvec6 &amp;<code class="sig-name descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D4dataEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table6D3addERK7Table6D">
+<span class="target" id="classfeasst_1_1Table6D_1ab750951641e0335a4793dcf6e8a61e7c"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst7Table6DE" title="feasst::Table6D">Table6D</a> &amp;<em>table</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table6D3addERK7Table6D" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add the values of the given table. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D20linear_interpolationEKdKdKdKdKdKd">
+<span class="target" id="classfeasst_1_1Table6D_1a333be4ec4635c579902184e2c8ad3146"></span>double <code class="sig-name descname">linear_interpolation</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value0</em>, <em class="property">const</em> double <em>value1</em>, <em class="property">const</em> double <em>value2</em>, <em class="property">const</em> double <em>value3</em>, <em class="property">const</em> double <em>value4</em>, <em class="property">const</em> double <em>value5</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D20linear_interpolationEKdKdKdKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return linear interpolation of data given normalized values for each dimension that range from 0 to 1, inclusive. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D7minimumEv">
+<span class="target" id="classfeasst_1_1Table6D_1ab011323f577db526aab5ee5d98dd5288"></span>double <code class="sig-name descname">minimum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D7minimumEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the minimum of all elements. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D7maximumEv">
+<span class="target" id="classfeasst_1_1Table6D_1ac0c0dd4c8a19c27877c54e0e6f2fa25e"></span>double <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D7maximumEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum of all elements. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Table6D5writeEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Table6D_1a748e0ad17ac4ad7e12e191892da10046"></span>void <code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Table6D5writeEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write to file. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst7Table6D7Table6DEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Table6D_1ad7a4c793d14f05e52cfbabd4b17693af"></span><code class="sig-name descname">Table6D</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Table6D7Table6DEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Read from file. </p>
 </dd></dl>
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Configuration &mdash; FEASST v0.20.1 documentation</title>
+  <title>Configuration &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -114,18 +114,19 @@
 <li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -148,6 +149,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -291,7 +293,8 @@
 <li><p><a class="reference internal" href="Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> arguments may be parsed here.</p></li>
 <li><p>particle_type[i]: add the i-th type of particle. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional.</p></li>
 <li><p>add_particles_of_type[i]: add this many of i-th type particles. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
-<li><p>xyz_file: optionally load xyz file if not empty (default: empty).</p></li>
+<li><p>xyz_file: optionally load <a class="reference internal" href="FileVMD.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a> if not empty (default: empty).</p></li>
+<li><p>xyz_euler_file: optionally load FileXYZEuler if not empty (default: empty).</p></li>
 <li><p>wrap: wrap particle centers within domain (default: true).</p></li>
 <li><p>physical_constants: optional class_name of <a class="reference internal" href="PhysicalConstants.html#classfeasst_1_1PhysicalConstants"><span class="std std-ref">PhysicalConstants</span></a>.</p></li>
 <li><p>set_cutoff_min_to_sigma: if true and cutoff &lt; sigma, cutoff = sigma (default: false). This is typically used for <a class="reference internal" href="../../system/doc/HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> models that didn’t specify cutoff.</p></li>
@@ -601,16 +604,22 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEEKNSt6vectorINSt6vectorIdEEEE">
+<span class="target" id="classfeasst_1_1Configuration_1ad2e6f2eaf5272fa3acdff776b5892614"></span>void <code class="sig-name descname">update_positions</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;double&gt;&gt; <em>coords</em>, <em class="property">const</em> std::vector&lt;std::vector&lt;double&gt;&gt; <em>eulers</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEEKNSt6vectorINSt6vectorIdEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Load coordinates and orientations with a per-site vector containing per-dimension vector. Requires coordinates and orientations for all sites and dimensions. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst13Configuration16update_positionsERK6SelectKb">
 <span class="target" id="classfeasst_1_1Configuration_1ac681e3bb12949b6be2dc88d2aa3cda7a"></span>void <code class="sig-name descname">update_positions</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> bool <em>no_wrap</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsERK6SelectKb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Update the positions and properties from a selection. </p>
-<p><dl class="simple">
+<dd><p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">no_wrap</span></code>: If true, do not wrap. If false, defer to default behavior. </p></li>
 </ul>
 </dd>
 </dl>
 </p>
+<p>Update the positions and properties from a selection. Includes euler angles. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -804,6 +813,28 @@
 <dt id="_CPPv4N6feasst13Configuration17set_particle_typeEKiRK6Select">
 <span class="target" id="classfeasst_1_1Configuration_1a610691ead2805ac0364125b354f1067c"></span>void <code class="sig-name descname">set_particle_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_type</em>, <em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17set_particle_typeEKiRK6Select" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Change select to a given particle type. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Neighbor Criteria</p>
+<p>Define and store various criteria used for defining neighbors </p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst13Configuration3addENSt10shared_ptrI16NeighborCriteriaEE">
+<span class="target" id="classfeasst_1_1Configuration_1aea6a2b42958679112b17a434c6faf925"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; <em>neighbor_criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration3addENSt10shared_ptrI16NeighborCriteriaEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13Configuration17neighbor_criteriaEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a24210ad8cab8f7a23afbb448cf7aa303"></span><em class="property">const</em> <a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17neighbor_criteriaEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13Configuration17neighbor_criteriaEv">
+<span class="target" id="classfeasst_1_1Configuration_1af35da21d4278e6c2e4dca43130de96d7"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17neighbor_criteriaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
 </dd></dl>
 
 </div>

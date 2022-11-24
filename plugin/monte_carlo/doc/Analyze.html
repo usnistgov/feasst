@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Analyze &mdash; FEASST v0.20.1 documentation</title>
+  <title>Analyze &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -129,7 +129,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -157,13 +164,6 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
 </ul>
 </li>
 </ul>
@@ -185,6 +185,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -314,7 +315,7 @@
 <dt id="_CPPv4N6feasst7AnalyzeE">
 <span class="target" id="classfeasst_1_1Analyze"></span><em class="property">class </em><code class="sig-name descname">Analyze</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Stepper.html#_CPPv4N6feasst7StepperE" title="feasst::Stepper">Stepper</a><a class="headerlink" href="#_CPPv4N6feasst7AnalyzeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform a read-only action every so many trials. </p>
-<p>Subclassed by <a class="reference internal" href="../../cluster/doc/AnalyzeCluster.html#classfeasst_1_1AnalyzeCluster"><span class="std std-ref">feasst::AnalyzeCluster</span></a>, <a class="reference internal" href="AnalyzeFactory.html#classfeasst_1_1AnalyzeFactory"><span class="std std-ref">feasst::AnalyzeFactory</span></a>, <a class="reference internal" href="#classfeasst_1_1AnalyzeUpdateOnly"><span class="std std-ref">feasst::AnalyzeUpdateOnly</span></a>, <a class="reference internal" href="#classfeasst_1_1AnalyzeWriteOnly"><span class="std std-ref">feasst::AnalyzeWriteOnly</span></a>, <a class="reference internal" href="../../steppers/doc/Chirality2D.html#classfeasst_1_1Chirality2D"><span class="std std-ref">feasst::Chirality2D</span></a>, <a class="reference internal" href="../../steppers/doc/DensityProfile.html#classfeasst_1_1DensityProfile"><span class="std std-ref">feasst::DensityProfile</span></a>, <a class="reference internal" href="../../chain/doc/EndToEndDistance.html#classfeasst_1_1EndToEndDistance"><span class="std std-ref">feasst::EndToEndDistance</span></a>, <a class="reference internal" href="../../steppers/doc/Energy.html#classfeasst_1_1Energy"><span class="std std-ref">feasst::Energy</span></a>, <a class="reference internal" href="../../steppers/doc/ExtensiveMoments.html#classfeasst_1_1ExtensiveMoments"><span class="std std-ref">feasst::ExtensiveMoments</span></a>, <a class="reference internal" href="../../confinement/doc/HenryCoefficient.html#classfeasst_1_1HenryCoefficient"><span class="std std-ref">feasst::HenryCoefficient</span></a>, <a class="reference internal" href="../../steppers/doc/MeanSquaredDisplacement.html#classfeasst_1_1MeanSquaredDisplacement"><span class="std std-ref">feasst::MeanSquaredDisplacement</span></a>, <a class="reference internal" href="../../steppers/doc/NumParticles.html#classfeasst_1_1NumParticles"><span class="std std-ref">feasst::NumParticles</span></a>, <a class="reference internal" href="../../steppers/doc/ProfileTrials.html#classfeasst_1_1ProfileTrials"><span class="std std-ref">feasst::ProfileTrials</span></a>, <a class="reference internal" href="../../chain/doc/RadiusOfGyration.html#classfeasst_1_1RadiusOfGyration"><span class="std std-ref">feasst::RadiusOfGyration</span></a>, <a class="reference internal" href="../../steppers/doc/Volume.html#classfeasst_1_1Volume"><span class="std std-ref">feasst::Volume</span></a></p>
+<p>Subclassed by <a class="reference internal" href="../../cluster/doc/AnalyzeCluster.html#classfeasst_1_1AnalyzeCluster"><span class="std std-ref">feasst::AnalyzeCluster</span></a>, <a class="reference internal" href="AnalyzeFactory.html#classfeasst_1_1AnalyzeFactory"><span class="std std-ref">feasst::AnalyzeFactory</span></a>, <a class="reference internal" href="#classfeasst_1_1AnalyzeUpdateOnly"><span class="std std-ref">feasst::AnalyzeUpdateOnly</span></a>, <a class="reference internal" href="#classfeasst_1_1AnalyzeWriteOnly"><span class="std std-ref">feasst::AnalyzeWriteOnly</span></a>, <a class="reference internal" href="../../steppers/doc/Chirality2D.html#classfeasst_1_1Chirality2D"><span class="std std-ref">feasst::Chirality2D</span></a>, <a class="reference internal" href="../../steppers/doc/DensityProfile.html#classfeasst_1_1DensityProfile"><span class="std std-ref">feasst::DensityProfile</span></a>, <a class="reference internal" href="../../chain/doc/EndToEndDistance.html#classfeasst_1_1EndToEndDistance"><span class="std std-ref">feasst::EndToEndDistance</span></a>, <a class="reference internal" href="../../steppers/doc/Energy.html#classfeasst_1_1Energy"><span class="std std-ref">feasst::Energy</span></a>, <a class="reference internal" href="../../steppers/doc/ExtensiveMoments.html#classfeasst_1_1ExtensiveMoments"><span class="std std-ref">feasst::ExtensiveMoments</span></a>, <a class="reference internal" href="../../confinement/doc/HenryCoefficient.html#classfeasst_1_1HenryCoefficient"><span class="std std-ref">feasst::HenryCoefficient</span></a>, <a class="reference internal" href="../../steppers/doc/MeanSquaredDisplacement.html#classfeasst_1_1MeanSquaredDisplacement"><span class="std std-ref">feasst::MeanSquaredDisplacement</span></a>, <a class="reference internal" href="../../steppers/doc/NumParticles.html#classfeasst_1_1NumParticles"><span class="std std-ref">feasst::NumParticles</span></a>, <a class="reference internal" href="../../steppers/doc/ProfileTrials.html#classfeasst_1_1ProfileTrials"><span class="std std-ref">feasst::ProfileTrials</span></a>, <a class="reference internal" href="../../chain/doc/RadiusOfGyration.html#classfeasst_1_1RadiusOfGyration"><span class="std std-ref">feasst::RadiusOfGyration</span></a>, <a class="reference internal" href="../../steppers/doc/Scattering.html#classfeasst_1_1Scattering"><span class="std std-ref">feasst::Scattering</span></a>, <a class="reference internal" href="../../steppers/doc/Volume.html#classfeasst_1_1Volume"><span class="std std-ref">feasst::Volume</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">

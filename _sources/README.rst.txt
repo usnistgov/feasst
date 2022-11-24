@@ -70,25 +70,6 @@ Modern software
 * OpenMP parallelization and prefetching
 * Checkpoint files to save, restart and analyze simulations
 
-Tutorial
-================================================================================
-
-`Tutorial <tutorial/README.html>`_ describes an example Lennard-Jones Monte Carlo simulation.
-Also check out tutorials for :doc:`/plugin/README`.
-In particular, `MonteCarlo <plugin/monte_carlo/README.html>`_ and `FlatHistogram <plugin/flat_histogram/README.html>`_.
-
-The search box for the html documentation was disabled for security reasons.
-But the html is generated entirely from the downloaded code.
-Thus, the bash command "grep" is a great option to search for more information on classes and their arguments.
-For example, if you would like more information on `RandomMT19937 <plugin/math/doc/RandomMT19937.html>`_ but are not sure where to find it, you could search headers files
-
-.. code-block:: bash
-
-   grep -r --include=*.h RandomMT19937
-
-And find that the class is part of the `Math <plugin/math/README.html>`_ plugin.
-Searching the GitHub repository is another option.
-
 How to install (e.g., compile the executables).
 ===============================================
 
@@ -137,10 +118,26 @@ Cray (NERSC CORI)
 
 * OpenMP functions apparently do not work unless the cray programming environment is disabled.
 
-Ubuntu 18, 20
+Ubuntu 18, 20, 22
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * We are not aware of any issues with these OS.
+
+Documentation for a specific version of FEASST
+===============================================
+
+You can access the documentation of a specific version of FEASST as follows.
+
+.. code-block:: bash
+
+    git clone https://github.com/usnistgov/feasst.git
+    cd feasst
+    git checkout nist-pages
+    git log
+    # find the commit of your version from git log
+    # (e.g., 0.19.0 is a50b4fe943832f012373f23658a9497990d70d21)
+    git checkout a50b4fe943832f012373f23658a9497990d70d21
+    google-chrome index.html
 
 .. include:: CONTACT.rst
 

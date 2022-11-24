@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Block average analysis for correlated data &mdash; FEASST v0.20.1 documentation</title>
+  <title>Block average analysis for correlated data &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Configuration" href="../../configuration/README.html" />
-    <link rel="prev" title="SolverBrentDekker" href="../doc/SolverBrentDekker.html" />
+    <link rel="next" title="Prefetch example" href="../../prefetch/tutorial/tutorial_1_prefetch.html" />
+    <link rel="prev" title="Virial coefficients of coarse-grained mAb models." href="../../mayer/tutorial/tutorial_4_cgmab.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -104,60 +104,47 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../doc/Table.html">Table</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/Accumulator.html">Accumulator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/Histogram.html">Histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/Formula.html">Formula</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/FormulaPolynomial.html">FormulaPolynomial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/utils_math.html">math/include/utils_math</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/Position.html">Position</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/Random.html">Random</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/RandomModulo.html">RandomModulo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/constants.html">math/include/constants</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/Minimize.html">Minimize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/GoldenSearch.html">GoldenSearch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/quadratic_equation.html">math/include/quadratic_equation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/FormulaExponential.html">FormulaExponential</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/Matrix.html">Matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/RandomMT19937.html">RandomMT19937</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/Solver.html">Solver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/SolverBisection.html">SolverBisection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/SolverBrentDekker.html">SolverBrentDekker</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Block average analysis for correlated data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/tutorial.html">Lennard Jones in the Canonical ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/launch.html">HPC/SLURM script with checkpointed restarts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/tutorial/tutorial_0_ref_configs.html">Lennard Jones potential test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/tutorial/tutorial_1_lj_nvt.html">Average energy of a bulk LJ fluid in the canonical ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/tutorial/tutorial_0_spce_ref_config.html">Reference configuration of SPC/E water in non-cuboid domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/tutorial/tutorial_1_spce_nvt.html">Average energy of a bulk SPC/E fluid in the canonical ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_1_lj_table.html">User defined tabular potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_03_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_04_lj_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_05_spce_tm_parallel.html">Grand Canonical Flat Histogram Simulation of SPC/E</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_06_rpm_tm_parallel.html">Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_10_wltm_lowt.html">Grand Canonical Flat Histogram Simulation at low temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_11_trappe_alkane.html">Grand Canonical Flat Histogram Simulation of TraPPE alkanes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_0_freely_jointed.html">Simulation of a single freely-jointed chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_1_ideal_ua_chain.html">Simulation of a single chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_2_ideal_ua_chain20.html">Simulation of a single 20-bead linear chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_3_cg7mab.html">Scattering calculations for hard sphere coarse-grained mAb models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_4_rg_extrapolation.html">Temperature extrapolation of the radius of gyration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/tutorial/tutorial_01_hs_scattering.html">Compare scattering calculations for hard spheres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/tutorial/tutorial.html">Beta expanded ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/tutorial/tutorial_1_rpm_tm_egce_parallel.html">Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_4_cgmab.html">Virial coefficients of coarse-grained mAb models.</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Block average analysis for correlated data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_1_prefetch.html">Prefetch example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/README.html#text-file-interface">Text file interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
@@ -232,9 +219,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugins</a> &raquo;</li>
-        
-          <li><a href="../README.html">Math</a> &raquo;</li>
+          <li><a href="../../../tutorial/README.html">Tutorials</a> &raquo;</li>
         
       <li>Block average analysis for correlated data</li>
     
@@ -631,8 +616,8 @@ OK
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../../configuration/README.html" class="btn btn-neutral float-right" title="Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="../doc/SolverBrentDekker.html" class="btn btn-neutral float-left" title="SolverBrentDekker" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../prefetch/tutorial/tutorial_1_prefetch.html" class="btn btn-neutral float-right" title="Prefetch example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../mayer/tutorial/tutorial_4_cgmab.html" class="btn btn-neutral float-left" title="Virial coefficients of coarse-grained mAb models." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

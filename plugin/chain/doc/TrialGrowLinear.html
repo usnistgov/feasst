@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>TrialGrowLinear &mdash; FEASST v0.20.1 documentation</title>
+  <title>TrialGrowLinear &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -47,8 +47,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Simulation of a single freely-jointed chain" href="../tutorial/tutorial_0_freely_jointed.html" />
-    <link rel="prev" title="PerturbSiteType" href="PerturbSiteType.html" />
+    <link rel="next" title="SelectSegment" href="SelectSegment.html" />
+    <link rel="prev" title="SelectCrankshaftSmall" href="SelectCrankshaftSmall.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -123,6 +123,13 @@
 <li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a></li>
@@ -135,17 +142,10 @@
 <li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialGrowLinear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialGrowLinear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -159,6 +159,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -316,8 +317,8 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../tutorial/tutorial_0_freely_jointed.html" class="btn btn-neutral float-right" title="Simulation of a single freely-jointed chain" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="PerturbSiteType.html" class="btn btn-neutral float-left" title="PerturbSiteType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SelectSegment.html" class="btn btn-neutral float-right" title="SelectSegment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SelectCrankshaftSmall.html" class="btn btn-neutral float-left" title="SelectCrankshaftSmall" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>WindowExponential &mdash; FEASST v0.20.1 documentation</title>
+  <title>WindowExponential &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -117,7 +117,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
@@ -153,6 +152,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -284,7 +284,7 @@
 <dd><p>Determine windows based on an expontential factor, <span class="math notranslate nohighlight">\(\alpha\)</span>. The macrostate of the windows, <span class="math notranslate nohighlight">\(m_i\)</span>, is given by</p>
 <p><span class="math notranslate nohighlight">\(m_{i+1} = \left( m_i^{\alpha} + \frac{m_{n+1}^{\alpha} - m_0^{\alpha}}{n} \right)^{1/\alpha}\)</span></p>
 <p>where <span class="math notranslate nohighlight">\(i\)</span> is the index of the window, ranging from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(n+1\)</span> and <span class="math notranslate nohighlight">\(n\)</span> is the number of windows. Thus, <span class="math notranslate nohighlight">\(m_{n+1}\)</span> is the maximum macrostate over the entire range, while <span class="math notranslate nohighlight">\(m_0\)</span> is the minimum macrostate over the entire range. For <span class="math notranslate nohighlight">\(\alpha=1\)</span>, the widths of all windows are the same. For <span class="math notranslate nohighlight">\(\alpha&gt;1\)</span>, the widths of the windows decrease exponentially. For <span class="math notranslate nohighlight">\(\alpha&lt;1\)</span>, the widths of the windows increase exponentially.</p>
-<p>The given formula is continuous and not rounded. Instead, use <a class="reference internal" href="Window.html#classfeasst_1_1Window_1a85fb8fe35d7e335b77fedbb3df58046a"><span class="std std-ref">Window::boundaries</span></a> for handling rounding and overlap. For example, 4 windows over a macrostate range of [0, 200], <span class="math notranslate nohighlight">\(\alpha=2\)</span>, results in the following segments: [0, 100.00, 141.42, 173.21, 200]. </p>
+<p>The given formula is continuous and not rounded. Instead, use <a class="reference internal" href="Window.html#classfeasst_1_1Window_1acc6d597e1a924887647ce655f891cc34"><span class="std std-ref">Window::boundaries</span></a> for handling rounding and overlap. For example, 4 windows over a macrostate range of [0, 200], <span class="math notranslate nohighlight">\(\alpha=2\)</span>, results in the following segments: [0, 100.00, 141.42, 173.21, 200]. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">

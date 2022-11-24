@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>PerturbRotate &mdash; FEASST v0.20.1 documentation</title>
+  <title>PerturbRotate &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="PerturbAnywhere" href="PerturbAnywhere.html" />
-    <link rel="prev" title="PerturbDihedral" href="PerturbDihedral.html" />
+    <link rel="prev" title="PerturbToAnchor" href="PerturbToAnchor.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -129,7 +129,14 @@
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PerturbRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
@@ -157,13 +164,6 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">PerturbRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
 </ul>
 </li>
 </ul>
@@ -185,6 +185,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -333,6 +334,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst13PerturbRotate13update_eulersERK14RotationMatrixP11TrialSelectPK6System">
+<span class="target" id="classfeasst_1_1PerturbRotate_1af7a3de646cc93c2b2979d39ff379a913"></span>void <code class="sig-name descname">update_eulers</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> &amp;<em>rotation</em>, <a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a> *<em>select</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13PerturbRotate13update_eulersERK14RotationMatrixP11TrialSelectPK6System" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Change the <a class="reference internal" href="../../math/doc/Euler.html#classfeasst_1_1Euler"><span class="std std-ref">Euler</span></a> angles in the selection given a rotation matrix. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst13PerturbRotate4moveERK8PositionRK14RotationMatrixP6SystemP11TrialSelect">
 <span class="target" id="classfeasst_1_1PerturbRotate_1aa831fea28c16004829fd8ad4f9aeefc0"></span>void <code class="sig-name descname">move</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>pivot</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> &amp;<em>rotation</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a> *<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13PerturbRotate4moveERK8PositionRK14RotationMatrixP6SystemP11TrialSelect" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Change the position of the selection given a pivot and rotation matrix. </p>
@@ -369,7 +376,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="PerturbAnywhere.html" class="btn btn-neutral float-right" title="PerturbAnywhere" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="PerturbDihedral.html" class="btn btn-neutral float-left" title="PerturbDihedral" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="PerturbToAnchor.html" class="btn btn-neutral float-left" title="PerturbToAnchor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

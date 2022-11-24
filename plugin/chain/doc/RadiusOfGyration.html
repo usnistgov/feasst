@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>RadiusOfGyration &mdash; FEASST v0.20.1 documentation</title>
+  <title>RadiusOfGyration &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -123,6 +123,13 @@
 <li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">RadiusOfGyration</a></li>
@@ -135,17 +142,10 @@
 <li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -159,6 +159,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -327,6 +328,12 @@
 <dt id="_CPPv4NK6feasst16RadiusOfGyration18radius_of_gyrationEv">
 <span class="target" id="classfeasst_1_1RadiusOfGyration_1a3b385730f0c63cce709046a7177ea067"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<code class="sig-name descname">radius_of_gyration</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16RadiusOfGyration18radius_of_gyrationEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the radius of gyration. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst16RadiusOfGyration4rg_eEv">
+<span class="target" id="classfeasst_1_1RadiusOfGyration_1a04e00acc03f90fb3db91c6167d320007"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<code class="sig-name descname">rg_e</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16RadiusOfGyration4rg_eEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the accumulator for radius of gyration times the energy for extrapolation. </p>
 </dd></dl>
 
 </div>

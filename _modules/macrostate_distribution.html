@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>macrostate_distribution &mdash; FEASST v0.20.1 documentation</title>
+  <title>macrostate_distribution &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -82,7 +82,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -221,7 +221,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs all the necessary attributes for a MacrostateDistribution.</span>
 
-<span class="sd">        :param str file_name: The name of the csv file which stores per-macrostate quantities.</span>
+<span class="sd">        :param str file_name:</span>
+<span class="sd">            The name of the csv file which stores per-macrostate quantities.</span>
+<span class="sd">            If None, do not read a file, and instead use set_dataframe later.</span>
 <span class="sd">        :param str macrostate_header:</span>
 <span class="sd">            In the grand canonical ensemble, the macrostates are the number of particles.</span>
 <span class="sd">            This is the header for that column in a pandas data frame.</span>
@@ -234,7 +236,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_macrostate_header</span> <span class="o">=</span> <span class="n">macrostate_header</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ln_prob_header</span> <span class="o">=</span> <span class="n">ln_prob_header</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_minimum_smoothing</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.set_dataframe"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">set_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -296,7 +299,8 @@
             <span class="n">lnpi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">lnpi</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">lnpi</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+            <span class="n">mx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">lnpi</span><span class="p">)</span> <span class="c1"># avoid exp overflow by shifting mx</span>
+            <span class="n">lnpi</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">mx</span><span class="p">)))</span> <span class="o">+</span> <span class="n">mx</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">assert</span> <span class="kc">False</span> <span class="c1"># unrecognized number of arguments.</span>
         <span class="k">return</span> <span class="n">lnpi</span></div>
@@ -307,8 +311,8 @@
 
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">        &gt;&gt;&gt; lnpi = macrostate_distribution.MacrostateDistribution(file_name=&#39;../../tests/lnpi.csv&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; lnpi.average_macrostate()</span>
-<span class="sd">        437.6820787231706</span>
+<span class="sd">        &gt;&gt;&gt; round(lnpi.average_macrostate(), 8)</span>
+<span class="sd">        437.68207872</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">macrostates</span><span class="p">())</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
 
@@ -320,8 +324,8 @@
 <span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">        &gt;&gt;&gt; lnpi = macrostate_distribution.MacrostateDistribution(file_name=&#39;../../tests/lnpi.csv&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; lnpi.ensemble_average(header=&#39;energy&#39;)</span>
-<span class="sd">        -2701.3930043481596</span>
+<span class="sd">        &gt;&gt;&gt; round(lnpi.ensemble_average(header=&#39;energy&#39;), 8)</span>
+<span class="sd">        -2701.39300435</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe</span><span class="p">[</span><span class="n">header</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
 
@@ -363,14 +367,14 @@
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">        &gt;&gt;&gt; lnpi = macrostate_distribution.MacrostateDistribution(file_name=&#39;../../tests/lnpi.csv&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; vapor, liquid = lnpi.split()</span>
-<span class="sd">        &gt;&gt;&gt; vapor.average_macrostate()</span>
-<span class="sd">        1.4212647041954634</span>
-<span class="sd">        &gt;&gt;&gt; vapor.ensemble_average(&#39;energy&#39;)</span>
-<span class="sd">        -0.04911666622772193</span>
-<span class="sd">        &gt;&gt;&gt; liquid.average_macrostate()</span>
-<span class="sd">        437.6820787231706</span>
-<span class="sd">        &gt;&gt;&gt; liquid.ensemble_average(&#39;energy&#39;)</span>
-<span class="sd">        -2701.39300434816</span>
+<span class="sd">        &gt;&gt;&gt; round(vapor.average_macrostate(), 8)</span>
+<span class="sd">        1.4212647</span>
+<span class="sd">        &gt;&gt;&gt; round(vapor.ensemble_average(&#39;energy&#39;), 8)</span>
+<span class="sd">        -0.04911667</span>
+<span class="sd">        &gt;&gt;&gt; round(liquid.average_macrostate(), 8)</span>
+<span class="sd">        437.68207872</span>
+<span class="sd">        &gt;&gt;&gt; round(liquid.ensemble_average(&#39;energy&#39;), 8)</span>
+<span class="sd">        -2701.39300435</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">minimum</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">minimum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimums</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -390,11 +394,11 @@
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">        &gt;&gt;&gt; lnpi = macrostate_distribution.MacrostateDistribution(file_name=&#39;../../tests/lnpi.csv&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; reweight = lnpi.reweight(-1)</span>
-<span class="sd">        &gt;&gt;&gt; reweight.dataframe()[&#39;ln_prob&#39;][0]</span>
-<span class="sd">        -0.5010868690523108</span>
+<span class="sd">        &gt;&gt;&gt; round(reweight.dataframe()[&#39;ln_prob&#39;][0], 8)</span>
+<span class="sd">        -0.50108687</span>
 <span class="sd">        &gt;&gt;&gt; reweight = lnpi.reweight(1.5)</span>
-<span class="sd">        &gt;&gt;&gt; reweight.dataframe()[&#39;ln_prob&#39;][0]</span>
-<span class="sd">        -811.7401044444931</span>
+<span class="sd">        &gt;&gt;&gt; round(reweight.dataframe()[&#39;ln_prob&#39;][0], 8)</span>
+<span class="sd">        -811.74010444</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># avoid negative log by subtracting min</span>
         <span class="n">lnpi_rw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">macrostates</span><span class="p">()</span><span class="o">*</span><span class="n">delta_beta_mu</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
@@ -414,8 +418,8 @@
 
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">        &gt;&gt;&gt; lnpi = macrostate_distribution.MacrostateDistribution(file_name=&#39;../../tests/lnpi.csv&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; lnpi._macrostate_objective(target_macrostate=10, delta_beta_mu=-1)</span>
-<span class="sd">        90.14131550285451</span>
+<span class="sd">        &gt;&gt;&gt; round(lnpi._macrostate_objective(target_macrostate=10, delta_beta_mu=-1), 8)</span>
+<span class="sd">        90.1413155</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lnpi_rw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="n">delta_beta_mu</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">target_macrostate</span> <span class="o">-</span> <span class="n">lnpi_rw</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">())</span><span class="o">**</span><span class="mi">2</span>
@@ -430,8 +434,8 @@
 
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">        &gt;&gt;&gt; lnpi = macrostate_distribution.MacrostateDistribution(file_name=&#39;../../tests/lnpi.csv&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; lnpi.reweight_to_macrostate(target_macrostate=10)</span>
-<span class="sd">        -0.3221837585941306</span>
+<span class="sd">        &gt;&gt;&gt; round(lnpi.reweight_to_macrostate(target_macrostate=10), 8)</span>
+<span class="sd">        -0.32218376</span>
 <span class="sd">        &gt;&gt;&gt; round(lnpi.average_macrostate(), 5)</span>
 <span class="sd">        10.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -448,8 +452,8 @@
 
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">        &gt;&gt;&gt; lnpi = macrostate_distribution.MacrostateDistribution(file_name=&#39;../../tests/lnpi.csv&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; lnpi._equilibrium_objective(-1)</span>
-<span class="sd">        3.818281828459045</span>
+<span class="sd">        &gt;&gt;&gt; round(lnpi._equilibrium_objective(-1), 8)</span>
+<span class="sd">        3.81828183</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#print(&#39;delta_beta_mu&#39;, delta_beta_mu)</span>
         <span class="n">lnpi_rw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="n">delta_beta_mu</span><span class="p">)</span>
@@ -485,13 +489,13 @@
 
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">        &gt;&gt;&gt; lnpi = macrostate_distribution.MacrostateDistribution(file_name=&#39;../../tests/lnpi.csv&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; lnpi.equilibrium(delta_beta_mu_guess=-1, tol=1e-4)</span>
-<span class="sd">        -0.31323799472042363</span>
+<span class="sd">        &gt;&gt;&gt; round(lnpi.equilibrium(delta_beta_mu_guess=-1, tol=1e-4), 8)</span>
+<span class="sd">        -0.31323799</span>
 <span class="sd">        &gt;&gt;&gt; vapor, liquid = lnpi.split()</span>
-<span class="sd">        &gt;&gt;&gt; vapor.average_macrostate()/8**3</span>
-<span class="sd">        0.00200034710256861</span>
-<span class="sd">        &gt;&gt;&gt; liquid.average_macrostate()/8**3</span>
-<span class="sd">        0.8430480261823026</span>
+<span class="sd">        &gt;&gt;&gt; round(vapor.average_macrostate()/8**3, 8)</span>
+<span class="sd">        0.00200035</span>
+<span class="sd">        &gt;&gt;&gt; round(liquid.average_macrostate()/8**3, 8)</span>
+<span class="sd">        0.84304803</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equilibrium_objective</span><span class="p">,</span>
                               <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
@@ -514,17 +518,17 @@
 <span class="sd">    ...         file_name=&#39;../../tests/lnpin&#39;+str(i)+&#39;.csv&#39;))</span>
 <span class="sd">    &gt;&gt;&gt; lnpi = macrostate_distribution.splice(lnpis)</span>
 <span class="sd">    &gt;&gt;&gt; lnpi.set_minimum_smoothing(50)</span>
-<span class="sd">    &gt;&gt;&gt; lnpi.average_macrostate()</span>
-<span class="sd">    596.292899018217</span>
+<span class="sd">    &gt;&gt;&gt; round(lnpi.average_macrostate(), 8)</span>
+<span class="sd">    596.29289902</span>
 <span class="sd">    &gt;&gt;&gt; len(lnpi.minimums())</span>
 <span class="sd">    0</span>
-<span class="sd">    &gt;&gt;&gt; lnpi.equilibrium(delta_beta_mu_guess=-1.5)</span>
-<span class="sd">    -1.2768125968551267</span>
+<span class="sd">    &gt;&gt;&gt; round(lnpi.equilibrium(delta_beta_mu_guess=-1.5), 8)</span>
+<span class="sd">    -1.2768126</span>
 <span class="sd">    &gt;&gt;&gt; vapor, liquid = lnpi.split()</span>
-<span class="sd">    &gt;&gt;&gt; vapor.average_macrostate()</span>
-<span class="sd">    0.0317208114759036</span>
-<span class="sd">    &gt;&gt;&gt; liquid.average_macrostate()</span>
-<span class="sd">    523.3553081498679</span>
+<span class="sd">    &gt;&gt;&gt; round(vapor.average_macrostate(), 8)</span>
+<span class="sd">    0.03172081</span>
+<span class="sd">    &gt;&gt;&gt; round(liquid.average_macrostate(), 8)</span>
+<span class="sd">    523.35530815</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">macros</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">max_minimum_smoothing</span> <span class="o">=</span> <span class="mi">0</span>
@@ -554,21 +558,83 @@
 
 <span class="sd">    &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">    &gt;&gt;&gt; lnpi = macrostate_distribution.splice_files(prefix=&#39;../../tests/lj_lnpin&#39;, suffix=&#39;.txt&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; lnpi.equilibrium()</span>
-<span class="sd">    -0.3140241084584985</span>
+<span class="sd">    &gt;&gt;&gt; round(lnpi.equilibrium(), 8)</span>
+<span class="sd">    -0.31402411</span>
 <span class="sd">    &gt;&gt;&gt; vapor, liquid = lnpi.split()</span>
-<span class="sd">    &gt;&gt;&gt; vapor.average_macrostate()/8**3</span>
-<span class="sd">    0.001995010383395003</span>
-<span class="sd">    &gt;&gt;&gt; liquid.average_macrostate()/8**3</span>
-<span class="sd">    0.8431834550386511</span>
+<span class="sd">    &gt;&gt;&gt; round(vapor.average_macrostate()/8**3, 8)</span>
+<span class="sd">    0.00199501</span>
+<span class="sd">    &gt;&gt;&gt; round(liquid.average_macrostate()/8**3, 8)</span>
+<span class="sd">    0.84318346</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lnpis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;*&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;*&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">ln_prob_header</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">lnpis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filename</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">lnpis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">ln_prob_header</span><span class="o">=</span><span class="n">ln_prob_header</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">splice</span><span class="p">(</span><span class="n">lnpis</span><span class="p">,</span> <span class="n">extra_overlap</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="read_appended"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.read_appended">[docs]</a><span class="k">def</span> <span class="nf">read_appended</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">num_states</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read an appended ln_prob file, and return a list of pairs of MacrostateDistributions and</span>
+<span class="sd">    parameters from a required first line comment.</span>
+
+<span class="sd">    &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
+<span class="sd">    &gt;&gt;&gt; dists = macrostate_distribution.read_appended(</span>
+<span class="sd">    ...     &#39;../../tests/lj_lnpi_appended.txt&#39;, num_states=2)</span>
+<span class="sd">    &gt;&gt;&gt; dists[10][1][&#39;cpu_hours&#39;]</span>
+<span class="sd">    0.117464</span>
+<span class="sd">    &gt;&gt;&gt; round(dists[10][0].ln_prob()[0], 8)</span>
+<span class="sd">    -4.68014742</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">num_states</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">dists</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+        <span class="n">exec</span><span class="p">(</span><span class="s1">&#39;iprm={&#39;</span> <span class="o">+</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="p">(</span><span class="n">num_states</span><span class="o">+</span><span class="mi">2</span><span class="p">)][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">set_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="p">(</span><span class="n">num_states</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span> <span class="n">nrows</span><span class="o">=</span><span class="n">num_states</span><span class="p">))</span>
+        <span class="n">dists</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">dist</span><span class="p">,</span><span class="n">iprm</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">dists</span></div>
+
+<div class="viewcode-block" id="splice_collection_matrix"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice_collection_matrix">[docs]</a><span class="k">def</span> <span class="nf">splice_collection_matrix</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">use_soft</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Splice collection matrix of files and return a MacrostateDistribution with ln_prob computed</span>
+<span class="sd">    from the P_up and P_down matrix elements.</span>
+
+<span class="sd">    :param bool use_soft: use soft_min and soft_max to trim the file before concatenation.</span>
+
+<span class="sd">    &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
+<span class="sd">    &gt;&gt;&gt; lnp = macrostate_distribution.splice_collection_matrix(prefix=&quot;../../tests/lj_crit&quot;,</span>
+<span class="sd">    ...                                                        suffix=&quot;.txt&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; round(lnp.ln_prob()[0], 8)</span>
+<span class="sd">    -12.27534328</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lnpis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;*&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="p">)):</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">use_soft</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+                <span class="n">exec</span><span class="p">(</span><span class="s1">&#39;iprm={&#39;</span> <span class="o">+</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
+                <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="p">[</span><span class="n">iprm</span><span class="p">[</span><span class="s1">&#39;soft_min&#39;</span><span class="p">]:</span><span class="n">iprm</span><span class="p">[</span><span class="s1">&#39;soft_max&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">lnpis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">lnp</span> <span class="o">=</span> <span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">lnpis</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;delta_ln_prob&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;P_up&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;P_down&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">delta_ln_prob</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;delta_ln_prob&#39;</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;ln_prob&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;ln_prob&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;delta_ln_prob&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">+</span> \
+                                       <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">index</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;delta_ln_prob&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+    <span class="n">lnp</span><span class="o">.</span><span class="n">set_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lnp</span></div>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">doctest</span>

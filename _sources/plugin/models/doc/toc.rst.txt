@@ -6,7 +6,9 @@
    BondHarmonic
    DihedralHarmonic
    DihedralTraPPE
+   TablePotential
    Yukawa
+   TwoBodyTable
    SquareWell
    LennardJonesAlpha
    LennardJonesCutShift

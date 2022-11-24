@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>System &mdash; FEASST v0.20.1 documentation</title>
+  <title>System &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -124,7 +124,6 @@
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidBond.html">RigidBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondFourBody.html">BondFourBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
@@ -171,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -417,20 +417,20 @@
 <p>Define and store various criteria used for defining neighbors </p>
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst6System3addENSt10shared_ptrI16NeighborCriteriaEE">
-<span class="target" id="classfeasst_1_1System_1af4b2cb0c6466645a69aeb8e57a960d48"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; <em>neighbor_criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System3addENSt10shared_ptrI16NeighborCriteriaEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
+<span class="target" id="classfeasst_1_1System_1af4b2cb0c6466645a69aeb8e57a960d48"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; <em>neighbor_criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System3addENSt10shared_ptrI16NeighborCriteriaEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6System17neighbor_criteriaEKi">
-<span class="target" id="classfeasst_1_1System_1a6236d6dc7a4e73ebd23599c115a7ff14"></span><em class="property">const</em> <a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6System17neighbor_criteriaEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
+<span class="target" id="classfeasst_1_1System_1a6236d6dc7a4e73ebd23599c115a7ff14"></span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6System17neighbor_criteriaEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6System17neighbor_criteriaEv">
-<span class="target" id="classfeasst_1_1System_1a751382250c34ab1658c6c364b8a7a2bc"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6System17neighbor_criteriaEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
+<span class="target" id="classfeasst_1_1System_1a751382250c34ab1658c6c364b8a7a2bc"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6System17neighbor_criteriaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
 </dd></dl>
 
 </div>

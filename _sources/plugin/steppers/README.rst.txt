@@ -8,6 +8,14 @@ This plugin contains additional "Steppers" which include regular analysis and mo
 
    doc/toc
 
+Tutorial
+=========
+
+.. toctree::
+   :glob:
+
+   tutorial/tutorial*
+
 FEASST plugin dependencies
 ============================
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Matrix &mdash; FEASST v0.20.1 documentation</title>
+  <title>Matrix &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="RandomMT19937" href="RandomMT19937.html" />
+    <link rel="next" title="Euler" href="Euler.html" />
     <link rel="prev" title="FormulaExponential" href="FormulaExponential.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -124,6 +124,7 @@
 <li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Euler.html">Euler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Solver.html">Solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
@@ -153,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -340,6 +342,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst6Matrix9transposeEP6Matrix">
+<span class="target" id="classfeasst_1_1Matrix_1a6e162e84db92caa20f9dab355aa2ec36"></span>void <code class="sig-name descname">transpose</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6feasst6MatrixE" title="feasst::Matrix">Matrix</a> *<em>tmp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Matrix9transposeEP6Matrix" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Optimized version of above with pre-sized temporary. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst6Matrix8multiplyEKd">
 <span class="target" id="classfeasst_1_1Matrix_1ace9e4c86558c34784bfe63bb9aeda291"></span>void <code class="sig-name descname">multiply</code><span class="sig-paren">(</span><em class="property">const</em> double <em>constant</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Matrix8multiplyEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Multiply all elements by a constant. </p>
@@ -364,6 +372,18 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst6Matrix8multiplyERK6Matrix">
+<span class="target" id="classfeasst_1_1Matrix_1a9c22e8bedba31290326a15b9c409b9ff"></span><a class="reference internal" href="#_CPPv4N6feasst6MatrixE" title="feasst::Matrix">Matrix</a> <code class="sig-name descname">multiply</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst6MatrixE" title="feasst::Matrix">Matrix</a> &amp;<em>matrix</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix8multiplyERK6Matrix" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Multiply self with another matrix, m2 (e.g., self*m2). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6Matrix8multiplyERK6MatrixP6MatrixP8PositionP8Position">
+<span class="target" id="classfeasst_1_1Matrix_1a7059146b00696fbee91024188460e0dd"></span>void <code class="sig-name descname">multiply</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst6MatrixE" title="feasst::Matrix">Matrix</a> &amp;<em>matrix</em>, <a class="reference internal" href="#_CPPv4N6feasst6MatrixE" title="feasst::Matrix">Matrix</a> *<em>result</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>tmp1</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>tmp2</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix8multiplyERK6MatrixP6MatrixP8PositionP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Multiply self with another matrix, m2 (e.g., self*m2). This is the optimized verison. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst6Matrix8is_equalERK6Matrix">
 <span class="target" id="classfeasst_1_1Matrix_1a23114d27d13af699e70a025feeead903"></span>bool <code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst6MatrixE" title="feasst::Matrix">Matrix</a> &amp;<em>matrix</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix8is_equalERK6Matrix" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if all elements are equal to the given matrix. </p>
@@ -385,6 +405,12 @@
 <dt id="_CPPv4N6feasst6Matrix6invertEv">
 <span class="target" id="classfeasst_1_1Matrix_1a295666287368e2a3158e18f5de7e8a69"></span>void <code class="sig-name descname">invert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Matrix6invertEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Invert the matrix (only implemented for 2x2 and 3x3 matrices). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6Matrix11is_identityEKd">
+<span class="target" id="classfeasst_1_1Matrix_1afa16b743d8b533541c7acc6d25300e97"></span>bool <code class="sig-name descname">is_identity</code><span class="sig-paren">(</span><em class="property">const</em> double <em>tolerance</em> = <a class="reference internal" href="constants.html#_CPPv4N6feasst9NEAR_ZEROE" title="feasst::NEAR_ZERO">NEAR_ZERO</a><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix11is_identityEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if identity matrix. </p>
 </dd></dl>
 
 </div>
@@ -451,7 +477,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="RandomMT19937.html" class="btn btn-neutral float-right" title="RandomMT19937" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Euler.html" class="btn btn-neutral float-right" title="Euler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="FormulaExponential.html" class="btn btn-neutral float-left" title="FormulaExponential" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

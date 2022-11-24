@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Chain &mdash; FEASST v0.20.1 documentation</title>
+  <title>Chain &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -123,6 +123,13 @@
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectPerturbed.html">SelectPerturbed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectParticlePivot.html">SelectParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/PerturbParticlePivot.html">PerturbParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/EndToEndDistance.html">EndToEndDistance</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/RadiusOfGyration.html">RadiusOfGyration</a></li>
@@ -135,21 +142,16 @@
 <li class="toctree-l3"><a class="reference internal" href="doc/TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbBranch.html">PerturbBranch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbPivot.html">PerturbPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbParticlePivot.html">PerturbParticlePivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbSiteType.html">PerturbSiteType</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tutorial">Tutorial</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_0_freely_jointed.html">Simulation of a single freely-jointed chain</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_1_ideal_ua_chain.html">Simulation of a single chain</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_2_ideal_ua_chain20.html">Simulation of a single 20-bead linear chain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_3_cg7mab.html">Scattering calculations for hard sphere coarse-grained mAb models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_4_rg_extrapolation.html">Temperature extrapolation of the radius of gyration</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -164,6 +166,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../forcefield/README.html">Forcefield and Units</a></li>
@@ -291,6 +294,13 @@
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectPerturbed.html">SelectPerturbed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectParticlePivot.html">SelectParticlePivot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbParticlePivot.html">PerturbParticlePivot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/EndToEndDistance.html">EndToEndDistance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/RadiusOfGyration.html">RadiusOfGyration</a></li>
@@ -303,17 +313,10 @@
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbBranch.html">PerturbBranch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbPivot.html">PerturbPivot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbParticlePivot.html">PerturbParticlePivot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbSiteType.html">PerturbSiteType</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
 </ul>
 </div>
 <div class="section" id="tutorial">
@@ -323,6 +326,8 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_0_freely_jointed.html">Simulation of a single freely-jointed chain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_1_ideal_ua_chain.html">Simulation of a single chain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_2_ideal_ua_chain20.html">Simulation of a single 20-bead linear chain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_3_cg7mab.html">Scattering calculations for hard sphere coarse-grained mAb models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_4_rg_extrapolation.html">Temperature extrapolation of the radius of gyration</a></li>
 </ul>
 </div>
 </div>

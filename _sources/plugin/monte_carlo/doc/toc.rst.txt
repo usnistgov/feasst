@@ -15,7 +15,14 @@
    Perturb
    PerturbMove
    PerturbTranslate
+   PerturbDistance
+   PerturbDistanceAngle
+   PerturbDihedral
    PerturbToAnchor
+   PerturbRotate
+   PerturbAnywhere
+   PerturbAdd
+   PerturbRemove
    TrialStage
    TrialCompute
    Trial
@@ -43,10 +50,3 @@
    TrialSelectAngle
    TrialSelectDihedral
    TrialSelectParticle
-   PerturbDistance
-   PerturbDistanceAngle
-   PerturbDihedral
-   PerturbRotate
-   PerturbAnywhere
-   PerturbAdd
-   PerturbRemove

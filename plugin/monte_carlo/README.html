@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Monte Carlo &mdash; FEASST v0.20.1 documentation</title>
+  <title>Monte Carlo &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Lennard Jones reference configuration" href="tutorial/tutorial_0_ref_configs.html" />
+    <link rel="next" title="&lt;no title&gt;" href="doc/toc.html" />
     <link rel="prev" title="System" href="../system/doc/System.html" />
 
 	<!-- frame blocking -->
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -113,8 +113,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../system/README.html">System</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Monte Carlo</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_0_ref_configs.html">Lennard Jones reference configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_1_lj_nvt.html">Canonical ensemble average energy of a bulk LJ fluid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_0_ref_configs.html">Lennard Jones potential test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_1_lj_nvt.html">Average energy of a bulk LJ fluid in the canonical ensemble</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -133,7 +133,14 @@
 <li class="toctree-l4"><a class="reference internal" href="doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/PerturbToAnchor.html">PerturbToAnchor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbRotate.html">PerturbRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbRemove.html">PerturbRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Trial.html">Trial</a></li>
@@ -161,13 +168,6 @@
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDihedral.html">PerturbDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbRotate.html">PerturbRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbRemove.html">PerturbRemove</a></li>
 </ul>
 </li>
 </ul>
@@ -189,6 +189,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../forcefield/README.html">Forcefield and Units</a></li>
@@ -325,8 +326,8 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_0_ref_configs.html">Lennard Jones reference configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_1_lj_nvt.html">Canonical ensemble average energy of a bulk LJ fluid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_0_ref_configs.html">Lennard Jones potential test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_1_lj_nvt.html">Average energy of a bulk LJ fluid in the canonical ensemble</a></li>
 </ul>
 </div>
 </div>
@@ -354,7 +355,14 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <li class="toctree-l1"><a class="reference internal" href="doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbToAnchor.html">PerturbToAnchor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbRotate.html">PerturbRotate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbRemove.html">PerturbRemove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Trial.html">Trial</a></li>
@@ -382,13 +390,6 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDihedral.html">PerturbDihedral</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbRotate.html">PerturbRotate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbRemove.html">PerturbRemove</a></li>
 </ul>
 </div>
 </div>
@@ -400,7 +401,7 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="tutorial/tutorial_0_ref_configs.html" class="btn btn-neutral float-right" title="Lennard Jones reference configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="doc/toc.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="../system/doc/System.html" class="btn btn-neutral float-left" title="System" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

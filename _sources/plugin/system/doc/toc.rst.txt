@@ -12,7 +12,6 @@
    BondTwoBody
    BondSquareWell
    RigidBond
-   NeighborCriteria
    BondFourBody
    RigidDihedral
    BondVisitor

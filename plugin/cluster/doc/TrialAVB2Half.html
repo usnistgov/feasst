@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>TrialAVB2Half &mdash; FEASST v0.20.1 documentation</title>
+  <title>TrialAVB2Half &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -133,6 +133,9 @@
 <li class="toctree-l4"><a class="reference internal" href="EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotateCOM.html">PerturbRotateCOM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMoveAVB.html">PerturbMoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAddAVB.html">PerturbAddAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeCluster.html">AnalyzeCluster</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">TrialAVB2Half</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslateCluster.html">TrialTranslateCluster</a></li>
@@ -150,9 +153,6 @@
 <li class="toctree-l4"><a class="reference internal" href="SelectCluster.html">SelectCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeMoveCluster.html">ComputeMoveCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbRotateCOM.html">PerturbRotateCOM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbMoveAVB.html">PerturbMoveAVB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAddAVB.html">PerturbAddAVB</a></li>
 </ul>
 </li>
 </ul>
@@ -161,6 +161,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -292,7 +293,7 @@
 <dd><p>Attempt AVB2 in-&gt;out or out-&gt;in Only implemented for single-site particles <a class="reference internal" href="#classfeasst_1_1TrialAVB2"><span class="std std-ref">TrialAVB2</span></a> below is recommended in most cases to ensure detailed-balance is satisfied. But this is used in special cases like <a class="reference internal" href="../../prefetch/doc/Pool.html#classfeasst_1_1Prefetch"><span class="std std-ref">Prefetch</span></a> when avoiding <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#classfeasst_1_1TrialFactory"><span class="std std-ref">TrialFactory</span></a>.</p>
 <p>args:<ul class="simple">
 <li><p>out_to_in: if true, use out-&gt;in. Otherwise, in-&gt;out.</p></li>
-<li><p>neighbor_index: <a class="reference internal" href="../../system/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../system/doc/System.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> (default: 0). </p></li>
+<li><p>neighbor_index: <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../system/doc/System.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> (default: 0). </p></li>
 </ul>
 </p>
 </dd></dl>

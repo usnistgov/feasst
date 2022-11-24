@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>EnergyMapAllCriteria &mdash; FEASST v0.20.1 documentation</title>
+  <title>EnergyMapAllCriteria &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -133,6 +133,9 @@
 <li class="toctree-l4"><a class="reference internal" href="EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">EnergyMapAllCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotateCOM.html">PerturbRotateCOM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMoveAVB.html">PerturbMoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAddAVB.html">PerturbAddAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeCluster.html">AnalyzeCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAVB2Half.html">TrialAVB2Half</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslateCluster.html">TrialTranslateCluster</a></li>
@@ -150,9 +153,6 @@
 <li class="toctree-l4"><a class="reference internal" href="SelectCluster.html">SelectCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeMoveCluster.html">ComputeMoveCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbRotateCOM.html">PerturbRotateCOM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbMoveAVB.html">PerturbMoveAVB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAddAVB.html">PerturbAddAVB</a></li>
 </ul>
 </li>
 </ul>
@@ -161,6 +161,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -289,12 +290,21 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst20EnergyMapAllCriteriaE">
 <span class="target" id="classfeasst_1_1EnergyMapAllCriteria"></span><em class="property">class </em><code class="sig-name descname">EnergyMapAllCriteria</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="EnergyMapAll.html#_CPPv4N6feasst12EnergyMapAllE" title="feasst::EnergyMapAll">EnergyMapAll</a><a class="headerlink" href="#_CPPv4N6feasst20EnergyMapAllCriteriaE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as <a class="reference internal" href="EnergyMapAll.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a>, except subject update to <a class="reference internal" href="../../system/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
+<dd><p>Same as <a class="reference internal" href="EnergyMapAll.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a>, except subject update to <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst20EnergyMapAllCriteria6updateEKdKiKiKiKiKiKiKdPK8Position">
-<span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1a908e92d3fa509534de4f66217d3332f6"></span>double <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em>, <em class="property">const</em> int <em>part1_index</em>, <em class="property">const</em> int <em>site1_index</em>, <em class="property">const</em> int <em>site1_type</em>, <em class="property">const</em> int <em>part2_index</em>, <em class="property">const</em> int <em>site2_index</em>, <em class="property">const</em> int <em>site2_type</em>, <em class="property">const</em> double <em>squared_distance</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>pbc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20EnergyMapAllCriteria6updateEKdKiKiKiKiKiKiKdPK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst20EnergyMapAllCriteria20EnergyMapAllCriteriaE7argtype">
+<span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1afcfec4d321bb8959653a0df8efcec66b"></span><code class="sig-name descname">EnergyMapAllCriteria</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20EnergyMapAllCriteria20EnergyMapAllCriteriaE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>neighbor_index: <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (default: 0). </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst20EnergyMapAllCriteria6updateEKdKiKiKiKiKiKiKdPK8PositionRK13Configuration">
+<span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1a219e11c80e7cdabec752ab7baf15ba1e"></span>double <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em>, <em class="property">const</em> int <em>part1_index</em>, <em class="property">const</em> int <em>site1_index</em>, <em class="property">const</em> int <em>site1_type</em>, <em class="property">const</em> int <em>part2_index</em>, <em class="property">const</em> int <em>site2_index</em>, <em class="property">const</em> int <em>site2_type</em>, <em class="property">const</em> double <em>squared_distance</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>pbc</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20EnergyMapAllCriteria6updateEKdKiKiKiKiKiKiKdPK8PositionRK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update the interaction. </p>
 </dd></dl>
 
@@ -302,12 +312,6 @@
 <dt id="_CPPv4NK6feasst20EnergyMapAllCriteria12is_queryableEv">
 <span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1ae92a40ae0472369f1e9647c50f60bf8e"></span>bool <code class="sig-name descname">is_queryable</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20EnergyMapAllCriteria12is_queryableEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if the total interaction energy is stored (e.g., no criteria for inclusion. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst20EnergyMapAllCriteria17neighbor_criteriaEv">
-<span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1abc89bec1e6ee718f1ef838c21d868498"></span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20EnergyMapAllCriteria17neighbor_criteriaEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the <a class="reference internal" href="../../system/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
 </dd></dl>
 
 </div>

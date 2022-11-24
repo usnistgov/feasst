@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ModelTwoBody &mdash; FEASST v0.20.1 documentation</title>
+  <title>ModelTwoBody &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -124,7 +124,6 @@
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidBond.html">RigidBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondFourBody.html">BondFourBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
@@ -171,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -299,7 +299,7 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst12ModelTwoBodyE">
 <span class="target" id="classfeasst_1_1ModelTwoBody"></span><em class="property">class </em><code class="sig-name descname">ModelTwoBody</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a><a class="headerlink" href="#_CPPv4N6feasst12ModelTwoBodyE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Subclassed by <a class="reference internal" href="../../charge/doc/ChargeScreened.html#classfeasst_1_1ChargeScreened"><span class="std std-ref">feasst::ChargeScreened</span></a>, <a class="reference internal" href="../../charge/doc/ChargeScreenedIntra.html#classfeasst_1_1ChargeScreenedIntra"><span class="std std-ref">feasst::ChargeScreenedIntra</span></a>, <a class="reference internal" href="../../charge/doc/Coulomb.html#classfeasst_1_1Coulomb"><span class="std std-ref">feasst::Coulomb</span></a>, <a class="reference internal" href="HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">feasst::HardSphere</span></a>, <a class="reference internal" href="IdealGas.html#classfeasst_1_1IdealGas"><span class="std std-ref">feasst::IdealGas</span></a>, <a class="reference internal" href="LennardJones.html#classfeasst_1_1LennardJones"><span class="std std-ref">feasst::LennardJones</span></a>, <a class="reference internal" href="../../models/doc/Mie.html#classfeasst_1_1Mie"><span class="std std-ref">feasst::Mie</span></a>, <a class="reference internal" href="../../example/doc/ModelExample.html#classfeasst_1_1ModelExample"><span class="std std-ref">feasst::ModelExample</span></a>, <a class="reference internal" href="ModelTwoBodyFactory.html#classfeasst_1_1ModelTwoBodyFactory"><span class="std std-ref">feasst::ModelTwoBodyFactory</span></a>, <a class="reference internal" href="ModelTwoBodyTable.html#classfeasst_1_1ModelTwoBodyTable"><span class="std std-ref">feasst::ModelTwoBodyTable</span></a>, <a class="reference internal" href="../../steppers/doc/PairDistributionInner.html#classfeasst_1_1PairDistributionInner"><span class="std std-ref">feasst::PairDistributionInner</span></a>, <a class="reference internal" href="../../models/doc/SquareWell.html#classfeasst_1_1SquareWell"><span class="std std-ref">feasst::SquareWell</span></a>, <a class="reference internal" href="../../models/doc/Yukawa.html#classfeasst_1_1Yukawa"><span class="std std-ref">feasst::Yukawa</span></a></p>
+<dd><p>Subclassed by <a class="reference internal" href="../../charge/doc/ChargeScreened.html#classfeasst_1_1ChargeScreened"><span class="std std-ref">feasst::ChargeScreened</span></a>, <a class="reference internal" href="../../charge/doc/ChargeScreenedIntra.html#classfeasst_1_1ChargeScreenedIntra"><span class="std std-ref">feasst::ChargeScreenedIntra</span></a>, <a class="reference internal" href="../../charge/doc/Coulomb.html#classfeasst_1_1Coulomb"><span class="std std-ref">feasst::Coulomb</span></a>, <a class="reference internal" href="../../charge/doc/DebyeHuckel.html#classfeasst_1_1DebyeHuckel"><span class="std std-ref">feasst::DebyeHuckel</span></a>, <a class="reference internal" href="HardSphere.html#classfeasst_1_1HardSphere"><span class="std std-ref">feasst::HardSphere</span></a>, <a class="reference internal" href="IdealGas.html#classfeasst_1_1IdealGas"><span class="std std-ref">feasst::IdealGas</span></a>, <a class="reference internal" href="LennardJones.html#classfeasst_1_1LennardJones"><span class="std std-ref">feasst::LennardJones</span></a>, <a class="reference internal" href="../../models/doc/Mie.html#classfeasst_1_1Mie"><span class="std std-ref">feasst::Mie</span></a>, <a class="reference internal" href="../../example/doc/ModelExample.html#classfeasst_1_1ModelExample"><span class="std std-ref">feasst::ModelExample</span></a>, <a class="reference internal" href="ModelTwoBodyFactory.html#classfeasst_1_1ModelTwoBodyFactory"><span class="std std-ref">feasst::ModelTwoBodyFactory</span></a>, <a class="reference internal" href="ModelTwoBodyTable.html#classfeasst_1_1ModelTwoBodyTable"><span class="std std-ref">feasst::ModelTwoBodyTable</span></a>, <a class="reference internal" href="../../steppers/doc/PairDistributionInner.html#classfeasst_1_1PairDistributionInner"><span class="std std-ref">feasst::PairDistributionInner</span></a>, <a class="reference internal" href="../../models/doc/SquareWell.html#classfeasst_1_1SquareWell"><span class="std std-ref">feasst::SquareWell</span></a>, <a class="reference internal" href="../../models/doc/TwoBodyTable.html#classfeasst_1_1TwoBodyTable"><span class="std std-ref">feasst::TwoBodyTable</span></a>, <a class="reference internal" href="../../models/doc/Yukawa.html#classfeasst_1_1Yukawa"><span class="std std-ref">feasst::Yukawa</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">

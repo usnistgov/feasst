@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ModelParam &mdash; FEASST v0.20.1 documentation</title>
+  <title>ModelParam &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -114,18 +114,19 @@
 <li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">ModelParam</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -148,6 +149,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -277,7 +279,7 @@
 <dt id="_CPPv4N6feasst10ModelParamE">
 <span class="target" id="classfeasst_1_1ModelParam"></span><em class="property">class </em><code class="sig-name descname">ModelParam</code><a class="headerlink" href="#_CPPv4N6feasst10ModelParamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../system/doc/Model.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a> parameters depend upon site types, such as epsilon, sigma, etc. These parameters may also be mixed between two different site types. Each model parameter has an assumed mixing behavior. </p>
-<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1Charge"><span class="std std-ref">feasst::Charge</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1CosPatchAngle"><span class="std std-ref">feasst::CosPatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1CutOff"><span class="std std-ref">feasst::CutOff</span></a>, <a class="reference internal" href="../../system/doc/CutoffOuter.html#classfeasst_1_1CutoffOuter"><span class="std std-ref">feasst::CutoffOuter</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1DeltaSigma"><span class="std std-ref">feasst::DeltaSigma</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1Director"><span class="std std-ref">feasst::Director</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyAtCutOff"><span class="std std-ref">feasst::EnergyAtCutOff</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyDerivAtCutOff"><span class="std std-ref">feasst::EnergyDerivAtCutOff</span></a>, <a class="reference internal" href="#classfeasst_1_1Epsilon"><span class="std std-ref">feasst::Epsilon</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1Lambda"><span class="std std-ref">feasst::Lambda</span></a>, <a class="reference internal" href="../../confinement/doc/ModelLJShape.html#classfeasst_1_1ModelLJShapeEnergyAtCutoff"><span class="std std-ref">feasst::ModelLJShapeEnergyAtCutoff</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1PatchAngle"><span class="std std-ref">feasst::PatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1Sigma"><span class="std std-ref">feasst::Sigma</span></a></p>
+<p>Subclassed by <a class="reference internal" href="../../aniso/doc/Anisotropic.html#classfeasst_1_1Anisotropic"><span class="std std-ref">feasst::Anisotropic</span></a>, <a class="reference internal" href="#classfeasst_1_1Charge"><span class="std std-ref">feasst::Charge</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1CosPatchAngle"><span class="std std-ref">feasst::CosPatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1CutOff"><span class="std std-ref">feasst::CutOff</span></a>, <a class="reference internal" href="../../system/doc/CutoffOuter.html#classfeasst_1_1CutoffOuter"><span class="std std-ref">feasst::CutoffOuter</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1DeltaSigma"><span class="std std-ref">feasst::DeltaSigma</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1Director"><span class="std std-ref">feasst::Director</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyAtCutOff"><span class="std std-ref">feasst::EnergyAtCutOff</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1EnergyDerivAtCutOff"><span class="std std-ref">feasst::EnergyDerivAtCutOff</span></a>, <a class="reference internal" href="#classfeasst_1_1Epsilon"><span class="std std-ref">feasst::Epsilon</span></a>, <a class="reference internal" href="../../models/doc/LennardJonesAlpha.html#classfeasst_1_1Lambda"><span class="std std-ref">feasst::Lambda</span></a>, <a class="reference internal" href="../../confinement/doc/ModelLJShape.html#classfeasst_1_1ModelLJShapeEnergyAtCutoff"><span class="std std-ref">feasst::ModelLJShapeEnergyAtCutoff</span></a>, <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1PatchAngle"><span class="std std-ref">feasst::PatchAngle</span></a>, <a class="reference internal" href="#classfeasst_1_1Sigma"><span class="std std-ref">feasst::Sigma</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">

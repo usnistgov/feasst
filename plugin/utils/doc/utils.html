@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>utils/include/utils &mdash; FEASST v0.20.1 documentation</title>
+  <title>utils/include/utils &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -144,6 +144,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -325,15 +326,21 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorINSt6vectorI1TEEEE">
-<span class="target" id="namespacefeasst_1ae4f544d6b4ace433ede71f9b0f67398a"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::fill::T">T</a> <em>value</em>, std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::fill::T">T</a>&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Fill two dimensional vector with a constant. Note to HWH: rewrite using variadic templates for arbitrary dimensions </p>
+<dt id="_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEEEE">
+<span class="target" id="namespacefeasst_1a0f536b100b65484443c88966253bfad5"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">resize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim0</em>, <em class="property">const</em> int <em>dim1</em>, <em class="property">const</em> int <em>dim2</em>, <em class="property">const</em> int <em>dim3</em>, <em class="property">const</em> int <em>dim4</em>, <em class="property">const</em> int <em>dim5</em>, std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEEEE" title="feasst::feasst::resize::T">T</a>&gt;&gt;&gt;&gt;&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Resize six dimensional vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE">
-<span class="target" id="namespacefeasst_1ad6712ab5983a3704fa85b74c87dcb2e2"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::fill::T">T</a> <em>value</em>, std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::fill::T">T</a>&gt;&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Fill three dimensional vector with a constant. Note to HWH: rewrite using variadic templates for arbitrary dimensions </p>
+<dt id="_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorI1TEE">
+<span class="target" id="namespacefeasst_1a567e3a6f358a3bc233ad8960243397de"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorI1TEE" title="feasst::feasst::fill::T">T</a> <em>value</em>, std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorI1TEE" title="feasst::feasst::fill::T">T</a>&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst4fillEvK1TPNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Fill vector with a constant. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I00EN6feasst6feasst4fillEvK2T1PNSt6vectorI2T2EE">
+<span class="target" id="namespacefeasst_1af7f7f54b2200315c353be83df74f4e2b"></span>template&lt;typename <code class="sig-name descname">T1</code>, typename <code class="sig-name descname">T2</code>&gt;<br />void <code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00EN6feasst6feasst4fillEvK2T1PNSt6vectorI2T2EE" title="feasst::feasst::fill::T1">T1</a> <em>value</em>, std::vector&lt;<a class="reference internal" href="#_CPPv4I00EN6feasst6feasst4fillEvK2T1PNSt6vectorI2T2EE" title="feasst::feasst::fill::T2">T2</a>&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I00EN6feasst6feasst4fillEvK2T1PNSt6vectorI2T2EE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Fill multi-dimensional vector with a constant. </p>
 </dd></dl>
 
 <dl class="cpp function">

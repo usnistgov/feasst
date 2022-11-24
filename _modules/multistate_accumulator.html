@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>multistate_accumulator &mdash; FEASST v0.20.1 documentation</title>
+  <title>multistate_accumulator &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -82,7 +82,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -251,24 +251,24 @@
 <span class="sd">    &gt;&gt;&gt; from pyfeasst import multistate_accumulator</span>
 <span class="sd">    &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">    &gt;&gt;&gt; spliced = splice_by_node(prefix=&#39;../../tests/lj_enn&#39;, suffix=&#39;.txt&#39;, num_nodes=2)</span>
-<span class="sd">    &gt;&gt;&gt; spliced[&#39;average&#39;][375]</span>
-<span class="sd">    -2001.7668797287809</span>
-<span class="sd">    &gt;&gt;&gt; spliced[&#39;average&#39;][376]</span>
-<span class="sd">    -2012.4676487137983</span>
+<span class="sd">    &gt;&gt;&gt; round(spliced[&#39;average&#39;][375], 8)</span>
+<span class="sd">    -2001.76687973</span>
+<span class="sd">    &gt;&gt;&gt; round(spliced[&#39;average&#39;][376], 8)</span>
+<span class="sd">    -2012.46764871</span>
 <span class="sd">    &gt;&gt;&gt; len(spliced)</span>
 <span class="sd">    476</span>
 <span class="sd">    &gt;&gt;&gt; spliced.to_csv(&#39;spliced.csv&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; lnpi = macrostate_distribution.splice_files(prefix=&#39;../../tests/lj_lnpin&#39;, suffix=&#39;.txt&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; lnpi.concat_dataframe(spliced, add_prefix=&#39;e_&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; lnpi.equilibrium()</span>
-<span class="sd">    -0.31402410845849854</span>
+<span class="sd">    &gt;&gt;&gt; round(lnpi.equilibrium(), 8)</span>
+<span class="sd">    -0.31402411</span>
 <span class="sd">    &gt;&gt;&gt; vapor, liquid = lnpi.split()</span>
-<span class="sd">    &gt;&gt;&gt; -vapor.ln_prob()[0]*0.7/8**3  # pressure</span>
-<span class="sd">    0.0013690413500822545</span>
-<span class="sd">    &gt;&gt;&gt; vapor.ensemble_average(&#39;e_average&#39;)/vapor.average_macrostate()</span>
-<span class="sd">    -0.025003690574197115</span>
-<span class="sd">    &gt;&gt;&gt; liquid.ensemble_average(&#39;e_average&#39;)/liquid.average_macrostate()</span>
-<span class="sd">    -6.098388307322735</span>
+<span class="sd">    &gt;&gt;&gt; round(-vapor.ln_prob()[0]*0.7/8**3, 8)  # pressure</span>
+<span class="sd">    0.00136904</span>
+<span class="sd">    &gt;&gt;&gt; round(vapor.ensemble_average(&#39;e_average&#39;)/vapor.average_macrostate(), 8)</span>
+<span class="sd">    -0.02500369</span>
+<span class="sd">    &gt;&gt;&gt; round(liquid.ensemble_average(&#39;e_average&#39;)/liquid.average_macrostate(), 8)</span>
+<span class="sd">    -6.09838831</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">node_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">):</span>

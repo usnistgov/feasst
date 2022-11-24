@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>macrostate_distribution &mdash; FEASST v0.20.1 documentation</title>
+  <title>macrostate_distribution &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -248,7 +248,8 @@ This may include canonical ensemble averages and blocks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>file_name</strong> (<em>str</em>) – The name of the csv file which stores per-macrostate quantities.</p></li>
+<li><p><strong>file_name</strong> (<em>str</em>) – The name of the csv file which stores per-macrostate quantities.
+If None, do not read a file, and instead use set_dataframe later.</p></li>
 <li><p><strong>macrostate_header</strong> (<em>str</em>) – In the grand canonical ensemble, the macrostates are the number of particles.
 This is the header for that column in a pandas data frame.</p></li>
 <li><p><strong>ln_prob_header</strong> (<em>str</em>) – The natural logarithm of the probability of observing each macrostate.</p></li>
@@ -337,8 +338,8 @@ If ln_prob is provided as a series, return the normalized series.</p>
 <dd><p>Return the average macrostate.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;../../tests/lnpi.csv&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
-<span class="go">437.6820787231706</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">437.68207872</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -351,8 +352,8 @@ for example, canonical averages.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;../../tests/lnpi.csv&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
-<span class="go">-2701.3930043481596</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;energy&#39;</span><span class="p">),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-2701.39300435</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -391,14 +392,14 @@ Both MacrostateDistribution will contain the minimum.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;../../tests/lnpi.csv&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="p">,</span> <span class="n">liquid</span> <span class="o">=</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
-<span class="go">1.4212647041954634</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
-<span class="go">-0.04911666622772193</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
-<span class="go">437.6820787231706</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">liquid</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
-<span class="go">-2701.39300434816</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">1.4212647</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">vapor</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-0.04911667</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">437.68207872</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">liquid</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-2701.39300435</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -411,11 +412,11 @@ If inplace, replace current ln_prob with the reweighted ones.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;../../tests/lnpi.csv&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">reweight</span> <span class="o">=</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">reweight</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">-0.5010868690523108</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">reweight</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-0.50108687</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">reweight</span> <span class="o">=</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">reweight</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">-811.7401044444931</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">reweight</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-811.74010444</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -435,8 +436,8 @@ closer to equilibrium.</p></li>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;../../tests/lnpi.csv&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">reweight_to_macrostate</span><span class="p">(</span><span class="n">target_macrostate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="go">-0.3221837585941306</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">reweight_to_macrostate</span><span class="p">(</span><span class="n">target_macrostate</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-0.32218376</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(),</span> <span class="mi">5</span><span class="p">)</span>
 <span class="go">10.0</span>
 </pre></div>
@@ -458,13 +459,13 @@ closer to equilibrium.</p></li>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;../../tests/lnpi.csv&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">(</span><span class="n">delta_beta_mu_guess</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
-<span class="go">-0.31323799472042363</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">(</span><span class="n">delta_beta_mu_guess</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-0.31323799</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="p">,</span> <span class="n">liquid</span> <span class="o">=</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span>
-<span class="go">0.00200034710256861</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span>
-<span class="go">0.8430480261823026</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">0.00200035</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">0.84304803</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -485,17 +486,17 @@ macrostates in the upper MacrostateDistribution.</p>
 <span class="gp">... </span>        <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;../../tests/lnpin&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">splice</span><span class="p">(</span><span class="n">lnpis</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">set_minimum_smoothing</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
-<span class="go">596.292899018217</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">596.29289902</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">minimums</span><span class="p">())</span>
 <span class="go">0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">(</span><span class="n">delta_beta_mu_guess</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">)</span>
-<span class="go">-1.2768125968551267</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">(</span><span class="n">delta_beta_mu_guess</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-1.2768126</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="p">,</span> <span class="n">liquid</span> <span class="o">=</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
-<span class="go">0.0317208114759036</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
-<span class="go">523.3553081498679</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">0.03172081</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">523.35530815</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -507,13 +508,48 @@ macrostates in the upper MacrostateDistribution.</p>
 But this time, provide the prefix and suffix of the filenames and search the files.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">splice_files</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;../../tests/lj_lnpin&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.txt&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">()</span>
-<span class="go">-0.3140241084584985</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-0.31402411</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="p">,</span> <span class="n">liquid</span> <span class="o">=</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span>
-<span class="go">0.001995010383395003</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span>
-<span class="go">0.8431834550386511</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">0.00199501</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">0.84318346</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="macrostate_distribution.read_appended">
+<code class="sig-prename descclassname">macrostate_distribution.</code><code class="sig-name descname">read_appended</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">num_states</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#read_appended"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.read_appended" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an appended ln_prob file, and return a list of pairs of MacrostateDistributions and
+parameters from a required first line comment.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dists</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">read_appended</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;../../tests/lj_lnpi_appended.txt&#39;</span><span class="p">,</span> <span class="n">num_states</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dists</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;cpu_hours&#39;</span><span class="p">]</span>
+<span class="go">0.117464</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">dists</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-4.68014742</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="macrostate_distribution.splice_collection_matrix">
+<code class="sig-prename descclassname">macrostate_distribution.</code><code class="sig-name descname">splice_collection_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prefix</span></em>, <em class="sig-param"><span class="n">suffix</span></em>, <em class="sig-param"><span class="n">use_soft</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#splice_collection_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.splice_collection_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splice collection matrix of files and return a MacrostateDistribution with ln_prob computed
+from the P_up and P_down matrix elements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>use_soft</strong> (<em>bool</em>) – use soft_min and soft_max to trim the file before concatenation.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lnp</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">splice_collection_matrix</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;../../tests/lj_crit&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                                       <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnp</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-12.27534328</span>
 </pre></div>
 </div>
 </dd></dl>

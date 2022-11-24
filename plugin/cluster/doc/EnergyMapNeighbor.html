@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>EnergyMapNeighbor &mdash; FEASST v0.20.1 documentation</title>
+  <title>EnergyMapNeighbor &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -133,6 +133,9 @@
 <li class="toctree-l4"><a class="reference internal" href="EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotateCOM.html">PerturbRotateCOM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMoveAVB.html">PerturbMoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAddAVB.html">PerturbAddAVB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeCluster.html">AnalyzeCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAVB2Half.html">TrialAVB2Half</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslateCluster.html">TrialTranslateCluster</a></li>
@@ -150,9 +153,6 @@
 <li class="toctree-l4"><a class="reference internal" href="SelectCluster.html">SelectCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeMoveCluster.html">ComputeMoveCluster</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbRotateCOM.html">PerturbRotateCOM</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbMoveAVB.html">PerturbMoveAVB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAddAVB.html">PerturbAddAVB</a></li>
 </ul>
 </li>
 </ul>
@@ -161,6 +161,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -301,8 +302,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst17EnergyMapNeighbor6updateEKdKiKiKiKiKiKiKdPK8Position">
-<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a441c61b5619071ee647b0e472630c99e"></span>double <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em>, <em class="property">const</em> int <em>part1_index</em>, <em class="property">const</em> int <em>site1_index</em>, <em class="property">const</em> int <em>site1_type</em>, <em class="property">const</em> int <em>part2_index</em>, <em class="property">const</em> int <em>site2_index</em>, <em class="property">const</em> int <em>site2_type</em>, <em class="property">const</em> double <em>squared_distance</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>pbc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17EnergyMapNeighbor6updateEKdKiKiKiKiKiKiKdPK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst17EnergyMapNeighbor6updateEKdKiKiKiKiKiKiKdPK8PositionRK13Configuration">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a2b89428dc5f193a0508dd35d9ff403d3"></span>double <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em>, <em class="property">const</em> int <em>part1_index</em>, <em class="property">const</em> int <em>site1_index</em>, <em class="property">const</em> int <em>site1_type</em>, <em class="property">const</em> int <em>part2_index</em>, <em class="property">const</em> int <em>site2_index</em>, <em class="property">const</em> int <em>site2_type</em>, <em class="property">const</em> double <em>squared_distance</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>pbc</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17EnergyMapNeighbor6updateEKdKiKiKiKiKiKiKdPK8PositionRK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update the interaction. </p>
 </dd></dl>
 
@@ -326,19 +327,19 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst17EnergyMapNeighbor14select_clusterERK16NeighborCriteriaRK13ConfigurationKiP6SelectRK8Position">
-<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1ab9abd56c5f71d3b6c831a710be1d5532"></span>void <code class="sig-name descname">select_cluster</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>cluster_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>particle_node</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>cluster</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>frame_of_reference</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor14select_clusterERK16NeighborCriteriaRK13ConfigurationKiP6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1ab9abd56c5f71d3b6c831a710be1d5532"></span>void <code class="sig-name descname">select_cluster</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>cluster_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>particle_node</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>cluster</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>frame_of_reference</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor14select_clusterERK16NeighborCriteriaRK13ConfigurationKiP6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add neighboring particles to selection which interact with node based on an energy less than or equal to the tolerance. The cluster also has positions taking into account periodic boundary conditions, which is why frame of reference is used recurisvely. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst17EnergyMapNeighbor18is_cluster_changedERK16NeighborCriteriaRK6SelectRK13Configuration">
-<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a6164dc8445129f7cf8ca0312aacf59c4"></span>bool <code class="sig-name descname">is_cluster_changed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>cluster_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor18is_cluster_changedERK16NeighborCriteriaRK6SelectRK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a6164dc8445129f7cf8ca0312aacf59c4"></span>bool <code class="sig-name descname">is_cluster_changed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>cluster_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor18is_cluster_changedERK16NeighborCriteriaRK6SelectRK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compare old and new maps to see if cluster has changed. This is useful for detailed balance with rigid cluster moves. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst17EnergyMapNeighbor9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6SelectKi">
-<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1ab0dbb13c1902ceba6ab6b72154da15b7"></span>void <code class="sig-name descname">neighbors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>neighbor_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>target_particle</em>, <em class="property">const</em> int <em>target_site</em>, <em class="property">const</em> int <em>given_site_index</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>neighbors</em>, <em class="property">const</em> int <em>new_map</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1ab0dbb13c1902ceba6ab6b72154da15b7"></span>void <code class="sig-name descname">neighbors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>neighbor_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>target_particle</em>, <em class="property">const</em> int <em>target_site</em>, <em class="property">const</em> int <em>given_site_index</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>neighbors</em>, <em class="property">const</em> int <em>new_map</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">neighbors</span></code>: Return of the neighbors </p></li>

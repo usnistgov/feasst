@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>VisitModelCell &mdash; FEASST v0.20.1 documentation</title>
+  <title>VisitModelCell &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -124,7 +124,6 @@
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidBond.html">RigidBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondFourBody.html">BondFourBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
@@ -171,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -306,7 +306,7 @@
 <dt id="_CPPv4N6feasst14VisitModelCell14VisitModelCellE7argtype">
 <span class="target" id="classfeasst_1_1VisitModelCell_1aabfe262288303fa6abe6bcf8f339dd77"></span><code class="sig-name descname">VisitModelCell</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCell14VisitModelCellE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>min_length: build cell list with given minimum distance between cells.</p></li>
+<li><p>min_length: build cell list with given minimum distance between cells as a floating point number. If “max_sigma” then use the largest mixed sigma value. If “max_cutoff” then use the largest mixed cutoff value.</p></li>
 <li><p>cell_group_index: compute cells only in given group index (default: 0).</p></li>
 <li><p>cell_group: as above, but use the name of the group, not the index. Do not use at the same time as cell_group_index (default: “”). </p></li>
 </ul>

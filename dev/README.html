@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Developer guidelines &mdash; FEASST v0.20.1 documentation</title>
+  <title>Developer guidelines &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -595,7 +595,6 @@ compatibility.</p></li>
 <li><p>Rename xyz files, and/or document more cleary (second line in xyz).</p></li>
 <li><p>Rename plugin chain-&gt;config_bias ?</p></li>
 <li><p>in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?</p></li>
-<li><p>EnergyMapNeighborCriteria should be able to take index of energy map stored by System</p></li>
 <li><p>Optimize TrialRemove for new_only by not computing interactions with neighbors</p></li>
 <li><p>Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.</p></li>
 <li><p>(repeat) regrow but within near existing, for ‘free dof, e.g. azimuthal in  angle, sphere in bond, etc’</p></li>
@@ -608,7 +607,8 @@ compatibility.</p></li>
 <li><p>get rid of ‘time’ and ‘default’ values for Random seed argument.</p></li>
 <li><p>Windows with non-integer macrostates?</p></li>
 <li><p>For unknown reasons, VisitModelOuterCutoff had energy issues with RPM</p></li>
-<li><p>Allow CollectionMatrix to have a reference chemical_potential, then CriteriaUpdater can change mu to get a target (density in middle range, or…)</p></li>
+<li><p>Add TrialParticlePivot to TrialGrow (randomly orients particle about site). Or, more generally, say num_steps=-1 combines stages into one.</p></li>
+<li><p>better support compressed trajectory formats: xtc, dcd, etc</p></li>
 </ul>
 </div>
 </div>

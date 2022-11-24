@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Plugins &mdash; FEASST v0.20.1 documentation</title>
+  <title>Plugins &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Threads" href="threads/README.html" />
-    <link rel="prev" title="HPC/SLURM script with checkpointed restarts" href="../tutorial/launch.html" />
+    <link rel="prev" title="Prefetch example" href="prefetch/tutorial/tutorial_1_prefetch.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -129,6 +129,7 @@
 <li class="toctree-l2"><a class="reference internal" href="morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield and Units</a></li>
@@ -295,6 +296,7 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l2"><a class="reference internal" href="math/doc/quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="math/doc/FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l2"><a class="reference internal" href="math/doc/Matrix.html">Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math/doc/Euler.html">Euler</a></li>
 <li class="toctree-l2"><a class="reference internal" href="math/doc/RandomMT19937.html">RandomMT19937</a></li>
 <li class="toctree-l2"><a class="reference internal" href="math/doc/Solver.html">Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="math/doc/SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
@@ -312,18 +314,19 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/TypedEntity.html">TypedEntity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/Bond.html">Bond</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/PhysicalConstants.html">PhysicalConstants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/doc/NeighborCriteria.html">NeighborCriteria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/doc/Domain.html">Domain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/Site.html">Site</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/Particle.html">Particle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/ModelParam.html">ModelParam</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/Group.html">Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/ParticleFactory.html">ParticleFactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/doc/FileLMP.html">FileLMP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/Select.html">Select</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/VisitParticles.html">VisitParticles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/Configuration.html">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/doc/FileVMD.html">FileVMD</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/doc/FileLMP.html">FileLMP</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/doc/Domain.html">Domain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -341,7 +344,6 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l3"><a class="reference internal" href="system/doc/BondTwoBody.html">BondTwoBody</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/BondSquareWell.html">BondSquareWell</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/RigidBond.html">RigidBond</a></li>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/BondFourBody.html">BondFourBody</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/BondVisitor.html">BondVisitor</a></li>
@@ -372,8 +374,8 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 </li>
 <li class="toctree-l1"><a class="reference internal" href="monte_carlo/README.html">Monte Carlo</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="monte_carlo/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/tutorial/tutorial_0_ref_configs.html">Lennard Jones reference configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/tutorial/tutorial_1_lj_nvt.html">Canonical ensemble average energy of a bulk LJ fluid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/tutorial/tutorial_0_ref_configs.html">Lennard Jones potential test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/tutorial/tutorial_1_lj_nvt.html">Average energy of a bulk LJ fluid in the canonical ensemble</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="monte_carlo/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -392,7 +394,14 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbDihedral.html">PerturbDihedral</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbToAnchor.html">PerturbToAnchor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbRotate.html">PerturbRotate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbRemove.html">PerturbRemove</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Trial.html">Trial</a></li>
@@ -420,13 +429,6 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbDihedral.html">PerturbDihedral</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbRotate.html">PerturbRotate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbAdd.html">PerturbAdd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbRemove.html">PerturbRemove</a></li>
 </ul>
 </li>
 </ul>
@@ -446,7 +448,9 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l2"><a class="reference internal" href="models/doc/BondHarmonic.html">BondHarmonic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/DihedralHarmonic.html">DihedralHarmonic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/DihedralTraPPE.html">DihedralTraPPE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models/doc/TablePotential.html">TablePotential</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/Yukawa.html">Yukawa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models/doc/TwoBodyTable.html">TwoBodyTable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/SquareWell.html">SquareWell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/LennardJonesAlpha.html">LennardJonesAlpha</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/LennardJonesCutShift.html">LennardJonesCutShift</a></li>
@@ -454,12 +458,14 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l2"><a class="reference internal" href="models/doc/Mie.html">Mie</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models/README.html#tutorial">Tutorial</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/tutorial/tutorial_1_lj_table.html">User defined tabular potentials</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="models/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/README.html">Steppers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="steppers/doc/Scattering.html">Scattering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/DensityProfile.html">DensityProfile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/LogAndMovie.html">LogAndMovie</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/AnalyzeData.html">AnalyzeData</a></li>
@@ -485,6 +491,10 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/Tune.html">Tune</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/Movie.html">Movie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="steppers/README.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="steppers/tutorial/tutorial_01_hs_scattering.html">Compare scattering calculations for hard spheres</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -505,9 +515,9 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l3"><a class="reference internal" href="flat_histogram/tutorial/tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flat_histogram/tutorial/tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flat_histogram/tutorial/tutorial_10_wltm_lowt.html">Grand Canonical Flat Histogram Simulation at low temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/tutorial/tutorial_11_trappe_alkane.html">Grand Canonical Flat Histogram Simulation of TraPPE alkanes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="flat_histogram/README.html#tools">Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flat_histogram/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flat_histogram/README.html#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/Window.html">Window</a></li>
@@ -547,6 +557,7 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l3"><a class="reference internal" href="mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mayer/tutorial/tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mayer/tutorial/tutorial_4_cgmab.html">Virial coefficients of coarse-grained mAb models.</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mayer/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -561,6 +572,13 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/SelectPerturbed.html">SelectPerturbed</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/SelectParticlePivot.html">SelectParticlePivot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbParticlePivot.html">PerturbParticlePivot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/EndToEndDistance.html">EndToEndDistance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/RadiusOfGyration.html">RadiusOfGyration</a></li>
@@ -573,21 +591,16 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chain/doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/doc/SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbBranch.html">PerturbBranch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbPivot.html">PerturbPivot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbParticlePivot.html">PerturbParticlePivot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chain/doc/PerturbSiteType.html">PerturbSiteType</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chain/doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chain/README.html#tutorial">Tutorial</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="chain/tutorial/tutorial_0_freely_jointed.html">Simulation of a single freely-jointed chain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chain/tutorial/tutorial_1_ideal_ua_chain.html">Simulation of a single chain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chain/tutorial/tutorial_2_ideal_ua_chain20.html">Simulation of a single 20-bead linear chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/tutorial/tutorial_3_cg7mab.html">Scattering calculations for hard sphere coarse-grained mAb models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/tutorial/tutorial_4_rg_extrapolation.html">Temperature extrapolation of the radius of gyration</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chain/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -633,7 +646,7 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l1"><a class="reference internal" href="charge/README.html">Charge</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="charge/README.html#tutorial">Tutorial</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="charge/tutorial/tutorial_0_spce_ref_config.html">Reference configuration of SPC/E water in non-cuboid domain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="charge/tutorial/tutorial_1_spce_nvt.html">Canonical ensemble average energy of a bulk SPC/E fluid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/tutorial/tutorial_1_spce_nvt.html">Average energy of a bulk SPC/E fluid in the canonical ensemble</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="charge/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -642,6 +655,7 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/Coulomb.html">Coulomb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/ChargeScreened.html">ChargeScreened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/DebyeHuckel.html">DebyeHuckel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/ElectricField.html">ElectricField</a></li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/ChargeSelf.html">ChargeSelf</a></li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/Ewald.html">Ewald</a></li>
@@ -674,6 +688,9 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/PerturbRotateCOM.html">PerturbRotateCOM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/PerturbMoveAVB.html">PerturbMoveAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/PerturbAddAVB.html">PerturbAddAVB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/AnalyzeCluster.html">AnalyzeCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialAVB2Half.html">TrialAVB2Half</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialTranslateCluster.html">TrialTranslateCluster</a></li>
@@ -691,9 +708,6 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/SelectCluster.html">SelectCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/ComputeMoveCluster.html">ComputeMoveCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cluster/doc/PerturbRotateCOM.html">PerturbRotateCOM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cluster/doc/PerturbMoveAVB.html">PerturbMoveAVB</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cluster/doc/PerturbAddAVB.html">PerturbAddAVB</a></li>
 </ul>
 </li>
 </ul>
@@ -739,6 +753,15 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
 <li class="toctree-l2"><a class="reference internal" href="prefetch/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="aniso/README.html">Aniso</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aniso/doc/VisitModelInnerTable.html">VisitModelInnerTable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aniso/doc/Anisotropic.html">Anisotropic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aniso/README.html#tutorial">Tutorial</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aniso/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -750,7 +773,7 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="threads/README.html" class="btn btn-neutral float-right" title="Threads" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="../tutorial/launch.html" class="btn btn-neutral float-left" title="HPC/SLURM script with checkpointed restarts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="prefetch/tutorial/tutorial_1_prefetch.html" class="btn btn-neutral float-left" title="Prefetch example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>multistate_accumulator &mdash; FEASST v0.20.1 documentation</title>
+  <title>multistate_accumulator &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -280,24 +280,24 @@ by assigning rows based on the maximum in the given column.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">multistate_accumulator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">spliced</span> <span class="o">=</span> <span class="n">splice_by_node</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;../../tests/lj_enn&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spliced</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">375</span><span class="p">]</span>
-<span class="go">-2001.7668797287809</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spliced</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">376</span><span class="p">]</span>
-<span class="go">-2012.4676487137983</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">spliced</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">375</span><span class="p">],</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-2001.76687973</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">spliced</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">376</span><span class="p">],</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-2012.46764871</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">spliced</span><span class="p">)</span>
 <span class="go">476</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">spliced</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;spliced.csv&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">splice_files</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;../../tests/lj_lnpin&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.txt&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">concat_dataframe</span><span class="p">(</span><span class="n">spliced</span><span class="p">,</span> <span class="n">add_prefix</span><span class="o">=</span><span class="s1">&#39;e_&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">()</span>
-<span class="go">-0.31402410845849854</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-0.31402411</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="p">,</span> <span class="n">liquid</span> <span class="o">=</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="n">vapor</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.7</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span>  <span class="c1"># pressure</span>
-<span class="go">0.0013690413500822545</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vapor</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="s1">&#39;e_average&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
-<span class="go">-0.025003690574197115</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">liquid</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="s1">&#39;e_average&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
-<span class="go">-6.098388307322735</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="o">-</span><span class="n">vapor</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.7</span><span class="o">/</span><span class="mi">8</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>  <span class="c1"># pressure</span>
+<span class="go">0.00136904</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">vapor</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="s1">&#39;e_average&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-0.02500369</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">liquid</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="s1">&#39;e_average&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-6.09838831</span>
 </pre></div>
 </div>
 </dd></dl>

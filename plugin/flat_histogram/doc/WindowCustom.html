@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>WindowCustom &mdash; FEASST v0.20.1 documentation</title>
+  <title>WindowCustom &mdash; FEASST v0.20.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <div class="version">
-                v0.20.1
+                v0.20.2
               </div>
             
           
@@ -117,7 +117,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
@@ -153,6 +152,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
@@ -285,6 +285,16 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst12WindowCustom12WindowCustomE7argtype">
+<span class="target" id="classfeasst_1_1WindowCustom_1a546c570a3cf84caa81a819c6be0c852b"></span><code class="sig-name descname">WindowCustom</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12WindowCustom12WindowCustomE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>min[i]: minimum macrostate value of the i-th window.</p></li>
+<li><p>max: maximum of the largest window. </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst12WindowCustom12WindowCustomEKNSt6vectorIdEE7argtype">
 <span class="target" id="classfeasst_1_1WindowCustom_1af0896a075a8b81bbb424ec268987c4ad"></span><code class="sig-name descname">WindowCustom</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; <em>segment</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12WindowCustom12WindowCustomEKNSt6vectorIdEE7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct by manual input of the segments, defined in <a class="reference internal" href="Window.html#classfeasst_1_1Window"><span class="std std-ref">Window</span></a>. </p>
@@ -294,6 +304,12 @@
 <dt id="_CPPv4NK6feasst12WindowCustom7segmentEv">
 <span class="target" id="classfeasst_1_1WindowCustom_1a98cce4a599748b13b269b32f34f256e1"></span>std::vector&lt;double&gt; <code class="sig-name descname">segment</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12WindowCustom7segmentEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the continuous, segmented boundaries of the range. This should be return num + 1 boundaries, to include global min and max. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst12WindowCustom10boundariesEv">
+<span class="target" id="classfeasst_1_1WindowCustom_1a584685432ef3a466d5b7dc121e631c0b"></span>std::vector&lt;std::vector&lt;int&gt;&gt; <code class="sig-name descname">boundaries</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12WindowCustom10boundariesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the boundaries as a vector of vectors. </p>
 </dd></dl>
 
 <dl class="cpp function">
