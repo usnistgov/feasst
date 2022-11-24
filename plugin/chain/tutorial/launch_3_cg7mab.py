@@ -4,7 +4,6 @@ import argparse
 import random
 import unittest
 
-# define parameters of a pure component NVT MC hard sphere simulation
 params = {
     "cubic_box_length": 90, "fstprt": "/feasst/plugin/chain/forcefield/cg7mab2.fstprt",
     "trials_per": 1e5, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,

@@ -31,7 +31,7 @@ std::string RadiusOfGyration::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  ss << accumulator_.status_header() << std::endl;
+  ss << accumulator_.status_header() << ",rgu,rguu" << std::endl;
   return ss.str();
 }
 
@@ -55,7 +55,11 @@ void RadiusOfGyration::update(const Criteria& criteria,
       const Site& site = part.site(site_index);
       rg += site.position().squared_distance(r_cm);
     }
-    accumulator_.accumulate(rg/selection.num_sites());
+    const double rgn = rg/selection.num_sites();
+    accumulator_.accumulate(rgn);
+    const double en = criteria.current_energy();
+    rg_e_.accumulate(rgn*en);
+    rg_e2_.accumulate(rgn*en*en);
   }
 }
 
@@ -66,7 +70,9 @@ std::string RadiusOfGyration::write(const Criteria& criteria,
   if (rewrite_header()) {
     ss << header(criteria, system, trial_factory);
   }
-  ss << accumulator_.status() << std::endl;
+  ss << accumulator_.status() << "," << rg_e_.average();
+  ss << "," << rg_e2_.average();
+  ss << std::endl;
   DEBUG(ss.str());
   return ss.str();
 }
@@ -75,12 +81,16 @@ void RadiusOfGyration::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(7685, ostr);
   feasst_serialize(group_index_, ostr);
+  feasst_serialize_fstobj(rg_e_, ostr);
+  feasst_serialize_fstobj(rg_e2_, ostr);
 }
 
 RadiusOfGyration::RadiusOfGyration(std::istream& istr) : Analyze(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 7685, "mismatch version:" << version);
   feasst_deserialize(&group_index_, istr);
+  feasst_deserialize_fstobj(&rg_e_, istr);
+  feasst_deserialize_fstobj(&rg_e2_, istr);
 }
 
 RadiusOfGyration::RadiusOfGyration(const Analyze& energy) {

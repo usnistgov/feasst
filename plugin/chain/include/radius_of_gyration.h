@@ -38,6 +38,10 @@ class RadiusOfGyration : public Analyze {
   /// Return the radius of gyration
   const Accumulator& radius_of_gyration() const { return accumulator(); }
 
+  /// Return the accumulator for radius of gyration times the energy for extrapolation
+  const Accumulator& rg_e() const { return rg_e_; }
+  const Accumulator& rg_e2() const { return rg_e2_; }
+
   // serialize
   std::string class_name() const override { return std::string("RadiusOfGyration"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
@@ -50,6 +54,7 @@ class RadiusOfGyration : public Analyze {
 
  private:
   int group_index_;
+  Accumulator rg_e_, rg_e2_;
 };
 
 inline std::shared_ptr<RadiusOfGyration> MakeRadiusOfGyration(argtype args = argtype()) {

@@ -140,6 +140,9 @@ std::string Accumulator::status_header() const {
   for (int i = 0; i < static_cast<int>(val_moment_.size()); ++i) {
     ss << "moment" << i << ",";
   }
+  for (int i = 0; i < static_cast<int>(block_averages_.size()); ++i) {
+    ss << "block" << i << ",";
+  }
   return ss.str();
 }
 
@@ -150,6 +153,9 @@ std::string Accumulator::status() const {
   ss << block_stdev() << ",";
   for (const long double moment : val_moment_) {
     ss << moment << ",";
+  }
+  for (auto block : block_averages_) {
+    ss << block->average() << ",";
   }
   return ss.str();
 }
