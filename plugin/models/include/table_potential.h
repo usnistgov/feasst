@@ -52,7 +52,7 @@ class TablePotential : public VisitModelInner {
   explicit TablePotential(argtype args = argtype());
   explicit TablePotential(argtype * args);
 
-  const std::vector<std::vector<Table1D> >& energy() const { return energy_; }
+  const std::vector<std::vector<Table1D> >& energy_table() const { return energy_table_; }
 
   void precompute(Configuration * config) override;
   void compute(
@@ -76,11 +76,11 @@ class TablePotential : public VisitModelInner {
   virtual ~TablePotential() {}
 
  private:
-  std::vector<std::vector<Table1D> > energy_;
   std::vector<std::vector<double> > inner_, inner_g_;
   std::vector<std::vector<double> > cutoff_g_;
   std::vector<int> site_types_;
   //std::vector<std::vector<double> > gamma_;
+  std::vector<std::vector<Table1D> > energy_table_;
   const double gamma_ = -2;
 
   void read_table_(const std::string table_file);

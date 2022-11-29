@@ -7,10 +7,15 @@
 namespace feasst {
 
 /**
-  The following model parameters are utilized:
-  The sigma parameter is the hard sphere.
-  The cutoff is the range of the attraction.
-  The epsilon parameter is the well depth.
+  The square well model is defined as
+
+  \f$U(r) = \left\{
+    \begin{array}{lr}
+      \infty & r < \sigma \\
+      -\epsilon & \sigma \le r \le r_c \\
+      0 & r > r_c
+    \end{array}
+  \right.\f$
  */
 class SquareWell : public ModelTwoBody {
  public:

@@ -1,16 +1,18 @@
 
-#ifndef FEASST_CONFIGURATION_FILE_LMP_H_
-#define FEASST_CONFIGURATION_FILE_LMP_H_
+#ifndef FEASST_CONFIGURATION_FILE_PARTICLE_H_
+#define FEASST_CONFIGURATION_FILE_PARTICLE_H_
 
 #include <string>
 #include "configuration/include/particle.h"
 
 namespace feasst {
 
-// HWH link LMP format description
-class FileLMP {
+/**
+  See <a href="../../../forcefield/README.html">Forcefield</a> for more details.
+ */
+class FileParticle {
  public:
-  /// Create a particle from LAMMPS file format.
+  /// Create a particle from the LAMMPS-inspired fstprt file format.
   Particle read(const std::string file_name);
 
   /// Read pair properties from file and assign properties to particle
@@ -50,4 +52,4 @@ class FileLMP {
 
 }  // namespace feasst
 
-#endif  // FEASST_CONFIGURATION_FILE_LMP_H_
+#endif  // FEASST_CONFIGURATION_FILE_PARTICLE_H_

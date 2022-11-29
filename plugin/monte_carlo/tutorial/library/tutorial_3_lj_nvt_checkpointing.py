@@ -22,9 +22,9 @@ parser.add_argument("--data", type=str, help="LMP forcefield data file",
 parser.add_argument("--beta", type=float, help="inverse temperature",
     default=1/0.9)
 parser.add_argument("--equilibration_trials", type=int, help="number of trials for equilibration",
-    default=int(5e7))
+    default=int(5e6))
 parser.add_argument("--trials", type=int, help="total number of trials (equilibration and production)",
-    default=int(3e8))
+    default=int(3e7))
 parser.add_argument("--num_hours", type=float, help="number of hours before restart", default=1.)
 args = parser.parse_args()
 print("args:", args)

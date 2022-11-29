@@ -12,7 +12,7 @@
    ModelParam
    Group
    ParticleFactory
-   FileLMP
+   FileParticle
    Select
    VisitParticles
    Configuration

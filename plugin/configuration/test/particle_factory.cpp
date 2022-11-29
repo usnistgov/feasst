@@ -1,13 +1,13 @@
 #include "utils/test/utils.h"
 #include "configuration/include/particle_factory.h"
-#include "configuration/include/file_lmp.h"
+#include "configuration/include/file_particle.h"
 
 namespace feasst {
 
 TEST(ParticleFactory, site_types) {
   ParticleFactory particles;
-  particles.add(FileLMP().read("../forcefield/atom.fstprt"));
-  particles.add(FileLMP().read("../forcefield/spce.fstprt"));
+  particles.add(FileParticle().read("../forcefield/atom.fstprt"));
+  particles.add(FileParticle().read("../forcefield/spce.fstprt"));
   EXPECT_EQ(2, particles.num_site_types());
   EXPECT_EQ(0, particles.particle(0).site(0).type());
   EXPECT_EQ(0, particles.particle(1).site(0).type());

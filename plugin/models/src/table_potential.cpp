@@ -41,7 +41,7 @@ void TablePotential::read_table_(const std::string file_name) {
   resize(num_sites, num_sites, &inner_);
   resize(num_sites, num_sites, &inner_g_);
   resize(num_sites, num_sites, &cutoff_g_);
-  resize(num_sites, num_sites, &energy_);
+  resize(num_sites, num_sites, &energy_table_);
 //  resize(num_sites, num_sites, &gamma_);
   for (int type = 0; type < num_sites; ++type) {
     file >> int_val;
@@ -75,7 +75,7 @@ void TablePotential::read_table_(const std::string file_name) {
       ASSERT(num_z > 0, "num_z: " << num_z << " must be > 0");
 
       // read energies
-      Table1D * en = &energy_[itype][jtype];
+      Table1D * en = &energy_table_[itype][jtype];
       *en = Table1D({{"num", str(num_z)}});
       for (int z = 0; z < num_z; ++z) {
         file >> double_val;
@@ -162,7 +162,10 @@ void TablePotential::compute(
     const double z = (rg - rhg)/(rcg - rhg);
     DEBUG("z " << z);
     ASSERT(z >= 0 && z <= 1, "z: " << z);
-    en = energy_[type1][type2].forward_difference_interpolation(z);
+    DEBUG("type1 " << type1 << " type2 " << type2);
+    DEBUG("tab size " << energy_table_.size());
+    DEBUG("tab size " << energy_table_[0].size());
+    en = energy_table_[type1][type2].forward_difference_interpolation(z);
   }
   DEBUG("en " << en);
   update_ixn(en, part1_index, site1_index, type1, part2_index,
@@ -182,12 +185,22 @@ static MapTablePotential mapper_ = MapTablePotential();
 TablePotential::TablePotential(std::istream& istr) : VisitModelInner(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 8965, "unrecognized version: " << version);
+  feasst_deserialize(&inner_, istr);
+  feasst_deserialize(&inner_g_, istr);
+  feasst_deserialize(&cutoff_g_, istr);
+  feasst_deserialize(&site_types_, istr);
+  feasst_deserialize_fstobj(&energy_table_, istr);
 }
 
 void TablePotential::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_inner_(ostr);
   feasst_serialize_version(8965, ostr);
+  feasst_serialize(inner_, ostr);
+  feasst_serialize(inner_g_, ostr);
+  feasst_serialize(cutoff_g_, ostr);
+  feasst_serialize(site_types_, ostr);
+  feasst_serialize_fstobj(energy_table_, ostr);
 }
 
 }  // namespace feasst

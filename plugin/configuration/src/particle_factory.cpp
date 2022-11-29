@@ -3,7 +3,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/histogram.h"
 #include "math/include/utils_math.h"
-#include "configuration/include/file_lmp.h"
+#include "configuration/include/file_particle.h"
 #include "configuration/include/particle_factory.h"
 
 namespace feasst {
@@ -94,12 +94,12 @@ void ParticleFactory::check_types(int * num_site_types,
 void ParticleFactory::add(const std::string file_name) {
   ASSERT(unique_particles_,
     "only add particles by file for defining allowed types");
-  Particle particle = FileLMP().read(file_name);
+  Particle particle = FileParticle().read(file_name);
 
   // Assign per-site properties from the data file.
   if (unique_types_) {
     particle.remove_non_unique_types();
-    FileLMP().read_properties(file_name, &particle);
+    FileParticle().read_properties(file_name, &particle);
   }
 
   add(particle);

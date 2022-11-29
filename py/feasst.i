@@ -130,11 +130,12 @@
 #include "models/include/lennard_jones_alpha.h"
 #include "models/include/lennard_jones_cut_shift.h"
 #include "models/include/lennard_jones_force_shift.h"
+#include "models/include/two_body_alpha.h"
 #include "models/include/mie.h"
 #include "system/include/model_two_body_table.h"
 #include "configuration/include/group.h"
 #include "configuration/include/particle_factory.h"
-#include "configuration/include/file_lmp.h"
+#include "configuration/include/file_particle.h"
 #include "configuration/include/select.h"
 #include "system/include/cells.h"
 #include "system/include/visit_model_cutoff_outer.h"
@@ -480,11 +481,12 @@ using namespace std;
 %shared_ptr(feasst::EnergyDerivAtCutOff);
 %shared_ptr(feasst::LennardJonesCutShift);
 %shared_ptr(feasst::LennardJonesForceShift);
+%shared_ptr(feasst::TwoBodyAlpha);
 %shared_ptr(feasst::Mie);
 %shared_ptr(feasst::ModelTwoBodyTable);
 %shared_ptr(feasst::Group);
 %shared_ptr(feasst::ParticleFactory);
-%shared_ptr(feasst::FileLMP);
+%shared_ptr(feasst::FileParticle);
 %shared_ptr(feasst::Select);
 %shared_ptr(feasst::Cells);
 %shared_ptr(feasst::CutoffOuter);
@@ -813,11 +815,12 @@ using namespace std;
 %include models/include/lennard_jones_alpha.h
 %include models/include/lennard_jones_cut_shift.h
 %include models/include/lennard_jones_force_shift.h
+%include models/include/two_body_alpha.h
 %include models/include/mie.h
 %include system/include/model_two_body_table.h
 %include configuration/include/group.h
 %include configuration/include/particle_factory.h
-%include configuration/include/file_lmp.h
+%include configuration/include/file_particle.h
 %include configuration/include/select.h
 %include system/include/cells.h
 %include system/include/visit_model_cutoff_outer.h

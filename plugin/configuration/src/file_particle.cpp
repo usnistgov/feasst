@@ -1,15 +1,14 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include "configuration/include/file_lmp.h"
+#include "configuration/include/file_particle.h"
 #include "utils/include/file.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 
 namespace feasst {
 
-void FileLMP::read_num_and_types_(const std::string file_name) {
-  // open LAMMPS data file
+void FileParticle::read_num_and_types_(const std::string file_name) {
   std::ifstream file(file_name.c_str());
   ASSERT(file.good(), "cannot find lammps DATA file " << file_name.c_str());
 
@@ -91,10 +90,9 @@ void FileLMP::read_num_and_types_(const std::string file_name) {
   num_improper_types_ = 0;
 }
 
-Particle FileLMP::read(const std::string file_name) {
+Particle FileParticle::read(const std::string file_name) {
   feasst::Particle particle;
 
-  // open LAMMPS data file
   std::ifstream file(file_name.c_str());
   ASSERT(file.good(), "cannot find lammps DATA file " << file_name.c_str());
 
@@ -192,9 +190,8 @@ Particle FileLMP::read(const std::string file_name) {
   return particle;
 }
 
-void FileLMP::read_properties(const std::string file_name,
+void FileParticle::read_properties(const std::string file_name,
                                Particle* particle) {
-  // open LAMMPS data file
   std::ifstream file(file_name.c_str());
   ASSERT(file.good(), "cannot find lammps DATA file " << file_name.c_str());
 
@@ -220,7 +217,7 @@ void FileLMP::read_properties(const std::string file_name,
   }
 }
 
-void FileLMP::read_properties_(const std::string property_type,
+void FileParticle::read_properties_(const std::string property_type,
                                const int num_types,
                                Particle * particle,
                                std::ifstream & file) const {

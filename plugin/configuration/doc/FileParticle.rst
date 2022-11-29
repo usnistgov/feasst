@@ -1,6 +1,6 @@
-FileLMP
+FileParticle
 =====================================================
 
-.. doxygenclass:: feasst::FileLMP
+.. doxygenclass:: feasst::FileParticle
    :project: FEASST
    :members:

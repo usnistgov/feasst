@@ -13,4 +13,5 @@
    LennardJonesAlpha
    LennardJonesCutShift
    LennardJonesForceShift
+   TwoBodyAlpha
    Mie

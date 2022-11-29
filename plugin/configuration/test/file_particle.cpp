@@ -1,12 +1,12 @@
 #include "utils/test/utils.h"
-#include "configuration/include/file_lmp.h"
+#include "configuration/include/file_particle.h"
 #include "utils/include/debug.h"
 #include "math/include/constants.h"
 
 namespace feasst {
 
-TEST(FileLMP, data_lj) {
-  FileLMP lmp_file;
+TEST(FileParticle, data_lj) {
+  FileParticle lmp_file;
   Particle particle = lmp_file.read("../forcefield/lj.fstprt");
   EXPECT_EQ(particle.num_sites(), 1);
   EXPECT_EQ(particle.site(0).type(), 0);
@@ -14,7 +14,7 @@ TEST(FileLMP, data_lj) {
   for (double coord : particle.site(0).position().coord()) {
     EXPECT_NEAR(0., coord, NEAR_ZERO);
   }
-  FileLMP().read_properties("../forcefield/lj.fstprt", &particle);
+  FileParticle().read_properties("../forcefield/lj.fstprt", &particle);
   EXPECT_NEAR(1., particle.site(0).property("epsilon"), NEAR_ZERO);
   EXPECT_NEAR(1., particle.site(0).property("sigma"), NEAR_ZERO);
   EXPECT_NEAR(3., particle.site(0).property("cutoff"), NEAR_ZERO);
@@ -32,8 +32,8 @@ TEST(FileLMP, data_lj) {
   EXPECT_EQ(0, lmp_file.num_improper_types());
 }
 
-TEST(FileLMP, data_spce) {
-  FileLMP lmp_file;
+TEST(FileParticle, data_spce) {
+  FileParticle lmp_file;
   Particle particle = lmp_file.read("../forcefield/spce.fstprt");
   EXPECT_EQ(particle.num_sites(), 3);
   Site site;
@@ -81,8 +81,8 @@ TEST(FileLMP, data_spce) {
   EXPECT_NEAR(0.0001, particle.angle(0).property("delta"), NEAR_ZERO);
 }
 
-TEST(FileLMP, dimer) {
-  FileLMP lmp_file;
+TEST(FileParticle, dimer) {
+  FileParticle lmp_file;
   Particle particle = lmp_file.read("../forcefield/dimer.fstprt");
   EXPECT_EQ(particle.num_sites(), 2);
   EXPECT_EQ(-0.5, particle.site(0).position().coord(0));

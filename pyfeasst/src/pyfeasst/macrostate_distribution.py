@@ -389,8 +389,8 @@ def read_appended(file_name, num_states):
     >>> round(dists[10][0].ln_prob()[0], 8)
     -4.68014742
     """
-    file1 = open(file_name, 'r')
-    lines = file1.readlines()
+    with open(file_name, 'r') as file1:
+        lines = file1.readlines()
     num = int(len(lines)/(num_states+2))
     dists = list()
     for i in range(num):

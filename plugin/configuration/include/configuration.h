@@ -90,9 +90,12 @@ class Configuration {
    */
   //@{
 
-  /// Add a particle type that may exist by LMP file (see FileLMP).
-  void add_particle_type(const std::string file_name,
-    /// optionally append to name to use same file but keep unique names.
+  /// Add a particle type that may exist in the simulation.
+  /// See FileParticle.
+  void add_particle_type(
+    /// Each particle type must have a unique file name.
+    const std::string file_name,
+    /// Optionally, append to name to use same file but keep unique names.
     const std::string append = "");
 
   /// Return the number of particle types.
