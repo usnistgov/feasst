@@ -6,10 +6,12 @@
 
 namespace feasst {
 
-MayerSampling::MayerSampling(argtype args) : Criteria(&args) {
+MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
   class_name_ = "MayerSampling";
   num_attempts_per_iteration_ =
-    integer("num_attempts_per_iteration", &args, 1e9);
+    integer("num_attempts_per_iteration", args, 1e9);
+}
+MayerSampling::MayerSampling(argtype args) : MayerSampling(&args) {
   FEASST_CHECK_ALL_USED(args);
 }
 

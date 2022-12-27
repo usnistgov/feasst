@@ -518,7 +518,7 @@ TEST(MonteCarlo, rpm_divalent_avb_VERY_LONG) {
     {"reference_index", "0"}}));
   mc.run_until_complete();
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
-  EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.1);
+  EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.14);
   EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.07);
   EXPECT_NEAR(lnpi.value(2), -2.1178631459398805, 0.04);
   EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.02);

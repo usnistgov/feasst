@@ -114,12 +114,18 @@ void fill(const T1 value, std::vector<T2> *vec) {
   }
 }
 
+/// Return the total number of elements in a vector.
+template<class T>
+int num_elements(const std::vector<T>& vec) {
+  return static_cast<int>(vec.size());
+}
+
 /// Return the total number of elements in a multidimensional vector.
 template<class T>
-int num_elements(const std::vector<std::vector<T> > vec) {
+int num_elements(const std::vector<std::vector<T> >& vec) {
   int num = 0;
   for (const std::vector<T>& element : vec) {
-    num += static_cast<int>(element.size());
+    num += num_elements(element);
   }
   return num;
 }

@@ -74,6 +74,7 @@ class VisitModelInnerTable : public VisitModelInner {
   /**
     args:
     - table_file: table file with format described above.
+    - ignore_energy: do not read the energy table (default: false).
    */
   explicit VisitModelInnerTable(argtype args = argtype());
   explicit VisitModelInnerTable(argtype * args);
@@ -109,6 +110,19 @@ class VisitModelInnerTable : public VisitModelInner {
    */
   double second_virial_coefficient(argtype args = argtype()) const;
 
+// HWH this doesn't work but may be salvaged later.
+//  /**
+//    Write an xyz file that represents the shape based on the inner cutoff, rh.
+//    For a given pair of types, and for each angle, a site is created at rh/2.
+//
+//    args:
+//    - xyz_file: name of file to print xyz representation
+//    - type1: pairwise site type (default: 0).
+//    - type2: pairwise site type (default: 0).
+//    - expand_t: increase orientation points by this factor (default: 1).
+//   */
+//  void write_surface(argtype args) const;
+
   void precompute(Configuration * config) override;
   void compute(
     const int part1_index,
@@ -143,7 +157,7 @@ class VisitModelInnerTable : public VisitModelInner {
   RotationMatrix rot1_, rot2_, rot3_;
   Euler euler_;
 
-  void read_table_(const std::string table_file);
+  void read_table_(const std::string table_file, const bool ignore_energy);
 };
 
 inline std::shared_ptr<VisitModelInnerTable> MakeVisitModelInnerTable(

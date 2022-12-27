@@ -9,7 +9,7 @@ namespace feasst {
 class MapDebyeHuckel {
  public:
   MapDebyeHuckel() {
-    auto obj = MakeDebyeHuckel({{"kappa", "1"}, {"epsilon", "1"}});
+    auto obj = MakeDebyeHuckel({{"kappa", "1"}, {"dielectric", "1"}});
     obj->deserialize_map()["DebyeHuckel"] = obj;
   }
 };
@@ -19,7 +19,7 @@ static MapDebyeHuckel map_charge_screened_ = MapDebyeHuckel();
 DebyeHuckel::DebyeHuckel(argtype * args) {
   class_name_ = "DebyeHuckel";
   kappa_ = dble("kappa", args);
-  epsilon_ = dble("epsilon", args);
+  dielectric_ = dble("dielectric", args);
 }
 DebyeHuckel::DebyeHuckel(argtype args) : DebyeHuckel(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -31,7 +31,7 @@ void DebyeHuckel::serialize(std::ostream& ostr) const {
   feasst_serialize_version(3682, ostr);
   feasst_serialize(conversion_factor_, ostr);
   feasst_serialize(kappa_, ostr);
-  feasst_serialize(epsilon_, ostr);
+  feasst_serialize(dielectric_, ostr);
 }
 
 DebyeHuckel::DebyeHuckel(std::istream& istr) : ModelTwoBody(istr) {
@@ -39,7 +39,7 @@ DebyeHuckel::DebyeHuckel(std::istream& istr) : ModelTwoBody(istr) {
   ASSERT(version == 3682, "unrecognized verison: " << version);
   feasst_deserialize(&conversion_factor_, istr);
   feasst_deserialize(&kappa_, istr);
-  feasst_deserialize(&epsilon_, istr);
+  feasst_deserialize(&dielectric_, istr);
 }
 
 double DebyeHuckel::energy(
@@ -56,7 +56,7 @@ double DebyeHuckel::energy(
   const double mixed_charge = model_params.select(charge_index()).mixed_values()[type1][type2];
   //TRACE("mixed_charge " << mixed_charge);
   //TRACE("conversion_factor_ " << conversion_factor_);
-  return mixed_charge*conversion_factor_*std::exp(-kappa_*distance)/distance/epsilon_;
+  return mixed_charge*conversion_factor_*std::exp(-kappa_*distance)/distance/dielectric_;
 }
 
 void DebyeHuckel::precompute(const ModelParams& existing) {

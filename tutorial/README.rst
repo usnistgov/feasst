@@ -4,15 +4,35 @@ Tutorials
 
 The following tutorials are also located in the code repository with the same path as the html (e.g., in /path/to/feasst/plugin/[name]/tutorial/).
 
+Basic tutorials:
+
 .. toctree::
    :glob:
 
    tutorial.ipynb
    launch
+
+Build and test models:
+
+.. toctree::
+   :glob:
+
    ../plugin/monte_carlo/tutorial/tutorial*
    ../plugin/charge/tutorial/tutorial*
    ../plugin/models/tutorial/tutorial*
+
+Flat-histogram simulations:
+
+.. toctree::
+   :glob:
+
    ../plugin/flat_histogram/tutorial/tutorial*
+
+Others:
+
+.. toctree::
+   :glob:
+
    ../plugin/chain/tutorial/tutorial*
    ../plugin/cluster/tutorial/tutorial*
    ../plugin/steppers/tutorial/tutorial*

@@ -17,6 +17,7 @@ TEST(VisitModelInnerTable, b2) {
   //EXPECT_NEAR(1.7225709266833233, vis->second_virial_coefficient(), NEAR_ZERO);
   //EXPECT_NEAR(2.024442976806, vis->second_virial_coefficient({{"expand_t", "2"}}), 1e-12);
 //  EXPECT_NEAR(2*PI/3., vis->second_virial_coefficient({{"expand_t", "10"}}), NEAR_ZERO);
+//  vis->write_surface({{"xyz_file", "tmp/surf.xyz"}, {"expand_t", "1"}});
 }
 
 }  // namespace feasst

@@ -1,4 +1,4 @@
-#include <cmath>
+#include <cmath>  // isnan, pow
 #include <string>
 #include <fstream>
 #include "utils/include/serialize.h"
@@ -13,15 +13,17 @@ namespace feasst {
 VisitModelInnerTable::VisitModelInnerTable(argtype * args) : VisitModelInner(args) {
   class_name_ = "VisitModelInnerTable";
   const std::string table_file = str("table_file", args, "-1");
+  const bool ignore_energy = boolean("ignore_energy", args, false);
   if (table_file != "-1") {
-    read_table_(table_file);
+    read_table_(table_file, ignore_energy);
   }
 }
 VisitModelInnerTable::VisitModelInnerTable(argtype args) : VisitModelInnerTable(&args) {
   FEASST_CHECK_ALL_USED(args);
 }
 
-void VisitModelInnerTable::read_table_(const std::string file_name) {
+void VisitModelInnerTable::read_table_(const std::string file_name,
+    const bool ignore_energy) {
   DEBUG("file_name " << file_name);
   std::ifstream file(file_name);
   ASSERT(file.good(), "cannot find " << file_name);
@@ -90,7 +92,7 @@ void VisitModelInnerTable::read_table_(const std::string file_name) {
 //      Table5D * out = &outer_[itype][jtype];
       Table6D * en = &energy_[itype][jtype];
       *in = Table5D(dof);
-      if (num_z > 0) {
+      if (num_z > 0 && !ignore_energy) {
 //        *out = Table5D(dof);
         dof.insert({"num5", str(num_z)});
         *en = Table6D(dof);
@@ -106,18 +108,24 @@ void VisitModelInnerTable::read_table_(const std::string file_name) {
         //ASSERT(std::abs(double_val - 1) < NEAR_ZERO, num_orientations << " " << double_val);
         in->set_data(s1, s2, e1, e2, e3, double_val);
         if (num_z > 0) {
-          file >> double_val;
+          //file >> double_val;
           //ASSERT(std::abs(double_val - 1.5) < NEAR_ZERO, num_orientations << " " << double_val);
 //          out->set_data(s1, s2, e1, e2, e3, double_val);
           for (int z = 0; z < num_z; ++z) {
             file >> double_val;
-            en->set_data(s1, s2, e1, e2, e3, z, double_val);
-            //ASSERT(std::abs(double_val) < NEAR_ZERO || std::abs(double_val+1) < NEAR_ZERO,
-            //  num_orientations << " " << double_val);
+            if (!ignore_energy) {
+              en->set_data(s1, s2, e1, e2, e3, z, double_val);
+              //ASSERT(std::abs(double_val) < NEAR_ZERO || std::abs(double_val+1) < NEAR_ZERO,
+              //  num_orientations << " " << double_val);
+            }
           }
         }
       }}}}}
       INFO("num_orientations " << num_orientations);
+
+      // check the table for bad values
+      ASSERT(!has_bad_value(in->data()), "error");
+      ASSERT(!has_bad_value(en->data()), "error");
     }
   }
 
@@ -292,29 +300,31 @@ void VisitModelInnerTable::compute(
   // check the inner cutoff.
   const float inner = inner_[type1][type2].linear_interpolation(s1, s2, e1, e2, e3);
   DEBUG("inner " << inner);
-  double en;
+  double en = 0.;
   if (squared_distance < inner*inner) {
     en = NEAR_INFINITY;
     DEBUG("hard overlap");
   } else {
-    const double gamma = gamma_[type1][type2];
     const double delta = delta_[type1][type2];
     const double outer = inner + delta;
-    DEBUG("gamma " << gamma);
     DEBUG("delta " << delta);
     DEBUG("outer " << outer);
-    if ((std::abs(gamma) < NEAR_ZERO) && (squared_distance < outer*outer)) {
-      en = -1;
-    } else if (is_energy_table()) {
-      const double rhg = std::pow(inner, gamma);
-      const double rcg = std::pow(outer, gamma);
-      const double rg = std::pow(squared_distance, 0.5*gamma);
-      const double z = (rg - rcg)/(rhg - rcg);
-      DEBUG("z " << z);
-      ASSERT(z >= 0 && z <= 1, "z: " << z);
-      en = energy_[type1][type2].linear_interpolation(s1, s2, e1, e2, e3, z);
-    } else {
-      return;
+    if (squared_distance < outer*outer) {
+      const double gamma = gamma_[type1][type2];
+      DEBUG("gamma " << gamma);
+      if ((std::abs(gamma) < NEAR_ZERO)) {
+        en = -1;
+      } else if (is_energy_table()) {
+        const double rhg = std::pow(inner, gamma);
+        const double rcg = std::pow(outer, gamma);
+        const double rg = std::pow(squared_distance, 0.5*gamma);
+        const double z = (rg - rhg)/(rcg - rhg);
+        DEBUG("z " << z);
+        ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
+        en = energy_[type1][type2].linear_interpolation(s1, s2, e1, e2, e3, z);
+      } else {
+        return;
+      }
     }
   }
   DEBUG("en " << en);
@@ -355,7 +365,6 @@ double VisitModelInnerTable::second_virial_coefficient(argtype args) const {
   if (energy_[0][0].num0() == 1) {
     WARN("Only implemented for hard particles (num_z == 0).");
   }
-  double b2 = 0.;
   double b2_h = 0.;
   double b2_a = 0.;
   const Table5D& inner = inner_[type1][type2];
@@ -399,7 +408,8 @@ double VisitModelInnerTable::second_virial_coefficient(argtype args) const {
     if (expand_t == 1) {
       rh = inner.data()[s1 + is1][s2 + is2][e1 + ie1][e2 + ie2][e3 + ie3];
     } else {
-      rh = inner.linear_interpolation((s1+is1)*ds1, (s2+is2)*ds2, (e1+ie1)*de1, (e2+ie2)*de2, (e3+ie3)*de3);
+      rh = inner.linear_interpolation((s1+is1)*ds1, (s2+is2)*ds2, (e1+ie1)*de1,
+                                      (e2+ie2)*de2, (e3+ie3)*de3);
     }
     b2_h += rh*rh*rh*sin_s2*sin_e2;
 
@@ -419,25 +429,104 @@ double VisitModelInnerTable::second_virial_coefficient(argtype args) const {
         if (expand_t == 1 && expand_z == 1) {
           u = energy.data()[s1+is1][s2+is2][e1+ie1][e2+ie2][e3+ie3][z+iz];
         } else {
-          u = energy.linear_interpolation((s1+is1)*ds1, (s2+is2)*ds2, (e1+ie1)*de1, (e2+ie2)*de2, (e3+ie3)*de3, (z+iz)*dz);
+          u = energy.linear_interpolation((s1+is1)*ds1, (s2+is2)*ds2,
+                                          (e1+ie1)*de1, (e2+ie2)*de2,
+                                          (e3+ie3)*de3, (z+iz)*dz);
         }
         //ASSERT(std::abs(u+1) < 5e-3, "err");
         const double zval = (z + iz)*dz;
         const double r = (rc - rh)*zval + rh;
         b2_a += (1. - std::exp(-beta*u))*(rc - rh)*r*r*sin_s2*sin_e2;
+        if (std::isnan(b2_a)) {
+          FATAL("u " << u << " beta " << beta << " rc " << rc << " rh " << rh
+                << " s1 " << s1  << " s2 " << s2 << " e1 " << e1 << " e2 " << e2
+                << " e3 " << e3 << " z " << z
+                << " ns1 " << ns1  << " ns2 " << ns2 << " ne1 " << ne1 << " ne2 " << ne2
+                << " ne3 " << ne3 << " num_z " << num_z
+                << " ds1 " << ds1  << " ds2 " << ds2 << " de1 " << de1 << " de2 " << de2
+                << " de3 " << de3 << " dz " << dz
+                << " r " << r);
+        }
       }}
     }
   }}}}}}}}}}
   b2_h *= 1./3.; // rh integral prefactor
   b2_a *= dz/2.; // dz norm and extra trapezoid
-  b2 += b2_h + b2_a;
-  b2 *= ds1*ds2*de1*de2*de3;
-  b2 /= std::pow(2., 5); // trapezoid normalization for orientations
-  b2 *= 2; // symmetry in s1
-  b2 /= 2; // b2 prefactor
-  b2 *= PI*PI; // normalization for ds1*ds2
-  b2 *= PI/2; // normalization for de1*de2*de3 e.g. 4pi^3/8pi^2
-  return b2;
+
+  INFO("b2_h b4 factor " << b2_h);
+  INFO("b2_a b4 factor " << b2_a);
+
+  // shared symmetry and normalization factors
+  double factor = ds1*ds2*de1*de2*de3;
+  factor /= std::pow(2., 5); // trapezoid normalization for orientations
+  factor *= 2;     // symmetry in s1
+  factor /= 2;     // b2 prefactor
+  factor *= PI*PI; // normalization for ds1*ds2
+  factor *= PI/2;  // normalization for de1*de2*de3 e.g. 4pi^3/8pi^2
+  INFO("factor " << factor);
+
+  b2_h *= factor;
+  b2_a *= factor;
+
+  INFO("b2_h after factor " << b2_h);
+  INFO("b2_a after factor " << b2_a);
+
+  return b2_h + b2_a;
 }
+
+//void VisitModelInnerTable::write_surface(argtype args) const {
+//  // parse args
+//  const std::string xyz_file = str("xyz_file", &args);
+//  const int type1 = integer("site_type1", &args, 0);
+//  const int type2 = integer("site_type2", &args, 0);
+//  ASSERT(type1 == type2, "only implemented for type1 == type2");
+//  const int expand_t = integer("expand_t", &args, 1);
+//  FEASST_CHECK_ALL_USED(args);
+//  const Table5D& inner = inner_[type1][type2];
+//  const int ns1 = inner.num0();
+//  const int ns2 = inner.num1();
+//  const int ne1 = inner.num2();
+//  const int ne2 = inner.num3();
+//  const int ne3 = inner.num4();
+//  const double ds1 = 1./static_cast<double>(ns1*expand_t - 1);
+//  const double ds2 = 1./static_cast<double>(ns2*expand_t - 1);
+//  const double de1 = 1./static_cast<double>(ne1*expand_t - 1);
+//  const double de2 = 1./static_cast<double>(ne2*expand_t - 1);
+//  const double de3 = 1./static_cast<double>(ne3*expand_t - 1);
+//  Position pos;
+//  std::vector<Position> coords;
+//  for (int s1 = 0; s1 < ns1*expand_t; ++s1) {
+//    double ts1 = 2.*PI*s1*ds1;
+//    if (type1 == type2) {
+//      ts1 *= 0.5;
+//    }
+//  for (int s2 = 0; s2 < ns2*expand_t; ++s2) {
+//    const double ts2 = PI*s2*ds2;
+//  for (int e1 = 0; e1 < ne1*expand_t; ++e1) {
+//  for (int e2 = 0; e2 < ne2*expand_t; ++e2) {
+//  for (int e3 = 0; e3 < ne3*expand_t; ++e3) {
+//    float rh = 0.;
+//    if (expand_t == 1) {
+//      rh = inner.data()[s1][s2][e1][e2][e3];
+//    } else {
+//      rh = inner.linear_interpolation(s1*ds1, s2*ds2, e1*de1, e2*de2, e3*de3);
+//    }
+//    pos.set_from_spherical(0.5*rh, ts1, ts2);
+//    coords.push_back(pos);
+//  }}}}}
+//
+//  std::ofstream file(xyz_file);
+//  ASSERT(file.good(), "cannot find " << xyz_file);
+//  file << static_cast<int>(coords.size()) + 1 << std::endl
+//       << "-1 0 0 0 0 0 0" << std::endl
+//       << "0 0 0 0" << std::endl;
+//  for (const Position& pos : coords) {
+//    file << "0 ";
+//    for (const double crd : pos.coord()) {
+//      file << crd << " ";
+//    }
+//    file << std::endl;
+//  }
+//}
 
 }  // namespace feasst

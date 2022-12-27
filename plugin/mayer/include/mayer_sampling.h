@@ -21,6 +21,7 @@ class MayerSampling : public Criteria {
       or attempts (as measured by number of calls to is_accepted) default: 1e9.
    */
   explicit MayerSampling(argtype args = argtype());
+  explicit MayerSampling(argtype * args);
 
   bool is_accepted(
     const System& system,
@@ -52,7 +53,7 @@ class MayerSampling : public Criteria {
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<MayerSampling>(istr); }
   std::shared_ptr<Criteria> create(argtype * args) const override {
-    return std::make_shared<MayerSampling>(); }
+    return std::make_shared<MayerSampling>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit MayerSampling(std::istream& istr);
 //  explicit MayerSampling(const Criteria& criteria);

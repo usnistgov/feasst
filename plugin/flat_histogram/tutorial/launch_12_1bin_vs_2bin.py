@@ -77,7 +77,7 @@ original_dir=$PWD; echo $original_dir
 wrk=/wrk/$LOGNAME/$SLURM_JOB_ID/; mkdir -p $wrk; cd $wrk; echo "wrk:$wrk"
 rsync -au $original_dir/* .; rm hostname_*
 ls
-export OMP_NUM_THREADS={procs_per_sim}
+export OMP_NUM_THREADS={procs_per_node}
 python {script} --run_type 1 --dir $original_dir --min_particles {min_particles}
 #python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID --dir $original_dir --min_particles {min_particles}
 echo "sync"

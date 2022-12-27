@@ -16,18 +16,18 @@ TwoBodyAlpha::TwoBodyAlpha(argtype * args) {
   start.assign("alpha");
   int index = 0;
   key << start << index;
-  INFO("key " << key.str());
+  DEBUG("key " << key.str());
   while (used(key.str(), *args)) {
     alpha_.push_back(dble(key.str(), args));
     key.str("");
     key << "s" << index;
-    INFO("key " << key.str());
+    DEBUG("key " << key.str());
     s_.push_back(dble(key.str(), args));
     ++index;
     key.str("");
     key << start << index;
-    INFO("key " << key.str());
-    INFO("args " << str(*args));
+    DEBUG("key " << key.str());
+    DEBUG("args " << str(*args));
   }
 }
 TwoBodyAlpha::TwoBodyAlpha(argtype args) : TwoBodyAlpha(&args) {

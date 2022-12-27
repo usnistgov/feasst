@@ -47,13 +47,13 @@ def generate_table(num_orientations_per_pi, num_z, file_name, gamma=1., delta=0.
                         num_orientations += 1
                         # hard code square well for testing
                         rh = 1.
-                        rc = rh + delta
-                        fl.write(str(rh) + " " + str(rc) + " ")
+                        fl.write(str(rh) + " ")
                         for z in np.arange(0, 1. + dz/2, dz):
                             num_elements += 1
                             # hard code square well for testing
                             energy = -1. + 0.0001*random.uniform(-1., 1.)
                             fl.write(str(energy) + " ")
+                        fl.write("\n")
     fl.close()
     print('num_orientations', num_orientations)
     print('num_elements', num_elements)

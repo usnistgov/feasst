@@ -27,7 +27,7 @@ class DebyeHuckel : public ModelTwoBody {
   /**
     args:
     - kappa: as described above.
-    - epsilon: as described above.
+    - dielectric: as described above.
    */
   explicit DebyeHuckel(argtype args = argtype());
   explicit DebyeHuckel(argtype * args);
@@ -51,7 +51,7 @@ class DebyeHuckel : public ModelTwoBody {
  private:
   double conversion_factor_ = 0.;
   double kappa_;
-  double epsilon_;
+  double dielectric_;
 };
 
 inline std::shared_ptr<DebyeHuckel> MakeDebyeHuckel(
