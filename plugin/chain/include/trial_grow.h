@@ -31,7 +31,7 @@ namespace feasst {
   - default_new_only: optional default new only for all stages.
 
   The following options may be used in any argtype.
-  If used in the first, then its a partial regrowth move.
+  If used in the first, then it is a partial regrowth move.
   - bond: if true, add TrialSelectBond and PerturbDistance.
     Requires arguments described in TrialSelectBond.
   - angle: if true, adds TrialSelectAngle and PerturbDistanceAngle.
@@ -42,6 +42,10 @@ namespace feasst {
     Requires arguments described in SelectBranch, Angle and Bond.
   - reptate: if true, add TrialSelectBond and PerturbToAnchor.
     Requires arguments described in TrialSelectBond.
+  - rigid_body_connector: if true, add TrialSelectBond and PerturbConnector.
+    Requires arguments described in TrialSelectBond.
+  - rigid_body_angle: if true, add TrialSelectAngle and PerturbDistanceAngleConnector.
+    Requires arguments described in TrialSelectAngle.
   - TrialStage arguments: num_steps, reference_index, new_only, etc.
 
   Note that only one of bond, angle or branch may be true for a given stage.

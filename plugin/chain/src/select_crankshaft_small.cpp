@@ -76,7 +76,7 @@ bool SelectCrankshaftSmall::select(const Select& perturbed,
   mobile_.set_particle(0, particle_index);
   anchor_.set_particle(0, particle_index);
   mobile_.load_positions(config->particles());
-  mobile_original_ = mobile_;
+  set_mobile_original(system);
   return true;
 }
 

@@ -3,6 +3,7 @@
 #define FEASST_CONFINEMENT_MODEL_LJ_SHAPE_H_
 
 #include "utils/include/arguments.h"
+#include "configuration/include/model_params.h"
 #include "system/include/model_one_body.h"
 #include "shape/include/shape.h"
 

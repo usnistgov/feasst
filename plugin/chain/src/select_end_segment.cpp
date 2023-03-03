@@ -116,7 +116,7 @@ bool SelectEndSegment::select(const Select& perturbed,
     return false;
   }
   update_anchor(is_endpoint_beginning, system);
-  mobile_original_ = mobile_;
+  set_mobile_original(system);
   return true;
 }
 

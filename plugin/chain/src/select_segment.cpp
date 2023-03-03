@@ -101,7 +101,7 @@ bool SelectSegment::select(const Select& perturbed,
   if (!is_found) {
     return false;
   }
-  mobile_original_ = mobile_;
+  set_mobile_original(system);
   return true;
 }
 

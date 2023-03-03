@@ -48,11 +48,17 @@ class Matrix {
   /// Optimized version of above with pre-sized temporary.
   void transpose(Matrix * tmp);
 
+  /// Add all elements of Matrix to self.
+  void add(const Matrix& matrix);
+
   /// Multiply all elements by a constant.
   void multiply(const double constant);
 
   /// Set all elements to zero.
   void zero() { multiply(0.); }
+
+  /// Set to identity matrix.
+  void identity(const int size);
 
   /// Return the vector which is a product of the multiplication of a matrix
   /// with the given vector.
@@ -83,6 +89,10 @@ class Matrix {
 
   /// Return true if identity matrix.
   bool is_identity(const double tolerance = NEAR_ZERO) const;
+
+  /// For 3D, return the 3x3 matrix to write cross products as a x b = [a]_x b.
+  /// See https://en.wikipedia.org/wiki/Skew-symmetric_matrix
+  void skew_symmetric_cross_product(const Position& position);
 
   virtual ~Matrix() {}
 
@@ -115,6 +125,14 @@ class RotationMatrix : public Matrix {
 
   /// Compute rotation matrix based on quaternions (3D only).
   void quaternion(const Position& quaternion);
+
+  /// Compute the rotation matrix that rotates vector a onto vector b.
+  /// See https://math.stackexchange.com/a/476311
+  void vector_onto_vector(const Position& vec1, const Position& vec2);
+
+  /// Same as above, but optimized to avoid creating temporary objects.
+  void vector_onto_vector(const Position& vec1, const Position& vec2,
+    Position * tmp_vec, Matrix * tmp_mat);
 
   /// Check square matrix, unit derminant, in addition to Matrix::check.
   void check() const override;

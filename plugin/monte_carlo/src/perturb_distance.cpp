@@ -44,21 +44,24 @@ void PerturbDistance::move(const bool is_position_held,
                            TrialSelect * select,
                            Random * random) {
   double bond_energy = 0.;
-  DEBUG("moving");
+  DEBUG("potential_acceptance_ " << potential_acceptance_);
   if (potential_acceptance_ == -1) {
-    move_once_(is_position_held, system, select, random, &bond_energy);
+    move_once(is_position_held, system, select, random, &bond_energy);
     select->add_exclude_energy(bond_energy);
     return;
   }
   int max_attempt = 1e6;
   const double beta = system->thermo_params().beta();
   for (int attempt = 0; attempt < max_attempt; ++attempt) {
-    move_once_(is_position_held, system, select, random, &bond_energy);
+    move_once(is_position_held, system, select, random, &bond_energy);
     Potential * poten = system->get_potential(potential_acceptance_);
+    DEBUG("sel " << select->mobile().str());
     const double energy = poten->select_energy(select->mobile(),
                                                system->get_configuration());
+    DEBUG("energy " << energy);
     if (is_position_held || random->uniform() < std::exp(-beta*energy)) {
       select->add_exclude_energy(bond_energy);
+      DEBUG("accepted");
       return;
     }
   }
@@ -79,7 +82,7 @@ double PerturbDistance::old_bond_energy(const System& system,
     bond);
 }
 
-void PerturbDistance::move_once_(const bool is_position_held,
+void PerturbDistance::move_once(const bool is_position_held,
     System * system,
     TrialSelect * select,
     Random * random,

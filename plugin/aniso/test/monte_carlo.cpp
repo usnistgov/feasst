@@ -45,4 +45,30 @@ TEST(MonteCarlo, VisitModelInnerTable) {
 //  EXPECT_TRUE(std::abs(mc->configuration().particle(0).site(0).position().coord(0)-1.077169909511E+00)>1e-8);
 }
 
+TEST(MonteCarlo, rigid_body_connector) {
+  const std::string table_file = "../plugin/aniso/test/data/dat_sqw_3rel_2z.txt";
+  auto mc = MakeMonteCarlo({{
+    //{"RandomMT19937", {{"seed", "1672847223"}}},
+    //{"RandomMT19937", {{"seed", "time"}}},
+    //{"RandomMT19937", {{"seed", "123"}}},
+    {"Configuration", {{"cubic_box_length", "8"}, {"add_particles_of_type0", "1"},
+                       {"particle_type0", "../plugin/aniso/test/data/rigid_and_connector.fstprt"}}},
+    {"Potential", {{"Model", "TwoBodyTable"}, {"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},
+    {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential", "1."}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"weight", "1"}, {"tunable_param", "4"}}},
+    {"TrialRotate", {{"weight", "1"}, {"tunable_param", "180"}}},
+    //{"Run", {{"num_trials", "1"}}},
+    {"Run", {{"num_trials", "4"}}},
+    {"RemoveTrial", {{"name", "TrialTranslate"}}},
+    {"RemoveTrial", {{"name", "TrialRotate"}}},
+    {"TrialGrowFile", {{"file_name", "../plugin/aniso/test/data/rigid_and_connector.txt"}}},
+    {"Log", {{"trials_per", "1"}, {"file_name", "tmp/connector.txt"}}},
+    {"Movie", {{"trials_per", "1"}, {"file_name", "tmp/connector.xyz"}}},
+    {"CheckEnergy", {{"trials_per", str(1e2)}, {"tolerance", "1e-8"}}},
+  }});
+  mc->attempt(1e3);
+  MonteCarlo mc2 = test_serialize(*mc);
+}
+
 }  // namespace feasst

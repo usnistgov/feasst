@@ -51,10 +51,18 @@ class PerturbDistance : public PerturbMove {
     double * bond_energy  // return the bond energy for Rosenbluth exclusion
   );
 
+  // move possibly more than once, depending on potential_acceptance
   void move(const bool is_position_held,
       System * system,
       TrialSelect * select,
       Random * random) override;
+
+  // move only once, regardless of potential_acceptance
+  virtual void move_once(const bool is_position_held,
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    double * bond_energy);
 
   // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
@@ -73,12 +81,6 @@ class PerturbDistance : public PerturbMove {
   RotationMatrix rot_mat_tmp_;
   Position axis_tmp_, origin_tmp_;
   RigidBond bond_;
-
-  void move_once_(const bool is_position_held,
-    System * system,
-    TrialSelect * select,
-    Random * random,
-    double * bond_energy);
 };
 
 inline std::shared_ptr<PerturbDistance> MakePerturbDistance(

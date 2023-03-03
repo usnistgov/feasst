@@ -8,7 +8,7 @@
 
 namespace feasst {
 
-VisitModelIntra::VisitModelIntra(argtype * args) : VisitModel() {
+VisitModelIntra::VisitModelIntra(argtype * args) : VisitModel(args) {
   class_name_ = "VisitModelIntra";
   set_intra_cut(integer("intra_cut", args, -1));
 }

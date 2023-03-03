@@ -3,13 +3,17 @@ import subprocess
 import argparse
 import random
 import unittest
+import numpy as np
+from multiprocessing import Pool
 
 params = {
     "cubic_box_length": 90, "fstprt": "/feasst/plugin/chain/forcefield/cg7mab2.fstprt",
-    "trials_per": 1e5, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
+    "trials_per": 1e5, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 0.8,
     "equilibration": 1e5, "production": 1e7, "num_nodes": 1, "procs_per_node": 1, "script": __file__}
 params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
+nums=[30,3]
+#nums=[605,530,454,378,303,227,151,76,30,15,6,3]
 
 # write fst script to run a single simulation
 def mc_cg7mab(params=params, file_name="launch.txt"):
@@ -89,15 +93,14 @@ class TestFlatHistogramHS(unittest.TestCase):
         self.assertAlmostEqual(iq30rdfft['iq'][0]/iq3rdfft['iq'][0], 0.7784, delta=0.05)
 
 # run the simulation and, if complete, analyze.
-def run():
+def run(nump):
+    params["num_particles"] = nump
     if args.task == 0:
-        file_name = "cg7mab_launch.txt"
-        for nump in [3, 30]:
-            params["num_particles"] = nump
-            mc_cg7mab(params, file_name=file_name)
-            syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > cg7mab_launch.log", shell=True, executable='/bin/bash')
+        file_name = "cg7mab_launch"+str(nump)+".txt"
+        mc_cg7mab(params, file_name=file_name)
+        syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > cg7mab_launch"+str(nump)+".log", shell=True, executable='/bin/bash')
     else:
-        syscode = subprocess.call("../../../build/bin/rst cg7mab_n" + str(params['num_particles']) + ".fst", shell=True, executable='/bin/bash')
+        syscode = subprocess.call("../../../build/bin/rst cg7mab_n" + str(nump) + ".fst", shell=True, executable='/bin/bash')
     if syscode == 0:
         unittest.main(argv=[''], verbosity=2, exit=False)
     return syscode
@@ -107,8 +110,9 @@ if __name__ == "__main__":
         slurm_queue()
         subprocess.call("sbatch --array=0-10%1 slurm.txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
     elif args.run_type == 1:
-        syscode = run()
-        if syscode != 0:
-            sys.exit(1)
+        with Pool(len(nums)) as pool:
+            codes = pool.starmap(run, zip(nums))
+            if np.count_nonzero(codes) > 0:
+                sys.exit(1)
     else:
         assert False  # unrecognized run_type

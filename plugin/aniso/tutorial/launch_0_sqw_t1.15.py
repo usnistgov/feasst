@@ -37,7 +37,8 @@ def generate_table(num_orientations_per_pi, num_z, file_name, gamma=1., delta=0.
              'num_orientations_per_pi ' + str(num_orientations_per_pi) + '\n' +
              'gamma ' + str(gamma) + '\n' +
              'delta ' + str(delta) + '\n' +
-             'num_z ' + str(num_z) + '\n')
+             'num_z ' + str(num_z) + '\n' +
+             'smoothing_distance -1\n')
     #for s1 in np.arange(0, 2*np.pi + dt/2, dt): #theta
     for s1 in np.arange(0, np.pi + dt/2, dt): # if i==j, avoid x < 0 for i/j swap symmetry
         for s2 in np.arange(0, np.pi + dt/2, dt): #phi

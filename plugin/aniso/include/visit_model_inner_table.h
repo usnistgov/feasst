@@ -60,7 +60,11 @@ namespace feasst {
 
   4. "num_z [value]" is the number of energy values along the z parameter.
 
-  5. The remaining lines are for each unique set of the five angles.
+  5. "smoothing_distance [value]" is the distance to linearly interpolate the
+     energy to zero. Specifically, r_c - smoothing_distance is the z=1 value.
+     If smoothing_distance is <= 0, then it is not used at all.
+
+  6. The remaining lines are for each unique set of the five angles.
      The outer loop is s1, with range [-pi, pi]. If i == j, the range is [0, pi]
      for i-j swap symmetry (e.g., swap i and j if s1 < 0).
      The next loop is s2 in [0, pi], then e1 in [-pi, pi], e2 and [0, pi],
@@ -149,8 +153,10 @@ class VisitModelInnerTable : public VisitModelInner {
   std::vector<std::vector<Table6D> > energy_;
   std::vector<std::vector<Table5D> > inner_; //, outer_;
   std::vector<int> site_types_;
+  std::vector<int> t2index_;
   std::vector<std::vector<double> > gamma_;
   std::vector<std::vector<double> > delta_;
+  std::vector<std::vector<double> > smoothing_distance_;
 
   // no serialized optimization variables
   Position pos1_, pos2_, sph_;

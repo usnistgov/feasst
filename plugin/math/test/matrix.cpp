@@ -68,4 +68,48 @@ TEST(Matrix, is_identity) {
   EXPECT_TRUE(mat.is_identity());
 }
 
+TEST(Matrix, skew_symmetric_cross_product) {
+  Position a({{"x", "1.6"}, {"y", "2.5"}, {"z", "3.4"}});
+  Position b({{"x", "4.3"}, {"y", "5.2"}, {"z", "6.1"}});
+  Position c = a.cross_product(b);
+  Matrix ssc;
+  ssc.skew_symmetric_cross_product(a);
+  Position c2 = ssc.multiply(b);
+  EXPECT_TRUE(c.is_equal(c2, NEAR_ZERO));
+}
+
+TEST(Matrix, identiy) {
+  Matrix mat;
+  mat.identity(3);
+  EXPECT_NEAR(mat.value(0, 0), 1., NEAR_ZERO);
+  EXPECT_NEAR(mat.value(0, 1), 0., NEAR_ZERO);
+  EXPECT_NEAR(mat.value(0, 2), 0., NEAR_ZERO);
+  EXPECT_NEAR(mat.value(1, 0), 0., NEAR_ZERO);
+  EXPECT_NEAR(mat.value(1, 1), 1., NEAR_ZERO);
+  EXPECT_NEAR(mat.value(1, 2), 0., NEAR_ZERO);
+  EXPECT_NEAR(mat.value(2, 0), 0., NEAR_ZERO);
+  EXPECT_NEAR(mat.value(2, 1), 0., NEAR_ZERO);
+  EXPECT_NEAR(mat.value(2, 2), 1., NEAR_ZERO);
+}
+
+TEST(Matrix, add) {
+  Matrix a;
+  a.identity(2);
+  a.add(a);
+  EXPECT_NEAR(a.value(0, 0), 2., NEAR_ZERO);
+  EXPECT_NEAR(a.value(0, 1), 0., NEAR_ZERO);
+  EXPECT_NEAR(a.value(1, 0), 0., NEAR_ZERO);
+  EXPECT_NEAR(a.value(1, 1), 2., NEAR_ZERO);
+}
+
+TEST(Matrix, vector_onto_vector) {
+  Position a({{"x", "1.6"}, {"y", "2.5"}, {"z", "3.4"}});
+  Position b({{"x", "4.3"}, {"y", "5.2"}, {"z", "6.1"}});
+  RotationMatrix rot;
+  rot.vector_onto_vector(a, b);
+  Position c = rot.multiply(a);
+  c.multiply(b.distance()/a.distance());
+  EXPECT_TRUE(b.is_equal(c, NEAR_ZERO));
+}
+
 }  // namespace feasst

@@ -2,7 +2,6 @@
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/constants.h"
-#include "math/include/random.h"
 #include "system/include/angle_square_well.h"
 
 namespace feasst {
@@ -46,12 +45,6 @@ double AngleSquareWell::energy(const double radians, const Bond& angle) const {
     return NEAR_INFINITY;
   }
   return 0.;
-}
-
-double AngleSquareWell::random_angle_radians(const Angle& angle, const double beta,
-    const int dimension, Random * random) const {
-  return degrees_to_radians(random->uniform_real(angle.property("minimum"),
-                                                 angle.property("maximum")));
 }
 
 }  // namespace feasst

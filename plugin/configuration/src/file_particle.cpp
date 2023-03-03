@@ -20,12 +20,17 @@ void FileParticle::read_num_and_types_(const std::string file_name) {
   // optionally, read number of dimentions
   std::string line, descript, descript2;
   file >> num_sites_ >> descript;
-  while (descript != "sites") {
+  int attempt = 0;
+  const int max_attempt = 1e3;
+  while (descript != "sites" && attempt < max_attempt) {
     if (descript == "dimensions") {
       num_dimensions_ = num_sites_;
     }
     file >> num_sites_ >> descript;
+    ++attempt;
   }
+  ASSERT(attempt != max_attempt, "unable to read number of sites in file. " <<
+    "Please verify the file syntax.");
 
   // read next line, if it is number of bonds, then record.
   // Else, it is number of site types
@@ -66,9 +71,13 @@ void FileParticle::read_num_and_types_(const std::string file_name) {
   // read number of site types, if not already done so
   if (num_site_types_ == 0) {
     file >> num_site_types_ >> descript >> descript2;
+    attempt = 0;
     while (descript.compare("site") != 0) {
       file >> num_site_types_ >> descript >> descript2;
+      ++attempt;
     }
+    ASSERT(attempt != max_attempt, "unable to read number of site types in " <<
+      "file. Please verify the file syntax.");
   } else {
     file >> descript2;
   }
@@ -228,7 +237,7 @@ void FileParticle::read_properties_(const std::string property_type,
     std::getline(file, line);
     DEBUG("read properties i " << i << ": " << line);
     std::vector<std::string> properties = split(line);
-    ASSERT(properties.size() >= 3, "size error");
+    ASSERT(properties.size() >= 3, "Missing properties for: " << property_type);
     const int type = stoi(properties[0]);
     int shift = 0;
     if (property_type == "bond") {

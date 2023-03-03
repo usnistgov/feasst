@@ -8,12 +8,8 @@ namespace feasst {
 
 class PerturbPivot : public PerturbRotate {
  public:
-  PerturbPivot(argtype args = argtype()) : PerturbPivot(&args) {
-    FEASST_CHECK_ALL_USED(args);
-  }
-  PerturbPivot(argtype * args) : PerturbRotate(args) {
-    class_name_ = "PerturbPivot";
-  }
+  explicit PerturbPivot(argtype args = argtype());
+  explicit PerturbPivot(argtype * args);
 
   /// Rotate the selected particles using the tuning parameter.
   /// Set the pivot to the anchor.

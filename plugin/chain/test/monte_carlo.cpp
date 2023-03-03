@@ -1,3 +1,4 @@
+#include <iostream>
 #include <memory>
 #include "utils/test/utils.h"
 #include "utils/include/io.h"
@@ -909,6 +910,35 @@ TEST(MonteCarlo, chainarglist) {
 //    {"Run", {{"num_trials", str(1e3)}}},
 //    {"WriteCheckpoint", {{}}},
   }});
+}
+
+TEST(MonteCarlo, angle_square_well) {
+  auto mc = MakeMonteCarlo();
+  mc->set(MakeRandomMT19937({{"seed", "123"}}));
+  mc->add(MakeConfiguration({{"cubic_box_length", "20"},
+                             {"particle_type0", "../plugin/chain/forcefield/chain3.fstprt"},
+                             {"cutoff", "10"},
+                             {"add_particles_of_type0", "1"},
+                             {"group0", "end"},
+                             {"end_site_type", "1"}}));
+  mc->add(MakePotential(MakeLennardJones(),
+                        MakeVisitModelCutoffOuter()));
+  mc->set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "-1"}}));
+  mc->set(MakeMetropolis());
+  mc->add(MakeTrialGrow({
+    {{"angle", "true"},
+     {"mobile_site", "2"},
+     {"anchor_site", "1"},
+     {"anchor_site2", "0"},
+     {"weight", "1"},
+     {"particle_type", "0"}}}));
+  const std::string trials_per = "1e0";
+  mc->add(MakeMovie({{"trials_per", trials_per}, {"file_name", "tmp/chain3"}, {"group", "end"}}));
+  mc->add(MakeCheckEnergy({{"trials_per", trials_per}, {"tolerance", str(1e-2)}}));
+  for (int i = 0; i < 1e4; ++i) {
+    mc->attempt(1);
+    //std::cout << mc->configuration().particle(0).site(2).position().str() << std::endl;
+  }
 }
 
 }  // namespace feasst

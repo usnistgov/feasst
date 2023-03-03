@@ -15,7 +15,7 @@ class MapAnalyzeBonds {
 
 static MapAnalyzeBonds mapper_ = MapAnalyzeBonds();
 
-AnalyzeBonds::AnalyzeBonds(argtype * args) : AnalyzeUpdateOnly(args) {
+AnalyzeBonds::AnalyzeBonds(argtype * args) : Analyze(args) {
   Histogram bhist, ahist, dhist;
   bhist.set_width_center(dble("bond_bin_width", args, 1),
                          dble("bond_bin_center", args, 0.));
@@ -42,8 +42,7 @@ void AnalyzeBonds::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(dihedral_hist_, ostr);
 }
 
-AnalyzeBonds::AnalyzeBonds(std::istream& istr)
-  : AnalyzeUpdateOnly(istr) {
+AnalyzeBonds::AnalyzeBonds(std::istream& istr) : Analyze(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 2390, "version mismatch: " << version);
   feasst_deserialize_fstobj(&bond_, istr);
@@ -106,6 +105,25 @@ void AnalyzeBonds::update(const Criteria& criteria,
       dihedral_hist_[dihedral.type()].add(phi);
     }
   }
+}
+
+std::string AnalyzeBonds::write(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trial_factory) {
+  std::stringstream ss;
+  for (int type = 0; type < static_cast<int>(bond_.size()); ++type) {
+    ss << "# bond: " << type << ": "  << bond_[type].str() << std::endl;
+    ss << "# bond hist: " << type << ": " << bond_hist_[type].str() << std::endl;
+  }
+  for (int type = 0; type < static_cast<int>(angle_.size()); ++type) {
+    ss << "# angle: " << type << ": "  << angle_[type].str() << std::endl;
+    ss << "# angle hist: " << type << ": " << angle_hist_[type].str() << std::endl;
+  }
+  for (int type = 0; type < static_cast<int>(dihedral_.size()); ++type) {
+    ss << "# dihedral: " << type << ": "  << dihedral_[type].str() << std::endl;
+    ss << "# dihedral hist: " << type << ": " << dihedral_hist_[type].str() << std::endl;
+  }
+  return ss.str();
 }
 
 }  // namespace feasst

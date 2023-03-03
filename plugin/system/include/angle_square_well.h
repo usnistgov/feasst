@@ -15,8 +15,6 @@ class AngleSquareWell : public BondThreeBody {
  public:
   AngleSquareWell() {}
   double energy(const double radians, const Bond& angle) const override;
-  double random_angle_radians(const Angle& angle, const double beta,
-    const int dimension, Random * random) const override;
   std::shared_ptr<BondThreeBody> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit AngleSquareWell(std::istream& istr);

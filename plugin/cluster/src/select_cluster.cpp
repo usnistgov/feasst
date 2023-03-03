@@ -80,7 +80,7 @@ bool SelectCluster::select(const Select& perturbed,
   select_cluster(first_particle, *system);
   printable_["cluster_size"].accumulate(mobile_.num_particles());
   remove_unphysical_sites(config);
-  mobile_original_ = mobile_;
+  set_mobile_original(system);
   return true;
 }
 

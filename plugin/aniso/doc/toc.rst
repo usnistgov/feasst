@@ -1,5 +1,5 @@
 
 .. toctree::
 
-   VisitModelInnerTable
    Anisotropic
+   VisitModelInnerTable

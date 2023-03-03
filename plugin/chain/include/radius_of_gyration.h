@@ -8,7 +8,7 @@
 namespace feasst {
 
 /**
-  Accumulate average end-to-end distance.
+  Accumulate average radius of gyration.
  */
 class RadiusOfGyration : public Analyze {
  public:
@@ -35,7 +35,7 @@ class RadiusOfGyration : public Analyze {
       const System& system,
       const TrialFactory& trial_factory) override;
 
-  /// Return the radius of gyration
+  /// Return the squared radius of gyration
   const Accumulator& radius_of_gyration() const { return accumulator(); }
 
   /// Return the accumulator for radius of gyration times the energy for extrapolation

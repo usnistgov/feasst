@@ -55,6 +55,7 @@ void PerturbRotate::update_eulers(const RotationMatrix& rotation,
   if (select->is_isotropic(system)) {
     return;
   }
+  DEBUG("rotation " << rotation.str());
   const Configuration& config = system->configuration();
   Select * rotated = select->get_mobile();
   for (int select_index = 0;

@@ -14,7 +14,7 @@ namespace feasst {
 /**
   Compute the distribution and moments of each type of bond and angle.
  */
-class AnalyzeBonds : public AnalyzeUpdateOnly {
+class AnalyzeBonds : public Analyze {
  public:
   /**
     args:
@@ -56,6 +56,10 @@ class AnalyzeBonds : public AnalyzeUpdateOnly {
   /// Return the histogram of dihedral in degrees.
   const Histogram& dihedral_hist(const int type) const {
     return dihedral_hist_[type]; }
+
+  std::string write(const Criteria& criteria,
+      const System& system,
+      const TrialFactory& trial_factory) override;
 
   std::string class_name() const override { return std::string("AnalyzeBonds"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {

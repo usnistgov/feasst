@@ -73,7 +73,7 @@ bool SelectParticleAVBDivalent::select(const Select& perturbed,
   DEBUG("probability: " << probability());
   DEBUG("mobile: " << mobile_.str());
   remove_unphysical_sites(config);
-  mobile_original_ = mobile_;
+  set_mobile_original(system);
   return true;
 }
 

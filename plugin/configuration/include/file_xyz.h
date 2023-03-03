@@ -12,7 +12,10 @@
 namespace feasst {
 
 /**
-  Print a vmd script to view an xyz file via command "vmd -e file.vmd"
+  Print a vmd script to view an xyz file via Bash: "vmd -e file.vmd"
+
+  For macOS, consider using an alias in your .bash_profile such as:
+  alias vmd='/Applications/VMD\ 1.9.4a51-x86_64-Rev9.app/Contents/MacOS/startup.command'
  */
 class FileVMD {
  public:

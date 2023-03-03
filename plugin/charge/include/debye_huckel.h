@@ -10,15 +10,18 @@ namespace feasst {
   Compute energy between two point charges, \f$q_i\f$ and \f$q_j\f$ with a
   Debye-Huckel potential.
 
-  \f$U = q_i q_j \chi/r \exp(-\kappa r) / \epsilon\f$
+  \f$U = q_i q_j \chi \exp(-\kappa r) / \epsilon r\f$
 
   where \f$r\f$ is the separation distance,
-  \f$kappa\f$ is the inverse of the Debye screening length,
-  \f$epsilon\f$ is the dilectric constant (dimensionless),
+  \f$\kappa\f$ is the inverse of the Debye screening length,
+  \f$\epsilon\f$ is the dilectric constant (dimensionless),
   and \f$\chi\f$ is the charge conversion factor assuming the following units:
     1. length: Angstroms
     2. energy: kJ/mol
     3. charge: elementary
+
+  An optional smoothing_distance linearly interpolates the energy to zero at
+  the cutoff starting at a distance of cutoff - smoothing_distance.
 
   Avoid singularity by returning a large, positive number when \f$r\f$ is near zero.
  */
@@ -28,6 +31,8 @@ class DebyeHuckel : public ModelTwoBody {
     args:
     - kappa: as described above.
     - dielectric: as described above.
+    - smoothing_distance: as described above.
+      Disabled when negative (default: -1).
    */
   explicit DebyeHuckel(argtype args = argtype());
   explicit DebyeHuckel(argtype * args);
@@ -52,6 +57,7 @@ class DebyeHuckel : public ModelTwoBody {
   double conversion_factor_ = 0.;
   double kappa_;
   double dielectric_;
+  double smoothing_distance_;
 };
 
 inline std::shared_ptr<DebyeHuckel> MakeDebyeHuckel(

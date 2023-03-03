@@ -45,6 +45,7 @@ void VisitModelInnerTable::read_table_(const std::string file_name,
   resize(num_sites, num_sites, &energy_);
   resize(num_sites, num_sites, &delta_);
   resize(num_sites, num_sites, &gamma_);
+  resize(num_sites, num_sites, &smoothing_distance_);
   for (int type = 0; type < num_sites; ++type) {
     file >> int_val;
     DEBUG("site " << int_val);
@@ -71,6 +72,10 @@ void VisitModelInnerTable::read_table_(const std::string file_name,
       ASSERT(descript == "num_z", "format error: " << descript);
       const int num_z = int_val;
       DEBUG("num_z " << num_z);
+      file >> descript >> double_val;
+      ASSERT(descript == "smoothing_distance", "format error: " << descript);
+      smoothing_distance_[itype][jtype] = double_val;
+      DEBUG("smoothing_distance " << smoothing_distance_[itype][jtype]);
       int ns1 = 0;
       if (itype == jtype) {
         ns1 = num_orientations_per_pi + 1;
@@ -161,13 +166,17 @@ void VisitModelInnerTable::precompute(Configuration * config) {
   VisitModelInner::precompute(config);
   aniso_index_ = config->model_params().index("anisotropic");
   DEBUG("aniso_index_ " << aniso_index_);
+  t2index_.resize(config->num_site_types(), 0);
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
-    for (int t2 = 0; t2 < static_cast<int>(site_types_.size()); ++t2) {
+    t2index_[type1] = t1;
+    for (int t2 = t1; t2 < static_cast<int>(site_types_.size()); ++t2) {
       const int type2 = site_types_[t2];
       const double cutoff = inner_[t1][t2].maximum() + delta_[t1][t2];
       config->set_model_param("cutoff", type1, type2, cutoff);
+      config->set_model_param("cutoff", type2, type1, cutoff);
       INFO("cutoff for " << type1 << "-" << type2 << " site types: " << cutoff);
+      INFO("cutoff for " << type2 << "-" << type1 << " site types: " << cutoff);
     }
   }
 }
@@ -189,15 +198,18 @@ void VisitModelInnerTable::compute(
   const Particle& part2 = config->select_particle(part2_index);
   const Site& site2 = part2.site(site2_index);
   clear_ixn(part1_index, site1_index, part2_index, site2_index);
+  DEBUG("aniso_index_ " << aniso_index_);
   const ModelParam& aniso = model_params.select(aniso_index_);
   int type1 = site1.type();
   int type2 = site2.type();
 
   // check if sites are anisotropic
+  DEBUG("type1 " << type1)
+  DEBUG("type2 " << type2);
+  DEBUG("aniso " << aniso.value(type1) << " " << aniso.value(type2));
   if (aniso.value(type1) < 0.5 || aniso.value(type2) < 0.5) {
     return;
   }
-  DEBUG("aniso " << aniso.value(type1) << " " << aniso.value(type2));
 
   // check if sites are within the global cutoff
   const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
@@ -205,6 +217,7 @@ void VisitModelInnerTable::compute(
   config->domain().wrap_opt(site1.position(), site2.position(), relative, pbc, &squared_distance);
   DEBUG("squared_distance " << squared_distance);
   DEBUG("relative " << relative->str());
+  DEBUG("cutoff " << cutoff);
   if (squared_distance > cutoff*cutoff) {
     return;
   }
@@ -297,20 +310,26 @@ void VisitModelInnerTable::compute(
 //    }
 //  }
 
+  // convert site type to table type
+  const int tabtype1 = t2index_[type1];
+  const int tabtype2 = t2index_[type2];
+
   // check the inner cutoff.
-  const float inner = inner_[type1][type2].linear_interpolation(s1, s2, e1, e2, e3);
+  DEBUG("size1 " << inner_.size());
+  DEBUG("size2 " << inner_[0].size());
+  const float inner = inner_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
   DEBUG("inner " << inner);
   double en = 0.;
   if (squared_distance < inner*inner) {
     en = NEAR_INFINITY;
     DEBUG("hard overlap");
   } else {
-    const double delta = delta_[type1][type2];
+    const double delta = delta_[tabtype1][tabtype2];
     const double outer = inner + delta;
     DEBUG("delta " << delta);
     DEBUG("outer " << outer);
     if (squared_distance < outer*outer) {
-      const double gamma = gamma_[type1][type2];
+      const double gamma = gamma_[tabtype1][tabtype2];
       DEBUG("gamma " << gamma);
       if ((std::abs(gamma) < NEAR_ZERO)) {
         en = -1;
@@ -318,10 +337,21 @@ void VisitModelInnerTable::compute(
         const double rhg = std::pow(inner, gamma);
         const double rcg = std::pow(outer, gamma);
         const double rg = std::pow(squared_distance, 0.5*gamma);
-        const double z = (rg - rhg)/(rcg - rhg);
+        double z = (rg - rhg)/(rcg - rhg);
+        if (z < 0 && z > -1e-6) {
+          z = 0.;
+        }
         DEBUG("z " << z);
-        ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
-        en = energy_[type1][type2].linear_interpolation(s1, s2, e1, e2, e3, z);
+        if (z > 1.) {
+          const double smooth = smoothing_distance_[tabtype1][tabtype2];
+          en = energy_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, 1.);
+          const double dx = std::sqrt(squared_distance) - inner - delta + smooth;
+          ASSERT(dx >= 0 && dx <= 1, "dx: " << MAX_PRECISION << dx);
+          en *= dx/smooth;
+        } else {
+          ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
+          en = energy_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, z);
+        }
       } else {
         return;
       }
@@ -360,6 +390,7 @@ double VisitModelInnerTable::second_virial_coefficient(argtype args) const {
   const int expand_z = integer("expand_z", &args, 1);
   const int type1 = integer("site_type1", &args, 0);
   const int type2 = integer("site_type2", &args, 0);
+  ASSERT(smoothing_distance_[type1][type2] < NEAR_ZERO, "not implemented with smoothing_distance");
   const double beta = dble("beta", &args, 1.);
   FEASST_CHECK_ALL_USED(args);
   if (energy_[0][0].num0() == 1) {

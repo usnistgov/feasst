@@ -44,7 +44,7 @@ def per_node_params():
         params["min_particles"]=0
         params["max_particles"]=splice_particles
         params["min_sweeps"]=200
-        params["window_alpha"]=1.5
+        params["window_alpha"]=1.15
         params["min_window_size"]=3
     elif params['node'] == 1:
         params["min_particles"]=splice_particles

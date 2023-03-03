@@ -105,14 +105,14 @@ bool SelectParticleAVB::select(const Select& perturbed,
   if (!is_ghost() && inside_) {
     DEBUG("inside. num_neighbors: " << num_neighbors);
     if (num_neighbors <= 0) return false;
-    mobile_.set_particle(0,
-      random->const_element(neighbors_.particle_indices()));
-    DEBUG("mobile " << mobile_.str());
     if (is_second_target_) {
-      if (mobile_.particle_index(0) == second_target_.particle_index(0)) {
+      if (second_target_.is_overlap(neighbors_)) {
         return false;
       }
     }
+    mobile_.set_particle(0,
+      random->const_element(neighbors_.particle_indices()));
+    DEBUG("mobile " << mobile_.str());
   } else if (!inside_) {
     // only select that is outside: AVB2 out->in
     DEBUG("outside");
@@ -237,7 +237,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
   DEBUG("mobile: " << mobile_.str());
 //  printable_["cluster_size"].accumulate(mobile_.num_particles());
   remove_unphysical_sites(config);
-  mobile_original_ = mobile_;
+  set_mobile_original(system);
   return true;
 }
 

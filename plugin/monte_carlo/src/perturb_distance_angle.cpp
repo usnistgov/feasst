@@ -64,24 +64,23 @@ double PerturbDistanceAngle::old_angle_energy(const System& system,
     angle);
 }
 
-void PerturbDistanceAngle::move(const bool is_position_held,
+void PerturbDistanceAngle::move_once(const bool is_position_held,
     System * system,
     TrialSelect * select,
-    Random * random) {
-  double bond_energy = 0.;
+    Random * random,
+    double * bond_energy) {
   if (is_position_held) {
-    bond_energy += old_bond_energy(*system, select);
-    bond_energy += old_angle_energy(*system, select);
+    *bond_energy += old_bond_energy(*system, select);
+    *bond_energy += old_angle_energy(*system, select);
   } else {
     DEBUG(class_name());
-    const double distance = random_distance(*system, select, random, &bond_energy);
-    DEBUG("bond_energy " << bond_energy);
-    const double angle = random_angle_radians(*system, select, random, &bond_energy);
-    DEBUG("final angle pert bond_energy " << bond_energy);
+    const double distance = random_distance(*system, select, random, bond_energy);
+    DEBUG("bond_energy " << *bond_energy);
+    const double angle = random_angle_radians(*system, select, random, bond_energy);
+    DEBUG("final angle pert bond_energy " << *bond_energy);
     DEBUG("angle: " << angle);
     place_in_circle(distance, angle, system, select, random);
   }
-  select->add_exclude_energy(bond_energy);
 }
 
 void PerturbDistanceAngle::place_in_circle(const double distance,

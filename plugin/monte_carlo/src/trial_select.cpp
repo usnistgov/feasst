@@ -194,6 +194,7 @@ bool TrialSelect::is_isotropic(const System * system) const {
 
 void TrialSelect::set_mobile_original(const System * system) {
   mobile_original_ = mobile_;
+  DEBUG("is system isotropic? " << is_isotropic(system));
   if (!is_isotropic(system)) {
     const Configuration& config = system->configuration();
     for (int select_index = 0;

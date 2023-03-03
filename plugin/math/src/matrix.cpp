@@ -170,7 +170,7 @@ void RotationMatrix::rotate(const Position& pivot, Position * rotated) const {
 }
 
 void RotationMatrix::quaternion(const Position& q) {
-  ASSERT(q.size() == 4, "size: " << q.size() << 
+  ASSERT(q.size() == 4, "size: " << q.size() <<
     " but assumes 3D space, 4D qernion");
   set_value(0, 0, q.coord(0)*q.coord(0) - q.coord(1)*q.coord(1) - q.coord(2)*q.coord(2) + q.coord(3)*q.coord(3));
   set_value(1, 0, 2*(q.coord(0)*q.coord(1) + q.coord(2)*q.coord(3)));
@@ -232,6 +232,72 @@ bool Matrix::is_identity(const double tolerance) const {
     }
   }
   return true;
+}
+
+void Matrix::skew_symmetric_cross_product(const Position& position) {
+  if (num_rows() == 0) {
+    set_size(3, 3);
+  }
+  ASSERT(num_rows() == 3, "only implemented for 3D");
+  ASSERT(position.size() == 3, "only implemented for 3D");
+  matrix_[0][0] = 0.;
+  matrix_[0][1] = -position.coord(2);
+  matrix_[0][2] = position.coord(1);
+  matrix_[1][0] = position.coord(2);
+  matrix_[1][1] = 0.;
+  matrix_[1][2] = -position.coord(0);
+  matrix_[2][0] = -position.coord(1);
+  matrix_[2][1] = position.coord(0);
+  matrix_[2][2] = 0.;
+}
+
+void Matrix::identity(const int size) {
+  set_size(size, size);
+  zero();
+  for (int i = 0; i < size; ++i) {
+    matrix_[i][i] = 1.;
+  }
+}
+
+void Matrix::add(const Matrix& matrix) {
+  ASSERT(num_rows() == matrix.num_rows(),
+    "cannot add Matrix with different number of rows.");
+  ASSERT(num_columns() == matrix.num_columns(),
+    "cannot add Matrix with different number of columns.");
+  for (int row = 0; row < num_rows(); ++row) {
+    for (int column = 0; column < num_columns(); ++column) {
+      matrix_[row][column] += matrix.matrix()[row][column];
+    }
+  }
+}
+
+void RotationMatrix::vector_onto_vector(const Position& vec1,
+  const Position& vec2, Position * tmp_vec, Matrix * tmp_mat) {
+  ASSERT(vec1.size() == 3, "assumes 3D");
+  ASSERT(vec2.size() == 3, "assumes 3D");
+  const double vec1_dist = vec1.distance();
+  const double vec2_dist = vec2.distance();
+  const double unit_dot_product = vec1.dot_product(vec2)/vec1_dist/vec2_dist;
+  ASSERT(std::abs(unit_dot_product + 1) > NEAR_ZERO, "error");
+  Position * v = tmp_vec;
+  *v = vec1.cross_product(vec2);
+  v->divide(vec1_dist);
+  v->divide(vec2_dist);
+  identity(3);
+  Matrix * sscp = tmp_mat;
+  sscp->skew_symmetric_cross_product(*v);
+  add(*sscp);
+  *sscp = sscp->multiply(*sscp);
+  sscp->multiply(1./(1. + unit_dot_product));
+  add(*sscp);
+}
+
+void RotationMatrix::vector_onto_vector(const Position& vec1,
+                                        const Position& vec2) {
+  Position tmp_pos(3);
+  Matrix tmp_mat;
+  vector_onto_vector(vec1, vec2, &tmp_pos, &tmp_mat);
+  check();
 }
 
 }  // namespace feasst

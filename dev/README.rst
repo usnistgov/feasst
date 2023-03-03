@@ -179,7 +179,8 @@ Document
 Setup
 --------------------------------------------------------------------------------
 
-pip install sphinx breathe
+sudo apt install doxygen pandoc
+pip install sphinx breathe pandoc
 doxygen with GENERATE_XML
 run sphinx-quickstart, enable autodoc
 add something like the following to your sphinx index.rst::
@@ -197,8 +198,9 @@ pip install sphinx_rtd_theme nbsphinx
 
 run sphinx: make html
 
-apt install graphviz graphviz-dev
-pip install pygraphviz
+apt install graphviz graphviz-dev pandoc
+
+pip install pygraphviz breathe pandoc
 
 Sphinx/Breathe/Doxygen notes
 --------------------------------------------------------------------------------
@@ -214,6 +216,11 @@ Sphinx/Breathe/Doxygen notes
    \f$ latex code here \f$
 
 * For tables, see monte_carlo/include/trial_compute_add.h
+
+For Ubuntu 22, I had to comment out lines 713-714 of ~/.pyenv/feasst/lib/python3.10/site-packages/breathe/renderer/sphinxrenderer.py
+
+                #assert isinstance(n, addnodes.desc_annotation)
+                #assert n.astext()[-1] == " "
 
 Pip notes
 -------------------------

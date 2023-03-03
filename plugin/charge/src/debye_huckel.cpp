@@ -20,6 +20,7 @@ DebyeHuckel::DebyeHuckel(argtype * args) {
   class_name_ = "DebyeHuckel";
   kappa_ = dble("kappa", args);
   dielectric_ = dble("dielectric", args);
+  smoothing_distance_ = dble("smoothing_distance", args, -1.);
 }
 DebyeHuckel::DebyeHuckel(argtype args) : DebyeHuckel(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -32,6 +33,7 @@ void DebyeHuckel::serialize(std::ostream& ostr) const {
   feasst_serialize(conversion_factor_, ostr);
   feasst_serialize(kappa_, ostr);
   feasst_serialize(dielectric_, ostr);
+  feasst_serialize(smoothing_distance_, ostr);
 }
 
 DebyeHuckel::DebyeHuckel(std::istream& istr) : ModelTwoBody(istr) {
@@ -40,6 +42,7 @@ DebyeHuckel::DebyeHuckel(std::istream& istr) : ModelTwoBody(istr) {
   feasst_deserialize(&conversion_factor_, istr);
   feasst_deserialize(&kappa_, istr);
   feasst_deserialize(&dielectric_, istr);
+  feasst_deserialize(&smoothing_distance_, istr);
 }
 
 double DebyeHuckel::energy(
@@ -47,7 +50,7 @@ double DebyeHuckel::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  const double distance = std::sqrt(squared_distance);
+  double distance = std::sqrt(squared_distance);
   TRACE("distance " << distance);
   if (std::abs(distance) < NEAR_ZERO) {
     TRACE("near inf");
@@ -56,7 +59,22 @@ double DebyeHuckel::energy(
   const double mixed_charge = model_params.select(charge_index()).mixed_values()[type1][type2];
   //TRACE("mixed_charge " << mixed_charge);
   //TRACE("conversion_factor_ " << conversion_factor_);
-  return mixed_charge*conversion_factor_*std::exp(-kappa_*distance)/distance/dielectric_;
+  const double prefactor = mixed_charge*conversion_factor_/dielectric_;
+  double en;
+  if (smoothing_distance_ < 0) {
+    en = prefactor*std::exp(-kappa_*distance)/distance;
+  } else {
+    const double mixed_cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
+    const double dx = mixed_cutoff - distance;
+    if (dx < smoothing_distance_) {
+      distance = mixed_cutoff;
+    }
+    en = prefactor*std::exp(-kappa_*distance)/distance;
+    if (dx < smoothing_distance_) {
+      en *= dx / smoothing_distance_;
+    }
+  }
+  return en;
 }
 
 void DebyeHuckel::precompute(const ModelParams& existing) {

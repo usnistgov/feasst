@@ -45,10 +45,11 @@ class PerturbDihedral : public PerturbDistanceAngle {
     System * system,
     TrialSelect * select);
 
-  void move(const bool is_position_held,
+  void move_once(const bool is_position_held,
     System * system,
     TrialSelect * select,
-    Random * random) override;
+    Random * random,
+    double * bond_energy) override;
 
   // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;

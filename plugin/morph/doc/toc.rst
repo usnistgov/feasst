@@ -1,8 +1,8 @@
 
 .. toctree::
 
+   MacrostateMorph
    PerturbParticleType
+   ComputeMorph
    TrialMorph
    TrialMorphExpanded
-   ComputeMorph
-   MacrostateMorph

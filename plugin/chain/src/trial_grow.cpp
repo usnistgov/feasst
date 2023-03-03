@@ -32,6 +32,8 @@
 #include "chain/include/perturb_crankshaft.h"
 #include "chain/include/select_reptate.h"
 #include "chain/include/perturb_reptate.h"
+#include "chain/include/perturb_connector.h"
+#include "chain/include/perturb_distance_angle_connector.h"
 #include "chain/include/select_site_of_type.h"
 #include "chain/include/perturb_site_type.h"
 #include "chain/include/trial_grow.h"
@@ -225,14 +227,36 @@ void TrialGrow::build_(std::vector<argtype> * args) {
             {"anchor_site", str("anchor_site", &iargs)}});
           perturb = std::make_shared<PerturbToAnchor>(&iargs);
         }
+        if (boolean("rigid_body_connector", &iargs, false)) {
+          ASSERT(used == 0, "cannot have more than one");
+          ++used;
+          select = MakeTrialSelectBond({
+            {"particle_type", particle_type},
+            {"mobile_site", str("mobile_site", &iargs)},
+            {"anchor_site", str("anchor_site", &iargs)}});
+          perturb = std::make_shared<PerturbConnector>(&iargs);
+        }
+        if (boolean("rigid_body_angle", &iargs, false)) {
+          ASSERT(used == 0, "cannot have more than one");
+          ++used;
+          select = MakeTrialSelectAngle({
+            {"particle_type", particle_type},
+            {"mobile_site", str("mobile_site", &iargs)},
+            {"anchor_site", str("anchor_site", &iargs)},
+            {"anchor_site2", str("anchor_site2", &iargs)}});
+          perturb = std::make_shared<PerturbDistanceAngleConnector>(&iargs);
+        }
         ASSERT(used == 1, "args: " << str(iargs) <<
           ". Requires one of bond, angle, dihedral, branch, reptate, etc");
         if (!compute) {
+          DEBUG("num_args " << num_args);
           if (num_args == 1) {
             compute = std::make_shared<TrialComputeTranslate>(&iargs);
           } else {
             compute = std::make_shared<TrialComputeMove>(&iargs);
           }
+        } else {
+          DEBUG(compute->class_name());
         }
       }
       const std::string num_steps = str("num_steps", &iargs, default_num_steps);

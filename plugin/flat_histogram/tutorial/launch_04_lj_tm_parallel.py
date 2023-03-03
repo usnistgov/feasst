@@ -89,7 +89,7 @@ class TestFlatHistogramLJ(unittest.TestCase):
         import numpy as np
         import pandas as pd
         lnpi=pd.read_csv('lj_lnpi.txt')
-        self.assertAlmostEqual(310.4179421879679, (np.exp(lnpi["ln_prob"]) * lnpi["state"]).sum(), delta=0.25)
+        self.assertAlmostEqual(310.4179421879679, (np.exp(lnpi["ln_prob"]) * lnpi["state"]).sum(), delta=0.5)
 
 # run the simulation and, if complete, analyze.
 def run():

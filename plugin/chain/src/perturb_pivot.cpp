@@ -14,6 +14,13 @@ class MapPerturbPivot {
 
 static MapPerturbPivot mapper_ = MapPerturbPivot();
 
+PerturbPivot::PerturbPivot(argtype args) : PerturbPivot(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
+PerturbPivot::PerturbPivot(argtype * args) : PerturbRotate(args) {
+  class_name_ = "PerturbPivot";
+}
+
 std::shared_ptr<Perturb> PerturbPivot::create(std::istream& istr) const {
   return std::make_shared<PerturbPivot>(istr);
 }

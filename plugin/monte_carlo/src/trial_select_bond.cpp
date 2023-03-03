@@ -59,7 +59,7 @@ bool TrialSelectBond::select(const Select& perturbed,
   mobile_.load_positions(config->particles());
   DEBUG("mobile: " << mobile_.str());
   DEBUG("anchor: " << anchor_.str());
-  mobile_original_ = mobile_;
+  set_mobile_original(system);
   return true;
 }
 

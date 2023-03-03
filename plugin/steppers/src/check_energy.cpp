@@ -44,7 +44,7 @@ void CheckEnergy::update(Criteria * criteria,
     ASSERT(std::abs(energy_profile[i] - current_energy_profile[i]) < tolerance_,
       MAX_PRECISION <<
       "Energy check failure. There is a problem with the potentials. " <<
-      "The unoptimized energy of the potential " << i << " was computed as " <<
+      "The unoptimized energy of potential " << i << " was computed as " <<
       energy_profile[i] << " but the running energy from criteria " <<
       "(the accumulation of a change in energy over a series of steps) is " <<
       current_energy_profile[i] <<
