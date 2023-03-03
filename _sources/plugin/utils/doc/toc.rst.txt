@@ -1,15 +1,15 @@
 
 .. toctree::
 
-   Timer
-   file
+   Cache
    ArgumentParse
+   file
    io
    utils
    CustomException
    debug
+   Timer
    arguments
-   Checkpoint
    serialize
    ProgressReport
-   Cache
+   Checkpoint

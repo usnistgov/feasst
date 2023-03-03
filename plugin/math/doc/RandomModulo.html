@@ -1,54 +1,31 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>RandomModulo &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>RandomModulo &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="math/include/constants" href="constants.html" />
-    <link rel="prev" title="Random" href="Random.html" />
+    <link rel="next" title="Table" href="Table.html" />
+    <link rel="prev" title="RandomMT19937" href="RandomMT19937.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -109,27 +62,27 @@
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html">math/include/utils_math</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">RandomModulo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Euler.html">Euler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Solver.html">Solver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBisection.html">SolverBisection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBrentDekker.html">SolverBrentDekker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Euler.html">Euler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">RandomModulo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -166,28 +119,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -253,7 +195,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -278,41 +220,34 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="randommodulo">
-<h1>RandomModulo<a class="headerlink" href="#randommodulo" title="Permalink to this headline">¶</a></h1>
+<section id="randommodulo">
+<h1>RandomModulo<a class="headerlink" href="#randommodulo" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst12RandomModuloE">
-<span class="target" id="classfeasst_1_1RandomModulo"></span><em class="property">class </em><code class="sig-name descname">RandomModulo</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a><a class="headerlink" href="#_CPPv4N6feasst12RandomModuloE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12RandomModuloE">
+<span class="target" id="classfeasst_1_1RandomModulo"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RandomModulo</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><a class="headerlink" href="#_CPPv4N6feasst12RandomModuloE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>This is a very simple implementation of a random number generator that is of poor quality. See the discussion in Allen and Tildesley “Computer Simulation of Liquids” Appendix G. This was implemented so that the same number sequence can be obtained on different compilers and operating systems, whereas <a class="reference internal" href="RandomMT19937.html#classfeasst_1_1RandomMT19937"><span class="std std-ref">RandomMT19937</span></a> has known differences between GCC and Clang. It is recommended to use the more high-quality <a class="reference internal" href="RandomMT19937.html#classfeasst_1_1RandomMT19937"><span class="std std-ref">RandomMT19937</span></a> for production simulations. </p>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="constants.html" class="btn btn-neutral float-right" title="math/include/constants" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="Random.html" class="btn btn-neutral float-left" title="Random" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RandomMT19937.html" class="btn btn-neutral float-left" title="RandomMT19937" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Table.html" class="btn btn-neutral float-right" title="Table" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -397,22 +332,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example TwoBodyAlpha potential: Feynman-Hibbs &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo" href="../../flat_histogram/tutorial/tutorial_00_ideal_gas.html" />
+    <link rel="prev" title="User defined tabular potentials" href="tutorial_1_lj_table.html" />
+
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
+          </a>
+              <div class="version">
+                v0.21
+              </div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/tutorial.html">Lennard Jones in the Canonical ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/launch.html">HPC/SLURM script with checkpointed restarts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/tutorial/tutorial_0_ref_configs.html">Lennard Jones potential test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/tutorial/tutorial_1_lj_nvt.html">Average energy of a bulk LJ fluid in the canonical ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/tutorial/tutorial_0_spce_ref_config.html">Reference configuration of SPC/E water in non-cuboid domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/tutorial/tutorial_1_spce_nvt.html">Average energy of a bulk SPC/E fluid in the canonical ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_1_lj_table.html">User defined tabular potentials</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Example TwoBodyAlpha potential: Feynman-Hibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_03_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_04_lj_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_05_spce_tm_parallel.html">Grand Canonical Flat Histogram Simulation of SPC/E</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_06_rpm_tm_parallel.html">Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_10_wltm_lowt.html">Grand Canonical Flat Histogram Simulation at low temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_11_trappe_alkane.html">Grand Canonical Flat Histogram Simulation of TraPPE alkanes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_0_freely_jointed.html">Simulation of a single freely-jointed chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_1_ideal_ua_chain.html">Simulation of a single chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_2_ideal_ua_chain20.html">Simulation of a single 20-bead linear chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_3_cg7mab.html">Scattering calculations for hard sphere coarse-grained mAb models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_4_rg_extrapolation.html">Temperature extrapolation of the radius of gyration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/tutorial/tutorial_01_hs_scattering.html">Compare scattering calculations for hard spheres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/tutorial/tutorial.html">Beta expanded ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/tutorial/tutorial_1_rpm_tm_egce_parallel.html">Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_4_cgmab.html">Virial coefficients of coarse-grained mAb models.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/tutorial/tutorial_1_block_average.html">Block average analysis for correlated data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_1_prefetch.html">Prefetch example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/README.html#text-file-interface">Text file interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/README.html#python-and-c-interface">Python and C++ interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FEASST</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <header class="nist-header" id="nist-header" role="banner">
+
+  <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
+    <svg aria-hidden="true" class="nist-header__logo-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+      <path d="M20.911 5.375l-9.482 9.482 9.482 9.482c0.446 0.446 0.446 1.161 0 1.607l-2.964 2.964c-0.446 0.446-1.161 0.446-1.607 0l-13.25-13.25c-0.446-0.446-0.446-1.161 0-1.607l13.25-13.25c0.446-0.446 1.161-0.446 1.607 0l2.964 2.964c0.446 0.446 0.446 1.161 0 1.607z"></path>
+    </svg>
+    <svg class="nist-header__logo-image" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-237 385.7 109.7 29.3">
+      <title>National Institute of Standards and Technology</title>
+      <g>
+        <path class="st0" d="M-231,415h-6v-23.1c0,0,0-4.4,4.4-5.8c4-1.3,6.6,1.3,6.6,1.3l19.7,21.3c1,0.6,1.4,0,1.4-0.6v-22h6.1V409
+          c0,1.9-1.6,4.4-4,5.3c-2.4,0.9-4.9,0.9-7.9-1.7l-18.5-20c-0.5-0.5-1.8-0.6-1.8,0.4L-231,415L-231,415z"/>
+        <path class="st0" d="M-195,386.1h6.1v20.7c0,2.2,1.9,2.2,3.6,2.2h26.8c1.1,0,2.4-1.3,2.4-2.7c0-1.4-1.3-2.8-2.5-2.8H-176
+          c-3,0.1-9.2-2.7-9.2-8.5c0-7.1,5.9-8.8,8.6-9h49.4v6.1h-12.3V415h-6v-22.9h-30.2c-2.9-0.2-4.9,4.7-0.2,5.4h18.6
+          c2.8,0,7.4,2.4,7.5,8.4c0,6.1-3.6,9-7.5,9H-185c-4.5,0-6.2-1.1-7.8-2.5c-1.5-1.5-1.7-2.3-2.2-5.3L-195,386.1
+          C-194.9,386.1-195,386.1-195,386.1z"/>
+      </g>
+    </svg>
+  </a>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../tutorial/README.html">Tutorials</a> &raquo;</li>
+        
+      <li>Example TwoBodyAlpha potential: Feynman-Hibbs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="example-twobodyalpha-potential-feynman-hibbs">
+<h1>Example TwoBodyAlpha potential: Feynman-Hibbs<a class="headerlink" href="#example-twobodyalpha-potential-feynman-hibbs" title="Permalink to this heading"></a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This tutorial shows how to build your own LJ-like potentials, specifically, Feynman-Hibbs.</span>
+<span class="sd">Note that the table potential may be faster because it avoids the sqrt operation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;num_particles&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span> <span class="s2">&quot;trials_per&quot;</span><span class="p">:</span> <span class="mf">1e5</span><span class="p">,</span>
+    <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;fstprt&quot;</span><span class="p">:</span> <span class="s2">&quot;/feasst/forcefield/lj.fstprt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;equilibration&quot;</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s2">&quot;production&quot;</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s1">&#39;table_file&#39;</span><span class="p">:</span> <span class="s1">&#39;dat.txt&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;cutoff&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;inner&#39;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s1">&#39;num_z&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">),</span> <span class="s1">&#39;displacement_test&#39;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>
+    <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e9</span><span class="p">)),</span> <span class="s2">&quot;num_hours&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;script&quot;</span><span class="p">:</span> <span class="vm">__file__</span><span class="p">,</span>
+    <span class="s1">&#39;fstbin&#39;</span><span class="p">:</span> <span class="s1">&#39;../../../build/bin/&#39;</span><span class="p">}</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.</span> <span class="c1">#4*eps*h^2/24mkbT/sigma^2</span>
+<span class="n">params</span><span class="p">[</span><span class="s1">&#39;s_14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">132</span><span class="o">*</span><span class="n">epsilon</span>
+<span class="n">params</span><span class="p">[</span><span class="s1">&#39;s_8&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">30</span><span class="o">*</span><span class="n">epsilon</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;box_length&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_particles&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">])</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_minutes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_hours&quot;</span><span class="p">]</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_hours_terminate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.95</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_hours&quot;</span><span class="p">]</span>
+
+<span class="c1"># write fst script to run a simulation</span>
+<span class="k">def</span> <span class="nf">mc_lj</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s2">&quot;launch.txt&quot;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">MonteCarlo</span>
+<span class="s2">Checkpoint file_name checkpoint.fst</span>
+<span class="s2">RandomMT19937 seed time</span>
+<span class="s2">Configuration cubic_box_length </span><span class="si">{box_length}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span>
+<span class="s2">Potential Model ModelTwoBodyFactory </span><span class="se">\</span>
+<span class="s2">  model0 LennardJones </span><span class="se">\</span>
+<span class="s2">  model1 TwoBodyAlpha alpha0 14 s0 </span><span class="si">{s_14}</span><span class="s2"> alpha1 8 s1 </span><span class="si">{s_8}</span><span class="s2"> </span><span class="se">\</span>
+<span class="s2">  VisitModel VisitModelCell min_length 3</span>
+<span class="s2">ThermoParams beta 0.1 chemical_potential 10</span>
+<span class="s2">Metropolis</span>
+<span class="s2">TrialTranslate tunable_param 2. tunable_target_acceptance 0.2</span>
+<span class="s2">TrialAdd particle_type 0</span>
+<span class="s2">Run until_num_particles </span><span class="si">{num_particles}</span>
+<span class="s2">RemoveTrial name TrialAdd</span>
+<span class="s2">ThermoParams beta </span><span class="si">{beta}</span>
+<span class="s2">Tune</span>
+<span class="s2">CheckEnergy trials_per </span><span class="si">{trials_per}</span><span class="s2"> tolerance 1e-8</span>
+
+<span class="s2"># equilibrate</span>
+<span class="s2">Log trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name lj_eq.txt</span>
+<span class="s2">Run num_trials </span><span class="si">{equilibration}</span>
+<span class="s2">RemoveModify name Tune</span>
+<span class="s2">RemoveAnalyze name Log</span>
+
+<span class="s2"># production analysis and output</span>
+<span class="s2">Log trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name lj.txt</span>
+<span class="s2">Energy trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name en.txt</span>
+<span class="s2">Run num_trials </span><span class="si">{production}</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+
+<span class="c1"># write slurm script to fill nodes with simulations</span>
+<span class="k">def</span> <span class="nf">slurm_queue</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;slurm.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;#!/bin/bash</span>
+<span class="s2">#SBATCH -n </span><span class="si">{procs_per_node}</span><span class="s2"> -N </span><span class="si">{num_nodes}</span><span class="s2"> -t </span><span class="si">{num_minutes}</span><span class="s2">:00 -o hostname_%j.out -e hostname_%j.out</span>
+<span class="s2">echo &quot;Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD&quot;</span>
+<span class="s2">cd $PWD</span>
+<span class="s2">python </span><span class="si">{script}</span><span class="s2"> --run_type 1 --task $SLURM_ARRAY_TASK_ID</span>
+<span class="s2">if [ $? == 0 ]; then</span>
+<span class="s2">  echo &quot;Job is done&quot;</span>
+<span class="s2">  scancel $SLURM_ARRAY_JOB_ID</span>
+<span class="s2">else</span>
+<span class="s2">  echo &quot;Job is terminating, to be restarted again&quot;</span>
+<span class="s2">fi</span>
+<span class="s2">echo &quot;Time is $(date)&quot;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+
+<span class="c1"># add additional arguments for multi-core simulations</span>
+<span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;sim&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;num_nodes&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;procs_per_node&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_sims&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_nodes&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;procs_per_node&quot;</span><span class="p">]</span>
+
+<span class="c1"># parse arguments</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--run_type&#39;</span><span class="p">,</span> <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;0: submit batch to scheduler, 1: run batch on host&quot;</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--task&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;input by slurm scheduler. If &gt;0, restart from checkpoint.&quot;</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="c1"># after the simulation is complete, perform some tests</span>
+<span class="k">class</span> <span class="nc">TestMonteCarloLJ</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># test not implemented</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># run a single simulation as part of the batch to fill a node</span>
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">sim</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;sim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e9</span><span class="p">))</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;launch_run&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span>
+        <span class="n">mc_lj</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;fstbin&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;fst &lt; &quot;</span> <span class="o">+</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot; &gt; launch_run&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;fstbin&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;rst checkpoint&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.fst&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">syscode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">syscode</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">run_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">slurm_queue</span><span class="p">()</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;sbatch --array=0-10%1 slurm.txt | awk &#39;{print $4}&#39; &gt;&gt; launch_ids.txt&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">run_type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_sims&quot;</span><span class="p">])</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;num_sims&quot;</span><span class="p">])))</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="kc">False</span>  <span class="c1"># unrecognized run_type</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial_1_lj_table.html" class="btn btn-neutral float-left" title="User defined tabular potentials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../flat_histogram/tutorial/tutorial_00_ideal_gas.html" class="btn btn-neutral float-right" title="Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+
+
+	<br></br>
+	<footer class="nist-footer">
+  <div class="nist-footer__inner">
+    <div class="nist-footer__menu" role="navigation">
+      <ul>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy">Privacy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#privpolicy">Privacy Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#secnot">Security Notice</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#accesstate">Accessibility Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy">NIST Privacy Program</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/disclaimer">Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/office-director/freedom-information-act">FOIA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#cookie">Cookie Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity Summary</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/nist-information-quality-standards">NIST Information Quality Standards</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://business.usa.gov/">Business USA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.commerce.gov/">Commerce.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.healthcare.gov/">Healthcare.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.science.gov/">Science.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.usa.gov/">USA.gov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nist-footer__logo">
+    <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-footer__logo-link" rel="home">
+      <img src="https://pages.nist.gov/nist-header-footer/images/nist_logo_centered_rev.svg" alt="National Institute of Standards and Technology logo" />
+    </a>
+  </div>
+</footer>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115121490-6');
+  </script>
+
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

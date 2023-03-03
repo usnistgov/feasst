@@ -1,54 +1,33 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Mie &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>Mie &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Steppers" href="../../steppers/README.html" />
-    <link rel="prev" title="LennardJonesForceShift" href="LennardJonesForceShift.html" />
+    <link rel="next" title="TablePotential" href="TablePotential.html" />
+    <link rel="prev" title="TwoBodyAlpha" href="TwoBodyAlpha.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +42,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -114,19 +69,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Models</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="AngleHarmonic.html">AngleHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FENE.html">FENE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="BondHarmonic.html">BondHarmonic</a></li>
-<li class="toctree-l3"><a class="reference internal" href="DihedralHarmonic.html">DihedralHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AngleHarmonic.html">AngleHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="DihedralTraPPE.html">DihedralTraPPE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TablePotential.html">TablePotential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DihedralHarmonic.html">DihedralHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Yukawa.html">Yukawa</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TwoBodyTable.html">TwoBodyTable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SquareWell.html">SquareWell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TwoBodyAlpha.html">TwoBodyAlpha</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Mie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TablePotential.html">TablePotential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesAlpha.html">LennardJonesAlpha</a></li>
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesCutShift.html">LennardJonesCutShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="LennardJonesForceShift.html">LennardJonesForceShift</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Mie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -158,28 +114,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -245,7 +190,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -270,18 +215,18 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="mie">
-<h1>Mie<a class="headerlink" href="#mie" title="Permalink to this headline">¶</a></h1>
+<section id="mie">
+<h1>Mie<a class="headerlink" href="#mie" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst3MieE">
-<span class="target" id="classfeasst_1_1Mie"></span><em class="property">class </em><code class="sig-name descname">Mie</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst3MieE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst3MieE">
+<span class="target" id="classfeasst_1_1Mie"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Mie</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody"><span class="n"><span class="pre">ModelTwoBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst3MieE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The <a class="reference internal" href="#classfeasst_1_1Mie"><span class="std std-ref">Mie</span></a> potential, <span class="math notranslate nohighlight">\(U\)</span> is described in <a class="reference external" href="http://www.sklogwiki.org/SklogWiki/index.php/Mie_potential">http://www.sklogwiki.org/SklogWiki/index.php/Mie_potential</a>.</p>
-<p><span class="math notranslate nohighlight">\(U=\epsilon\left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)}\left[\left(\frac{\sigma}{r}\right)^n-\left(\frac{\sigma}{r}\right)^m\right]\)</span> </p>
+<p><span class="math notranslate nohighlight">\(U=\epsilon\left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)}\left[\left(\frac{\sigma}{r}\right)^n-\left(\frac{\sigma}{r}\right)^m\right]\)</span></p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst3Mie3MieE7argtype">
-<span class="target" id="classfeasst_1_1Mie_1afd4178ec484ae304dcee56d9404716bb"></span><code class="sig-name descname">Mie</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst3Mie3MieE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst3Mie3MieE7argtype">
+<span class="target" id="classfeasst_1_1Mie_1afd4178ec484ae304dcee56d9404716bb"></span><span class="sig-name descname"><span class="n"><span class="pre">Mie</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst3Mie3MieE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>n: set the value of <span class="math notranslate nohighlight">\(n\)</span> (default: 12).</p></li>
 <li><p>m: set the value of <span class="math notranslate nohighlight">\(m\)</span> (default: 6). </p></li>
@@ -290,53 +235,46 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst3Mie1nEv">
-<span class="target" id="classfeasst_1_1Mie_1a432caa6f17942e7c92c8f21250ab67bc"></span><em class="property">const</em> double &amp;<code class="sig-name descname">n</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst3Mie1nEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst3Mie1nEv">
+<span class="target" id="classfeasst_1_1Mie_1a432caa6f17942e7c92c8f21250ab67bc"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">n</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst3Mie1nEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the value of n. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst3Mie1mEv">
-<span class="target" id="classfeasst_1_1Mie_1a310f78997a6f0d686e93705c966c588b"></span><em class="property">const</em> double &amp;<code class="sig-name descname">m</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst3Mie1mEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst3Mie1mEv">
+<span class="target" id="classfeasst_1_1Mie_1a310f78997a6f0d686e93705c966c588b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">m</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst3Mie1mEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the value of m. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst3Mie9serializeERNSt7ostreamE">
-<span class="target" id="classfeasst_1_1Mie_1a97c149c736e4e0ca0d69d91d1cc6c6eb"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst3Mie9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst3Mie9serializeERNSt7ostreamE">
+<span class="target" id="classfeasst_1_1Mie_1a97c149c736e4e0ca0d69d91d1cc6c6eb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst3Mie9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../../steppers/README.html" class="btn btn-neutral float-right" title="Steppers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="LennardJonesForceShift.html" class="btn btn-neutral float-left" title="LennardJonesForceShift" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="TwoBodyAlpha.html" class="btn btn-neutral float-left" title="TwoBodyAlpha" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TablePotential.html" class="btn btn-neutral float-right" title="TablePotential" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -421,22 +359,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

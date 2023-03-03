@@ -1,53 +1,30 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>utils/include/debug &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>utils/include/debug &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="utils/include/arguments" href="arguments.html" />
+    <link rel="next" title="Timer" href="Timer.html" />
     <link rel="prev" title="CustomException" href="CustomException.html" />
 
 	<!-- frame blocking -->
@@ -63,63 +40,39 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ArgumentParse.html">ArgumentParse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html">utils/include/io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">utils/include/debug</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="arguments.html">utils/include/arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProgressReport.html">ProgressReport</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -156,28 +109,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -243,7 +185,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -268,91 +210,91 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="utils-include-debug">
-<h1>utils/include/debug<a class="headerlink" href="#utils-include-debug" title="Permalink to this headline">¶</a></h1>
+<section id="utils-include-debug">
+<h1>utils/include/debug<a class="headerlink" href="#utils-include-debug" title="Permalink to this heading"></a></h1>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Defines</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
 <dl class="cpp macro">
-<dt id="c.FEASST_MACRO_EXCEPTION">
-<span class="target" id="debug_8h_1a2c3c7aaf97c960e6b57aaf8f2f068599"></span><code class="sig-name descname">FEASST_MACRO_EXCEPTION</code><span class="sig-paren">(</span><em>message</em>, <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_EXCEPTION" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.FEASST_MACRO_EXCEPTION">
+<span class="target" id="debug_8h_1a2c3c7aaf97c960e6b57aaf8f2f068599"></span><span class="sig-name descname"><span class="n"><span class="pre">FEASST_MACRO_EXCEPTION</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">message</span></span>, <span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_EXCEPTION" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Throw exception. </p>
 </dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.ASSERT">
-<span class="target" id="debug_8h_1aa06eedd6f738a415870e97a375337d51"></span><code class="sig-name descname">ASSERT</code><span class="sig-paren">(</span><em>condition</em>, <em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#c.ASSERT" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.ASSERT">
+<span class="target" id="debug_8h_1aa06eedd6f738a415870e97a375337d51"></span><span class="sig-name descname"><span class="n"><span class="pre">ASSERT</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">condition</span></span>, <span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.ASSERT" title="Permalink to this definition"></a><br /></dt>
 <dd><p>If the assertion condition is not true, throw exception with message. </p>
 </dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.ERROR">
-<span class="target" id="debug_8h_1ae225ab718bd4f5e2221129f026d3d8f1"></span><code class="sig-name descname">ERROR</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#c.ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.ERROR">
+<span class="target" id="debug_8h_1ae225ab718bd4f5e2221129f026d3d8f1"></span><span class="sig-name descname"><span class="n"><span class="pre">ERROR</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.ERROR" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Throw exception with message. </p>
 </dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.FATAL">
-<span class="target" id="debug_8h_1a14ec8c552061330276dfd86f506095a3"></span><code class="sig-name descname">FATAL</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#c.FATAL" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.FATAL">
+<span class="target" id="debug_8h_1a14ec8c552061330276dfd86f506095a3"></span><span class="sig-name descname"><span class="n"><span class="pre">FATAL</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.FATAL" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Throw exception with message. </p>
 </dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.TRY">
-<span class="target" id="debug_8h_1a8ad7c2ac92e1e5d11f7be25c881f2390"></span><code class="sig-name descname">TRY</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TRY" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.TRY">
+<span class="target" id="debug_8h_1a8ad7c2ac92e1e5d11f7be25c881f2390"></span><span class="sig-name descname"><span class="n"><span class="pre">TRY</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">code</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.TRY" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Try block to expect an error. Disable if VERBOSE_LEVEL is 0. </p>
 </dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.CATCH_PHRASE">
-<span class="target" id="debug_8h_1a78d87e85f74552745f117bf54641ec20"></span><code class="sig-name descname">CATCH_PHRASE</code><span class="sig-paren">(</span><em>phrase</em><span class="sig-paren">)</span><a class="headerlink" href="#c.CATCH_PHRASE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.CATCH_PHRASE">
+<span class="target" id="debug_8h_1a78d87e85f74552745f117bf54641ec20"></span><span class="sig-name descname"><span class="n"><span class="pre">CATCH_PHRASE</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">phrase</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.CATCH_PHRASE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Expect to catch exception with phrase in message. </p>
 </dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.FEASST_MACRO_OUTPUT">
-<span class="target" id="debug_8h_1a42a13dcca672d013fc25504a9de6fab9"></span><code class="sig-name descname">FEASST_MACRO_OUTPUT</code><span class="sig-paren">(</span><em>message</em>, <em>name</em>, <em>level</em><span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_OUTPUT" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.FEASST_MACRO_OUTPUT">
+<span class="target" id="debug_8h_1a42a13dcca672d013fc25504a9de6fab9"></span><span class="sig-name descname"><span class="n"><span class="pre">FEASST_MACRO_OUTPUT</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">message</span></span>, <span class="n"><span class="pre">name</span></span>, <span class="n"><span class="pre">level</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_OUTPUT" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Debug with message to standard output. </p>
 </dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.WARN">
-<span class="target" id="debug_8h_1a02450a0cb9e4af683314a1560943350a"></span><code class="sig-name descname">WARN</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#c.WARN" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.WARN">
+<span class="target" id="debug_8h_1a02450a0cb9e4af683314a1560943350a"></span><span class="sig-name descname"><span class="n"><span class="pre">WARN</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.WARN" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Define and name the various levels of verbosity. </p>
 </dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.INFO">
-<span class="target" id="debug_8h_1a809f816dd6df4e17499413cff1926fd4"></span><code class="sig-name descname">INFO</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#c.INFO" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.INFO">
+<span class="target" id="debug_8h_1a809f816dd6df4e17499413cff1926fd4"></span><span class="sig-name descname"><span class="n"><span class="pre">INFO</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.INFO" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.DEBUG">
-<span class="target" id="debug_8h_1ab94a24f0a37b3963eb64f201cebf60a9"></span><code class="sig-name descname">DEBUG</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#c.DEBUG" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.DEBUG">
+<span class="target" id="debug_8h_1ab94a24f0a37b3963eb64f201cebf60a9"></span><span class="sig-name descname"><span class="n"><span class="pre">DEBUG</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.DEBUG" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp macro">
-<dt id="c.TRACE">
-<span class="target" id="debug_8h_1a670dccd8f2591bf2f2f4732030c3a458"></span><code class="sig-name descname">TRACE</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TRACE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.TRACE">
+<span class="target" id="debug_8h_1a670dccd8f2591bf2f2f4732030c3a458"></span><span class="sig-name descname"><span class="n"><span class="pre">TRACE</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.TRACE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
 <dl class="cpp type">
-<dt id="_CPPv46feasst">
-<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv46feasst">
+<span class="target" id="namespacefeasst"></span><em class="property"><span class="pre">namespace</span> </em><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">feasst</span></span></span><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst16feasst_dir_trim_EPKc">
-<span class="target" id="namespacefeasst_1a682bd5a8531ab31f36751ee47b45578c"></span>std::string <code class="sig-name descname">feasst_dir_trim_</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16feasst_dir_trim_EPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst16feasst_dir_trim_EPKc">
+<span class="target" id="namespacefeasst_1a682bd5a8531ab31f36751ee47b45578c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">feasst_dir_trim_</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">file_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16feasst_dir_trim_EPKc" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return file_name with FEASST_DIR_ path removed. </p>
 </dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Variables</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
 <dl class="cpp var">
-<dt id="_CPPv4N6feasst13VERBOSE_LEVELE">
-<span class="target" id="namespacefeasst_1af6d3fe8aa2fbb3508c0fef521a7046a3"></span><em class="property">constexpr</em> int <code class="sig-name descname">VERBOSE_LEVEL</code> = 3<a class="headerlink" href="#_CPPv4N6feasst13VERBOSE_LEVELE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13VERBOSE_LEVELE">
+<span class="target" id="namespacefeasst_1af6d3fe8aa2fbb3508c0fef521a7046a3"></span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VERBOSE_LEVEL</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><a class="headerlink" href="#_CPPv4N6feasst13VERBOSE_LEVELE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The verbosity level sets which error and debugging checks and messages are utilized.</p>
 <p>The order of verbosity is as follows:</p>
 <p>0. FATAL<ol class="loweralpha simple">
@@ -370,33 +312,26 @@
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="arguments.html" class="btn btn-neutral float-right" title="utils/include/arguments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="CustomException.html" class="btn btn-neutral float-left" title="CustomException" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Timer.html" class="btn btn-neutral float-right" title="Timer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -481,22 +416,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

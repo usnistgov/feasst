@@ -1,53 +1,30 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>FlatHistogram &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>FlatHistogram &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="CollectionMatrixSplice" href="CollectionMatrixSplice.html" />
+    <link rel="next" title="MacrostateEnergy" href="MacrostateEnergy.html" />
     <link rel="prev" title="Ensemble" href="Ensemble.html" />
 
 	<!-- frame blocking -->
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -119,22 +72,22 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
 </li>
 </ul>
@@ -164,28 +117,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -251,7 +193,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -276,18 +218,18 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="flathistogram">
-<h1>FlatHistogram<a class="headerlink" href="#flathistogram" title="Permalink to this headline">¶</a></h1>
+<section id="flathistogram">
+<h1>FlatHistogram<a class="headerlink" href="#flathistogram" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst13FlatHistogramE">
-<span class="target" id="classfeasst_1_1FlatHistogram"></span><em class="property">class </em><code class="sig-name descname">FlatHistogram</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogramE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogramE">
+<span class="target" id="classfeasst_1_1FlatHistogram"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FlatHistogram</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogramE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Flat histogram acceptance criteria uses a bias to improve sampling and attempt to recover the free energy of the system as a function of the give macrostate.</p>
 <p>The <a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> must be defined before the bias. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype">
-<span class="target" id="classfeasst_1_1FlatHistogram_1accdf84b4bacb7e093f40d15ddc2e3f46"></span><code class="sig-name descname">FlatHistogram</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype">
+<span class="target" id="classfeasst_1_1FlatHistogram_1accdf84b4bacb7e093f40d15ddc2e3f46"></span><span class="sig-name descname"><span class="n"><span class="pre">FlatHistogram</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>This is a flattened constructor which takes arguments for <a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a>, <a class="reference internal" href="Bias.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a> and <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> arguments (e.g., Constraints).</p>
 <p>args:<ul class="simple">
 <li><p><a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a>: <a class="reference internal" href="MacrostateNumParticles.html#classfeasst_1_1MacrostateNumParticles"><span class="std std-ref">MacrostateNumParticles</span></a>, <a class="reference internal" href="MacrostateEnergy.html#classfeasst_1_1MacrostateEnergy"><span class="std std-ref">MacrostateEnergy</span></a>, etc</p></li>
@@ -298,150 +240,141 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a48aa6b3944d1f65541b76ad0c4e265e5"></span><code class="sig-name descname">FlatHistogram</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a>&gt; <em>macrostate</em>, std::shared_ptr&lt;<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a>&gt; <em>bias</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a48aa6b3944d1f65541b76ad0c4e265e5"></span><span class="sig-name descname"><span class="n"><span class="pre">FlatHistogram</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><span class="n"><span class="pre">Macrostate</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">macrostate</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><span class="n"><span class="pre">Bias</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bias</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Construct with a macrostate and a bias. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEE">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a51adac7ca26808673853f5484cbf9992"></span><code class="sig-name descname">FlatHistogram</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a>&gt; <em>macrostate</em>, std::shared_ptr&lt;<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a>&gt; <em>bias</em>, std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint">Constraint</a>&gt; <em>constraint</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEE">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a51adac7ca26808673853f5484cbf9992"></span><span class="sig-name descname"><span class="n"><span class="pre">FlatHistogram</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><span class="n"><span class="pre">Macrostate</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">macrostate</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><span class="n"><span class="pre">Bias</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bias</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../monte_carlo/doc/Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint"><span class="n"><span class="pre">Constraint</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">constraint</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but with an added <a class="reference internal" href="../../monte_carlo/doc/Constraint.html#classfeasst_1_1Constraint"><span class="std std-ref">Constraint</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram10macrostateEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a6ad5201069b32a54255c6bb00bb9d515"></span><em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> &amp;<code class="sig-name descname">macrostate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram10macrostateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram10macrostateEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a6ad5201069b32a54255c6bb00bb9d515"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><span class="n"><span class="pre">Macrostate</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">macrostate</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram10macrostateEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the macrostate. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram4biasEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1ac77ce6fb5f33920ff2f7da4506f9e566"></span><em class="property">const</em> <a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a> &amp;<code class="sig-name descname">bias</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram4biasEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram4biasEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1ac77ce6fb5f33920ff2f7da4506f9e566"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><span class="n"><span class="pre">Bias</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">bias</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram4biasEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the bias. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram26num_iterations_to_completeEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1af8987e27f599cb8d25771314460739cf"></span>int <code class="sig-name descname">num_iterations_to_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram26num_iterations_to_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram26num_iterations_to_completeEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1af8987e27f599cb8d25771314460739cf"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_iterations_to_complete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram26num_iterations_to_completeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of iterations for a simulation to be complete. Iterations are defined by the Derived class. For example, one <a class="reference internal" href="../../monte_carlo/doc/Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> iteration is 1000 trials. <a class="reference internal" href="#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> iterations depend on the <a class="reference internal" href="Bias.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>. For <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, one iteration is a sweep. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram30set_num_iterations_to_completeEKi">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a00ce1fe950ae284f55c483e862a64436"></span>void <code class="sig-name descname">set_num_iterations_to_complete</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram30set_num_iterations_to_completeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram30set_num_iterations_to_completeEKi">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a00ce1fe950ae284f55c483e862a64436"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_num_iterations_to_complete</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram30set_num_iterations_to_completeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the number of iterations for a simulation to be complete. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram14num_iterationsEKi">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a48e077e184e66cea2c26560786484eac"></span>int <code class="sig-name descname">num_iterations</code><span class="sig-paren">(</span><em class="property">const</em> int <em>state</em> = -1<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram14num_iterationsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram14num_iterationsEKi">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a48e077e184e66cea2c26560786484eac"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_iterations</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">state</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram14num_iterationsEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the current number of iterations. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">state</span></code>: If != -1, return iterations of a particular state (TM/WLTM only). </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param state<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If != -1, return iterations of a particular state (TM/WLTM only). </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram11is_completeEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a66d697950222da6b690a0f637f20c481"></span>bool <code class="sig-name descname">is_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram11is_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram11is_completeEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a66d697950222da6b690a0f637f20c481"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_complete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram11is_completeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if the number of iterations for completion has been reached. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram14before_attemptERK6System">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a132ce870bbf9d7a943bcaa861ba55499"></span>void <code class="sig-name descname">before_attempt</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram14before_attemptERK6System" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram14before_attemptERK6System">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a132ce870bbf9d7a943bcaa861ba55499"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">before_attempt</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram14before_attemptERK6System" title="Permalink to this definition"></a><br /></dt>
 <dd><p>This function is called before a trial attempt. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram11is_acceptedERK6SystemP10AcceptanceP6Random">
-<span class="target" id="classfeasst_1_1FlatHistogram_1aab26d8001628c63ba39e4134009f6cd6"></span>bool <code class="sig-name descname">is_accepted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> *<em>acceptance</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram11is_acceptedERK6SystemP10AcceptanceP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram11is_acceptedERK6SystemP10AcceptanceP6Random">
+<span class="target" id="classfeasst_1_1FlatHistogram_1aab26d8001628c63ba39e4134009f6cd6"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_accepted</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance"><span class="n"><span class="pre">Acceptance</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">acceptance</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram11is_acceptedERK6SystemP10AcceptanceP6Random" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return whether or not the trial attempt should be accepted. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram5writeEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1ade75b72684a1e51e0dd0ac8cbef87d78"></span>std::string <code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram5writeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram5writeEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1ade75b72684a1e51e0dd0ac8cbef87d78"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram5writeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a human-readable output of all data (not as brief as status). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram5phaseEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a7f3a71d17b2210c9dff2fffa8107d0b8"></span>int <code class="sig-name descname">phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram5phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram5phaseEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a7f3a71d17b2210c9dff2fffa8107d0b8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">phase</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram5phaseEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the simulation phase index used to differentiate production and initialization, etc. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram15increment_phaseEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a67c0201650d172e52938de63b3a3cd43"></span>void <code class="sig-name descname">increment_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram15increment_phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram15increment_phaseEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a67c0201650d172e52938de63b3a3cd43"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">increment_phase</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram15increment_phaseEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Increment the simulation phase. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram5stateEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1aecbd4a0fba8bcb8edad710821a34cc5f"></span>int <code class="sig-name descname">state</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram5stateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram5stateEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1aecbd4a0fba8bcb8edad710821a34cc5f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">state</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram5stateEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the state. Return -1 if state is not determined. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram10num_statesEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a58d127c1aa1bf78dd6a7ef933ac30548"></span>int <code class="sig-name descname">num_states</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram10num_statesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram10num_statesEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a58d127c1aa1bf78dd6a7ef933ac30548"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_states</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram10num_statesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of states. (default: 1). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram11set_ln_probERK13LnProbability">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a19b76269d2df547f0450349f4c47d340"></span>void <code class="sig-name descname">set_ln_prob</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> &amp;<em>ln_prob</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram11set_ln_probERK13LnProbability" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram11set_ln_probERK13LnProbability">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a19b76269d2df547f0450349f4c47d340"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_ln_prob</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability"><span class="n"><span class="pre">LnProbability</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ln_prob</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram11set_ln_probERK13LnProbability" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the macrostate probability distribution. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13FlatHistogram7ln_probEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a6137fec807f16b177e4bd6c9f3d41e88"></span><em class="property">const</em> <a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> &amp;<code class="sig-name descname">ln_prob</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram7ln_probEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram7ln_probEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a6137fec807f16b177e4bd6c9f3d41e88"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability"><span class="n"><span class="pre">LnProbability</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">ln_prob</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram7ln_probEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the macrostate probability distribution. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram6updateEv">
-<span class="target" id="classfeasst_1_1FlatHistogram_1a0399b8484a42ad13c7b18ec1e3f9d12d"></span>void <code class="sig-name descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram6updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram6updateEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a0399b8484a42ad13c7b18ec1e3f9d12d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram6updateEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Update. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="CollectionMatrixSplice.html" class="btn btn-neutral float-right" title="CollectionMatrixSplice" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Ensemble.html" class="btn btn-neutral float-left" title="Ensemble" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="MacrostateEnergy.html" class="btn btn-neutral float-right" title="MacrostateEnergy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -526,22 +459,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

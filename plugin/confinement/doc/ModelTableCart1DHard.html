@@ -1,54 +1,31 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>ModelTableCart1DHard &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>ModelTableCart1DHard &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Charge" href="../../charge/README.html" />
-    <link rel="prev" title="ModelHardShape" href="ModelHardShape.html" />
+    <link rel="next" title="AlwaysReject" href="AlwaysReject.html" />
+    <link rel="prev" title="ModelLJShape" href="ModelLJShape.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -125,14 +78,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="ModelLJShape.html">ModelLJShape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="trial_anywhere.html">confinement/include/trial_anywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelHardShape.html">ModelHardShape</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelSquareWellShape.html">ModelSquareWellShape</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Background.html">Background</a></li>
-<li class="toctree-l4"><a class="reference internal" href="AlwaysReject.html">AlwaysReject</a></li>
-<li class="toctree-l4"><a class="reference internal" href="HenryCoefficient.html">HenryCoefficient</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelHardShape.html">ModelHardShape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelLJShape.html">ModelLJShape</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">ModelTableCart1DHard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AlwaysReject.html">AlwaysReject</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trial_anywhere.html">confinement/include/trial_anywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HenryCoefficient.html">HenryCoefficient</a></li>
 </ul>
 </li>
 </ul>
@@ -156,28 +109,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -243,7 +185,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -268,17 +210,17 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="modeltablecart1dhard">
-<h1>ModelTableCart1DHard<a class="headerlink" href="#modeltablecart1dhard" title="Permalink to this headline">¶</a></h1>
+<section id="modeltablecart1dhard">
+<h1>ModelTableCart1DHard<a class="headerlink" href="#modeltablecart1dhard" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst20ModelTableCart1DHardE">
-<span class="target" id="classfeasst_1_1ModelTableCart1DHard"></span><em class="property">class </em><code class="sig-name descname">ModelTableCart1DHard</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a><a class="headerlink" href="#_CPPv4N6feasst20ModelTableCart1DHardE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst20ModelTableCart1DHardE">
+<span class="target" id="classfeasst_1_1ModelTableCart1DHard"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelTableCart1DHard</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst20ModelTableCart1DHardE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>A tabular potential based on cartesian coordinates. Assumes symmetry along the x plane and that the <a class="reference internal" href="../../configuration/doc/Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> has no tilt. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst20ModelTableCart1DHard13compute_tableEP5ShapeP6DomainP6Random7argtypeKi">
-<span class="target" id="classfeasst_1_1ModelTableCart1DHard_1a774be8dbf0380d834fe14ab35e2ef0b5"></span>void <code class="sig-name descname">compute_table</code><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape">Shape</a> *<em>shape</em>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain">Domain</a> *<em>domain</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>(), <em class="property">const</em> int <em>site_type</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20ModelTableCart1DHard13compute_tableEP5ShapeP6DomainP6Random7argtypeKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst20ModelTableCart1DHard13compute_tableEP5ShapeP6DomainP6Random7argtypeKi">
+<span class="target" id="classfeasst_1_1ModelTableCart1DHard_1a774be8dbf0380d834fe14ab35e2ef0b5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_table</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">shape</span></span>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><span class="n"><span class="pre">Domain</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">domain</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20ModelTableCart1DHard13compute_tableEP5ShapeP6DomainP6Random7argtypeKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Generate the table by finding where the point is inside the shape and the nearest distance to the surface is half of the diameter. The initial bounds are [0, L/2] inclusive, assuming a plane (or line) of symmetry at origin perpendicular to y axis.</p>
 <p>args:<ul class="simple">
 <li><p>diameter: diameter of the sphere (default: 1) </p></li>
@@ -287,14 +229,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst20ModelTableCart1DHard6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
-<span class="target" id="classfeasst_1_1ModelTableCart1DHard_1a0801d6587ad49853431a7cc4c1fe4bb8"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>wrapped_site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20ModelTableCart1DHard6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst20ModelTableCart1DHard6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
+<span class="target" id="classfeasst_1_1ModelTableCart1DHard_1a0801d6587ad49853431a7cc4c1fe4bb8"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">wrapped_site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><span class="n"><span class="pre">Site</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">model_params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20ModelTableCart1DHard6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the energy given the wrapped coordinates, site, config and params. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst20ModelTableCart1DHard9serializeERNSt7ostreamE">
-<span class="target" id="classfeasst_1_1ModelTableCart1DHard_1aa0a2f26a0f4d88721327b2219ad0d9f7"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20ModelTableCart1DHard9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst20ModelTableCart1DHard9serializeERNSt7ostreamE">
+<span class="target" id="classfeasst_1_1ModelTableCart1DHard_1aa0a2f26a0f4d88721327b2219ad0d9f7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst20ModelTableCart1DHard9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
@@ -302,46 +244,42 @@
 </dd></dl>
 
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst22ModelTableCart2DIntegrE">
-<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr"></span><em class="property">class </em><code class="sig-name descname">ModelTableCart2DIntegr</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart2DIntegrE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart2DIntegrE">
+<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelTableCart2DIntegr</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart2DIntegrE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>A tabular potential based on cartesian coordinates. Assumes symmetry along the x, y planes and that the <a class="reference internal" href="../../configuration/doc/Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> has no tilt. Integration of material does not take periodicity into account. E.g., the shapes extend forever and are not periodic in the domain. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst22ModelTableCart2DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi">
-<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr_1a361c4e56c75e7c557d32c13f74603c6d"></span>void <code class="sig-name descname">compute_table</code><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape">Shape</a> *<em>shape</em>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain">Domain</a> *<em>domain</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>integration_args</em>, <em class="property">const</em> int <em>site_type</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart2DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">integration_args</span></code>: See <a class="reference internal" href="../../shape/doc/Shape.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> for documentation of integration_args. </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart2DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi">
+<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr_1a361c4e56c75e7c557d32c13f74603c6d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_table</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">shape</span></span>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><span class="n"><span class="pre">Domain</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">domain</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">integration_args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart2DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Generate the table by integration of the shape of the confinement over the entire and domain. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param integration_args<span class="colon">:</span></dt>
+<dd class="field-odd"><p>See <a class="reference internal" href="../../shape/doc/Shape.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> for documentation of integration_args. </p>
 </dd>
 </dl>
-</p>
-<p>Generate the table by integration of the shape of the confinement over the entire and domain. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst22ModelTableCart2DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi">
-<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr_1a2594669e3844cd38252592bf243e9227"></span>void <code class="sig-name descname">compute_table_omp</code><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape">Shape</a> *<em>shape</em>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain">Domain</a> *<em>domain</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>integration_args</em>, <em class="property">const</em> int <em>site_type</em> = 0, <em class="property">const</em> int <em>node</em> = 0, <em class="property">const</em> int <em>num_node</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart2DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart2DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi">
+<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr_1a2594669e3844cd38252592bf243e9227"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_table_omp</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">shape</span></span>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><span class="n"><span class="pre">Domain</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">domain</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">integration_args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">node</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_node</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart2DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but parallelize the task with OMP. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">node</span></code>: See <a class="reference internal" href="../../threads/doc/Thread.html#classfeasst_1_1Thread"><span class="std std-ref">Thread</span></a> for documentation of these two arguments. </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param node<span class="colon">:</span></dt>
+<dd class="field-odd"><p>See <a class="reference internal" href="../../threads/doc/Thread.html#classfeasst_1_1Thread"><span class="std std-ref">Thread</span></a> for documentation of these two arguments. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst22ModelTableCart2DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
-<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr_1aff328547407df993dc2455c55885c535"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>wrapped_site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart2DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart2DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
+<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr_1aff328547407df993dc2455c55885c535"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">wrapped_site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><span class="n"><span class="pre">Site</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">model_params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart2DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the energy given the wrapped coordinates, site, config and params. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst22ModelTableCart2DIntegr9serializeERNSt7ostreamE">
-<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr_1a416cea5d16fc6276827f811b6e835287"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst22ModelTableCart2DIntegr9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst22ModelTableCart2DIntegr9serializeERNSt7ostreamE">
+<span class="target" id="classfeasst_1_1ModelTableCart2DIntegr_1a416cea5d16fc6276827f811b6e835287"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst22ModelTableCart2DIntegr9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
@@ -349,104 +287,91 @@
 </dd></dl>
 
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst22ModelTableCart3DIntegrE">
-<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr"></span><em class="property">class </em><code class="sig-name descname">ModelTableCart3DIntegr</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegrE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart3DIntegrE">
+<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelTableCart3DIntegr</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegrE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>A tabular potential based on cartesian coordinates. Assumes symmetry along the x, y and z planes and that the <a class="reference internal" href="../../configuration/doc/Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> has no tilt. Integration of material does not take periodicity into account. E.g., the shapes extend forever and are not periodic in the domain. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst22ModelTableCart3DIntegr5tableEKi">
-<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1ac62e5d1265b6af348aa235e2a20413df"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Table.html#_CPPv4N6feasst7Table3DE" title="feasst::Table3D">Table3D</a> &amp;<code class="sig-name descname">table</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_type</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst22ModelTableCart3DIntegr5tableEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst22ModelTableCart3DIntegr5tableEKi">
+<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1ac62e5d1265b6af348aa235e2a20413df"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Table.html#_CPPv4N6feasst7Table3DE" title="feasst::Table3D"><span class="n"><span class="pre">Table3D</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">table</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst22ModelTableCart3DIntegr5tableEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the table for a given site type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi">
-<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a1f3c7e136e14ff289c910ffde1fac4d7"></span>void <code class="sig-name descname">compute_table</code><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape">Shape</a> *<em>shape</em>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain">Domain</a> *<em>domain</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>integration_args</em>, <em class="property">const</em> int <em>site_type</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">integration_args</span></code>: See <a class="reference internal" href="../../shape/doc/Shape.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> for documentation of integration_args. </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi">
+<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a1f3c7e136e14ff289c910ffde1fac4d7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_table</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">shape</span></span>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><span class="n"><span class="pre">Domain</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">domain</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">integration_args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Generate the table by integration of a shape, which represents a continuous medium, over the entire domain. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param integration_args<span class="colon">:</span></dt>
+<dd class="field-odd"><p>See <a class="reference internal" href="../../shape/doc/Shape.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> for documentation of integration_args. </p>
 </dd>
 </dl>
-</p>
-<p>Generate the table by integration of a shape, which represents a continuous medium, over the entire domain. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi">
-<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a183325c0218627dd4a9d48fcdc4e7ba3"></span>void <code class="sig-name descname">compute_table_omp</code><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape">Shape</a> *<em>shape</em>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain">Domain</a> *<em>domain</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>integration_args</em>, <em class="property">const</em> int <em>site_type</em> = 0, <em class="property">const</em> int <em>node</em> = 0, <em class="property">const</em> int <em>num_nodes</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi">
+<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a183325c0218627dd4a9d48fcdc4e7ba3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_table_omp</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">shape</span></span>, <a class="reference internal" href="../../configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><span class="n"><span class="pre">Domain</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">domain</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">integration_args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">node</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_nodes</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but parallelize the task with OMP. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">node</span></code>: See <a class="reference internal" href="../../threads/doc/Thread.html#classfeasst_1_1Thread"><span class="std std-ref">Thread</span></a> for documentation of these two arguments. </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param node<span class="colon">:</span></dt>
+<dd class="field-odd"><p>See <a class="reference internal" href="../../threads/doc/Thread.html#classfeasst_1_1Thread"><span class="std std-ref">Thread</span></a> for documentation of these two arguments. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP6SystemP6SelectKi">
-<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a8eb875856d51127facc7bc15a3f9d507"></span>void <code class="sig-name descname">compute_table</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>select</em>, <em class="property">const</em> int <em>site_type</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP6SystemP6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP6SystemP6SelectKi">
+<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a8eb875856d51127facc7bc15a3f9d507"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_table</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">select</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP6SystemP6SelectKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Generate the table by computing the energy of interaction of the select with the rest of the system. The select is assumed to be a single site, so that tables can be generated for each site type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP6SystemP6SelectKiKiKi">
-<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a531d62935cf91e35a0fd731c7bbda458"></span>void <code class="sig-name descname">compute_table_omp</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>select</em>, <em class="property">const</em> int <em>site_type</em> = 0, <em class="property">const</em> int <em>node</em> = 0, <em class="property">const</em> int <em>num_node</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP6SystemP6SelectKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP6SystemP6SelectKiKiKi">
+<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a531d62935cf91e35a0fd731c7bbda458"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_table_omp</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">select</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">node</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_node</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP6SystemP6SelectKiKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but parallelize the task with OMP. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">node</span></code>: See <a class="reference internal" href="../../threads/doc/Thread.html#classfeasst_1_1Thread"><span class="std std-ref">Thread</span></a> for documentation of these two arguments. </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param node<span class="colon">:</span></dt>
+<dd class="field-odd"><p>See <a class="reference internal" href="../../threads/doc/Thread.html#classfeasst_1_1Thread"><span class="std std-ref">Thread</span></a> for documentation of these two arguments. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst22ModelTableCart3DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
-<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a42b09e5afe9e76d8105d9efc26b32e73"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>wrapped_site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22ModelTableCart3DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
+<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1a42b09e5afe9e76d8105d9efc26b32e73"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">wrapped_site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><span class="n"><span class="pre">Site</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">model_params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the energy given the wrapped coordinates, site, config and params. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst22ModelTableCart3DIntegr9serializeERNSt7ostreamE">
-<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1ad7ed37ca20b9988062904ad04ec36011"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst22ModelTableCart3DIntegr9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst22ModelTableCart3DIntegr9serializeERNSt7ostreamE">
+<span class="target" id="classfeasst_1_1ModelTableCart3DIntegr_1ad7ed37ca20b9988062904ad04ec36011"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst22ModelTableCart3DIntegr9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../../charge/README.html" class="btn btn-neutral float-right" title="Charge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="ModelHardShape.html" class="btn btn-neutral float-left" title="ModelHardShape" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ModelLJShape.html" class="btn btn-neutral float-left" title="ModelLJShape" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="AlwaysReject.html" class="btn btn-neutral float-right" title="AlwaysReject" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -531,22 +456,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

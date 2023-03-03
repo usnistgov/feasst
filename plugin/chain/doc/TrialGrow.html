@@ -1,54 +1,33 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>TrialGrow &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>TrialGrow &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="TrialSwapSites" href="TrialSwapSites.html" />
-    <link rel="prev" title="RadiusOfGyration" href="RadiusOfGyration.html" />
+    <link rel="next" title="TrialPivot" href="TrialPivot.html" />
+    <link rel="prev" title="EndToEndDistance" href="EndToEndDistance.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +42,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -120,32 +75,34 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialGrow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialSwapSites.html">TrialSwapSites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbConnector.html">PerturbConnector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbDistanceAngleConnector.html">PerturbDistanceAngleConnector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSwapSites.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -171,28 +128,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -258,7 +204,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -283,11 +229,11 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="trialgrow">
-<h1>TrialGrow<a class="headerlink" href="#trialgrow" title="Permalink to this headline">¶</a></h1>
+<section id="trialgrow">
+<h1>TrialGrow<a class="headerlink" href="#trialgrow" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst9TrialGrowE">
-<span class="target" id="classfeasst_1_1TrialGrow"></span><em class="property">class </em><code class="sig-name descname">TrialGrow</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst17TrialFactoryNamedE" title="feasst::TrialFactoryNamed">TrialFactoryNamed</a><a class="headerlink" href="#_CPPv4N6feasst9TrialGrowE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst9TrialGrowE">
+<span class="target" id="classfeasst_1_1TrialGrow"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialGrow</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst17TrialFactoryNamedE" title="feasst::TrialFactoryNamed"><span class="n"><span class="pre">TrialFactoryNamed</span></span></a><a class="headerlink" href="#_CPPv4N6feasst9TrialGrowE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Manually describe partial or full-particle growth using configurational bias. The input is a vector of argtype, where each argtype represents a <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> for growing one (or rarely, multiple) sites.</p>
 <p>The following options may only be used in the first argtype.<ul class="simple">
 <li><p>particle_type: type of particle in <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (always required).</p></li>
@@ -304,12 +250,14 @@
 <li><p>default_new_only: optional default new only for all stages.</p></li>
 </ul>
 </p>
-<p>The following options may be used in any argtype. If used in the first, then its a partial regrowth move.<ul class="simple">
+<p>The following options may be used in any argtype. If used in the first, then it is a partial regrowth move.<ul class="simple">
 <li><p>bond: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistance.html#classfeasst_1_1PerturbDistance"><span class="std std-ref">PerturbDistance</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
 <li><p>angle: if true, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistanceAngle.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">PerturbDistanceAngle</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
 <li><p>dihedral: if true, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectDihedral.html#classfeasst_1_1TrialSelectDihedral"><span class="std std-ref">TrialSelectDihedral</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDihedral.html#classfeasst_1_1PerturbDihedral"><span class="std std-ref">PerturbDihedral</span></a>. Requires arguments described in SelectDihedral, <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> and <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a>.</p></li>
 <li><p>branch: if true, adds <a class="reference internal" href="SelectBranch.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a> and <a class="reference internal" href="PerturbBranch.html#classfeasst_1_1PerturbBranch"><span class="std std-ref">PerturbBranch</span></a>. Requires arguments described in <a class="reference internal" href="SelectBranch.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a>, <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> and <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a>.</p></li>
 <li><p>reptate: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbToAnchor.html#classfeasst_1_1PerturbToAnchor"><span class="std std-ref">PerturbToAnchor</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>rigid_body_connector: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="PerturbConnector.html#classfeasst_1_1PerturbConnector"><span class="std std-ref">PerturbConnector</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>rigid_body_angle: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="PerturbDistanceAngleConnector.html#classfeasst_1_1PerturbDistanceAngleConnector"><span class="std std-ref">PerturbDistanceAngleConnector</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a>.</p></li>
 <li><p><a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> arguments: num_steps, reference_index, new_only, etc.</p></li>
 </ul>
 </p>
@@ -317,10 +265,6 @@
 <p>Derivation of the acceptance criteria follows the procedure described in <a class="reference internal" href="../../monte_carlo/doc/TrialComputeMove.html#classfeasst_1_1TrialComputeMove"><span class="std std-ref">TrialComputeMove</span></a> and first described in Lecture 9 of Prof. David Kofke’s Molecular Simulation course CE 530</p>
 <p><a class="reference external" href="http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html">http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html</a></p>
 <p>For bonds, angles and dihedrals, the relevant forward and reverse probabilities are as follows: <p><table class="docutils align-default">
-<colgroup>
-<col style="width: 48%" />
-<col style="width: 52%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>Forward event</p>
 <p>[reverse event]</p>
@@ -388,13 +332,13 @@ intramolecular bond energy, <span class="math notranslate nohighlight">\(U^b\)</
 bond/angle using this Rosenbluth form for <span class="math notranslate nohighlight">\(P(l)\)</span>, <span class="math notranslate nohighlight">\(U^b\)</span> is
 excluded from the energy in the acceptance probability.</p>
 </p>
- </p>
+</p>
 <p>Subclassed by <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">feasst::TrialGrowFile</span></a></p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst9TrialGrow9TrialGrowENSt6vectorI7argtypeEE">
-<span class="target" id="classfeasst_1_1TrialGrow_1aa977b76bf0c6ff7130aa579e56dffa6a"></span><code class="sig-name descname">TrialGrow</code><span class="sig-paren">(</span>std::vector&lt;<a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>&gt; <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9TrialGrow9TrialGrowENSt6vectorI7argtypeEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst9TrialGrow9TrialGrowENSt6vectorI7argtypeEE">
+<span class="target" id="classfeasst_1_1TrialGrow_1aa977b76bf0c6ff7130aa579e56dffa6a"></span><span class="sig-name descname"><span class="n"><span class="pre">TrialGrow</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9TrialGrow9TrialGrowENSt6vectorI7argtypeEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>list of arguments, one for each stage. </p>
 </dd></dl>
 
@@ -402,13 +346,13 @@ excluded from the energy in the acceptance probability.</p>
 </dd></dl>
 
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst13TrialGrowFileE">
-<span class="target" id="classfeasst_1_1TrialGrowFile"></span><em class="property">class </em><code class="sig-name descname">TrialGrowFile</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst9TrialGrowE" title="feasst::TrialGrow">TrialGrow</a><a class="headerlink" href="#_CPPv4N6feasst13TrialGrowFileE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13TrialGrowFileE">
+<span class="target" id="classfeasst_1_1TrialGrowFile"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialGrowFile</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6feasst9TrialGrowE" title="feasst::TrialGrow"><span class="n"><span class="pre">TrialGrow</span></span></a><a class="headerlink" href="#_CPPv4N6feasst13TrialGrowFileE" title="Permalink to this definition"></a><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13TrialGrowFile13TrialGrowFileE7argtype">
-<span class="target" id="classfeasst_1_1TrialGrowFile_1a62ee278ad35fa2d73e0c14a6b2035b33"></span><code class="sig-name descname">TrialGrowFile</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13TrialGrowFile13TrialGrowFileE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13TrialGrowFile13TrialGrowFileE7argtype">
+<span class="target" id="classfeasst_1_1TrialGrowFile_1a62ee278ad35fa2d73e0c14a6b2035b33"></span><span class="sig-name descname"><span class="n"><span class="pre">TrialGrowFile</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13TrialGrowFile13TrialGrowFileE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>file_name: name of <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a> file with the following format: line1: <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a> line2: optional space line3: stage with key pair separated by space (e.g., “transfer true site 0”) lineX: additional stages until end of file or empty line (repeat line 2/3). </p></li>
 </ul>
@@ -418,33 +362,26 @@ excluded from the energy in the acceptance probability.</p>
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="TrialSwapSites.html" class="btn btn-neutral float-right" title="TrialSwapSites" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="RadiusOfGyration.html" class="btn btn-neutral float-left" title="RadiusOfGyration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="EndToEndDistance.html" class="btn btn-neutral float-left" title="EndToEndDistance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TrialPivot.html" class="btn btn-neutral float-right" title="TrialPivot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -529,22 +466,13 @@ excluded from the energy in the acceptance probability.</p>
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

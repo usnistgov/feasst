@@ -1,54 +1,31 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>utils/include/arguments &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>utils/include/arguments &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Checkpoint" href="Checkpoint.html" />
-    <link rel="prev" title="utils/include/debug" href="debug.html" />
+    <link rel="next" title="utils/include/serialize" href="serialize.html" />
+    <link rel="prev" title="Timer" href="Timer.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,63 +40,39 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ArgumentParse.html">ArgumentParse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html">utils/include/io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">utils/include/arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProgressReport.html">ProgressReport</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -156,28 +109,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -243,7 +185,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -268,39 +210,39 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="utils-include-arguments">
-<h1>utils/include/arguments<a class="headerlink" href="#utils-include-arguments" title="Permalink to this headline">¶</a></h1>
+<section id="utils-include-arguments">
+<h1>utils/include/arguments<a class="headerlink" href="#utils-include-arguments" title="Permalink to this heading"></a></h1>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Defines</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
 <dl class="cpp macro">
-<dt id="c.FEASST_CHECK_ALL_USED">
-<span class="target" id="arguments_8h_1a4c2d53478786220add820e34a764b116"></span><code class="sig-name descname">FEASST_CHECK_ALL_USED</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_CHECK_ALL_USED" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="c.FEASST_CHECK_ALL_USED">
+<span class="target" id="arguments_8h_1a4c2d53478786220add820e34a764b116"></span><span class="sig-name descname"><span class="n"><span class="pre">FEASST_CHECK_ALL_USED</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_CHECK_ALL_USED" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Check that all arguments are used. </p>
 </dd></dl>
 
 </div>
 <dl class="cpp type">
-<dt id="_CPPv46feasst">
-<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv46feasst">
+<span class="target" id="namespacefeasst"></span><em class="property"><span class="pre">namespace</span> </em><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">feasst</span></span></span><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Typedefs</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
 <dl class="cpp type">
-<dt id="_CPPv4N6feasst7argtypeE">
-<span class="target" id="namespacefeasst_1a331ef7def13ca852f0fe5cc375bb4523"></span><em class="property">typedef </em>std::map&lt;std::string, std::string&gt; <code class="sig-name descname">argtype</code><a class="headerlink" href="#_CPPv4N6feasst7argtypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst7argtypeE">
+<span class="target" id="namespacefeasst_1a331ef7def13ca852f0fe5cc375bb4523"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">argtype</span></span></span><a class="headerlink" href="#_CPPv4N6feasst7argtypeE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Use a map of string pairs as a dictionary for arguments. </p>
 </dd></dl>
 
 <dl class="cpp type">
-<dt id="_CPPv4N6feasst7arglistE">
-<span class="target" id="namespacefeasst_1aa1e81054b1ec76b62f8fc23392fa7c63"></span><em class="property">typedef </em>std::vector&lt;std::pair&lt;std::string, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>&gt;&gt; <code class="sig-name descname">arglist</code><a class="headerlink" href="#_CPPv4N6feasst7arglistE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst7arglistE">
+<span class="target" id="namespacefeasst_1aa1e81054b1ec76b62f8fc23392fa7c63"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">arglist</span></span></span><a class="headerlink" href="#_CPPv4N6feasst7arglistE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst4usedEbRKNSt6stringERK1T">
-<span class="target" id="namespacefeasst_1aef23d7f38eae119691a78a2f0097c258"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />bool <code class="sig-name descname">used</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst6feasst4usedEbRKNSt6stringERK1T" title="feasst::feasst::used::T">T</a> &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst4usedEbRKNSt6stringERK1T" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6feasst4usedEbRKNSt6stringERK1T">
+<span class="target" id="namespacefeasst_1aef23d7f38eae119691a78a2f0097c258"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">used</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst4usedEbRKNSt6stringERK1T" title="feasst::feasst::used::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst4usedEbRKNSt6stringERK1T" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if key is used in args (templated for arglist or argtype). </p>
 <p>Classes should take argtype as input for (optional) arguments that may or may not have default values:</p>
 <p>MakeTestArgs({{“arg”, “value”}});</p>
@@ -310,150 +252,143 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst3strERKNSt6stringERK7argtype">
-<span class="target" id="namespacefeasst_1a411d9e214a8b45880fbe770c8b2eccdf"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERKNSt6stringERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst3strERKNSt6stringERK7argtype">
+<span class="target" id="namespacefeasst_1a411d9e214a8b45880fbe770c8b2eccdf"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERKNSt6stringERK7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Read an argument, but do not remove it. WARNING: This should typically only be used for error checking. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst3strERKNSt6stringEP7argtype">
-<span class="target" id="namespacefeasst_1ab7daf1b69de61599ad3e1878830fc1da"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERKNSt6stringEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst3strERKNSt6stringEP7argtype">
+<span class="target" id="namespacefeasst_1ab7daf1b69de61599ad3e1878830fc1da"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERKNSt6stringEP7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Read an argument and remove it. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst3strERK7arglist">
-<span class="target" id="namespacefeasst_1aa926bb95c63cbe6f890143c429c66c17"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist">arglist</a> &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERK7arglist" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst3strERK7arglist">
+<span class="target" id="namespacefeasst_1aa926bb95c63cbe6f890143c429c66c17"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist"><span class="n"><span class="pre">arglist</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERK7arglist" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a human-readable string representing argtype (use io template) </p>
 <p>Return a human-readable string representing arglist </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst3strERKNSt6stringEP7argtypeKNSt6stringE">
-<span class="target" id="namespacefeasst_1adace14161f3a08cf3ecc383e05c3648e"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> std::string <em>dflt</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERKNSt6stringEP7argtypeKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst3strERKNSt6stringEP7argtypeKNSt6stringE">
+<span class="target" id="namespacefeasst_1adace14161f3a08cf3ecc383e05c3648e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dflt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3strERKNSt6stringEP7argtypeKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but with a default value should key not be in args. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst4dbleERKNSt6stringEP7argtype">
-<span class="target" id="namespacefeasst_1a5921721f7dee4d4a63f66a12f168dd4d"></span>double <code class="sig-name descname">dble</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst4dbleERKNSt6stringEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst4dbleERKNSt6stringEP7argtype">
+<span class="target" id="namespacefeasst_1a5921721f7dee4d4a63f66a12f168dd4d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dble</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst4dbleERKNSt6stringEP7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Read an argument and remove it from args, then return as double. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst4dbleERKNSt6stringEP7argtypeKd">
-<span class="target" id="namespacefeasst_1a04fb11eae8f6052ece497511c338f437"></span>double <code class="sig-name descname">dble</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> double <em>dflt</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst4dbleERKNSt6stringEP7argtypeKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst4dbleERKNSt6stringEP7argtypeKd">
+<span class="target" id="namespacefeasst_1a04fb11eae8f6052ece497511c338f437"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dble</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dflt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst4dbleERKNSt6stringEP7argtypeKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but with a default value should key not be in args. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst3fltERKNSt6stringEP7argtypeKf">
-<span class="target" id="namespacefeasst_1abd663aad6af8f2888eed9e6798447621"></span>float <code class="sig-name descname">flt</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> float <em>dflt</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3fltERKNSt6stringEP7argtypeKf" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst3fltERKNSt6stringEP7argtypeKf">
+<span class="target" id="namespacefeasst_1abd663aad6af8f2888eed9e6798447621"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flt</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dflt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst3fltERKNSt6stringEP7argtypeKf" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but with a default value should key not be in args. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst7integerERKNSt6stringEP7argtype">
-<span class="target" id="namespacefeasst_1ab35aff47c22397445027e3b4ee04e3be"></span>int <code class="sig-name descname">integer</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7integerERKNSt6stringEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst7integerERKNSt6stringEP7argtype">
+<span class="target" id="namespacefeasst_1ab35aff47c22397445027e3b4ee04e3be"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">integer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7integerERKNSt6stringEP7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Read an argument and remove it from args, then return as double. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst7integerERKNSt6stringEP7argtypeKi">
-<span class="target" id="namespacefeasst_1a7fcbe4b485afe2c317eb818a1b65b18a"></span>int <code class="sig-name descname">integer</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> int <em>dflt</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7integerERKNSt6stringEP7argtypeKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst7integerERKNSt6stringEP7argtypeKi">
+<span class="target" id="namespacefeasst_1a7fcbe4b485afe2c317eb818a1b65b18a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">integer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dflt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7integerERKNSt6stringEP7argtypeKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but with a default value should key not be in args. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst7booleanERKNSt6stringEP7argtype">
-<span class="target" id="namespacefeasst_1a90c6ad4000239c0436da069e5f98e33f"></span>bool <code class="sig-name descname">boolean</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7booleanERKNSt6stringEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst7booleanERKNSt6stringEP7argtype">
+<span class="target" id="namespacefeasst_1a90c6ad4000239c0436da069e5f98e33f"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">boolean</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7booleanERKNSt6stringEP7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Read an argument and remove it from args, then return as a boolean. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst7booleanERKNSt6stringEP7argtypeKb">
-<span class="target" id="namespacefeasst_1a94b3165f3e8d72fccf0c0a4b6338fb00"></span>bool <code class="sig-name descname">boolean</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> bool <em>dflt</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7booleanERKNSt6stringEP7argtypeKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst7booleanERKNSt6stringEP7argtypeKb">
+<span class="target" id="namespacefeasst_1a94b3165f3e8d72fccf0c0a4b6338fb00"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">boolean</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dflt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7booleanERKNSt6stringEP7argtypeKb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but with a default value should key not be in args. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst6appendERKNSt6stringEP7argtypeRKNSt6stringE">
-<span class="target" id="namespacefeasst_1a0c9761ebbc6cff5007f6cd3c0f381338"></span>void <code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> std::string &amp;<em>append</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst6appendERKNSt6stringEP7argtypeRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst6appendERKNSt6stringEP7argtypeRKNSt6stringE">
+<span class="target" id="namespacefeasst_1a0c9761ebbc6cff5007f6cd3c0f381338"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">append</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">append</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst6appendERKNSt6stringEP7argtypeRKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Append to given key. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist">
-<span class="target" id="namespacefeasst_1aebbed83ae486bd5fca53c0d4de494d84"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />std::shared_ptr&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist" title="feasst::feasst::parse::T">T</a>&gt; <code class="sig-name descname">parse</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist" title="feasst::feasst::parse::T">T</a> *<em>obj</em>, <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist">arglist</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist">
+<span class="target" id="namespacefeasst_1aebbed83ae486bd5fca53c0d4de494d84"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist" title="feasst::feasst::parse::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parse</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist" title="feasst::feasst::parse::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">obj</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist"><span class="n"><span class="pre">arglist</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglist" title="Permalink to this definition"></a><br /></dt>
 <dd><p>If args contains derived class of T, return factory pointer and remove from args. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst15add_if_not_usedERKNSt6stringEP7argtypeRKNSt6stringE">
-<span class="target" id="namespacefeasst_1abfc2aba58520feb9219ee6b18651330a"></span>void <code class="sig-name descname">add_if_not_used</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> std::string &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15add_if_not_usedERKNSt6stringEP7argtypeRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst15add_if_not_usedERKNSt6stringEP7argtypeRKNSt6stringE">
+<span class="target" id="namespacefeasst_1abfc2aba58520feb9219ee6b18651330a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_if_not_used</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15add_if_not_usedERKNSt6stringEP7argtypeRKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>If an argument is not used, add it. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst15line_to_argtypeEKNSt6stringE">
-<span class="target" id="namespacefeasst_1a4093eefca42e5f2e6c68f3aae849c879"></span><a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <code class="sig-name descname">line_to_argtype</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>line</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15line_to_argtypeEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst15line_to_argtypeEKNSt6stringE">
+<span class="target" id="namespacefeasst_1a4093eefca42e5f2e6c68f3aae849c879"></span><a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">line_to_argtype</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">line</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15line_to_argtypeEKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>convert a space-delimited string into argtype </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst13replace_valueEKNSt6stringEKNSt6stringEP7arglist">
-<span class="target" id="namespacefeasst_1a934148e9648fb937cb362322eaf48cd6"></span>void <code class="sig-name descname">replace_value</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>search</em>, <em class="property">const</em> std::string <em>replace</em>, <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist">arglist</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst13replace_valueEKNSt6stringEKNSt6stringEP7arglist" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst13replace_valueEKNSt6stringEKNSt6stringEP7arglist">
+<span class="target" id="namespacefeasst_1a934148e9648fb937cb362322eaf48cd6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">replace_value</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">search</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">replace</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist"><span class="n"><span class="pre">arglist</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst13replace_valueEKNSt6stringEKNSt6stringEP7arglist" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Find all values equal to “search” in args and replace with “replace”. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst16replace_in_valueERKNSt6stringERKNSt6stringEP7arglist">
-<span class="target" id="namespacefeasst_1a3a24849895706a4cdeff9a08eca8adcc"></span>void <code class="sig-name descname">replace_in_value</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>from</em>, <em class="property">const</em> std::string &amp;<em>to</em>, <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist">arglist</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16replace_in_valueERKNSt6stringERKNSt6stringEP7arglist" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst16replace_in_valueERKNSt6stringERKNSt6stringEP7arglist">
+<span class="target" id="namespacefeasst_1a3a24849895706a4cdeff9a08eca8adcc"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">replace_in_value</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">from</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">to</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7arglistE" title="feasst::arglist"><span class="n"><span class="pre">arglist</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16replace_in_valueERKNSt6stringERKNSt6stringEP7arglist" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Find all values that contain “search” in args and replace with “replace”. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst17parse_dimensionalERKNSt6stringEP7argtypeKi">
-<span class="target" id="namespacefeasst_1a5badf6ebf274067bc83bcdd6e12e18a1"></span>std::vector&lt;double&gt; <code class="sig-name descname">parse_dimensional</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em>, <em class="property">const</em> int <em>max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst17parse_dimensionalERKNSt6stringEP7argtypeKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst17parse_dimensionalERKNSt6stringEP7argtypeKi">
+<span class="target" id="namespacefeasst_1a5badf6ebf274067bc83bcdd6e12e18a1"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parse_dimensional</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst17parse_dimensionalERKNSt6stringEP7argtypeKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Read data from arguments beginning with key and counting from 0 up. For example, “{{“x0”, “1”}, {“x1”, “2”}}” will return {1, 2} vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst10parse_lineEKNSt6stringEP7argtypePb">
-<span class="target" id="namespacefeasst_1a221d543ac9dc05376e059367aedccc32"></span>std::pair&lt;std::string, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>&gt; <code class="sig-name descname">parse_line</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>line</em>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>variables</em>, bool *<em>assign_to_list</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst10parse_lineEKNSt6stringEP7argtypePb" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst10parse_lineEKNSt6stringEP7argtypePb">
+<span class="target" id="namespacefeasst_1a221d543ac9dc05376e059367aedccc32"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parse_line</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">line</span></span>, <a class="reference internal" href="#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">variables</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">assign_to_list</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst10parse_lineEKNSt6stringEP7argtypePb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Parse a text interface line. These typically begin with an object Name, then space-separated arguments. First, look for set_variable, to generate a list of variables to use for name substitution. Finally, replace any value beginnig with /feasst with the <a class="reference internal" href="io.html#namespacefeasst_1acd9da1f51a54bf39c2005aa94a79a0eb"><span class="std std-ref">install_dir()</span></a>. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="Checkpoint.html" class="btn btn-neutral float-right" title="Checkpoint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="debug.html" class="btn btn-neutral float-left" title="utils/include/debug" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Timer.html" class="btn btn-neutral float-left" title="Timer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="serialize.html" class="btn btn-neutral float-right" title="utils/include/serialize" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -538,22 +473,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,50 +1,27 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>macrostate_distribution &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>macrostate_distribution &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="multistate_accumulator" href="multistate_accumulator.html" />
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -111,7 +64,35 @@
 <li class="toctree-l2"><a class="reference internal" href="cd.html">cd</a></li>
 <li class="toctree-l2"><a class="reference internal" href="accumulator.html">accumulator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physical_constants.html">physical_constants</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">macrostate_distribution</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">macrostate_distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.__init__"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.set_dataframe"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.concat_dataframe"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.concat_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.dataframe"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.set_macrostates"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_macrostates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.macrostates"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.macrostates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.set_ln_prob"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_ln_prob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.ln_prob"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.ln_prob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.set_minimum_smoothing"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_minimum_smoothing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.minimum_smoothing"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.minimum_smoothing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.normalize"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.normalize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.average_macrostate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.average_macrostate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.ensemble_average"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.ensemble_average()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.plot"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.minimums"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.minimums()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.split"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.split()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.reweight"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.reweight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.reweight_to_macrostate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.reweight_to_macrostate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.equilibrium"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.equilibrium()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.splice"><code class="docutils literal notranslate"><span class="pre">splice()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.splice_files"><code class="docutils literal notranslate"><span class="pre">splice_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.read_appended"><code class="docutils literal notranslate"><span class="pre">read_appended()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.splice_collection_matrix"><code class="docutils literal notranslate"><span class="pre">splice_collection_matrix()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="multistate_accumulator.html">multistate_accumulator</a></li>
 </ul>
 </li>
@@ -122,28 +103,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -205,7 +175,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -230,23 +200,23 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="module-macrostate_distribution">
-<span id="macrostate-distribution"></span><h1>macrostate_distribution<a class="headerlink" href="#module-macrostate_distribution" title="Permalink to this headline">¶</a></h1>
+<section id="module-macrostate_distribution">
+<span id="macrostate-distribution"></span><h1>macrostate_distribution<a class="headerlink" href="#module-macrostate_distribution" title="Permalink to this heading"></a></h1>
 <p>This module analyzes and manipulates macrostate probability distributions generated by FEASST
 flat-histogram simulations.
 See more information on FEASST at <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
 <dl class="py class">
-<dt id="macrostate_distribution.MacrostateDistribution">
-<em class="property">class </em><code class="sig-prename descclassname">macrostate_distribution.</code><code class="sig-name descname">MacrostateDistribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">macrostate_header</span><span class="o">=</span><span class="default_value">'state'</span></em>, <em class="sig-param"><span class="n">ln_prob_header</span><span class="o">=</span><span class="default_value">'ln_prob'</span></em>, <em class="sig-param"><span class="n">comment</span><span class="o">=</span><span class="default_value">'#'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">MacrostateDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macrostate_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'state'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ln_prob_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ln_prob'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution" title="Permalink to this definition"></a></dt>
 <dd><p>Contains macrostates, the natural logarithm of the macrostate probability and other
 per-macrostate quantities generated by a FEASST flat histogram simulation.
 This may include canonical ensemble averages and blocks.</p>
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">macrostate_header</span><span class="o">=</span><span class="default_value">'state'</span></em>, <em class="sig-param"><span class="n">ln_prob_header</span><span class="o">=</span><span class="default_value">'ln_prob'</span></em>, <em class="sig-param"><span class="n">comment</span><span class="o">=</span><span class="default_value">'#'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macrostate_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'state'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ln_prob_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ln_prob'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Constructs all the necessary attributes for a MacrostateDistribution.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file_name</strong> (<em>str</em>) – The name of the csv file which stores per-macrostate quantities.
 If None, do not read a file, and instead use set_dataframe later.</p></li>
@@ -264,77 +234,77 @@ This is the header for that column in a pandas data frame.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.set_dataframe">
-<code class="sig-name descname">set_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.set_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.set_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.set_dataframe">
+<span class="sig-name descname"><span class="pre">set_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.set_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.set_dataframe" title="Permalink to this definition"></a></dt>
 <dd><p>Set the dataframe.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>normalize</strong> (<em>bool</em>) – normalize the ln_prob after setting the dataframe.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.concat_dataframe">
-<code class="sig-name descname">concat_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span></em>, <em class="sig-param"><span class="n">add_prefix</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.concat_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.concat_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.concat_dataframe">
+<span class="sig-name descname"><span class="pre">concat_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_prefix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.concat_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.concat_dataframe" title="Permalink to this definition"></a></dt>
 <dd><p>Concatenate dataframe (e.g., for average energy per macrostate).</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.dataframe">
-<code class="sig-name descname">dataframe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.dataframe">
+<span class="sig-name descname"><span class="pre">dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.dataframe" title="Permalink to this definition"></a></dt>
 <dd><p>Return the dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.set_macrostates">
-<code class="sig-name descname">set_macrostates</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">macrostates</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.set_macrostates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.set_macrostates" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.set_macrostates">
+<span class="sig-name descname"><span class="pre">set_macrostates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">macrostates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.set_macrostates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.set_macrostates" title="Permalink to this definition"></a></dt>
 <dd><p>Set the macrostates in the dataframe.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.macrostates">
-<code class="sig-name descname">macrostates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.macrostates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.macrostates" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.macrostates">
+<span class="sig-name descname"><span class="pre">macrostates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.macrostates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.macrostates" title="Permalink to this definition"></a></dt>
 <dd><p>Return the macrostates.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.set_ln_prob">
-<code class="sig-name descname">set_ln_prob</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ln_prob</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.set_ln_prob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.set_ln_prob" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.set_ln_prob">
+<span class="sig-name descname"><span class="pre">set_ln_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ln_prob</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.set_ln_prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.set_ln_prob" title="Permalink to this definition"></a></dt>
 <dd><p>Set the natural logarithm of the probability.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.ln_prob">
-<code class="sig-name descname">ln_prob</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.ln_prob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.ln_prob" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.ln_prob">
+<span class="sig-name descname"><span class="pre">ln_prob</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.ln_prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.ln_prob" title="Permalink to this definition"></a></dt>
 <dd><p>Return the natural logarithm of the probability.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.set_minimum_smoothing">
-<code class="sig-name descname">set_minimum_smoothing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum_smoothing</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.set_minimum_smoothing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.set_minimum_smoothing" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.set_minimum_smoothing">
+<span class="sig-name descname"><span class="pre">set_minimum_smoothing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minimum_smoothing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.set_minimum_smoothing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.set_minimum_smoothing" title="Permalink to this definition"></a></dt>
 <dd><p>During the search for the minimum, the number of macrostates that the minimum must be
 smaller than in both directions.
 Increase this if the data is noisey or if there are undulations in the ln_prob.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.minimum_smoothing">
-<code class="sig-name descname">minimum_smoothing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.minimum_smoothing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.minimum_smoothing" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.minimum_smoothing">
+<span class="sig-name descname"><span class="pre">minimum_smoothing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.minimum_smoothing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.minimum_smoothing" title="Permalink to this definition"></a></dt>
 <dd><p>Return the minimum smoothing.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.normalize">
-<code class="sig-name descname">normalize</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.normalize" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.normalize" title="Permalink to this definition"></a></dt>
 <dd><p>Set the sum of the probabilities of a series to one.</p>
 <p>If no arguments provided, use the internal ln_prob.
 If ln_prob is provided as a series, return the normalized series.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.average_macrostate">
-<code class="sig-name descname">average_macrostate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.average_macrostate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.average_macrostate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.average_macrostate">
+<span class="sig-name descname"><span class="pre">average_macrostate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.average_macrostate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.average_macrostate" title="Permalink to this definition"></a></dt>
 <dd><p>Return the average macrostate.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;../../tests/lnpi.csv&#39;</span><span class="p">)</span>
@@ -345,8 +315,8 @@ If ln_prob is provided as a series, return the normalized series.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.ensemble_average">
-<code class="sig-name descname">ensemble_average</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">header</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.ensemble_average"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.ensemble_average" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.ensemble_average">
+<span class="sig-name descname"><span class="pre">ensemble_average</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.ensemble_average"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.ensemble_average" title="Permalink to this definition"></a></dt>
 <dd><p>Return the grand canonical ensemble average of the data present in header,
 for example, canonical averages.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -359,14 +329,14 @@ for example, canonical averages.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.plot" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.plot" title="Permalink to this definition"></a></dt>
 <dd><p>Create a matplotlib.pyplot plot of the ln_prob.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.minimums">
-<code class="sig-name descname">minimums</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.minimums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.minimums" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.minimums">
+<span class="sig-name descname"><span class="pre">minimums</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.minimums"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.minimums" title="Permalink to this definition"></a></dt>
 <dd><p>Return the minimums of the ln_prob.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lnpi</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;../../tests/lnpi.csv&#39;</span><span class="p">)</span>
@@ -380,12 +350,12 @@ for example, canonical averages.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.split">
-<code class="sig-name descname">split</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.split" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.split">
+<span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.split" title="Permalink to this definition"></a></dt>
 <dd><p>Return two MacrostateDistribution by splitting at the last minimum in the ln_prob.
 Both MacrostateDistribution will contain the minimum.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>minimum</strong> (<em>int</em>) – If -1, find the last minimum. Otherwise, supply it.</p>
 </dd>
 </dl>
@@ -405,8 +375,8 @@ Both MacrostateDistribution will contain the minimum.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.reweight">
-<code class="sig-name descname">reweight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">delta_beta_mu</span></em>, <em class="sig-param"><span class="n">inplace</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.reweight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.reweight" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.reweight">
+<span class="sig-name descname"><span class="pre">reweight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_beta_mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.reweight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.reweight" title="Permalink to this definition"></a></dt>
 <dd><p>Reweight the ln_prob by delta_beta_mu.
 If inplace, replace current ln_prob with the reweighted ones.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
@@ -422,11 +392,11 @@ If inplace, replace current ln_prob with the reweighted ones.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.reweight_to_macrostate">
-<code class="sig-name descname">reweight_to_macrostate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target_macrostate</span></em>, <em class="sig-param"><span class="n">delta_beta_mu_guess</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.reweight_to_macrostate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.reweight_to_macrostate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.reweight_to_macrostate">
+<span class="sig-name descname"><span class="pre">reweight_to_macrostate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_macrostate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_beta_mu_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.reweight_to_macrostate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.reweight_to_macrostate" title="Permalink to this definition"></a></dt>
 <dd><p>Reweight ln_prob and return the delta_beta_mu for an average target_macrostate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>delta_beta_mu_guess</strong> (<em>float</em>) – Provide a guess for delta_beta_mu which brings the ln_prob
 closer to equilibrium.</p></li>
@@ -445,11 +415,11 @@ closer to equilibrium.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="macrostate_distribution.MacrostateDistribution.equilibrium">
-<code class="sig-name descname">equilibrium</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">delta_beta_mu_guess</span><span class="o">=</span><span class="default_value">- 0.1</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.equilibrium"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.equilibrium" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.equilibrium">
+<span class="sig-name descname"><span class="pre">equilibrium</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_beta_mu_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.equilibrium"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.equilibrium" title="Permalink to this definition"></a></dt>
 <dd><p>Reweight ln_prob to equilibrium and return the delta_beta_mu of the equilibrium condition.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>delta_beta_mu_guess</strong> (<em>float</em>) – Provide a guess for delta_beta_mu which brings the ln_prob
 closer to equilibrium.</p></li>
@@ -473,8 +443,8 @@ closer to equilibrium.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="macrostate_distribution.splice">
-<code class="sig-prename descclassname">macrostate_distribution.</code><code class="sig-name descname">splice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">windows</span></em>, <em class="sig-param"><span class="n">extra_overlap</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#splice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.splice" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.splice">
+<span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">splice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#splice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.splice" title="Permalink to this definition"></a></dt>
 <dd><p>Return a MacrostateDistribution that is spliced together from multiple MacrostateDistribution.
 Each MacrostateDistribution must overlap by atleast one macrostate with its neighbor.
 If macrostates overlap by more than one (extra_overlap), simply drop the
@@ -502,8 +472,8 @@ macrostates in the upper MacrostateDistribution.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="macrostate_distribution.splice_files">
-<code class="sig-prename descclassname">macrostate_distribution.</code><code class="sig-name descname">splice_files</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prefix</span></em>, <em class="sig-param"><span class="n">suffix</span></em>, <em class="sig-param"><span class="n">ln_prob_header</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">extra_overlap</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#splice_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.splice_files" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.splice_files">
+<span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">splice_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ln_prob_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#splice_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.splice_files" title="Permalink to this definition"></a></dt>
 <dd><p>As above, Return a MacrostateDistribution that is spliced together.
 But this time, provide the prefix and suffix of the filenames and search the files.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
@@ -520,8 +490,8 @@ But this time, provide the prefix and suffix of the filenames and search the fil
 </dd></dl>
 
 <dl class="py function">
-<dt id="macrostate_distribution.read_appended">
-<code class="sig-prename descclassname">macrostate_distribution.</code><code class="sig-name descname">read_appended</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">num_states</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#read_appended"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.read_appended" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.read_appended">
+<span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">read_appended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_states</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#read_appended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.read_appended" title="Permalink to this definition"></a></dt>
 <dd><p>Read an appended ln_prob file, and return a list of pairs of MacrostateDistributions and
 parameters from a required first line comment.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">macrostate_distribution</span>
@@ -536,12 +506,12 @@ parameters from a required first line comment.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="macrostate_distribution.splice_collection_matrix">
-<code class="sig-prename descclassname">macrostate_distribution.</code><code class="sig-name descname">splice_collection_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prefix</span></em>, <em class="sig-param"><span class="n">suffix</span></em>, <em class="sig-param"><span class="n">use_soft</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#splice_collection_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#macrostate_distribution.splice_collection_matrix" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="macrostate_distribution.splice_collection_matrix">
+<span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">splice_collection_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_soft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#splice_collection_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.splice_collection_matrix" title="Permalink to this definition"></a></dt>
 <dd><p>Splice collection matrix of files and return a MacrostateDistribution with ln_prob computed
 from the P_up and P_down matrix elements.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>use_soft</strong> (<em>bool</em>) – use soft_min and soft_max to trim the file before concatenation.</p>
 </dd>
 </dl>
@@ -554,33 +524,26 @@ from the P_up and P_down matrix elements.</p>
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="multistate_accumulator.html" class="btn btn-neutral float-right" title="multistate_accumulator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="physical_constants.html" class="btn btn-neutral float-left" title="physical_constants" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="multistate_accumulator.html" class="btn btn-neutral float-right" title="multistate_accumulator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -665,22 +628,13 @@ from the P_up and P_down matrix elements.</p>
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

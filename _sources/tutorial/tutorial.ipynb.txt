@@ -6,8 +6,8 @@
    "source": [
     "# Lennard Jones in the Canonical ensemble\n",
     "\n",
-    "In this example, we will reproduce the average energy reported in the NIST SRSW https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm at T*=0.9 and $\\rho*=0.009$ using a Monte Carlo simulation of a bulk Lennard Jones fluid.\n",
-    "The simulation will be initialized with a desired number of particles in a cubic box, equilibrated while tuning the maximum trial displacement and then simulated to obtain the ensemble average energy.\n",
+    "In this example, we will reproduce the [average energy reported in the NIST SRSW](https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm) at T*=0.9 and $\\rho*=0.009$ using a Monte Carlo simulation of a bulk Lennard Jones fluid.\n",
+    "The simulation will be initialized with a desired number of particles in a cubic box, equilibrated while tuning the maximum trial displacement before obtaining the ensemble average energy.\n",
     "\n",
     "To begin, a Python string, `script`, is used to write the file, `script.txt`, which is then run by the ```fst``` executable.\n",
     "Within `script`, a [MonteCarlo](../plugin/monte_carlo/README.rst) object is created.\n",
@@ -25,7 +25,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit\n",
+      "# FEASST version: v0.20.2-1-g444e3979ae-develop\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       " \n",
@@ -74,7 +74,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit\n",
+      "# FEASST version: v0.20.2-1-g444e3979ae-develop\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       "Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt  \n",
@@ -109,7 +109,7 @@
    "outputs": [],
    "source": [
     "script+=\"\"\"\n",
-    "Potential Model LennardJones VisitModel VisitModelCell min_length 3\n",
+    "Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff\n",
     "Potential VisitModel LongRangeCorrections\n",
     "\"\"\""
    ]
@@ -153,11 +153,11 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit\n",
+      "# FEASST version: v0.20.2-1-g444e3979ae-develop\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       "Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt  \n",
-      "Potential Model LennardJones VisitModel VisitModelCell min_length 3  \n",
+      "Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff  \n",
       "Potential VisitModel LongRangeCorrections  \n",
       "ThermoParams beta 1.1111111111111112 chemical_potential0 -1  \n",
       "Metropolis  \n",
@@ -213,11 +213,11 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit\n",
+      "# FEASST version: v0.20.2-1-g444e3979ae-develop\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       "Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt  \n",
-      "Potential Model LennardJones VisitModel VisitModelCell min_length 3  \n",
+      "Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff  \n",
       "Potential VisitModel LongRangeCorrections  \n",
       "ThermoParams beta 1.1111111111111112 chemical_potential0 -1  \n",
       "Metropolis  \n",
@@ -282,11 +282,11 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.19.0-26-g79a69445a0-dirty-hwh/tminit\n",
+      "# FEASST version: v0.20.2-1-g444e3979ae-develop\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       "Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt  \n",
-      "Potential Model LennardJones VisitModel VisitModelCell min_length 3  \n",
+      "Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff  \n",
       "Potential VisitModel LongRangeCorrections  \n",
       "ThermoParams beta 1.1111111111111112 chemical_potential0 -1  \n",
       "Metropolis  \n",
@@ -321,7 +321,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Compare the average energy to the NIST SRSW https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm"
+    "Compare the [average energy to the NIST SRSW](https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm)"
    ]
   },
   {

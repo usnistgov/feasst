@@ -1,54 +1,31 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Cache &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>Cache &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Math" href="../../math/README.html" />
-    <link rel="prev" title="ProgressReport" href="ProgressReport.html" />
+    <link rel="next" title="ArgumentParse" href="ArgumentParse.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="toc.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,63 +40,39 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ArgumentParse.html">ArgumentParse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html">utils/include/io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="arguments.html">utils/include/arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProgressReport.html">ProgressReport</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -156,28 +109,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -243,7 +185,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -268,97 +210,90 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="cache">
-<h1>Cache<a class="headerlink" href="#cache" title="Permalink to this headline">¶</a></h1>
+<section id="cache">
+<h1>Cache<a class="headerlink" href="#cache" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst5CacheE">
-<span class="target" id="classfeasst_1_1Cache"></span><em class="property">class </em><code class="sig-name descname">Cache</code><a class="headerlink" href="#_CPPv4N6feasst5CacheE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5CacheE">
+<span class="target" id="classfeasst_1_1Cache"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Cache</span></span></span><a class="headerlink" href="#_CPPv4N6feasst5CacheE" title="Permalink to this definition"></a><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Cache8set_loadEKb">
-<span class="target" id="classfeasst_1_1Cache_1a4775ae650be1b8c30868843a92450b7a"></span>void <code class="sig-name descname">set_load</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>store</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache8set_loadEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Cache8set_loadEKb">
+<span class="target" id="classfeasst_1_1Cache_1a4775ae650be1b8c30868843a92450b7a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">store</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache8set_loadEKb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Store numbers if true (default: false). Either way, any previously stored values are reset, and unloading is disabled. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Cache10is_loadingEv">
-<span class="target" id="classfeasst_1_1Cache_1a0b2394a438e6fa8a14b1849dd1a813dc"></span>bool <code class="sig-name descname">is_loading</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cache10is_loadingEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Cache10is_loadingEv">
+<span class="target" id="classfeasst_1_1Cache_1a0b2394a438e6fa8a14b1849dd1a813dc"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_loading</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Cache10is_loadingEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if loading. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Cache10set_unloadEKb">
-<span class="target" id="classfeasst_1_1Cache_1ab00d7febb7cbeb731329908aae3231e2"></span>void <code class="sig-name descname">set_unload</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>unload</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache10set_unloadEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Cache10set_unloadEKb">
+<span class="target" id="classfeasst_1_1Cache_1ab00d7febb7cbeb731329908aae3231e2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_unload</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">unload</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache10set_unloadEKb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Unload numbers if true (default: false). Either way, loading is disabled. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Cache12is_unloadingEv">
-<span class="target" id="classfeasst_1_1Cache_1ab78cb4ddc3a68ef42b318637556da2bb"></span>bool <code class="sig-name descname">is_unloading</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cache12is_unloadingEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Cache12is_unloadingEv">
+<span class="target" id="classfeasst_1_1Cache_1ab78cb4ddc3a68ef42b318637556da2bb"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_unloading</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Cache12is_unloadingEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if unloading. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Cache10set_unloadERK5Cache">
-<span class="target" id="classfeasst_1_1Cache_1ad8039364a4fa851a808c2f3af078eb34"></span>void <code class="sig-name descname">set_unload</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst5CacheE" title="feasst::Cache">Cache</a> &amp;<em>cache</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache10set_unloadERK5Cache" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Cache10set_unloadERK5Cache">
+<span class="target" id="classfeasst_1_1Cache_1ad8039364a4fa851a808c2f3af078eb34"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_unload</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst5CacheE" title="feasst::Cache"><span class="n"><span class="pre">Cache</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cache</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache10set_unloadERK5Cache" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Preset numbers to those stored by another <a class="reference internal" href="#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Cache12is_unloadingEPd">
-<span class="target" id="classfeasst_1_1Cache_1a0985e32d772a35c91d89a9ef1495db82"></span>bool <code class="sig-name descname">is_unloading</code><span class="sig-paren">(</span>double *<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache12is_unloadingEPd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Cache12is_unloadingEPd">
+<span class="target" id="classfeasst_1_1Cache_1a0985e32d772a35c91d89a9ef1495db82"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_unloading</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache12is_unloadingEPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if unloading into value. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Cache4loadEKd">
-<span class="target" id="classfeasst_1_1Cache_1ae6c5c5d9647abc80e17ead59a903d01a"></span>void <code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache4loadEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Cache4loadEKd">
+<span class="target" id="classfeasst_1_1Cache_1ae6c5c5d9647abc80e17ead59a903d01a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache4loadEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Attempt to load value into cache. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Cache9serializeERNSt7ostreamE">
-<span class="target" id="classfeasst_1_1Cache_1a74df575b985b4192ae08e05cffaf79ab"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cache9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Cache9serializeERNSt7ostreamE">
+<span class="target" id="classfeasst_1_1Cache_1a74df575b985b4192ae08e05cffaf79ab"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Cache9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Serialize. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Cache5CacheERNSt7istreamE">
-<span class="target" id="classfeasst_1_1Cache_1ad82e8c6719cbd5e5e61f0948f1b7e30b"></span><code class="sig-name descname">Cache</code><span class="sig-paren">(</span>std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache5CacheERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Cache5CacheERNSt7istreamE">
+<span class="target" id="classfeasst_1_1Cache_1ad82e8c6719cbd5e5e61f0948f1b7e30b"></span><span class="sig-name descname"><span class="n"><span class="pre">Cache</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">istream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">istr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache5CacheERNSt7istreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Deserialize. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../../math/README.html" class="btn btn-neutral float-right" title="Math" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="ProgressReport.html" class="btn btn-neutral float-left" title="ProgressReport" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="toc.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ArgumentParse.html" class="btn btn-neutral float-right" title="ArgumentParse" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -443,22 +378,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

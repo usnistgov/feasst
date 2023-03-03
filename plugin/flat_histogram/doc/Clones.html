@@ -1,53 +1,30 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Clones &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>Clones &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="MacrostateEnergy" href="MacrostateEnergy.html" />
+    <link rel="next" title="Patch" href="../../patch/README.html" />
     <link rel="prev" title="CollectionMatrixSplice" href="CollectionMatrixSplice.html" />
 
 	<!-- frame blocking -->
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -119,22 +72,22 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Clones</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
 </li>
 </ul>
@@ -164,28 +117,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -251,7 +193,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -276,53 +218,53 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="clones">
-<h1>Clones<a class="headerlink" href="#clones" title="Permalink to this headline">¶</a></h1>
+<section id="clones">
+<h1>Clones<a class="headerlink" href="#clones" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst6ClonesE">
-<span class="target" id="classfeasst_1_1Clones"></span><em class="property">class </em><code class="sig-name descname">Clones</code><a class="headerlink" href="#_CPPv4N6feasst6ClonesE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6ClonesE">
+<span class="target" id="classfeasst_1_1Clones"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Clones</span></span></span><a class="headerlink" href="#_CPPv4N6feasst6ClonesE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Container for initializing, running and analyzing groups of <a class="reference internal" href="FlatHistogram.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> <a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a> simulations. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones3addENSt10shared_ptrI10MonteCarloEE">
-<span class="target" id="classfeasst_1_1Clones_1a8b1dc6c3c5cc9a7202ce6834007a94fe"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo">MonteCarlo</a>&gt; <em>mc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones3addENSt10shared_ptrI10MonteCarloEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones3addENSt10shared_ptrI10MonteCarloEE">
+<span class="target" id="classfeasst_1_1Clones_1a8b1dc6c3c5cc9a7202ce6834007a94fe"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">mc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones3addENSt10shared_ptrI10MonteCarloEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a <a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Clones3numEv">
-<span class="target" id="classfeasst_1_1Clones_1a794a28b5669b63add1e682c6859a7c91"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones3numEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Clones3numEv">
+<span class="target" id="classfeasst_1_1Clones_1a794a28b5669b63add1e682c6859a7c91"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Clones3numEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of clones. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Clones5cloneEKi">
-<span class="target" id="classfeasst_1_1Clones_1a4a98f54bd5558cc8d053d4662789b3bf"></span><em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo">MonteCarlo</a> &amp;<code class="sig-name descname">clone</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones5cloneEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Clones5cloneEKi">
+<span class="target" id="classfeasst_1_1Clones_1a4a98f54bd5558cc8d053d4662789b3bf"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">clone</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Clones5cloneEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a read-only clone. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones9get_cloneEKi">
-<span class="target" id="classfeasst_1_1Clones_1a04b571756a81d150b400304a883a94c2"></span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo">MonteCarlo</a> *<code class="sig-name descname">get_clone</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones9get_cloneEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones9get_cloneEKi">
+<span class="target" id="classfeasst_1_1Clones_1a04b571756a81d150b400304a883a94c2"></span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_clone</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones9get_cloneEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a writable clone. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones10get_clonesEv">
-<span class="target" id="classfeasst_1_1Clones_1a92ffd0e36e6424a02d1bcc6c67567d3d"></span>std::vector&lt;std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo">MonteCarlo</a>&gt;&gt; <code class="sig-name descname">get_clones</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones10get_clonesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones10get_clonesEv">
+<span class="target" id="classfeasst_1_1Clones_1a92ffd0e36e6424a02d1bcc6c67567d3d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_clones</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones10get_clonesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the clones. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones3setENSt10shared_ptrI10CheckpointEE">
-<span class="target" id="classfeasst_1_1Clones_1a4495c64cf1fab491277e1ca8cf0a1e38"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="../../utils/doc/Checkpoint.html#_CPPv4N6feasst10CheckpointE" title="feasst::Checkpoint">Checkpoint</a>&gt; <em>checkpoint</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones3setENSt10shared_ptrI10CheckpointEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones3setENSt10shared_ptrI10CheckpointEE">
+<span class="target" id="classfeasst_1_1Clones_1a4495c64cf1fab491277e1ca8cf0a1e38"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../utils/doc/Checkpoint.html#_CPPv4N6feasst10CheckpointE" title="feasst::Checkpoint"><span class="n"><span class="pre">Checkpoint</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">checkpoint</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones3setENSt10shared_ptrI10CheckpointEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a checkpoint. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones10initializeE7argtype">
-<span class="target" id="classfeasst_1_1Clones_1a82aceb075755b68428e44701c397a180"></span>void <code class="sig-name descname">initialize</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones10initializeE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones10initializeE7argtype">
+<span class="target" id="classfeasst_1_1Clones_1a82aceb075755b68428e44701c397a180"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones10initializeE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Assuming the the first clone is already initialized, run the first clone until it reaches a macrostate the overlaps with the next clone, and exchange this configuration (e.g., bottom up initialization). Repeat until all clones have been initialized.</p>
 <p>args:<ul class="simple">
 <li><p>attempt_batch: perform this many attempts in a batch between checking for overlap (default: 1).</p></li>
@@ -332,14 +274,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones10initializeEKi7argtype">
-<span class="target" id="classfeasst_1_1Clones_1ad667be9dd1c662d04b48d1b3086f733d"></span>void <code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>upper_index</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones10initializeEKi7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones10initializeEKi7argtype">
+<span class="target" id="classfeasst_1_1Clones_1ad667be9dd1c662d04b48d1b3086f733d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">upper_index</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones10initializeEKi7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but for only one overlapping pair of clones, given by upper_index and upper_index - 1. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones18run_until_completeE7argtype">
-<span class="target" id="classfeasst_1_1Clones_1a2da90a96631a57f50e10c8ea7fd6fb71"></span>void <code class="sig-name descname">run_until_complete</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones18run_until_completeE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones18run_until_completeE7argtype">
+<span class="target" id="classfeasst_1_1Clones_1a2da90a96631a57f50e10c8ea7fd6fb71"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_until_complete</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones18run_until_completeE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Run.html#classfeasst_1_1Run"><span class="std std-ref">Run</span></a> until all clones are complete. If OMP is available, run the clones in parallel threads until all clones are complete.</p>
 <p>args:<ul class="simple">
 <li><p>omp_batch: If OMP, for each this many steps, check for completion and write aggregate ln_prob (default: 1e6).</p></li>
@@ -349,93 +291,90 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones33initialize_and_run_until_completeE7argtype7argtype">
-<span class="target" id="classfeasst_1_1Clones_1a0be9f94064da603e422f7af9b4d41f38"></span>void <code class="sig-name descname">initialize_and_run_until_complete</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>run_args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>(), <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>init_args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones33initialize_and_run_until_completeE7argtype7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones33initialize_and_run_until_completeE7argtype7argtype">
+<span class="target" id="classfeasst_1_1Clones_1a0be9f94064da603e422f7af9b4d41f38"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize_and_run_until_complete</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">run_args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">init_args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones33initialize_and_run_until_completeE7argtype7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Combine the bottom up initialization and run until complete. With OMP, the first clone will run until finding overlap with the second. Once overlap is found, the first and second run in parallel while the second finds overlap with the third. This is repeated until all clones are running in parallel. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones30set_num_iterations_to_completeEKi">
-<span class="target" id="classfeasst_1_1Clones_1a4905e60fa8efe32b120b052c68fed937"></span>void <code class="sig-name descname">set_num_iterations_to_complete</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iterations</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones30set_num_iterations_to_completeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones30set_num_iterations_to_completeEKi">
+<span class="target" id="classfeasst_1_1Clones_1a4905e60fa8efe32b120b052c68fed937"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_num_iterations_to_complete</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iterations</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones30set_num_iterations_to_completeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the number of <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> iterations of all clones. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Clones14flat_histogramEKi">
-<span class="target" id="classfeasst_1_1Clones_1a5a63a5e0ed3e736cddd335609c2fd869"></span><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogramE" title="feasst::FlatHistogram">FlatHistogram</a> <code class="sig-name descname">flat_histogram</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones14flat_histogramEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Clones14flat_histogramEKi">
+<span class="target" id="classfeasst_1_1Clones_1a5a63a5e0ed3e736cddd335609c2fd869"></span><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogramE" title="feasst::FlatHistogram"><span class="n"><span class="pre">FlatHistogram</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flat_histogram</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Clones14flat_histogramEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the <a class="reference internal" href="FlatHistogram.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> of a given clone index. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Clones7ln_probEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">
-<span class="target" id="classfeasst_1_1Clones_1add5edbfb66871c2bba23efc826e904e1"></span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> <code class="sig-name descname">ln_prob</code><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> *<em>macrostates</em> = NULL, std::vector&lt;double&gt; *<em>multistate_data</em> = NULL, <em class="property">const</em> std::string <em>analyze_name</em> = &quot;&quot;, <em class="property">const</em> <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData">AnalyzeData</a> &amp;<em>get</em> = <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE" title="feasst::AccumulatorAverage">AccumulatorAverage</a>()<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones7ln_probEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Clones7ln_probEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">
+<span class="target" id="classfeasst_1_1Clones_1add5edbfb66871c2bba23efc826e904e1"></span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability"><span class="n"><span class="pre">LnProbability</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ln_prob</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram"><span class="n"><span class="pre">Histogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">macrostates</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">multistate_data</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">analyze_name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData"><span class="n"><span class="pre">AnalyzeData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">get</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE" title="feasst::AccumulatorAverage"><span class="n"><span class="pre">AccumulatorAverage</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Clones7ln_probEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Stitch together and return the <a class="reference internal" href="LnProbability.html#classfeasst_1_1LnProbability"><span class="std std-ref">LnProbability</span></a> of all clones. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">macrostates</span></code>: Optionally return spliced macrostates, if not NULL. </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">multistate_data</span></code>: Optionally return spliced multistate data, it not NULL. </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">analyze_name</span></code>: Name of <a class="reference internal" href="../../monte_carlo/doc/Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> to extract data. </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">get</span></code>: Source of data in <a class="reference internal" href="../../monte_carlo/doc/Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param macrostates<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optionally return spliced macrostates, if not NULL. </p>
+</dd>
+<dt class="field-even">param multistate_data<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optionally return spliced multistate data, it not NULL. </p>
+</dd>
+<dt class="field-odd">param analyze_name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Name of <a class="reference internal" href="../../monte_carlo/doc/Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> to extract data. </p>
+</dd>
+<dt class="field-even">param get<span class="colon">:</span></dt>
+<dd class="field-even"><p>Source of data in <a class="reference internal" href="../../monte_carlo/doc/Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a></p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Clones6stitchEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">
-<span class="target" id="classfeasst_1_1Clones_1a709edb67bfb864529afdeac5460430b2"></span>void <code class="sig-name descname">stitch</code><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> *<em>macrostates</em> = NULL, std::vector&lt;double&gt; *<em>multistate_data</em> = NULL, <em class="property">const</em> std::string <em>analyze_name</em> = &quot;&quot;, <em class="property">const</em> <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData">AnalyzeData</a> &amp;<em>get</em> = <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE" title="feasst::AccumulatorAverage">AccumulatorAverage</a>()<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones6stitchEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Clones6stitchEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">
+<span class="target" id="classfeasst_1_1Clones_1a709edb67bfb864529afdeac5460430b2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stitch</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram"><span class="n"><span class="pre">Histogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">macrostates</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">multistate_data</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">analyze_name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData"><span class="n"><span class="pre">AnalyzeData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">get</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE" title="feasst::AccumulatorAverage"><span class="n"><span class="pre">AccumulatorAverage</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Clones6stitchEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but without ln_prob. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Clones6stitchEPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">
-<span class="target" id="classfeasst_1_1Clones_1a5bd1d08f2273673b572eda830c353336"></span>void <code class="sig-name descname">stitch</code><span class="sig-paren">(</span>std::vector&lt;double&gt; *<em>multistate_data</em>, <em class="property">const</em> std::string <em>analyze_name</em>, <em class="property">const</em> <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData">AnalyzeData</a> &amp;<em>get</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones6stitchEPNSt6vectorIdEEKNSt6stringERK11AnalyzeData" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Clones6stitchEPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">
+<span class="target" id="classfeasst_1_1Clones_1a5bd1d08f2273673b572eda830c353336"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stitch</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">multistate_data</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">analyze_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData"><span class="n"><span class="pre">AnalyzeData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">get</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Clones6stitchEPNSt6vectorIdEEKNSt6stringERK11AnalyzeData" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but without ln_prob or spliced macrostates. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Clones9serializeERNSt7ostreamE">
-<span class="target" id="classfeasst_1_1Clones_1a9630c3b8fb6e974894b396d9b26f8984"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Clones9serializeERNSt7ostreamE">
+<span class="target" id="classfeasst_1_1Clones_1a9630c3b8fb6e974894b396d9b26f8984"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Clones9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Serialize. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Clones6ClonesERNSt7istreamE">
-<span class="target" id="classfeasst_1_1Clones_1a2a69788d243c7d036c9eab1e970cb41c"></span><code class="sig-name descname">Clones</code><span class="sig-paren">(</span>std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones6ClonesERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Clones6ClonesERNSt7istreamE">
+<span class="target" id="classfeasst_1_1Clones_1a2a69788d243c7d036c9eab1e970cb41c"></span><span class="sig-name descname"><span class="n"><span class="pre">Clones</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">istream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">istr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones6ClonesERNSt7istreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Deserialize. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="MacrostateEnergy.html" class="btn btn-neutral float-right" title="MacrostateEnergy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="CollectionMatrixSplice.html" class="btn btn-neutral float-left" title="CollectionMatrixSplice" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../patch/README.html" class="btn btn-neutral float-right" title="Patch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -520,22 +459,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

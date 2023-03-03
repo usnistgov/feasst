@@ -1,54 +1,33 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>ThermoParams &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>ThermoParams &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="BondThreeBody" href="BondThreeBody.html" />
-    <link rel="prev" title="VisitModelInner" href="VisitModelInner.html" />
+    <link rel="next" title="EnergyMap" href="EnergyMap.html" />
+    <link rel="prev" title="Model" href="Model.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +42,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -113,41 +68,41 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">System</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">ThermoParams</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="RigidAngle.html">RigidAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidBond.html">RigidBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RigidAngle.html">RigidAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondFourBody.html">BondFourBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="LennardJones.html">LennardJones</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="IdealGas.html">IdealGas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Cells.html">Cells</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CutoffOuter.html">CutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CutoffOuter.html">CutoffOuter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="LennardJones.html">LennardJones</a></li>
 </ul>
 </li>
 </ul>
@@ -182,28 +137,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -269,7 +213,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -294,17 +238,17 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="thermoparams">
-<h1>ThermoParams<a class="headerlink" href="#thermoparams" title="Permalink to this headline">¶</a></h1>
+<section id="thermoparams">
+<h1>ThermoParams<a class="headerlink" href="#thermoparams" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst12ThermoParamsE">
-<span class="target" id="classfeasst_1_1ThermoParams"></span><em class="property">class </em><code class="sig-name descname">ThermoParams</code><a class="headerlink" href="#_CPPv4N6feasst12ThermoParamsE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ThermoParamsE">
+<span class="target" id="classfeasst_1_1ThermoParams"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ThermoParams</span></span></span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParamsE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Intensive thermodynamic state variables. Units should be consistent with the <a class="reference external" href="../../../forcefield/README.html">forcefield</a>. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12ThermoParams12ThermoParamsE7argtype">
-<span class="target" id="classfeasst_1_1ThermoParams_1a8d36ef193b8316b0917a27a87d1aa4dc"></span><code class="sig-name descname">ThermoParams</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams12ThermoParamsE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ThermoParams12ThermoParamsE7argtype">
+<span class="target" id="classfeasst_1_1ThermoParams_1a8d36ef193b8316b0917a27a87d1aa4dc"></span><span class="sig-name descname"><span class="n"><span class="pre">ThermoParams</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams12ThermoParamsE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>beta: inverse temperature, <span class="math notranslate nohighlight">\( \beta = \frac{1}{k_B T} \)</span>.</p></li>
 <li><p>pH: negative of the log-base-10 of the proton concentration.</p></li>
@@ -315,107 +259,100 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12ThermoParams8set_betaEKd">
-<span class="target" id="classfeasst_1_1ThermoParams_1a987d45d23fc46ee8d8b5a4004194fedc"></span>void <code class="sig-name descname">set_beta</code><span class="sig-paren">(</span><em class="property">const</em> double <em>beta</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams8set_betaEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ThermoParams8set_betaEKd">
+<span class="target" id="classfeasst_1_1ThermoParams_1a987d45d23fc46ee8d8b5a4004194fedc"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_beta</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">beta</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams8set_betaEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set beta. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12ThermoParams4betaEv">
-<span class="target" id="classfeasst_1_1ThermoParams_1aff30c9774313f8611cacc5880b4cf261"></span>double <code class="sig-name descname">beta</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams4betaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12ThermoParams4betaEv">
+<span class="target" id="classfeasst_1_1ThermoParams_1aff30c9774313f8611cacc5880b4cf261"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">beta</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams4betaEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return beta. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12ThermoParams6set_pHEKd">
-<span class="target" id="classfeasst_1_1ThermoParams_1a824ba2f7e44494b90a60c8a2f194d2c4"></span>void <code class="sig-name descname">set_pH</code><span class="sig-paren">(</span><em class="property">const</em> double <em>pH</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams6set_pHEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ThermoParams6set_pHEKd">
+<span class="target" id="classfeasst_1_1ThermoParams_1a824ba2f7e44494b90a60c8a2f194d2c4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_pH</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pH</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams6set_pHEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the pH. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12ThermoParams2pHEv">
-<span class="target" id="classfeasst_1_1ThermoParams_1a7b7ee008436aee858589635cf4875888"></span>double <code class="sig-name descname">pH</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams2pHEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12ThermoParams2pHEv">
+<span class="target" id="classfeasst_1_1ThermoParams_1a7b7ee008436aee858589635cf4875888"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pH</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams2pHEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the pH. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12ThermoParams22add_chemical_potentialEKd">
-<span class="target" id="classfeasst_1_1ThermoParams_1a5f4eba675345610789669ec243f9a99f"></span>void <code class="sig-name descname">add_chemical_potential</code><span class="sig-paren">(</span><em class="property">const</em> double <em>chemical_potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams22add_chemical_potentialEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ThermoParams22add_chemical_potentialEKd">
+<span class="target" id="classfeasst_1_1ThermoParams_1a5f4eba675345610789669ec243f9a99f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_chemical_potential</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chemical_potential</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams22add_chemical_potentialEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a chemical potential for a given type of particle. Note that z has units length^{-dimension} such that Vz/N is unitless. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12ThermoParams22set_chemical_potentialEKdKi">
-<span class="target" id="classfeasst_1_1ThermoParams_1ae245258829b0682b32bb99a632a1cd44"></span>void <code class="sig-name descname">set_chemical_potential</code><span class="sig-paren">(</span><em class="property">const</em> double <em>mu</em>, <em class="property">const</em> int <em>particle_type</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams22set_chemical_potentialEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ThermoParams22set_chemical_potentialEKdKi">
+<span class="target" id="classfeasst_1_1ThermoParams_1ae245258829b0682b32bb99a632a1cd44"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_chemical_potential</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">mu</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams22set_chemical_potentialEKdKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the chemical potential of a given type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12ThermoParams18chemical_potentialEKi">
-<span class="target" id="classfeasst_1_1ThermoParams_1a4c23f1103a34afddab83bedbab1067e1"></span>double <code class="sig-name descname">chemical_potential</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_type</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams18chemical_potentialEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12ThermoParams18chemical_potentialEKi">
+<span class="target" id="classfeasst_1_1ThermoParams_1a4c23f1103a34afddab83bedbab1067e1"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">chemical_potential</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams18chemical_potentialEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the chemical potential of the particle type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12ThermoParams7beta_muEKi">
-<span class="target" id="classfeasst_1_1ThermoParams_1aa53ddd0eaf209906309454752a2365bf"></span>double <code class="sig-name descname">beta_mu</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_type</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams7beta_muEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12ThermoParams7beta_muEKi">
+<span class="target" id="classfeasst_1_1ThermoParams_1aa53ddd0eaf209906309454752a2365bf"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">beta_mu</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams7beta_muEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the dimensionless product of beta and the chemical potential. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12ThermoParams8pressureEv">
-<span class="target" id="classfeasst_1_1ThermoParams_1a66c7ad165ef35ee8e26ac3ac049d8bf0"></span>double <code class="sig-name descname">pressure</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams8pressureEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12ThermoParams8pressureEv">
+<span class="target" id="classfeasst_1_1ThermoParams_1a66c7ad165ef35ee8e26ac3ac049d8bf0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pressure</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams8pressureEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the pressure. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12ThermoParams12set_pressureEKd">
-<span class="target" id="classfeasst_1_1ThermoParams_1aafb37d37ef88ad6ead1a833415f0988c"></span>void <code class="sig-name descname">set_pressure</code><span class="sig-paren">(</span><em class="property">const</em> double <em>pressure</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams12set_pressureEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ThermoParams12set_pressureEKd">
+<span class="target" id="classfeasst_1_1ThermoParams_1aafb37d37ef88ad6ead1a833415f0988c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_pressure</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pressure</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParams12set_pressureEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the pressure. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12ThermoParams3strEv">
-<span class="target" id="classfeasst_1_1ThermoParams_1a8b01790e92c4359893dd32b127c32dc5"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams3strEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12ThermoParams3strEv">
+<span class="target" id="classfeasst_1_1ThermoParams_1a8b01790e92c4359893dd32b127c32dc5"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams3strEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a human readable string. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12ThermoParams8is_equalERK12ThermoParams">
-<span class="target" id="classfeasst_1_1ThermoParams_1acdc7addd67d912dbb4592f2cd5bd8e66"></span>bool <code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst12ThermoParamsE" title="feasst::ThermoParams">ThermoParams</a> &amp;<em>thermo_params</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams8is_equalERK12ThermoParams" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12ThermoParams8is_equalERK12ThermoParams">
+<span class="target" id="classfeasst_1_1ThermoParams_1acdc7addd67d912dbb4592f2cd5bd8e66"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst12ThermoParamsE" title="feasst::ThermoParams"><span class="n"><span class="pre">ThermoParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">thermo_params</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ThermoParams8is_equalERK12ThermoParams" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if equivalent. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="BondThreeBody.html" class="btn btn-neutral float-right" title="BondThreeBody" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="VisitModelInner.html" class="btn btn-neutral float-left" title="VisitModelInner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Model.html" class="btn btn-neutral float-left" title="Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="EnergyMap.html" class="btn btn-neutral float-right" title="EnergyMap" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -500,22 +437,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

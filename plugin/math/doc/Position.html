@@ -1,54 +1,33 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Position &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>Position &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Random" href="Random.html" />
-    <link rel="prev" title="math/include/utils_math" href="utils_math.html" />
+    <link rel="next" title="Matrix" href="Matrix.html" />
+    <link rel="prev" title="Accumulator" href="Accumulator.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +42,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -109,27 +64,27 @@
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html">math/include/utils_math</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Position</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
-<li class="toctree-l3"><a class="reference internal" href="RandomModulo.html">RandomModulo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Euler.html">Euler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Solver.html">Solver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBisection.html">SolverBisection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBrentDekker.html">SolverBrentDekker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Euler.html">Euler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RandomModulo.html">RandomModulo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -166,28 +121,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -253,7 +197,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -278,17 +222,17 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="position">
-<h1>Position<a class="headerlink" href="#position" title="Permalink to this headline">¶</a></h1>
+<section id="position">
+<h1>Position<a class="headerlink" href="#position" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst8PositionE">
-<span class="target" id="classfeasst_1_1Position"></span><em class="property">class </em><code class="sig-name descname">Position</code><a class="headerlink" href="#_CPPv4N6feasst8PositionE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8PositionE">
+<span class="target" id="classfeasst_1_1Position"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Position</span></span></span><a class="headerlink" href="#_CPPv4N6feasst8PositionE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Positions are a set of coordinates (abbreviated here as “coord”) in the Euclidean/Cartesian coordinate system. The number of coordinates is the dimensionality of the Euclidean space. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position8PositionE7argtype">
-<span class="target" id="classfeasst_1_1Position_1aa2c82475fbec3cdf1573d13aee64e73f"></span><code class="sig-name descname">Position</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8PositionE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position8PositionE7argtype">
+<span class="target" id="classfeasst_1_1Position_1aa2c82475fbec3cdf1573d13aee64e73f"></span><span class="sig-name descname"><span class="n"><span class="pre">Position</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8PositionE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>x: x-coordinate</p></li>
 <li><p>y: y-coordinate. Requires explicit x.</p></li>
@@ -298,206 +242,206 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position8PositionENSt6vectorIdEE">
-<span class="target" id="classfeasst_1_1Position_1a40c6b1e73639a423a4350d76c52eb1f6"></span><code class="sig-name descname">Position</code><span class="sig-paren">(</span>std::vector&lt;double&gt; <em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8PositionENSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position8PositionENSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Position_1a40c6b1e73639a423a4350d76c52eb1f6"></span><span class="sig-name descname"><span class="n"><span class="pre">Position</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">vec</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8PositionENSt6vectorIdEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Initialize coordinates by brace initialized position vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position8PositionEKi">
-<span class="target" id="classfeasst_1_1Position_1a3ec27568740121467c7c3cfba3f64e97"></span><code class="sig-name descname">Position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8PositionEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position8PositionEKi">
+<span class="target" id="classfeasst_1_1Position_1a3ec27568740121467c7c3cfba3f64e97"></span><span class="sig-name descname"><span class="n"><span class="pre">Position</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8PositionEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Initialize coordinates on origin with given dimensionality. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position5coordEv">
-<span class="target" id="classfeasst_1_1Position_1a70b6d07c297159f88fc1f4b07986e0e5"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">coord</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position5coordEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position5coordEv">
+<span class="target" id="classfeasst_1_1Position_1a70b6d07c297159f88fc1f4b07986e0e5"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">coord</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position5coordEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a copy of the position vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position10set_vectorERKNSt6vectorIdEE">
-<span class="target" id="classfeasst_1_1Position_1a243e37868602bd0d654956fc7f30bcd6"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">set_vector</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position10set_vectorERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position10set_vectorERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Position_1a243e37868602bd0d654956fc7f30bcd6"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">set_vector</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vec</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position10set_vectorERKNSt6vectorIdEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set position vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position18set_from_cartesianERKNSt6vectorIdEE">
-<span class="target" id="classfeasst_1_1Position_1a2bc30c0f75d05579a3abf2ece0c8505f"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">set_from_cartesian</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_cartesianERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position18set_from_cartesianERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Position_1a2bc30c0f75d05579a3abf2ece0c8505f"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">set_from_cartesian</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vec</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_cartesianERKNSt6vectorIdEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set vector given Cartesian coordinates (same as above). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position9push_backEKd">
-<span class="target" id="classfeasst_1_1Position_1a038b4f57a1ae245ef0f0f72f15d6c0a1"></span>void <code class="sig-name descname">push_back</code><span class="sig-paren">(</span><em class="property">const</em> double <em>coord</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position9push_backEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position9push_backEKd">
+<span class="target" id="classfeasst_1_1Position_1a038b4f57a1ae245ef0f0f72f15d6c0a1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">push_back</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">coord</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position9push_backEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add another coordinate dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position18set_from_sphericalERKNSt6vectorIdEE">
-<span class="target" id="classfeasst_1_1Position_1abc26a91c66f4db5e592861053bb90c49"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">set_from_spherical</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position18set_from_sphericalERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Position_1abc26a91c66f4db5e592861053bb90c49"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">set_from_spherical</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vec</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalERKNSt6vectorIdEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set vector given Spherical coordinates (2 or 3-dimensional). See <a class="reference external" href="https://mathworld.wolfram.com/SphericalCoordinates.html">https://mathworld.wolfram.com/SphericalCoordinates.html</a> Spherical coordinates are defined as follows: The first coordinate is rho &gt;= 0. rho is the distance from origin. The second coordinate is theta. theta is the angle between x-axis and projection of the vector on x-y plane. In 3D, the third and final coordinate is phi, 0 &lt;= phi &lt;= PI. phi is the angle between z-axis and line. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position18set_from_sphericalEKdKdKd">
-<span class="target" id="classfeasst_1_1Position_1a62863f33566b64f3f3a18aa2441f5f5f"></span>void <code class="sig-name descname">set_from_spherical</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rho</em>, <em class="property">const</em> double <em>theta</em>, <em class="property">const</em> double <em>phi</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalEKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position18set_from_sphericalEKdKdKd">
+<span class="target" id="classfeasst_1_1Position_1a62863f33566b64f3f3a18aa2441f5f5f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_from_spherical</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">rho</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">theta</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">phi</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalEKdKdKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above for 3D. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position18set_from_sphericalEKdKd">
-<span class="target" id="classfeasst_1_1Position_1af65e2766f7b1997f532b2afc908d318a"></span>void <code class="sig-name descname">set_from_spherical</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rho</em>, <em class="property">const</em> double <em>theta</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position18set_from_sphericalEKdKd">
+<span class="target" id="classfeasst_1_1Position_1af65e2766f7b1997f532b2afc908d318a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_from_spherical</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">rho</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">theta</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalEKdKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above for 2D. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position9sphericalEv">
-<span class="target" id="classfeasst_1_1Position_1ac89ec3952bc2c7921fd6563071bfb6d1"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <code class="sig-name descname">spherical</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position9sphericalEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position9sphericalEv">
+<span class="target" id="classfeasst_1_1Position_1ac89ec3952bc2c7921fd6563071bfb6d1"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">spherical</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position9sphericalEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the spherical coordinates (r, theta, phi). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position9sphericalEP8Position">
-<span class="target" id="classfeasst_1_1Position_1ad130dda9334c76d0c8a409d183cb8fc6"></span>void <code class="sig-name descname">spherical</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>result</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position9sphericalEP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position9sphericalEP8Position">
+<span class="target" id="classfeasst_1_1Position_1ad130dda9334c76d0c8a409d183cb8fc6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">spherical</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">result</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position9sphericalEP8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Optimized version of the above for an existing data structure. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position5coordEKi">
-<span class="target" id="classfeasst_1_1Position_1a86d63c2ab9ac5ee7e39c974a25ece706"></span>double <code class="sig-name descname">coord</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position5coordEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position5coordEKi">
+<span class="target" id="classfeasst_1_1Position_1a86d63c2ab9ac5ee7e39c974a25ece706"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">coord</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position5coordEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Get coordinate value of one dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position9set_coordEKiKd">
-<span class="target" id="classfeasst_1_1Position_1adaa201e7fadf2a62cd5b687037b6bc1b"></span>void <code class="sig-name descname">set_coord</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>coord</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position9set_coordEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position9set_coordEKiKd">
+<span class="target" id="classfeasst_1_1Position_1adaa201e7fadf2a62cd5b687037b6bc1b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_coord</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">coord</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position9set_coordEKiKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set coordinate value of one dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position12add_to_coordEKiKd">
-<span class="target" id="classfeasst_1_1Position_1a4e15e294bb735d7189e03e7668721823"></span>void <code class="sig-name descname">add_to_coord</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>coord</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position12add_to_coordEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position12add_to_coordEKiKd">
+<span class="target" id="classfeasst_1_1Position_1a4e15e294bb735d7189e03e7668721823"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_to_coord</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">coord</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position12add_to_coordEKiKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add to coordinate value of one dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position4sizeEv">
-<span class="target" id="classfeasst_1_1Position_1a7b6aa578881bebd4f117d9cd0fdffd2f"></span>int <code class="sig-name descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position4sizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position4sizeEv">
+<span class="target" id="classfeasst_1_1Position_1a7b6aa578881bebd4f117d9cd0fdffd2f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position4sizeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the dimensionality of the position. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position9dimensionEv">
-<span class="target" id="classfeasst_1_1Position_1a6fb6cef3e6496e5abdd96438fa6b4efd"></span>int <code class="sig-name descname">dimension</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position9dimensionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position9dimensionEv">
+<span class="target" id="classfeasst_1_1Position_1a6fb6cef3e6496e5abdd96438fa6b4efd"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dimension</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position9dimensionEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the dimensionality of the position. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position16set_to_origin_3DEv">
-<span class="target" id="classfeasst_1_1Position_1a3f0587ffe0b0bafce911033c5a578730"></span>void <code class="sig-name descname">set_to_origin_3D</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position16set_to_origin_3DEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position16set_to_origin_3DEv">
+<span class="target" id="classfeasst_1_1Position_1a3f0587ffe0b0bafce911033c5a578730"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_to_origin_3D</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position16set_to_origin_3DEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the position of self to the origin in 3D space. HWH depreciate </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position13set_to_originEv">
-<span class="target" id="classfeasst_1_1Position_1a21ee54ba1bab7ec4a476862aabba9ced"></span>void <code class="sig-name descname">set_to_origin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position13set_to_originEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position13set_to_originEv">
+<span class="target" id="classfeasst_1_1Position_1a21ee54ba1bab7ec4a476862aabba9ced"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_to_origin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position13set_to_originEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the position of self to the origin. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position13set_to_originEKi">
-<span class="target" id="classfeasst_1_1Position_1a7aae16dce3cf4dfa80d8b78eaf7ceaeb"></span>void <code class="sig-name descname">set_to_origin</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position13set_to_originEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position13set_to_originEKi">
+<span class="target" id="classfeasst_1_1Position_1a7aae16dce3cf4dfa80d8b78eaf7ceaeb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_to_origin</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position13set_to_originEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Resize to given dimension, then set to the origin. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position3addERK8Position">
-<span class="target" id="classfeasst_1_1Position_1a747bb4dbf54437e4a97d37abce8855d3"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position3addERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position3addERK8Position">
+<span class="target" id="classfeasst_1_1Position_1a747bb4dbf54437e4a97d37abce8855d3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position3addERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add position vector to self. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position8subtractERK8Position">
-<span class="target" id="classfeasst_1_1Position_1a5b74c0ddf099c6969b5ffd5a0036b0e1"></span>void <code class="sig-name descname">subtract</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8subtractERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position8subtractERK8Position">
+<span class="target" id="classfeasst_1_1Position_1a5b74c0ddf099c6969b5ffd5a0036b0e1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">subtract</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8subtractERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Subtract the position vector from self. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position6divideERK8Position">
-<span class="target" id="classfeasst_1_1Position_1a9d121ccb4805e696a10066356cab2d42"></span>void <code class="sig-name descname">divide</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position6divideERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position6divideERK8Position">
+<span class="target" id="classfeasst_1_1Position_1a9d121ccb4805e696a10066356cab2d42"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">divide</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position6divideERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Divide self by the position vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position6divideEKd">
-<span class="target" id="classfeasst_1_1Position_1a599accf8c1eeddc212e8c4c41dc04d9c"></span>void <code class="sig-name descname">divide</code><span class="sig-paren">(</span><em class="property">const</em> double <em>denominator</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position6divideEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position6divideEKd">
+<span class="target" id="classfeasst_1_1Position_1a599accf8c1eeddc212e8c4c41dc04d9c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">divide</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">denominator</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position6divideEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Divide self by a constant. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position8multiplyEKd">
-<span class="target" id="classfeasst_1_1Position_1aa655bc24704949655fda601df8951494"></span>void <code class="sig-name descname">multiply</code><span class="sig-paren">(</span><em class="property">const</em> double <em>constant</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8multiplyEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position8multiplyEKd">
+<span class="target" id="classfeasst_1_1Position_1aa655bc24704949655fda601df8951494"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">multiply</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">constant</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8multiplyEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Multiply self by a constant. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position11dot_productERK8Position">
-<span class="target" id="classfeasst_1_1Position_1a8d9376626898787746b7eb77decb35ef"></span>double <code class="sig-name descname">dot_product</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position11dot_productERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position11dot_productERK8Position">
+<span class="target" id="classfeasst_1_1Position_1a8d9376626898787746b7eb77decb35ef"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dot_product</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position11dot_productERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the dot product of position vector with self. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position11dot_productERKNSt6vectorIdEE">
-<span class="target" id="classfeasst_1_1Position_1aa3ddc403f7d9530c5f83d893569160cf"></span>double <code class="sig-name descname">dot_product</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>vec</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position11dot_productERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position11dot_productERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Position_1aa3ddc403f7d9530c5f83d893569160cf"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dot_product</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vec</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position11dot_productERKNSt6vectorIdEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but with a vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position13cross_productERK8Position">
-<span class="target" id="classfeasst_1_1Position_1a8e6505ca997b61368520e52b4e910573"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <code class="sig-name descname">cross_product</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position13cross_productERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position13cross_productERK8Position">
+<span class="target" id="classfeasst_1_1Position_1a8e6505ca997b61368520e52b4e910573"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cross_product</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position13cross_productERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the cross product of position with self. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position16squared_distanceEv">
-<span class="target" id="classfeasst_1_1Position_1a162602b40e362b1c3d0721eec060580c"></span>double <code class="sig-name descname">squared_distance</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position16squared_distanceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position16squared_distanceEv">
+<span class="target" id="classfeasst_1_1Position_1a162602b40e362b1c3d0721eec060580c"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">squared_distance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position16squared_distanceEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the squared distance of self from the origin. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position8distanceEv">
-<span class="target" id="classfeasst_1_1Position_1a1bca79c23b45d926109ce1b5fe90f098"></span>double <code class="sig-name descname">distance</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position8distanceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position8distanceEv">
+<span class="target" id="classfeasst_1_1Position_1a1bca79c23b45d926109ce1b5fe90f098"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">distance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position8distanceEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the distance of self from the origin. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position16squared_distanceERK8Position">
-<span class="target" id="classfeasst_1_1Position_1a0262abe13e99f466054c8e14840cb899"></span>double <code class="sig-name descname">squared_distance</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position16squared_distanceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position16squared_distanceERK8Position">
+<span class="target" id="classfeasst_1_1Position_1a0262abe13e99f466054c8e14840cb899"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">squared_distance</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position16squared_distanceERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the squared distance between self and position. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position8distanceERK8Position">
-<span class="target" id="classfeasst_1_1Position_1a08609a415243d58d4c5a09fce3d2f3de"></span>double <code class="sig-name descname">distance</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position8distanceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position8distanceERK8Position">
+<span class="target" id="classfeasst_1_1Position_1a08609a415243d58d4c5a09fce3d2f3de"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">distance</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position8distanceERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return distance between self and position. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position3strEv">
-<span class="target" id="classfeasst_1_1Position_1ac9134b6099ec9b5016e1ce38952fc114"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position3strEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position3strEv">
+<span class="target" id="classfeasst_1_1Position_1ac9134b6099ec9b5016e1ce38952fc114"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position3strEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return coordinates as a string. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position6cosineERK8Position">
-<span class="target" id="classfeasst_1_1Position_1ad8daa6ef30006b448b557c8798b07650"></span>double <code class="sig-name descname">cosine</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position6cosineERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position6cosineERK8Position">
+<span class="target" id="classfeasst_1_1Position_1ad8daa6ef30006b448b557c8798b07650"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cosine</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position6cosineERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the cosine of the angle between self and given vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position20vertex_angle_radiansERK8PositionRK8Position">
-<span class="target" id="classfeasst_1_1Position_1a1e094a231c9a79de78cdc8aa74ac445f"></span>double <code class="sig-name descname">vertex_angle_radians</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>rk</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position20vertex_angle_radiansERK8PositionRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position20vertex_angle_radiansERK8PositionRK8Position">
+<span class="target" id="classfeasst_1_1Position_1a1e094a231c9a79de78cdc8aa74ac445f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vertex_angle_radians</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ri</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rk</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position20vertex_angle_radiansERK8PositionRK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the angle, in radians, formed by self as vertex, and two points. For example, the angle between i - j - k, which form a line, is PI. While i and k are given, j is self.</p>
 <p>In 2D, maintain chirality such that angles are clock-wise rotated. This is implemented by checking that the z-dimension of</p>
 <p><span class="math notranslate nohighlight">\(r_{ij} \times r_{kj} &lt; 0\)</span>.</p>
@@ -505,8 +449,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position">
-<span class="target" id="classfeasst_1_1Position_1a9af6779445374d89f3670b7178ea6967"></span>double <code class="sig-name descname">torsion_angle_radians</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>rj</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>rk</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>rl</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position">
+<span class="target" id="classfeasst_1_1Position_1a9af6779445374d89f3670b7178ea6967"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">torsion_angle_radians</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rj</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rk</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Dihedral"><span class="std std-ref">Dihedral</span></a> or torsion angles are defined by the angle between planes. For a molecule, these planes may be defined by four positions: l - j - k - i. Note that the order is reversible.</p>
 <p>The normal of the first plane, <span class="math notranslate nohighlight">\(n_1\)</span>, is given by</p>
 <p><span class="math notranslate nohighlight">\(n_1=r_{kl} \times r_{jk}\)</span></p>
@@ -521,71 +465,64 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position9normalizeEv">
-<span class="target" id="classfeasst_1_1Position_1ada933d2f0a6396ce57ec5f9ef78acb70"></span>void <code class="sig-name descname">normalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position9normalizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position9normalizeEv">
+<span class="target" id="classfeasst_1_1Position_1ada933d2f0a6396ce57ec5f9ef78acb70"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">normalize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position9normalizeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Normalize the position such that the distance from the origin is unity, but the direction from the origin is the same. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position8is_equalERK8PositionKd">
-<span class="target" id="classfeasst_1_1Position_1a73d0ef5caf9b61e039dbd11b2a6da412"></span>bool <code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em>, <em class="property">const</em> double <em>tolerance</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position8is_equalERK8PositionKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position8is_equalERK8PositionKd">
+<span class="target" id="classfeasst_1_1Position_1a73d0ef5caf9b61e039dbd11b2a6da412"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tolerance</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position8is_equalERK8PositionKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if the given position is equal to self within tolerance. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position8is_equalERK8Position">
-<span class="target" id="classfeasst_1_1Position_1ad550bd3ded7776880ca2643a0a5dd730"></span>bool <code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position8is_equalERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position8is_equalERK8Position">
+<span class="target" id="classfeasst_1_1Position_1ad550bd3ded7776880ca2643a0a5dd730"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position8is_equalERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but with a default tolerance of NEAR_ZERO. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst8Position24nearest_distance_to_axisERK8PositionRK8Position">
-<span class="target" id="classfeasst_1_1Position_1a38e7bc1281eae00e533db3479649a6da"></span>double <code class="sig-name descname">nearest_distance_to_axis</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point1</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point2</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Position24nearest_distance_to_axisERK8PositionRK8Position" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Nearest distance to axis defined by two points. see <a class="reference external" href="http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html">http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html</a> </p>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position24nearest_distance_to_axisERK8PositionRK8Position">
+<span class="target" id="classfeasst_1_1Position_1a38e7bc1281eae00e533db3479649a6da"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nearest_distance_to_axis</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point2</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position24nearest_distance_to_axisERK8PositionRK8Position" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Nearest distance to axis defined by two points. see <a class="reference external" href="http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html">http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html</a></p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position10orthogonalERK8Position">
-<span class="target" id="classfeasst_1_1Position_1a38e0f6648c9987170675bdda3c068fbf"></span>void <code class="sig-name descname">orthogonal</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>orthogonal</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position10orthogonalERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position10orthogonalERK8Position">
+<span class="target" id="classfeasst_1_1Position_1a38e0f6648c9987170675bdda3c068fbf"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">orthogonal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">orthogonal</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position10orthogonalERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set self orthogonal to given position. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst8Position7reflectERK8Position">
-<span class="target" id="classfeasst_1_1Position_1a2fda69bd50840c6393a3055b0473b50f"></span>void <code class="sig-name descname">reflect</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>reflection_point</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position7reflectERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Position7reflectERK8Position">
+<span class="target" id="classfeasst_1_1Position_1a2fda69bd50840c6393a3055b0473b50f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reflect</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">reflection_point</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position7reflectERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Reflect self about a point. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="Random.html" class="btn btn-neutral float-right" title="Random" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="utils_math.html" class="btn btn-neutral float-left" title="math/include/utils_math" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Accumulator.html" class="btn btn-neutral float-left" title="Accumulator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Matrix.html" class="btn btn-neutral float-right" title="Matrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -670,22 +607,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

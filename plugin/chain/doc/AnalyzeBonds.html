@@ -1,54 +1,31 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>AnalyzeBonds &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>AnalyzeBonds &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="EndToEndDistance" href="EndToEndDistance.html" />
-    <link rel="prev" title="PerturbSiteType" href="PerturbSiteType.html" />
+    <link rel="next" title="RadiusOfGyration" href="RadiusOfGyration.html" />
+    <link rel="prev" title="TrialGrowLinear" href="TrialGrowLinear.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -120,32 +73,34 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">AnalyzeBonds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialGrow.html">TrialGrow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialSwapSites.html">TrialSwapSites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbConnector.html">PerturbConnector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbDistanceAngleConnector.html">PerturbDistanceAngleConnector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSwapSites.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">AnalyzeBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrow.html">TrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -171,28 +126,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -258,7 +202,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -283,17 +227,17 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="analyzebonds">
-<h1>AnalyzeBonds<a class="headerlink" href="#analyzebonds" title="Permalink to this headline">¶</a></h1>
+<section id="analyzebonds">
+<h1>AnalyzeBonds<a class="headerlink" href="#analyzebonds" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst12AnalyzeBondsE">
-<span class="target" id="classfeasst_1_1AnalyzeBonds"></span><em class="property">class </em><code class="sig-name descname">AnalyzeBonds</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst17AnalyzeUpdateOnlyE" title="feasst::AnalyzeUpdateOnly">AnalyzeUpdateOnly</a><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBondsE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12AnalyzeBondsE">
+<span class="target" id="classfeasst_1_1AnalyzeBonds"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AnalyzeBonds</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBondsE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Compute the distribution and moments of each type of bond and angle. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12AnalyzeBonds12AnalyzeBondsE7argtype">
-<span class="target" id="classfeasst_1_1AnalyzeBonds_1a97c7f9c800ab3bda3e19237b02cd1119"></span><code class="sig-name descname">AnalyzeBonds</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBonds12AnalyzeBondsE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12AnalyzeBonds12AnalyzeBondsE7argtype">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1a97c7f9c800ab3bda3e19237b02cd1119"></span><span class="sig-name descname"><span class="n"><span class="pre">AnalyzeBonds</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBonds12AnalyzeBondsE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>bond_bin_width: bin width for bond histogram (default: 1).</p></li>
 <li><p>bond_bin_center: center of first bin in bond histogram (default: 0).</p></li>
@@ -306,83 +250,82 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12AnalyzeBonds6updateERK8CriteriaRK6SystemRK12TrialFactory">
-<span class="target" id="classfeasst_1_1AnalyzeBonds_1a9f3810d589cd2abe9fb55064606c9101"></span>void <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> &amp;<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBonds6updateERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12AnalyzeBonds6updateERK8CriteriaRK6SystemRK12TrialFactory">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1a9f3810d589cd2abe9fb55064606c9101"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBonds6updateERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Perform update action. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst12AnalyzeBonds10initializeEP8CriteriaP6SystemP12TrialFactory">
-<span class="target" id="classfeasst_1_1AnalyzeBonds_1a026df0b8cbc6d651f2e3761177bfda9b"></span>void <code class="sig-name descname">initialize</code><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> *<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBonds10initializeEP8CriteriaP6SystemP12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12AnalyzeBonds10initializeEP8CriteriaP6SystemP12TrialFactory">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1a026df0b8cbc6d651f2e3761177bfda9b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBonds10initializeEP8CriteriaP6SystemP12TrialFactory" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Initialize and precompute before trials. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12AnalyzeBonds4bondEKi">
-<span class="target" id="classfeasst_1_1AnalyzeBonds_1a031a4a2a02c428709198d6a98aa6cd52"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<code class="sig-name descname">bond</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds4bondEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12AnalyzeBonds4bondEKi">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1a031a4a2a02c428709198d6a98aa6cd52"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">bond</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds4bondEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the average bond in degrees. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12AnalyzeBonds5angleEKi">
-<span class="target" id="classfeasst_1_1AnalyzeBonds_1af8fbc333c03f72a6c46ef53d679493b6"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<code class="sig-name descname">angle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds5angleEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12AnalyzeBonds5angleEKi">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1af8fbc333c03f72a6c46ef53d679493b6"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">angle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds5angleEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the average angle in degrees. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12AnalyzeBonds8dihedralEKi">
-<span class="target" id="classfeasst_1_1AnalyzeBonds_1a53e2f1494bda413ac52f03e4dd3fe4ba"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<code class="sig-name descname">dihedral</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds8dihedralEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12AnalyzeBonds8dihedralEKi">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1a53e2f1494bda413ac52f03e4dd3fe4ba"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">dihedral</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds8dihedralEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the average dihedral in degrees. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12AnalyzeBonds9bond_histEKi">
-<span class="target" id="classfeasst_1_1AnalyzeBonds_1a56705f1c624258be18c93a668ba86a0e"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> &amp;<code class="sig-name descname">bond_hist</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds9bond_histEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12AnalyzeBonds9bond_histEKi">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1a56705f1c624258be18c93a668ba86a0e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram"><span class="n"><span class="pre">Histogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">bond_hist</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds9bond_histEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the histogram of bond in degrees. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12AnalyzeBonds10angle_histEKi">
-<span class="target" id="classfeasst_1_1AnalyzeBonds_1adb48673b9b0c56ce8df83fc1d42d7896"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> &amp;<code class="sig-name descname">angle_hist</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds10angle_histEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12AnalyzeBonds10angle_histEKi">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1adb48673b9b0c56ce8df83fc1d42d7896"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram"><span class="n"><span class="pre">Histogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">angle_hist</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds10angle_histEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the histogram of angle in degrees. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12AnalyzeBonds13dihedral_histEKi">
-<span class="target" id="classfeasst_1_1AnalyzeBonds_1a48e9e7cd2b89f643d3e256f54e1ee39a"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> &amp;<code class="sig-name descname">dihedral_hist</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds13dihedral_histEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12AnalyzeBonds13dihedral_histEKi">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1a48e9e7cd2b89f643d3e256f54e1ee39a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram"><span class="n"><span class="pre">Histogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">dihedral_hist</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12AnalyzeBonds13dihedral_histEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the histogram of dihedral in degrees. </p>
 </dd></dl>
 
-</div>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12AnalyzeBonds5writeERK8CriteriaRK6SystemRK12TrialFactory">
+<span class="target" id="classfeasst_1_1AnalyzeBonds_1af7f288fab379a93a115ff46e3caf09cf"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBonds5writeERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Perform write action. </p>
 </dd></dl>
 
 </div>
+</dd></dl>
+
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="EndToEndDistance.html" class="btn btn-neutral float-right" title="EndToEndDistance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="PerturbSiteType.html" class="btn btn-neutral float-left" title="PerturbSiteType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="TrialGrowLinear.html" class="btn btn-neutral float-left" title="TrialGrowLinear" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RadiusOfGyration.html" class="btn btn-neutral float-right" title="RadiusOfGyration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -467,22 +410,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

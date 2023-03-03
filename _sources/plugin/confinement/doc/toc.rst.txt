@@ -1,11 +1,11 @@
 
 .. toctree::
 
-   ModelLJShape
-   trial_anywhere
+   ModelHardShape
    ModelSquareWellShape
    Background
-   AlwaysReject
-   HenryCoefficient
-   ModelHardShape
+   ModelLJShape
    ModelTableCart1DHard
+   AlwaysReject
+   trial_anywhere
+   HenryCoefficient

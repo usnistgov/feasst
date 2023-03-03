@@ -1,54 +1,33 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Ewald &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>Ewald &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="CheckNetCharge" href="CheckNetCharge.html" />
-    <link rel="prev" title="ChargeSelf" href="ChargeSelf.html" />
+    <link rel="next" title="ComputeRemoveMultiple" href="ComputeRemoveMultiple.html" />
+    <link rel="prev" title="DebyeHuckel" href="DebyeHuckel.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +42,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -127,20 +82,20 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="SlabCorrection.html">SlabCorrection</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Coulomb.html">Coulomb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DebyeHuckel.html">DebyeHuckel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ElectricField.html">ElectricField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Coulomb.html">Coulomb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DebyeHuckel.html">DebyeHuckel</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Ewald</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">charge/include/utils</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 </ul>
 </li>
 </ul>
@@ -163,28 +118,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -250,7 +194,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -275,11 +219,11 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="ewald">
-<h1>Ewald<a class="headerlink" href="#ewald" title="Permalink to this headline">¶</a></h1>
+<section id="ewald">
+<h1>Ewald<a class="headerlink" href="#ewald" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst5EwaldE">
-<span class="target" id="classfeasst_1_1Ewald"></span><em class="property">class </em><code class="sig-name descname">Ewald</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst5EwaldE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5EwaldE">
+<span class="target" id="classfeasst_1_1Ewald"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Ewald</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel"><span class="n"><span class="pre">VisitModel</span></span></a><a class="headerlink" href="#_CPPv4N6feasst5EwaldE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation accounts for the long-range nature of the electrostatic interaction by applying a Gaussian screening charge, computing a Fourier-space long-range component, and then correcting for the various spurious terms that are included in the Fourier summation, such as self and intra-particle.</p>
 <p>See “Computer simulation of liquids” by M. P. Allen and D. J. Tildesley. The LAMMPS and DL_POLY manuals also include thorough descriptions of the <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation.</p>
 <p><a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is not supported for use as a reference state for dual-cut.</p>
@@ -287,12 +231,12 @@
 <p><span class="math notranslate nohighlight">\(V = \vec{a} \cdot \vec{b} \times \vec{c}\)</span></p>
 <p><span class="math notranslate nohighlight">\(\vec{u} = 2\pi\vec{b}\times\vec{c}/V\)</span></p>
 <p><span class="math notranslate nohighlight">\(\vec{v} = 2\pi\vec{b}\times\vec{c}/V\)</span></p>
-<p><span class="math notranslate nohighlight">\(\vec{w} = 2\pi\vec{b}\times\vec{c}/V\)</span> </p>
+<p><span class="math notranslate nohighlight">\(\vec{w} = 2\pi\vec{b}\times\vec{c}/V\)</span></p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Ewald5EwaldE7argtype">
-<span class="target" id="classfeasst_1_1Ewald_1a7dae25f6ce9aecee6c56c9beb5c4c4bd"></span><code class="sig-name descname">Ewald</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald5EwaldE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Ewald5EwaldE7argtype">
+<span class="target" id="classfeasst_1_1Ewald_1a7dae25f6ce9aecee6c56c9beb5c4c4bd"></span><span class="sig-name descname"><span class="n"><span class="pre">Ewald</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald5EwaldE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>tolerance: determine the alpha parameter and number of wave vectors by specifying the accuracy relative to the energy of two unit charges separated by a distance of one unit.</p></li>
 <li><p>tolerance_num_sites: for setting parameters with the tolerance, optionally set the number of sites to be used for the parameter calculation rather than the currently existing number of sites (default).</p></li>
@@ -306,49 +250,55 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Ewald21tolerance_to_alpha_ksEKdRK13ConfigurationPdPiPiPi">
-<span class="target" id="classfeasst_1_1Ewald_1a55f61c3a9ed21bd053936a0a0900540c"></span>void <code class="sig-name descname">tolerance_to_alpha_ks</code><span class="sig-paren">(</span><em class="property">const</em> double <em>tolerance</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, double *<em>alpha</em>, int *<em>kxmax</em>, int *<em>kymax</em>, int *<em>kzmax</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald21tolerance_to_alpha_ksEKdRK13ConfigurationPdPiPiPi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">tolerance</span></code>: Estimated tolerance for the energy. This is relative to the energy exerted by two unit charges separated by a distance of one unit. </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: Return the alpha </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">kxmax</span></code>: Return the maximum number of Fourier vectors in the x dimension. </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">kymax</span></code>: as above but in y </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">kzmax</span></code>: as above but in z </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Ewald21tolerance_to_alpha_ksEKdRK13ConfigurationPdPiPiPi">
+<span class="target" id="classfeasst_1_1Ewald_1a55f61c3a9ed21bd053936a0a0900540c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tolerance_to_alpha_ks</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tolerance</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">alpha</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">kxmax</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">kymax</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">kzmax</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald21tolerance_to_alpha_ksEKdRK13ConfigurationPdPiPiPi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Recommend an alpha parameter for <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> as described and implemented in LAMMPS <a class="reference external" href="https://lammps.sandia.gov/doc/kspace_style.html">https://lammps.sandia.gov/doc/kspace_style.html</a> <a class="reference external" href="https://doi.org/10.1080/08927029208049126">https://doi.org/10.1080/08927029208049126</a> <a class="reference external" href="https://doi.org/10.1063/1.470043">https://doi.org/10.1063/1.470043</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">param tolerance<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Estimated tolerance for the energy. This is relative to the energy exerted by two unit charges separated by a distance of one unit. </p>
+</dd>
+<dt class="field-even">param alpha<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return the alpha </p>
+</dd>
+<dt class="field-odd">param kxmax<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Return the maximum number of Fourier vectors in the x dimension. </p>
+</dd>
+<dt class="field-even">param kymax<span class="colon">:</span></dt>
+<dd class="field-even"><p>as above but in y </p>
+</dd>
+<dt class="field-odd">param kzmax<span class="colon">:</span></dt>
+<dd class="field-odd"><p>as above but in z </p>
 </dd>
 </dl>
-</p>
-<p>Recommend an alpha parameter for <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> as described and implemented in LAMMPS <a class="reference external" href="https://lammps.sandia.gov/doc/kspace_style.html">https://lammps.sandia.gov/doc/kspace_style.html</a> <a class="reference external" href="https://doi.org/10.1080/08927029208049126">https://doi.org/10.1080/08927029208049126</a> <a class="reference external" href="https://doi.org/10.1063/1.470043">https://doi.org/10.1063/1.470043</a> </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Ewald19update_wave_vectorsERK13Configuration">
-<span class="target" id="classfeasst_1_1Ewald_1ab5f8bbb07a131c17bf232fb1aeab5e9e"></span>void <code class="sig-name descname">update_wave_vectors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald19update_wave_vectorsERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Ewald19update_wave_vectorsERK13Configuration">
+<span class="target" id="classfeasst_1_1Ewald_1ab5f8bbb07a131c17bf232fb1aeab5e9e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_wave_vectors</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald19update_wave_vectorsERK13Configuration" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Precompute the wave vectors within cutoff, coefficients, and also resize the structure factors. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald22update_struct_fact_eikERK6SelectRK13ConfigurationPNSt6vectorIdEEPNSt6vectorIdEEPNSt6vectorINSt6vectorINSt6vectorIdEEEEEE">
-<span class="target" id="classfeasst_1_1Ewald_1a6f8d537a351a7072b1c54e7e39d9aaa2"></span>void <code class="sig-name descname">update_struct_fact_eik</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, std::vector&lt;double&gt; *<em>struct_fact_real</em>, std::vector&lt;double&gt; *<em>struct_fact_imag</em>, std::vector&lt;std::vector&lt;std::vector&lt;double&gt;&gt;&gt; *<em>eik_new</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald22update_struct_fact_eikERK6SelectRK13ConfigurationPNSt6vectorIdEEPNSt6vectorIdEEPNSt6vectorINSt6vectorINSt6vectorIdEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald22update_struct_fact_eikERK6SelectRK13ConfigurationPNSt6vectorIdEEPNSt6vectorIdEEPNSt6vectorINSt6vectorINSt6vectorIdEEEEEE">
+<span class="target" id="classfeasst_1_1Ewald_1a6f8d537a351a7072b1c54e7e39d9aaa2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_struct_fact_eik</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">struct_fact_real</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">struct_fact_imag</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">eik_new</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald22update_struct_fact_eikERK6SelectRK13ConfigurationPNSt6vectorIdEEPNSt6vectorIdEEPNSt6vectorINSt6vectorINSt6vectorIdEEEEEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Compute new eiks and update the given structure factor. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Ewald10precomputeEP13Configuration">
-<span class="target" id="classfeasst_1_1Ewald_1aaf737e5a29e5e632fb4cc8dd9e1ecca9"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald10precomputeEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Ewald10precomputeEP13Configuration">
+<span class="target" id="classfeasst_1_1Ewald_1aaf737e5a29e5e632fb4cc8dd9e1ecca9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald10precomputeEP13Configuration" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Process tolerance arguments and initialize wave vectors. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi">
-<span class="target" id="classfeasst_1_1Ewald_1a14dbf9692e42b6136687dfbf6f3a1d86"></span>void <code class="sig-name descname">compute</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> *<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi">
+<span class="target" id="classfeasst_1_1Ewald_1a14dbf9692e42b6136687dfbf6f3a1d86"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">model_params</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">group_index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Compute interactions of entire group in configuration from scratch. This is not optimized for smaller perturbations to the configuration. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi">
-<span class="target" id="classfeasst_1_1Ewald_1ac08a6e50d67f24e9f91c3038ee940552"></span>void <code class="sig-name descname">compute</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> *<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi">
+<span class="target" id="classfeasst_1_1Ewald_1ac08a6e50d67f24e9f91c3038ee940552"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">model_params</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">group_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Compute by selection is optimized for perturbations to the system. Contrary to short range interactions, in this case the energy of the entire system is computed from the structure factor. Thus, to get an energy contribution of a selection, one must take a difference between the configuration with and without the selection’s contributions to the structure factor.</p>
 <p>For <a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a> trials, this means that the type of trial must be taken into consideration, which is provided via <a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select_1a101c5d7121aec0a384ed76cae9ffe33f"><span class="std std-ref">Select::trial_state()</span></a>.</p>
 <p>For 0, “old”, first prepare to return the (previously computed) energy of the entire system, and then remove the structure factor contributions of the selection, without updating the selection’s eik. This assumes that there will be a follow up of exactly one state 1, “move” which will update the eik. <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is not currently supported with more than one step in <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a>.</p>
@@ -358,137 +308,130 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Ewald13change_volumeEKdKi">
-<span class="target" id="classfeasst_1_1Ewald_1a0f11b60c3b108a0efa91884d80089774"></span>void <code class="sig-name descname">change_volume</code><span class="sig-paren">(</span><em class="property">const</em> double <em>delta_volume</em>, <em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald13change_volumeEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Ewald13change_volumeEKdKi">
+<span class="target" id="classfeasst_1_1Ewald_1a0f11b60c3b108a0efa91884d80089774"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">change_volume</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delta_volume</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald13change_volumeEKdKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Change the volume. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald11num_vectorsEv">
-<span class="target" id="classfeasst_1_1Ewald_1af2d37f94907f9919768718075ba6c914"></span>int <code class="sig-name descname">num_vectors</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald11num_vectorsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald11num_vectorsEv">
+<span class="target" id="classfeasst_1_1Ewald_1af2d37f94907f9919768718075ba6c914"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_vectors</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald11num_vectorsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of fourier-space vectors. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald8wave_numEKiKi">
-<span class="target" id="classfeasst_1_1Ewald_1a1682ac94fa1ee223972c31b27084f3fe"></span>int <code class="sig-name descname">wave_num</code><span class="sig-paren">(</span><em class="property">const</em> int <em>vector_index</em>, <em class="property">const</em> int <em>dim</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald8wave_numEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald8wave_numEKiKi">
+<span class="target" id="classfeasst_1_1Ewald_1a1682ac94fa1ee223972c31b27084f3fe"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wave_num</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">vector_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dim</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald8wave_numEKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the wave vector number for a given dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald14wave_prefactorEv">
-<span class="target" id="classfeasst_1_1Ewald_1ac91f23e48304ee525dbfd253d4baf342"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">wave_prefactor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald14wave_prefactorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald14wave_prefactorEv">
+<span class="target" id="classfeasst_1_1Ewald_1ac91f23e48304ee525dbfd253d4baf342"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">wave_prefactor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald14wave_prefactorEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the prefactor in the fourier-space term for each vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald6num_kxEv">
-<span class="target" id="classfeasst_1_1Ewald_1aa9f90bcd4516b34181bf6e970fb79b1e"></span>int <code class="sig-name descname">num_kx</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald6num_kxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald6num_kxEv">
+<span class="target" id="classfeasst_1_1Ewald_1aa9f90bcd4516b34181bf6e970fb79b1e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_kx</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald6num_kxEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of vectors in the x dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald6num_kyEv">
-<span class="target" id="classfeasst_1_1Ewald_1af626d6dbe0f4ab9dc25d384e514d3074"></span>int <code class="sig-name descname">num_ky</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald6num_kyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald6num_kyEv">
+<span class="target" id="classfeasst_1_1Ewald_1af626d6dbe0f4ab9dc25d384e514d3074"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_ky</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald6num_kyEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of vectors in the y dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald6num_kzEv">
-<span class="target" id="classfeasst_1_1Ewald_1a0ec5a458d48add8550bf03fa11402456"></span>int <code class="sig-name descname">num_kz</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald6num_kzEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald6num_kzEv">
+<span class="target" id="classfeasst_1_1Ewald_1a0ec5a458d48add8550bf03fa11402456"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_kz</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald6num_kzEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of vectors in the z dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald5kxmaxEv">
-<span class="target" id="classfeasst_1_1Ewald_1a62b4a1cbb49f78def0abe2c12678e213"></span>int <code class="sig-name descname">kxmax</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald5kxmaxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald5kxmaxEv">
+<span class="target" id="classfeasst_1_1Ewald_1a62b4a1cbb49f78def0abe2c12678e213"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kxmax</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald5kxmaxEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the cutoff of the wave vector in the x dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald5kymaxEv">
-<span class="target" id="classfeasst_1_1Ewald_1a5001445cf10a44145cb0d89ef94eb7ce"></span>int <code class="sig-name descname">kymax</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald5kymaxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald5kymaxEv">
+<span class="target" id="classfeasst_1_1Ewald_1a5001445cf10a44145cb0d89ef94eb7ce"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kymax</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald5kymaxEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the cutoff of the wave vector in the y dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald5kzmaxEv">
-<span class="target" id="classfeasst_1_1Ewald_1a00ae452ac9855df89a7cff671ec47d8c"></span>int <code class="sig-name descname">kzmax</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald5kzmaxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald5kzmaxEv">
+<span class="target" id="classfeasst_1_1Ewald_1a00ae452ac9855df89a7cff671ec47d8c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kzmax</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald5kzmaxEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the cutoff of the wave vector in the z dimension. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald12kmax_squaredEv">
-<span class="target" id="classfeasst_1_1Ewald_1a784510760d7ee24a555f8e0da9c8761e"></span>double <code class="sig-name descname">kmax_squared</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald12kmax_squaredEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald12kmax_squaredEv">
+<span class="target" id="classfeasst_1_1Ewald_1a784510760d7ee24a555f8e0da9c8761e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kmax_squared</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald12kmax_squaredEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the spherical cutoff of the wave vectors. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald3eikEKiKiKiKiKb">
-<span class="target" id="classfeasst_1_1Ewald_1ae6a033fc453e0c188a9fca898f98e0e2"></span>double <code class="sig-name descname">eik</code><span class="sig-paren">(</span><em class="property">const</em> int <em>part_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> int <em>vector_index</em>, <em class="property">const</em> int <em>dim</em>, <em class="property">const</em> bool <em>real</em> = true<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald3eikEKiKiKiKiKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald3eikEKiKiKiKiKb">
+<span class="target" id="classfeasst_1_1Ewald_1ae6a033fc453e0c188a9fca898f98e0e2"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">eik</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">part_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">vector_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dim</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">real</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald3eikEKiKiKiKiKb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the eik vectors directly. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald3eikEv">
-<span class="target" id="classfeasst_1_1Ewald_1ad5e72c7fd02936e32cd6c3c32b811e65"></span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;double&gt;&gt;&gt; &amp;<code class="sig-name descname">eik</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald3eikEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald3eikEv">
+<span class="target" id="classfeasst_1_1Ewald_1ad5e72c7fd02936e32cd6c3c32b811e65"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">eik</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald3eikEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but for all particles, sites and wave vectors. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald16struct_fact_realEKi">
-<span class="target" id="classfeasst_1_1Ewald_1a46e046e353698a18d9363aa4dbc3527f"></span>double <code class="sig-name descname">struct_fact_real</code><span class="sig-paren">(</span><em class="property">const</em> int <em>vector_index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald16struct_fact_realEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald16struct_fact_realEKi">
+<span class="target" id="classfeasst_1_1Ewald_1a46e046e353698a18d9363aa4dbc3527f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">struct_fact_real</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">vector_index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald16struct_fact_realEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the real part of the structure factor for a given vector index corresponding with wave_prefactor and wave_num. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald16struct_fact_imagEKi">
-<span class="target" id="classfeasst_1_1Ewald_1aaf3b8019647f5ea436f293c3ac9006fb"></span>double <code class="sig-name descname">struct_fact_imag</code><span class="sig-paren">(</span><em class="property">const</em> int <em>vector_index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald16struct_fact_imagEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald16struct_fact_imagEKi">
+<span class="target" id="classfeasst_1_1Ewald_1aaf3b8019647f5ea436f293c3ac9006fb"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">struct_fact_imag</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">vector_index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald16struct_fact_imagEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the imaginary part of the structure factor for a given vector index corresponding with wave_prefactor and wave_num. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald16struct_fact_imagEv">
-<span class="target" id="classfeasst_1_1Ewald_1a3b4ea306927f1db91238236120bf2580"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">struct_fact_imag</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald16struct_fact_imagEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald16struct_fact_imagEv">
+<span class="target" id="classfeasst_1_1Ewald_1a3b4ea306927f1db91238236120bf2580"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">struct_fact_imag</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald16struct_fact_imagEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the imaginary part of the structure factor. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Ewald10net_chargeERK13Configuration">
-<span class="target" id="classfeasst_1_1Ewald_1a395fdc50aa64f58c4b3e71dd249ccce9"></span>double <code class="sig-name descname">net_charge</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald10net_chargeERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Ewald10net_chargeERK13Configuration">
+<span class="target" id="classfeasst_1_1Ewald_1a395fdc50aa64f58c4b3e71dd249ccce9"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">net_charge</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Ewald10net_chargeERK13Configuration" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the net charge of the configuration. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="CheckNetCharge.html" class="btn btn-neutral float-right" title="CheckNetCharge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="ChargeSelf.html" class="btn btn-neutral float-left" title="ChargeSelf" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="DebyeHuckel.html" class="btn btn-neutral float-left" title="DebyeHuckel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ComputeRemoveMultiple.html" class="btn btn-neutral float-right" title="ComputeRemoveMultiple" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -573,22 +516,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

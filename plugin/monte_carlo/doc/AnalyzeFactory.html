@@ -1,50 +1,27 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>AnalyzeFactory &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>AnalyzeFactory &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Modify" href="Modify.html" />
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -115,55 +68,55 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Run.html">Run</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeTranslate.html">TrialComputeTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialVolume.html">TrialVolume</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeTranslate.html">TrialComputeTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
 </ul>
 </li>
 </ul>
@@ -197,28 +150,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -284,7 +226,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -309,99 +251,92 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="analyzefactory">
-<h1>AnalyzeFactory<a class="headerlink" href="#analyzefactory" title="Permalink to this headline">¶</a></h1>
+<section id="analyzefactory">
+<h1>AnalyzeFactory<a class="headerlink" href="#analyzefactory" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst14AnalyzeFactoryE">
-<span class="target" id="classfeasst_1_1AnalyzeFactory"></span><em class="property">class </em><code class="sig-name descname">AnalyzeFactory</code> : <em class="property">public</em> <a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14AnalyzeFactoryE">
+<span class="target" id="classfeasst_1_1AnalyzeFactory"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AnalyzeFactory</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactoryE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Contains multiple <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> objects. </p>
 <p>Subclassed by <a class="reference internal" href="../../steppers/doc/LogAndMovie.html#classfeasst_1_1LogAndMovie"><span class="std std-ref">feasst::LogAndMovie</span></a></p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst14AnalyzeFactory10initializeEP8CriteriaP6SystemP12TrialFactory">
-<span class="target" id="classfeasst_1_1AnalyzeFactory_1a52671fa603870c6f2bfe60433ebbf248"></span>void <code class="sig-name descname">initialize</code><span class="sig-paren">(</span><a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> *<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory10initializeEP8CriteriaP6SystemP12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14AnalyzeFactory10initializeEP8CriteriaP6SystemP12TrialFactory">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1a52671fa603870c6f2bfe60433ebbf248"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory10initializeEP8CriteriaP6SystemP12TrialFactory" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Initialize and precompute before trials. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst14AnalyzeFactory3addENSt10shared_ptrI7AnalyzeEE">
-<span class="target" id="classfeasst_1_1AnalyzeFactory_1a60ff5e447761a13980956c06c0645c40"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a>&gt; <em>analyze</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory3addENSt10shared_ptrI7AnalyzeEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14AnalyzeFactory3addENSt10shared_ptrI7AnalyzeEE">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1a60ff5e447761a13980956c06c0645c40"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">analyze</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory3addENSt10shared_ptrI7AnalyzeEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add an <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> object. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst14AnalyzeFactory6removeEKi">
-<span class="target" id="classfeasst_1_1AnalyzeFactory_1a1b9dec21872bc96453191dda8da2587b"></span>void <code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory6removeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14AnalyzeFactory6removeEKi">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1a1b9dec21872bc96453191dda8da2587b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory6removeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Remove an <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> object. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst14AnalyzeFactory3numEv">
-<span class="target" id="classfeasst_1_1AnalyzeFactory_1a03426fb455050c9896005f935600bb1a"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14AnalyzeFactory3numEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst14AnalyzeFactory3numEv">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1a03426fb455050c9896005f935600bb1a"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst14AnalyzeFactory3numEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst14AnalyzeFactory9analyzersEv">
-<span class="target" id="classfeasst_1_1AnalyzeFactory_1ac1adea788af025ab040d8540cc8a7a65"></span><em class="property">const</em> std::vector&lt;std::shared_ptr&lt;<a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a>&gt;&gt; &amp;<code class="sig-name descname">analyzers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14AnalyzeFactory9analyzersEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst14AnalyzeFactory9analyzersEv">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1ac1adea788af025ab040d8540cc8a7a65"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">analyzers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst14AnalyzeFactory9analyzersEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> objects. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst14AnalyzeFactory7analyzeEKi">
-<span class="target" id="classfeasst_1_1AnalyzeFactory_1af5334a8a4ac1acd971e812c7d617b4df"></span><em class="property">const</em> <a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a> &amp;<code class="sig-name descname">analyze</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14AnalyzeFactory7analyzeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst14AnalyzeFactory7analyzeEKi">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1af5334a8a4ac1acd971e812c7d617b4df"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">analyze</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst14AnalyzeFactory7analyzeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return an <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> object by index. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst14AnalyzeFactory13write_to_fileERK8CriteriaRK6SystemRK12TrialFactory">
-<span class="target" id="classfeasst_1_1AnalyzeFactory_1a2a54115e701dd9a227eab7e60a3851e7"></span>void <code class="sig-name descname">write_to_file</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> &amp;<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory13write_to_fileERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14AnalyzeFactory13write_to_fileERK8CriteriaRK6SystemRK12TrialFactory">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1a2a54115e701dd9a227eab7e60a3851e7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_to_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory13write_to_fileERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Write all <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> immediately. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst14AnalyzeFactory13adjust_boundsEKbRKNSt6vectorIiEEP14AnalyzeFactory">
-<span class="target" id="classfeasst_1_1AnalyzeFactory_1ac3c3e5980292273023883724d3aaa238"></span>void <code class="sig-name descname">adjust_bounds</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>adjusted_up</em>, <em class="property">const</em> std::vector&lt;int&gt; &amp;<em>states</em>, <a class="reference internal" href="#_CPPv4N6feasst14AnalyzeFactoryE" title="feasst::AnalyzeFactory">AnalyzeFactory</a> *<em>analyze_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory13adjust_boundsEKbRKNSt6vectorIiEEP14AnalyzeFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14AnalyzeFactory13adjust_boundsEKbRKNSt6vectorIiEEP14AnalyzeFactory">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1ac3c3e5980292273023883724d3aaa238"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">adjust_bounds</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">adjusted_up</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">states</span></span>, <a class="reference internal" href="#_CPPv4N6feasst14AnalyzeFactoryE" title="feasst::AnalyzeFactory"><span class="n"><span class="pre">AnalyzeFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">analyze_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory13adjust_boundsEKbRKNSt6vectorIiEEP14AnalyzeFactory" title="Permalink to this definition"></a><br /></dt>
 <dd><p>For use with <a class="reference internal" href="../../flat_histogram/doc/CollectionMatrixSplice.html#classfeasst_1_1CollectionMatrixSplice"><span class="std std-ref">CollectionMatrixSplice</span></a>, transfer multistate between threads. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst14AnalyzeFactory5trialERK8CriteriaRK6SystemRK12TrialFactory">
-<span class="target" id="classfeasst_1_1AnalyzeFactory_1a8b2f8987b0c5f0074b13e971bacf2308"></span>void <code class="sig-name descname">trial</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> &amp;<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory5trialERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14AnalyzeFactory5trialERK8CriteriaRK6SystemRK12TrialFactory">
+<span class="target" id="classfeasst_1_1AnalyzeFactory_1a8b2f8987b0c5f0074b13e971bacf2308"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">trial</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14AnalyzeFactory5trialERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> every trial if action is to be performed. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="Modify.html" class="btn btn-neutral float-right" title="Modify" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Analyze.html" class="btn btn-neutral float-left" title="Analyze" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Modify.html" class="btn btn-neutral float-right" title="Modify" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -486,22 +421,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

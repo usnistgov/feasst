@@ -1,54 +1,31 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>CollectionMatrix &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>CollectionMatrix &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Bias" href="Bias.html" />
-    <link rel="prev" title="LnProbability" href="LnProbability.html" />
+    <link rel="prev" title="WindowCustom" href="WindowCustom.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -119,22 +72,22 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
 </li>
 </ul>
@@ -164,28 +117,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -251,7 +193,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -276,11 +218,11 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="collectionmatrix">
-<h1>CollectionMatrix<a class="headerlink" href="#collectionmatrix" title="Permalink to this headline">¶</a></h1>
+<section id="collectionmatrix">
+<h1>CollectionMatrix<a class="headerlink" href="#collectionmatrix" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst16CollectionMatrixE">
-<span class="target" id="classfeasst_1_1CollectionMatrix"></span><em class="property">class </em><code class="sig-name descname">CollectionMatrix</code><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrixE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst16CollectionMatrixE">
+<span class="target" id="classfeasst_1_1CollectionMatrix"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CollectionMatrix</span></span></span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrixE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The collection matrix is triple banded when the macrostate can only increase or decrease by a single “bin” in the macrostate order parameter. For example, one cannot use a triple banded collection matrix if insertions of both single and pairs of particles are attempted. Single or pair only would be fine.</p>
 <p>The collection matrix was slightly reformulated to not require the middle band by making the elements intensive. Thus, instead of storing C0, C1 and C2, we store P_down=C0/(C0+C1+C2) and P_up=C2/(C0+C1+C2). Note that C0+C1+C2 is simply the number of trials starting from that macrostate. Thus, this new, intensive collection matrix is now double banded.</p>
 <p>The first index of the matrix is the macrostate. The second is the state change as follows:<ul class="simple">
@@ -289,10 +231,10 @@
 </ul>
 </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16CollectionMatrix16CollectionMatrixE7argtype">
-<span class="target" id="classfeasst_1_1CollectionMatrix_1a6376792de425e30cc95b43a66fab1c6f"></span><code class="sig-name descname">CollectionMatrix</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix16CollectionMatrixE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst16CollectionMatrix16CollectionMatrixE7argtype">
+<span class="target" id="classfeasst_1_1CollectionMatrix_1a6376792de425e30cc95b43a66fab1c6f"></span><span class="sig-name descname"><span class="n"><span class="pre">CollectionMatrix</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix16CollectionMatrixE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>delta_ln_prob_guess: if the <a class="reference internal" href="#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> lacks transitions to compute a delta_ln_prob, use this value instead (default: 0). This guess can affect the initial convergence. When a simulation starts at low macrostate, a negative number encourages acceptance of macrostates that have not yet been visited. And for high macrostate, a positive number may help. If the value is too large, a very low probability trial may be accepted, creating a large free energy difference that will make it difficult to sample the reverse transition. If a simulation appears “stuck” in a subset of the macrostate range, then the guess may be too large.</p></li>
 <li><p>visits_per_delta_ln_prob_boost: In the case where a guess is needed, if “n” attempts to increase the macrostate, decrease delta_ln_prob_guess by 0.01 per “n”. Alternatively, if “n” attempts to decrease macrostate, increase delta_ln_prob_guess by 0.01 per “n”. If visits_per_delta_ln_prob_boost is -1, do nothing (default: -1).</p></li>
@@ -302,78 +244,69 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorI11AccumulatorEEEE">
-<span class="target" id="classfeasst_1_1CollectionMatrix_1a6c695cbb5456a6632a1d314c0fea1f03"></span><code class="sig-name descname">CollectionMatrix</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a>&gt;&gt; &amp;<em>matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorI11AccumulatorEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorI11AccumulatorEEEE">
+<span class="target" id="classfeasst_1_1CollectionMatrix_1a6c695cbb5456a6632a1d314c0fea1f03"></span><span class="sig-name descname"><span class="n"><span class="pre">CollectionMatrix</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">matrix</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorI11AccumulatorEEEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Construct from a matrix. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorINSt6vectorI11AccumulatorEEEEEE">
-<span class="target" id="classfeasst_1_1CollectionMatrix_1a172bfd95da8f4970e07da1c8ebcd96ae"></span><code class="sig-name descname">CollectionMatrix</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a>&gt;&gt;&gt; &amp;<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorINSt6vectorI11AccumulatorEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorINSt6vectorI11AccumulatorEEEEEE">
+<span class="target" id="classfeasst_1_1CollectionMatrix_1a172bfd95da8f4970e07da1c8ebcd96ae"></span><span class="sig-name descname"><span class="n"><span class="pre">CollectionMatrix</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorINSt6vectorI11AccumulatorEEEEEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Construct from a series of single-state collection matricies. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16CollectionMatrix9incrementEKiKiKd">
-<span class="target" id="classfeasst_1_1CollectionMatrix_1a532747184014e4fe730ca2507887e87e"></span>void <code class="sig-name descname">increment</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macro</em>, <em class="property">const</em> int <em>state_change</em>, <em class="property">const</em> double <em>add</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix9incrementEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst16CollectionMatrix9incrementEKiKiKd">
+<span class="target" id="classfeasst_1_1CollectionMatrix_1a532747184014e4fe730ca2507887e87e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">increment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">macro</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">state_change</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">add</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix9incrementEKiKiKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add value for a given macrostate and state change. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst16CollectionMatrix3setEKiRKNSt6vectorI11AccumulatorEE">
-<span class="target" id="classfeasst_1_1CollectionMatrix_1a624eefd7d05182a944c1efdae4605f7a"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macro</em>, <em class="property">const</em> std::vector&lt;<a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a>&gt; &amp;<em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix3setEKiRKNSt6vectorI11AccumulatorEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst16CollectionMatrix3setEKiRKNSt6vectorI11AccumulatorEE">
+<span class="target" id="classfeasst_1_1CollectionMatrix_1a624eefd7d05182a944c1efdae4605f7a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">macro</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16CollectionMatrix3setEKiRKNSt6vectorI11AccumulatorEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set values. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst16CollectionMatrix15compute_ln_probEP13LnProbabilityKi">
-<span class="target" id="classfeasst_1_1CollectionMatrix_1a97721428f44e3ad5971392cb45273ea9"></span>void <code class="sig-name descname">compute_ln_prob</code><span class="sig-paren">(</span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> *<em>ln_prob</em>, <em class="property">const</em> int <em>block</em> = -1<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16CollectionMatrix15compute_ln_probEP13LnProbabilityKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst16CollectionMatrix15compute_ln_probEP13LnProbabilityKi">
+<span class="target" id="classfeasst_1_1CollectionMatrix_1a97721428f44e3ad5971392cb45273ea9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_ln_prob</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability"><span class="n"><span class="pre">LnProbability</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">ln_prob</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">block</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16CollectionMatrix15compute_ln_probEP13LnProbabilityKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Update the ln_prob according to the collection matrix. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">block</span></code>: optionaly compute the ln_prob from a block (if != -1). </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param block<span class="colon">:</span></dt>
+<dd class="field-odd"><p>optionaly compute the ln_prob from a block (if != -1). </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst16CollectionMatrix6matrixEv">
-<span class="target" id="classfeasst_1_1CollectionMatrix_1a564a82f8cadf1b572962ae5589a18bc2"></span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a>&gt;&gt; &amp;<code class="sig-name descname">matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16CollectionMatrix6matrixEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst16CollectionMatrix6matrixEv">
+<span class="target" id="classfeasst_1_1CollectionMatrix_1a564a82f8cadf1b572962ae5589a18bc2"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">matrix</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16CollectionMatrix6matrixEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the matrix. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="WindowCustom.html" class="btn btn-neutral float-left" title="WindowCustom" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Bias.html" class="btn btn-neutral float-right" title="Bias" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="LnProbability.html" class="btn btn-neutral float-left" title="LnProbability" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -458,22 +391,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

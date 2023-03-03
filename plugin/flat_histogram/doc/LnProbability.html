@@ -1,54 +1,31 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>LnProbability &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>LnProbability &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="CollectionMatrix" href="CollectionMatrix.html" />
-    <link rel="prev" title="WindowExponential" href="WindowExponential.html" />
+    <link rel="next" title="Window" href="Window.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="toc.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -119,22 +72,22 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">LnProbability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
 </li>
 </ul>
@@ -164,28 +117,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -251,7 +193,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -276,162 +218,151 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="lnprobability">
-<h1>LnProbability<a class="headerlink" href="#lnprobability" title="Permalink to this headline">¶</a></h1>
+<section id="lnprobability">
+<h1>LnProbability<a class="headerlink" href="#lnprobability" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst13LnProbabilityE">
-<span class="target" id="classfeasst_1_1LnProbability"></span><em class="property">class </em><code class="sig-name descname">LnProbability</code><a class="headerlink" href="#_CPPv4N6feasst13LnProbabilityE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13LnProbabilityE">
+<span class="target" id="classfeasst_1_1LnProbability"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LnProbability</span></span></span><a class="headerlink" href="#_CPPv4N6feasst13LnProbabilityE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Natural logarithm of a probability distribution. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13LnProbability13LnProbabilityERKNSt6vectorIdEE">
-<span class="target" id="classfeasst_1_1LnProbability_1aa1c1cf265edf318c5a5ef25caad97e87"></span><code class="sig-name descname">LnProbability</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability13LnProbabilityERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13LnProbability13LnProbabilityERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1LnProbability_1aa1c1cf265edf318c5a5ef25caad97e87"></span><span class="sig-name descname"><span class="n"><span class="pre">LnProbability</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability13LnProbabilityERKNSt6vectorIdEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Construct with given values. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability5valueEKi">
-<span class="target" id="classfeasst_1_1LnProbability_1a5e687583d3773d19a5545da8713fe5c5"></span>double <code class="sig-name descname">value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability5valueEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability5valueEKi">
+<span class="target" id="classfeasst_1_1LnProbability_1a5e687583d3773d19a5545da8713fe5c5"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bin</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability5valueEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the value of the bin. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability5deltaEKi">
-<span class="target" id="classfeasst_1_1LnProbability_1a8042af85edab697396f406601fcaacd0"></span>double <code class="sig-name descname">delta</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability5deltaEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability5deltaEKi">
+<span class="target" id="classfeasst_1_1LnProbability_1a8042af85edab697396f406601fcaacd0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delta</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bin</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability5deltaEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the difference of the logarithm of the probability distribution from its lower next value. Return ‘NaN’ if bin is zero. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13LnProbability9set_valueEKiKd">
-<span class="target" id="classfeasst_1_1LnProbability_1a3444827fb29ea4edff41abb46db1f8db"></span>void <code class="sig-name descname">set_value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability9set_valueEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13LnProbability9set_valueEKiKd">
+<span class="target" id="classfeasst_1_1LnProbability_1a3444827fb29ea4edff41abb46db1f8db"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_value</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bin</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability9set_valueEKiKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the value of the bin. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13LnProbability3addEKiKd">
-<span class="target" id="classfeasst_1_1LnProbability_1ae489e85bf9e5f063423e051a722cd469"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin</em>, <em class="property">const</em> double <em>value_to_add</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability3addEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13LnProbability3addEKiKd">
+<span class="target" id="classfeasst_1_1LnProbability_1ae489e85bf9e5f063423e051a722cd469"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bin</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_to_add</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability3addEKiKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add to the value of the bin. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13LnProbability6resizeEKi">
-<span class="target" id="classfeasst_1_1LnProbability_1ae5a8680a0367bc2bf7c30386e5a25eb2"></span>void <code class="sig-name descname">resize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability6resizeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13LnProbability6resizeEKi">
+<span class="target" id="classfeasst_1_1LnProbability_1ae5a8680a0367bc2bf7c30386e5a25eb2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability6resizeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the number of macrostates. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability6valuesEv">
-<span class="target" id="classfeasst_1_1LnProbability_1a3e450a7e87abb84eddfa83a6fd21de26"></span><em class="property">const</em> std::vector&lt;double&gt; <code class="sig-name descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability6valuesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability6valuesEv">
+<span class="target" id="classfeasst_1_1LnProbability_1a3e450a7e87abb84eddfa83a6fd21de26"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">values</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability6valuesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the values. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability12delta_valuesEv">
-<span class="target" id="classfeasst_1_1LnProbability_1a4e301f29dd62381d2f43ddbdbb504483"></span>std::vector&lt;double&gt; <code class="sig-name descname">delta_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability12delta_valuesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability12delta_valuesEv">
+<span class="target" id="classfeasst_1_1LnProbability_1a4e301f29dd62381d2f43ddbdbb504483"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delta_values</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability12delta_valuesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the delta values. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability4sizeEv">
-<span class="target" id="classfeasst_1_1LnProbability_1a4647791d612dd7e33115e67df1973dc8"></span>int <code class="sig-name descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability4sizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability4sizeEv">
+<span class="target" id="classfeasst_1_1LnProbability_1a4647791d612dd7e33115e67df1973dc8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability4sizeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the size of the distribution. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability15sum_probabilityEKiKi">
-<span class="target" id="classfeasst_1_1LnProbability_1a10bb923ee6f9cf54c80d5e08cd2a49a2"></span>double <code class="sig-name descname">sum_probability</code><span class="sig-paren">(</span><em class="property">const</em> int <em>min</em>, <em class="property">const</em> int <em>max</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability15sum_probabilityEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability15sum_probabilityEKiKi">
+<span class="target" id="classfeasst_1_1LnProbability_1a10bb923ee6f9cf54c80d5e08cd2a49a2"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_probability</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability15sum_probabilityEKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the sum of the probability from min to max indices. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability15sum_probabilityEv">
-<span class="target" id="classfeasst_1_1LnProbability_1a341c60d9a382da30f20c61036907b463"></span>double <code class="sig-name descname">sum_probability</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability15sum_probabilityEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability15sum_probabilityEv">
+<span class="target" id="classfeasst_1_1LnProbability_1a341c60d9a382da30f20c61036907b463"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_probability</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability15sum_probabilityEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the sum of the probability of all values. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13LnProbability9normalizeEv">
-<span class="target" id="classfeasst_1_1LnProbability_1a69d15726e1df69f34128396c5a34814c"></span>void <code class="sig-name descname">normalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability9normalizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13LnProbability9normalizeEv">
+<span class="target" id="classfeasst_1_1LnProbability_1a69d15726e1df69f34128396c5a34814c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">normalize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13LnProbability9normalizeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Normalize such that the sum of the probability is unity. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability6minimaEKi">
-<span class="target" id="classfeasst_1_1LnProbability_1a56fa2d7c566c90cd2fbddc2c5e20ec01"></span>std::vector&lt;int&gt; <code class="sig-name descname">minima</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num_smooth</em> = 10<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability6minimaEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability6minimaEKi">
+<span class="target" id="classfeasst_1_1LnProbability_1a56fa2d7c566c90cd2fbddc2c5e20ec01"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">minima</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_smooth</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">10</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability6minimaEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the local minimum indices which are canditates for phase boundary. The returned indices must be global minimum between +/- num_smooth. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability21equilibrium_objectiveEKi">
-<span class="target" id="classfeasst_1_1LnProbability_1a5a1a2f4e169ee8a389407b995dfe4a24"></span>double <code class="sig-name descname">equilibrium_objective</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num_smooth</em> = 10<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability21equilibrium_objectiveEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">num_smooth</span></code>: Number of macrostates which define ‘local’ region for finding the minimum. </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability21equilibrium_objectiveEKi">
+<span class="target" id="classfeasst_1_1LnProbability_1a5a1a2f4e169ee8a389407b995dfe4a24"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">equilibrium_objective</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_smooth</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">10</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability21equilibrium_objectiveEKi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the objective function to minimize in order to obtain equilibrium between phases. If no phase boundaries, return the squared difference between the minimum and maximum values. If more than one, no current implementation. If exactly one, use objective function below. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param num_smooth<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of macrostates which define ‘local’ region for finding the minimum. </p>
 </dd>
 </dl>
-</p>
-<p>Return the objective function to minimize in order to obtain equilibrium between phases. If no phase boundaries, return the squared difference between the minimum and maximum values. If more than one, no current implementation. If exactly one, use objective function below. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability30equilibrium_objective_boundaryEi">
-<span class="target" id="classfeasst_1_1LnProbability_1a13e1ba9f2897a5fe04c033c80aab7990"></span>double <code class="sig-name descname">equilibrium_objective_boundary</code><span class="sig-paren">(</span>int <em>phase_boundary</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability30equilibrium_objective_boundaryEi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">phase_boundary</span></code>: Index which is the boundary between phases. The exact index value is included in the second phase. </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability30equilibrium_objective_boundaryEi">
+<span class="target" id="classfeasst_1_1LnProbability_1a13e1ba9f2897a5fe04c033c80aab7990"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">equilibrium_objective_boundary</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">phase_boundary</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability30equilibrium_objective_boundaryEi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the objective function to minimize in order to obtain equilibrium between phases. The objective is the squared difference between the natural logs of the probabilities of the two phases. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param phase_boundary<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Index which is the boundary between phases. The exact index value is included in the second phase. </p>
 </dd>
 </dl>
-</p>
-<p>Return the objective function to minimize in order to obtain equilibrium between phases. The objective is the squared difference between the natural logs of the probabilities of the two phases. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability6reduceEKiKi">
-<span class="target" id="classfeasst_1_1LnProbability_1a0c6d5cb06693dbb30d4aab31c61aee55"></span><a class="reference internal" href="#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> <code class="sig-name descname">reduce</code><span class="sig-paren">(</span><em class="property">const</em> int <em>keep_every</em>, <em class="property">const</em> int <em>start</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability6reduceEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13LnProbability6reduceEKiKi">
+<span class="target" id="classfeasst_1_1LnProbability_1a0c6d5cb06693dbb30d4aab31c61aee55"></span><a class="reference internal" href="#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability"><span class="n"><span class="pre">LnProbability</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reduce</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">keep_every</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">start</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability6reduceEKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a reduced lnpi by keeping every this many macrostates. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">keep_every</span></code>: for keep_every == 2, return macrostates 0, 2, 4, 6… </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">start</span></code>: start from this value (default: 0). If negative, increment by keep_every </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param keep_every<span class="colon">:</span></dt>
+<dd class="field-odd"><p>for keep_every == 2, return macrostates 0, 2, 4, 6… </p>
+</dd>
+<dt class="field-even">param start<span class="colon">:</span></dt>
+<dd class="field-even"><p>start from this value (default: 0). If negative, increment by keep_every </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="CollectionMatrix.html" class="btn btn-neutral float-right" title="CollectionMatrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="WindowExponential.html" class="btn btn-neutral float-left" title="WindowExponential" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="toc.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Window.html" class="btn btn-neutral float-right" title="Window" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -516,22 +447,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

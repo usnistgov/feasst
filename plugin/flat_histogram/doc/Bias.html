@@ -1,50 +1,27 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Bias &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>Bias &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="TransitionMatrix" href="TransitionMatrix.html" />
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -119,22 +72,22 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
 </ul>
 </li>
 </ul>
@@ -164,28 +117,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -251,7 +193,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -276,99 +218,92 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="bias">
-<h1>Bias<a class="headerlink" href="#bias" title="Permalink to this headline">¶</a></h1>
+<section id="bias">
+<h1>Bias<a class="headerlink" href="#bias" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst4BiasE">
-<span class="target" id="classfeasst_1_1Bias"></span><em class="property">class </em><code class="sig-name descname">Bias</code><a class="headerlink" href="#_CPPv4N6feasst4BiasE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst4BiasE">
+<span class="target" id="classfeasst_1_1Bias"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Bias</span></span></span><a class="headerlink" href="#_CPPv4N6feasst4BiasE" title="Permalink to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a> for flat histogram Monte Carlo. Assumes a one-dimensional macrostate. </p>
-<p>Subclassed by <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">feasst::TransitionMatrix</span></a>, <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">feasst::WangLandau</span></a>, <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">feasst::WLTM</span></a></p>
+<p>Subclassed by <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">feasst::TransitionMatrix</span></a>, <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">feasst::WLTM</span></a>, <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">feasst::WangLandau</span></a></p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst4Bias7ln_biasEKiKi">
-<span class="target" id="classfeasst_1_1Bias_1a6c6c07141284d4fd40f89432fd86c2d3"></span>double <code class="sig-name descname">ln_bias</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin_new</em>, <em class="property">const</em> int <em>bin_old</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Bias7ln_biasEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst4Bias7ln_biasEKiKi">
+<span class="target" id="classfeasst_1_1Bias_1a6c6c07141284d4fd40f89432fd86c2d3"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ln_bias</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bin_new</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bin_old</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst4Bias7ln_biasEKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the natural log of the bias for a transition from a macrostate in the old bin to a new bin. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4Bias6updateEKiKiKdKbKbRK10Macrostate">
-<span class="target" id="classfeasst_1_1Bias_1af727feb866cdaf9142b923cc8a62805d"></span><em class="property">virtual</em> void <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em>, <em class="property">const</em> bool <em>is_endpoint</em>, <em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> &amp;<em>macro</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias6updateEKiKiKdKbKbRK10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst4Bias6updateEKiKiKdKbKbRK10Macrostate">
+<span class="target" id="classfeasst_1_1Bias_1af727feb866cdaf9142b923cc8a62805d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">macrostate_old</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">macrostate_new</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ln_metropolis_prob</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">is_accepted</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">is_endpoint</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><span class="n"><span class="pre">Macrostate</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">macro</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6feasst4Bias6updateEKiKiKdKbKbRK10Macrostate" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Update only. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4Bias17infrequent_updateERK10Macrostate">
-<span class="target" id="classfeasst_1_1Bias_1ad5b82aab88de3fc84942d8b53ddd7780"></span><em class="property">virtual</em> void <code class="sig-name descname">infrequent_update</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> &amp;<em>macro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias17infrequent_updateERK10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst4Bias17infrequent_updateERK10Macrostate">
+<span class="target" id="classfeasst_1_1Bias_1ad5b82aab88de3fc84942d8b53ddd7780"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">infrequent_update</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><span class="n"><span class="pre">Macrostate</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">macro</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias17infrequent_updateERK10Macrostate" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Perform an infrequent update to the bias. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst4Bias7ln_probEv">
-<span class="target" id="classfeasst_1_1Bias_1a476a2850e2816dd1ccbaa7e8e4ea1f40"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> &amp;<code class="sig-name descname">ln_prob</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst4Bias7ln_probEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst4Bias7ln_probEv">
+<span class="target" id="classfeasst_1_1Bias_1a476a2850e2816dd1ccbaa7e8e4ea1f40"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability"><span class="n"><span class="pre">LnProbability</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">ln_prob</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6feasst4Bias7ln_probEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The natural log of the macrostate probability. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4Bias11set_ln_probERK13LnProbability">
-<span class="target" id="classfeasst_1_1Bias_1ae49aa183a9adf4c57f13e7287b4e328a"></span><em class="property">virtual</em> void <code class="sig-name descname">set_ln_prob</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> &amp;<em>ln_prob</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias11set_ln_probERK13LnProbability" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst4Bias11set_ln_probERK13LnProbability">
+<span class="target" id="classfeasst_1_1Bias_1ae49aa183a9adf4c57f13e7287b4e328a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_ln_prob</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability"><span class="n"><span class="pre">LnProbability</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ln_prob</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6feasst4Bias11set_ln_probERK13LnProbability" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the macrostate probability distribution. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst4Bias5phaseEv">
-<span class="target" id="classfeasst_1_1Bias_1a69147e97d93d0ff601e2cd5dd62226c1"></span><em class="property">virtual</em> int <code class="sig-name descname">phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Bias5phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst4Bias5phaseEv">
+<span class="target" id="classfeasst_1_1Bias_1a69147e97d93d0ff601e2cd5dd62226c1"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">phase</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst4Bias5phaseEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the simulation phase index used to differentiate production and initialization, etc. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4Bias15increment_phaseEv">
-<span class="target" id="classfeasst_1_1Bias_1a77ab6b0c28b6c937018365571e6e5ba8"></span><em class="property">virtual</em> void <code class="sig-name descname">increment_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias15increment_phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst4Bias15increment_phaseEv">
+<span class="target" id="classfeasst_1_1Bias_1a77ab6b0c28b6c937018365571e6e5ba8"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">increment_phase</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias15increment_phaseEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Increment the simulation phase. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst4Bias26num_iterations_to_completeEv">
-<span class="target" id="classfeasst_1_1Bias_1a6d03104cf70eca99b6af9498ce0fd3ff"></span><em class="property">virtual</em> int <code class="sig-name descname">num_iterations_to_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst4Bias26num_iterations_to_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst4Bias26num_iterations_to_completeEv">
+<span class="target" id="classfeasst_1_1Bias_1a6d03104cf70eca99b6af9498ce0fd3ff"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_iterations_to_complete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6feasst4Bias26num_iterations_to_completeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of iterations required for completion. In <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> and <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, this is the minimum number of sweeps. In <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, this is the minimum number of flatness checks. Afterward, check again for completeness. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst4Bias30set_num_iterations_to_completeEKi">
-<span class="target" id="classfeasst_1_1Bias_1a3a3ee3e0be0a1bf1b96ee7e06b7ecfe7"></span><em class="property">virtual</em> void <code class="sig-name descname">set_num_iterations_to_complete</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iteration</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias30set_num_iterations_to_completeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst4Bias30set_num_iterations_to_completeEKi">
+<span class="target" id="classfeasst_1_1Bias_1a3a3ee3e0be0a1bf1b96ee7e06b7ecfe7"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_num_iterations_to_complete</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iteration</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6feasst4Bias30set_num_iterations_to_completeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the number of iterations required for completion. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="TransitionMatrix.html" class="btn btn-neutral float-right" title="TransitionMatrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="CollectionMatrix.html" class="btn btn-neutral float-left" title="CollectionMatrix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TransitionMatrix.html" class="btn btn-neutral float-right" title="TransitionMatrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -453,22 +388,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

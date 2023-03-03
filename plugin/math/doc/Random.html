@@ -1,54 +1,31 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Random &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>Random &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="RandomModulo" href="RandomModulo.html" />
-    <link rel="prev" title="Position" href="Position.html" />
+    <link rel="next" title="RandomMT19937" href="RandomMT19937.html" />
+    <link rel="prev" title="Euler" href="Euler.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -109,27 +62,27 @@
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html">math/include/utils_math</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Random</a></li>
-<li class="toctree-l3"><a class="reference internal" href="RandomModulo.html">RandomModulo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Euler.html">Euler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Solver.html">Solver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBisection.html">SolverBisection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBrentDekker.html">SolverBrentDekker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Euler.html">Euler</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RandomModulo.html">RandomModulo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -166,28 +119,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -253,7 +195,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -278,18 +220,18 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="random">
-<h1>Random<a class="headerlink" href="#random" title="Permalink to this headline">¶</a></h1>
+<section id="random">
+<h1>Random<a class="headerlink" href="#random" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst6RandomE">
-<span class="target" id="classfeasst_1_1Random"></span><em class="property">class </em><code class="sig-name descname">Random</code><a class="headerlink" href="#_CPPv4N6feasst6RandomE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6RandomE">
+<span class="target" id="classfeasst_1_1Random"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Random</span></span></span><a class="headerlink" href="#_CPPv4N6feasst6RandomE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Psuedo random number generator class. Note that all other <a class="reference internal" href="#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> distributions depend upon the uniform distribution, such that reproduction by storage is simplified. </p>
-<p>Subclassed by <a class="reference internal" href="RandomModulo.html#classfeasst_1_1RandomModulo"><span class="std std-ref">feasst::RandomModulo</span></a>, <a class="reference internal" href="RandomMT19937.html#classfeasst_1_1RandomMT19937"><span class="std std-ref">feasst::RandomMT19937</span></a></p>
+<p>Subclassed by <a class="reference internal" href="RandomMT19937.html#classfeasst_1_1RandomMT19937"><span class="std std-ref">feasst::RandomMT19937</span></a>, <a class="reference internal" href="RandomModulo.html#classfeasst_1_1RandomModulo"><span class="std std-ref">feasst::RandomModulo</span></a></p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random6RandomEP7argtype">
-<span class="target" id="classfeasst_1_1Random_1a65b5d8d3631c56575563f7a58ab4b284"></span><code class="sig-name descname">Random</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random6RandomEP7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random6RandomEP7argtype">
+<span class="target" id="classfeasst_1_1Random_1a65b5d8d3631c56575563f7a58ab4b284"></span><span class="sig-name descname"><span class="n"><span class="pre">Random</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random6RandomEP7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>seed : Provide an integer to seed the random number generator. If the string “time” is provided, then use the time and date to generate the seed. If no seed is provided, but random numbers are requested, then the time will be used to generate a seed. If the string “default” is provided, then use the default integer included in <a class="reference internal" href="#classfeasst_1_1Random_1ac7e8720b7d4e06c2464b29909edab500"><span class="std std-ref">Random::seed()</span></a>. </p></li>
 </ul>
@@ -297,220 +239,207 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random12seed_by_timeEv">
-<span class="target" id="classfeasst_1_1Random_1ad43c2a83f0cb051be1c0d15d7e09c200"></span>void <code class="sig-name descname">seed_by_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random12seed_by_timeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random12seed_by_timeEv">
+<span class="target" id="classfeasst_1_1Random_1ad43c2a83f0cb051be1c0d15d7e09c200"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">seed_by_time</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random12seed_by_timeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Generate seed from time and date. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random4seedEKi">
-<span class="target" id="classfeasst_1_1Random_1ac7e8720b7d4e06c2464b29909edab500"></span>void <code class="sig-name descname">seed</code><span class="sig-paren">(</span><em class="property">const</em> int <em>seed</em> = 1346867550<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random4seedEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random4seedEKi">
+<span class="target" id="classfeasst_1_1Random_1ac7e8720b7d4e06c2464b29909edab500"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">seed</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1346867550</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random4seedEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Input seed by value for reproducibility. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random7uniformEv">
-<span class="target" id="classfeasst_1_1Random_1a105252bb16e436ff4b664e796fac2f14"></span>double <code class="sig-name descname">uniform</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random7uniformEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random7uniformEv">
+<span class="target" id="classfeasst_1_1Random_1a105252bb16e436ff4b664e796fac2f14"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uniform</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random7uniformEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a random real number with a uniform probability distribution between 0 and 1. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random7uniformEKiKi">
-<span class="target" id="classfeasst_1_1Random_1af7452ac243dcfe25af4400221371aa86"></span>int <code class="sig-name descname">uniform</code><span class="sig-paren">(</span><em class="property">const</em> int <em>min</em>, <em class="property">const</em> int <em>max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random7uniformEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random7uniformEKiKi">
+<span class="target" id="classfeasst_1_1Random_1af7452ac243dcfe25af4400221371aa86"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uniform</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random7uniformEKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a random integer with a uniform probability distribution betwee min and max. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random9coin_flipEv">
-<span class="target" id="classfeasst_1_1Random_1a7fe740878adba0288d9acd22e403cc1a"></span>bool <code class="sig-name descname">coin_flip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random9coin_flipEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random9coin_flipEv">
+<span class="target" id="classfeasst_1_1Random_1a7fe740878adba0288d9acd22e403cc1a"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">coin_flip</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random9coin_flipEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Randomly return true or false. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random12uniform_realEKdKd">
-<span class="target" id="classfeasst_1_1Random_1ad14d7b188cd13e7105a6f280c64e779f"></span>double <code class="sig-name descname">uniform_real</code><span class="sig-paren">(</span><em class="property">const</em> double <em>min</em>, <em class="property">const</em> double <em>max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random12uniform_realEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random12uniform_realEKdKd">
+<span class="target" id="classfeasst_1_1Random_1ad14d7b188cd13e7105a6f280c64e779f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uniform_real</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random12uniform_realEKdKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return random real number with a uniform probability distribution between min and max. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6Random5indexEKiRKNSt6vectorI1TEE">
-<span class="target" id="classfeasst_1_1Random_1ac0ea8aaf6b7fb426da5ee96b78ee5c1a"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><em class="property">const</em> int <code class="sig-name descname">index</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6Random5indexEKiRKNSt6vectorI1TEE" title="feasst::Random::index::T">T</a>&gt; &amp;<em>vector</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6Random5indexEKiRKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6Random5indexEKiRKNSt6vectorI1TEE">
+<span class="target" id="classfeasst_1_1Random_1ac0ea8aaf6b7fb426da5ee96b78ee5c1a"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6feasst6Random5indexEKiRKNSt6vectorI1TEE" title="feasst::Random::index::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vector</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6Random5indexEKiRKNSt6vectorI1TEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a random index of a vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6Random7elementEP1TPNSt6vectorI1TEEPi">
-<span class="target" id="classfeasst_1_1Random_1a361de39010d1f1ac6aea0772f9f18475"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6Random7elementEP1TPNSt6vectorI1TEEPi" title="feasst::Random::element::T">T</a> *<code class="sig-name descname">element</code><span class="sig-paren">(</span>std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6Random7elementEP1TPNSt6vectorI1TEEPi" title="feasst::Random::element::T">T</a>&gt; *<em>vector</em>, int *<em>return_index</em> = NULL<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6Random7elementEP1TPNSt6vectorI1TEEPi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6Random7elementEP1TPNSt6vectorI1TEEPi">
+<span class="target" id="classfeasst_1_1Random_1a361de39010d1f1ac6aea0772f9f18475"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><a class="reference internal" href="#_CPPv4I0EN6feasst6Random7elementEP1TPNSt6vectorI1TEEPi" title="feasst::Random::element::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">element</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6feasst6Random7elementEP1TPNSt6vectorI1TEEPi" title="feasst::Random::element::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">vector</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">return_index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6Random7elementEP1TPNSt6vectorI1TEEPi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a pointer to a random element within a vector. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">return_index</span></code>: optionally return the index associated with the element. </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param return_index<span class="colon">:</span></dt>
+<dd class="field-odd"><p>optionally return the index associated with the element. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6Random13const_elementERK1TRKNSt6vectorI1TEEPi">
-<span class="target" id="classfeasst_1_1Random_1a28f04bbcb5fdc356821e59d07370bc46"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst6Random13const_elementERK1TRKNSt6vectorI1TEEPi" title="feasst::Random::const_element::T">T</a> &amp;<code class="sig-name descname">const_element</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6Random13const_elementERK1TRKNSt6vectorI1TEEPi" title="feasst::Random::const_element::T">T</a>&gt; &amp;<em>vector</em>, int *<em>return_index</em> = NULL<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6Random13const_elementERK1TRKNSt6vectorI1TEEPi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6Random13const_elementERK1TRKNSt6vectorI1TEEPi">
+<span class="target" id="classfeasst_1_1Random_1a28f04bbcb5fdc356821e59d07370bc46"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6feasst6Random13const_elementERK1TRKNSt6vectorI1TEEPi" title="feasst::Random::const_element::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">const_element</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6feasst6Random13const_elementERK1TRKNSt6vectorI1TEEPi" title="feasst::Random::const_element::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vector</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">return_index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6Random13const_elementERK1TRKNSt6vectorI1TEEPi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a constant reference to a random element within a vector. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">return_index</span></code>: optionally return the index associated with the element. </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param return_index<span class="colon">:</span></dt>
+<dd class="field-odd"><p>optionally return the index associated with the element. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random13alpha_numericEKi">
-<span class="target" id="classfeasst_1_1Random_1a02a0ab1540b3268a25530c5b47149cc3"></span>std::string <code class="sig-name descname">alpha_numeric</code><span class="sig-paren">(</span><em class="property">const</em> int <em>length</em> = 5<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random13alpha_numericEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random13alpha_numericEKi">
+<span class="target" id="classfeasst_1_1Random_1a02a0ab1540b3268a25530c5b47149cc3"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">alpha_numeric</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">length</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random13alpha_numericEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a random alpha numeric string of given length. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random16position_in_cubeEKiKd">
-<span class="target" id="classfeasst_1_1Random_1a6b1b3333515c932e0b8217f72a9a6219"></span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <code class="sig-name descname">position_in_cube</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>length</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random16position_in_cubeEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random16position_in_cubeEKiKd">
+<span class="target" id="classfeasst_1_1Random_1a6b1b3333515c932e0b8217f72a9a6219"></span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">position_in_cube</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">length</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random16position_in_cubeEKiKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a random position within a cube of side length with the origin at the center. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random16position_in_cubeEKiKdP8Position">
-<span class="target" id="classfeasst_1_1Random_1aacc424103c001399c15c6262c5800b85"></span>void <code class="sig-name descname">position_in_cube</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>length</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random16position_in_cubeEKiKdP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random16position_in_cubeEKiKdP8Position">
+<span class="target" id="classfeasst_1_1Random_1aacc424103c001399c15c6262c5800b85"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">position_in_cube</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">length</span></span>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random16position_in_cubeEKiKdP8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Optimized version of the above, in that an existing position is modified. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random18position_in_cuboidERK8Position">
-<span class="target" id="classfeasst_1_1Random_1af3773235bb642e2243966312b1189aaf"></span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <code class="sig-name descname">position_in_cuboid</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>side_length</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random18position_in_cuboidERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random18position_in_cuboidERK8Position">
+<span class="target" id="classfeasst_1_1Random_1af3773235bb642e2243966312b1189aaf"></span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">position_in_cuboid</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">side_length</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random18position_in_cuboidERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a random position within a cuboid of side lengths with the origin at the center. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random18position_in_cuboidERK8PositionP8Position">
-<span class="target" id="classfeasst_1_1Random_1a5ddbfa4451c55f4bb0e7ae8692d776a7"></span>void <code class="sig-name descname">position_in_cuboid</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>side_length</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random18position_in_cuboidERK8PositionP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random18position_in_cuboidERK8PositionP8Position">
+<span class="target" id="classfeasst_1_1Random_1a5ddbfa4451c55f4bb0e7ae8692d776a7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">position_in_cuboid</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">side_length</span></span>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random18position_in_cuboidERK8PositionP8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Optimized version of the above, in that an existing position is modified. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random19unit_sphere_surfaceEP8Position">
-<span class="target" id="classfeasst_1_1Random_1a36cac6f5967d3096fec5eaf92bc7a3c0"></span>void <code class="sig-name descname">unit_sphere_surface</code><span class="sig-paren">(</span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random19unit_sphere_surfaceEP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random19unit_sphere_surfaceEP8Position">
+<span class="target" id="classfeasst_1_1Random_1a36cac6f5967d3096fec5eaf92bc7a3c0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unit_sphere_surface</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random19unit_sphere_surfaceEP8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> point on the surface of a unit sphere. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random27position_in_spherical_shellEKdKdP8Position">
-<span class="target" id="classfeasst_1_1Random_1a44eb84c0371949165b3e0fbcf5f973db"></span>void <code class="sig-name descname">position_in_spherical_shell</code><span class="sig-paren">(</span><em class="property">const</em> double <em>lower</em>, <em class="property">const</em> double <em>upper</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random27position_in_spherical_shellEKdKdP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random27position_in_spherical_shellEKdKdP8Position">
+<span class="target" id="classfeasst_1_1Random_1a44eb84c0371949165b3e0fbcf5f973db"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">position_in_spherical_shell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lower</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">upper</span></span>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random27position_in_spherical_shellEKdKdP8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> point in a spherical shell. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random33index_from_cumulative_probabilityERKNSt6vectorIdEE">
-<span class="target" id="classfeasst_1_1Random_1aece6470d4d85b8fbd79a022d8feccc64"></span>int <code class="sig-name descname">index_from_cumulative_probability</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>cumulative</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random33index_from_cumulative_probabilityERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random33index_from_cumulative_probabilityERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Random_1aece6470d4d85b8fbd79a022d8feccc64"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">index_from_cumulative_probability</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cumulative</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random33index_from_cumulative_probabilityERKNSt6vectorIdEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Given a cumulative probability distribution, return a random integer index from a uniform probability distribution. The cumulative distribution must be monotonically nondecreasing. In addition, it must end with the value of unity. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random10quaternionEP8Position">
-<span class="target" id="classfeasst_1_1Random_1ae4e100e7b8a1c43f052de277b5c433ed"></span>void <code class="sig-name descname">quaternion</code><span class="sig-paren">(</span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random10quaternionEP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random10quaternionEP8Position">
+<span class="target" id="classfeasst_1_1Random_1ae4e100e7b8a1c43f052de277b5c433ed"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">quaternion</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">quaternion</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random10quaternionEP8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a random quaternion using the method of: Franz J. Vesely, J. Comput. Phys., 47, 291-296 (1982). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random8rotationEKiKd">
-<span class="target" id="classfeasst_1_1Random_1a86a81bd26b7264e0c51bb78a2f84be8e"></span><a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> <code class="sig-name descname">rotation</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>tunable</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random8rotationEKiKd">
+<span class="target" id="classfeasst_1_1Random_1a86a81bd26b7264e0c51bb78a2f84be8e"></span><a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix"><span class="n"><span class="pre">RotationMatrix</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rotation</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tunable</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a random rotation matrix. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">dimension</span></code>: dimensionality of space </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">tunable</span></code>: If tunable == -1, generate a completely random rotation (default). Otherwise, In 3D, this is the relative weight of a random quaternion and a unit quaternion corresponding to no rotation. In 2D, this is the maximum rotation angle. </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param dimension<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dimensionality of space </p>
+</dd>
+<dt class="field-even">param tunable<span class="colon">:</span></dt>
+<dd class="field-even"><p>If tunable == -1, generate a completely random rotation (default). Otherwise, In 3D, this is the relative weight of a random quaternion and a unit quaternion corresponding to no rotation. In 2D, this is the maximum rotation angle. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random8rotationEKiP8PositionP14RotationMatrixKd">
-<span class="target" id="classfeasst_1_1Random_1ab65e5d7dd944879a0a065a024f0959ec"></span>void <code class="sig-name descname">rotation</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>quaternion_or_axis</em>, <a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> *<em>rot_mat</em>, <em class="property">const</em> double <em>tunable</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiP8PositionP14RotationMatrixKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random8rotationEKiP8PositionP14RotationMatrixKd">
+<span class="target" id="classfeasst_1_1Random_1ab65e5d7dd944879a0a065a024f0959ec"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rotation</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">quaternion_or_axis</span></span>, <a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix"><span class="n"><span class="pre">RotationMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">rot_mat</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tunable</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiP8PositionP14RotationMatrixKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but optimized to reuse existing axis and matrix. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">dimension</span></code>: dimensionality of space </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param dimension<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dimensionality of space </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random15standard_normalEv">
-<span class="target" id="classfeasst_1_1Random_1a7133a5722b73a190976ba94aa22ef7b2"></span><em class="property">virtual</em> double <code class="sig-name descname">standard_normal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random15standard_normalEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the normal distribution with 0 mean and unit sigma (standard). Use Box-Muller transformation. See: <a class="reference external" href="https://mathworld.wolfram.com/Box-MullerTransformation.html">https://mathworld.wolfram.com/Box-MullerTransformation.html</a> </p>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random15standard_normalEv">
+<span class="target" id="classfeasst_1_1Random_1a7133a5722b73a190976ba94aa22ef7b2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">standard_normal</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random15standard_normalEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the normal distribution with 0 mean and unit sigma (standard). Use Box-Muller transformation. See: <a class="reference external" href="https://mathworld.wolfram.com/Box-MullerTransformation.html">https://mathworld.wolfram.com/Box-MullerTransformation.html</a></p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random6normalEKdKd">
-<span class="target" id="classfeasst_1_1Random_1a8498b9b2dba918a310617f4b372b73fc"></span>double <code class="sig-name descname">normal</code><span class="sig-paren">(</span><em class="property">const</em> double <em>mean</em>, <em class="property">const</em> double <em>stdev</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random6normalEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random6normalEKdKd">
+<span class="target" id="classfeasst_1_1Random_1a8498b9b2dba918a310617f4b372b73fc"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">normal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">mean</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stdev</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random6normalEKdKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but with a given mean and standard deviation. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Random5cacheEv">
-<span class="target" id="classfeasst_1_1Random_1a8cfa3d06bbc0b6e7d15ba3030c824459"></span><em class="property">const</em> <a class="reference internal" href="../../utils/doc/Cache.html#_CPPv4N6feasst5CacheE" title="feasst::Cache">Cache</a> &amp;<code class="sig-name descname">cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Random5cacheEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Random5cacheEv">
+<span class="target" id="classfeasst_1_1Random_1a8cfa3d06bbc0b6e7d15ba3030c824459"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/Cache.html#_CPPv4N6feasst5CacheE" title="feasst::Cache"><span class="n"><span class="pre">Cache</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">cache</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Random5cacheEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the cache. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random17set_cache_to_loadEKb">
-<span class="target" id="classfeasst_1_1Random_1a136ae2d0174e9a7498a79a15af41423e"></span>void <code class="sig-name descname">set_cache_to_load</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>load</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random17set_cache_to_loadEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random17set_cache_to_loadEKb">
+<span class="target" id="classfeasst_1_1Random_1a136ae2d0174e9a7498a79a15af41423e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_cache_to_load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">load</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random17set_cache_to_loadEKb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set <a class="reference internal" href="../../utils/doc/Cache.html#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a> to load. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst6Random19set_cache_to_unloadERK6Random">
-<span class="target" id="classfeasst_1_1Random_1aaa87c79eaffcb8586482f544b94e0e9b"></span>void <code class="sig-name descname">set_cache_to_unload</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> &amp;<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random19set_cache_to_unloadERK6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random19set_cache_to_unloadERK6Random">
+<span class="target" id="classfeasst_1_1Random_1aaa87c79eaffcb8586482f544b94e0e9b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_cache_to_unload</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">random</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random19set_cache_to_unloadERK6Random" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set <a class="reference internal" href="../../utils/doc/Cache.html#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a> to unload. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Random10class_nameEv">
-<span class="target" id="classfeasst_1_1Random_1a4dd5db7cc753111f08f9a63b018069ff"></span>std::string <code class="sig-name descname">class_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Random10class_nameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Random10class_nameEv">
+<span class="target" id="classfeasst_1_1Random_1a4dd5db7cc753111f08f9a63b018069ff"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">class_name</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Random10class_nameEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Serialize. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="RandomModulo.html" class="btn btn-neutral float-right" title="RandomModulo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="Position.html" class="btn btn-neutral float-left" title="Position" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Euler.html" class="btn btn-neutral float-left" title="Euler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RandomMT19937.html" class="btn btn-neutral float-right" title="RandomMT19937" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -595,22 +524,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

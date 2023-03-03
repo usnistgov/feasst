@@ -1,50 +1,26 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>macrostate_distribution &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>macrostate_distribution &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 
@@ -61,45 +37,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
@@ -113,28 +65,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -194,7 +135,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for macrostate_distribution</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module analyzes and manipulates macrostate probability distributions generated by FEASST</span>
@@ -212,13 +153,13 @@
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
 
 <div class="viewcode-block" id="MacrostateDistribution"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution">[docs]</a><span class="k">class</span> <span class="nc">MacrostateDistribution</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Contains macrostates, the natural logarithm of the macrostate probability and other</span>
 <span class="sd">    per-macrostate quantities generated by a FEASST flat histogram simulation.</span>
 <span class="sd">    This may include canonical ensemble averages and blocks.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="MacrostateDistribution.__init__"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">macrostate_header</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">ln_prob_header</span><span class="o">=</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs all the necessary attributes for a MacrostateDistribution.</span>
 
 <span class="sd">        :param str file_name:</span>
@@ -241,7 +182,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_minimum_smoothing</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.set_dataframe"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">set_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the dataframe.</span>
 
 <span class="sd">        :param bool normalize: normalize the ln_prob after setting the dataframe.</span>
@@ -251,32 +192,32 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.concat_dataframe"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.concat_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">concat_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">add_prefix</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Concatenate dataframe (e.g., for average energy per macrostate).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Concatenate dataframe (e.g., for average energy per macrostate).&quot;&quot;&quot;</span>
         <span class="n">df2</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">add_prefix</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_dataframe</span><span class="p">,</span> <span class="n">df2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.dataframe"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the dataframe.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the dataframe.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.set_macrostates"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_macrostates">[docs]</a>    <span class="k">def</span> <span class="nf">set_macrostates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">macrostates</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the macrostates in the dataframe.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the macrostates in the dataframe.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_macrostate_header</span><span class="p">]</span> <span class="o">=</span> <span class="n">macrostates</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.macrostates"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.macrostates">[docs]</a>    <span class="k">def</span> <span class="nf">macrostates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the macrostates.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the macrostates.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_macrostate_header</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.set_ln_prob"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_ln_prob">[docs]</a>    <span class="k">def</span> <span class="nf">set_ln_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ln_prob</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the natural logarithm of the probability.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the natural logarithm of the probability.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ln_prob_header</span><span class="p">]</span> <span class="o">=</span> <span class="n">ln_prob</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.ln_prob"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.ln_prob">[docs]</a>    <span class="k">def</span> <span class="nf">ln_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the natural logarithm of the probability.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the natural logarithm of the probability.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ln_prob_header</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.set_minimum_smoothing"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_minimum_smoothing">[docs]</a>    <span class="k">def</span> <span class="nf">set_minimum_smoothing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minimum_smoothing</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        During the search for the minimum, the number of macrostates that the minimum must be</span>
 <span class="sd">        smaller than in both directions.</span>
 <span class="sd">        Increase this if the data is noisey or if there are undulations in the ln_prob.</span>
@@ -284,11 +225,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_minimum_smoothing</span> <span class="o">=</span> <span class="n">minimum_smoothing</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.minimum_smoothing"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.minimum_smoothing">[docs]</a>    <span class="k">def</span> <span class="nf">minimum_smoothing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Return the minimum smoothing.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Return the minimum smoothing.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_minimum_smoothing</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.normalize"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.normalize">[docs]</a>    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the sum of the probabilities of a series to one.</span>
 
 <span class="sd">        If no arguments provided, use the internal ln_prob.</span>
@@ -306,7 +247,7 @@
         <span class="k">return</span> <span class="n">lnpi</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.average_macrostate"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.average_macrostate">[docs]</a>    <span class="k">def</span> <span class="nf">average_macrostate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the average macrostate.</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
@@ -317,7 +258,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">macrostates</span><span class="p">())</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.ensemble_average"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.ensemble_average">[docs]</a>    <span class="k">def</span> <span class="nf">ensemble_average</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the grand canonical ensemble average of the data present in header,</span>
 <span class="sd">        for example, canonical averages.</span>
 
@@ -330,7 +271,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe</span><span class="p">[</span><span class="n">header</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.plot"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Create a matplotlib.pyplot plot of the ln_prob.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Create a matplotlib.pyplot plot of the ln_prob.&#39;&#39;&#39;</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">macrostates</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;macrostate&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\ln\Pi$&#39;</span><span class="p">)</span>
@@ -338,7 +279,7 @@
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.minimums"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.minimums">[docs]</a>    <span class="k">def</span> <span class="nf">minimums</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the minimums of the ln_prob.</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
@@ -358,7 +299,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">macrostates</span><span class="p">()[</span><span class="n">mns</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.split"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.split">[docs]</a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return two MacrostateDistribution by splitting at the last minimum in the ln_prob.</span>
 <span class="sd">        Both MacrostateDistribution will contain the minimum.</span>
 
@@ -387,7 +328,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="MacrostateDistribution.reweight"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.reweight">[docs]</a>    <span class="k">def</span> <span class="nf">reweight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta_beta_mu</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reweight the ln_prob by delta_beta_mu.</span>
 <span class="sd">        If inplace, replace current ln_prob with the reweighted ones.</span>
 
@@ -412,7 +353,7 @@
         <span class="k">return</span> <span class="n">self_rw</span></div>
 
     <span class="k">def</span> <span class="nf">_macrostate_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_macrostate</span><span class="p">,</span> <span class="n">delta_beta_mu</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return an object function to minimize in order to find delta_beta_mu that,</span>
 <span class="sd">        upon reweighting, results in an average macrostate equal to target_macrostate.</span>
 
@@ -425,7 +366,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">target_macrostate</span> <span class="o">-</span> <span class="n">lnpi_rw</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">())</span><span class="o">**</span><span class="mi">2</span>
 
 <div class="viewcode-block" id="MacrostateDistribution.reweight_to_macrostate"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.reweight_to_macrostate">[docs]</a>    <span class="k">def</span> <span class="nf">reweight_to_macrostate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_macrostate</span><span class="p">,</span> <span class="n">delta_beta_mu_guess</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reweight ln_prob and return the delta_beta_mu for an average target_macrostate.</span>
 
 <span class="sd">        :param float delta_beta_mu_guess: Provide a guess for delta_beta_mu which brings the ln_prob</span>
@@ -447,7 +388,7 @@
         <span class="k">return</span> <span class="n">delta_beta_mu_final</span></div>
 
     <span class="k">def</span> <span class="nf">_equilibrium_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta_beta_mu</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return an objective function to minimize in order to find equilibrium.</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
@@ -480,7 +421,7 @@
         <span class="k">return</span> <span class="n">return_val</span>
 
 <div class="viewcode-block" id="MacrostateDistribution.equilibrium"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.equilibrium">[docs]</a>    <span class="k">def</span> <span class="nf">equilibrium</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta_beta_mu_guess</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reweight ln_prob to equilibrium and return the delta_beta_mu of the equilibrium condition.</span>
 
 <span class="sd">        :param float delta_beta_mu_guess: Provide a guess for delta_beta_mu which brings the ln_prob</span>
@@ -505,7 +446,7 @@
         <span class="k">return</span> <span class="n">delta_beta_mu_equilibrium</span></div></div>
 
 <div class="viewcode-block" id="splice"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice">[docs]</a><span class="k">def</span> <span class="nf">splice</span><span class="p">(</span><span class="n">windows</span><span class="p">,</span> <span class="n">extra_overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a MacrostateDistribution that is spliced together from multiple MacrostateDistribution.</span>
 <span class="sd">    Each MacrostateDistribution must overlap by atleast one macrostate with its neighbor.</span>
 <span class="sd">    If macrostates overlap by more than one (extra_overlap), simply drop the</span>
@@ -552,7 +493,7 @@
     <span class="k">return</span> <span class="n">combined</span></div>
 
 <div class="viewcode-block" id="splice_files"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice_files">[docs]</a><span class="k">def</span> <span class="nf">splice_files</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">ln_prob_header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extra_overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    As above, Return a MacrostateDistribution that is spliced together.</span>
 <span class="sd">    But this time, provide the prefix and suffix of the filenames and search the files.</span>
 
@@ -575,7 +516,7 @@
     <span class="k">return</span> <span class="n">splice</span><span class="p">(</span><span class="n">lnpis</span><span class="p">,</span> <span class="n">extra_overlap</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="read_appended"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.read_appended">[docs]</a><span class="k">def</span> <span class="nf">read_appended</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">num_states</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read an appended ln_prob file, and return a list of pairs of MacrostateDistributions and</span>
 <span class="sd">    parameters from a required first line comment.</span>
 
@@ -587,8 +528,8 @@
 <span class="sd">    &gt;&gt;&gt; round(dists[10][0].ln_prob()[0], 8)</span>
 <span class="sd">    -4.68014742</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">file1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
     <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">num_states</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
     <span class="n">dists</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
@@ -599,7 +540,7 @@
     <span class="k">return</span> <span class="n">dists</span></div>
 
 <div class="viewcode-block" id="splice_collection_matrix"><a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice_collection_matrix">[docs]</a><span class="k">def</span> <span class="nf">splice_collection_matrix</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">use_soft</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Splice collection matrix of files and return a MacrostateDistribution with ln_prob computed</span>
 <span class="sd">    from the P_up and P_down matrix elements.</span>
 
@@ -642,25 +583,19 @@
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -745,22 +680,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

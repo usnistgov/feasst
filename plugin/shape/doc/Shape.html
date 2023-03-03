@@ -1,53 +1,32 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Shape &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>Shape &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="HalfSpaceTilted" href="HalfSpaceTilted.html" />
+    <link rel="next" title="ShapeUnion" href="ShapeUnion.html" />
     <link rel="prev" title="FormulaSineWave" href="FormulaSineWave.html" />
 
 	<!-- frame blocking -->
@@ -63,45 +42,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -125,18 +80,18 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="FormulaSineWave.html">FormulaSineWave</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Shape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="HalfSpaceTilted.html">HalfSpaceTilted</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Sphere.html">Sphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="HalfSpace.html">HalfSpace</a></li>
-<li class="toctree-l4"><a class="reference internal" href="HalfSpaceSine.html">HalfSpaceSine</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Cuboid.html">Cuboid</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Cylinder.html">Cylinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ShapeUnion.html">ShapeUnion</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ShapeFile.html">ShapeFile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ShapeIntersect.html">ShapeIntersect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SlabSine.html">SlabSine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FiniteCylinder.html">FiniteCylinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Slab.html">Slab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HalfSpaceTilted.html">HalfSpaceTilted</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Cylinder.html">Cylinder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ShapeFile.html">ShapeFile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Cuboid.html">Cuboid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Sphere.html">Sphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HalfSpace.html">HalfSpace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HalfSpaceSine.html">HalfSpaceSine</a></li>
 </ul>
 </li>
 </ul>
@@ -161,28 +116,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -248,7 +192,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -273,61 +217,59 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="shape">
-<h1>Shape<a class="headerlink" href="#shape" title="Permalink to this headline">¶</a></h1>
+<section id="shape">
+<h1>Shape<a class="headerlink" href="#shape" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst5ShapeE">
-<span class="target" id="classfeasst_1_1Shape"></span><em class="property">class </em><code class="sig-name descname">Shape</code><a class="headerlink" href="#_CPPv4N6feasst5ShapeE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5ShapeE">
+<span class="target" id="classfeasst_1_1Shape"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Shape</span></span></span><a class="headerlink" href="#_CPPv4N6feasst5ShapeE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Shapes may be defined by either a simple mathematical formula or an interpolated data table. </p>
 <p>Subclassed by <a class="reference internal" href="Cuboid.html#classfeasst_1_1Cuboid"><span class="std std-ref">feasst::Cuboid</span></a>, <a class="reference internal" href="Cylinder.html#classfeasst_1_1Cylinder"><span class="std std-ref">feasst::Cylinder</span></a>, <a class="reference internal" href="HalfSpace.html#classfeasst_1_1HalfSpace"><span class="std std-ref">feasst::HalfSpace</span></a>, <a class="reference internal" href="HalfSpaceTilted.html#classfeasst_1_1HalfSpaceTilted"><span class="std std-ref">feasst::HalfSpaceTilted</span></a>, <a class="reference internal" href="ShapeFile.html#classfeasst_1_1ShapeFile"><span class="std std-ref">feasst::ShapeFile</span></a>, <a class="reference internal" href="ShapeIntersect.html#classfeasst_1_1ShapeIntersect"><span class="std std-ref">feasst::ShapeIntersect</span></a>, <a class="reference internal" href="ShapeUnion.html#classfeasst_1_1ShapeUnion"><span class="std std-ref">feasst::ShapeUnion</span></a>, <a class="reference internal" href="Sphere.html#classfeasst_1_1Sphere"><span class="std std-ref">feasst::Sphere</span></a></p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Shape16nearest_distanceERK8Position">
-<span class="target" id="classfeasst_1_1Shape_1a3a5cd961d260283b7d80bde61fb82a02"></span><em class="property">virtual</em> double <code class="sig-name descname">nearest_distance</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst5Shape16nearest_distanceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Shape16nearest_distanceERK8Position">
+<span class="target" id="classfeasst_1_1Shape_1a3a5cd961d260283b7d80bde61fb82a02"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nearest_distance</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Shape16nearest_distanceERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the distance from the point to the nearest point on the surface. The distance is negative if the point is inside of the shape and positive if it is outside. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Shape9is_insideERK8Position">
-<span class="target" id="classfeasst_1_1Shape_1a993de46c75f5ecfa31f993fd2f6caa13"></span><em class="property">virtual</em> bool <code class="sig-name descname">is_inside</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Shape9is_insideERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Shape9is_insideERK8Position">
+<span class="target" id="classfeasst_1_1Shape_1a993de46c75f5ecfa31f993fd2f6caa13"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_inside</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Shape9is_insideERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if the point is inside of the shape. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Shape9is_insideERK8PositionKd">
-<span class="target" id="classfeasst_1_1Shape_1a363dac7e28be1f73c49e99244d9a6a6b"></span><em class="property">virtual</em> bool <code class="sig-name descname">is_inside</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em>, <em class="property">const</em> double <em>diameter</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Shape9is_insideERK8PositionKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Shape9is_insideERK8PositionKd">
+<span class="target" id="classfeasst_1_1Shape_1a363dac7e28be1f73c49e99244d9a6a6b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_inside</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">diameter</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Shape9is_insideERK8PositionKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if the sphere of given center point and diameter is entirely inside of the shape. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Shape12surface_areaEv">
-<span class="target" id="classfeasst_1_1Shape_1a1c641316fac772c447b6763a6ac16729"></span><em class="property">virtual</em> double <code class="sig-name descname">surface_area</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Shape12surface_areaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Shape12surface_areaEv">
+<span class="target" id="classfeasst_1_1Shape_1a1c641316fac772c447b6763a6ac16729"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">surface_area</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Shape12surface_areaEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the surface area (if implemented). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Shape6volumeEv">
-<span class="target" id="classfeasst_1_1Shape_1ae217a095f706cee7a04820ed9f4e2252"></span><em class="property">virtual</em> double <code class="sig-name descname">volume</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Shape6volumeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst5Shape6volumeEv">
+<span class="target" id="classfeasst_1_1Shape_1ae217a095f706cee7a04820ed9f4e2252"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">volume</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst5Shape6volumeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the volume (if implemented). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Shape4gridERK8PositionRK8PositionKi">
-<span class="target" id="classfeasst_1_1Shape_1a2ee7368e1fef35b6a94825b5d67bca8f"></span>std::vector&lt;<a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a>&gt; <code class="sig-name descname">grid</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>upper</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>lower</em>, <em class="property">const</em> int <em>num_in_each_dimen</em> = 1e2<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Shape4gridERK8PositionRK8PositionKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">num_in_each_dimen</span></code>: use this many points to span each dimension </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Shape4gridERK8PositionRK8PositionKi">
+<span class="target" id="classfeasst_1_1Shape_1a2ee7368e1fef35b6a94825b5d67bca8f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">grid</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">upper</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lower</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_in_each_dimen</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1e2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Shape4gridERK8PositionRK8PositionKi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return a grid of points inside the surface for visualization. First, construct a grid of points inside a cuboid with furthest corners given by the upper and lower points. Remove points not inside the shape. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param num_in_each_dimen<span class="colon">:</span></dt>
+<dd class="field-odd"><p>use this many points to span each dimension </p>
 </dd>
 </dl>
-</p>
-<p>Return a grid of points inside the surface for visualization. First, construct a grid of points inside a cuboid with furthest corners given by the upper and lower points. Remove points not inside the shape. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Shape9integrateERK8PositionP6Random7argtype">
-<span class="target" id="classfeasst_1_1Shape_1a3b7df1884c93c90069614e107c89b0cc"></span>double <code class="sig-name descname">integrate</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Shape9integrateERK8PositionP6Random7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5Shape9integrateERK8PositionP6Random7argtype">
+<span class="target" id="classfeasst_1_1Shape_1a3b7df1884c93c90069614e107c89b0cc"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">integrate</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Shape9integrateERK8PositionP6Random7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Given a material of arbitrary shape that interacts with an attraction of the form <span class="math notranslate nohighlight">\(U = \sum_i \frac{\epsilon_i}{r^{\alpha_i}}\)</span>, where <span class="math notranslate nohighlight">\(r\)</span> is the radial distance from a point and <span class="math notranslate nohighlight">\(\epsilon\)</span> is the interaction energy constant factor, integrate this interaction up to a maximum cutoff distance.</p>
 <p>Spherical shells are numerically integrated with values of <span class="math notranslate nohighlight">\(r\)</span> from 0 to max_radius.</p>
 <p>An approximate method is obtained to grid the spherical shell with equidistance points. To avoid bias, over many averages, this shell is randomly rotated.</p>
@@ -346,47 +288,40 @@
 </dd></dl>
 
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst12ShapedEntityE">
-<span class="target" id="classfeasst_1_1ShapedEntity"></span><em class="property">class </em><code class="sig-name descname">ShapedEntity</code><a class="headerlink" href="#_CPPv4N6feasst12ShapedEntityE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ShapedEntityE">
+<span class="target" id="classfeasst_1_1ShapedEntity"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ShapedEntity</span></span></span><a class="headerlink" href="#_CPPv4N6feasst12ShapedEntityE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Subclassed by <a class="reference internal" href="../../confinement/doc/ModelHardShape.html#classfeasst_1_1ModelHardShape"><span class="std std-ref">feasst::ModelHardShape</span></a>, <a class="reference internal" href="../../confinement/doc/ModelLJShape.html#classfeasst_1_1ModelLJShape"><span class="std std-ref">feasst::ModelLJShape</span></a>, <a class="reference internal" href="../../confinement/doc/ModelSquareWellShape.html#classfeasst_1_1ModelSquareWellShape"><span class="std std-ref">feasst::ModelSquareWellShape</span></a></p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12ShapedEntity5shapeEv">
-<span class="target" id="classfeasst_1_1ShapedEntity_1a4e2d0b78c3cfe32ae180348d509db0bf"></span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="#_CPPv4N6feasst5ShapeE" title="feasst::Shape">Shape</a>&gt; <code class="sig-name descname">shape</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ShapedEntity5shapeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12ShapedEntity5shapeEv">
+<span class="target" id="classfeasst_1_1ShapedEntity_1a4e2d0b78c3cfe32ae180348d509db0bf"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">shape</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ShapedEntity5shapeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the shape. </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="HalfSpaceTilted.html" class="btn btn-neutral float-right" title="HalfSpaceTilted" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="FormulaSineWave.html" class="btn btn-neutral float-left" title="FormulaSineWave" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ShapeUnion.html" class="btn btn-neutral float-right" title="ShapeUnion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -471,22 +406,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

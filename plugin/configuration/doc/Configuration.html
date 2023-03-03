@@ -1,54 +1,31 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Configuration &mdash; FEASST v0.20.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
-
-  
-  
+  <title>Configuration &mdash; FEASST v0.21 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="VisitConfiguration" href="VisitConfiguration.html" />
-    <link rel="prev" title="VisitParticles" href="VisitParticles.html" />
+    <link rel="prev" title="NeighborCriteria" href="NeighborCriteria.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -63,45 +40,21 @@
 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> FEASST
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
           </a>
-
-          
-            
-            
               <div class="version">
-                v0.20.2
+                v0.21
               </div>
-            
-          
-
-          
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
@@ -110,20 +63,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="Properties.html">Properties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Properties.html">Properties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
-<li class="toctree-l3"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileParticle.html">FileParticle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
@@ -161,28 +114,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">FEASST</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           <header class="nist-header" id="nist-header" role="banner">
 
   <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
@@ -248,7 +190,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
@@ -273,11 +215,11 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="configuration">
-<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<section id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N6feasst13ConfigurationE">
-<span class="target" id="classfeasst_1_1Configuration"></span><em class="property">class </em><code class="sig-name descname">Configuration</code><a class="headerlink" href="#_CPPv4N6feasst13ConfigurationE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13ConfigurationE">
+<span class="target" id="classfeasst_1_1Configuration"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Configuration</span></span></span><a class="headerlink" href="#_CPPv4N6feasst13ConfigurationE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>A configuration contains both the particles and the spatial domain/boundaries.</p>
 <p>For the particles, this includes both the pool of particles which may exist (referred to as particle types) in addition to the particles which physically exist (referred to as particles).</p>
 <p>Before particles are physically added to the system, all particle types which may exist must be defined. Once particles are added to the system, new particle types cannot be added. Similarly, site and bond types are also defined at the same time as particle types and are referred to as unique types. Unique types are stored in essentially the same fashion as particle types, except they have been stripped of their non-unique sites and bonds. Two different particles cannot share a site type.</p>
@@ -285,10 +227,56 @@
 <p>The spatial domain contains periodic boundaries and cells.</p>
 <p>Finally, note that an optimization for grand canonical ensemble simulations allows for the possibility of ghost particles. Ghost particles do not interact and serve as a pool for adding/removing particles in an optimized fashion without having to resize the particle arrays. Thus, one must use caution when accessing particles and sites by indices, because these indices may include ghost particles. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Construction</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-checks">Checks</p>
+<p>Consistency checks and tests. </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration13ConfigurationE7argtype">
-<span class="target" id="classfeasst_1_1Configuration_1a519e1a947b0896eb298e94ae52fc9d95"></span><code class="sig-name descname">Configuration</code><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a> <em>args</em> = <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype">argtype</a>()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13ConfigurationE7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration5checkEv">
+<span class="target" id="classfeasst_1_1Configuration_1a2ef281f20f97b63df6024cf88db03db6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration5checkEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> consistency of dimensions and lists. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration22are_all_sites_physicalEv">
+<span class="target" id="classfeasst_1_1Configuration_1a1cf652e94ccf235ea9c2f15252189c9b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">are_all_sites_physical</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration22are_all_sites_physicalEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return true if all sites are physical. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration8is_equalERK13ConfigurationKd">
+<span class="target" id="classfeasst_1_1Configuration_1a0c75ebd015c22f915b74af8bfd273f5d"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">configuration</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tolerance</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8is_equalERK13ConfigurationKd" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> if configuration is approximately equivalent. Not all quantities are checked, including ghosts, etc. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration13status_headerEv">
+<span class="target" id="classfeasst_1_1Configuration_1a78214aa63868b539762687affefa253b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status_header</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13status_headerEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the header of the status for periodic output. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration6statusEv">
+<span class="target" id="classfeasst_1_1Configuration_1a63fac9420e1ef3b96c16c78b8c0eb58b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration6statusEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the brief status for periodic output. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration9serializeERNSt7ostreamE">
+<span class="target" id="classfeasst_1_1Configuration_1a49d0f3537a16e755a7a82b3ac49ce493"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Serialize. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration13ConfigurationERNSt7istreamE">
+<span class="target" id="classfeasst_1_1Configuration_1a06dc790a49d77cea74a478a76ced67ff"></span><span class="sig-name descname"><span class="n"><span class="pre">Configuration</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">istream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">istr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13ConfigurationERNSt7istreamE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Deserialize. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-construction">Construction</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration13ConfigurationE7argtype">
+<span class="target" id="classfeasst_1_1Configuration_1a519e1a947b0896eb298e94ae52fc9d95"></span><span class="sig-name descname"><span class="n"><span class="pre">Configuration</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13ConfigurationE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p><a class="reference internal" href="Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> arguments may be parsed here.</p></li>
 <li><p>particle_type[i]: add the i-th type of particle. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional.</p></li>
@@ -308,611 +296,547 @@
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Typing</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typing">Typing</p>
 <p>Types of sites and particles. </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration17add_particle_typeEKNSt6stringEKNSt6stringE">
-<span class="target" id="classfeasst_1_1Configuration_1a564c1dcdb64b08a44f041171c0249864"></span>void <code class="sig-name descname">add_particle_type</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em>, <em class="property">const</em> std::string <em>append</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17add_particle_typeEKNSt6stringEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add a particle type that may exist by LMP file (see <a class="reference internal" href="FileLMP.html#classfeasst_1_1FileLMP"><span class="std std-ref">FileLMP</span></a>). </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">append</span></code>: optionally append to name to use same file but keep unique names. </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration17add_particle_typeEKNSt6stringEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Configuration_1a564c1dcdb64b08a44f041171c0249864"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_particle_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">append</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17add_particle_typeEKNSt6stringEKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Add a particle type that may exist in the simulation. See <a class="reference internal" href="FileParticle.html#classfeasst_1_1FileParticle"><span class="std std-ref">FileParticle</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param file_name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Each particle type must have a unique file name. </p>
+</dd>
+<dt class="field-even">param append<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optionally, append to name to use same file but keep unique names. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration18num_particle_typesEv">
-<span class="target" id="classfeasst_1_1Configuration_1a9a1d58f52d28788096b9bbf07e4dc815"></span>int <code class="sig-name descname">num_particle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration18num_particle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration18num_particle_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1a9a1d58f52d28788096b9bbf07e4dc815"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_particle_types</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration18num_particle_typesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of particle types. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration14num_site_typesEv">
-<span class="target" id="classfeasst_1_1Configuration_1a1b3a2b704a8f9738e5ee7c33263f65b7"></span>int <code class="sig-name descname">num_site_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14num_site_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration14num_site_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1a1b3a2b704a8f9738e5ee7c33263f65b7"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_site_types</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14num_site_typesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of site types. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration14num_bond_typesEv">
-<span class="target" id="classfeasst_1_1Configuration_1a3c16bcc82dd5961e0363f80412b15fa0"></span>int <code class="sig-name descname">num_bond_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14num_bond_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration14num_bond_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1a3c16bcc82dd5961e0363f80412b15fa0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_bond_types</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14num_bond_typesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of bond types. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration15num_angle_typesEv">
-<span class="target" id="classfeasst_1_1Configuration_1a9b6e5d22c9ec7c6150091d25f3f11b46"></span>int <code class="sig-name descname">num_angle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration15num_angle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration15num_angle_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1a9b6e5d22c9ec7c6150091d25f3f11b46"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_angle_types</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration15num_angle_typesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of angle types. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration18num_dihedral_typesEv">
-<span class="target" id="classfeasst_1_1Configuration_1ad93b7933c78803bc672b4db7dbdf51a2"></span>int <code class="sig-name descname">num_dihedral_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration18num_dihedral_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration18num_dihedral_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1ad93b7933c78803bc672b4db7dbdf51a2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_dihedral_types</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration18num_dihedral_typesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of dihedral types. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration13particle_typeEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a61462e50b27aae4cfd198896e321eb69"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="sig-name descname">particle_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13particle_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration13particle_typeEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a61462e50b27aae4cfd198896e321eb69"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">particle_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13particle_typeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the particle associated with the type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration17type_to_file_nameEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a94a554d23c645891e99232565c874cfb"></span>std::string <code class="sig-name descname">type_to_file_name</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17type_to_file_nameEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration17type_to_file_nameEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a94a554d23c645891e99232565c874cfb"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type_to_file_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17type_to_file_nameEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the file name used to initialize the particle types. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration14particle_typesEv">
-<span class="target" id="classfeasst_1_1Configuration_1ad46066349b467a9af5a1b54a735b0c83"></span><em class="property">const</em> <a class="reference internal" href="ParticleFactory.html#_CPPv4N6feasst15ParticleFactoryE" title="feasst::ParticleFactory">ParticleFactory</a> &amp;<code class="sig-name descname">particle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14particle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration14particle_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1ad46066349b467a9af5a1b54a735b0c83"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="ParticleFactory.html#_CPPv4N6feasst15ParticleFactoryE" title="feasst::ParticleFactory"><span class="n"><span class="pre">ParticleFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">particle_types</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14particle_typesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the particle types. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration3addENSt10shared_ptrI10ModelParamEE">
-<span class="target" id="classfeasst_1_1Configuration_1aa3ded9856f737b44dbc5ab6270998e79"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a>&gt; <em>param</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration3addENSt10shared_ptrI10ModelParamEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration3addENSt10shared_ptrI10ModelParamEE">
+<span class="target" id="classfeasst_1_1Configuration_1aa3ded9856f737b44dbc5ab6270998e79"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam"><span class="n"><span class="pre">ModelParam</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration3addENSt10shared_ptrI10ModelParamEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a custom type of model parameter. Name it the same as an atom property before reading file to make a custom <a class="reference internal" href="ModelParam.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration12model_paramsEv">
-<span class="target" id="classfeasst_1_1Configuration_1a8818d92c0f5d78d460e536a9d876096d"></span><em class="property">const</em> <a class="reference internal" href="ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<code class="sig-name descname">model_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration12model_paramsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration12model_paramsEv">
+<span class="target" id="classfeasst_1_1Configuration_1a8818d92c0f5d78d460e536a9d876096d"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">model_params</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration12model_paramsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the model parameters (e.g., sigma, epsilon, etc). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKd">
-<span class="target" id="classfeasst_1_1Configuration_1aec1e3c102684995e558544dfbb1cfcb0"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> int <em>site_type</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKd">
+<span class="target" id="classfeasst_1_1Configuration_1aec1e3c102684995e558544dfbb1cfcb0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_model_param</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> model parameter of a given site type and name to value. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKiKd">
-<span class="target" id="classfeasst_1_1Configuration_1af71560431d0803bbd14571eddb6d390c"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> int <em>site_type1</em>, <em class="property">const</em> int <em>site_type2</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKiKd">
+<span class="target" id="classfeasst_1_1Configuration_1af71560431d0803bbd14571eddb6d390c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_model_param</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type2</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKiKiKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> a mixed model parameter of given site types and name to value. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration15add_model_paramEKNSt6stringEKd">
-<span class="target" id="classfeasst_1_1Configuration_1ab6d87f104ab73b231bc687e6a438a74c"></span>void <code class="sig-name descname">add_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15add_model_paramEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration15add_model_paramEKNSt6stringEKd">
+<span class="target" id="classfeasst_1_1Configuration_1ab6d87f104ab73b231bc687e6a438a74c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_model_param</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15add_model_paramEKNSt6stringEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add model parameter of a given name to value. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration22add_or_set_model_paramEKNSt6stringEKd">
-<span class="target" id="classfeasst_1_1Configuration_1a596034276646d62f0167c83f7f8ccb87"></span>void <code class="sig-name descname">add_or_set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration22add_or_set_model_paramEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration22add_or_set_model_paramEKNSt6stringEKd">
+<span class="target" id="classfeasst_1_1Configuration_1a596034276646d62f0167c83f7f8ccb87"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_or_set_model_param</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration22add_or_set_model_paramEKNSt6stringEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add or set model parameter of a given name to value. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE">
-<span class="target" id="classfeasst_1_1Configuration_1a070c6cc8181aae94ae792002634787fa"></span>void <code class="sig-name descname">set_physical_constants</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants">PhysicalConstants</a>&gt; <em>constants</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE">
+<span class="target" id="classfeasst_1_1Configuration_1a070c6cc8181aae94ae792002634787fa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_physical_constants</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants"><span class="n"><span class="pre">PhysicalConstants</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">constants</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the physical constants. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration18physical_constantsEv">
-<span class="target" id="classfeasst_1_1Configuration_1a53b6966aa6c8fe5fb5e6c5c70024abae"></span><em class="property">const</em> <a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants">PhysicalConstants</a> &amp;<code class="sig-name descname">physical_constants</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration18physical_constantsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration18physical_constantsEv">
+<span class="target" id="classfeasst_1_1Configuration_1a53b6966aa6c8fe5fb5e6c5c70024abae"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants"><span class="n"><span class="pre">PhysicalConstants</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">physical_constants</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration18physical_constantsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the physical constants. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration12unique_typesEv">
-<span class="target" id="classfeasst_1_1Configuration_1a85ed308c25fdd5c2a92fa4caa8cd4eec"></span><em class="property">const</em> <a class="reference internal" href="ParticleFactory.html#_CPPv4N6feasst15ParticleFactoryE" title="feasst::ParticleFactory">ParticleFactory</a> &amp;<code class="sig-name descname">unique_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration12unique_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration12unique_typesEv">
+<span class="target" id="classfeasst_1_1Configuration_1a85ed308c25fdd5c2a92fa4caa8cd4eec"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="ParticleFactory.html#_CPPv4N6feasst15ParticleFactoryE" title="feasst::ParticleFactory"><span class="n"><span class="pre">ParticleFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">unique_types</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration12unique_typesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the unique types. Only unique sites and bonds are included. Thus, the site index is the same as the numeric value for the site type. And the same for bonds. This serves as a container for properties based on site or bond type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration11unique_typeEKi">
-<span class="target" id="classfeasst_1_1Configuration_1aaedabe021b43987e76c77519dcc7eda0"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="sig-name descname">unique_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration11unique_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration11unique_typeEKi">
+<span class="target" id="classfeasst_1_1Configuration_1aaedabe021b43987e76c77519dcc7eda0"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">unique_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration11unique_typeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the unique type by individual particle. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration25max_sites_in_any_particleEv">
-<span class="target" id="classfeasst_1_1Configuration_1a77c21e3d7e4861473ae3df6305a4a559"></span>int <code class="sig-name descname">max_sites_in_any_particle</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration25max_sites_in_any_particleEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration25max_sites_in_any_particleEv">
+<span class="target" id="classfeasst_1_1Configuration_1a77c21e3d7e4861473ae3df6305a4a559"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_sites_in_any_particle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration25max_sites_in_any_particleEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the maximum number of sites in any particle type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration13set_site_typeEKiKiKi">
-<span class="target" id="classfeasst_1_1Configuration_1a29bda1c5aba981d7eddca90bf46212fa"></span>void <code class="sig-name descname">set_site_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_type</em>, <em class="property">const</em> int <em>site</em>, <em class="property">const</em> int <em>site_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13set_site_typeEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration13set_site_typeEKiKiKi">
+<span class="target" id="classfeasst_1_1Configuration_1a29bda1c5aba981d7eddca90bf46212fa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_site_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13set_site_typeEKiKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Change the site type of a given site in all particles of given type. </p>
 </dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Groups</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-groups">Groups</p>
 <p>Groups of sites and particles </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration3addENSt10shared_ptrI5GroupEENSt6stringE">
-<span class="target" id="classfeasst_1_1Configuration_1a8af1eaafb83d17a4e21b56501bc24bf6"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Group.html#_CPPv4N6feasst5GroupE" title="feasst::Group">Group</a>&gt; <em>group</em>, std::string <em>name</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration3addENSt10shared_ptrI5GroupEENSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration3addENSt10shared_ptrI5GroupEENSt6stringE">
+<span class="target" id="classfeasst_1_1Configuration_1a8af1eaafb83d17a4e21b56501bc24bf6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Group.html#_CPPv4N6feasst5GroupE" title="feasst::Group"><span class="n"><span class="pre">Group</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">group</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration3addENSt10shared_ptrI5GroupEENSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a group (after types are defined but before particles are added). </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Optionally provide a name. If no name is provided, the name is assigned to be the numerical indices of the order of groups added. </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optionally provide a name. If no name is provided, the name is assigned to be the numerical indices of the order of groups added. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration10num_groupsEv">
-<span class="target" id="classfeasst_1_1Configuration_1a6d7ceb9a28f248f33ea23743a9024d49"></span>int <code class="sig-name descname">num_groups</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration10num_groupsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration10num_groupsEv">
+<span class="target" id="classfeasst_1_1Configuration_1a6d7ceb9a28f248f33ea23743a9024d49"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_groups</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration10num_groupsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of group selections. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration22particle_type_to_groupEKi">
-<span class="target" id="classfeasst_1_1Configuration_1aaa69f66f523c11bc748d28094b96b31c"></span>int <code class="sig-name descname">particle_type_to_group</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration22particle_type_to_groupEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration22particle_type_to_groupEKi">
+<span class="target" id="classfeasst_1_1Configuration_1aaa69f66f523c11bc748d28094b96b31c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">particle_type_to_group</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration22particle_type_to_groupEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the index of the group based on particle types. If the group does not exist, return -1. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration29particle_type_to_group_createEKi">
-<span class="target" id="classfeasst_1_1Configuration_1ad6d80b288da71f687ec6264b86d321c3"></span>int <code class="sig-name descname">particle_type_to_group_create</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration29particle_type_to_group_createEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration29particle_type_to_group_createEKi">
+<span class="target" id="classfeasst_1_1Configuration_1ad6d80b288da71f687ec6264b86d321c3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">particle_type_to_group_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration29particle_type_to_group_createEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, except create the group if it does not already exist. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration11group_indexERKNSt6stringE">
-<span class="target" id="classfeasst_1_1Configuration_1a43012415f386e2e6bd319076d60bb825"></span>int <code class="sig-name descname">group_index</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration11group_indexERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration11group_indexERKNSt6stringE">
+<span class="target" id="classfeasst_1_1Configuration_1a43012415f386e2e6bd319076d60bb825"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">group_index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration11group_indexERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the index of the group with the given name. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration13group_selectsEv">
-<span class="target" id="classfeasst_1_1Configuration_1a034180ac800a95af3acb28e27f4c3dba"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a>&gt; &amp;<code class="sig-name descname">group_selects</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13group_selectsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration13group_selectsEv">
+<span class="target" id="classfeasst_1_1Configuration_1a034180ac800a95af3acb28e27f4c3dba"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">group_selects</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13group_selectsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the group-based selections. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration12group_selectEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a42b125ec1a392910d90af1a6170fd7d7"></span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<code class="sig-name descname">group_select</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration12group_selectEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration12group_selectEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a42b125ec1a392910d90af1a6170fd7d7"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">group_select</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration12group_selectEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the group-based selections by index. </p>
 </dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Particles</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-particles">Particles</p>
 <p>Physically existing sites and particles </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration20add_particle_of_typeEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a4ab557cc3f4ec4deccfefd770264138c"></span>void <code class="sig-name descname">add_particle_of_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration20add_particle_of_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration20add_particle_of_typeEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a4ab557cc3f4ec4deccfefd770264138c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_particle_of_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration20add_particle_of_typeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a particle of a given type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration8particleEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a4bf7dad086a0a12b27d42bec68d40489"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="sig-name descname">particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8particleEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration8particleEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a4bf7dad086a0a12b27d42bec68d40489"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">particle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8particleEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return particle by index. Note this index is contiguous from values 0 to num_particles -1, unlike the selection indices (due to ghost particles). Note that this method can be slow because the particle index filters out ghost particles. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration8particleEKiKi">
-<span class="target" id="classfeasst_1_1Configuration_1adc5ae4960e365884f20a6a7376137512"></span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> <code class="sig-name descname">particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> int <em>group</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8particleEKiKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">group</span></code>: Provide a group index to consider only a subset of the configuration. </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration8particleEKiKi">
+<span class="target" id="classfeasst_1_1Configuration_1adc5ae4960e365884f20a6a7376137512"></span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">particle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">group</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8particleEKiKi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Same as above, but filter the particle by the group index. Returns a copy of the filtered particle, instead of a constant reference. Note: this method can be prone to errors if used to define a constant reference to, for example, site or position in particle. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param group<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Provide a group index to consider only a subset of the configuration. </p>
 </dd>
 </dl>
-</p>
-<p>Same as above, but filter the particle by the group index. Returns a copy of the filtered particle, instead of a constant reference. Note: this method can be prone to errors if used to define a constant reference to, for example, site or position in particle. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration16selection_of_allEv">
-<span class="target" id="classfeasst_1_1Configuration_1a8da03be1f667730386fe4c71c58f35bb"></span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<code class="sig-name descname">selection_of_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration16selection_of_allEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration16selection_of_allEv">
+<span class="target" id="classfeasst_1_1Configuration_1a8da03be1f667730386fe4c71c58f35bb"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">selection_of_all</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration16selection_of_allEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return selection of all particles and sites in the configuration. This selection does not include ghost particles. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration13num_particlesEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a664494c52182f63d3aaf3102566781d0"></span>int <code class="sig-name descname">num_particles</code><span class="sig-paren">(</span><em class="property">const</em> int <em>group</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13num_particlesEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration13num_particlesEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a664494c52182f63d3aaf3102566781d0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_particles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">group</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13num_particlesEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of particles. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">group</span></code>: Provide a group index to consider only a subset of the configuration. By default, a value of zero is for the entire configuration. </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param group<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Provide a group index to consider only a subset of the configuration. By default, a value of zero is for the entire configuration. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration9num_sitesEKi">
-<span class="target" id="classfeasst_1_1Configuration_1ac462ee42247b2a21509bb3bec05fd6b1"></span>int <code class="sig-name descname">num_sites</code><span class="sig-paren">(</span><em class="property">const</em> int <em>group</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration9num_sitesEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration9num_sitesEKi">
+<span class="target" id="classfeasst_1_1Configuration_1ac462ee42247b2a21509bb3bec05fd6b1"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_sites</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">group</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration9num_sitesEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of sites. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">group</span></code>: Provide a group index as described above. </p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param group<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Provide a group index as described above. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration21num_particles_of_typeEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a40de900a75f06144aa9324d6c7e7aadf"></span>int <code class="sig-name descname">num_particles_of_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration21num_particles_of_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration21num_particles_of_typeEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a40de900a75f06144aa9324d6c7e7aadf"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_particles_of_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration21num_particles_of_typeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of particles of a given particle type. If type == -1, return number of particles of all types. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration15newest_particleEv">
-<span class="target" id="classfeasst_1_1Configuration_1a1fab51855912ea75550e66a2f4a99484"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="sig-name descname">newest_particle</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration15newest_particleEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration15newest_particleEv">
+<span class="target" id="classfeasst_1_1Configuration_1a1fab51855912ea75550e66a2f4a99484"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">newest_particle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration15newest_particleEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the last particle added. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration17num_sites_of_typeERK6Select">
-<span class="target" id="classfeasst_1_1Configuration_1a55ef9d759eee54aaf64ed2195abbe84e"></span>std::vector&lt;int&gt; <code class="sig-name descname">num_sites_of_type</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17num_sites_of_typeERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration17num_sites_of_typeERK6Select">
+<span class="target" id="classfeasst_1_1Configuration_1a55ef9d759eee54aaf64ed2195abbe84e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_sites_of_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17num_sites_of_typeERK6Select" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of sites of each type in selection. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration17num_sites_of_typeERK6SelectPNSt6vectorIiEE">
-<span class="target" id="classfeasst_1_1Configuration_1ae64a321fcb340e2e4f420fdd5d83036f"></span>void <code class="sig-name descname">num_sites_of_type</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, std::vector&lt;int&gt; *<em>num</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17num_sites_of_typeERK6SelectPNSt6vectorIiEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration17num_sites_of_typeERK6SelectPNSt6vectorIiEE">
+<span class="target" id="classfeasst_1_1Configuration_1ae64a321fcb340e2e4f420fdd5d83036f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_sites_of_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">num</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17num_sites_of_typeERK6SelectPNSt6vectorIiEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but optimized to use existing data structure. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration17num_sites_of_typeEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a1007358f2c4541ac1b3d71adf017cdbf"></span>std::vector&lt;int&gt; <code class="sig-name descname">num_sites_of_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>group_index</em> = 0.<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17num_sites_of_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration17num_sites_of_typeEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a1007358f2c4541ac1b3d71adf017cdbf"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_sites_of_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">group_index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17num_sites_of_typeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of sites of each type in group. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration17num_sites_of_typeEKiPNSt6vectorIiEE">
-<span class="target" id="classfeasst_1_1Configuration_1a04a59424178bc27ff5d64728b691e69f"></span>void <code class="sig-name descname">num_sites_of_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>group_index</em>, std::vector&lt;int&gt; *<em>num</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17num_sites_of_typeEKiPNSt6vectorIiEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration17num_sites_of_typeEKiPNSt6vectorIiEE">
+<span class="target" id="classfeasst_1_1Configuration_1a04a59424178bc27ff5d64728b691e69f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_sites_of_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">group_index</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">num</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17num_sites_of_typeEKiPNSt6vectorIiEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above, but optimized to use existing data structure. </p>
 </dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Modifications</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-modifications">Modifications</p>
 <p>Modifications to a configuration (e.g., moving, adding or deleting particles/sites. A subset of the configuration is defined by a <a class="reference internal" href="Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a>. </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEE">
-<span class="target" id="classfeasst_1_1Configuration_1a530bd77e401f43e9777f25f96b3a9ea5"></span>void <code class="sig-name descname">update_positions</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;double&gt;&gt; <em>coords</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEE">
+<span class="target" id="classfeasst_1_1Configuration_1a530bd77e401f43e9777f25f96b3a9ea5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_positions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">coords</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Load coordinates by per-site vector containing per-dimension vector. Requires coordinates for all sites and dimensions. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEEKNSt6vectorINSt6vectorIdEEEE">
-<span class="target" id="classfeasst_1_1Configuration_1ad2e6f2eaf5272fa3acdff776b5892614"></span>void <code class="sig-name descname">update_positions</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;double&gt;&gt; <em>coords</em>, <em class="property">const</em> std::vector&lt;std::vector&lt;double&gt;&gt; <em>eulers</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEEKNSt6vectorINSt6vectorIdEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEEKNSt6vectorINSt6vectorIdEEEE">
+<span class="target" id="classfeasst_1_1Configuration_1ad2e6f2eaf5272fa3acdff776b5892614"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_positions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">coords</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">eulers</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEEKNSt6vectorINSt6vectorIdEEEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Load coordinates and orientations with a per-site vector containing per-dimension vector. Requires coordinates and orientations for all sites and dimensions. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration16update_positionsERK6SelectKb">
-<span class="target" id="classfeasst_1_1Configuration_1ac681e3bb12949b6be2dc88d2aa3cda7a"></span>void <code class="sig-name descname">update_positions</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> bool <em>no_wrap</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsERK6SelectKb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">no_wrap</span></code>: If true, do not wrap. If false, defer to default behavior. </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration16update_positionsERK6SelectKb">
+<span class="target" id="classfeasst_1_1Configuration_1ac681e3bb12949b6be2dc88d2aa3cda7a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_positions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">no_wrap</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16update_positionsERK6SelectKb" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Update the positions and properties from a selection. Includes euler angles. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param no_wrap<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If true, do not wrap. If false, defer to default behavior. </p>
 </dd>
 </dl>
-</p>
-<p>Update the positions and properties from a selection. Includes euler angles. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration14copy_particlesERK13ConfigurationKb">
-<span class="target" id="classfeasst_1_1Configuration_1aee4d82c90f8568e3544b744bba4bf9f1"></span>void <code class="sig-name descname">copy_particles</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> bool <em>add_missing</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration14copy_particlesERK13ConfigurationKb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">add_missing</span></code>: Add missing particles of the same type. </p></li>
-</ul>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration14copy_particlesERK13ConfigurationKb">
+<span class="target" id="classfeasst_1_1Configuration_1aee4d82c90f8568e3544b744bba4bf9f1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">copy_particles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">add_missing</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration14copy_particlesERK13ConfigurationKb" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Copy the existing particles in a given config by replacing positions. Types must match config in the same order. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param add_missing<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Add missing particles of the same type. </p>
 </dd>
 </dl>
-</p>
-<p>Copy the existing particles in a given config by replacing positions. Types must match config in the same order. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration18displace_particlesERK6SelectRK8Position">
-<span class="target" id="classfeasst_1_1Configuration_1a7c56dae43b8de182b257c507ea27fb77"></span>void <code class="sig-name descname">displace_particles</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>displacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration18displace_particlesERK6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration18displace_particlesERK6SelectRK8Position">
+<span class="target" id="classfeasst_1_1Configuration_1a7c56dae43b8de182b257c507ea27fb77"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">displace_particles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">displacement</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration18displace_particlesERK6SelectRK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Displace selected particle(s). No periodic boundary conditions applied. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration17displace_particleERK6SelectRK8Position">
-<span class="target" id="classfeasst_1_1Configuration_1afaed217edc21bb6b9e0116b33feccb86"></span>void <code class="sig-name descname">displace_particle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>displacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17displace_particleERK6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration17displace_particleERK6SelectRK8Position">
+<span class="target" id="classfeasst_1_1Configuration_1afaed217edc21bb6b9e0116b33feccb86"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">displace_particle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">displacement</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17displace_particleERK6SelectRK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above except for only one particle that is selected. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration8displaceERK6SelectRK8Position">
-<span class="target" id="classfeasst_1_1Configuration_1a30cf8b830614ce7b08eb1a806a7da80e"></span>void <code class="sig-name descname">displace</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>displacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration8displaceERK6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration8displaceERK6SelectRK8Position">
+<span class="target" id="classfeasst_1_1Configuration_1a30cf8b830614ce7b08eb1a806a7da80e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">displace</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">displacement</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration8displaceERK6SelectRK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Displace the selection. No periodic boundary conditions applied. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration16replace_positionERK6SelectRK8Particle">
-<span class="target" id="classfeasst_1_1Configuration_1a02d008449116337e12c7d264f88f243a"></span>void <code class="sig-name descname">replace_position</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16replace_positionERK6SelectRK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration16replace_positionERK6SelectRK8Particle">
+<span class="target" id="classfeasst_1_1Configuration_1a02d008449116337e12c7d264f88f243a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">replace_position</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">replacement</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16replace_positionERK6SelectRK8Particle" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Replace positions of particle by selection. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration16remove_particlesERK6Select">
-<span class="target" id="classfeasst_1_1Configuration_1a534352daed6ea83da40186153b011aa3"></span>void <code class="sig-name descname">remove_particles</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16remove_particlesERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration16remove_particlesERK6Select">
+<span class="target" id="classfeasst_1_1Configuration_1a534352daed6ea83da40186153b011aa3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_particles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16remove_particlesERK6Select" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Remove particle(s) in selection. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration15remove_particleERK6Select">
-<span class="target" id="classfeasst_1_1Configuration_1a213e447ffb26bfa8e87b834a2cbc3932"></span>void <code class="sig-name descname">remove_particle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15remove_particleERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration15remove_particleERK6Select">
+<span class="target" id="classfeasst_1_1Configuration_1a213e447ffb26bfa8e87b834a2cbc3932"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_particle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15remove_particleERK6Select" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above except for only one particle that is selected. </p>
 </dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Domain</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-domain">Domain</p>
 <p>A configuration’s domain includes periodic boundaries and cells. </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration3setENSt10shared_ptrI6DomainEE">
-<span class="target" id="classfeasst_1_1Configuration_1a9fce0deb97e3092100ad1d989bca18f9"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain">Domain</a>&gt; <em>domain</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration3setENSt10shared_ptrI6DomainEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration3setENSt10shared_ptrI6DomainEE">
+<span class="target" id="classfeasst_1_1Configuration_1a9fce0deb97e3092100ad1d989bca18f9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><span class="n"><span class="pre">Domain</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">domain</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration3setENSt10shared_ptrI6DomainEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the domain. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration6domainEv">
-<span class="target" id="classfeasst_1_1Configuration_1a10b62741530f7332e52ced1d82db0671"></span><em class="property">const</em> <a class="reference internal" href="Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain">Domain</a> &amp;<code class="sig-name descname">domain</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration6domainEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration6domainEv">
+<span class="target" id="classfeasst_1_1Configuration_1a10b62741530f7332e52ced1d82db0671"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><span class="n"><span class="pre">Domain</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">domain</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration6domainEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the domain of the configuration. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration16set_side_lengthsERK8Position">
-<span class="target" id="classfeasst_1_1Configuration_1ab93cb05b11c1c06b92e29dcc216731d4"></span>void <code class="sig-name descname">set_side_lengths</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>sides</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16set_side_lengthsERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration16set_side_lengthsERK8Position">
+<span class="target" id="classfeasst_1_1Configuration_1ab93cb05b11c1c06b92e29dcc216731d4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_side_lengths</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sides</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration16set_side_lengthsERK8Position" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the domain side lengths. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration9dimensionEv">
-<span class="target" id="classfeasst_1_1Configuration_1a950f79be863f3df780e21313010ce414"></span>int <code class="sig-name descname">dimension</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration9dimensionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration9dimensionEv">
+<span class="target" id="classfeasst_1_1Configuration_1a950f79be863f3df780e21313010ce414"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dimension</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration9dimensionEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the dimensionality of space. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration9init_wrapEKb">
-<span class="target" id="classfeasst_1_1Configuration_1a0c81b70efb596f202348787bb3fec0d0"></span>void <code class="sig-name descname">init_wrap</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>wrap</em> = true<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration9init_wrapEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration9init_wrapEKb">
+<span class="target" id="classfeasst_1_1Configuration_1a0c81b70efb596f202348787bb3fec0d0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init_wrap</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">wrap</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration9init_wrapEKb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set whether or not to wrap particles. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration14num_cell_listsEv">
-<span class="target" id="classfeasst_1_1Configuration_1a9dd6aa978fa12db7ac1f4d73e01e4c20"></span>int <code class="sig-name descname">num_cell_lists</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14num_cell_listsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration14num_cell_listsEv">
+<span class="target" id="classfeasst_1_1Configuration_1a9dd6aa978fa12db7ac1f4d73e01e4c20"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_cell_lists</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration14num_cell_listsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the number of cell lists. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration24increment_num_cell_listsEv">
-<span class="target" id="classfeasst_1_1Configuration_1ad406c522878c6ebbe9f043a025acc6e5"></span>void <code class="sig-name descname">increment_num_cell_lists</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration24increment_num_cell_listsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration24increment_num_cell_listsEv">
+<span class="target" id="classfeasst_1_1Configuration_1ad406c522878c6ebbe9f043a025acc6e5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">increment_num_cell_lists</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration24increment_num_cell_listsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Increment the number of cell lists. </p>
 </dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Ghosts</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-ghosts">Ghosts</p>
 <p>Functions which require knowledge of ghost particles and thus not for typical users. </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration6reviveERK6Select">
-<span class="target" id="classfeasst_1_1Configuration_1a7c36e06e1c491fba51d7399a99d0e0b2"></span>void <code class="sig-name descname">revive</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration6reviveERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration6reviveERK6Select">
+<span class="target" id="classfeasst_1_1Configuration_1a7c36e06e1c491fba51d7399a99d0e0b2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">revive</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration6reviveERK6Select" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Revive the particles in the selection previously removed (ghosts). </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration9particlesEv">
-<span class="target" id="classfeasst_1_1Configuration_1a00e15aa2d503d6e49d64618d74cf7c68"></span><em class="property">const</em> <a class="reference internal" href="ParticleFactory.html#_CPPv4N6feasst15ParticleFactoryE" title="feasst::ParticleFactory">ParticleFactory</a> &amp;<code class="sig-name descname">particles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration9particlesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration9particlesEv">
+<span class="target" id="classfeasst_1_1Configuration_1a00e15aa2d503d6e49d64618d74cf7c68"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="ParticleFactory.html#_CPPv4N6feasst15ParticleFactoryE" title="feasst::ParticleFactory"><span class="n"><span class="pre">ParticleFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">particles</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration9particlesEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the particles. Warning: typically not for users because it may include ghost particles. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration15select_particleEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a492f0addfcfee39272a966a6883b30e1"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="sig-name descname">select_particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration15select_particleEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration15select_particleEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a492f0addfcfee39272a966a6883b30e1"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">select_particle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration15select_particleEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return particle by index provided in selection. Warning: typically not for users because it may include ghost particles. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration21newest_particle_indexEv">
-<span class="target" id="classfeasst_1_1Configuration_1a60137b81b516f5bbe5d2c4354a5815d4"></span>int <code class="sig-name descname">newest_particle_index</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration21newest_particle_indexEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration21newest_particle_indexEv">
+<span class="target" id="classfeasst_1_1Configuration_1a60137b81b516f5bbe5d2c4354a5815d4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">newest_particle_index</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration21newest_particle_indexEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the selection-based index (includes ghosts) of the last particle added. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration6ghostsEv">
-<span class="target" id="classfeasst_1_1Configuration_1a0fa140e0be7a12c17b173cb87aa2eba9"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a>&gt; &amp;<code class="sig-name descname">ghosts</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration6ghostsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration6ghostsEv">
+<span class="target" id="classfeasst_1_1Configuration_1a0fa140e0be7a12c17b173cb87aa2eba9"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">ghosts</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration6ghostsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return ghost particles. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration13wrap_particleEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a85bada69d65e3e8e310b53f3475db20f"></span>void <code class="sig-name descname">wrap_particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13wrap_particleEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration13wrap_particleEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a85bada69d65e3e8e310b53f3475db20f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wrap_particle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13wrap_particleEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Wrap particle position. The index may include ghost particles. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration30add_non_ghost_particle_of_typeEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a7ce9fb9000d3b9e18d136148a9e8ac25"></span>void <code class="sig-name descname">add_non_ghost_particle_of_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration30add_non_ghost_particle_of_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration30add_non_ghost_particle_of_typeEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a7ce9fb9000d3b9e18d136148a9e8ac25"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_non_ghost_particle_of_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration30add_non_ghost_particle_of_typeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a particle of a given type without using ghosts. </p>
 </dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Sites</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-sites">Sites</p>
 <p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> properties of sites directly. Note that indices include ghosts. </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration22set_selection_physicalERK6SelectKb">
-<span class="target" id="classfeasst_1_1Configuration_1a9fc47676310cd1542316ddb4bb71b80f"></span>void <code class="sig-name descname">set_selection_physical</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> bool <em>phys</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration22set_selection_physicalERK6SelectKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration22set_selection_physicalERK6SelectKb">
+<span class="target" id="classfeasst_1_1Configuration_1a9fc47676310cd1542316ddb4bb71b80f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_selection_physical</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">phys</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration22set_selection_physicalERK6SelectKb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set selection as physical/nonphysical. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration12set_propertyEKNSt6stringEKdKi">
-<span class="target" id="classfeasst_1_1Configuration_1aec7c4700d5dcea07495e20db0f312d81"></span>void <code class="sig-name descname">set_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration12set_propertyEKNSt6stringEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration12set_propertyEKNSt6stringEKdKi">
+<span class="target" id="classfeasst_1_1Configuration_1aec7c4700d5dcea07495e20db0f312d81"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_property</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration12set_propertyEKNSt6stringEKdKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set particle property. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration17add_site_propertyEKNSt6stringEKdKiKi">
-<span class="target" id="classfeasst_1_1Configuration_1aed7d0110270b1ad5cc0ac0073a95bd4b"></span>void <code class="sig-name descname">add_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17add_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration17add_site_propertyEKNSt6stringEKdKiKi">
+<span class="target" id="classfeasst_1_1Configuration_1aed7d0110270b1ad5cc0ac0073a95bd4b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_site_property</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17add_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add the property to a site in a particle. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration24add_or_set_site_propertyEKNSt6stringEKdKiKi">
-<span class="target" id="classfeasst_1_1Configuration_1a0ecc48c5dc59fd664d665c4287b7c6b9"></span>void <code class="sig-name descname">add_or_set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration24add_or_set_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration24add_or_set_site_propertyEKNSt6stringEKdKiKi">
+<span class="target" id="classfeasst_1_1Configuration_1a0ecc48c5dc59fd664d665c4287b7c6b9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_or_set_site_property</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration24add_or_set_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add or set the property of a site in a particle. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration38add_or_set_particle_type_site_propertyEKNSt6stringEKdKiKi">
-<span class="target" id="classfeasst_1_1Configuration_1adac154abb46bab492827d005c58a11d5"></span>void <code class="sig-name descname">add_or_set_particle_type_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_type</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration38add_or_set_particle_type_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration38add_or_set_particle_type_site_propertyEKNSt6stringEKdKiKi">
+<span class="target" id="classfeasst_1_1Configuration_1adac154abb46bab492827d005c58a11d5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_or_set_particle_type_site_property</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration38add_or_set_particle_type_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add or set the property of a site in a particle type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration17set_site_propertyEKNSt6stringEKdKiKi">
-<span class="target" id="classfeasst_1_1Configuration_1a9e9d963d9db69acb8920046eb7c475c8"></span>void <code class="sig-name descname">set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17set_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration17set_site_propertyEKNSt6stringEKdKiKi">
+<span class="target" id="classfeasst_1_1Configuration_1a9e9d963d9db69acb8920046eb7c475c8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_site_property</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17set_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the property of a site in a particle by name. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration17set_site_propertyEKiKdKiKi">
-<span class="target" id="classfeasst_1_1Configuration_1af1e91b10e51d85021839b4142c723f44"></span>void <code class="sig-name descname">set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17set_site_propertyEKiKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration17set_site_propertyEKiKdKiKi">
+<span class="target" id="classfeasst_1_1Configuration_1af1e91b10e51d85021839b4142c723f44"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_site_property</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17set_site_propertyEKiKdKiKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the property of a site in a particle by index. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration17set_particle_typeEKiRK6Select">
-<span class="target" id="classfeasst_1_1Configuration_1a610691ead2805ac0364125b354f1067c"></span>void <code class="sig-name descname">set_particle_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_type</em>, <em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17set_particle_typeEKiRK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration17set_particle_typeEKiRK6Select">
+<span class="target" id="classfeasst_1_1Configuration_1a610691ead2805ac0364125b354f1067c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_particle_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration17set_particle_typeEKiRK6Select" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Change select to a given particle type. </p>
 </dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Neighbor Criteria</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-neighbor-criteria">Neighbor Criteria</p>
 <p>Define and store various criteria used for defining neighbors </p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration3addENSt10shared_ptrI16NeighborCriteriaEE">
-<span class="target" id="classfeasst_1_1Configuration_1aea6a2b42958679112b17a434c6faf925"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; <em>neighbor_criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration3addENSt10shared_ptrI16NeighborCriteriaEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration3addENSt10shared_ptrI16NeighborCriteriaEE">
+<span class="target" id="classfeasst_1_1Configuration_1aea6a2b42958679112b17a434c6faf925"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria"><span class="n"><span class="pre">NeighborCriteria</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">neighbor_criteria</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration3addENSt10shared_ptrI16NeighborCriteriaEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration17neighbor_criteriaEKi">
-<span class="target" id="classfeasst_1_1Configuration_1a24210ad8cab8f7a23afbb448cf7aa303"></span><em class="property">const</em> <a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17neighbor_criteriaEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration17neighbor_criteriaEKi">
+<span class="target" id="classfeasst_1_1Configuration_1a24210ad8cab8f7a23afbb448cf7aa303"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria"><span class="n"><span class="pre">NeighborCriteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">neighbor_criteria</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17neighbor_criteriaEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration17neighbor_criteriaEv">
-<span class="target" id="classfeasst_1_1Configuration_1af35da21d4278e6c2e4dca43130de96d7"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a>&gt; &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17neighbor_criteriaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration17neighbor_criteriaEv">
+<span class="target" id="classfeasst_1_1Configuration_1af35da21d4278e6c2e4dca43130de96d7"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria"><span class="n"><span class="pre">NeighborCriteria</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">neighbor_criteria</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17neighbor_criteriaEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Checks</p>
-<p>Consistency checks and tests. </p>
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration5checkEv">
-<span class="target" id="classfeasst_1_1Configuration_1a2ef281f20f97b63df6024cf88db03db6"></span>void <code class="sig-name descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration5checkEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> consistency of dimensions and lists. </p>
 </dd></dl>
 
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration22are_all_sites_physicalEv">
-<span class="target" id="classfeasst_1_1Configuration_1a1cf652e94ccf235ea9c2f15252189c9b"></span>bool <code class="sig-name descname">are_all_sites_physical</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration22are_all_sites_physicalEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return true if all sites are physical. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration8is_equalERK13ConfigurationKd">
-<span class="target" id="classfeasst_1_1Configuration_1a0c75ebd015c22f915b74af8bfd273f5d"></span>bool <code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>configuration</em>, <em class="property">const</em> double <em>tolerance</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8is_equalERK13ConfigurationKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> if configuration is approximately equivalent. Not all quantities are checked, including ghosts, etc. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration13status_headerEv">
-<span class="target" id="classfeasst_1_1Configuration_1a78214aa63868b539762687affefa253b"></span>std::string <code class="sig-name descname">status_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13status_headerEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the header of the status for periodic output. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration6statusEv">
-<span class="target" id="classfeasst_1_1Configuration_1a63fac9420e1ef3b96c16c78b8c0eb58b"></span>std::string <code class="sig-name descname">status</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration6statusEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the brief status for periodic output. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst13Configuration9serializeERNSt7ostreamE">
-<span class="target" id="classfeasst_1_1Configuration_1a49d0f3537a16e755a7a82b3ac49ce493"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13Configuration9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Serialize. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst13Configuration13ConfigurationERNSt7istreamE">
-<span class="target" id="classfeasst_1_1Configuration_1a06dc790a49d77cea74a478a76ced67ff"></span><code class="sig-name descname">Configuration</code><span class="sig-paren">(</span>std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13ConfigurationERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Deserialize. </p>
-</dd></dl>
-
-</div>
-</dd></dl>
-
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="NeighborCriteria.html" class="btn btn-neutral float-left" title="NeighborCriteria" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="VisitConfiguration.html" class="btn btn-neutral float-right" title="VisitConfiguration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="VisitParticles.html" class="btn btn-neutral float-left" title="VisitParticles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-
-    </p>
+    <p></p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 
 
 	<br></br>
@@ -997,22 +921,13 @@
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
