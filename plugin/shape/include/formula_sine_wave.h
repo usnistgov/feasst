@@ -39,7 +39,7 @@ class FormulaSineWave : public Formula {
   /// Return the default value for the shift input argument.
   double default_shift() const { return 0.; }
 
-  /// Return the phase
+  /// Return the shift
   double shift() const { return shift_; }
 
   // set the shift
