@@ -187,7 +187,7 @@ std::string CollectionMatrix::write_per_bin_header() const {
   for (int i = 0; i < min_blocks(); ++i) {
     ss << "ln_prob" << i << ",";
   }
-  ss << "delta_ln_prob_stdev,P_down,P_up,P_down_block_std,P_up_block_std";
+  ss << "delta_ln_prob_stdev,P_down,P_up,n_trials,P_down_block_std,P_up_block_std";
   return ss.str();
 }
 
@@ -202,6 +202,7 @@ std::string CollectionMatrix::write_per_bin(const int bin) const {
   ss << delta_ln_p.stdev_of_av() << ",";
   ss << MAX_PRECISION << matrix()[bin][0].average() << ","
      << matrix()[bin][1].average() << ","
+     << matrix()[bin][0].moment(0) << ","
      << matrix()[bin][0].block_stdev() << ","
      << matrix()[bin][1].block_stdev();
   return ss.str();
