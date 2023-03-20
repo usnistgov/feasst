@@ -254,8 +254,15 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
           ERROR(trial->class_name() << " " << trial->description()
             << " should use a reference potential "
             << "without Ewald or LongRangeCorrections due to multiple stages "
-            << "which complicate revert");
+            << "which complicate revert.");
         }
+      }
+      // Require reference potentials for any trial with multiple steps
+      for (int stage = 0; stage < trial->num_stages(); ++stage) {
+        ASSERT(trial->stage(stage).num_steps() == 1 ||
+               trial->stage(stage).reference() != -1,
+          "Ewald and LongRangeCorrections require a reference potential "
+          << "if multiple steps.");
       }
     }
   }

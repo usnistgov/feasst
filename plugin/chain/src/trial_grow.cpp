@@ -250,11 +250,13 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           ". Requires one of bond, angle, dihedral, branch, reptate, etc");
         if (!compute) {
           DEBUG("num_args " << num_args);
-          if (num_args == 1) {
-            compute = std::make_shared<TrialComputeTranslate>(&iargs);
-          } else {
-            compute = std::make_shared<TrialComputeMove>(&iargs);
-          }
+          // HWH: disable tunable trials until developed properly
+//          if (num_args == 1) {
+//            compute = std::make_shared<TrialComputeTranslate>(&iargs);
+//          } else {
+//            compute = std::make_shared<TrialComputeMove>(&iargs);
+//          }
+          compute = std::make_shared<TrialComputeMove>(&iargs);
         } else {
           DEBUG(compute->class_name());
         }
