@@ -71,10 +71,10 @@ void WLTM::resize(const Histogram& histogram) {
 
 void WLTM::infrequent_update(const Macrostate& macro) {
   if (is_wl_bias_(macro)) {
-    return wang_landau_->infrequent_update(macro);
+    wang_landau_->infrequent_update(macro);
   }
   if (wang_landau_->num_flatness() >= collect_flatness_) {
-    return transition_matrix_->infrequent_update(macro);
+    transition_matrix_->infrequent_update(macro);
   }
 }
 
