@@ -110,6 +110,9 @@ class System {
   /// Return a constant reference to the full potentials.
   const PotentialFactory& potentials() const;
 
+  /// Remove optimization when overlap is detected, which is default.
+  void remove_opt_overlap();
+
   //@}
   /** @name Neighbor Criteria
     Define and store various criteria used for defining neighbors

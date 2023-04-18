@@ -19,9 +19,14 @@ class MayerSampling : public Criteria {
     args:
     - num_attempts_per_iteration: set the number of MonteCarlo trials,
       or attempts (as measured by number of calls to is_accepted) default: 1e9.
+    - intra_potential: index of intramolecular potential that will be used
+      to select the move. Ignore if -1 (default: -1).
    */
   explicit MayerSampling(argtype args = argtype());
   explicit MayerSampling(argtype * args);
+
+  /// Disable optimization when overlap is detected.
+  void precompute(System * system) override;
 
   bool is_accepted(
     const System& system,
@@ -65,10 +70,12 @@ class MayerSampling : public Criteria {
   int num_attempts_per_iteration_;
   Accumulator mayer_;
   Accumulator mayer_ref_;
+  int intra_pot_;
 };
 
-inline std::shared_ptr<MayerSampling> MakeMayerSampling() {
-  return std::make_shared<MayerSampling>();
+inline std::shared_ptr<MayerSampling> MakeMayerSampling(
+    argtype args = argtype()) {
+  return std::make_shared<MayerSampling>(args);
 }
 
 }  // namespace feasst

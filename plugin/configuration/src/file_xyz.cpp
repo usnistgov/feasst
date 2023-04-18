@@ -62,9 +62,8 @@ FileXYZ::FileXYZ(argtype args) : FileXYZ(&args) {
   FEASST_CHECK_ALL_USED(args);
 }
 
-void FileXYZ::load(const std::string file_name, Configuration * config) const {
-  std::ifstream xyz_file(file_name);
-  ASSERT(xyz_file, "file_name: " << file_name << " is empty");
+void FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const {
+  ASSERT(xyz_file, "xyz_file is empty");
   int num_sites;
   std::string line;
   std::getline(xyz_file, line);
@@ -119,6 +118,12 @@ void FileXYZ::load(const std::string file_name, Configuration * config) const {
   } else {
     config->update_positions(coords);
   }
+}
+
+void FileXYZ::load(const std::string file_name, Configuration * config) const {
+  std::ifstream xyz_file(file_name);
+  ASSERT(xyz_file, "file_name: " << file_name << " is empty");
+  load_frame(xyz_file, config);
 }
 
 PrinterXYZ::PrinterXYZ(std::shared_ptr<std::ofstream> file, const bool euler,

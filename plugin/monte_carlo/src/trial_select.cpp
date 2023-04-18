@@ -169,9 +169,10 @@ const EnergyMap& TrialSelect::map_(const System& system,
   if (neighbor_criteria.reference_potential() == -1) {
     return system.potentials().potential(neighbor_criteria.potential_index()).visit_model().inner().energy_map();
   }
-  return system.reference(neighbor_criteria.reference_potential(),
-                          neighbor_criteria.potential_index()
-                         ).visit_model().inner().energy_map();
+  const Potential& ref = system.reference(
+    neighbor_criteria.reference_potential(),
+    neighbor_criteria.potential_index());
+  return ref.visit_model().inner().energy_map();
 }
 
 void TrialSelect::before_select() {

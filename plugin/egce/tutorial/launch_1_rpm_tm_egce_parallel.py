@@ -41,9 +41,9 @@ ConvertToRefPotential potential_index 1 cutoff {dccb_cut} use_cell true
 ThermoParams beta {beta} chemical_potential0 {mu} chemical_potential1 {mu}
 Metropolis Constraint AEqualB extra_A 1
 TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
-Log trials_per {trials_per} file_name rpm[sim_index].txt
+Log trials_per_write {trials_per} file_name rpm[sim_index].txt
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per} tolerance 1e-4
 #Checkpoint file_name checkpoint[sim_index].fst num_hours {hours_per_checkpoint}
 
 # gcmc initialization and nvt equilibration
@@ -63,12 +63,12 @@ FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min 
 TrialTransfer weight 1 particle_type 0 reference_index 0 num_steps 8
 TrialTransfer weight 1 particle_type 1 reference_index 0 num_steps 8
 RemoveAnalyze name Log
-Log trials_per {trials_per} file_name rpm[sim_index].txt
+Log trials_per_write {trials_per} file_name rpm[sim_index].txt
 Tune trials_per_write {trials_per} file_name tune_rpm[sim_index].txt multistate true
-Movie trials_per {trials_per} file_name rpm[sim_index].xyz
+Movie trials_per_write {trials_per} file_name rpm[sim_index].xyz
 Energy trials_per_write {trials_per} file_name en_rpm[sim_index].txt multistate true
-CriteriaUpdater trials_per {trials_per}
-CriteriaWriter trials_per {trials_per} file_name crit_rpm[sim_index].txt
+CriteriaUpdater trials_per_update {trials_per}
+CriteriaWriter trials_per_write {trials_per} file_name crit_rpm[sim_index].txt
 """.format(**params))
 
 # write slurm script to fill nodes with simulations

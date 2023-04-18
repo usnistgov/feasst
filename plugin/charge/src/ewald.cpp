@@ -593,7 +593,7 @@ void Ewald::finalize(const Select& select, Configuration * config) {
           const int site_index = select.site_index(ipart, isite);
           const std::vector<double>& eik_new = eik_new_[ipart][isite];
           for (int k = 0; k < static_cast<int>(eik_new.size()); ++k) {
-            //INFO("part_index " << part_index << " sz " << (*eik_()).size());
+            TRACE("part_index " << part_index << " sz " << (*eik_()).size());
             (*eik_())[part_index][site_index][k] = eik_new[k];
           }
         }
@@ -702,16 +702,28 @@ void Ewald::check(const Configuration& config) const {
   DEBUG(config.selection_of_all().str());
   DEBUG(eikn.size());
   const double tolerance = 1e-8;
-  ASSERT(is_equal(sf_real, struct_fact_real(), tolerance),
-    "sf_real: " << feasst_str(sf_real)
-    << "struct_fact_real() << " << feasst_str(struct_fact_real()));
-  ASSERT(is_equal(sf_imag, struct_fact_imag(), tolerance),
-    "sf_imag: " << feasst_str(sf_imag)
-    << "struct_fact_imag() << " << feasst_str(struct_fact_imag()));
+  std::stringstream ss;
+  if (!is_equal(sf_real, struct_fact_real(), tolerance)) {
+    ss << "sf_real: " << feasst_str(sf_real)
+       << "struct_fact_real() << " << feasst_str(struct_fact_real())
+       << std::endl;
+  }
+  if (!is_equal(sf_imag, struct_fact_imag(), tolerance)) {
+    ss << "sf_imag: " << feasst_str(sf_imag)
+       << "struct_fact_imag() << " << feasst_str(struct_fact_imag())
+       << std::endl;
+  }
   for (int sp = 0; sp < sel.num_particles(); ++sp) {
     const int part = sel.particle_index(sp);
-    ASSERT(is_equal(eikn[sp], eik()[part], tolerance), "eikn " << feasst_str(eikn[sp])
-      << " eik " << feasst_str(eik()[part]));
+    if (!is_equal(eikn[sp], eik()[part], tolerance)) {
+      ss << "part " << part << " sp " << sp
+         << " eikn " << feasst_str(eikn[sp])
+         << " eik " << feasst_str(eik()[part])
+         << std::endl;
+    }
+  }
+  if (!ss.str().empty()) {
+    FATAL(ss.str());
   }
 }
 

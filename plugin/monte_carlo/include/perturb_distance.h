@@ -27,7 +27,10 @@ class PerturbDistance : public PerturbMove {
   /**
     args:
     - potential_acceptance: index of intramolecular potential that will be used
-      to select the move. Ignore if -1 (default: -1).
+      to select the move.
+      This option is intended for MayerSampling only.
+      Note: if the Trial has multiple stages, this may cause problems.
+      Ignore if -1 (default: -1).
     - enable_tunable: enable tunable perturbation, but only implemented for a
       single stage and a single step.
    */

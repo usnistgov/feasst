@@ -2,7 +2,6 @@
 .. toctree::
 
    Action
-   Run
    Stepper
    Rosenbluth
    Acceptance
@@ -12,6 +11,10 @@
    ConstrainNumParticles
    TrialSelect
    TrialSelectParticle
+   Run
+   TrialSelectBond
+   TrialSelectAngle
+   TrialSelectDihedral
    Tunable
    Perturb
    PerturbMove
@@ -26,9 +29,6 @@
    PerturbAdd
    TrialStage
    PerturbVolume
-   TrialSelectBond
-   TrialSelectAngle
-   TrialSelectDihedral
    TrialCompute
    TrialComputeMove
    TrialComputeTranslate
@@ -36,9 +36,8 @@
    Trial
    TrialVolume
    TrialMove
-   TrialTranslate
-   TrialAdd
    TrialRotate
+   TrialAdd
    TrialFactory
    SeekNumParticles
    TrialTransfer
@@ -50,3 +49,4 @@
    TrialComputeAdd
    TrialComputeRemove
    TrialRemove
+   TrialTranslate

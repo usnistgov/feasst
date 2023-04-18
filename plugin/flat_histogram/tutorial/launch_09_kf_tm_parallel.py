@@ -38,9 +38,9 @@ ThermoParams beta {beta} chemical_potential {mu}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialRotate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-Log trials_per {trials_per} file_name kf[sim_index].txt
+Log trials_per_write {trials_per} file_name kf[sim_index].txt
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
@@ -54,12 +54,12 @@ FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min 
 Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
 TrialTransfer weight 2 particle_type 0
 RemoveAnalyze name Log
-Log trials_per {trials_per} file_name kf[sim_index].txt
-MoviePatch trials_per {trials_per} file_name kf[sim_index].xyz
+Log trials_per_write {trials_per} file_name kf[sim_index].txt
+MoviePatch trials_per_write {trials_per} file_name kf[sim_index].xyz
 Tune trials_per_write {trials_per} file_name kf_tune[sim_index].txt multistate true stop_after_iteration 100
 Energy trials_per_write {trials_per} file_name kf_en[sim_index].txt multistate true start_after_iteration 100
-CriteriaUpdater trials_per {trials_per}
-CriteriaWriter trials_per {trials_per} file_name kf_crit[sim_index].txt
+CriteriaUpdater trials_per_update {trials_per}
+CriteriaWriter trials_per_write {trials_per} file_name kf_crit[sim_index].txt
 """.format(**params))
 
 # write slurm script to fill nodes with simulations

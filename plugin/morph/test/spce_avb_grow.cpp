@@ -103,12 +103,12 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     bias);
   mc.set(criteria);
-  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/spce_fh"}}));
-  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", str(1e-6)}}));
-  //mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}, {"tolerance", str(1e-6)}}));
-  mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
+  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/spce_fh"}}));
+  mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
+  //mc.add(MakeCheckEnergyAndTune({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
-    {"trials_per", str(trials_per)},
+    {"trials_per_write", str(trials_per)},
     {"file_name", "tmp/spce_crit.txt"}}));
   auto energy = MakeEnergy({
     {"file_name", "tmp/spce_fh_energy"},

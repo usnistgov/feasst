@@ -70,6 +70,9 @@ void System::add_to_reference(std::shared_ptr<Potential> ref, const int index) {
 
 const Potential& System::reference(const int ref,
     const int potential) const {
+  ASSERT(ref < static_cast<int>(references_.size()), "reference potential: "
+    << ref << " >= number of references: " << references_.size()
+    << ". Double check the reference_index.");
   return references_[ref].potential(potential);
 }
 
@@ -283,6 +286,14 @@ void System::set(std::shared_ptr<ThermoParams> thermo_params) {
 const ThermoParams& System::thermo_params() const {
   ASSERT(thermo_params_, "must set ThermoParams first.");
   return const_cast<ThermoParams&>(*thermo_params_);
+}
+
+void System::remove_opt_overlap() {
+  unoptimized_.remove_opt_overlap();
+  optimized_.remove_opt_overlap();
+  for (PotentialFactory& ref : references_) {
+    ref.remove_opt_overlap();
+  }
 }
 
 }  // namespace feasst

@@ -33,14 +33,14 @@ Run until_num_particles {num_particles}
 RemoveTrial name TrialAdd
 ThermoParams beta {beta}
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 
 # equilibrate
 Run num_trials {equilibration}
 RemoveModify name Tune
 
 # production analysis and output
-Log trials_per {trials_per} file_name lj.txt
+Log trials_per_write {trials_per} file_name lj.txt
 Energy trials_per_write {trials_per} file_name en.txt
 Run num_trials {production}
 """.format(**params))

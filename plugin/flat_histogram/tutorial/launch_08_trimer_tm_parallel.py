@@ -37,9 +37,9 @@ Metropolis
 TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25 particle_type 0
 TrialRigidCluster weight {trial_rigid_cluster_weight} neighbor_index 0
-Log trials_per {trials_per} file_name trimer[sim_index].txt
+Log trials_per_write {trials_per} file_name trimer[sim_index].txt
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
@@ -53,14 +53,14 @@ FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min 
 Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
 TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 8
 RemoveAnalyze name Log
-Log trials_per {trials_per} file_name trimer[sim_index].txt
-Movie trials_per {trials_per} file_name trimer[sim_index].xyz
+Log trials_per_write {trials_per} file_name trimer[sim_index].txt
+Movie trials_per_write {trials_per} file_name trimer[sim_index].xyz
 AnalyzeCluster trials_per_write {trials_per} file_name trimer_cluster[sim_index]_eq.txt multistate true stop_after_iteration 100
 AnalyzeCluster trials_per_write {trials_per} file_name trimer_cluster[sim_index].txt multistate true start_after_iteration 100
 Tune trials_per_write {trials_per} file_name trimer_tune[sim_index].txt multistate true stop_after_iteration 100
 Energy trials_per_write {trials_per} file_name trimer_en[sim_index].txt multistate true start_after_iteration 100
-CriteriaUpdater trials_per {trials_per}
-CriteriaWriter trials_per {trials_per} file_name trimer_crit[sim_index].txt
+CriteriaUpdater trials_per_update {trials_per}
+CriteriaWriter trials_per_write {trials_per} file_name trimer_crit[sim_index].txt
 """.format(**params))
 
 # write slurm script to fill nodes with simulations

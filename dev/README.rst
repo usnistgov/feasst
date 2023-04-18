@@ -9,12 +9,7 @@ Branch policies
 
 Branches in Git are extremely useful for working on different features within the same code base and then merging them into a final product or release.
 
-https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
-
 Using and naming branches in a way that is consistent may simplify this process.
-The policies below are based loosely on the following blog.
-
-http://nvie.com/posts/a-successful-git-branching-model/
 
 Main branch
 --------------------------------------------------------------------------------
@@ -67,7 +62,7 @@ These branch names must begin with the characters "dead".
 Pull requests
 --------------------------------------------------------------------------------
 
-To create a pull request, fork the usnistgov repo, create a new branch with your changes, and add the pull request, as detailed in https://opensource.com/article/19/7/create-pull-request-github
+To create a pull request, fork the usnistgov repo, create a new branch with your changes, and add the pull request.
 
 To incorporate the pull request into feasst
 - git fetch usnistgov pull/ID/head:BRANCHNAME

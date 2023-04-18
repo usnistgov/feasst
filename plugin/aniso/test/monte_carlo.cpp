@@ -30,9 +30,9 @@ TEST(MonteCarlo, VisitModelInnerTable) {
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"TrialRotate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"Checkpoint", {{"num_hours", "0.0001"}, {"file_name", "tmp/aniso.fst"}}},
-    {"Log", {{"trials_per", str(1e0)}, {"file_name", "tmp/aniso.txt"}}},
-    {"Movie", {{"trials_per", str(1e0)}, {"file_name", "tmp/aniso.xyze"}, {"euler", "true"}}},
-    {"CheckEnergy", {{"trials_per", str(1e0)}, {"tolerance", str(1e-9)}}},
+    {"Log", {{"trials_per_write", str(1e0)}, {"file_name", "tmp/aniso.txt"}}},
+    {"Movie", {{"trials_per_write", str(1e0)}, {"file_name", "tmp/aniso.xyze"}, {"euler", "true"}}},
+    {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
     {"Run", {{"num_trials", "1e2"}}},
   }});
@@ -63,9 +63,9 @@ TEST(MonteCarlo, rigid_body_connector) {
     {"RemoveTrial", {{"name", "TrialTranslate"}}},
     {"RemoveTrial", {{"name", "TrialRotate"}}},
     {"TrialGrowFile", {{"file_name", "../plugin/aniso/test/data/rigid_and_connector.txt"}}},
-    {"Log", {{"trials_per", "1"}, {"file_name", "tmp/connector.txt"}}},
-    {"Movie", {{"trials_per", "1"}, {"file_name", "tmp/connector.xyz"}}},
-    {"CheckEnergy", {{"trials_per", str(1e2)}, {"tolerance", "1e-8"}}},
+    {"Log", {{"trials_per_write", "1"}, {"file_name", "tmp/connector.txt"}}},
+    {"Movie", {{"trials_per_write", "1"}, {"file_name", "tmp/connector.xyz"}}},
+    {"CheckEnergy", {{"trials_per_update", str(1e2)}, {"tolerance", "1e-8"}}},
   }});
   mc->attempt(1e3);
   MonteCarlo mc2 = test_serialize(*mc);

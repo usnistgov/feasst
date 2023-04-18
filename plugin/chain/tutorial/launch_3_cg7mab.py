@@ -26,9 +26,9 @@ ThermoParams beta 1 chemical_potential 1
 Metropolis
 TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25 particle_type 0
-Log trials_per {trials_per} file_name cg7mab_n{num_particles}.csv
+Log trials_per_write {trials_per} file_name cg7mab_n{num_particles}.csv
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 Checkpoint file_name cg7mab_n{num_particles}.fst num_hours_terminate {num_hours_terminate}
 
 # gcmc initialization and nvt equilibration
@@ -38,7 +38,7 @@ RemoveTrial name TrialAdd
 Run num_trials {equilibration}
 
 # nvt production
-Movie trials_per {trials_per} file_name cg7mab_n{num_particles}.xyz
+Movie trials_per_write {trials_per} file_name cg7mab_n{num_particles}.xyz
 PairDistribution trials_per_update 1000 trials_per_write {trials_per} dr 0.025 file_name cg7mab_gr_n{num_particles}.csv print_intra true
 Scattering trials_per_update 100 trials_per_write {trials_per} num_frequency 4 file_name cg7mab_iq_n{num_particles}.csv
 Run num_trials {production}

@@ -197,6 +197,7 @@ class Ewald : public VisitModel {
     return data_.dble_2D()[1]; }
 
   void check_size() const;
+
   /// Return the net charge of the configuration.
   double net_charge(const Configuration& config) const;
 

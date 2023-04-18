@@ -23,9 +23,9 @@ Potential Model HardSphere VisitModel VisitModelCell min_length 1
 ThermoParams beta 1 chemical_potential 1
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-Log trials_per {trials_per} file_name hs.csv
+Log trials_per_write {trials_per} file_name hs.csv
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 Checkpoint file_name hs.fst num_hours_terminate {num_hours_terminate}
 
 # gcmc initialization and nvt equilibration
@@ -35,7 +35,7 @@ RemoveTrial name TrialAdd
 Run num_trials {equilibration}
 
 # nvt production
-Movie trials_per {trials_per} file_name hs.xyz
+Movie trials_per_write {trials_per} file_name hs.xyz
 PairDistribution trials_per_update 1000 trials_per_write {trials_per} dr 0.025 file_name hs_gr.csv
 Scattering trials_per_update 100 trials_per_write {trials_per} num_frequency 10 file_name hs_iq.csv
 Run num_trials {production}

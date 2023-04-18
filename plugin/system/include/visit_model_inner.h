@@ -84,8 +84,7 @@ class VisitModelInner {
 
   void set_energy_map(std::shared_ptr<EnergyMap> map) { energy_map_ = map; }
 
-  const EnergyMap& energy_map() const {
-    return const_cast<EnergyMap&>(*energy_map_); }
+  const EnergyMap& energy_map() const;
 
   bool is_energy_map() const {
     if (energy_map_) { return true; } else { return false; } }

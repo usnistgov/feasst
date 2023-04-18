@@ -506,6 +506,9 @@ class Configuration {
   /// Return the brief status for periodic output.
   std::string status() const;
 
+  /// Return the configuration in human readable format for testing.
+  std::string str() const;
+
   //@}
 
   // HWH updates entire particle. Optimize by updating per site.

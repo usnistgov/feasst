@@ -70,11 +70,11 @@ MonteCarlo rpm_egce(const int min = 0,
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
     MakeAEqualB({{"extra_A", "1"}}));
   mc.set(criteria);
-  mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
-  mc.add(MakeCriteriaWriter({{"trials_per", str(trials_per)},
+  mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
+  mc.add(MakeCriteriaWriter({{"trials_per_write", str(trials_per)},
                              {"file_name", "tmp/rpm_egce_crit.txt"}}));
-  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/rpm_egce"}}));
-  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", "1e-8"}}));
+  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/rpm_egce"}}));
+  mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", "1e-8"}}));
   mc.add(MakeTune());
   // mc.add(MakeCheckProperties({{"trials_per", str(trials_per)}}));
   // mc.add(MakeCPUTime({{"trials_per", str(5*trials_per)}}));
@@ -315,17 +315,17 @@ MonteCarlo dival_egce(
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
     MakeAHalfB({{"extra", "1"}}));
   mc.set(criteria);
-  mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
-    {"trials_per", str(trials_per)},
+    {"trials_per_write", str(trials_per)},
     {"file_name", "tmp/dival_egce_crit.txt"},
   }));
-  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/dival_egce"}}));
-  mc.add(MakeCheckProperties({{"trials_per", str(trials_per)}, {"tolerance", str(1e-12)}}));
-  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}, {"tolerance", str(1e-4)}}));
+  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/dival_egce"}}));
+  mc.add(MakeCheckProperties({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-12)}}));
+  mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-4)}}));
   mc.add(MakeTune());
   const double charge_minus = mc.configuration().model_params().select("charge").value(1);
-  mc.add(MakeCheckNetCharge({{"trials_per", str(trials_per)},
+  mc.add(MakeCheckNetCharge({{"trials_per_update", str(trials_per)},
                              {"maximum", str(-charge_minus)},
                              {"minimum", str(charge_minus)}}));
   if (energy) {
@@ -672,11 +672,11 @@ TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   //mc.add(MakeTrialGrow({{{"particle_type", "0"}, {"transfer", "true"}, {"weight", "4"}, {"site", "0"}, {"num_steps", ns}, {"reference_index", ref}}}));
   //mc.add(MakeTrialTranslate());
   const std::string trials_per = "1e3";
-  mc.add(MakeCheckEnergy({{"trials_per", trials_per}}));
+  mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
   mc.add(MakeTune());
-  mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCriteriaUpdater({{"trials_per", trials_per}}));
-  mc.add(MakeCriteriaWriter({{"trials_per", trials_per}, {"file_name", "tmp/ljcrit.txt"}}));
+  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));
+  mc.add(MakeCriteriaWriter({{"trials_per_write", trials_per}, {"file_name", "tmp/ljcrit.txt"}}));
   mc.add(MakeEnergy({{"file_name", "tmp/lj_fh_energy"},
     {"trials_per_update", "1"},
     {"trials_per_write", trials_per},

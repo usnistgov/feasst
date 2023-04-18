@@ -40,9 +40,9 @@ Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-Log trials_per {trials_per} file_name ljn{min_particles}s{sim}_[sim_index].txt
+Log trials_per_write {trials_per} file_name ljn{min_particles}s{sim}_[sim_index].txt
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
@@ -58,12 +58,12 @@ Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
 #Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
 TrialTransfer weight 2 particle_type 0
 #TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 4
-Movie trials_per {trials_per} file_name ljn{min_particles}s{sim}_[sim_index].xyz
+Movie trials_per_write {trials_per} file_name ljn{min_particles}s{sim}_[sim_index].xyz
 Tune trials_per_write {trials_per} file_name lj_tunen{min_particles}s{sim}_[sim_index].txt multistate true
 Energy trials_per_write {trials_per} file_name lj_enn{min_particles}s{sim}_[sim_index].txt multistate true append true
-CPUTime trials_per {trials_per} file_name lj_cpun{min_particles}s{sim}_[sim_index].txt append true
-CriteriaUpdater trials_per {trials_per}
-CriteriaWriter trials_per {trials_per} file_name lj_critn{min_particles}s{sim}_[sim_index].txt
+CPUTime trials_per_write {trials_per} file_name lj_cpun{min_particles}s{sim}_[sim_index].txt append true
+CriteriaUpdater trials_per_update {trials_per}
+CriteriaWriter trials_per_write {trials_per} file_name lj_critn{min_particles}s{sim}_[sim_index].txt
 #Run until_criteria_complete true
 """.format(**params))
 

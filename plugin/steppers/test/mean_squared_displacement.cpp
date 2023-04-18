@@ -25,8 +25,8 @@ TEST(MeanSquaredDisplacement, msd) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "50"}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergy({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e4)}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCheckEnergy({{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.add(MakeTune());
   mc.add(MakeMeanSquaredDisplacement({
     {"trials_per_update", "10"},

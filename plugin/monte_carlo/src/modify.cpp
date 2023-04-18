@@ -95,6 +95,7 @@ ModifyUpdateOnly::ModifyUpdateOnly(argtype * args) : Modify(args) {
 
   // parse
   if (used("trials_per", *args)) {
+    WARN("ModifyUpdateOnly::trials_per is deprecated. Use trials_per_update.");
     set_trials_per(integer("trials_per", args));
   }
 }

@@ -297,7 +297,7 @@ class Select {
   Select random_particle(Random * random);
 
   /// Print the selection.
-  std::string str() const;
+  std::string str(const bool pos = false) const;
 
   virtual void serialize(std::ostream& ostr) const;
   explicit Select(std::istream& istr);

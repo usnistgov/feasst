@@ -167,4 +167,9 @@ std::shared_ptr<VisitModelInner> VisitModelInner::factory(const std::string name
   return template_factory(deserialize_map(), name, args);
 }
 
+const EnergyMap& VisitModelInner::energy_map() const {
+  ASSERT(energy_map_, "VisitModelInner contains no EnergyMap");
+  return const_cast<EnergyMap&>(*energy_map_);
+}
+
 }  // namespace feasst

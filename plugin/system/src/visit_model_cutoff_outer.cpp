@@ -10,6 +10,7 @@
 namespace feasst {
 
 VisitModelCutoffOuter::VisitModelCutoffOuter(argtype * args) : VisitModel() {
+//VisitModelCutoffOuter::VisitModelCutoffOuter(argtype * args) : VisitModel(args) {
   class_name_ = "VisitModelCutoffOuter";
 }
 VisitModelCutoffOuter::VisitModelCutoffOuter(argtype args) : VisitModelCutoffOuter(&args) {

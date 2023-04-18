@@ -15,17 +15,18 @@
    PerturbCrankshaftSmall
    PerturbPivot
    PerturbCrankshaft
+   PerturbLibrary
    PerturbSiteType
    SelectBranch
    TrialSwapSites
-   TrialReptate
-   TrialCrankshaft
-   TrialCrankshaftSmall
-   TrialParticlePivot
    TrialGrowLinear
+   TrialReptate
+   TrialParticlePivot
+   TrialCrankshaftSmall
+   TrialCrankshaft
+   TrialGrow
    AnalyzeBonds
    RadiusOfGyration
    EndToEndDistance
-   TrialGrow
    TrialPivot
    SelectParticlePivot

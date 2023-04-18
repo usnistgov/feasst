@@ -45,11 +45,16 @@ void Select::add_particle(const Particle& particle,
   add_particle(particle_index, sites, prevent_duplicate);
 }
 
-std::string Select::str() const {
+std::string Select::str(const bool pos) const {
   std::stringstream ss;
   for (int index = 0; index < num_particles(); ++index) {
     ss << particle_indices_[index] << ":{"
        << feasst_str(site_indices_[index]) << "}, ";
+    if (pos) {
+      for (const Position& pos : site_positions_[index]) {
+        ss << "[" << pos.str() << "],";
+      }
+    }
   }
   ss << "state: " << trial_state();
   return ss.str();

@@ -130,17 +130,17 @@ TrialRotate new_only true reference_index 0 tunable_param 40
 set_variable trials_per 1e4
 
 # tune trial parameters
-CriteriaWriter trials_per trials_per file_name cg_b2_eq_{domain}.txt
-#Log trials_per trials_per file_name cg_eq_{domain}.txt
-#Movie trials_per trials_per file_name cg_eq_{domain}.xyz
+CriteriaWriter trials_per_write trials_per file_name cg_b2_eq_{domain}.txt
+#Log trials_per_write trials_per file_name cg_eq_{domain}.txt
+#Movie trials_per_write trials_per file_name cg_eq_{domain}.xyz
 Tune
 Run num_trials 1e5
 RemoveModify name Tune
 
 # production
-CriteriaWriter trials_per trials_per file_name cg_b2_{domain}.txt
-#Log trials_per trials_per file_name cg_{domain}.txt
-#Movie trials_per trials_per file_name cg_{domain}.xyz
+CriteriaWriter trials_per_write trials_per file_name cg_b2_{domain}.txt
+#Log trials_per_write trials_per file_name cg_{domain}.txt
+#Movie trials_per_write trials_per file_name cg_{domain}.xyz
 MayerSampling
 Run num_trials 1e6
 """.format(**params))

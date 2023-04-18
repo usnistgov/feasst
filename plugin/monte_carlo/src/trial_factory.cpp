@@ -134,12 +134,11 @@ void TrialFactory::precompute(Criteria * criteria, System * system) {
 
 bool TrialFactory::is_equal(const TrialFactory& factory) const {
   if (num() != factory.num()) {
-    INFO("unequal number of trials: " << num() << " "
+    DEBUG("unequal number of trials: " << num() << " "
       << factory.num());
     return false;
   }
   if (!Trial::is_equal(factory)) {
-    INFO("here");
     return false;
   }
   for (int it = 0; it < num(); ++it) {

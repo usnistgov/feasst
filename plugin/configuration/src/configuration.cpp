@@ -22,7 +22,7 @@ Configuration::Configuration(argtype * args) {
   add(MakeGroup());  // add empty group which represents all particles
 
   DEBUG("parse physical constants");
-  std::stringstream ss(str("physical_constants", args, "CODATA2018"));
+  std::stringstream ss(feasst::str("physical_constants", args, "CODATA2018"));
   set_physical_constants(MakeCODATA2014()->deserialize(ss));
 
   DEBUG("parse types");
@@ -30,13 +30,13 @@ Configuration::Configuration(argtype * args) {
   // if only one particle type, allow drop the subscript
   start.assign("particle_type");
   if (used(start, *args)) {
-    add_particle_type(str(start, args));
+    add_particle_type(feasst::str(start, args));
   } else {
     int type = num_particle_types();
     std::stringstream key;
     key << start << type;
     while (used(key.str(), *args)) {
-      add_particle_type(str(key.str(), args));
+      add_particle_type(feasst::str(key.str(), args));
       ++type;
       ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
       key.str("");
@@ -54,8 +54,8 @@ Configuration::Configuration(argtype * args) {
     }
   }
 
-  const std::string xyz_file = str("xyz_file", args, "");
-  const std::string xyz_euler_file = str("xyz_euler_file", args, "");
+  const std::string xyz_file = feasst::str("xyz_file", args, "");
+  const std::string xyz_euler_file = feasst::str("xyz_euler_file", args, "");
   if (!xyz_file.empty() && xyz_euler_file.empty()) {
     FileXYZ().load(xyz_file, this);
   } else if (xyz_file.empty() && !xyz_euler_file.empty()) {
@@ -70,7 +70,7 @@ Configuration::Configuration(argtype * args) {
   std::stringstream key;
   key << start << index;
   while (used(key.str(), *args)) {
-    const std::string name = str(key.str(), args);
+    const std::string name = feasst::str(key.str(), args);
     args->insert({"prepend", name});
     auto group = std::make_shared<Group>(args);
     add(group, name);
@@ -99,7 +99,7 @@ Configuration::Configuration(argtype * args) {
       }
       if (args->size() != 0) {
         for (int site_type = 0; site_type < num_site_types(); ++site_type) {
-          std::string param_arg = param + str(site_type);
+          std::string param_arg = param + feasst::str(site_type);
           if (used(param_arg, *args)) {
             set_model_param(param, site_type, dble(param_arg, args));
           }
@@ -108,7 +108,7 @@ Configuration::Configuration(argtype * args) {
       if (args->size() != 0) {
         for (int site1 = 0; site1 < num_site_types(); ++site1) {
           for (int site2 = site1; site2 < num_site_types(); ++site2) {
-            std::string param_arg = param + str(site1) + "_" + str(site2);
+            std::string param_arg = param + feasst::str(site1) + "_" + feasst::str(site2);
             if (used(param_arg, *args)) {
               set_model_param(param, site1, site2, dble(param_arg, args));
             }
@@ -499,7 +499,7 @@ int Configuration::particle_type_to_group_create(const int particle_type) {
   if (grp != -1) {
     return grp;
   }
-  add(MakeGroup({{"particle_type", str(particle_type)}}));
+  add(MakeGroup({{"particle_type", feasst::str(particle_type)}}));
   group_store_particle_type_.push_back(particle_type);
   group_store_group_index_.push_back(num_groups() - 1);
   const int index = static_cast<int>(group_store_group_index_.size()) - 1;
@@ -891,6 +891,16 @@ int Configuration::group_index(const std::string& name) const {
     }
   }
   FATAL("There is no group with name: " << name);
+}
+
+std::string Configuration::str() const {
+  std::stringstream ss;
+  for (const Particle& part : particles_.particles()) {
+    for (const Site& site : part.sites()) {
+      ss << site.position().str() << std::endl;
+    }
+  }
+  return ss.str();
 }
 
 }  // namespace feasst

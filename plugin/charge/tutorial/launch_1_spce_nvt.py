@@ -41,9 +41,9 @@ TrialAdd particle_type 0
 Run until_num_particles {num_particles}
 RemoveTrial name TrialAdd
 ThermoParams beta {beta}
-Log trials_per {trials_per} file_name spce.txt
+Log trials_per_write {trials_per} file_name spce.txt
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 
 # equilibrate
 Run num_trials {equilibration}

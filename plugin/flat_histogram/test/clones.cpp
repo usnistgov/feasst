@@ -41,13 +41,13 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     MakeTransitionMatrix({{"min_sweeps", "10"}})));//, {"max_block_operations", "6"}})));
-  mc.add(MakeCheckEnergy({{"trials_per", str(trials_per)}}));
+  mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeTune());
-  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)},
+  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
     {"file_name", "tmp/clones" + str(thread)}}));
-  mc.add(MakeCriteriaUpdater({{"trials_per", str(trials_per)}}));
+  mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
-    {"trials_per", str(trials_per)},
+    {"trials_per_write", str(trials_per)},
     {"file_name", "tmp/clones" + str(thread) + "_crit.txt"}}));
   mc.set(MakeCheckpoint({{"num_hours", "0.0001"},
     {"file_name", "tmp/clone" + str(thread) + ".fst"}}));

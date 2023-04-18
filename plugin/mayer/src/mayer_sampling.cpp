@@ -10,9 +10,14 @@ MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
   class_name_ = "MayerSampling";
   num_attempts_per_iteration_ =
     integer("num_attempts_per_iteration", args, 1e9);
+  intra_pot_ = integer("intra_potential", args, -1);
 }
 MayerSampling::MayerSampling(argtype args) : MayerSampling(&args) {
   FEASST_CHECK_ALL_USED(args);
+}
+
+void MayerSampling::precompute(System * system) {
+  system->remove_opt_overlap();
 }
 
 bool MayerSampling::is_accepted(
@@ -20,18 +25,31 @@ bool MayerSampling::is_accepted(
     Acceptance * acceptance,
     Random * random) {
   check_num_iterations_(num_attempts_per_iteration_);
-  const double energy_new = acceptance->energy_new();
+  double energy_new = acceptance->energy_new();
   const double beta = system.thermo_params().beta();
-  const double f12 = std::exp(-beta*energy_new) - 1.;
   TRACE("*** MayerSampling ***");
+  if (intra_pot_ != -1) {
+    TRACE("intra_pot " << intra_pot_);
+    const double energy_intra = acceptance->energy_profile_new()[intra_pot_];
+    TRACE("energy_intra " << energy_intra);
+    if (random->uniform() < std::exp(-beta*energy_intra)) {
+      energy_new -= energy_intra;
+    } else {
+      was_accepted_ = false;
+      TRACE("rejected at intra_potential step");
+      return was_accepted_;
+    }
+  }
+  const double f12 = std::exp(-beta*energy_new) - 1.;
   TRACE("energy new " << energy_new);
   TRACE("f12 " << f12);
   TRACE("f12old " << f12old_);
   TRACE("acceptance " << std::abs(f12)/std::abs(f12old_));
+
   if (!acceptance->reject() &&
       (random->uniform() < std::abs(f12)/std::abs(f12old_))) {
     ASSERT(energy_new != 0, "error");
-    set_current_energy(energy_new);
+    set_current_energy(acceptance->energy_new());
     set_current_energy_profile(acceptance->energy_profile_new());
     f12old_ = f12;
     was_accepted_ = true;
@@ -69,6 +87,7 @@ void MayerSampling::serialize(std::ostream& ostr) const {
   feasst_serialize(num_attempts_per_iteration_, ostr);
   feasst_serialize_fstobj(mayer_, ostr);
   feasst_serialize_fstobj(mayer_ref_, ostr);
+  feasst_serialize(intra_pot_, ostr);
 }
 
 MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
@@ -79,6 +98,7 @@ MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
   feasst_deserialize(&num_attempts_per_iteration_, istr);
   feasst_deserialize_fstobj(&mayer_, istr);
   feasst_deserialize_fstobj(&mayer_ref_, istr);
+  feasst_deserialize(&intra_pot_, istr);
 }
 
 double MayerSampling::second_virial_ratio() const {

@@ -62,8 +62,8 @@ TEST(MonteCarlo, cluster_LONG) {
       {"rotate_param", "50"},
       {"translate_param", "1"}}));
     const int trials_per = 1e2;
-    mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)}, {"file_name", "tmp/lj"}}));
-    mc.add(MakeCheckEnergy({{"trials_per", "1"}}));
+    mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/lj"}}));
+    mc.add(MakeCheckEnergy({{"trials_per_update", "1"}}));
     mc.add(MakeTune({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/tune.txt"}}));
     // conduct the trials
     const VisitModelInner& inner = mc.system().potential(0).visit_model().inner();
@@ -111,8 +111,8 @@ TEST(MonteCarlo, GCMCmap) {
     mc.set(MakeMetropolis());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     const std::string trials_per = str(1e4);
-    mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj"}}));
-    mc.add(MakeCheckEnergy({{"trials_per", trials_per}}));
+    mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/lj"}}));
+    mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
     mc.add(MakeTune());
     std::shared_ptr<EnergyMap> map;
     if (mapstr == "all") {
@@ -186,13 +186,13 @@ MonteCarlo mc_avb_test(
     }
   }
   const int trials_per = 1e4;
-  monte_carlo.add(MakeMovie({{"trials_per", str(trials_per)},
+  monte_carlo.add(MakeMovie({{"trials_per_write", str(trials_per)},
                              {"file_name", "tmp/ljavb.xyz"},
                              {"clear_file", "true"}}));
-  monte_carlo.add(MakeLog({{"trials_per", str(trials_per)},
+  monte_carlo.add(MakeLog({{"trials_per_write", str(trials_per)},
                            {"file_name", "tmp/ljavb_log.txt"},
                            {"clear_file", "true"}}));
-  monte_carlo.add(MakeCheckEnergy({{"trials_per", str(trials_per)},
+  monte_carlo.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)},
                                    {"tolerance", str(1e-8)}}));
   monte_carlo.attempt(1e6);
   monte_carlo.add(MakeNumParticles({{"trials_per_write", str(trials_per)},

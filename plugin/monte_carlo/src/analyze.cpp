@@ -93,6 +93,7 @@ AnalyzeWriteOnly::AnalyzeWriteOnly(argtype * args) : Analyze(args) {
 
   // parse
   if (used("trials_per", *args)) {
+    WARN("AnalyzeWriteOnly::trials_per is deprecated. Use trials_per_write.");
     set_trials_per(integer("trials_per", args));
   }
 }

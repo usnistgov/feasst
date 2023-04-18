@@ -34,13 +34,13 @@ Run until_num_particles {num_particles}
 # nvt equilibration
 RemoveTrial name TrialAdd
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 Run num_trials {equilibration}
 
 # nvt production
 RemoveModify name Tune
-Log trials_per {trials_per} file_name lj{sim}.txt
-Movie trials_per {trials_per} file_name lj{sim}.xyz
+Log trials_per_write {trials_per} file_name lj{sim}.txt
+Movie trials_per_write {trials_per} file_name lj{sim}.xyz
 Energy trials_per_write {trials_per} file_name en{sim}.txt
 Run num_trials {production}
 """.format(**params))
@@ -62,7 +62,7 @@ echo "Time is $(date)"
 """.format(**params))
 
 # add additional arguments for multi-core simulations
-params.update({"sim": 0, "num_nodes": 1, "procs_per_node": 32})
+params.update({"sim": 0, "num_nodes": 1, "procs_per_node": 2})
 params["num_sims"] = params["num_nodes"]*params["procs_per_node"]
 
 # set a simulation parameter to vary for each processor

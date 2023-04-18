@@ -32,7 +32,7 @@ void PotentialFactory::precompute(const int index, Configuration * config) {
 double PotentialFactory::energy(Configuration * config) {
   double en = 0;
   int index = 0;
-  while ((index < num()) && (en < NEAR_INFINITY/10.)) {
+  while ((index < num()) && (opt_overlap_ == 0 || (en < NEAR_INFINITY/10.))) {
     const double potential_en = potentials_[index]->energy(config);
     DEBUG("potential index: " << index << " potential energy: " << potential_en);
     en += potential_en;
@@ -46,8 +46,9 @@ double PotentialFactory::energy(Configuration * config) {
 double PotentialFactory::select_energy(const Select& select, Configuration * config) {
   double en = 0;
   int index = 0;
+  //while (index < static_cast<int>(potentials_.size())) {
   while ((index < static_cast<int>(potentials_.size())) &&
-         (en < NEAR_INFINITY)) {
+         (opt_overlap_ == 0 || (en < NEAR_INFINITY))) {
     DEBUG("index " << index);
     en += potentials_[index]->select_energy(select, config);
     ++index;
@@ -94,6 +95,7 @@ void PotentialFactory::finalize(const Select& select, Configuration * config) {
 void PotentialFactory::serialize(std::ostream& sstr) const {
   feasst_serialize_version(8655, sstr);
   feasst_serialize(potentials_, sstr);
+  feasst_serialize(opt_overlap_, sstr);
 }
 
 PotentialFactory::PotentialFactory(std::istream& sstr) {
@@ -111,6 +113,7 @@ PotentialFactory::PotentialFactory(std::istream& sstr) {
       potentials_[index] = std::make_shared<Potential>(sstr);
     }
   }
+  feasst_deserialize(&opt_overlap_, sstr);
 }
 
 void PotentialFactory::load_cache(const bool load) {
@@ -144,6 +147,10 @@ void PotentialFactory::change_volume(const double delta_volume,
   for (int index = 0; index < num(); ++index) {
     potentials_[index]->change_volume(delta_volume, dimension);
   }
+}
+
+void PotentialFactory::remove_opt_overlap() {
+  opt_overlap_ = 0;
 }
 
 }  // namespace feasst

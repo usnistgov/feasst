@@ -44,6 +44,9 @@ class PotentialFactory {
   /// Precompute a particular potential by index.
   void precompute(const int index, Configuration * config);
 
+  /// Remove optimization when overlap is detected, which is default.
+  void remove_opt_overlap();
+
   /// Compute the energy of the given configuration.
   double energy(Configuration * config);
 
@@ -87,6 +90,7 @@ class PotentialFactory {
 
  private:
   std::vector<std::shared_ptr<Potential> > potentials_;
+  int opt_overlap_ = 1;
 //  Timer timer_;
 };
 

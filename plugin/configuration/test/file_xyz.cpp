@@ -27,4 +27,23 @@ TEST(FileXYZ, load_spce) {
   );
 }
 
+TEST(FileXYZ, load_frame) {
+  auto config = MakeConfiguration({{"particle_type0",
+                                    "../forcefield/dimer.fstprt"}});
+  std::ifstream xyz("../plugin/configuration/test/data/dimer4.xyz");
+  FileXYZ fxyz;
+  fxyz.load_frame(xyz, config.get());
+  EXPECT_EQ(config->particle(0).site(0).position().coord(0), 0);
+  EXPECT_EQ(config->particle(0).site(1).position().coord(0), 0);
+  fxyz.load_frame(xyz, config.get());
+  EXPECT_EQ(config->particle(0).site(0).position().coord(0), 0);
+  EXPECT_EQ(config->particle(0).site(1).position().coord(0), 1);
+  fxyz.load_frame(xyz, config.get());
+  EXPECT_EQ(config->particle(0).site(0).position().coord(0), 0);
+  EXPECT_EQ(config->particle(0).site(1).position().coord(1), 1);
+  fxyz.load_frame(xyz, config.get());
+  EXPECT_EQ(config->particle(0).site(0).position().coord(0), 0);
+  EXPECT_EQ(config->particle(0).site(1).position().coord(2), 1);
+}
+
 }  // namespace feasst

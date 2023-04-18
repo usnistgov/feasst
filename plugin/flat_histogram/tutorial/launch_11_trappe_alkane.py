@@ -137,9 +137,9 @@ TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25 pivot_site 0
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25 pivot_site {last_site}
 TrialGrowFile file_name trappe_grow_canonical.txt
-Log trials_per {trials_per} file_name trappen{node}s[sim_index].txt
+Log trials_per_write {trials_per} file_name trappen{node}s[sim_index].txt
 Tune
-CheckEnergy trials_per {trials_per} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per} tolerance 1e-4
 
 # gcmc initialization and nvt equilibration
 TrialGrowFile file_name trappe_grow_grand_canonical.txt
@@ -160,12 +160,12 @@ FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min 
 Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
 TrialGrowFile file_name trappe_grow_grand_canonical.txt
 RemoveAnalyze name Log
-Log trials_per {trials_per} file_name trappen{node}s[sim_index].txt
-#Movie trials_per {trials_per} file_name trappen{node}s[sim_index].xyz
+Log trials_per_write {trials_per} file_name trappen{node}s[sim_index].txt
+#Movie trials_per_write {trials_per} file_name trappen{node}s[sim_index].xyz
 Tune trials_per_write {trials_per} file_name trappe_tunen{node}s[sim_index].txt multistate true stop_after_iteration 1
 Energy trials_per_write {trials_per} file_name trappe_enn{node}s[sim_index].txt multistate true start_after_iteration 1
-CriteriaUpdater trials_per 1e5
-CriteriaWriter trials_per {trials_per} file_name trappe_critn{node}s[sim_index].txt
+CriteriaUpdater trials_per_update 1e5
+CriteriaWriter trials_per_write {trials_per} file_name trappe_critn{node}s[sim_index].txt
 """.format(**params))
 
 # write slurm script

@@ -16,6 +16,7 @@ class CheckProperties : public ModifyUpdateOnly {
     - tolerance: acceptable deviation (default: 1e-15).
    */
   explicit CheckProperties(argtype args = argtype());
+  explicit CheckProperties(argtype * args);
 
   void update(Criteria * criteria,
       System * system,
@@ -27,6 +28,8 @@ class CheckProperties : public ModifyUpdateOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Modify> create(std::istream& istr) const override {
     return std::make_shared<CheckProperties>(istr); }
+  std::shared_ptr<Modify> create(argtype * args) const override {
+    return std::make_shared<CheckProperties>(args); }
   explicit CheckProperties(std::istream& istr);
 
  private:

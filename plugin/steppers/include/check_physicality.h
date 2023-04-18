@@ -12,6 +12,7 @@ namespace feasst {
 class CheckPhysicality : public AnalyzeUpdateOnly {
  public:
   CheckPhysicality(argtype args = argtype());
+  CheckPhysicality(argtype * args);
   void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
@@ -20,6 +21,8 @@ class CheckPhysicality : public AnalyzeUpdateOnly {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<CheckPhysicality>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<CheckPhysicality>(args); }
   explicit CheckPhysicality(std::istream& istr);
 };
 
