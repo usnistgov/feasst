@@ -30,7 +30,7 @@ namespace feasst {
   of type 0 and shrink it into a particle of type 1.
   The reverse at half macrostate would be to delete particles of type 1.
 
-  Thus, assuming particle type 1 is not physically and introduced only to help
+  Thus, assuming particle type 1 is non-physical and introduced only to help
   sampling, the integer macrostates should contain only particles of type 0.
   Thus, there should only be particles of type 1 present at half macrostates.
 
@@ -38,8 +38,8 @@ namespace feasst {
   particles of type 0 have twice the charge of particles of type 1.
   In this case, we begin by adding partial particles of types 2 and 3 at the
   half macrostate.
-  Those particle particles are then morphed into full particles of types 1 and
-  0 when transitioning to integer macrostate values.
+  Those particles are then morphed into full particles of types 1 and 0 when
+  transitioning to integer macrostate values.
  */
 class MacrostateMorph : public Macrostate {
  public:
@@ -47,7 +47,6 @@ class MacrostateMorph : public Macrostate {
     const std::vector<std::vector<int> > particle_type_growth_sequence,
     const Histogram& histogram,
     const argtype& args = argtype());
-
   double value(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override;
