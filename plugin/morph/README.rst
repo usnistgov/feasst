@@ -8,6 +8,14 @@ This plugin is for morphing particle types, including example ensemble simulatio
 
    doc/toc
 
+Tutorial
+=========
+
+.. toctree::
+   :glob:
+
+   tutorial/tutorial*
+
 FEASST plugin dependencies
 ============================
 

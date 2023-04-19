@@ -313,6 +313,7 @@ std::shared_ptr<feasst::AEqualB> __feasst__AEqualB = std::make_shared<feasst::AE
 std::shared_ptr<feasst::Ewald> __feasst__Ewald = std::make_shared<feasst::Ewald>();
 std::shared_ptr<feasst::MayerSampling> __feasst__MayerSampling = std::make_shared<feasst::MayerSampling>();
 std::shared_ptr<feasst::LennardJonesAlpha> __feasst__LennardJonesAlpha = std::make_shared<feasst::LennardJonesAlpha>();
+std::shared_ptr<feasst::ComputeMorph> __feasst__ComputeMorph = std::make_shared<feasst::ComputeMorph>();
 std::shared_ptr<feasst::VisitModelInnerPatch> __feasst__VisitModelInnerPatch = std::make_shared<feasst::VisitModelInnerPatch>();
 std::shared_ptr<feasst::VisitModelInnerTable> __feasst__VisitModelInnerTable = std::make_shared<feasst::VisitModelInnerTable>();
 std::shared_ptr<feasst::Tune> __feasst__Tune = std::make_shared<feasst::Tune>();
