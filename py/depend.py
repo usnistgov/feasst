@@ -259,7 +259,7 @@ with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:
   if 'mayer' in include_plugin: select_classes.append("MayerSampling")
   if 'models' in include_plugin: select_classes.append("LennardJonesAlpha")
 #    if 'monte_carlo' in include_plugin: select_classes.append("")
-#    if 'morph' in include_plugin: select_classes.append("")
+  if 'morph' in include_plugin: select_classes.append("ComputeMorph")
 #    if 'opt_lj' in include_plugin: select_classes.append("")
   if 'patch' in include_plugin: select_classes.append("VisitModelInnerPatch")
   if 'aniso' in include_plugin: select_classes.append("VisitModelInnerTable")

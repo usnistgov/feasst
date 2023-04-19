@@ -3,11 +3,17 @@
 #define FEASST_GROWTH_EXPANDED_PERTURB_PARTICLE_TYPE_H_
 
 #include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/perturb_rotate.h"
 
 namespace feasst {
 
 /**
-  Change the type of a site.
+  Change the type of a Particle.
+  If the Particle has multiple Sites, then fix the coordinate of the first site
+  of both particle types to be equal,
+  and then randomly rotate the rest of the sites according to the positions
+  given in the fstprt file particle type definition (e.g., this only works
+  properly for rigid molecules, not flexible ones).
  */
 class PerturbParticleType : public Perturb {
  public:
@@ -42,9 +48,11 @@ class PerturbParticleType : public Perturb {
 
  private:
   int new_particle_type_;
+  PerturbRotate rotate_;
 
   // temporary
   int old_particle_type_;
+  Position tmp_pos_;
 };
 
 inline std::shared_ptr<PerturbParticleType> MakePerturbParticleType(

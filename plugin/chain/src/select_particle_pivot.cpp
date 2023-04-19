@@ -46,7 +46,7 @@ bool SelectParticlePivot::select(const Select& perturbed,
     mobile_ = Select(particle_index, config.select_particle(particle_index));
     mobile_.remove_sites(particle_index, {pivot_site_});
     ASSERT(mobile_.num_sites() > 0,
-      "not point pivoting a particle with one site");
+      "no point pivoting a particle with one site");
     ASSERT(mobile_.num_sites() == config.select_particle(particle_index).num_sites() - 1, "err");
     mobile_.resize_positions();
   } else {

@@ -45,7 +45,7 @@ void test_morph(const System& system) {
   EXPECT_EQ(mc.configuration().num_particles_of_type(0), 2);
   EXPECT_EQ(mc.configuration().num_particles_of_type(1), 2);
   mc.add(MakeTrialMorph({{"particle_type0", "1"},
-                                 {"particle_type_morph0", "0"}}));
+                         {"particle_type_morph0", "0"}}));
   mc.add(MakeLogAndMovie({{"trials_per_write", str(1e2)}, {"file_name", "tmp/growth"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(1e2)}}));
   mc.add(MakeTune());
@@ -56,13 +56,21 @@ void test_morph(const System& system) {
 
 TEST(MonteCarlo, TrialMorph) {
   System system;
-  system.add(*MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  system.add(MakeConfiguration({{"cubic_box_length", "8"},
+    {"particle_type0", "../forcefield/lj.fstprt"},
+    {"particle_type1", "../plugin/morph/forcefield/lj2.fstprt"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));
-  Configuration * config = system.get_configuration();
-  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.5");
-  config->set_model_param("sigma", 1, 0.5);
-  config->set_model_param("cutoff", 1, 1.0);
+  test_morph(system);
+}
+
+TEST(MonteCarlo, TrialMorphCO2N2) {
+  System system;
+  system.add(MakeConfiguration({{"cubic_box_length", "30"},
+    {"particle_type0", "../forcefield/co2.fstprt"},
+    {"particle_type1", "../forcefield/n2.fstprt"}}));
+  system.add(MakePotential(MakeLennardJones()));
+  system.add(MakePotential(MakeLongRangeCorrections()));
   test_morph(system);
 }
 
