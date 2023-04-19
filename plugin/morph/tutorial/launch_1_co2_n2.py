@@ -11,9 +11,9 @@ params = {
     "min_particles": 0,
     "fstprt0": "/feasst/forcefield/co2.fstprt",
     "fstprt1": "/feasst/forcefield/n2.fstprt",
-    "temperature": 300, "max_particles": 296, "beta_mu": -15.24,
+    "temperature": 300, "max_particles": 10, "beta_mu": -15.24,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
-    "equilibration": 1e6, "num_nodes": 2, "procs_per_node": 24, "script": __file__, "dccb_cut": 0.9*3.165}
+    "equilibration": 1e6, "num_nodes": 2, "procs_per_node": 1, "script": __file__, "dccb_cut": 0.9*3.165}
 params["ewald_alpha"] = 5.6/params["cubic_box_length"]
 params["beta"] = 1./(params["temperature"]*physical_constants.MolarGasConstant(
 ).value()/1e3) # mol/kJ
@@ -49,17 +49,13 @@ ThermoParams beta {beta} chemical_potential0 {mu_init} chemical_potential1 {mu_i
 Metropolis
 TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
-TrialMorph particle_type0 0 particle_type_morph0 1
-TrialMorph particle_type0 1 particle_type_morph0 0
 Log trials_per_write {trials_per} file_name co2n2n{node}s[sim_index].txt
 Tune
 CheckEnergy trials_per_update {trials_per} tolerance 1e-4
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type 0
 TrialAdd particle_type 1
-Run until_num_particles [soft_macro_min]
-RemoveTrial name TrialAdd
+Run until_num_particles {max_particles}
 RemoveTrial name TrialAdd
 ThermoParams beta {beta} chemical_potential0 {mu} chemical_potential1 {mu}
 Metropolis
@@ -69,6 +65,8 @@ RemoveModify name Tune
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
 Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 22 collect_flatness 20 min_collect_sweeps 18
+TrialMorph particle_type0 0 particle_type_morph0 1
+TrialMorph particle_type0 1 particle_type_morph0 0
 RemoveAnalyze name Log
 Log trials_per_write {trials_per} file_name co2n2n{node}s[sim_index].txt
 Movie trials_per_write {trials_per} file_name co2n2n{node}s[sim_index].xyz

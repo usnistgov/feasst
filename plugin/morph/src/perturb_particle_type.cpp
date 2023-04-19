@@ -45,7 +45,6 @@ void PerturbParticleType::perturb(
     // use particle_type to set the coordinates, and randomly rotate them about the anchor.
     // then set to position of existing anchor
     const Configuration& config = system->configuration();
-    INFO("new_particle_type_ " << new_particle_type_);
     const Particle& ref_part = config.particle_type(new_particle_type_);
     ASSERT(num_sites == ref_part.num_sites(), "num sites mismatch");
     ASSERT(select->mobile().num_particles() == 1,
@@ -59,7 +58,6 @@ void PerturbParticleType::perturb(
     for (int site = 1; site < num_sites; ++site) {
       tmp_pos_ = ref_part.site(site).position();
       tmp_pos_.subtract(ref_site_pos_new);
-      INFO("tmp pos " << tmp_pos_.str() << " " << tmp_pos_.distance());
       tmp_pos_.add(ref_site_pos_old);
       select->get_mobile()->set_site_position(0, site, tmp_pos_);
     }
