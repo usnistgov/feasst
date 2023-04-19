@@ -850,8 +850,8 @@ void Configuration::set_particle_type(const int ptype,
     for (int isite = 0; isite < part->num_sites(); ++isite) {
       part->get_site(isite)->set_type(particle_type(ptype).site(isite).type());
     }
-    for (Select& select : group_selects_) {
-      update_selection_(particle_index, &select);
+    for (Select& sel : group_selects_) {
+      update_selection_(particle_index, &sel);
     }
     // HWH doesn't update type-based cell lists, groups, etc.
   }

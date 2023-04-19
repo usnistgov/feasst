@@ -64,6 +64,16 @@ TEST(MonteCarlo, TrialMorph) {
   test_morph(system);
 }
 
+TEST(MonteCarlo, TrialMorphCO2N2) {
+  System system;
+  system.add(MakeConfiguration({{"cubic_box_length", "30"},
+    {"particle_type0", "../forcefield/co2.fstprt"},
+    {"particle_type1", "../forcefield/n2.fstprt"}}));
+  system.add(MakePotential(MakeLennardJones()));
+  system.add(MakePotential(MakeLongRangeCorrections()));
+  test_morph(system);
+}
+
 MonteCarlo test_morph_expanded_lj(
   const std::vector<std::vector<int> > grow_sequence,
   const int max = 5) {
