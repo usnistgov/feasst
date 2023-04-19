@@ -86,6 +86,10 @@ void PerturbParticleType::revert(System * system) {
   DEBUG("revert_possible " << revert_possible());
   if (revert_possible()) {
     set_particle_type(system, revert_select()->mobile(), old_particle_type_);
+    Configuration* config = system->get_configuration();
+    config->update_positions(revert_select()->mobile_original(),
+      // don't wrap if reverting
+      false);
     system->revert(revert_select()->mobile());
   }
 }
