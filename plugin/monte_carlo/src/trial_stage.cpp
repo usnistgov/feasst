@@ -128,8 +128,9 @@ void TrialStage::mid_stage(System * system) {
   set_mobile_physical(false, system);
 }
 
-bool TrialStage::are_constraints_satisfied(const System& system) const {
-  return select_->are_constraints_satisfied(system);
+bool TrialStage::are_constraints_satisfied(const int old,
+    const System& system) const {
+  return select_->are_constraints_satisfied(old, system);
 }
 
 void TrialStage::serialize(std::ostream& ostr) const {

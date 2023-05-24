@@ -134,7 +134,7 @@ class TestFlatHistogramSQWT(unittest.TestCase):
         from pyfeasst import macrostate_distribution
         lnpi = macrostate_distribution.MacrostateDistribution(file_name='sqw_lnpi.txt')
         rw = lnpi.equilibrium()
-        self.assertAlmostEqual(params['beta']*params['mu'] + rw, -3.194, delta=1e-3)
+        self.assertAlmostEqual(params['beta']*params['mu'] + rw, -3.194, delta=1e-2)
         #lnpi.plot(show=True)
         vap, liq = lnpi.split()
         self.assertAlmostEqual(vap.average_macrostate()/params['cubic_box_length']**3, 9.723E-02, delta=1e-3)

@@ -20,10 +20,20 @@ class CutoffOuter : public ModelParam {
 };
 
 /**
-  Compute many-body inter-particle interactions using a cell list.
+  Similar to VisitModel, except that the distance between the first sites on
+  two different particles are compared against the cutoff + 2*cutoff_outer
+  (given in the fstprt files),
+  and if that distance is beyond this outer cutoff, then all other interactions
+  between these particles.
+  Thus, cutoff_outer should be set to the maximum possible distance between
+  the first site of the particle and any other site in the same particle.
  */
 class VisitModelCutoffOuter : public VisitModel {
  public:
+  /**
+    args:
+    - energy_cutoff: as described in VisitModel.
+   */
   explicit VisitModelCutoffOuter(argtype args);
   explicit VisitModelCutoffOuter(argtype * args);
 
@@ -45,6 +55,9 @@ class VisitModelCutoffOuter : public VisitModel {
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelCutoffOuter(std::istream& istr);
   virtual ~VisitModelCutoffOuter() {}
+
+ private:
+  double energy_cutoff_;
 };
 
 inline std::shared_ptr<VisitModelCutoffOuter> MakeVisitModelCutoffOuter(

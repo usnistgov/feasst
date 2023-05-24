@@ -39,8 +39,10 @@ void TrialCompute::compute_rosenbluth(
         return;
       }
     }
-    if (!stage->are_constraints_satisfied(*system)) {
-      acceptance->set_reject(true);
+    if (!stage->are_constraints_satisfied(old, *system)) {
+      // reject using ln_prob to incorporate tuning
+      acceptance->add_to_ln_metropolis_prob(-1e100);
+      //acceptance->set_reject(true);
     }
     double energy;
     if (old == 1) {

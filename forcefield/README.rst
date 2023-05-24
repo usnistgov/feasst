@@ -113,3 +113,11 @@ The format for this section is as follows:
 
 For more information on the dihedral definition, see :cpp:func:`torsion_angle_radians <feasst::Position::torsion_angle_radians()>`.
 
+Comments
+==========
+
+For comments at the beginning of the file, begin each comment line with the "#" character.
+Do not add comments anywhere else in the file.
+Comments can only be one contiguous group of lines beginning with "#."
+Always end comments with a blank line immediately after.
+

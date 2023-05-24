@@ -29,7 +29,7 @@ inline std::shared_ptr<TrialTranslateCluster> MakeTrialTranslateCluster(argtype 
   return std::make_shared<TrialTranslateCluster>(args); }
 
 /**
-  Rigid translation of a cluster of particles.
+  Rigid rotation of a cluster of particles.
  */
 class TrialRotateCluster : public Trial {
  public:

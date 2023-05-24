@@ -65,6 +65,7 @@ class PrinterXYZ : public LoopConfigOneBody {
   lz is the box length in the z direction,
   xy is the xy domain tilt (see Domain),
   xz is the xz domain tilt, and yz is the yz domain tilt.
+  If lz == 0, then the domain is set to two dimensions.
   The following n lines are in the format [id x y z],
   where id is the unique site type and x, y, z are the Cartesian coordinates.
  */

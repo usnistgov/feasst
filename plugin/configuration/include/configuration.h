@@ -500,6 +500,9 @@ class Configuration {
   bool is_equal(const Configuration& configuration,
                 const double tolerance) const;
 
+  /// Check that the dimensions of all particle types and domain match
+  void check_dimensions() const;
+
   /// Return the header of the status for periodic output.
   std::string status_header() const;
 

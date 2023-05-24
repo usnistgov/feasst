@@ -12,6 +12,7 @@ namespace feasst {
 VisitModelCutoffOuter::VisitModelCutoffOuter(argtype * args) : VisitModel() {
 //VisitModelCutoffOuter::VisitModelCutoffOuter(argtype * args) : VisitModel(args) {
   class_name_ = "VisitModelCutoffOuter";
+  energy_cutoff_ = dble("energy_cutoff", args, -1);
 }
 VisitModelCutoffOuter::VisitModelCutoffOuter(argtype args) : VisitModelCutoffOuter(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -75,6 +76,10 @@ void VisitModelCutoffOuter::compute(
                                     config, model_params, model,
                                     is_old_config,
                                     &relative_, &pbc_);
+              if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
+                set_energy(inner().energy());
+                return;
+              }
             }
           }
         }
@@ -97,12 +102,14 @@ static MapVisitModelCutoffOuter mapper_ = MapVisitModelCutoffOuter();
 VisitModelCutoffOuter::VisitModelCutoffOuter(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(2081 == version, version);
+  feasst_deserialize(&energy_cutoff_, istr);
 }
 
 void VisitModelCutoffOuter::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
   feasst_serialize_version(2081, ostr);
+  feasst_serialize(energy_cutoff_, ostr);
 }
 
 class MapCutoffOuter {

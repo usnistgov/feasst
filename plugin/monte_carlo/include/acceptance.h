@@ -29,8 +29,7 @@ class Acceptance {
   bool reject() const { return reject_; }
 
   /// Set the above quantity.
-  void set_reject(const bool reject = false) {
-    reject_ = reject; }
+  void set_reject(const bool reject = false);
 
   /// Return whether or not to the trial was at a macrostate endpoint.
   bool endpoint() const { return endpoint_; }

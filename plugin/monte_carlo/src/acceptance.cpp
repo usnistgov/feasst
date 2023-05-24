@@ -70,4 +70,8 @@ void Acceptance::add_to_energy_profile_old(const std::vector<double>& energy) {
   }
 }
 
+void Acceptance::set_reject(const bool reject) {
+  reject_ = reject;
+}
+
 }  // namespace feasst

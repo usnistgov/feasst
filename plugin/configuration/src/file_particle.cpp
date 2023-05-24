@@ -51,21 +51,25 @@ void FileParticle::read_num_and_types_(const std::string file_name) {
         num_dihedrals_ = read_num;
         file >> num_site_types_ >> descript;
         ASSERT(descript.compare("site") == 0,
-          "unrecognized lammps DATA format for file " << file_name);
+          "unrecognized syntax in " << file_name
+          << " on line: " << read_num << " " << descript);
       } else if (descript == "site") {
         num_site_types_ = read_num;
       } else {
-        ASSERT(0, "unrecognized lammps DATA format for file " << file_name);
+        ASSERT(0, "unrecognized syntax in " << file_name
+          << " on line: " << read_num << " " << descript);
       }
     } else if (descript.compare("site") == 0) {
       num_site_types_ = read_num;
     } else {
-      ASSERT(0, "unrecognized lammps DATA format for file " << file_name);
+      ASSERT(0, "unrecognized syntax in " << file_name
+        << " on line: " << read_num << " " << descript);
     }
   } else if (descript.compare("site") == 0) {
     num_site_types_ = read_num;
   } else {
-    ASSERT(0, "unrecognized lammps DATA format for file " << file_name);
+    ASSERT(0, "unrecognized syntax in " << file_name
+      << " on line: " << read_num << " " << descript);
   }
 
   // read number of site types, if not already done so
@@ -81,7 +85,7 @@ void FileParticle::read_num_and_types_(const std::string file_name) {
   } else {
     file >> descript2;
   }
-  ASSERT(num_site_types_ > 0, "read error");
+  ASSERT(num_site_types_ > 0, "Did not read number of site types.");
 
   // read number of bond and angle types
   if (num_bonds_ != 0) {

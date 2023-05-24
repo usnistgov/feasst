@@ -46,9 +46,15 @@ void SelectCluster::select_cluster(const int first_particle,
     config, first_particle, select, frame_of_reference);
 }
 
-bool SelectCluster::are_constraints_satisfied(const System& system) const {
-  return !map_(system, neighbor_).is_cluster_changed(
-    system.neighbor_criteria(neighbor_), mobile_, system.configuration());
+bool SelectCluster::are_constraints_satisfied(const int old,
+    const System& system) const {
+  if (old == 0) {
+    const bool constraint = !map_(system, neighbor_).is_cluster_changed(
+      system.neighbor_criteria(neighbor_), mobile_, system.configuration());
+    DEBUG("constraint " << constraint);
+    return constraint;
+  }
+  return true;
 }
 
 std::vector<Select> SelectCluster::select_clusters(
@@ -79,6 +85,9 @@ bool SelectCluster::select(const Select& perturbed,
   set_probability_(1./static_cast<double>(num));
   select_cluster(first_particle, *system);
   printable_["cluster_size"].accumulate(mobile_.num_particles());
+  if (mobile_.num_particles() == 1) {
+    return false;
+  }
   remove_unphysical_sites(config);
   set_mobile_original(system);
   return true;

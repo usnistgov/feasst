@@ -64,6 +64,9 @@ Configuration::Configuration(argtype * args) {
     FATAL("cannot read both xyz and xyz_euler files.");
   }
 
+  // Check that the dimensions of all particle types and domain match
+  check_dimensions();
+
   DEBUG("parse groups");
   start = "group";
   int index = 0;
@@ -901,6 +904,22 @@ std::string Configuration::str() const {
     }
   }
   return ss.str();
+}
+
+void Configuration::check_dimensions() const {
+  int dim = 0, dim_prev = 0;
+  for (const Particle& part : particle_types_.particles()) {
+    for (const Site& site : part.sites()) {
+      dim = site.position().dimension();
+      if (dim_prev != 0) {
+        ASSERT(dim == dim_prev, "Particles have a mix of 2D and 3D");
+      }
+      dim_prev = dim;
+    }
+  }
+  ASSERT(domain_->dimension() == 0 || domain_->dimension() == dim || dim == 0,
+    "Dimension of particles: " << dim << " does not match dimension of domain: "
+    << domain_->dimension());
 }
 
 }  // namespace feasst

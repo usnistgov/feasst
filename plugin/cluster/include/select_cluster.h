@@ -33,7 +33,8 @@ class SelectCluster : public TrialSelect {
 
   // Return true if the cluster has changed (e.g., increased in size)
   // for detailed balance constraint of rigid cluster moves.
-  bool are_constraints_satisfied(const System& system) const override;
+  bool are_constraints_satisfied(const int old,
+    const System& system) const override;
 
   /// Return a list of selections representing individual cluster.
   std::vector<Select> select_clusters(const System& system);

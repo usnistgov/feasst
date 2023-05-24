@@ -1,0 +1,28 @@
+digraph parallel {
+  bgcolor=transparent
+  real [label="Real Materials"];
+  models [label="Model Materials"];
+  exp [label="Experiment"];
+  sim [label="Simulation"];
+  //sim [label="Simulate"];
+  theorize [label="Theory"];
+  //theorize [label="Theorize"];
+  tmodel [label="Comparison\nTests Model\nApproximations"];
+  //tmodel [label="Test Model"];
+  //tmodel [label="Test Model\nApproximation"];
+  ttheory [label="Comparison\nTests Theory\nApproximations"];
+  //ttheory [label="Test Theory"];
+  //ttheory [label="Test Theory\nApproximation"];
+
+  {rank = same; real; models}
+  real->models
+  {rank = same; exp; sim; theorize}
+  real->exp
+  models->sim
+  models->theorize
+  {rank = sum; tmodel; ttheory}
+  exp->tmodel
+  sim->tmodel
+  sim->ttheory
+  theorize->ttheory
+}

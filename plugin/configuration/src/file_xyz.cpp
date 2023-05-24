@@ -76,6 +76,10 @@ void FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const 
     iss >> id >> coord[0] >> coord[1] >> coord[2]; }
   //cout << "line " << line << " is " << iss.str() << endl;
 //      cout << "cord " << str(coord) << endl;
+  // If third coordinate, z, is zero, then its a 2d simulation.
+  if (coord[2] < NEAR_ZERO) {
+    coord.pop_back();
+  }
   Position position;
   position.set_vector(coord);
   TRACE("coord " << feasst::feasst_str(coord) << " pos " << position.str());

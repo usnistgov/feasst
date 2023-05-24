@@ -64,6 +64,7 @@ double EnergyMapNeighbor::update(
     const double squared_distance,
     const Position * pbc,
     const Configuration& config) {
+  TRACE("updating p1 " << part1_index << " p2 " << part2_index);
   if (energy != 0.) {
     std::vector<double> * mn1 =
       find_or_add_(site2_index,
@@ -522,6 +523,9 @@ bool EnergyMapNeighbor::is_cluster_(const NeighborCriteria& neighbor_criteria,
   return false;
 }
 
+// The problem here is that if 1-0 ixn is added to newmap,
+// then 0-1 ixn is missing in new map, but its present in oldmap
+// because its added after finalize.
 bool EnergyMapNeighbor::is_cluster_changed(
     const NeighborCriteria& neighbor_criteria,
     const Select& select,
@@ -529,13 +533,35 @@ bool EnergyMapNeighbor::is_cluster_changed(
   for (int spindex = 0; spindex < select.num_particles(); ++spindex) {
     const int p1 = select.particle_index(spindex);
     for (const int s1 : select.site_indices(spindex)) {
+      DEBUG("spindex " << spindex);
+      DEBUG("p1 " << p1);
+      DEBUG("s1 " << s1);
       const map3type * newmap = find_map3_(p1, s1, false);
       const map3type * oldmap = find_map3_(p1, s1, true);
-      if (!newmap && !oldmap) {
-        return true;
-      } else if (newmap && oldmap) {
-        if (*newmap != *oldmap) {
-          return true;
+      //if (!newmap && oldmap) {
+      //  INFO("cluster is changed");
+      //  return true;
+      //} else if (newmap && oldmap) {
+      if (newmap && oldmap) {
+        for (int i = 0; i < static_cast<int>(newmap->size()); ++i) {
+          const int p2 = (*newmap)[i].first;
+          int findex = -1;
+          if (find_in_list(p2, *oldmap, &findex)) {
+            DEBUG("found p2 " << p2);
+            const map2type &oldmap2 = (*oldmap)[findex].second;
+            for (int j = 0; j < static_cast<int>((*newmap)[i].second.size()); ++j) {
+              const int s2 = (*newmap)[i].second[j].first;
+              if (find_in_list(s2, oldmap2, &findex)) {
+                DEBUG("found s2 " << s2);
+              } else {
+                DEBUG("cluster is changed");
+                return true;
+              }
+            }
+          } else {
+            DEBUG("cluster is changed");
+            return true;
+          }
         }
       }
     }

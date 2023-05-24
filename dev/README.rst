@@ -361,3 +361,6 @@ To Do List
 * For unknown reasons, VisitModelOuterCutoff had energy issues with RPM
 * Add TrialParticlePivot to TrialGrow (randomly orients particle about site). Or, more generally, say num_steps=-1 combines stages into one.
 * better support compressed trajectory formats: xtc, dcd, etc
+* Wrap triclinic particles for Movie. See: https://github.com/lammps/lammps/blob/develop/src/domain.cpp#L1232-L1322
+* Clean up the To Do list
+* add netcdf support http://unidata.github.io/netcdf-cxx4/index.html , https://gerasimosmichalitsianos.wordpress.com/2017/12/13/usingcppwithnetcdf/ https://support.scinet.utoronto.ca/education/staticpublic/course177content327.html

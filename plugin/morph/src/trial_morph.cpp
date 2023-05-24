@@ -26,7 +26,7 @@ TrialMorph::TrialMorph(argtype * args) : Trial(args) {
   std::stringstream key;
   int type = 0;
   key << start << type;
-  INFO("args: " << str(*args));
+  //INFO("args: " << str(*args));
   argtype stage_args = get_stage_args(args);
   while (used(key.str(), *args)) {
     const std::string type_str = feasst::str(type);

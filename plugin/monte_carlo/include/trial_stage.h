@@ -92,7 +92,7 @@ class TrialStage {
   void begin_stage();
 
   /// Return true if constraints are satisfied.
-  bool are_constraints_satisfied(const System& system) const;
+  bool are_constraints_satisfied(const int old, const System& system) const;
 
   /// Revert the attempt.
   void revert(System * system) { perturb_->revert(system); }

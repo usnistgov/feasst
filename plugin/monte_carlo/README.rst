@@ -16,6 +16,10 @@ A :cpp:class:`Trial <feasst::Trial>` contains the following objects.
 
 .. figure:: doc/trial.svg
 
+Why even have molecular simulations in the first place? Inspired by the second figure in Allen and Tildesley:
+
+.. figure:: doc/sim.svg
+
 Tutorial
 =========
 

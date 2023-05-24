@@ -363,4 +363,13 @@ TEST(Configuration, xyz_euler_file) {
   EXPECT_NEAR(-2.7106179, config->particle(0).site(0).euler().phi(), 1e-6);
 }
 
+TEST(Configuration, 2dfstprt_with_xyz) {
+  auto config = MakeConfiguration({
+    //{"particle_type0", "../forcefield/atom2d.fstprt"}});
+    {"particle_type0", "../forcefield/atom2d.fstprt"},
+    {"xyz_file", "../plugin/configuration/test/data/2d.xyz"}});
+//  EXPECT_EQ(2, config->domain().dimension());
+//  EXPECT_EQ(2, config->particle_type(0).site(0).position().dimension());
+}
+
 }  // namespace feasst

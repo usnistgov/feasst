@@ -30,7 +30,7 @@ class ComputeMoveCluster : public TrialCompute {
   void serialize_compute_move_cluster_(std::ostream& ostr) const;
 
   // temporary
-  // std::shared_ptr<TrialSelectCluster> cselect_;
+  // std::shared_ptr<SelectCluster> cselect_;
 };
 
 inline std::shared_ptr<ComputeMoveCluster> MakeComputeMoveCluster() {

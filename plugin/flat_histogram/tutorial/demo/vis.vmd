@@ -1,0 +1,12 @@
+display projection Orthographic
+color Display Background white
+axes location Off
+topo readvarxyz lj00.xyz
+mol modstyle 0 0 VDW 1.0000000 120.000000
+set sel [atomselect top "name 0"]
+$sel set radius 0.5
+pbc set {5 5 5} -all
+pbc box -shiftcenter {-2.5 -2.5 -2.5}
+#$sel rotate x by 10
+$sel move [rotate x by 20]
+$sel move [rotate y by 20]

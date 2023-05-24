@@ -107,8 +107,8 @@ class TrialSelect {
     return const_cast<const Accumulator&>(printable_.at(str)); }
 
   /// Return true if constraints are satisfied.
-  virtual bool are_constraints_satisfied(const System& system) const {
-    return true; }
+  virtual bool are_constraints_satisfied(const int old,
+    const System& system) const;
 
   /// Return true if particle type is set.
   bool is_particle_type_set() const { return is_particle_type_set_; }

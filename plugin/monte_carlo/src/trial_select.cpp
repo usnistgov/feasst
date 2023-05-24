@@ -215,4 +215,9 @@ void TrialSelect::set_mobile_original(const System * system) {
   }
 }
 
+bool TrialSelect::are_constraints_satisfied(const int old,
+    const System& system) const {
+  return true;
+}
+
 }  // namespace feasst
