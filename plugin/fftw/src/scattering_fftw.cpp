@@ -1,10 +1,9 @@
 #include <cmath>
 #include "math/include/constants.h"
+#include "math/include/utils_math.h"
 #include "utils/include/serialize.h"
 #include "configuration/include/domain.h"
 #include "fftw/include/scattering_fftw.h"
-#include "fftw3.h"
-//#include "<fftw3.h>"
 
 namespace feasst {
 
@@ -20,6 +19,8 @@ static MapScatteringFFTW mapper_energy_check_ = MapScatteringFFTW();
 
 ScatteringFFTW::ScatteringFFTW(argtype * args) : Analyze(args) {
   num_frequency_ = integer("num_frequency", args, 100);
+  bin_spacing_ = integer("bin_spacing", args, 0.1);
+  delta_rho_ = integer("delta_rho", args, 1);
 }
 ScatteringFFTW::ScatteringFFTW(argtype args) : ScatteringFFTW(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -31,38 +32,40 @@ void ScatteringFFTW::initialize(Criteria * criteria,
   const Configuration& config = system->configuration();
   ASSERT(config.dimension() == 3, "only implemented for 3d.");
   ASSERT(!config.domain().is_tilted(), "not implemented for tilted domains.");
-  Position kvec;
-  kvecs_.clear();
-  site_ff_.clear();
-  for (int kx = -num_frequency_; kx < num_frequency_; ++kx) {
-    for (int ky = -num_frequency_; ky < num_frequency_; ++ky) {
-      for (int kz = -num_frequency_; kz < num_frequency_; ++kz) {
-        if (kx != 0 || ky != 0 || kz != 0) {
-          kvec.set_vector({2*PI*kx/config.domain().side_length(0),
-                           2*PI*ky/config.domain().side_length(1),
-                           2*PI*kz/config.domain().side_length(2)});
-          kvecs_.push_back(kvec);
-          const double k = kvec.distance();
-          std::vector<double> ff;
-          for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
-            const double sigma = config.model_params().select("sigma").value(site_type);
-            const double volume = 4*PI*std::pow(sigma, 3)/3.;
-            ff.push_back(volume*3*(std::sin(k*sigma)-k*sigma*std::cos(k*sigma))/std::pow(k*sigma, 3));
-          }
-          site_ff_.push_back(ff);
-        }
-      }
-    }
+  
+  // fftw
+  updates_ = 0;
+  num_bin_.resize(config.dimension());
+  bin_dist_.resize(config.dimension());
+  lower_bound_.resize(config.dimension());
+  for (int dim = 0; dim < config.dimension(); ++dim) {
+    const double side_length = config.domain().side_length(dim);
+    num_bin_[dim] = static_cast<int>(side_length/bin_spacing_);
+    if (num_bin_[dim] % 2 != 0) ++num_bin_[dim];
+    bin_dist_[dim] = side_length/static_cast<double>(num_bin_[dim]);
+    lower_bound_[dim] = -side_length/2.;
   }
-  iq_.clear();
-  iq_.resize(num_vectors());
+  INFO("num_bin " << feasst_str(num_bin_));
+  sqsq_.resize(num_q_());
+  fksq_.resize(num_q_());
+  in_  = reinterpret_cast<double*>(fftw_malloc(sizeof(double) * feasst::product(num_bin_)));
+  out_ = reinterpret_cast<fftw_complex*>(fftw_malloc(sizeof(fftw_complex) * num_q_()));
+  plan_ = fftw_plan_dft_r2c_3d(num_bin_[0], num_bin_[1], num_bin_[2], in_, out_, FFTW_MEASURE);
+  fftw_initialized_ = true;
 }
 
-void ScatteringFFTW::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  std::vector<double> fq(2*num_vectors());
-  const Configuration& config = system.configuration();
+void ScatteringFFTW::fill_grid_(const Configuration& config, const bool centers) {
+  const int nx = num_bin_[0];
+  const int ny = num_bin_[1];
+  const int nz = num_bin_[2];
+  // zero grid
+  for (int ix = 0; ix < nx; ++ix) {
+  for (int iy = 0; iy < ny; ++iy) {
+  for (int iz = 0; iz < nz; ++iz) {
+    in_[iz + nz*(iy + ny*ix)] = 0;
+  }}}
+
+  std::vector<int> center(config.dimension());
   const Select& selection = config.group_select(0);
   for (int select_index = 0;
        select_index < selection.num_particles();
@@ -72,66 +75,145 @@ void ScatteringFFTW::update(const Criteria& criteria,
     for (int site_index : selection.site_indices(select_index)) {
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
-        for (int k = 0; k < num_vectors(); ++k) {
-          const double kr = site.position().dot_product(kvecs_[k]);
-          const double ff = site_ff_[k][site.type()];
-          fq[k] += ff*std::cos(kr);
-          fq[k+num_vectors()] -= ff*std::sin(kr);
+        for (int dim = 0; dim < config.dimension(); ++dim) {
+          center[dim] = static_cast<int>((site.position().coord(dim) - lower_bound_[dim])/bin_dist_[dim]);
+        }
+        if (centers) {
+          const int bin = center[2] + nz*(center[1] + ny*center[0]);
+          in_[bin] = std::pow(-1, center[0] + center[1] + center[2]);
+        } else {
+          FATAL("not implemented");
         }
       }
     }
   }
-  for (int k = 0; k < num_vectors(); ++k) {
-    const double fqr = fq[k];
-    const double fqi = fq[k + num_vectors()];
-    iq_[k].accumulate((fqr*fqr + fqi*fqi)/config.num_sites());
-  }
-  //for (int k = 0; k < 2*num_vectors(); ++k) {
-  //  fq_[k].accumulate(fq[k]);
-  //}
 }
 
-//std::vector<double> ScatteringFFTW::iq_() const {
-//  std::vector<double> iq(num_vectors());
-//  for (int k = 0; k < num_vectors(); ++k) {
-//    iq[k] = std::pow(fq_[k].average(), 2) + std::pow(fq_[k + num_vectors()].average(), 2);
+void ScatteringFFTW::update(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trial_factory) {
+  const Configuration& config = system.configuration();
+  
+  // sq
+  fill_grid_(config, false);
+  fftw_execute(plan_);
+  for (int iq = 0; iq < num_q_(); ++iq) {
+    sqsq_[iq] += (std::pow(out_[iq][0], 2) + std::pow(out_[iq][1], 2))/
+                 static_cast<double>(config.num_particles());
+  }
+
+//  // iq
+//  fill_grid_(config, true);
+//  fftw_execute(plan_);
+//  for (int iq = 0; iq < num_q_(); ++iq) {
+//    fksq_[iq] += std::pow(out_[iq][0], 2) + std::pow(out_[iq][1], 2);
 //  }
-//  return iq;
-//}
+
+  ++updates_;
+}
 
 std::string ScatteringFFTW::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  //std::vector<double> iq = iq_();
-  const int num_site_types = system.configuration().num_site_types();
-  std::stringstream ss;
-  ss << "#\"num_site_types\":" << num_site_types << "," << std::endl;
-  ss << "q,i,";
-  for (int site_type = 0; site_type < num_site_types; ++site_type) {
-    ss << "p" << site_type << ",";
-  }
-  ss << std::endl;
-  for (int k = 0; k < num_vectors(); ++k) {
-    ss << kvecs_[k].distance() << "," << iq_[k].average() << ",";
-    for (int site_type = 0; site_type < num_site_types; ++site_type) {
-      ss << site_ff_[k][site_type] << ",";
+  const Configuration& config = system.configuration();
+  // integerate 3D->1D
+  std::vector<double> sq1d, fk1d, count;
+  const int nx = num_bin_[0];
+  const int ny = num_bin_[1];
+  const int nz = num_bin_[2]/2 + 1;
+  const double cx = nx/2.;
+  const double cy = ny/2.;
+  const double cz = num_bin_[2]/2.;
+  for (int ix = 0; ix < nx; ++ix) {
+  for (int iy = 0; iy < ny; ++iy) {
+  for (int iz = 0; iz < nz; ++iz) {
+    const double dx = static_cast<double>(ix) - cx;
+    const double dy = static_cast<double>(iy) - cy;
+    const double dz = static_cast<double>(iz) - cz;
+    const double r = std::sqrt(dx*dx + dy*dy + dz*dz);
+    const double round = r/delta_rho_;
+    const int lower = static_cast<int>(round);
+    const int upper = lower + 1;
+    if (upper >= static_cast<int>(sq1d.size())) {
+      sq1d.resize(upper + 1);
+      fk1d.resize(upper + 1);
+      count.resize(upper + 1);
     }
-    ss << std::endl;
+    const int index3d = iz + nz*(iy + ny*ix);
+    const double ufrac = round - static_cast<double>(lower);
+    sq1d[upper] += ufrac*sqsq_[index3d];
+    fk1d[upper] += ufrac*fksq_[index3d];
+    count[upper] += ufrac;
+    sq1d[lower] += (1. - ufrac)*sqsq_[index3d];
+    fk1d[lower] += (1. - ufrac)*fksq_[index3d];
+    count[lower] += 1. - ufrac;
+  }}}
+
+  // normalize by counts and updates
+  for (int iq = 0; iq < static_cast<int>(sq1d.size()); ++iq) {
+    sq1d[iq] /= count[iq] * updates_;
+    fk1d[iq] /= count[iq] * updates_;
+  }
+
+  // compute the minimum index, which is the smallest q value of 2pi/L
+  int min_index = -1;
+  { int index = 0;
+    while(min_index < 0) {
+      if (delta_rho_*static_cast<double>(index) >= 1. - 100*NEAR_ZERO) {
+        min_index = index;
+      }
+      ++index;
+    }
+  }
+
+  // compute invariants to normalize intensity
+  double vp = 1;
+  const double num_sites = static_cast<double>(config.num_sites());
+  const double volume = config.domain().volume();
+  const double phi = num_sites*vp/volume;
+  const double invariant = 2*PI*PI*phi*(1-phi);
+  const double fk1dmin = *std::min_element(fk1d.begin()+min_index, fk1d.end());
+  std::vector<double> integrand;
+  for (int iq = min_index; iq < static_cast<int>(fk1d.size()); ++iq) {
+    const double q = delta_rho_*static_cast<double>(iq)*2.*PI/std::pow(volume, 1./3.);
+    integrand.push_back(q*q*(fk1d[iq] - fk1dmin));
+  }
+
+  std::stringstream ss;
+//  ss << "#\"num_site_types\":" << num_site_types << "," << std::endl;
+  ss << "q,i,in,s,count,index" << std::endl;
+  for (int iq = min_index; iq < static_cast<int>(sq1d.size()); ++iq) {
+    const double q = delta_rho_*static_cast<double>(iq)*2.*PI/std::pow(volume, 1./3.);
+    ss << q << " "
+       << fk1d[iq]/num_sites << " ";
+    fk1d[iq] *= invariant * 1e8;
+    ss << fk1d[iq] << " "
+       << sq1d[iq] << " "
+       << count[iq] << " "
+       << iq << std::endl;
   }
   return ss.str();
 }
 
+ScatteringFFTW::~ScatteringFFTW() {
+  if (fftw_initialized_) {
+    fftw_destroy_plan(plan_);
+    fftw_free(in_);
+    fftw_free(out_);
+  }
+}
+
 void ScatteringFFTW::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
-  feasst_serialize_version(6301, ostr);
-  feasst_serialize(num_frequency_, ostr);
+  feasst_serialize_version(3689, ostr);
+  //feasst_serialize(num_frequency_, ostr);
 }
 
 ScatteringFFTW::ScatteringFFTW(std::istream& istr)
   : Analyze(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(6301 == version, "version mismatch:" << version);
-  feasst_deserialize(&num_frequency_, istr);
+  ASSERT(3689 == version, "version mismatch:" << version);
+  //feasst_deserialize(&num_frequency_, istr);
 }
 
 }  // namespace feasst

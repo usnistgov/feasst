@@ -5,6 +5,8 @@
 #include <vector>
 #include "math/include/position.h"
 #include "monte_carlo/include/analyze.h"
+#include <complex>
+#include <fftw3.h>
 
 namespace feasst {
 
@@ -16,6 +18,8 @@ class ScatteringFFTW : public Analyze {
  public:
   /**
     args:
+    - bin_spacing: maximum bin spacing in each dimension (default: 0.1).
+    - delta_rho: determines spacing of q values in 3D->1D integeration.
     - num_frequency: the number of linearly spaced frequencies between the
       largest and the smallest, 2*pi/minimum_domain_length (default: 100).
   */
@@ -44,14 +48,39 @@ class ScatteringFFTW : public Analyze {
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<ScatteringFFTW>(args); }
   explicit ScatteringFFTW(std::istream& istr);
+  ~ScatteringFFTW();
 
  private:
+  // left over variables from steppers::scattering
   int num_frequency_;
   std::vector<Position> kvecs_;
   std::vector<std::vector<double> > site_ff_;
   std::vector<Accumulator> iq_;
 
-//  std::vector<double> iq_() const;
+  bool fftw_initialized_ = false;
+  double bin_spacing_;
+  double delta_rho_;
+  int updates_;
+  std::vector<int> num_bin_;  // number of bins in each dimension
+  std::vector<int> bin_dist_;  // distance of bin in each dimension
+  std::vector<double> lower_bound_; // lowest distance bin (half box)
+  std::vector<double> fksq_, sqsq_;
+
+  // fftw - not sure if serializable
+  double *in_;  // flip
+  fftw_complex *out_;
+  fftw_plan plan_;
+
+  // return the number of wave vectors (accounting for symmetry along z)
+  int num_q_() const {
+    return num_bin_[0]*num_bin_[1]*(num_bin_[2]/2+1);
+  }
+
+  /// fill the in_ grid with points.
+  void fill_grid_(const Configuration& config,
+    /// If true, only use particle centers (for sq)
+    /// Else, account for solid particles.
+    const bool centers);
 };
 
 inline std::shared_ptr<ScatteringFFTW> MakeScatteringFFTW(
