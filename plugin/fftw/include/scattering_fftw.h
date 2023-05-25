@@ -62,7 +62,7 @@ class ScatteringFFTW : public Analyze {
   double delta_rho_;
   int updates_;
   std::vector<int> num_bin_;  // number of bins in each dimension
-  std::vector<int> bin_dist_;  // distance of bin in each dimension
+  std::vector<double> bin_dist_;  // distance of bin in each dimension
   std::vector<double> lower_bound_; // lowest distance bin (half box)
   std::vector<double> fksq_, sqsq_;
 

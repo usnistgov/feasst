@@ -268,6 +268,7 @@
 #include "steppers/include/extensive_moments.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/log.h"
+#include "fftw/include/scattering_fftw.h"
 #include "chain/include/analyze_bonds.h"
 #include "steppers/include/scattering.h"
 #include "chain/include/radius_of_gyration.h"
@@ -317,3 +318,4 @@ std::shared_ptr<feasst::ComputeMorph> __feasst__ComputeMorph = std::make_shared<
 std::shared_ptr<feasst::VisitModelInnerPatch> __feasst__VisitModelInnerPatch = std::make_shared<feasst::VisitModelInnerPatch>();
 std::shared_ptr<feasst::VisitModelInnerTable> __feasst__VisitModelInnerTable = std::make_shared<feasst::VisitModelInnerTable>();
 std::shared_ptr<feasst::Tune> __feasst__Tune = std::make_shared<feasst::Tune>();
+std::shared_ptr<feasst::ScatteringFFTW> __feasst__ScatteringFFTW = std::make_shared<feasst::ScatteringFFTW>();

@@ -19,8 +19,8 @@ static MapScatteringFFTW mapper_energy_check_ = MapScatteringFFTW();
 
 ScatteringFFTW::ScatteringFFTW(argtype * args) : Analyze(args) {
   num_frequency_ = integer("num_frequency", args, 100);
-  bin_spacing_ = integer("bin_spacing", args, 0.1);
-  delta_rho_ = integer("delta_rho", args, 1);
+  bin_spacing_ = dble("bin_spacing", args, 0.1);
+  delta_rho_ = dble("delta_rho", args, 1);
 }
 ScatteringFFTW::ScatteringFFTW(argtype args) : ScatteringFFTW(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -32,20 +32,23 @@ void ScatteringFFTW::initialize(Criteria * criteria,
   const Configuration& config = system->configuration();
   ASSERT(config.dimension() == 3, "only implemented for 3d.");
   ASSERT(!config.domain().is_tilted(), "not implemented for tilted domains.");
-  
+
   // fftw
   updates_ = 0;
   num_bin_.resize(config.dimension());
   bin_dist_.resize(config.dimension());
   lower_bound_.resize(config.dimension());
+  DEBUG("bin_spacing " << bin_spacing_);
   for (int dim = 0; dim < config.dimension(); ++dim) {
     const double side_length = config.domain().side_length(dim);
+    DEBUG("side_length " << side_length);
     num_bin_[dim] = static_cast<int>(side_length/bin_spacing_);
     if (num_bin_[dim] % 2 != 0) ++num_bin_[dim];
     bin_dist_[dim] = side_length/static_cast<double>(num_bin_[dim]);
     lower_bound_[dim] = -side_length/2.;
   }
-  INFO("num_bin " << feasst_str(num_bin_));
+  DEBUG("num_bin " << feasst_str(num_bin_));
+  DEBUG("bin_dist " << feasst_str(bin_dist_));
   sqsq_.resize(num_q_());
   fksq_.resize(num_q_());
   in_  = reinterpret_cast<double*>(fftw_malloc(sizeof(double) * feasst::product(num_bin_)));
@@ -78,8 +81,10 @@ void ScatteringFFTW::fill_grid_(const Configuration& config, const bool centers)
         for (int dim = 0; dim < config.dimension(); ++dim) {
           center[dim] = static_cast<int>((site.position().coord(dim) - lower_bound_[dim])/bin_dist_[dim]);
         }
+        DEBUG("center " << feasst_str(center));
         if (centers) {
           const int bin = center[2] + nz*(center[1] + ny*center[0]);
+          DEBUG("bin " << bin);
           in_[bin] = std::pow(-1, center[0] + center[1] + center[2]);
         } else {
           FATAL("not implemented");
@@ -93,9 +98,9 @@ void ScatteringFFTW::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   const Configuration& config = system.configuration();
-  
+
   // sq
-  fill_grid_(config, false);
+  fill_grid_(config, true);
   fftw_execute(plan_);
   for (int iq = 0; iq < num_q_(); ++iq) {
     sqsq_[iq] += (std::pow(out_[iq][0], 2) + std::pow(out_[iq][1], 2))/
@@ -103,7 +108,7 @@ void ScatteringFFTW::update(const Criteria& criteria,
   }
 
 //  // iq
-//  fill_grid_(config, true);
+//  fill_grid_(config, false);
 //  fftw_execute(plan_);
 //  for (int iq = 0; iq < num_q_(); ++iq) {
 //    fksq_[iq] += std::pow(out_[iq][0], 2) + std::pow(out_[iq][1], 2);
@@ -184,12 +189,12 @@ std::string ScatteringFFTW::write(const Criteria& criteria,
   ss << "q,i,in,s,count,index" << std::endl;
   for (int iq = min_index; iq < static_cast<int>(sq1d.size()); ++iq) {
     const double q = delta_rho_*static_cast<double>(iq)*2.*PI/std::pow(volume, 1./3.);
-    ss << q << " "
-       << fk1d[iq]/num_sites << " ";
+    ss << q << ","
+       << fk1d[iq]/num_sites << ",";
     fk1d[iq] *= invariant * 1e8;
-    ss << fk1d[iq] << " "
-       << sq1d[iq] << " "
-       << count[iq] << " "
+    ss << fk1d[iq] << ","
+       << sq1d[iq] << ","
+       << count[iq] << ","
        << iq << std::endl;
   }
   return ss.str();
