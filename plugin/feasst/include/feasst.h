@@ -313,6 +313,7 @@ std::shared_ptr<feasst::ModelHardShape> __feasst__ModelHardShape = std::make_sha
 std::shared_ptr<feasst::Sphere> __feasst__Sphere = std::make_shared<feasst::Sphere>();
 std::shared_ptr<feasst::AEqualB> __feasst__AEqualB = std::make_shared<feasst::AEqualB>();
 std::shared_ptr<feasst::Ewald> __feasst__Ewald = std::make_shared<feasst::Ewald>();
+std::shared_ptr<feasst::ModelExample> __feasst__ModelExample = std::make_shared<feasst::ModelExample>();
 std::shared_ptr<feasst::MayerSampling> __feasst__MayerSampling = std::make_shared<feasst::MayerSampling>();
 std::shared_ptr<feasst::LennardJonesAlpha> __feasst__LennardJonesAlpha = std::make_shared<feasst::LennardJonesAlpha>();
 std::shared_ptr<feasst::ComputeMorph> __feasst__ComputeMorph = std::make_shared<feasst::ComputeMorph>();

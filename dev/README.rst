@@ -364,3 +364,4 @@ To Do List
 * Wrap triclinic particles for Movie. See: https://github.com/lammps/lammps/blob/develop/src/domain.cpp#L1232-L1322
 * Clean up the To Do list
 * add netcdf support http://unidata.github.io/netcdf-cxx4/index.html , https://gerasimosmichalitsianos.wordpress.com/2017/12/13/usingcppwithnetcdf/ https://support.scinet.utoronto.ca/education/staticpublic/course177content327.html
+* add in example plugin: One example template for each object type with documentation on how to modify it
