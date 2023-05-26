@@ -291,7 +291,6 @@
 #include "steppers/include/extensive_moments.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/log.h"
-#include "fftw/include/scattering_fftw.h"
 #include "chain/include/analyze_bonds.h"
 #include "steppers/include/scattering.h"
 #include "chain/include/radius_of_gyration.h"
@@ -676,7 +675,6 @@ using namespace std;
 %shared_ptr(feasst::ExtensiveMoments);
 %shared_ptr(feasst::CriteriaWriter);
 %shared_ptr(feasst::Log);
-%shared_ptr(feasst::ScatteringFFTW);
 %shared_ptr(feasst::AnalyzeBonds);
 %shared_ptr(feasst::Scattering);
 %shared_ptr(feasst::RadiusOfGyration);
@@ -986,7 +984,6 @@ using namespace std;
 %include steppers/include/extensive_moments.h
 %include steppers/include/criteria_writer.h
 %include steppers/include/log.h
-%include fftw/include/scattering_fftw.h
 %include chain/include/analyze_bonds.h
 %include steppers/include/scattering.h
 %include chain/include/radius_of_gyration.h

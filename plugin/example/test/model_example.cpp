@@ -5,12 +5,8 @@
 namespace feasst {
 
 TEST(ModelExample, model_example) {
-  ModelExample example;
-
-  // test energy
-  EXPECT_EQ(0., example.energy(0, 0, 0, ModelParams()));
-
-  std::shared_ptr<Model> model = test_serialize<ModelExample, Model>(example);
+  auto example = MakeModelExample({{"example_argument", "0.5"}});
+  std::shared_ptr<Model> model = test_serialize<ModelExample, Model>(*example);
 }
 
 }  // namespace feasst
