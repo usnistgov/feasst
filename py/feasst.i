@@ -305,6 +305,7 @@
 #include "steppers/include/seek_modify.h"
 #include "steppers/include/increment_phase.h"
 #include "steppers/include/wrap_particles.h"
+#include "steppers/include/read_config_from_file.h"
 #include "steppers/include/pair_distribution.h"
 #include "steppers/include/tune.h"
 #include "steppers/include/check_energy.h"
@@ -690,6 +691,7 @@ using namespace std;
 %shared_ptr(feasst::SeekModify);
 %shared_ptr(feasst::IncrementPhase);
 %shared_ptr(feasst::WrapParticles);
+%shared_ptr(feasst::ReadConfigFromFile);
 %shared_ptr(feasst::PairDistributionInner);
 %shared_ptr(feasst::PairDistribution);
 %shared_ptr(feasst::Tune);
@@ -998,6 +1000,7 @@ using namespace std;
 %include steppers/include/seek_modify.h
 %include steppers/include/increment_phase.h
 %include steppers/include/wrap_particles.h
+%include steppers/include/read_config_from_file.h
 %include steppers/include/pair_distribution.h
 %include steppers/include/tune.h
 %include steppers/include/check_energy.h

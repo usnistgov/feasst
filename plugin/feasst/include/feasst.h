@@ -282,6 +282,7 @@
 #include "steppers/include/seek_modify.h"
 #include "steppers/include/increment_phase.h"
 #include "steppers/include/wrap_particles.h"
+#include "steppers/include/read_config_from_file.h"
 #include "steppers/include/pair_distribution.h"
 #include "steppers/include/tune.h"
 #include "steppers/include/check_energy.h"
