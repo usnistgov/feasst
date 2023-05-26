@@ -51,8 +51,9 @@ void System::add_to_optimized(std::shared_ptr<Potential> potential) {
 
 PotentialFactory * System::reference_(const int index) {
   ASSERT(index < static_cast<int>(references_.size()),
-    "unrecognized reference: " << index <<
-    ". There are " << references_.size());
+    "An unrecognized reference potential: " << index << " was requested. "
+    << "But there are only " << references_.size() << " reference potentials. "
+    << "Perhaps check if the desired \"RefPotential\" is in the input script.");
   return &references_[index];
 }
 

@@ -18,12 +18,18 @@ class MapScatteringFFTW {
 static MapScatteringFFTW mapper_energy_check_ = MapScatteringFFTW();
 
 ScatteringFFTW::ScatteringFFTW(argtype * args) : Analyze(args) {
-  num_frequency_ = integer("num_frequency", args, 100);
   bin_spacing_ = dble("bin_spacing", args, 0.1);
   delta_rho_ = dble("delta_rho", args, 1);
 }
 ScatteringFFTW::ScatteringFFTW(argtype args) : ScatteringFFTW(&args) {
   FEASST_CHECK_ALL_USED(args);
+}
+
+void ScatteringFFTW::resize_fftw_variables_() {
+  in_  = reinterpret_cast<double*>(fftw_malloc(sizeof(double) * feasst::product(num_bin_)));
+  out_ = reinterpret_cast<fftw_complex*>(fftw_malloc(sizeof(fftw_complex) * num_q_()));
+  plan_ = fftw_plan_dft_r2c_3d(num_bin_[0], num_bin_[1], num_bin_[2], in_, out_, FFTW_MEASURE);
+  fftw_initialized_ = true;
 }
 
 void ScatteringFFTW::initialize(Criteria * criteria,
@@ -51,10 +57,7 @@ void ScatteringFFTW::initialize(Criteria * criteria,
   DEBUG("bin_dist " << feasst_str(bin_dist_));
   sqsq_.resize(num_q_());
   fksq_.resize(num_q_());
-  in_  = reinterpret_cast<double*>(fftw_malloc(sizeof(double) * feasst::product(num_bin_)));
-  out_ = reinterpret_cast<fftw_complex*>(fftw_malloc(sizeof(fftw_complex) * num_q_()));
-  plan_ = fftw_plan_dft_r2c_3d(num_bin_[0], num_bin_[1], num_bin_[2], in_, out_, FFTW_MEASURE);
-  fftw_initialized_ = true;
+  resize_fftw_variables_();
 }
 
 void ScatteringFFTW::fill_grid_(const Configuration& config, const bool centers) {
@@ -88,6 +91,13 @@ void ScatteringFFTW::fill_grid_(const Configuration& config, const bool centers)
           in_[bin] = std::pow(-1, center[0] + center[1] + center[2]);
         } else {
           FATAL("not implemented");
+//          // implement a recursive search for which bins overlap with the site
+//          if (site.is_anisotropic()) {
+//            FATAL("not implemented");
+//          } else {
+//            const double sigma = config.model_params().select("sigma").value(site.type());
+//            fill_grid_site_(sigma, site.position(), center);
+//          }
         }
       }
     }
@@ -211,14 +221,33 @@ ScatteringFFTW::~ScatteringFFTW() {
 void ScatteringFFTW::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(3689, ostr);
-  //feasst_serialize(num_frequency_, ostr);
+  feasst_serialize(fftw_initialized_, ostr);
+  feasst_serialize(bin_spacing_, ostr);
+  feasst_serialize(delta_rho_, ostr);
+  feasst_serialize(updates_, ostr);
+  feasst_serialize(num_bin_, ostr);
+  feasst_serialize(bin_dist_, ostr);
+  feasst_serialize(lower_bound_, ostr);
+  feasst_serialize(fksq_, ostr);
+  feasst_serialize(sqsq_, ostr);
 }
 
 ScatteringFFTW::ScatteringFFTW(std::istream& istr)
   : Analyze(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(3689 == version, "version mismatch:" << version);
-  //feasst_deserialize(&num_frequency_, istr);
+  feasst_deserialize(&fftw_initialized_, istr);
+  feasst_deserialize(&bin_spacing_, istr);
+  feasst_deserialize(&delta_rho_, istr);
+  feasst_deserialize(&updates_, istr);
+  feasst_deserialize(&num_bin_, istr);
+  feasst_deserialize(&bin_dist_, istr);
+  feasst_deserialize(&lower_bound_, istr);
+  feasst_deserialize(&fksq_, istr);
+  feasst_deserialize(&sqsq_, istr);
+  if (fftw_initialized_) {
+    resize_fftw_variables_();
+  }
 }
 
 }  // namespace feasst

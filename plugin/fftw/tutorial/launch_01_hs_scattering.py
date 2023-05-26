@@ -42,7 +42,7 @@ Run num_trials {equilibration}
 Movie trials_per_write {trials_per} file_name hs.xyz
 PairDistribution trials_per_update 1000 trials_per_write {trials_per} dr 0.025 file_name hs_gr.csv
 Scattering trials_per_update 100 trials_per_write {trials_per} num_frequency 10 file_name hs_iq.csv
-ScatteringFFTW trials_per_update 100 trials_per_write {trials_per} num_frequency 10 file_name hs_iq_fftw.csv
+ScatteringFFTW trials_per_update 100 trials_per_write {trials_per} bin_spacing 0.1 delta_rho 1 file_name hs_iq_fftw.csv
 Run num_trials {production}
 """.format(**params))
 
@@ -88,6 +88,15 @@ class TestFlatHistogramHS(unittest.TestCase):
         plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0']**2, label='sq_av', color='black')
         plt.plot(iqfftw['q'], iqfftw['s'], label='sq fftw', color='red')
         plt.legend()
+        plt.xlabel('q', fontsize=16)
+        plt.ylabel('S', fontsize=16)
+        plt.show()
+        plt.clf()
+        plt.scatter(iq['q'], iq['i'], label='iq_all')
+        plt.xscale('log')
+        plt.yscale('log')
+        plt.xlabel('q', fontsize=16)
+        plt.ylabel('I', fontsize=16)
         plt.show()
 
 # run the simulation and, if complete, analyze.

@@ -19,9 +19,7 @@ class ScatteringFFTW : public Analyze {
   /**
     args:
     - bin_spacing: maximum bin spacing in each dimension (default: 0.1).
-    - delta_rho: determines spacing of q values in 3D->1D integeration.
-    - num_frequency: the number of linearly spaced frequencies between the
-      largest and the smallest, 2*pi/minimum_domain_length (default: 100).
+    - delta_rho: determines spacing of q values in 3D->1D integeration (default: 1).
   */
   explicit ScatteringFFTW(argtype args = argtype());
   explicit ScatteringFFTW(argtype * args);
@@ -38,8 +36,6 @@ class ScatteringFFTW : public Analyze {
       const System& system,
       const TrialFactory& trial_factory) override;
 
-  int num_vectors() const { return static_cast<int>(kvecs_.size()); }
-
   // serialize
   std::string class_name() const override { return std::string("ScatteringFFTW"); }
   void serialize(std::ostream& ostr) const override;
@@ -51,12 +47,6 @@ class ScatteringFFTW : public Analyze {
   ~ScatteringFFTW();
 
  private:
-  // left over variables from steppers::scattering
-  int num_frequency_;
-  std::vector<Position> kvecs_;
-  std::vector<std::vector<double> > site_ff_;
-  std::vector<Accumulator> iq_;
-
   bool fftw_initialized_ = false;
   double bin_spacing_;
   double delta_rho_;
@@ -76,11 +66,20 @@ class ScatteringFFTW : public Analyze {
     return num_bin_[0]*num_bin_[1]*(num_bin_[2]/2+1);
   }
 
+  // resize fftw according to num_bin_
+  void resize_fftw_variables_();
+
   /// fill the in_ grid with points.
   void fill_grid_(const Configuration& config,
     /// If true, only use particle centers (for sq)
     /// Else, account for solid particles.
     const bool centers);
+
+//  /// fill the in_ grid with points from a single site.
+//  void fill_grid_site_(
+//    const std::vector<int> first_box,
+//    const double diameter,
+//    const Position& center);
 };
 
 inline std::shared_ptr<ScatteringFFTW> MakeScatteringFFTW(
