@@ -17,7 +17,7 @@ Criteria::Criteria(argtype * args) {
   data_.get_int_1D()->resize(2);
   *num_iterations_() = 0;
   *num_attempt_since_last_iteration_() = 0;
-  num_iterations_to_complete_ = integer("num_iterations_to_complete", args, 0);
+  num_iterations_to_complete_ = integer("num_iterations_to_complete", args, 20);
   if (used("Constraint", *args)) {
     add(ConstrainNumParticles().factory(str("Constraint", args), args));
   }

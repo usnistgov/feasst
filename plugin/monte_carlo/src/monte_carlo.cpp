@@ -433,6 +433,13 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
   }
   modify->initialize(criteria_.get(), &system_, &trial_factory_);
   DEBUG("mults " << modify->is_multistate() << " class name? " << modify->class_name());
+
+  // Check that modifiers aren't added after ReadConfigFromFile.
+  if (modify_factory_.num() > 0) {
+    ASSERT(
+      modify_factory_.modifiers().back()->class_name() != "ReadConfigFromFile",
+      "ReadConfigFromFile should be the last modifier.");
+  }
   modify_factory_.add(modify);
 }
 

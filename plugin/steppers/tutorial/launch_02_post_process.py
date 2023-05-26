@@ -9,21 +9,17 @@ params = {
     "file_name": "post_process.xyz",
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/atom.fstprt",
     "num_particles": 128,
-    "trials_per": 1e6, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
-    "equilibration": 1e5, "production": 1e6, "num_nodes": 1, "procs_per_node": 1, "script": __file__}
-params["num_minutes"] = round(params["num_hours"]*60)
-params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
+    "num_nodes": 1, "procs_per_node": 1, "script": __file__}
 
 # write fst script to run a single simulation
 def mc_hs(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
 Configuration particle_type0 {fstprt} xyz_file {file_name}
 Potential Model HardSphere VisitModel VisitModelCell min_length 1
 ThermoParams beta 1 chemical_potential 1
 Metropolis
-Scattering trials_per_update 1 trials_per_write {trials_per} num_frequency 10 file_name hs_iq.csv
+Scattering trials_per_update 1 trials_per_write 1 num_frequency 10 file_name hs_iq.csv
 ReadConfigFromFile file_name {file_name}
 Run until_criteria_complete true
 """.format(**params))
@@ -60,21 +56,22 @@ class TestFlatHistogramHS(unittest.TestCase):
         from pyfeasst import scattering
         iq=pd.read_csv('hs_iq.csv', comment="#")
         grp = iq.groupby('q', as_index=False)
-        self.assertAlmostEqual(iq['i'][3810], 5.72894, delta=0.4)
+        self.assertAlmostEqual(iq['i'][3810], 6.5772, delta=0.4)
         self.assertAlmostEqual(iq['i'][0]/iq['p0'][0]**2, 1, delta=0.075)
 
         import matplotlib.pyplot as plt
         plt.scatter(iq['q'], iq['i']/iq['p0']**2, label='sq_all')
         plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0']**2, label='sq_av')
         plt.legend()
-        #plt.show()
+        plt.show()
 
 # run the simulation and, if complete, analyze.
 def run():
     if args.task == 0:
         file_name = "hs_launch.txt"
         mc_hs(params, file_name=file_name)
-        syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > hs_launch.log", shell=True, executable='/bin/bash')
+        syscode = subprocess.call("../../../build/bin/fst < " + file_name, shell=True, executable='/bin/bash')
+        #syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > hs_launch.log", shell=True, executable='/bin/bash')
     else:
         syscode = subprocess.call("../../../build/bin/rst hs_checkpoint.fst", shell=True, executable='/bin/bash')
     if syscode == 0:
@@ -89,5 +86,7 @@ if __name__ == "__main__":
         syscode = run()
         if syscode != 0:
             sys.exit(1)
+    elif args.run_type == 2:
+        unittest.main(argv=[''], verbosity=2, exit=False)
     else:
         assert False  # unrecognized run_type

@@ -17,6 +17,23 @@ class MapReadConfigFromFile {
 
 static MapReadConfigFromFile mapper_ = MapReadConfigFromFile();
 
+void ReadConfigFromFile::initialize(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
+  file_.open(file_name());
+  ASSERT(file_.good(), "cannot open " << file_name());
+}
+
+void ReadConfigFromFile::update(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
+  Configuration * config = system->get_configuration();
+  xyz_.load_frame(file_, config);
+  if (file_.peek() == EOF) {
+    criteria->set_num_iterations_to_complete(0);
+  }
+}
+
 void ReadConfigFromFile::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(6782, ostr);
