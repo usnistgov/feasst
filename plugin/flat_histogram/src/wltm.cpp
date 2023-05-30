@@ -38,7 +38,8 @@ void WLTM::update(
     const bool is_endpoint,
     const Macrostate& macro) {
   DEBUG("num_flatness " << wang_landau_->num_flatness());
-  if (is_wl_bias_(macro)) {
+  const bool is_wl_bias = is_wl_bias_(macro);
+  if (is_wl_bias) {
     DEBUG("wl update");
     wang_landau_->update(macrostate_old, macrostate_new,
       ln_metropolis_prob, is_accepted, is_endpoint, macro);
@@ -53,7 +54,9 @@ void WLTM::update(
     transition_matrix_->update(macrostate_old, macrostate_new,
       ln_metropolis_prob, is_accepted, is_endpoint, macro);
   }
-  if (transition_matrix_->is_complete()) set_complete_();
+  if (!is_wl_bias && transition_matrix_->is_complete()) {
+    set_complete_();
+  }
 }
 
 const LnProbability& WLTM::ln_prob() const {
