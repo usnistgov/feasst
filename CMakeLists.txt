@@ -22,6 +22,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded;chain")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded;chain;morph")
 set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;fftw")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;xtc")
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
@@ -35,6 +36,8 @@ option(USE_OPENMP "Use OpenMP" ON)
 option(USE_SPHINX "Use SPHINX for documentation" OFF)
 option(USE_SWIG "Use SWIG for python interface" OFF)
 option(USE_GCOV "Use Coverage" OFF)
+option(USE_FFTW "Use FFTW" OFF)
+set(FFTW_DIR "$ENV{HOME}/software/fftw-3.3.10/build")
 
 # If you would like to use the python interface, you may need to specify the
 # python library and include path variables below. If not specified then
@@ -69,6 +72,14 @@ if (USE_GCOV)
   include(CodeCoverage)
   setup_target_for_coverage(coverage unittest coverage --gtest_filter=-*LONG)
 endif (USE_GCOV)
+
+# FFTW
+if (USE_FFTW)
+  message("USING FFTW")
+  find_package(PkgConfig REQUIRED)
+  pkg_search_module(FFTW REQUIRED fftw3 IMPORTED_TARGET)
+  link_libraries     (PkgConfig::FFTW)
+endif (USE_FFTW)
 
 #strip leading whitespace from EXTRA_LIBS
 string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
@@ -265,6 +276,12 @@ endif()
 list (FIND FEASST_PLUGINS "aniso" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstaniso feasstmonte_carlo)
+endif()
+
+# fftw
+list (FIND FEASST_PLUGINS "fftw" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstfftw feasstaniso)
 endif()
 
 # xtc

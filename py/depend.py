@@ -253,7 +253,7 @@ with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:
   if 'shape' in include_plugin: select_classes.append("Sphere")
   if 'egce' in include_plugin: select_classes.append("AEqualB")
   if 'charge' in include_plugin: select_classes.append("Ewald")
-#    if 'example' in include_plugin: select_classes.append("")
+  if 'example' in include_plugin: select_classes.append("ModelExample")
 #    if 'flat_histogram' in include_plugin: select_classes.append("")
 #    if 'math' in include_plugin: select_classes.append("")
   if 'mayer' in include_plugin: select_classes.append("MayerSampling")
@@ -268,6 +268,7 @@ with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:
   #if '' in include_plugin: select_classes.append("")
   #if '' in include_plugin: select_classes.append("")
   if 'steppers' in include_plugin: select_classes.append("Tune")
+  if 'fftw' in include_plugin: select_classes.append("ScatteringFFTW")
   for icl in select_classes:
     fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")
   #for cls in classes:

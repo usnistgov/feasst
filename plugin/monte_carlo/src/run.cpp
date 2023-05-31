@@ -71,8 +71,11 @@ void Run::run(MonteCarlo * mc) {
     }
   }
   if (until_criteria_complete_) {
+    DEBUG("num iterations " << mc->criteria().num_iterations());
+    DEBUG("num iterations to complete " << mc->criteria().num_iterations_to_complete());
+    DEBUG("mc->criteria().is_complete() " << mc->criteria().is_complete());
     while (!mc->criteria().is_complete()) {
-      mc->attempt(10);
+      mc->attempt(1);
     }
   }
 }

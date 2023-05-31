@@ -20,6 +20,7 @@ Build and test models:
    ../plugin/monte_carlo/tutorial/tutorial*
    ../plugin/charge/tutorial/tutorial*
    ../plugin/models/tutorial/tutorial*
+   ../plugin/example/tutorial/tutorial*
 
 Flat-histogram simulations:
 

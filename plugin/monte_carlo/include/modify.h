@@ -69,10 +69,6 @@ class Modify : public Stepper {
  */
 class ModifyUpdateOnly : public Modify {
  public:
-  /**
-    args:
-    - trials_per: update every this many trials
-   */
   explicit ModifyUpdateOnly(argtype * args);
 
   void set_trials_per_write(const int trials) override;

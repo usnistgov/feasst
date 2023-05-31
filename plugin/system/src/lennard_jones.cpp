@@ -15,12 +15,13 @@ class MapLennardJones {
 
 static MapLennardJones mapper_ = MapLennardJones();
 
-LennardJones::LennardJones(argtype args) : LennardJones(&args) {
-  FEASST_CHECK_ALL_USED(args); }
 LennardJones::LennardJones(argtype * args) {
   class_name_ = "LennardJones";
   const double thres = dble("hard_sphere_threshold", args, 0.2);
   hard_sphere_threshold_sq_ = thres*thres;
+}
+LennardJones::LennardJones(argtype args) : LennardJones(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 void LennardJones::serialize(std::ostream& ostr) const {

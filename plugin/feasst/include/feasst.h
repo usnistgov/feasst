@@ -92,7 +92,6 @@
 #include "models/include/yukawa.h"
 #include "models/include/two_body_table.h"
 #include "models/include/square_well.h"
-#include "example/include/model_example.h"
 #include "confinement/include/background.h"
 #include "opt_lj/include/visit_model_opt_rpm.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
@@ -107,6 +106,7 @@
 #include "models/include/two_body_alpha.h"
 #include "aniso/include/anisotropic.h"
 #include "models/include/mie.h"
+#include "example/include/model_example.h"
 #include "patch/include/patch_angle.h"
 #include "patch/include/visit_model_inner_patch.h"
 #include "confinement/include/model_lj_shape.h"
@@ -268,6 +268,7 @@
 #include "steppers/include/extensive_moments.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/log.h"
+#include "example/include/analyze_example.h"
 #include "chain/include/analyze_bonds.h"
 #include "steppers/include/scattering.h"
 #include "chain/include/radius_of_gyration.h"
@@ -281,6 +282,7 @@
 #include "steppers/include/seek_modify.h"
 #include "steppers/include/increment_phase.h"
 #include "steppers/include/wrap_particles.h"
+#include "steppers/include/read_config_from_file.h"
 #include "steppers/include/pair_distribution.h"
 #include "steppers/include/tune.h"
 #include "steppers/include/check_energy.h"
@@ -311,6 +313,7 @@ std::shared_ptr<feasst::ModelHardShape> __feasst__ModelHardShape = std::make_sha
 std::shared_ptr<feasst::Sphere> __feasst__Sphere = std::make_shared<feasst::Sphere>();
 std::shared_ptr<feasst::AEqualB> __feasst__AEqualB = std::make_shared<feasst::AEqualB>();
 std::shared_ptr<feasst::Ewald> __feasst__Ewald = std::make_shared<feasst::Ewald>();
+std::shared_ptr<feasst::ModelExample> __feasst__ModelExample = std::make_shared<feasst::ModelExample>();
 std::shared_ptr<feasst::MayerSampling> __feasst__MayerSampling = std::make_shared<feasst::MayerSampling>();
 std::shared_ptr<feasst::LennardJonesAlpha> __feasst__LennardJonesAlpha = std::make_shared<feasst::LennardJonesAlpha>();
 std::shared_ptr<feasst::ComputeMorph> __feasst__ComputeMorph = std::make_shared<feasst::ComputeMorph>();

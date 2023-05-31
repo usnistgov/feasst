@@ -69,10 +69,6 @@ class Analyze : public Stepper {
  */
 class AnalyzeWriteOnly : public Analyze {
  public:
-  /**
-    args:
-    - trials_per: write every this many trials
-   */
   explicit AnalyzeWriteOnly(argtype * args);
 
   void set_trials_per_update(const int trials) override;
@@ -87,10 +83,6 @@ class AnalyzeWriteOnly : public Analyze {
  */
 class AnalyzeUpdateOnly : public Analyze {
  public:
-  /**
-    args:
-    - trials_per: update every this many trials
-   */
   explicit AnalyzeUpdateOnly(argtype * args);
 
   void set_trials_per_write(const int trials) override;

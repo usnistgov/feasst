@@ -2,3 +2,4 @@
 .. toctree::
 
    ModelExample
+   AnalyzeExample

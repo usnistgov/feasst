@@ -24,6 +24,7 @@
    SeekModify
    IncrementPhase
    WrapParticles
+   ReadConfigFromFile
    PairDistributionInner
    Tune
    CheckEnergy

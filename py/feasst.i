@@ -115,7 +115,6 @@
 #include "models/include/yukawa.h"
 #include "models/include/two_body_table.h"
 #include "models/include/square_well.h"
-#include "example/include/model_example.h"
 #include "confinement/include/background.h"
 #include "opt_lj/include/visit_model_opt_rpm.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
@@ -130,6 +129,7 @@
 #include "models/include/two_body_alpha.h"
 #include "aniso/include/anisotropic.h"
 #include "models/include/mie.h"
+#include "example/include/model_example.h"
 #include "patch/include/patch_angle.h"
 #include "patch/include/visit_model_inner_patch.h"
 #include "confinement/include/model_lj_shape.h"
@@ -291,6 +291,7 @@
 #include "steppers/include/extensive_moments.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/log.h"
+#include "example/include/analyze_example.h"
 #include "chain/include/analyze_bonds.h"
 #include "steppers/include/scattering.h"
 #include "chain/include/radius_of_gyration.h"
@@ -304,6 +305,7 @@
 #include "steppers/include/seek_modify.h"
 #include "steppers/include/increment_phase.h"
 #include "steppers/include/wrap_particles.h"
+#include "steppers/include/read_config_from_file.h"
 #include "steppers/include/pair_distribution.h"
 #include "steppers/include/tune.h"
 #include "steppers/include/check_energy.h"
@@ -447,7 +449,6 @@ using namespace std;
 %shared_ptr(feasst::Yukawa);
 %shared_ptr(feasst::TwoBodyTable);
 %shared_ptr(feasst::SquareWell);
-%shared_ptr(feasst::ModelExample);
 %shared_ptr(feasst::Background);
 %shared_ptr(feasst::VisitModelOptRPM);
 %shared_ptr(feasst::VisitModelOptLJ);
@@ -468,6 +469,8 @@ using namespace std;
 %shared_ptr(feasst::TwoBodyAlpha);
 %shared_ptr(feasst::Anisotropic);
 %shared_ptr(feasst::Mie);
+%shared_ptr(feasst::ModelExample);
+%shared_ptr(feasst::Gamma);
 %shared_ptr(feasst::PatchAngle);
 %shared_ptr(feasst::CosPatchAngle);
 %shared_ptr(feasst::Director);
@@ -674,6 +677,7 @@ using namespace std;
 %shared_ptr(feasst::ExtensiveMoments);
 %shared_ptr(feasst::CriteriaWriter);
 %shared_ptr(feasst::Log);
+%shared_ptr(feasst::AnalyzeExample);
 %shared_ptr(feasst::AnalyzeBonds);
 %shared_ptr(feasst::Scattering);
 %shared_ptr(feasst::RadiusOfGyration);
@@ -688,6 +692,7 @@ using namespace std;
 %shared_ptr(feasst::SeekModify);
 %shared_ptr(feasst::IncrementPhase);
 %shared_ptr(feasst::WrapParticles);
+%shared_ptr(feasst::ReadConfigFromFile);
 %shared_ptr(feasst::PairDistributionInner);
 %shared_ptr(feasst::PairDistribution);
 %shared_ptr(feasst::Tune);
@@ -806,7 +811,6 @@ using namespace std;
 %include models/include/yukawa.h
 %include models/include/two_body_table.h
 %include models/include/square_well.h
-%include example/include/model_example.h
 %include confinement/include/background.h
 %include opt_lj/include/visit_model_opt_rpm.h
 %include opt_lj/include/visit_model_opt_lj.h
@@ -821,6 +825,7 @@ using namespace std;
 %include models/include/two_body_alpha.h
 %include aniso/include/anisotropic.h
 %include models/include/mie.h
+%include example/include/model_example.h
 %include patch/include/patch_angle.h
 %include patch/include/visit_model_inner_patch.h
 %include confinement/include/model_lj_shape.h
@@ -982,6 +987,7 @@ using namespace std;
 %include steppers/include/extensive_moments.h
 %include steppers/include/criteria_writer.h
 %include steppers/include/log.h
+%include example/include/analyze_example.h
 %include chain/include/analyze_bonds.h
 %include steppers/include/scattering.h
 %include chain/include/radius_of_gyration.h
@@ -995,6 +1001,7 @@ using namespace std;
 %include steppers/include/seek_modify.h
 %include steppers/include/increment_phase.h
 %include steppers/include/wrap_particles.h
+%include steppers/include/read_config_from_file.h
 %include steppers/include/pair_distribution.h
 %include steppers/include/tune.h
 %include steppers/include/check_energy.h
