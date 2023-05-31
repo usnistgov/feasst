@@ -4,6 +4,7 @@
 #include "utils/include/timer.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/seek_analyze.h"
+#include "steppers/include/seek_modify.h"
 #include "example/include/action_example.h"
 
 namespace feasst {
@@ -45,10 +46,21 @@ void ActionExample::serialize(std::ostream& ostr) const {
 void ActionExample::run(MonteCarlo * mc) {
   if (!analyze_name_.empty()) {
     const std::vector<int> index = SeekAnalyze().index(analyze_name_, *mc);
+    ASSERT(index[0] != -1, "analyze_name:" << analyze_name_ <<
+      " was not found. Is it a modify?");
     mc->get_analyze_factory()->get_analyze(index[0])->write_to_file(
       mc->criteria(),
       mc->system(),
       mc->trials());
+  }
+  if (!modify_name_.empty()) {
+    const std::vector<int> index = SeekModify().index(modify_name_, *mc);
+    ASSERT(index[0] != -1, "modify_name:" << modify_name_ <<
+      " was not found. Is it an analyze?");
+    mc->get_modify_factory()->get_modify(index[0])->write_to_file(
+      mc->get_criteria(),
+      mc->get_system(),
+      mc->get_trial_factory());
   }
 }
 
