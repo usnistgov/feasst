@@ -1,11 +1,11 @@
 
 .. toctree::
 
+   SelectPerturbed
    SelectSegment
    SelectEndSegment
    SelectReptate
    SelectCrankshaftSmall
-   SelectPerturbed
    SelectSiteOfType
    PerturbConnector
    PerturbDistanceAngleConnector

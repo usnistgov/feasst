@@ -51,6 +51,7 @@
 #include "flat_histogram/include/window_exponential.h"
 #include "flat_histogram/include/window_custom.h"
 #include "monte_carlo/include/action.h"
+#include "example/include/action_example.h"
 #include "math/include/minimize.h"
 #include "math/include/golden_search.h"
 #include "math/include/solver.h"
@@ -175,6 +176,7 @@
 #include "egce/include/a_half_b.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "monte_carlo/include/trial_select.h"
+#include "chain/include/select_perturbed.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "chain/include/select_segment.h"
 #include "chain/include/select_end_segment.h"
@@ -184,7 +186,6 @@
 #include "cluster/include/select_particle_avb_divalent.h"
 #include "cluster/include/select_particle_avb.h"
 #include "beta_expanded/include/select_nothing.h"
-#include "chain/include/select_perturbed.h"
 #include "chain/include/select_site_of_type.h"
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/file_xyz.h"
@@ -384,6 +385,7 @@ using namespace std;
 %shared_ptr(feasst::WindowExponential);
 %shared_ptr(feasst::WindowCustom);
 %shared_ptr(feasst::Action);
+%shared_ptr(feasst::ActionExample);
 %shared_ptr(feasst::Minimize);
 %shared_ptr(feasst::GoldenSearch);
 %shared_ptr(feasst::Solver);
@@ -530,6 +532,7 @@ using namespace std;
 %shared_ptr(feasst::AHalfB);
 %shared_ptr(feasst::MacrostateNumParticles);
 %shared_ptr(feasst::TrialSelect);
+%shared_ptr(feasst::SelectPerturbed);
 %shared_ptr(feasst::TrialSelectParticle);
 %shared_ptr(feasst::SelectSegment);
 %shared_ptr(feasst::SelectEndSegment);
@@ -539,7 +542,6 @@ using namespace std;
 %shared_ptr(feasst::SelectParticleAVBDivalent);
 %shared_ptr(feasst::SelectParticleAVB);
 %shared_ptr(feasst::SelectNothing);
-%shared_ptr(feasst::SelectPerturbed);
 %shared_ptr(feasst::SelectSiteOfType);
 %shared_ptr(feasst::VisitConfiguration);
 %shared_ptr(feasst::LoopConfigOneBody);
@@ -558,6 +560,7 @@ using namespace std;
 %shared_ptr(feasst::RemoveAnalyze);
 %shared_ptr(feasst::RemoveModify);
 %shared_ptr(feasst::WriteCheckpoint);
+%shared_ptr(feasst::WriteStepper);
 %shared_ptr(feasst::ConvertToRefPotential);
 %shared_ptr(feasst::RefPotential);
 %shared_ptr(feasst::VisitModelIntra);
@@ -747,6 +750,7 @@ using namespace std;
 %include flat_histogram/include/window_exponential.h
 %include flat_histogram/include/window_custom.h
 %include monte_carlo/include/action.h
+%include example/include/action_example.h
 %include math/include/minimize.h
 %include math/include/golden_search.h
 %include math/include/solver.h
@@ -871,6 +875,7 @@ using namespace std;
 %include egce/include/a_half_b.h
 %include flat_histogram/include/macrostate_num_particles.h
 %include monte_carlo/include/trial_select.h
+%include chain/include/select_perturbed.h
 %include monte_carlo/include/trial_select_particle.h
 %include chain/include/select_segment.h
 %include chain/include/select_end_segment.h
@@ -880,7 +885,6 @@ using namespace std;
 %include cluster/include/select_particle_avb_divalent.h
 %include cluster/include/select_particle_avb.h
 %include beta_expanded/include/select_nothing.h
-%include chain/include/select_perturbed.h
 %include chain/include/select_site_of_type.h
 %include configuration/include/visit_configuration.h
 %include configuration/include/file_xyz.h

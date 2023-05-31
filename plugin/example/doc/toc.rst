@@ -1,5 +1,6 @@
 
 .. toctree::
 
+   ActionExample
    ModelExample
    AnalyzeExample

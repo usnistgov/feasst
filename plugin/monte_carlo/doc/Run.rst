@@ -21,6 +21,10 @@ Run
    :project: FEASST
    :members:
 
+.. doxygenclass:: feasst::WriteStepper
+   :project: FEASST
+   :members:
+
 .. doxygenclass:: feasst::ConvertToRefPotential
    :project: FEASST
    :members:

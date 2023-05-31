@@ -21,10 +21,10 @@ TEST(ActionExample, fh) {
     {"TrialTransfer", {{"particle_type", "0"}}},
     {"CriteriaUpdater", {{"trials_per_update", "1e2"}}},
     {"CriteriaWriter", {{"trials_per_write", "1e2"}, {"file_name", "tmp/action_ex_crit.csv"}}},
-    {"Energy", {{"file_name", "tmp/en.csv"}, {"trials_per_write", "1e2"}}},
+    {"Energy", {{"file_name", "tmp/en.csv"}, {"trials_per_write", "1e2"}, {"multistate", "true"}}},
     {"Run", {{"until_criteria_complete", "true"}}},
     {"ActionExample", {{"analyze_name", "CriteriaWriter"}}},
-    //{"ActionExample", {{"analyze_name", "Energy"}}},
+    {"ActionExample", {{"analyze_name", "Energy"}}},
   }});
 }
 

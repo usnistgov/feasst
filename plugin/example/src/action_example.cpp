@@ -45,8 +45,10 @@ void ActionExample::serialize(std::ostream& ostr) const {
 void ActionExample::run(MonteCarlo * mc) {
   if (!analyze_name_.empty()) {
     const std::vector<int> index = SeekAnalyze().index(analyze_name_, *mc);
-    ASSERT(index[1] == -1, "ActionExample not implemented for multistate");
-    INFO(feasst_str(index));
+    mc->get_analyze_factory()->get_analyze(index[0])->write_to_file(
+      mc->criteria(),
+      mc->system(),
+      mc->trials());
   }
 }
 
