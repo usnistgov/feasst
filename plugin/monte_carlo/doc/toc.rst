@@ -7,10 +7,10 @@
    Acceptance
    Criteria
    Metropolis
-   Constraint
-   ConstrainNumParticles
    TrialSelect
    TrialSelectParticle
+   Constraint
+   ConstrainNumParticles
    Run
    TrialSelectBond
    TrialSelectAngle

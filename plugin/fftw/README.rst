@@ -11,6 +11,7 @@ Installation of prerequisites
     cd $HOME/software/
     wget https://www.fftw.org/fftw-3.3.10.tar.gz
     tar -xf fftw-3.3.10.tar.gz
+    cd fftw-3.3.10
     ./configure --enable-shared
     sudo make install -j24
     sudo apt-get install pkg-config # for cmake to find fftw

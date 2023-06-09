@@ -23,6 +23,19 @@ namespace feasst {
 
   A count of all accepted transitions between macrostates is used for a newly
   developed sweep metric.
+
+  Note that transitions to macrostates that have not yet been sampled are
+  unbiased.
+  This can lead to long initialization times, depending on your choice of the
+  chemical potential.
+  For example, if a simulation begins with zero particles and attempts a
+  particle insertion, this insertion is unlikely to be accepted if the chemical
+  potential is very low (favoring less particles).
+  This can lead to very low initialization times.
+  This issue can be overcome with the use of WLTM, which instead uses
+  Wang-Landau to initialize the transition matrix.
+  This makes WLTM less sensitive than TM to the choice of chemical potential in terms
+  of efficiency.
  */
 class TransitionMatrix : public Bias {
  public:

@@ -302,6 +302,38 @@ void WriteCheckpoint::run(MonteCarlo * mc) {
   mc->write_checkpoint();
 }
 
+WriteStepper::WriteStepper(argtype * args) {
+  class_name_ = "WriteStepper";
+}
+WriteStepper::WriteStepper(argtype args) : WriteStepper(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
+
+class MapWriteStepper {
+ public:
+  MapWriteStepper() {
+    auto obj = MakeWriteStepper();
+    obj->deserialize_map()["WriteStepper"] = obj;
+  }
+};
+
+static MapWriteStepper mapper_WriteStepper = MapWriteStepper();
+
+WriteStepper::WriteStepper(std::istream& istr) : Action(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 7369, "mismatch version: " << version);
+}
+
+void WriteStepper::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_action_(ostr);
+  feasst_serialize_version(7369, ostr);
+}
+
+void WriteStepper::run(MonteCarlo * mc) {
+  FATAL("not implemented");
+}
+
 ConvertToRefPotential::ConvertToRefPotential(argtype * args) {
   class_name_ = "ConvertToRefPotential";
   potential_index_ = integer("potential_index", args, 0);

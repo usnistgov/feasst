@@ -5,40 +5,15 @@
 #include <memory>
 #include "configuration/include/model_params.h"
 #include "system/include/model_two_body.h"
+#include "example/include/model_param_example.h"
 
 namespace feasst {
 
 /**
   Add a model to FEASST by using this file as a template and instruction set.
-
-  1. Copy and paste this h file, and its corresponding cpp file with a new name:
-
-     cd /path/to/feasst/plugin/example
-
-     cp include/model_example.h include/new_name.h
-
-     cp src/model_example.cpp src/new_name.cpp
-
-  2. Replace ModelExample with NewName in the cpp and h files.
-     With regex in VIM, this can be done as :%s/ModelExample/NewName/g
-
-  3. Similarly, replace FEASST_EXAMPLE_MODEL_EXAMPLE_H_ with
-     FEASST_EXAMPLE_NEW_NAME_H_ .
-
-  4. Update the interface (feasst.h/feasst.i) and HTML documentation with the
-     following BASH command:
-     cd /path/to/feasst/build; python ../py/depend-py -s ../
-
-  5. (optional) Add tests by performing steps 1 and 2 for
-     /feasst/plugin/example/test/model_example.cpp .
-
-  6. (optional) Change the serialization version found in two places in the cpp
-     file from the current 5023 to something else (in both places).
-
-  If an update to the code via git is required, note that step 4 will change the
-  existing feasst.[i/h] files in the git repo.
-  Use "git checkout" on feasst.[i/h] before "git pull" and then repeat step 4
-  afterward.
+  Follow the same steps detailed in /feasst/plugin/example/README.rst.
+  In summary, copy model_example.[h/cpp] to new_name.[h/cpp], replace
+  ModelExample with NewName, then replace MODEL_EXAMPLE with NEW_NAME.
 
   In some cases, TablePotential may be a more convenient and efficient approach
   to implementing a custom potential in FEASST.
@@ -130,24 +105,6 @@ class ModelExample : public ModelTwoBody {
 inline std::shared_ptr<ModelExample> MakeModelExample(argtype args = argtype()) {
   return std::make_shared<ModelExample>(args);
 }
-
-/**
-  While sigma, epsilon and cutoff are already implemented in Model,
-  and the lambda parameter was already implemented in LennardJonesAlpha,
-  the gamma parameter is not yet defined.
-  Thus, we will go through the exercise here.
- */
-class Gamma : public ModelParam {
- public:
-  Gamma() : ModelParam() { class_name_ = "gamma"; }
-  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
-    return std::make_shared<Gamma>(istr); }
-  void serialize(std::ostream& ostr) const override;
-  explicit Gamma(std::istream& istr);
-  virtual ~Gamma() {}
- private:
-  double mix_(const double value1, const double value2) override;
-};
 
 }  // namespace feasst
 

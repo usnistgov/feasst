@@ -5,28 +5,31 @@ For help in discussion or testing (alphabetical)
 
 * Prof. Henry S. Ashbaugh
 * Dr. Debra Audus
+* Dr. Christina Bergonzo
 * Dr. Marco A. Blanco
-* Cesar O Calero-Rubio
+* Dr. Cesar O Calero-Rubio
 * Dr. Joseph Curtis
 * Dr. Tamoghna Das
 * Prof. Pablo Debenedetti
-* Jingxiang Guo
+* Dr. Jingxiang Guo
 * Steven W. Hall
 * Dr. Steven Howell
 * Sally Jiao
 * Dr. William P. Krekelberg
 * Dr. Nathan Mahynski
-* Tiara Ann Maula
+* Dr. Tiara Ann Maula
+* Bartosz Mazur
 * Gordon W. McCann
 * Prof. Jeetain Mittal
 * Prof. Jeremy Palmer
 * Prof. Athanassios Z. Panagiotopoulos
 * Prof. Christopher J. Roberts
-* Christopher Rzepa
+* Dr. Christopher Rzepa
 * Prof. Sapna Sarupria
 * Dr. David A. Sheen
 * Dr. Vincent K. Shen
 * Dr. Daniel W. Siderius
+* Dr. Yingnan Wang
 * Dr. Hasan Zerze
 
 Publications
@@ -34,6 +37,8 @@ Publications
 
 Some publications which use FEASST include:
 
+#. https://doi.org/10.1063/5.0148488
+#. https://doi.org/10.1021/acs.jpcb.3c00613
 #. https://doi.org/10.1021/acs.jpcb.2c04583
 #. https://doi.org/10.1002/aic.17686
 #. https://doi.org/10.1021/acs.jpca.0c05242

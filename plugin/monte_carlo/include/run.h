@@ -154,9 +154,6 @@ inline std::shared_ptr<RemoveModify> MakeRemoveModify(argtype args = argtype()) 
  */
 class WriteCheckpoint : public Action {
  public:
-  /**
-    args:
-   */
   explicit WriteCheckpoint(argtype args = argtype());
   explicit WriteCheckpoint(argtype * args);
   void run(MonteCarlo * mc) override;
@@ -171,6 +168,27 @@ class WriteCheckpoint : public Action {
 
 inline std::shared_ptr<WriteCheckpoint> MakeWriteCheckpoint(argtype args = argtype()) {
   return std::make_shared<WriteCheckpoint>(args);
+}
+
+class WriteStepper : public Action {
+ public:
+  /**
+    args:
+   */
+  explicit WriteStepper(argtype args = argtype());
+  explicit WriteStepper(argtype * args);
+  void run(MonteCarlo * mc) override;
+  std::shared_ptr<Action> create(std::istream& istr) const override {
+    return std::make_shared<WriteStepper>(istr); }
+  std::shared_ptr<Action> create(argtype * args) const override {
+    return std::make_shared<WriteStepper>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit WriteStepper(std::istream& istr);
+  virtual ~WriteStepper() {}
+};
+
+inline std::shared_ptr<WriteStepper> MakeWriteStepper(argtype args = argtype()) {
+  return std::make_shared<WriteStepper>(args);
 }
 
 /**

@@ -22,6 +22,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded;chain")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded;chain;morph")
 set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;netcdf")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;fftw")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;xtc")
 # Note, if you change the plugin list and want to use the python interface,
@@ -38,6 +39,8 @@ option(USE_SWIG "Use SWIG for python interface" OFF)
 option(USE_GCOV "Use Coverage" OFF)
 option(USE_FFTW "Use FFTW" OFF)
 set(FFTW_DIR "$ENV{HOME}/software/fftw-3.3.10/build")
+option(USE_NETCDF "Use NetCDF" OFF)
+set(NETCDF_DIR "$ENV{HOME}/local")
 
 # If you would like to use the python interface, you may need to specify the
 # python library and include path variables below. If not specified then
@@ -78,8 +81,21 @@ if (USE_FFTW)
   message("USING FFTW")
   find_package(PkgConfig REQUIRED)
   pkg_search_module(FFTW REQUIRED fftw3 IMPORTED_TARGET)
-  link_libraries     (PkgConfig::FFTW)
+  link_libraries(PkgConfig::FFTW)
 endif (USE_FFTW)
+
+# NetCDF
+if (USE_NETCDF)
+  message("USING NETCDF")
+  find_package(PkgConfig REQUIRED)
+  set(CMAKE_PREFIX_PATH "${NETCDF_DIR}")
+  pkg_search_module(ZLIB REQUIRED zlib IMPORTED_TARGET)
+  link_libraries(PkgConfig::ZLIB)
+  pkg_search_module(NETCDF REQUIRED netcdf IMPORTED_TARGET)
+  link_libraries(PkgConfig::NETCDF)
+  pkg_search_module(NETCDFCXX4 REQUIRED netcdf-cxx4 IMPORTED_TARGET)
+  link_libraries(PkgConfig::NETCDFCXX4)
+endif (USE_NETCDF)
 
 #strip leading whitespace from EXTRA_LIBS
 string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
@@ -281,7 +297,13 @@ endif()
 # fftw
 list (FIND FEASST_PLUGINS "fftw" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstfftw feasstaniso)
+  target_link_libraries(feasstfftw feasstmonte_carlo)
+endif()
+
+# netcdf
+list (FIND FEASST_PLUGINS "netcdf" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstnetcdf feasstmonte_carlo)
 endif()
 
 # xtc
@@ -442,6 +464,12 @@ if (USE_GTEST)
 
 endif(USE_GTEST)
 
+# prep feasst.(i/h) (as well as documentation)
+execute_process(
+  COMMAND python ../py/depend.py -s ../
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
 # build feasst library
 add_library (feasstlib INTERFACE)
 foreach (PLUGIN ${FEASST_PLUGINS})
@@ -547,12 +575,6 @@ if (USE_SWIG)
     else ()
       add_dependencies(feasst build-time-make-directory)
     endif ()
-
-    # # prep feasst.i (as well as documentation)
-    # execute_process(
-    #   COMMAND ../py/run.sh ../dev/tools/depend.py -s ../
-    #   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    # )
 
     # install using setup.py
     set(OUTPUT    "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")

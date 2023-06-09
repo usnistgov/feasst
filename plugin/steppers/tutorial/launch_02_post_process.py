@@ -7,8 +7,8 @@ import unittest
 # define parameters of a pure component NVT MC hard sphere simulation
 params = {
     "file_name": "post_process.xyz",
-    "cubic_box_length": 8, "fstprt": "/feasst/forcefield/atom.fstprt",
-    "num_particles": 128,
+    "fstprt": "/feasst/forcefield/atom.fstprt",
+    "num_minutes": 60,
     "num_nodes": 1, "procs_per_node": 1, "script": __file__}
 
 # write fst script to run a single simulation
@@ -70,8 +70,7 @@ def run():
     if args.task == 0:
         file_name = "hs_launch.txt"
         mc_hs(params, file_name=file_name)
-        syscode = subprocess.call("../../../build/bin/fst < " + file_name, shell=True, executable='/bin/bash')
-        #syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > hs_launch.log", shell=True, executable='/bin/bash')
+        syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > hs_launch.log", shell=True, executable='/bin/bash')
     else:
         syscode = subprocess.call("../../../build/bin/rst hs_checkpoint.fst", shell=True, executable='/bin/bash')
     if syscode == 0:

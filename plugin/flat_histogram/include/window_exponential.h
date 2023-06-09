@@ -27,6 +27,16 @@ namespace feasst {
   For example, 4 windows over a macrostate range of [0, 200], \f$\alpha=2\f$,
   results in the following segments:
   [0, 100.00, 141.42, 173.21, 200].
+
+  The choice of alpha can affect the efficiency of the simulation, depending on
+  the relative speed of the convergence of the low macrostates compared to the
+  higher macrostates.
+  If the lower macrostate windows are converging slower, then alpha should be
+  decreased.
+  If the higher macrostate simulations are converging slower, then alpha may
+  need to be increased.
+  The choice of alpha is dependent on the system, conditions and convergence
+  criteria.
  */
 class WindowExponential : public Window {
  public:

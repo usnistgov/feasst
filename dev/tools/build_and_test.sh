@@ -5,10 +5,10 @@ cd build
 python3 -m venv feasst_test_env
 source feasst_test_env/bin/activate
 pip install --upgrade pip
-pip install ../pyfeasst numpy jupyter matplotlib pandas scipy wheel
+pip install ../pyfeasst numpy jupyter matplotlib pandas scipy wheel biopandas
 cmake -DUSE_GTEST=ON -DUSE_SWIG=ON ..
-make feasst -j4
-make install -j4
+make feasst -j24
+make install -j24
 echo "" > summary_long.log
 echo "" > summary.log
 

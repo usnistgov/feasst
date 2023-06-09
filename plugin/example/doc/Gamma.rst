@@ -1,6 +1,6 @@
-ModelExample
+Gamma
 =====================================================
 
-.. doxygenclass:: feasst::ModelExample
+.. doxygenclass:: feasst::Gamma
    :project: FEASST
    :members:

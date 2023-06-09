@@ -25,3 +25,7 @@ pyfeasst/docs/build
 *.fst
 *phase0
 *phase1
+
+# automatically generated files from py/depende.py
+py/feasst.i
+plugin/feasst/include/feasst.h

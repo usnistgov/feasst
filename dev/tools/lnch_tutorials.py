@@ -2,18 +2,23 @@ from pathlib import Path
 import multiprocessing
 import subprocess
 from pyfeasst import cd
+import pandas as pd
 
-for filename in Path('../').rglob('launch*.py'):
-    if 'checkpoint' not in filename.name:
-        if 'build' and 'dev' and 'feasst_test_env' not in str(filename.parent):
-            with cd.cd(filename.parent):
-                print("Running:", filename.name, "in", filename.parent)
-                subprocess.call("python " + str(filename.name) + " 2> launch.log", shell=True, executable='/bin/bash')
-#                subprocess.call("jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout=10000 --execute " + str(filename) + " > tutorial_log.txt 2>&1; grep \"Error\|Assertion\" tutorial_log.txt >> tutorial_failures.txt")
-#                subprocess.call("grep \"FAILED (fa\" " + str(filename) +" >> tutorial_failures.txt")
-#                subprocess.call("grep \"Error\" " + str(filename) +" >> tutorial_failures.txt")
-#                subprocess.call("grep \"ERROR\" " + str(filename) +" >> tutorial_failures.txt")
-#                subprocess.call("grep \"feasst::CustomException\" " + str(filename) +" >> tutorial_failures.txt")
+plugins = pd.read_csv('plugins.txt', delim_whitespace=True)
+#print(plugins.columns)
+for col in plugins.columns:
+    #print(col)
+    for filename in Path('../plugin/'+col+'/').rglob('launch*.py'):
+        if 'checkpoint' not in filename.name:
+            if 'build' and 'dev' and 'feasst_test_env' not in str(filename.parent):
+                with cd.cd(filename.parent):
+                    print("Running:", filename.name, "in", filename.parent)
+                    subprocess.call("python " + str(filename.name) + " 2> launch.log", shell=True, executable='/bin/bash')
+    #                subprocess.call("jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout=10000 --execute " + str(filename) + " > tutorial_log.txt 2>&1; grep \"Error\|Assertion\" tutorial_log.txt >> tutorial_failures.txt")
+    #                subprocess.call("grep \"FAILED (fa\" " + str(filename) +" >> tutorial_failures.txt")
+    #                subprocess.call("grep \"Error\" " + str(filename) +" >> tutorial_failures.txt")
+    #                subprocess.call("grep \"ERROR\" " + str(filename) +" >> tutorial_failures.txt")
+    #                subprocess.call("grep \"feasst::CustomException\" " + str(filename) +" >> tutorial_failures.txt")
 
 # put all ids in nums list
 nums=list()

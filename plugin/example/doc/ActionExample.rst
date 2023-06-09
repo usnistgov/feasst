@@ -1,6 +1,6 @@
-ModelExample
+ActionExample
 =====================================================
 
-.. doxygenclass:: feasst::ModelExample
+.. doxygenclass:: feasst::ActionExample
    :project: FEASST
    :members:

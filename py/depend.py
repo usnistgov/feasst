@@ -269,6 +269,7 @@ with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:
   #if '' in include_plugin: select_classes.append("")
   if 'steppers' in include_plugin: select_classes.append("Tune")
   if 'fftw' in include_plugin: select_classes.append("ScatteringFFTW")
+  if 'netcdf' in include_plugin: select_classes.append("FileNETCDF")
   for icl in select_classes:
     fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")
   #for cls in classes:
