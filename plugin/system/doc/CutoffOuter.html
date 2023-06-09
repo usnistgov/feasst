@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CutoffOuter &mdash; FEASST v0.21.1 documentation</title>
+  <title>CutoffOuter &mdash; FEASST v0.22.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,13 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.21.1
+                v0.22.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">All Classes/plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
@@ -106,7 +108,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
@@ -124,9 +125,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
@@ -189,7 +192,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugins</a> &raquo;</li>
+          <li><a href="../../README.html">All Classes/plugins</a> &raquo;</li>
         
           <li><a href="../README.html">System</a> &raquo;</li>
         
@@ -246,9 +249,18 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst21VisitModelCutoffOuterE">
 <span class="target" id="classfeasst_1_1VisitModelCutoffOuter"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VisitModelCutoffOuter</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel"><span class="n"><span class="pre">VisitModel</span></span></a><a class="headerlink" href="#_CPPv4N6feasst21VisitModelCutoffOuterE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Compute many-body inter-particle interactions using a cell list. </p>
+<dd><p>Similar to <a class="reference internal" href="VisitModel.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>, except that the distance between the first sites on two different particles are compared against the cutoff + 2*cutoff_outer (given in the fstprt files), and if that distance is beyond this outer cutoff, then all other interactions between these particles. Thus, cutoff_outer should be set to the maximum possible distance between the first site of the particle and any other site in the same particle. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterE7argtype">
+<span class="target" id="classfeasst_1_1VisitModelCutoffOuter_1aa43ab67b698247029f1e8974d7d2eef0"></span><span class="sig-name descname"><span class="n"><span class="pre">VisitModelCutoffOuter</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>energy_cutoff: as described in <a class="reference internal" href="VisitModel.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>. </p></li>
+</ul>
+</p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterENSt10shared_ptrI15VisitModelInnerEE7argtype">
 <span class="target" id="classfeasst_1_1VisitModelCutoffOuter_1a6460aaeb1d796b37d78fd820ab7c075f"></span><span class="sig-name descname"><span class="n"><span class="pre">VisitModelCutoffOuter</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="VisitModelInner.html#_CPPv4N6feasst15VisitModelInnerE" title="feasst::VisitModelInner"><span class="n"><span class="pre">VisitModelInner</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">inner</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterENSt10shared_ptrI15VisitModelInnerEE7argtype" title="Permalink to this definition"></a><br /></dt>

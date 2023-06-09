@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monte Carlo &mdash; FEASST v0.21.1 documentation</title>
+  <title>Monte Carlo &mdash; FEASST v0.22.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,13 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.21.1
+                v0.22.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../README.html">Plugins</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../README.html">All Classes/plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/README.html">Math</a></li>
@@ -73,16 +75,19 @@
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="doc/Action.html">Action</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/Run.html">Run</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Criteria.html">Criteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Metropolis.html">Metropolis</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/Constraint.html">Constraint</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/ConstrainNumParticles.html">ConstrainNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialSelect.html">TrialSelect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Constraint.html">Constraint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Run.html">Run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Tunable.html">Tunable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/PerturbMove.html">PerturbMove</a></li>
@@ -97,9 +102,6 @@
 <li class="toctree-l4"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/PerturbVolume.html">PerturbVolume</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialComputeTranslate.html">TrialComputeTranslate</a></li>
@@ -107,9 +109,8 @@
 <li class="toctree-l4"><a class="reference internal" href="doc/Trial.html">Trial</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialVolume.html">TrialVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialMove.html">TrialMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/TrialTranslate.html">TrialTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialTransfer.html">TrialTransfer</a></li>
@@ -121,11 +122,11 @@
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TrialTranslate.html">TrialTranslate</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../models/README.html">Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../flat_histogram/README.html">Flat histogram</a></li>
@@ -143,9 +144,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../aniso/README.html">Aniso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fftw/README.html">FFTW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netcdf/README.html">NetCDF</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTACT.html">Contact</a></li>
@@ -208,7 +211,7 @@
     
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../README.html">Plugins</a> &raquo;</li>
+          <li><a href="../README.html">All Classes/plugins</a> &raquo;</li>
         
       <li>Monte Carlo</li>
     
@@ -264,6 +267,9 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <p>A <a class="reference internal" href="doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Trial</span></code></a> contains the following objects.</p>
 <figure class="align-default">
 <img alt="../../_images/trial.svg" src="../../_images/trial.svg" /></figure>
+<p>Why even have molecular simulations in the first place? Inspired by the second figure in Allen and Tildesley:</p>
+<figure class="align-default">
+<img alt="../../_images/sim.svg" src="../../_images/sim.svg" /></figure>
 <section id="tutorial">
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
@@ -284,16 +290,19 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="doc/Action.html">Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Run.html">Run</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Stepper.html">Stepper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Acceptance.html">Acceptance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Criteria.html">Criteria</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Metropolis.html">Metropolis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Constraint.html">Constraint</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ConstrainNumParticles.html">ConstrainNumParticles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialSelect.html">TrialSelect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Constraint.html">Constraint</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Run.html">Run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Tunable.html">Tunable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbMove.html">PerturbMove</a></li>
@@ -308,9 +317,6 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/PerturbVolume.html">PerturbVolume</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialComputeTranslate.html">TrialComputeTranslate</a></li>
@@ -318,9 +324,8 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <li class="toctree-l1"><a class="reference internal" href="doc/Trial.html">Trial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialVolume.html">TrialVolume</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialMove.html">TrialMove</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialTranslate.html">TrialTranslate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialTransfer.html">TrialTransfer</a></li>
@@ -332,6 +337,7 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialTranslate.html">TrialTranslate</a></li>
 </ul>
 </div>
 </section>

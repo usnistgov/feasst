@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand Canonical Flat Histogram Simulation of RPM &mdash; FEASST v0.21.1 documentation</title>
+  <title>Grand Canonical Flat Histogram Simulation of RPM &mdash; FEASST v0.22.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.21.1
+                v0.22.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -67,6 +67,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_1_lj_table.html">User defined tabular potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_2_feynman_hibbs.html">Example TwoBodyAlpha potential: Feynman-Hibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_01_custom_model.html">Make your own custom two body model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_02_custom_analyze.html">Make your own custom analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_03_custom_action.html">Make your own custom Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
@@ -86,6 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_4_rg_extrapolation.html">Temperature extrapolation of the radius of gyration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cluster/tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/tutorial/tutorial_01_hs_scattering.html">Compare scattering calculations for hard spheres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/tutorial/tutorial_02_post_process.html">Post process scattering calculations from file.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/tutorial/tutorial.html">Beta expanded ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../egce/tutorial/tutorial_1_rpm_tm_egce_parallel.html">Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
@@ -98,8 +102,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">All Classes/plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
@@ -250,9 +255,9 @@
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential0 </span><span class="si">{mu}</span><span class="s2"> chemical_potential1 </span><span class="si">{mu}</span>
 <span class="s2">Metropolis</span>
 <span class="s2">TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25</span>
-<span class="s2">Log trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name rpm[sim_index].txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name rpm[sim_index].txt</span>
 <span class="s2">Tune</span>
-<span class="s2">CheckEnergy trials_per </span><span class="si">{trials_per}</span><span class="s2"> tolerance 1e-4</span>
+<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per}</span><span class="s2"> tolerance 1e-4</span>
 <span class="s2">#Checkpoint file_name rpm_checkpoint[sim_index].fst num_hours </span><span class="si">{hours_per_checkpoint}</span>
 
 <span class="s2"># gcmc initialization and nvt equilibration</span>
@@ -267,11 +272,11 @@
 <span class="s2">Bias TransitionMatrix min_sweeps </span><span class="si">{min_sweeps}</span><span class="s2"> new_sweep 1</span>
 <span class="s2">#Bias WLTM min_sweeps </span><span class="si">{min_sweeps}</span><span class="s2"> new_sweep 1 min_flatness 25 collect_flatness 20</span>
 <span class="s2">TrialTransferMultiple weight 2 particle_type0 0 particle_type1 1 reference_index 0 num_steps 8</span>
-<span class="s2">Movie trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name rpm[sim_index].xyz</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name rpm[sim_index].xyz</span>
 <span class="s2">Tune trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name rpm_tune[sim_index].txt multistate true stop_after_iteration 100</span>
 <span class="s2">Energy trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name rpm_en[sim_index].txt multistate true start_after_iteration 100</span>
-<span class="s2">CriteriaUpdater trials_per </span><span class="si">{trials_per}</span>
-<span class="s2">CriteriaWriter trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name rpm_crit[sim_index].txt</span>
+<span class="s2">CriteriaUpdater trials_per_update </span><span class="si">{trials_per}</span>
+<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name rpm_crit[sim_index].txt</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
 <span class="c1"># write slurm script to fill nodes with simulations</span>

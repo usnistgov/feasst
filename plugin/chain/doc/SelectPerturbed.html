@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SelectPerturbed &mdash; FEASST v0.21.1 documentation</title>
+  <title>SelectPerturbed &mdash; FEASST v0.22.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="SelectSiteOfType" href="SelectSiteOfType.html" />
-    <link rel="prev" title="SelectCrankshaftSmall" href="SelectCrankshaftSmall.html" />
+    <link rel="next" title="SelectSegment" href="SelectSegment.html" />
+    <link rel="prev" title="SelectSiteOfType" href="SelectSiteOfType.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,20 +52,21 @@
             FEASST
           </a>
               <div class="version">
-                v0.21.1
+                v0.22.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">All Classes/plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
@@ -73,12 +74,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SelectPerturbed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">SelectPerturbed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbConnector.html">PerturbConnector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbDistanceAngleConnector.html">PerturbDistanceAngleConnector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
@@ -87,18 +88,19 @@
 <li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbLibrary.html">PerturbLibrary</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TrialSwapSites.html">TrialSwapSites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrow.html">TrialGrow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialGrow.html">TrialGrow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
@@ -115,9 +117,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
@@ -180,7 +184,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugins</a> &raquo;</li>
+          <li><a href="../../README.html">All Classes/plugins</a> &raquo;</li>
         
           <li><a href="../README.html">Chain</a> &raquo;</li>
         
@@ -255,8 +259,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SelectCrankshaftSmall.html" class="btn btn-neutral float-left" title="SelectCrankshaftSmall" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SelectSiteOfType.html" class="btn btn-neutral float-right" title="SelectSiteOfType" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SelectSiteOfType.html" class="btn btn-neutral float-left" title="SelectSiteOfType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SelectSegment.html" class="btn btn-neutral float-right" title="SelectSegment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

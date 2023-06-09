@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forcefield and Units &mdash; FEASST v0.21.1 documentation</title>
+  <title>Forcefield and Units &mdash; FEASST v0.22.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyfeasst" href="../pyfeasst/README.html" />
-    <link rel="prev" title="Test of an anisotropic, textured square well potential." href="../plugin/aniso/tutorial/tutorial_0_sqw_t1.15.html" />
+    <link rel="next" title="Modify FEASST" href="../plugin/example/README.html" />
+    <link rel="prev" title="Prefetch example" href="../plugin/prefetch/tutorial/tutorial_1_prefetch.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,13 +52,12 @@
             FEASST
           </a>
               <div class="version">
-                v0.21.1
+                v0.22.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugins</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Forcefield and Units</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#units">Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-files">Data files</a><ul>
@@ -70,10 +69,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#bonds">Bonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#angles">Angles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dihedrals">Dihedrals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comments">Comments</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">All Classes/plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
@@ -263,6 +265,13 @@ For more information on the angle definition, see <a class="reference internal" 
 <p>[dihedral index] [dihedral type] [site index i] [site index j] [site index k] [site index l]</p>
 <p>For more information on the dihedral definition, see <a class="reference internal" href="../plugin/math/doc/Position.html#_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position" title="feasst::Position::torsion_angle_radians"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">torsion_angle_radians</span></code></a>.</p>
 </section>
+<section id="comments">
+<h3>Comments<a class="headerlink" href="#comments" title="Permalink to this heading"></a></h3>
+<p>For comments at the beginning of the file, begin each comment line with the “#” character.
+Do not add comments anywhere else in the file.
+Comments can only be one contiguous group of lines beginning with “#.”
+Always end comments with a blank line immediately after.</p>
+</section>
 </section>
 </section>
 
@@ -270,8 +279,8 @@ For more information on the angle definition, see <a class="reference internal" 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../plugin/aniso/tutorial/tutorial_0_sqw_t1.15.html" class="btn btn-neutral float-left" title="Test of an anisotropic, textured square well potential." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../pyfeasst/README.html" class="btn btn-neutral float-right" title="pyfeasst" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../plugin/prefetch/tutorial/tutorial_1_prefetch.html" class="btn btn-neutral float-left" title="Prefetch example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../plugin/example/README.html" class="btn btn-neutral float-right" title="Modify FEASST" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

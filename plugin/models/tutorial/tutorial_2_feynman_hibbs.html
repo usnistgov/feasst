@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example TwoBodyAlpha potential: Feynman-Hibbs &mdash; FEASST v0.21.1 documentation</title>
+  <title>Example TwoBodyAlpha potential: Feynman-Hibbs &mdash; FEASST v0.22.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo" href="../../flat_histogram/tutorial/tutorial_00_ideal_gas.html" />
+    <link rel="next" title="Make your own custom two body model" href="../../example/tutorial/tutorial_01_custom_model.html" />
     <link rel="prev" title="User defined tabular potentials" href="tutorial_1_lj_table.html" />
 
 	<!-- frame blocking -->
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.21.1
+                v0.22.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -67,6 +67,9 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_1_lj_table.html">User defined tabular potentials</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Example TwoBodyAlpha potential: Feynman-Hibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_01_custom_model.html">Make your own custom two body model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_02_custom_analyze.html">Make your own custom analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_03_custom_action.html">Make your own custom Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
@@ -86,6 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_4_rg_extrapolation.html">Temperature extrapolation of the radius of gyration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cluster/tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/tutorial/tutorial_01_hs_scattering.html">Compare scattering calculations for hard spheres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/tutorial/tutorial_02_post_process.html">Post process scattering calculations from file.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/tutorial/tutorial.html">Beta expanded ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../egce/tutorial/tutorial_1_rpm_tm_egce_parallel.html">Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
@@ -98,8 +102,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">All Classes/plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
@@ -254,16 +259,16 @@
 <span class="s2">RemoveTrial name TrialAdd</span>
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span>
 <span class="s2">Tune</span>
-<span class="s2">CheckEnergy trials_per </span><span class="si">{trials_per}</span><span class="s2"> tolerance 1e-8</span>
+<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per}</span><span class="s2"> tolerance 1e-8</span>
 
 <span class="s2"># equilibrate</span>
-<span class="s2">Log trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name lj_eq.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name lj_eq.txt</span>
 <span class="s2">Run num_trials </span><span class="si">{equilibration}</span>
 <span class="s2">RemoveModify name Tune</span>
 <span class="s2">RemoveAnalyze name Log</span>
 
 <span class="s2"># production analysis and output</span>
-<span class="s2">Log trials_per </span><span class="si">{trials_per}</span><span class="s2"> file_name lj.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name lj.txt</span>
 <span class="s2">Energy trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name en.txt</span>
 <span class="s2">Run num_trials </span><span class="si">{production}</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
@@ -334,7 +339,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="tutorial_1_lj_table.html" class="btn btn-neutral float-left" title="User defined tabular potentials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../flat_histogram/tutorial/tutorial_00_ideal_gas.html" class="btn btn-neutral float-right" title="Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../example/tutorial/tutorial_01_custom_model.html" class="btn btn-neutral float-right" title="Make your own custom two body model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

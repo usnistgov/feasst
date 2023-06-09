@@ -1,11 +1,17 @@
 ***************************
-Plugins
+All Classes/plugins
 ***************************
 
-A plugin is a distinct piece of the FEASST simulation program.
-They are designed to reduce dependencies and allow for others to easily develop their own plugins and modifications without affecting the rest of the code.
-See the example plugin as a template for creating your own.
-Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMakeLists.txt of the root directory of FEASST.
+FEASST simulations are conducted by creating a series of classes in a specific order.
+The first word in each line of a FEASST input text file is the name of a class, followed by pairs of class arguments.
+The classes listed here represent all the capabilities of FEASST.
+
+A FEASST plugin is a collection of related classes.
+Unnecessary plugins, especially those with onerous dependencies, can be removed from the FEASST_PLUGINS variable in /path/to/feasst/CMakeLists.txt.
+Similarly, plugins can also be added this way.
+In both cases, FEASST must be reinstalled.
+
+See the example plugin as a template for creating your own class or plugin.
 
 .. toctree::
 
@@ -15,7 +21,6 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
    configuration/README
    system/README
    monte_carlo/README
-   example/README
    models/README
    steppers/README
    flat_histogram/README
@@ -33,3 +38,6 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
    beta_expanded/README
    prefetch/README
    aniso/README
+   example/README
+   fftw/README
+   netcdf/README

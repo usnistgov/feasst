@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lennard Jones in the Canonical ensemble &mdash; FEASST v0.21.1 documentation</title>
+  <title>Lennard Jones in the Canonical ensemble &mdash; FEASST v0.22.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.21.1
+                v0.22.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -69,6 +69,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../plugin/models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/models/tutorial/tutorial_1_lj_table.html">User defined tabular potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/models/tutorial/tutorial_2_feynman_hibbs.html">Example TwoBodyAlpha potential: Feynman-Hibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugin/example/tutorial/tutorial_01_custom_model.html">Make your own custom two body model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugin/example/tutorial/tutorial_02_custom_analyze.html">Make your own custom analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugin/example/tutorial/tutorial_03_custom_action.html">Make your own custom Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/flat_histogram/tutorial/tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/flat_histogram/tutorial/tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/flat_histogram/tutorial/tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
@@ -88,6 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../plugin/chain/tutorial/tutorial_4_rg_extrapolation.html">Temperature extrapolation of the radius of gyration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/cluster/tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/steppers/tutorial/tutorial_01_hs_scattering.html">Compare scattering calculations for hard spheres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugin/steppers/tutorial/tutorial_02_post_process.html">Post process scattering calculations from file.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/beta_expanded/tutorial/tutorial.html">Beta expanded ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/egce/tutorial/tutorial_1_rpm_tm_egce_parallel.html">Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
@@ -100,8 +104,9 @@
 <li class="toctree-l2"><a class="reference internal" href="README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">All Classes/plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
@@ -491,7 +496,7 @@ a space and are provided first as the name of the argument and then the value. I
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.20.2-1-g444e3979ae-develop
+# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
 
@@ -520,7 +525,7 @@ RandomMT19937 seed 1572362164
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.20.2-1-g444e3979ae-develop
+# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
 Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
@@ -572,7 +577,7 @@ unity.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.20.2-1-g444e3979ae-develop
+# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
 Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
@@ -593,7 +598,7 @@ Tune
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">set_variable trials_per 1e4</span>
-<span class="s2">CheckEnergy trials_per trials_per tolerance 1e-8</span>
+<span class="s2">CheckEnergy trials_per_update trials_per tolerance 1e-8</span>
 <span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
@@ -617,7 +622,7 @@ Tune
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.20.2-1-g444e3979ae-develop
+# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
 Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
@@ -627,7 +632,7 @@ ThermoParams beta 1.1111111111111112 chemical_potential0 -1
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2 weight 1
 Tune
-CheckEnergy tolerance 1e-8 trials_per 1e4
+CheckEnergy tolerance 1e-8 trials_per_update 1e4
 TrialAdd particle_type 0 weight 2
 Run until_num_particles 500
 RemoveTrial name TrialAdd
@@ -655,9 +660,9 @@ the XYZ format may also be produced using <a class="reference internal" href="..
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Log trials_per trials_per file_name lj.txt</span>
+<span class="s2">Log trials_per_write trials_per file_name lj.txt</span>
 <span class="s2">Energy trials_per_write trials_per file_name lj_en.txt</span>
-<span class="s2">Movie trials_per trials_per file_name lj.xyz</span>
+<span class="s2">Movie trials_per_write trials_per file_name lj.xyz</span>
 <span class="s2">Run num_trials 1e6</span>
 <span class="s2">&quot;&quot;&quot;</span>
 <span class="n">run</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
@@ -669,7 +674,7 @@ the XYZ format may also be produced using <a class="reference internal" href="..
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.20.2-1-g444e3979ae-develop
+# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
 Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
@@ -679,15 +684,15 @@ ThermoParams beta 1.1111111111111112 chemical_potential0 -1
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2 weight 1
 Tune
-CheckEnergy tolerance 1e-8 trials_per 1e4
+CheckEnergy tolerance 1e-8 trials_per_update 1e4
 TrialAdd particle_type 0 weight 2
 Run until_num_particles 500
 RemoveTrial name TrialAdd
 Run num_trials 1e5
 RemoveModify name Tune
-Log file_name lj.txt trials_per 1e4
+Log file_name lj.txt trials_per_write 1e4
 Energy file_name lj_en.txt trials_per_write 1e4
-Movie file_name lj.xyz trials_per 1e4
+Movie file_name lj.xyz trials_per_write 1e4
 Run num_trials 1e6
 
  exit: 0

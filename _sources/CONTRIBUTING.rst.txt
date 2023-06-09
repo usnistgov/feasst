@@ -16,5 +16,6 @@ For contributing code:
 .. toctree::
    :maxdepth: 1
 
+   plugin/example/README
    dev/README
 

@@ -14,3 +14,6 @@ build-gtest
 pyfeasst/dist
 pyfeasst/src
 pyfeasst/tests
+
+py/feasst.i
+plugin/feasst/include/feasst.h
