@@ -3,8 +3,8 @@
 {% block extrafooter %}
 
 
-	<br></br>
-	{% include "boilerplate-footer.html" %}
+  <br></br>
+  {% include "boilerplate-footer.html" %}
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
@@ -16,5 +16,15 @@
 
     gtag('config', 'UA-115121490-6');
   </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
 
 {% endblock %}

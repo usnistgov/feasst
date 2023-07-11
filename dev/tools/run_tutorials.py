@@ -6,7 +6,8 @@ from pyfeasst import cd
 
 def run_file(filename):
     if 'checkpoint' not in filename.name:
-        if 'build' not in str(filename.parent):
+        #if 'build' not in str(filename.parent):
+        if 'build' and 'dev' and 'feasst_test_env' and 'library' not in str(filename.parent):
             with cd.cd(filename.parent):
                 print("Running:", filename, "in", filename.parent)
                 subprocess.call("rm tutorial_failures.txt tutorial_log.txt", shell=True, executable='/bin/bash')

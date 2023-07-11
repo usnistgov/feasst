@@ -19,7 +19,10 @@ VisitModel::VisitModel(std::shared_ptr<VisitModelInner> inner) {
 VisitModel::VisitModel(argtype * args) {
   set_inner(VisitModelInner().factory(str("VisitModelInner", args, "VisitModelInner"), args));
   energy_cutoff_ = dble("energy_cutoff", args, -1);
-  //INFO("energy_cutoff_ " << energy_cutoff_);
+  if (energy_cutoff_ != -1) {
+    ASSERT(energy_cutoff_ > 1e10, "energy_cutoff:" << energy_cutoff_ <<
+      " should be > 1e10 to avoid any trial with a chance of being accepted.");
+  }
 }
 VisitModel::VisitModel(argtype args) : VisitModel(&args) {
   FEASST_CHECK_ALL_USED(args);

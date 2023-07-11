@@ -23,6 +23,7 @@ class VisitModelCell : public VisitModel {
     - cell_group_index: compute cells only in given group index (default: 0).
     - cell_group: as above, but use the name of the group, not the index.
       Do not use at the same time as cell_group_index (default: "").
+    - VisitModel arguments.
    */
   explicit VisitModelCell(argtype args);
   explicit VisitModelCell(argtype * args);

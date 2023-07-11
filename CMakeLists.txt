@@ -466,9 +466,17 @@ endif(USE_GTEST)
 
 # prep feasst.(i/h) (as well as documentation)
 execute_process(
-  COMMAND python ../py/depend.py -s ../
+  COMMAND python3 ../py/depend.py -s ../
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+  RESULT_VARIABLE EXIT_CODE
 )
+
+if (NOT ${EXIT_CODE} EQUAL 0)
+    message(
+            FATAL_ERROR
+            "There was a problem generating feasst.h using the following command: \"python3 ../py/depend.py -s ../\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers."
+    )
+endif()
 
 # build feasst library
 add_library (feasstlib INTERFACE)
@@ -585,10 +593,10 @@ if (USE_SWIG)
 #                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT})
 #    add_custom_target(target ALL DEPENDS ${OUTPUT})
     install(CODE "execute_process(COMMAND pip install .)")
-    #install(CODE "execute_process(COMMAND python ${SETUP_PY} install)")
+    #install(CODE "execute_process(COMMAND python3 ${SETUP_PY} install)")
 
-    add_test(NAME pytest COMMAND python ${CMAKE_SOURCE_DIR}/py/test.py)
-    add_test(NAME pytutorial COMMAND python ../dev/tools/run_tutorials.py)
+    add_test(NAME pytest COMMAND python3 ${CMAKE_SOURCE_DIR}/py/test.py)
+    add_test(NAME pytutorial COMMAND python3 ../dev/tools/run_tutorials.py)
   else (SWIG_FOUND)
     message("SWIG NOT FOUND")
   endif (SWIG_FOUND)

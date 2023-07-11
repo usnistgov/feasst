@@ -33,7 +33,8 @@ class VisitModel {
     args:
     - energy_cutoff: energy above this value will immediately end loop without
       computing the energy of the remaining sites in the loop.
-      If -1, ignore the cutoff (default: -1).
+      Must be > 1e10 because too low could result in an accepted trial.
+      If -1, ignore energy_cutoff (default: -1).
    */
   explicit VisitModel(argtype args);
   explicit VisitModel(argtype * args);

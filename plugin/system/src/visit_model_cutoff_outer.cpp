@@ -11,8 +11,13 @@ namespace feasst {
 
 VisitModelCutoffOuter::VisitModelCutoffOuter(argtype * args) : VisitModel() {
 //VisitModelCutoffOuter::VisitModelCutoffOuter(argtype * args) : VisitModel(args) {
+  // HWH: Strange error if using VisitModel constructor.
   class_name_ = "VisitModelCutoffOuter";
   energy_cutoff_ = dble("energy_cutoff", args, -1);
+  if (energy_cutoff_ != -1) {
+    ASSERT(energy_cutoff_ > 1e10, "energy_cutoff:" << energy_cutoff_ <<
+      " should be > 1e10 to avoid any trial with a chance of being accepted.");
+  }
 }
 VisitModelCutoffOuter::VisitModelCutoffOuter(argtype args) : VisitModelCutoffOuter(&args) {
   FEASST_CHECK_ALL_USED(args);
