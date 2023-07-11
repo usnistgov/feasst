@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CheckEnergy &mdash; FEASST v0.22.0 documentation</title>
+  <title>CheckEnergy &mdash; FEASST v0.22.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.0
+                v0.22.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -234,7 +234,10 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst11CheckEnergyE">
 <span class="target" id="classfeasst_1_1CheckEnergy"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CheckEnergy</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Modify.html#_CPPv4N6feasst16ModifyUpdateOnlyE" title="feasst::ModifyUpdateOnly"><span class="n"><span class="pre">ModifyUpdateOnly</span></span></a><a class="headerlink" href="#_CPPv4N6feasst11CheckEnergyE" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that the running energy from criteria is equivalent, within tolerance, to an (unoptimized) calculation over the entire configuration. </p>
+<dd><p><a class="reference internal" href="Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> if the running energy from criteria is equivalent, within tolerance, to an (unoptimized) calculation over the entire configuration.</p>
+<p>The origin of the energy deviation is different rounding at the level of numerical precision due to adding up the energy terms in different orders. For example, when an entire configuration energy is calculated, each pairwise energy term may be added in a different order than the sum of the contribution of each molecule. And each Monte Carlo trial may only calculate the energy change of one randomly chosen molecule.</p>
+<p>The energy check tolerance parameter is extensive, so it may be reasonable if the error happens when you increase the size. Thus, the tolerance parameter may need to be adjusted with system size. It is not very surprising to see a difference in the 6th or 7th decimal place in some cases.</p>
+<p>The size of the deviation can depend not only on the system size but the potential function and the number of trials between each check. For example, if the system undergoes a random walk deviation of size delta, it may deviate by the square root of the number of trials, where the size delta may be related to the number of interaction sites. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -277,8 +280,8 @@
   
 
 
-	<br></br>
-	<footer class="nist-footer">
+  <br></br>
+  <footer class="nist-footer">
   <div class="nist-footer__inner">
     <div class="nist-footer__menu" role="navigation">
       <ul>
@@ -353,6 +356,16 @@
 
     gtag('config', 'UA-115121490-6');
   </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
 
 
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.22.0 documentation</title>
+  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.22.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.0
+                v0.22.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -478,7 +478,7 @@ due to statistical error.</p>
 <p>We begin with canonical ensemble average properties at each value of <span class="math notranslate nohighlight">\(N\)</span> as well as the probability to observe this <span class="math notranslate nohighlight">\(N\)</span> for a given <span class="math notranslate nohighlight">\(\mu\)</span>. From the plots below, we can estimate our most probable state is approximately <span class="math notranslate nohighlight">\(N=310\)</span>, with an average energy of approximately <span class="math notranslate nohighlight">\(-1250\)</span>. But there is a more rigorous way to compute grand canonical ensemble averages as described below, which will yield a more precise result and, with the help of histogram reweighting, will yield
 properties continuously in <span class="math notranslate nohighlight">\(N\)</span>.</p>
 <p>Note that this tutorial uses pyfeasst (<a class="reference external" href="https://pypi.org/project/pyfeasst/">https://pypi.org/project/pyfeasst/</a>) for analysis.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -490,31 +490,16 @@ properties continuously in <span class="math notranslate nohighlight">\(N\)</spa
     <span class="n">file_name</span><span class="o">=</span><span class="s2">&quot;../test/data/stat150.csv&quot;</span><span class="p">,</span>
     <span class="n">macrostate_header</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span>
     <span class="n">ln_prob_header</span><span class="o">=</span><span class="s1">&#39;lnPI&#39;</span><span class="p">)</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">srsw</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$\ln\Pi$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">srsw</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()[</span><span class="s1">&#39;energy&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$U$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">310</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="o">-</span><span class="mi">1250</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="c1"># %matplotlib inline</span>
+<span class="c1"># %config InlineBackend.figure_format = &#39;svg&#39;</span>
+<span class="c1"># import matplotlib.pyplot as plt</span>
+<span class="c1"># plt.plot(srsw.ln_prob(), label=r&#39;$\ln\Pi$&#39;)</span>
+<span class="c1"># plt.plot(srsw.dataframe()[&#39;energy&#39;], label=r&#39;$U$&#39;)</span>
+<span class="c1"># plt.axvline(310, color=&#39;black&#39;)</span>
+<span class="c1"># plt.axhline(-1250, color=&#39;black&#39;)</span>
+<span class="c1"># plt.legend()</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7fd706b48b80&gt;
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_1_1.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_1_1.svg" /></div>
 </div>
 <p>Note that this macrostate distribution has only one maximum and therefore only one stable phase. The next tutorial will consider a lower temperature with phase separation.</p>
 <section id="Grand-canonical-ensemble-averages">
@@ -537,12 +522,12 @@ properties continuously in <span class="math notranslate nohighlight">\(N\)</spa
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_muvt</span> <span class="o">=</span> <span class="n">srsw</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N =&#39;</span><span class="p">,</span> <span class="n">N_muvt</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">N_muvt</span> <span class="o">==</span> <span class="mf">310.41794218796804</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">N_muvt</span> <span class="o">-</span> <span class="mf">310.41794218796804</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span>
 <span class="k">assert</span> <span class="n">N_muvt</span> <span class="o">==</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">srsw</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span> <span class="o">*</span> <span class="n">srsw</span><span class="o">.</span><span class="n">macrostates</span><span class="p">())</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
 <span class="n">U_muvt</span> <span class="o">=</span> <span class="n">srsw</span><span class="o">.</span><span class="n">ensemble_average</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U =&#39;</span><span class="p">,</span> <span class="n">U_muvt</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">U_muvt</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1241.6148817462101</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">U_muvt</span> <span class="o">-</span> <span class="o">-</span><span class="mf">1241.6148817462101</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span>
 <span class="k">assert</span> <span class="n">U_muvt</span> <span class="o">==</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">srsw</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">())</span> <span class="o">*</span> <span class="n">srsw</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()[</span><span class="s1">&#39;energy&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -552,8 +537,8 @@ properties continuously in <span class="math notranslate nohighlight">\(N\)</spa
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-N = 310.41794218796804
-U = -1241.6148817462101
+N = 310.41794218796815
+U = -1241.6148817462106
 </pre></div></div>
 </div>
 <p>Now that the grand canonical ensemble averages are computed for the particular value of the chemical potential, <span class="math notranslate nohighlight">\(\mu\)</span>, the macrostate distribution can be reweighted to different chemical potentials, <span class="math notranslate nohighlight">\(\mu\)</span>. Thus, with a continuous variation in <span class="math notranslate nohighlight">\(\mu\)</span> one can also obtain a continuous variation in the grand canonical ensemble averages, within the limits of <span class="math notranslate nohighlight">\(N_{min}\)</span>, <span class="math notranslate nohighlight">\(N_{max}\)</span>.</p>
@@ -587,15 +572,15 @@ U = -1241.6148817462101
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U(beta_mu =&#39;</span><span class="p">,</span> <span class="n">beta_mu_rw</span><span class="p">,</span> <span class="s1">&#39;) =&#39;</span><span class="p">,</span> <span class="n">U_muvt_rw</span><span class="p">)</span>
 <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">U_muvt_rw</span> <span class="o">+</span> <span class="mf">321.87522543435364</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">srsw</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$\ln\Pi$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">srsw</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()[</span><span class="s1">&#39;energy&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$U$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">N_muvt_rw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">U_muvt_rw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="c1"># plt.plot(srsw.ln_prob(), label=r&#39;$\ln\Pi$&#39;)</span>
+<span class="c1"># plt.plot(srsw.dataframe()[&#39;energy&#39;], label=r&#39;$U$&#39;)</span>
+<span class="c1"># plt.axvline(N_muvt_rw, color=&#39;black&#39;)</span>
+<span class="c1"># plt.axhline(U_muvt_rw, color=&#39;black&#39;)</span>
+<span class="c1"># plt.legend()</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -603,21 +588,6 @@ U = -1241.6148817462101
 N(beta_mu = -2.3333333333333335 ) = 153.44171767002885
 U(beta_mu = -2.3333333333333335 ) = -321.87522543435364
 </pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7fd6fe9e8ee0&gt;
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_5_2.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_02_reweight_supercritical_5_2.svg" /></div>
 </div>
 <p>Note that decreasing the chemical potential leads to a smaller number of particles.</p>
 <p>When there are multiple peaks in <span class="math notranslate nohighlight">\(\ln\Pi\)</span> whose locations are nearly invariant to system size, this often corresponds to different macroscopic phases.</p>
@@ -644,8 +614,8 @@ U(beta_mu = -2.3333333333333335 ) = -321.87522543435364
   
 
 
-	<br></br>
-	<footer class="nist-footer">
+  <br></br>
+  <footer class="nist-footer">
   <div class="nist-footer__inner">
     <div class="nist-footer__menu" role="navigation">
       <ul>
@@ -720,6 +690,16 @@ U(beta_mu = -2.3333333333333335 ) = -321.87522543435364
 
     gtag('config', 'UA-115121490-6');
   </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
 
 
 

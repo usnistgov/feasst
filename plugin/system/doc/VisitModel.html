@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VisitModel &mdash; FEASST v0.22.0 documentation</title>
+  <title>VisitModel &mdash; FEASST v0.22.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.0
+                v0.22.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -252,7 +252,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10VisitModel10VisitModelE7argtype">
 <span class="target" id="classfeasst_1_1VisitModel_1af16e56728196e8e0ee64cb6c322016db"></span><span class="sig-name descname"><span class="n"><span class="pre">VisitModel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10VisitModel10VisitModelE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>energy_cutoff: energy above this value will immediately end loop without computing the energy of the remaining sites in the loop. If -1, ignore the cutoff (default: -1). </p></li>
+<li><p>energy_cutoff: energy above this value will immediately end loop without computing the energy of the remaining sites in the loop. Must be &gt; 1e10 because too low could result in an accepted trial. If -1, ignore energy_cutoff (default: -1). </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -336,8 +336,8 @@
   
 
 
-	<br></br>
-	<footer class="nist-footer">
+  <br></br>
+  <footer class="nist-footer">
   <div class="nist-footer__inner">
     <div class="nist-footer__menu" role="navigation">
       <ul>
@@ -412,6 +412,16 @@
 
     gtag('config', 'UA-115121490-6');
   </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
 
 
 
