@@ -228,6 +228,8 @@ inline std::shared_ptr<ConvertToRefPotential> MakeConvertToRefPotential(
 
 /**
   Add a reference potential.
+  Unlike Potential, multiple RefPotential can use the same reference_index,
+  which is 0 by default (see args).
  */
 class RefPotential : public Action {
  public:

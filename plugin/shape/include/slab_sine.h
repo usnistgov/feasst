@@ -31,15 +31,22 @@ class SlabSine : public ShapeIntersect {
     - wave_dimension : the wave travels along this dimension.
     - average_bound0: Set an average lower or upper value of the slab.
     - average_bound1: Set the second average bound, upper or lower, respectively.
+    - FormulaSineWave arguments.
    */
-  SlabSine(std::shared_ptr<FormulaSineWave> sine_wave,
-           argtype args = argtype());
+  explicit SlabSine(argtype args = argtype());
+  explicit SlabSine(argtype * args);
+
+  void serialize(std::ostream& ostr) const override;
+  std::shared_ptr<Shape> create(std::istream& istr) const override {
+    return std::make_shared<SlabSine>(istr); }
+  std::shared_ptr<Shape> create(argtype * args) const override {
+    return std::make_shared<SlabSine>(args); }
+  explicit SlabSine(std::istream& istr);
+  virtual ~SlabSine() {}
 };
 
-inline std::shared_ptr<SlabSine> MakeSlabSine(
-    std::shared_ptr<FormulaSineWave> sine_wave,
-    argtype args = argtype()) {
-  return std::make_shared<SlabSine>(sine_wave, args);
+inline std::shared_ptr<SlabSine> MakeSlabSine(argtype args = argtype()) {
+  return std::make_shared<SlabSine>(args);
 }
 
 }  // namespace feasst

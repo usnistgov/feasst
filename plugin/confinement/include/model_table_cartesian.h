@@ -131,10 +131,35 @@ inline std::shared_ptr<ModelTableCart2DIntegr> MakeModelTableCart2DIntegr(
 class ModelTableCart3DIntegr : public ModelOneBody {
  public:
   // Constructor for single site type tables.
-  ModelTableCart3DIntegr(std::shared_ptr<Table3D> table);
+  explicit ModelTableCart3DIntegr(std::shared_ptr<Table3D> table);
 
   // Constructor for multiple site type tables.
-  ModelTableCart3DIntegr(std::vector<std::shared_ptr<Table3D> > tables);
+  explicit ModelTableCart3DIntegr(std::vector<std::shared_ptr<Table3D> > tables);
+
+  /**
+    Constructor for text interface.
+
+    The format for the table file is as follows.
+
+    The first line should be 'site_types' followed by the number of site types
+    and then the identity of each of those site types in order of the tables
+    given below. (e.g., "site_types n i" where n is the number of site types and
+    each following number is the type of each anisotropic site.)
+
+    The remaining lines are the individual tables for each of the site types.
+
+    args:
+    - file_name: file name for the table.
+    - shape_file_name: ShapeFile that describes the shape.
+    - ModelTableCart3DIntegr::compute_table::integration_args.
+    - use_omp: use OpenMP to compute the table (default: false).
+    - node: for parallelization, see compute_table_omp (default: 0).
+    - num_node: for parallelization, see compute_table_omp (default: 1).
+    - Table3D arguments.
+    - Domain arguments.
+   */
+  explicit ModelTableCart3DIntegr(argtype args = argtype());
+  explicit ModelTableCart3DIntegr(argtype * args);
 
   /// Return the table for a given site type.
   const Table3D& table(const int site_type = 0) const;
@@ -145,7 +170,7 @@ class ModelTableCart3DIntegr : public ModelOneBody {
    */
   void compute_table(
     Shape * shape,
-    Domain * domain,
+    const Domain& domain,
     Random * random,
     /// See Shape for documentation of integration_args.
     argtype integration_args,
@@ -154,9 +179,29 @@ class ModelTableCart3DIntegr : public ModelOneBody {
   /// Same as above, but parallelize the task with OMP.
   void compute_table_omp(
     Shape * shape,
-    Domain * domain,
+    const Domain& domain,
     Random * random,
     argtype integration_args,
+    const int site_type = 0,
+    /// See Thread for documentation of these two arguments.
+    const int node = 0,
+    const int num_nodes = 1);
+
+  // Same as above, but while parsing arguments
+  void compute_table(
+    Shape * shape,
+    const Domain& domain,
+    Random * random,
+    /// See Shape for documentation of integration_args.
+    argtype * integration_args,
+    const int site_type = 0);
+
+  /// Same as above, but parallelize the task with OMP.
+  void compute_table_omp(
+    Shape * shape,
+    const Domain& domain,
+    Random * random,
+    argtype * integration_args,
     const int site_type = 0,
     /// See Thread for documentation of these two arguments.
     const int node = 0,
@@ -189,6 +234,9 @@ class ModelTableCart3DIntegr : public ModelOneBody {
     const Configuration& config,
     const ModelParams& model_params) override;
 
+  void write(const std::string file_name) const;
+  void read(const std::string file_name);
+
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelTableCart3DIntegr>(istr); }
@@ -197,11 +245,18 @@ class ModelTableCart3DIntegr : public ModelOneBody {
 
  private:
   std::vector<std::shared_ptr<Table3D> > tables_;
+  std::vector<int> site_types_;
+  argtype args_;
 };
 
 inline std::shared_ptr<ModelTableCart3DIntegr> MakeModelTableCart3DIntegr(
     std::shared_ptr<Table3D> table) {
   return std::make_shared<ModelTableCart3DIntegr>(table);
+}
+
+inline std::shared_ptr<ModelTableCart3DIntegr> MakeModelTableCart3DIntegr(
+    argtype args = argtype()) {
+  return std::make_shared<ModelTableCart3DIntegr>(args);
 }
 
 }  // namespace feasst

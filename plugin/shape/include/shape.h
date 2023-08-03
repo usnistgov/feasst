@@ -80,6 +80,12 @@ class Shape {
     Random * random,
     argtype args = argtype());
 
+  // same as above, but while parsing arguments.
+  double integrate(
+    const Position& point,
+    Random * random,
+    argtype * args);
+
   // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;

@@ -9,10 +9,13 @@ usage='/path/to/feasst/py/run.sh /path/to/feasst/dev/tools/depend.py -s /path/to
 import os
 import argparse
 parser = argparse.ArgumentParser()
+optional = parser.add_argument_group('optional arguments')
+optional.add_argument("--update_doc", "-u", help="update documentation rst?", type=int, default=1)
 required = parser.add_argument_group('required arguments')
 required.add_argument("--source_dir", "-s", help="/path/to/feasst", type=str, required=True)
 args = parser.parse_args()
 import sys
+print('args', args)
 
 verbose=False
 #verbose=True
@@ -187,7 +190,47 @@ using namespace std;\n\
 #        for ser in ["serialize", "deserialize"]:
 #          swig_file.write("%template(" + ser + icl + ") feasst::" + ser + "<feasst::" + icl + ">;\n")
 
+# write the C++ interface feasst.h
+with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:
+  for dep in deps:
+    fsth.write('#include \"' + dep[0] + '\"\n')
+  # create an object in each plugin to force initialization of deserialize_map
+  select_classes = list()
+  if 'beta_expanded' in include_plugin: select_classes.append("ComputeBeta")
+  if 'chain' in include_plugin: select_classes.append("TrialGrow")
+  if 'chain' in include_plugin: select_classes.append("TrialParticlePivot")
+#    if 'cluster' in include_plugin: select_classes.append("TrialRigidCluster")
+#    if 'configuration' in include_plugin: select_classes.append("")
+  if 'confinement' in include_plugin: select_classes.append("ModelHardShape")
+  if 'shape' in include_plugin: select_classes.append("Sphere")
+  if 'egce' in include_plugin: select_classes.append("AEqualB")
+  if 'charge' in include_plugin: select_classes.append("Ewald")
+  if 'example' in include_plugin: select_classes.append("ModelExample")
+#    if 'flat_histogram' in include_plugin: select_classes.append("")
+#    if 'math' in include_plugin: select_classes.append("")
+  if 'mayer' in include_plugin: select_classes.append("MayerSampling")
+  if 'models' in include_plugin: select_classes.append("LennardJonesAlpha")
+#    if 'monte_carlo' in include_plugin: select_classes.append("")
+  if 'morph' in include_plugin: select_classes.append("ComputeMorph")
+#    if 'opt_lj' in include_plugin: select_classes.append("")
+  if 'patch' in include_plugin: select_classes.append("VisitModelInnerPatch")
+  if 'aniso' in include_plugin: select_classes.append("VisitModelInnerTable")
+  #if 'prefetch' in include_plugin: select_classes.append("")
+  #if '' in include_plugin: select_classes.append("")
+  #if '' in include_plugin: select_classes.append("")
+  #if '' in include_plugin: select_classes.append("")
+  if 'steppers' in include_plugin: select_classes.append("Tune")
+  if 'fftw' in include_plugin: select_classes.append("ScatteringFFTW")
+  if 'netcdf' in include_plugin: select_classes.append("FileNETCDF")
+  for icl in select_classes:
+    fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")
+  #for cls in classes:
+  #  for icl in cls:
+  #    fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")
+
 # write the docs
+if args.update_doc == 0:
+    quit()
 doc = ''
 for mod in next(os.walk(plugin_dir))[1]:
   if [d for d in include_plugin if d in mod]:
@@ -238,40 +281,3 @@ for mod in next(os.walk(plugin_dir))[1]:
                 fle.write('\n')
                 fle.write('.. doxygenfile:: ' + funcfile + '.h\n   :project: FEASST\n')
 
-# write the C++ interface feasst.h
-with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:
-  for dep in deps:
-    fsth.write('#include \"' + dep[0] + '\"\n')
-  # create an object in each plugin to force initialization of deserialize_map
-  select_classes = list()
-  if 'beta_expanded' in include_plugin: select_classes.append("ComputeBeta")
-  if 'chain' in include_plugin: select_classes.append("TrialGrow")
-  if 'chain' in include_plugin: select_classes.append("TrialParticlePivot")
-#    if 'cluster' in include_plugin: select_classes.append("TrialRigidCluster")
-#    if 'configuration' in include_plugin: select_classes.append("")
-  if 'confinement' in include_plugin: select_classes.append("ModelHardShape")
-  if 'shape' in include_plugin: select_classes.append("Sphere")
-  if 'egce' in include_plugin: select_classes.append("AEqualB")
-  if 'charge' in include_plugin: select_classes.append("Ewald")
-  if 'example' in include_plugin: select_classes.append("ModelExample")
-#    if 'flat_histogram' in include_plugin: select_classes.append("")
-#    if 'math' in include_plugin: select_classes.append("")
-  if 'mayer' in include_plugin: select_classes.append("MayerSampling")
-  if 'models' in include_plugin: select_classes.append("LennardJonesAlpha")
-#    if 'monte_carlo' in include_plugin: select_classes.append("")
-  if 'morph' in include_plugin: select_classes.append("ComputeMorph")
-#    if 'opt_lj' in include_plugin: select_classes.append("")
-  if 'patch' in include_plugin: select_classes.append("VisitModelInnerPatch")
-  if 'aniso' in include_plugin: select_classes.append("VisitModelInnerTable")
-  #if 'prefetch' in include_plugin: select_classes.append("")
-  #if '' in include_plugin: select_classes.append("")
-  #if '' in include_plugin: select_classes.append("")
-  #if '' in include_plugin: select_classes.append("")
-  if 'steppers' in include_plugin: select_classes.append("Tune")
-  if 'fftw' in include_plugin: select_classes.append("ScatteringFFTW")
-  if 'netcdf' in include_plugin: select_classes.append("FileNETCDF")
-  for icl in select_classes:
-    fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")
-  #for cls in classes:
-  #  for icl in cls:
-  #    fsth.write("std::shared_ptr<feasst::" + icl + "> __feasst__" + icl + " = std::make_shared<feasst::" + icl + ">();\n")

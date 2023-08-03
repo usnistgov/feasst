@@ -466,7 +466,7 @@ endif(USE_GTEST)
 
 # prep feasst.(i/h) (as well as documentation)
 execute_process(
-  COMMAND python3 ../py/depend.py -s ../
+  COMMAND python3 ../py/depend.py -s ../ --update_doc 0
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
   RESULT_VARIABLE EXIT_CODE
 )

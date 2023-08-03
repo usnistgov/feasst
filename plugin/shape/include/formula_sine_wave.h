@@ -22,7 +22,8 @@ class FormulaSineWave : public Formula {
     - phase: shift the wave to the right in units of x (default: 0).
     - shift: shift the wave up in units of y (default: documented below).
    */
-  FormulaSineWave(argtype args = argtype());
+  explicit FormulaSineWave(argtype args = argtype());
+  explicit FormulaSineWave(argtype * args);
 
   /// Return the amplitude.
   double amplitude() const { return amplitude_; }
@@ -56,7 +57,10 @@ class FormulaSineWave : public Formula {
   double derivative(const double x) const override;
   double second_derivative(const double x) const;
 
-  std::shared_ptr<Formula> create(std::istream& istr) const override;
+  std::shared_ptr<Formula> create(std::istream& istr) const override {
+    return std::make_shared<FormulaSineWave>(istr); }
+  std::shared_ptr<Formula> create(argtype * args) const override {
+    return std::make_shared<FormulaSineWave>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit FormulaSineWave(std::istream& istr);
   virtual ~FormulaSineWave() {}

@@ -1,6 +1,7 @@
 #include <cmath>
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "math/include/random.h"
 #include "math/include/matrix.h"
 #include "shape/include/shape.h"
@@ -79,34 +80,34 @@ double Shape::volume() const { FATAL("not implemented"); }
 double Shape::integrate(
     const Position& point,
     Random * random,
-    argtype args) {
+    argtype * args) {
 
   // read alpha and epsilon
   std::vector<double> alpha, epsilon;
   std::string start;
   start.assign("alpha");
-  if (used(start, args)) {
-    alpha.push_back(dble(start, &args));
-    epsilon.push_back(dble("epsilon", &args));
+  if (used(start, *args)) {
+    alpha.push_back(dble(start, args));
+    epsilon.push_back(dble("epsilon", args));
   } else {
     int type = static_cast<int>(alpha.size());
     std::stringstream key;
     key << start << type;
-    while (used(key.str(), args)) {
-      alpha.push_back(dble(key.str(), &args));
+    while (used(key.str(), *args)) {
+      alpha.push_back(dble(key.str(), args));
       key.str("");
       key << "epsilon" << type;
-      epsilon.push_back(dble(key.str(), &args));
+      epsilon.push_back(dble(key.str(), args));
       ++type;
       key.str("");
       key << start << type;
     }
   }
 
-  const bool invert = boolean("invert", &args, true);
-  const double max_radius = dble("max_radius", &args);
-  const int num_shells = integer("num_shells", &args);
-  const double points_per_shell = dble("points_per_shell", &args);
+  const bool invert = boolean("invert", args, true);
+  const double max_radius = dble("max_radius", args);
+  const int num_shells = integer("num_shells", args);
+  const double points_per_shell = dble("points_per_shell", args);
   double sum = 0.;
   ASSERT(point.dimension() == 3, "assumes 3d");
   const double dr = max_radius/static_cast<double>(num_shells);
@@ -164,8 +165,14 @@ double Shape::integrate(
     }
     ++irad;
   }
-  FEASST_CHECK_ALL_USED(args);
+  //FEASST_CHECK_ALL_USED(*args);
   return sum;
+}
+double Shape::integrate(
+    const Position& point,
+    Random * random,
+    argtype args) {
+  return integrate(point, random, &args);
 }
 
 std::vector<Position> Shape::grid(const Position& upper, const Position& lower,

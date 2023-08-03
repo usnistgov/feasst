@@ -211,40 +211,52 @@ void VisitModel::compute(
     }
 
     // In the second loop, compute interactions between different particles in select.
-    for (int select1_index = 0;
-         select1_index < selection.num_particles() - 1;
-         ++select1_index) {
-      const int part1_index = selection.particle_index(select1_index);
-      TRACE("sel1 " << select1_index << " part1_index " << part1_index << " s "
-            << selection.particle_indices().size() << " " <<
-            selection.site_indices().size());
-      for (int select2_index = select1_index + 1;
-           select2_index < selection.num_particles();
-           ++select2_index) {
-        const int part2_index = selection.particle_index(select2_index);
-        if (part1_index != part2_index) {
-          TRACE("sel2 " << select2_index << " part2_index " << part2_index);
-          for (const int site1_index : selection.site_indices(select1_index)) {
-            TRACE("site1_index " << site1_index);
-            for (const int site2_index : selection.site_indices(select2_index)) {
-              TRACE("index: " << part1_index << " " << part2_index << " " <<
-                    site1_index << " " << site2_index);
-              get_inner_()->compute(part1_index, site1_index,
-                                    part2_index, site2_index,
-                                    config, model_params, model,
-                                    is_old_config,
-                                    &relative_, &pbc_);
-              if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-                set_energy(inner().energy());
-                return;
-              }
+    compute_between_selection(model, model_params, selection,
+      config, is_old_config, &relative_, &pbc_);
+  }
+  set_energy(inner().energy());
+}
+
+void VisitModel::compute_between_selection(
+  ModelTwoBody * model,
+  const ModelParams& model_params,
+  const Select& selection,
+  Configuration * config,
+  const bool is_old_config,
+  Position * relative,
+  Position * pbc) {
+  for (int select1_index = 0;
+       select1_index < selection.num_particles() - 1;
+       ++select1_index) {
+    const int part1_index = selection.particle_index(select1_index);
+    TRACE("sel1 " << select1_index << " part1_index " << part1_index << " s "
+          << selection.particle_indices().size() << " " <<
+          selection.site_indices().size());
+    for (int select2_index = select1_index + 1;
+         select2_index < selection.num_particles();
+         ++select2_index) {
+      const int part2_index = selection.particle_index(select2_index);
+      if (part1_index != part2_index) {
+        TRACE("sel2 " << select2_index << " part2_index " << part2_index);
+        for (const int site1_index : selection.site_indices(select1_index)) {
+          TRACE("site1_index " << site1_index);
+          for (const int site2_index : selection.site_indices(select2_index)) {
+            TRACE("index: " << part1_index << " " << part2_index << " " <<
+                  site1_index << " " << site2_index);
+            get_inner_()->compute(part1_index, site1_index,
+                                  part2_index, site2_index,
+                                  config, model_params, model,
+                                  is_old_config,
+                                  &relative_, &pbc_);
+            if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
+              set_energy(inner().energy());
+              return;
             }
           }
         }
       }
     }
   }
-  set_energy(inner().energy());
 }
 
 void VisitModel::check_energy(

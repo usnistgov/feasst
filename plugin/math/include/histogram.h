@@ -59,7 +59,7 @@ class Histogram {
   void set_not_expandable() { expandable_ = false; }
 
   /// The edges or boundaries of the contiguous set of bins.
-  std::deque<double> edges() const { return edges_; }
+  const std::deque<double>& edges() const { return edges_; }
 
   /// Return the maximum edge.
   double max() const { return edges_.back(); }
@@ -87,10 +87,10 @@ class Histogram {
     const bool update = true);
 
   /// Return the histogram.
-  std::deque<double> histogram() const { return histogram_; }
+  const std::deque<double>& histogram() const { return histogram_; }
 
   /// Return Histogram in a human-readable format.
-  std::string str() const;
+  const std::string str() const;
 
   void serialize(std::ostream& ostr) const;
   explicit Histogram(std::istream& istr);

@@ -9,9 +9,9 @@
 namespace feasst {
 
 TEST(SlabSine, serialize) {
-  auto slab = MakeSlabSine(MakeFormulaSineWave({{"amplitude", "2"}, {"width", "20"}}),
-    { {"dimension", "0"}, {"wave_dimension", "1"}, {"average_bound0", "-5"},
-      {"average_bound1", "5"}});
+  auto slab = MakeSlabSine({{"amplitude", "2"}, {"width", "20"},
+    {"dimension", "0"}, {"wave_dimension", "1"}, {"average_bound0", "-5"},
+    {"average_bound1", "5"}});
   std::shared_ptr<Shape> slab2 = test_serialize<SlabSine, Shape>(*slab);
   std::ofstream file("tmp/slabsinexyz");
   Position point;
@@ -26,14 +26,13 @@ TEST(SlabSine, serialize) {
 }
 
 TEST(SlabSine, integrate) {
-  SlabSine slab(
-    MakeFormulaSineWave({
-      {"amplitude", "1"},
-      {"width", "1"}}),
-    { {"dimension", "0"},
-      {"average_bound0", "-2"},
-      {"average_bound1", "2"},
-      {"wave_dimension", "1"}});
+  SlabSine slab({
+    {"amplitude", "1"},
+    {"width", "1"},
+    {"dimension", "0"},
+    {"average_bound0", "-2"},
+    {"average_bound1", "2"},
+    {"wave_dimension", "1"}});
   auto random = MakeRandomMT19937();
   slab.integrate(
     Position({0.2, 0, 0.}), random.get(), {
@@ -49,10 +48,9 @@ TEST(SlabSine, integrate) {
 TEST(SlabSine, generalized) {
   Position point;
   SlabSine sine_slab(
-    MakeFormulaSineWave({
-      {"amplitude", "0"},
-      {"width", "2400.3"}}),
-    { {"dimension", "1"},
+    { {"amplitude", "0"},
+      {"width", "2400.3"},
+      {"dimension", "1"},
       {"average_bound0", "1.3"},
       {"average_bound1", "-1.3"},
       {"wave_dimension", "2"}});

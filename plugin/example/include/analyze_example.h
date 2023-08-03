@@ -17,7 +17,7 @@ namespace feasst {
 
   For more inspiration, take a look at the other existing Analyze in the stepper
   plugin, such as Movie, Log or PairDistribution.
- 
+
   In this example, compute the average geometric center of all site positions.
  */
 class AnalyzeExample : public Analyze {

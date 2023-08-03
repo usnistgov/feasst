@@ -16,8 +16,8 @@ Contents:
    README
    tutorial/README
    forcefield/README
-   plugin/example/README
    plugin/README
+   plugin/example/README
    pyfeasst/README
    py/README
    CONTACT

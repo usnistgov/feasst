@@ -31,8 +31,10 @@ class Formula {
   virtual std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Formula> create(std::istream& istr) const;
+  virtual std::shared_ptr<Formula> create(argtype * args) const;
   std::map<std::string, std::shared_ptr<Formula> >& deserialize_map();
   std::shared_ptr<Formula> deserialize(std::istream& istr);
+  std::shared_ptr<Formula> factory(const std::string name, argtype * args);
   explicit Formula(std::istream& istr);
   virtual ~Formula() {}
 

@@ -129,8 +129,8 @@ Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} cutoff
 Potential Model LennardJones
 Potential Model LennardJones VisitModel VisitModelIntra intra_cut 4
 Potential VisitModel LongRangeCorrections
-RefPotential Model LennardJones VisitModel VisitModelCell min_length {dccb_cut}
-RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 4
+RefPotential Model LennardJones VisitModel VisitModelCell min_length {dccb_cut} reference_index 0
+RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 4 reference_index 0
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25

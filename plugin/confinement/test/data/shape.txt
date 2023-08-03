@@ -1,0 +1,1 @@
+SlabSine amplitude 2 width 8 dimension 0 wave_dimension 1 average_bound0 -5 average_bound1 5

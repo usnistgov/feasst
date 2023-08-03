@@ -85,7 +85,7 @@ class VisitModel {
       const Select& selection,
       Configuration * config,
       const int group_index = 0);
-  void compute(
+  virtual void compute(
       ModelTwoBody * model,
       Configuration * config,
       const int group_index = 0);
@@ -98,6 +98,16 @@ class VisitModel {
       ModelThreeBody * model,
       Configuration * config,
       const int group_index = 0);
+
+  // compute interactions between particles in the selection
+  void compute_between_selection(
+    ModelTwoBody * model,
+    const ModelParams& model_params,
+    const Select& selection,
+    Configuration * config,
+    const bool is_old_config,
+    Position * relative,
+    Position * pbc);
 
   /// Return the energy.
   double energy() const { return energy_; }

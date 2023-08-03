@@ -176,7 +176,7 @@ Histogram::Histogram(std::istream& istr) {
   feasst_deserialize(&is_constant_width_, istr);
 }
 
-std::string Histogram::str() const {
+const std::string Histogram::str() const {
   std::stringstream ss;
   ss << "bin,num" << std::endl;
   for (int bin = 0; bin < size(); ++bin) {

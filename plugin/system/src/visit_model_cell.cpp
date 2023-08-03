@@ -186,41 +186,85 @@ void VisitModelCell::compute(
   DEBUG("visiting model");
   zero_energy();
   const Domain& domain = config->domain();
-  ASSERT(selection.num_particles() == 1, "assumes 1 particle selection");
   ASSERT(group_index == group_index_, "not equivalent");
   init_relative_(domain, &relative_, &pbc_);
-  for (int select1_index = 0;
-       select1_index < selection.num_particles();
-       ++select1_index) {
-    const int part1_index = selection.particle_index(select1_index);
-    const Particle& part1 = config->select_particle(part1_index);
-    for (int site1_index : selection.site_indices(select1_index)) {
-      const Site& site1 = part1.site(site1_index);
-      const int cell1_index = cell_id_opt_(domain, site1.position());
-      for (int cell2_index : cells_.neighbor()[cell1_index]) {
-        const Select& cell2_parts = cells_.particles()[cell2_index];
-        for (int select2_index = 0;
-             select2_index < cell2_parts.num_particles();
-             ++select2_index) {
-          const int part2_index = cell2_parts.particle_index(select2_index);
-          if (part1_index != part2_index) {
-            TRACE("indices " <<
-                  feasst_str(cell2_parts.site_indices(select2_index)));
-            for (int site2_index : cell2_parts.site_indices(select2_index)) {
-              TRACE("index: " << part1_index << " " << part2_index << " " <<
-                   site1_index << " " << site2_index);
-              get_inner_()->compute(part1_index, site1_index, part2_index,
-                                    site2_index, config, model_params, model,
-                                    false, &relative_, &pbc_);
-              if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
-                set_energy(inner().energy());
-                return;
+
+  // If only one particle in selection, simply exclude part1==part2
+  if (selection.num_particles() == 1) {
+    for (int select1_index = 0;
+         select1_index < selection.num_particles();
+         ++select1_index) {
+      const int part1_index = selection.particle_index(select1_index);
+      const Particle& part1 = config->select_particle(part1_index);
+      for (int site1_index : selection.site_indices(select1_index)) {
+        const Site& site1 = part1.site(site1_index);
+        const int cell1_index = cell_id_opt_(domain, site1.position());
+        for (int cell2_index : cells_.neighbor()[cell1_index]) {
+          const Select& cell2_parts = cells_.particles()[cell2_index];
+          for (int select2_index = 0;
+               select2_index < cell2_parts.num_particles();
+               ++select2_index) {
+            const int part2_index = cell2_parts.particle_index(select2_index);
+            if (part1_index != part2_index) {
+              TRACE("indices " <<
+                    feasst_str(cell2_parts.site_indices(select2_index)));
+              for (int site2_index : cell2_parts.site_indices(select2_index)) {
+                TRACE("index: " << part1_index << " " << part2_index << " " <<
+                     site1_index << " " << site2_index);
+                get_inner_()->compute(part1_index, site1_index, part2_index,
+                                      site2_index, config, model_params, model,
+                                      false, &relative_, &pbc_);
+                if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
+                  set_energy(inner().energy());
+                  return;
+                }
               }
             }
           }
         }
       }
     }
+
+  // If selection is more than one particle, skip those in selection
+  // Calculate energy between particles in selection in two separate loops.
+  } else {
+    for (int select1_index = 0;
+         select1_index < selection.num_particles();
+         ++select1_index) {
+      const int part1_index = selection.particle_index(select1_index);
+      const Particle& part1 = config->select_particle(part1_index);
+      for (int site1_index : selection.site_indices(select1_index)) {
+        const Site& site1 = part1.site(site1_index);
+        const int cell1_index = cell_id_opt_(domain, site1.position());
+        for (int cell2_index : cells_.neighbor()[cell1_index]) {
+          const Select& cell2_parts = cells_.particles()[cell2_index];
+          for (int select2_index = 0;
+               select2_index < cell2_parts.num_particles();
+               ++select2_index) {
+            const int part2_index = cell2_parts.particle_index(select2_index);
+            if (!find_in_list(part2_index, selection.particle_indices())) {
+              TRACE("indices " <<
+                    feasst_str(cell2_parts.site_indices(select2_index)));
+              for (int site2_index : cell2_parts.site_indices(select2_index)) {
+                TRACE("index: " << part1_index << " " << part2_index << " " <<
+                     site1_index << " " << site2_index);
+                get_inner_()->compute(part1_index, site1_index, part2_index,
+                                      site2_index, config, model_params, model,
+                                      false, &relative_, &pbc_);
+                if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
+                  set_energy(inner().energy());
+                  return;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // In the second loop, compute interactions between different particles in select.
+    compute_between_selection(model, model_params, selection,
+      config, false, &relative_, &pbc_);
   }
   set_energy(inner().energy());
 }

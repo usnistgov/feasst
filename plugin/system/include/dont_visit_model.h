@@ -33,6 +33,10 @@ class DontVisitModel : public VisitModel {
       const int group_index = 0) override { set_energy(0.); }
   void compute(
       ModelTwoBody * model,
+      Configuration * config,
+      const int group_index = 0) override { set_energy(0.); }
+  void compute(
+      ModelTwoBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
@@ -43,6 +47,8 @@ class DontVisitModel : public VisitModel {
       Configuration * config,
       const int group_index = 0) override { set_energy(0.); }
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  std::shared_ptr<VisitModel> create(argtype * args) const {
+    return std::make_shared<DontVisitModel>(); }
   void serialize(std::ostream& ostr) const override;
   explicit DontVisitModel(std::istream& istr);
   virtual ~DontVisitModel() {}

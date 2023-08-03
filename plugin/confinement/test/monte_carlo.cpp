@@ -104,7 +104,7 @@ TEST(MonteCarlo, ShapeTable_LONG) {
     #else // _OPENMP
     hamaker->compute_table(
     #endif // _OPENMP
-      pore.get(), mc.get_system()->get_configuration()->get_domain(), mc.get_random(), {
+      pore.get(), mc.system().configuration().domain(), mc.get_random(), {
       {"alpha", "6"},
       {"epsilon", "-1"},
       {"max_radius", "10"},
@@ -303,11 +303,11 @@ TEST(HardShape, henry2_LONG) {
       {"particle_type0", "../forcefield/hard_sphere.fstprt"},
       {"periodic2", "false"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlabSine(
-      MakeFormulaSineWave({{"amplitude", "0"}, {"width", "20"}}),
       {{"dimension", "2"},
        {"wave_dimension", "1"},
        {"average_bound0", "3"},
-       {"average_bound1", "-3"}}))));
+       {"average_bound1", "-3"},
+       {"amplitude", "0"}, {"width", "20"}}))));
     Accumulator h = henry(system);
     INFO(h.str());
     EXPECT_NEAR(h.average(), 5/system.configuration().domain().min_side_length(), 5*h.block_stdev());
@@ -374,9 +374,8 @@ TEST(MonteCarlo, SineSlab) {
     {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeSlabSine(
-    MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),
     { {"dimension", "0"}, {"wave_dimension", "1"}, {"average_bound0", "-5"},
-      {"average_bound1", "5"}}))));
+      {"average_bound1", "5"}, {"amplitude", "2"}, {"width", "8"}}))));
   mc.set(MakeThermoParams({{"beta", "0.1"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
@@ -394,9 +393,8 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
   auto random = MakeRandomMT19937({{"seed", "time"}});
   auto domain = MakeDomain({{"cubic_box_length", "16"}});
   auto pore = MakeSlabSine(
-    MakeFormulaSineWave({{"amplitude", "2"}, {"width", "20"}}),
     { {"dimension", "1"}, {"wave_dimension", "0"}, {"average_bound0", "-5"},
-      {"average_bound1", "5"}});
+      {"average_bound1", "5"}, {"amplitude", "2"}, {"width", "20"}});
   auto table = MakeTable3D({
     {"num0", "101"},
     {"num1", "101"},
@@ -413,9 +411,9 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
     {"points_per_shell", "1000"},
   };
   #ifdef _OPENMP
-    model->compute_table_omp(pore.get(), domain.get(), random.get(), table_args);
+    model->compute_table_omp(pore.get(), *domain, random.get(), table_args);
   #else // _OPENMP
-    model->compute_table(pore.get(), domain.get(), random.get(), table_args);
+    model->compute_table(pore.get(), *domain, random.get(), table_args);
   #endif // _OPENMP
   MakeCheckpoint({{"file_name", "tmp/sinetab"}})->write(*table);
   auto table2 = std::make_shared<Table3D>();

@@ -8,12 +8,14 @@
 
 namespace feasst {
 
-FormulaSineWave::FormulaSineWave(argtype args) : Formula(&args) {
+FormulaSineWave::FormulaSineWave(argtype * args) : Formula(args) {
   class_name_ = "FormulaSineWave";
-  amplitude_ = dble("amplitude", &args, 1.);
-  width_ = dble("width", &args, 2*PI);
-  phase_ = dble("phase", &args, 0.);
-  shift_ = dble("shift", &args, default_shift());
+  amplitude_ = dble("amplitude", args, 1.);
+  width_ = dble("width", args, 2*PI);
+  phase_ = dble("phase", args, 0.);
+  shift_ = dble("shift", args, default_shift());
+}
+FormulaSineWave::FormulaSineWave(argtype args) : FormulaSineWave(&args) {
   FEASST_CHECK_ALL_USED(args);
 }
 
@@ -26,10 +28,6 @@ class MapFormulaSineWave {
 };
 
 static MapFormulaSineWave mapper_ = MapFormulaSineWave();
-
-std::shared_ptr<Formula> FormulaSineWave::create(std::istream& istr) const {
-  return std::make_shared<FormulaSineWave>(istr);
-}
 
 FormulaSineWave::FormulaSineWave(std::istream& istr)
   : Formula(istr) {

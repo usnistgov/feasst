@@ -62,24 +62,24 @@ void ParticleFactory::check_types(int * num_site_types,
     for (const Dihedral& dihedral : particle.dihedrals()) dihedral_type.add(dihedral.type());
   }
   if (unique_particles_) {
-    for (double value : site_type.histogram()) {
+    for (const double& value : site_type.histogram()) {
       ASSERT(value > 0, "particle skipped a site type");
     }
-    for (double value : particle_type.histogram()) {
+    for (const double& value : particle_type.histogram()) {
       ASSERT(value > 0, "skipped a particle type");
     }
     if (sum(bond_type.histogram()) > 0) {
-      for (double value : bond_type.histogram()) {
+      for (const double& value : bond_type.histogram()) {
         ASSERT(value > 0, "particle skipped a bond type");
       }
     }
     if (sum(angle_type.histogram()) > 0) {
-      for (double value : angle_type.histogram()) {
+      for (const double& value : angle_type.histogram()) {
         ASSERT(value > 0, "particle skipped an angle type");
       }
     }
     if (sum(dihedral_type.histogram()) > 0) {
-      for (double value : dihedral_type.histogram()) {
+      for (const double& value : dihedral_type.histogram()) {
         ASSERT(value > 0, "particle skipped an dihedral type");
       }
     }
