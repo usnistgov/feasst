@@ -199,9 +199,9 @@ bool Criteria::is_allowed(const System& system, const Acceptance& acceptance) {
   return true;
 }
 
-void Criteria::check_num_iterations_(const int num_attempts_per_iteration) {
+void Criteria::check_num_iterations_(const int num_trials_per_iteration) {
   *num_attempt_since_last_iteration_() += 1;
-  if (*num_attempt_since_last_iteration_() >= num_attempts_per_iteration) {
+  if (*num_attempt_since_last_iteration_() >= num_trials_per_iteration) {
     *num_iterations_() += 1;
     *num_attempt_since_last_iteration_() = 0;
   }

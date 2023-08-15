@@ -8,9 +8,20 @@ namespace feasst {
 
 MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
   class_name_ = "MayerSampling";
-  num_attempts_per_iteration_ =
-    integer("num_attempts_per_iteration", args, 1e9);
   intra_pot_ = integer("intra_potential", args, -1);
+
+  // HWH depreciate
+  // Support depreciation warning for old argument name
+  if (used("num_attempts_per_iteration", *args)) {
+    WARN("Metropolis argument num_attempts_per_iteration is depreciated. " <<
+         "Use num_trials_per_iteration instead.");
+    ASSERT(!used("num_trials_per_iteration", *args),
+      "Both num_trials_per_iteration and num_attempts_per_iteration");
+    num_trials_per_iteration_ =
+      integer("num_attempts_per_iteration", args);
+  }
+  num_trials_per_iteration_ =
+    integer("num_trials_per_iteration", args, 1e9);
 }
 MayerSampling::MayerSampling(argtype args) : MayerSampling(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -24,7 +35,7 @@ bool MayerSampling::is_accepted(
     const System& system,
     Acceptance * acceptance,
     Random * random) {
-  check_num_iterations_(num_attempts_per_iteration_);
+  check_num_iterations_(num_trials_per_iteration_);
   double energy_new = acceptance->energy_new();
   const double beta = system.thermo_params().beta();
   TRACE("*** MayerSampling ***");
@@ -84,7 +95,7 @@ void MayerSampling::serialize(std::ostream& ostr) const {
   feasst_serialize_version(3251, ostr);
   feasst_serialize(f12old_, ostr);
   feasst_serialize(f12ref_, ostr);
-  feasst_serialize(num_attempts_per_iteration_, ostr);
+  feasst_serialize(num_trials_per_iteration_, ostr);
   feasst_serialize_fstobj(mayer_, ostr);
   feasst_serialize_fstobj(mayer_ref_, ostr);
   feasst_serialize(intra_pot_, ostr);
@@ -95,7 +106,7 @@ MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
   ASSERT(version == 3251, "unrecognized verison: " << version);
   feasst_deserialize(&f12old_, istr);
   feasst_deserialize(&f12ref_, istr);
-  feasst_deserialize(&num_attempts_per_iteration_, istr);
+  feasst_deserialize(&num_trials_per_iteration_, istr);
   feasst_deserialize_fstobj(&mayer_, istr);
   feasst_deserialize_fstobj(&mayer_ref_, istr);
   feasst_deserialize(&intra_pot_, istr);

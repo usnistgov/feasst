@@ -1,61 +1,78 @@
-# This tutorial is similar to tutorial 10, but with a TraPPE alkane.
+"""
+Flat-histogram simulation of TraPPE alkanes in the grand canonical ensemble.
+https://www.nist.gov/mml/csd/chemical-informatics-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n-butane
+"""
 
-import sys
-import subprocess
+import os
 import argparse
-import json
-import random
-import unittest
-import pathlib
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from pyfeasst import feasstio
 from pyfeasst import physical_constants
+from pyfeasst import macrostate_distribution
 
-# define parameters of a pure component LJ simulation
-#data=~/feasst/forcefield/n-butane.fstprt; temperature=350; max_particles=575; box_length=45; beta_mu=-6; cutoff=12; # https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n
-params = {
-    #"cubic_box_length": 30, "fstprt": "/feasst/forcefield/ethane.fstprt", "temp_in_K": 300, 'max_particles': 225, 'betamu': -7.1126, 'num_sites': 2, 'cutoff': 14,
-    #"cubic_box_length": 28, "fstprt": "/feasst/forcefield/propane.fstprt", "temp_in_K": 344, 'max_particles': 180, 'betamu': -7, 'num_sites': 3, 'cutoff': 14,
+# Parse arguments from command line or change their default values.
+PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+                    help='FEASST install directory (e.g., the path to build)')
+PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/n-butane.fstprt',
+                    help='FEASST particle definition')
+PARSER.add_argument('--temperature', type=float, default=350, help='temperature in Kelvin')
+PARSER.add_argument('--beta_mu', type=float, default=-6, help='beta time chemical potential')
+PARSER.add_argument('--cutoff', type=float, default=12, help='real space cutoff distance')
+PARSER.add_argument('--max_particles', type=int, default=485, help='maximum number of particles')
+PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
+PARSER.add_argument('--min_particles_second_window', type=int, default=30, help='minimum number of particles in the second window')
+PARSER.add_argument('--min_sweeps', type=int, default=2,
+                    help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
+PARSER.add_argument('--cubic_box_length', type=float, default=45,
+                    help='cubic periodic boundary length')
+PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
+                    help='like cycles, but not necessary num_particles')
+PARSER.add_argument('--equilibration_iterations', type=int, default=0,
+                    help='number of iterations for equilibraiton')
+PARSER.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
+PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
+PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
+PARSER.add_argument('--prefix', type=str, default='trappe', help='prefix for all output file names')
+PARSER.add_argument('--run_type', '-r', type=int, default=0,
+                    help='0: run, 1: submit to queue, 2: post-process')
+PARSER.add_argument('--seed', type=int, default=-1,
+                    help='Random number generator seed. If -1, assign random seed to each sim.')
+PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+PARSER.add_argument('--scratch', type=str, default=None,
+                    help='Optionally write scheduled job to scratch/logname/jobid.')
+PARSER.add_argument('--node', type=int, default=0, help='node ID')
+PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
-    # https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n
-    "cubic_box_length": 45, "fstprt": "/feasst/forcefield/n-butane.fstprt", "temp_in_K": 350, 'max_particles': 128, 'betamu': -6, 'num_sites': 4, 'cutoff': 12, 'molec_weight': 58.12,
+# Convert arguments into a parameter dictionary, and add argument-dependent parameters.
+ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
+assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
+PARAMS = vars(ARGS)
+PARAMS['script'] = __file__
+PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
+PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
+PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate FEASST before SLURM
+PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
+PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
+PARAMS['num_sims'] = PARAMS['num_nodes']
+PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
+PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
+PARAMS['mu'] = PARAMS['beta_mu']/PARAMS['beta']
+PARAMS['dccb_cut'] = 4.
+PARAMS['dccb_cut'] = PARAMS['cubic_box_length']/int(PARAMS['cubic_box_length']/PARAMS['dccb_cut']) # maximize inside box
+PARAMS['mu_init']=10
+if 'n-butane' in PARAMS['fstprt']:
+    PARAMS['num_sites'] = 4
+    PARAMS['molecular_weight'] = 58.12
+else:
+    assert False, "input new num_sites and molecular_weight into PARMS"
+PARAMS['last_site'] = PARAMS['num_sites'] - 1
 
-    # https://mmlapps.nist.gov/srs/OCTANE/octane_sat.htm
-    #"cubic_box_length": 35, "fstprt": "/feasst/forcefield/n-octane.fstprt", "temp_in_K": 560, 'max_particles': 128, 'betamu': -6, 'num_sites': 8, 'cutoff': 15,
-    #"cubic_box_length": 36, "fstprt": "/feasst/forcefield/n-decane.fstprt", "temp_in_K": 560, 'max_particles': 12, 'betamu': -7, 'num_sites': 10, 'cutoff': 14,
-    "dccb_cut": 4,
-    "trials_per": 1e4, "hours_per_adjust": 10, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
-    "equilibration": 1e5, "num_nodes": 1, "procs_per_node": 32, "script": __file__}
-params["beta"] = 1./(params["temp_in_K"]*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
-params['mu'] = params['betamu']/params['beta']
-params["num_minutes"] = round(params["num_hours"]*60)
-params["hours_per_adjust"] = params["hours_per_adjust"]*params["procs_per_node"]
-params["hours_per_checkpoint"] = params["hours_per_checkpoint"]*params["procs_per_node"]
-params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
-params["dccb_cut"] = params["cubic_box_length"]/int(params["cubic_box_length"]/params["dccb_cut"]) # maximize inside box
-params["mu_init"]=10
-params['last_site'] = params['num_sites'] - 1
-def per_node_params():
-    if params['num_nodes'] == 1:
-        splice_particles=params['max_particles']
-    elif params['num_nodes'] == 2:
-        splice_particles=int(params['max_particles']*0.75)
-    else:
-        print('unrecognized processors per node:', params['procs_per_node'])
-    if params['node'] == 0:
-        params["min_particles"]=0
-        params["max_particles"]=splice_particles
-        params["min_sweeps"]=20
-        params["window_alpha"]=1.15
-        params["min_window_size"]=3
-    elif params['node'] == 1:
-        params["min_particles"]=splice_particles
-        #params["max_particles"]=25
-        params["min_sweeps"]=20
-        params["window_alpha"]=1
-        params["min_window_size"]=3
-    else:
-        assert False # unrecognized number of nodes
-
-def write_partial(f, bond, angle, dihedral):
+def write_partial(f, bond, angle, dihedral, params):
     if params['num_sites'] == 2:
         f.write(bond)
     elif params['num_sites'] == 3:
@@ -67,7 +84,7 @@ def write_partial(f, bond, angle, dihedral):
         assert False
 
 # write TrialGrowFile to include grand canonical ensemble growth and canonica ensemble reptations
-def write_grow_file(filename, gce):
+def write_grow_file(filename, params, gce):
     with open(filename, 'w') as f:
         f.write("TrialGrowFile\n\n")
         for inv in [True, False]:
@@ -98,7 +115,7 @@ def write_grow_file(filename, gce):
                     # reptation
                     elif trial_type == 0 and not gce:
                         if site == params['num_sites'] - 1:
-                            write_partial(f, bond, angle, dihedral)
+                            write_partial(f, bond, angle, dihedral, params)
                         else:
                             if site == 0:
                                 f.write("""particle_type 0 weight 2 """)
@@ -108,22 +125,22 @@ def write_grow_file(filename, gce):
                     if not gce and trial_type == 2:
                         if site == 0:
                             f.write("""particle_type 0 weight 2 """)
-                            write_partial(f, bond, angle, dihedral)
+                            write_partial(f, bond, angle, dihedral, params)
 
                 f.write("\n")
 
-write_grow_file(filename="trappe_grow_canonical.txt", gce=False)
-write_grow_file(filename="trappe_grow_grand_canonical.txt", gce=True)
+write_grow_file(filename="trappe_grow_canonical.txt", params=PARAMS, gce=False)
+write_grow_file(filename="trappe_grow_grand_canonical.txt", params=PARAMS, gce=True)
 
-# write fst script
-def mc_trappe(params, file_name):
-    with open(file_name, "w") as myfile: myfile.write("""
+def write_feasst_script(params, file_name):
+    """ Write fst script for a single simulation with keys of params {} enclosed. """
+    with open(file_name, 'w', encoding='utf-8') as myfile:
+        myfile.write("""
 # first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file trappe_lnpin{node}.txt bounds_file trappe_boundsn{node}.txt num_adjust_per_write 10 min_window_size {min_window_size}
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha {window_alpha} min_size {min_window_size}
-Checkpoint file_name trappe_checkpointn{node}.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
+CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}n{node}_lnpi.txt min_window_size -1
+WindowExponential maximum {max_particles} min0 {min_particles} min1 {min_particles_second_window} num {procs_per_node} overlap 0 alpha 2.15 min_size 3
+Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
-# begin description of each MC clone
 RandomMT19937 seed {seed}
 Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} cutoff {cutoff}
 Potential Model LennardJones
@@ -133,113 +150,57 @@ RefPotential Model LennardJones VisitModel VisitModelCell min_length {dccb_cut} 
 RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 4 reference_index 0
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
-TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
+TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25 pivot_site 0
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25 pivot_site {last_site}
 TrialGrowFile file_name trappe_grow_canonical.txt
-Log trials_per_write {trials_per} file_name trappen{node}s[sim_index].txt
-Tune
-CheckEnergy trials_per_update {trials_per} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 
 # gcmc initialization and nvt equilibration
 TrialGrowFile file_name trappe_grow_grand_canonical.txt
+Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.txt
+Tune
 Run until_num_particles [soft_macro_min]
-# Remove the 4 grand canonical trials for canonical equilibration, then add them back for production.
-# Each transfer is two trials, two for each of forward and reverse order.
 RemoveTrial index 7
 RemoveTrial index 7
 RemoveTrial index 7
 RemoveTrial index 7
 ThermoParams beta {beta} chemical_potential {mu}
-Metropolis
-Run num_trials {equilibration}
+Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Run until_criteria_complete true
 RemoveModify name Tune
+RemoveAnalyze name Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
+Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialGrowFile file_name trappe_grow_grand_canonical.txt
-RemoveAnalyze name Log
-Log trials_per_write {trials_per} file_name trappen{node}s[sim_index].txt
-#Movie trials_per_write {trials_per} file_name trappen{node}s[sim_index].xyz
-Tune trials_per_write {trials_per} file_name trappe_tunen{node}s[sim_index].txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per} file_name trappe_enn{node}s[sim_index].txt multistate true start_after_iteration 1
+Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].txt
+Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
+Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].xyz start_after_iteration 1
+Tune trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
+Energy trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {trials_per} file_name trappe_critn{node}s[sim_index].txt
+CriteriaWriter trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_crit.txt
 """.format(**params))
 
-# write slurm script
-def slurm_queue(file_name):
-    with open(file_name, "w") as myfile: myfile.write("""#!/bin/bash
-#SBATCH -n {procs_per_node} -N 1 -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
-echo "Running {script} ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
-cd $PWD
-export OMP_NUM_THREADS={procs_per_node}
-python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID --params {params}
-if [ $? == 0 ]; then
-  echo "Job is done"
-  scancel $SLURM_ARRAY_JOB_ID
-else
-  echo "Job is terminating, to be restarted again"
-fi
-echo "Time is $(date)"
-""".format(**params))
+def post_process(params):
+    lnp = macrostate_distribution.splice_collection_matrix(prefix='trappen0s', suffix='_crit.txt', use_soft=True)
+    lnp.equilibrium()
+    #lnp.plot(show=True)
+    print('WARNING: max_particles should be higher but the liquid peak was truncated to make the simulation faster')
+    vapor, liquid = lnp.split()
+    volume = params['cubic_box_length']**3
+    na = physical_constants.AvogadroConstant().value()
+    dens_conv = 1./volume/na*params['molecular_weight']/1e3*1e30 # convert from N/V units of molecules/A^3 to kg/m
+    # https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n
+    assert np.abs(30.6 - vapor.average_macrostate()*dens_conv) < 2
+    assert np.abs(508 - liquid.average_macrostate()*dens_conv) < 30
 
-# parse arguments
-parser = argparse.ArgumentParser()
-parser.add_argument('--run_type', '-r', type=int, default=0, help="0: submit batch to scheduler, 1: run batch on host")
-parser.add_argument('--task', type=int, default=0, help="input by slurm scheduler. If >0, restart from checkpoint.")
-parser.add_argument('--params', type=str, default="", help="file name of the params file.")
-args = parser.parse_args()
-if args.params != "":
-    with open(args.params) as jsonfile:
-        params = json.loads(json.load(jsonfile))
-
-# after the simulation is complete, perform some analysis
-class TestFlatHistogramLJ(unittest.TestCase):
-    def test(self):
-        from pyfeasst import macrostate_distribution
-        from pyfeasst import physical_constants
-        lnp = macrostate_distribution.splice_collection_matrix(prefix='trappe_critn0s', suffix='.txt', use_soft=True)
-        lnp.equilibrium()
-        vapor, liquid = lnp.split()
-        volume = params['cubic_box_length']**3
-        na = physical_constants.AvogadroConstant().value()
-        dens_conv = 1./volume/na*params['molec_weight']/1e3*1e30 # convert from N/V units of molecules/A^3 to kg/m
-        # https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n
-        self.assertAlmostEqual(30.6, vapor.average_macrostate()*dens_conv, delta=1)
-        self.assertAlmostEqual(508, liquid.average_macrostate()*dens_conv, delta=30)
-        #lnp.plot(show=True)
-
-# run the simulation and, if complete, analyze.
-def run():
-    if args.task == 0:
-        file_name = "trappe_launch"+str(params["node"])+".txt"
-        mc_trappe(params=params, file_name=file_name)
-        syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > trappe_launch"+str(params['node'])+".log", shell=True, executable='/bin/bash')
-    else:
-        syscode = subprocess.call("../../../build/bin/rst trappe_checkpointn"+str(params['node'])+".fst", shell=True, executable='/bin/bash')
-    if syscode == 0 and params['node'] == 1:
-        unittest.main(argv=[''], verbosity=2, exit=False)
-    return syscode
-
-if __name__ == "__main__":
-    for node in range(params['num_nodes']):
-        print('node', node)
-        params["node"] = node
-        params['params'] = 'trappe_params' + str(node) + '.txt'
-        per_node_params()
-    if args.run_type == 0:
-            with open(params['params'], 'w') as jsonfile:
-                json.dump(json.dumps(params), jsonfile)
-            slurm_file = 'trappe_slurm'+str(node)+'.txt'
-            slurm_queue(slurm_file)
-            subprocess.call("sbatch --array=0-1%1 " + slurm_file + " | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
-    elif args.run_type == 1:
-        syscode = run()
-        if syscode != 0:
-            sys.exit(1)
-    elif args.run_type == 2:
-        unittest.main(argv=[''], verbosity=2, exit=False)
-    else:
-        assert False  # unrecognized run_type
+if __name__ == '__main__':
+    feasstio.run_simulations(params=PARAMS,
+                             sim_node_dependent_params=None,
+                             write_feasst_script=write_feasst_script,
+                             post_process=post_process,
+                             queue_function=feasstio.slurm_single_node,
+                             args=ARGS)

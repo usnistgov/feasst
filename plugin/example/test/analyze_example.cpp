@@ -17,7 +17,7 @@ TEST(AnalyzeExample, ideal_gas_fluid_geometric_center_LONG) {
                        {"add_particles_of_type0", "100"}}},
     {"Potential", {{"Model", "IdealGas"}}},
     {"ThermoParams", {{"beta", "1"}}},
-    {"Metropolis", {{"num_attempts_per_iteration", "1e2"}}},
+    {"Metropolis", {{"num_trials_per_iteration", "1e2"}}},
     {"TrialTranslate", {{"tunable_param", "4."}}},
     {"AnalyzeExample", {{"trials_per_write", str(1e3)},
                         {"file_name", "tmp/ig_center.csv"},

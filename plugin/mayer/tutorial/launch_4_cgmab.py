@@ -1,16 +1,69 @@
-# This is a reproduction of the work described in https://doi.org/10.1016/j.xphs.2018.12.013
-# Group a mAb into domains and use the pdb file to compute the domain center of mass positions, bond lengths and angles.
-# Use Mayer-sampling simulations of individual domains to compute the excluded volume
-import random
-import unittest
+"""
+This is a reproduction of the work described in https://doi.org/10.1016/j.xphs.2018.12.013
+Group a mAb into domains and use the pdb file to compute the domain center of mass positions, bond lengths and angles.
+Use Mayer-sampling simulations of individual domains to compute the excluded volume
+"""
+
+import os
 import argparse
-import sys
-import subprocess
 import numpy as np
-from multiprocessing import Pool
+import pandas as pd
+import matplotlib.pyplot as plt
+from pyfeasst import feasstio
 from pyfeasst import coarse_grain_pdb
 
-pdb_file = "../../../pyfeasst/tests/1igt.pdb"
+# Parse arguments from command line or change their default values.
+PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+                    help='FEASST install directory (e.g., the path to build)')
+PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/lj.fstprt',
+                    help='FEASST particle definition')
+PARSER.add_argument('--pdb_file', type=str, default="../../../pyfeasst/tests/1igt.pdb",
+                    help='pdb file that describes a mAb')
+PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
+                    help='like cycles, but not necessary num_particles')
+PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e0),
+                    help='number of iterations for equilibraiton')
+PARSER.add_argument('--production_iterations', type=int, default=int(1e1),
+                    help='number of iterations for production')
+PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
+PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
+PARSER.add_argument('--procs_per_node', type=int, default=9, help='number of processors')
+PARSER.add_argument('--prefix', type=str, default='cg', help='prefix for all output file names')
+PARSER.add_argument('--run_type', '-r', type=int, default=0,
+                    help='0: run, 1: submit to queue, 2: post-process')
+PARSER.add_argument('--seed', type=int, default=-1,
+                    help='Random number generator seed. If -1, assign random seed to each sim.')
+PARSER.add_argument('--max_restarts', type=int, default=0, help='Number of restarts in queue')
+PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+PARSER.add_argument('--scratch', type=str, default=None,
+                    help='Optionally write scheduled job to scratch/logname/jobid.')
+PARSER.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
+PARSER.add_argument('--node', type=int, default=0, help='node ID')
+PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
+
+# Convert arguments into a parameter dictionary, and add argument-dependent parameters.
+ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
+assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
+PARAMS = vars(ARGS)
+PARAMS['script'] = __file__
+PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
+PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
+PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
+PARAMS['procs_per_sim'] = 1
+PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
+def sim_node_dependent_params(params):
+    """ Set parameters that depent upon the sim or node here. """
+    if params['sim'] == 0: params['domain'] = 'fc'
+    if params['sim'] == 1: params['domain'] = 'fab1'
+    if params['sim'] == 2: params['domain'] = 'fab2'
+    if params['sim'] == 3: params['domain'] = 'fv1'
+    if params['sim'] == 4: params['domain'] = 'fv2'
+    if params['sim'] == 5: params['domain'] = 'ch1_1'
+    if params['sim'] == 6: params['domain'] = 'ch1_2'
+    if params['sim'] == 7: params['domain'] = 'ch2'
+    if params['sim'] == 8: params['domain'] = 'ch3'
 
 # From table S2 of https://doi.org/10.1016/j.xphs.2018.12.013
 # Heavy chains are B and D, while light chains are A and C, for fab1 and fab2, respectively.
@@ -28,13 +81,13 @@ chains = {
           'ch3': {'B': range(361, 475), 'D': range(361, 475)}}
 
 # 4 bead (fab1, fab2, fc and hinge)
-fc = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['fc'])
+fc = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['fc'])
 r_com_fc = coarse_grain_pdb.center_of_mass(fc)/10  # divide all COM by 10 for Angstrom to nm
-hinge = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['hinge'])
+hinge = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['hinge'])
 r_com_hinge = coarse_grain_pdb.center_of_mass(hinge)/10
-fab1 = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['fab1'])
+fab1 = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['fab1'])
 r_com_fab1 = coarse_grain_pdb.center_of_mass(fab1)/10
-fab2 = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['fab2'])
+fab2 = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['fab2'])
 r_com_fab2 = coarse_grain_pdb.center_of_mass(fab2)/10
 
 coarse_grain_pdb.pdb_to_fstprt(hinge, '1igt_hinge.fstprt')
@@ -43,17 +96,17 @@ coarse_grain_pdb.pdb_to_fstprt(fab1, '1igt_fab1.fstprt')
 coarse_grain_pdb.pdb_to_fstprt(fab2, '1igt_fab2.fstprt')
 
 # 7 bead (fv[1,2], ch1_[1,2], ch2, ch3 and hinge)
-fv1 = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['fv1'])
+fv1 = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['fv1'])
 r_com_fv1 = coarse_grain_pdb.center_of_mass(fv1)/10
-fv2 = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['fv2'])
+fv2 = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['fv2'])
 r_com_fv2 = coarse_grain_pdb.center_of_mass(fv2)/10
-ch1_1 = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['ch1_1'])
+ch1_1 = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['ch1_1'])
 r_com_ch1_1 = coarse_grain_pdb.center_of_mass(ch1_1)/10
-ch1_2 = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['ch1_2'])
+ch1_2 = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['ch1_2'])
 r_com_ch1_2 = coarse_grain_pdb.center_of_mass(ch1_2)/10
-ch2 = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['ch2'])
+ch2 = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['ch2'])
 r_com_ch2 = coarse_grain_pdb.center_of_mass(ch2)/10
-ch3 = coarse_grain_pdb.subset(pdb_file=pdb_file, chains=chains['ch3'])
+ch3 = coarse_grain_pdb.subset(pdb_file=ARGS.pdb_file, chains=chains['ch3'])
 r_com_ch3 = coarse_grain_pdb.center_of_mass(ch3)/10
 
 coarse_grain_pdb.pdb_to_fstprt(fv1, '1igt_fv1.fstprt')
@@ -112,9 +165,10 @@ for index, x in enumerate(hinge['x_coord']):
 rg2 /= len(hinge['x_coord'])
 print('2rg=sigma_hinge', 2*np.sqrt(rg2)/10, 'nm vs 1.52')
 
-# Define a Mayer-sampling simulation using FEASST
-def mc(file_name):
-    with open(file_name, 'w') as file: file.write("""
+def write_feasst_script(params, file_name):
+    """ Write fst script for a single simulation with keys of params {} enclosed. """
+    with open(file_name, 'w', encoding='utf-8') as myfile:
+        myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_box_length 200 particle_type0 1igt_{domain}.fstprt \
@@ -124,106 +178,59 @@ Configuration cubic_box_length 200 particle_type0 1igt_{domain}.fstprt \
 Potential Model HardSphere VisitModel VisitModelCell min_length 3.9 energy_cutoff 1e100
 RefPotential Model HardSphere sigma0 0 sigma1 0 sigma2 0 sigma3 0 sigma4 0 sigma5 30 cutoff0 0 cutoff1 0 cutoff2 0 cutoff3 0 cutoff4 0 cutoff5 30 group com
 ThermoParams beta 1
-MayerSampling
+MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialTranslate new_only true reference_index 0 tunable_param 1 group first
 TrialRotate new_only true reference_index 0 tunable_param 40
+Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 set_variable trials_per 1e4
 
 # tune trial parameters
-CriteriaWriter trials_per_write trials_per file_name cg_b2_eq_{domain}.txt
-#Log trials_per_write trials_per file_name cg_eq_{domain}.txt
-#Movie trials_per_write trials_per file_name cg_eq_{domain}.xyz
+CriteriaWriter trials_per_write trials_per file_name {prefix}_{domain}_b2_eq.txt
+#Log trials_per_write trials_per file_name {prefix}_{domain}_eq.txt
+#Movie trials_per_write trials_per file_name {prefix}_{domain}_eq.xyz
 Tune
-Run num_trials 1e5
+Run until_criteria_complete true
 RemoveModify name Tune
 
 # production
-CriteriaWriter trials_per_write trials_per file_name cg_b2_{domain}.txt
-#Log trials_per_write trials_per file_name cg_{domain}.txt
-#Movie trials_per_write trials_per file_name cg_{domain}.xyz
-MayerSampling
-Run num_trials 1e6
+CriteriaWriter trials_per_write trials_per file_name {prefix}_{domain}_b2.txt
+#Log trials_per_write trials_per file_name {prefix}_{domain}.txt
+#Movie trials_per_write trials_per file_name {prefix}_{domain}.xyz
+MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
+Run until_criteria_complete true
 """.format(**params))
 
-# write slurm script to fill an HPC node with simulations
-def slurm_queue():
-    with open("slurm.txt", "w") as myfile: myfile.write("""#!/bin/bash
-#SBATCH -n {procs_per_node} -N 1 -t 1440:00 -o hostname_%j.out -e hostname_%j.out
-echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
-cd $PWD
-python {script} --run_type 1
-if [ $? == 0 ]; then
-  echo "Job is done"
-  scancel $SLURM_ARRAY_JOB_ID
-else
-  echo "Job is terminating, to be restarted again"
-fi
-echo "Time is $(date)"
-""".format(**params))
+def post_process(params):
+    def b2(file_name):
+        file1 = open(file_name, 'r')
+        lines = file1.readlines()
+        file1.close()
+        exec('iprm=' + lines[0], globals())
+        return iprm
+    b2hs_ref = 2*np.pi*3**3/3 # sigma=3 nanometer reference HS
+    fc = b2(params['prefix']+'_fc_b2.txt')
+    print('fc', fc['second_virial_ratio']*b2hs_ref, '+/-', fc['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 527.87 ± 1.91')
+    fab1 = b2(params['prefix']+'_fab1_b2.txt')
+    print('fab1', fab1['second_virial_ratio']*b2hs_ref, '+/-', fab1['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 443.20 ± 0.26')
+    fab2 = b2(params['prefix']+'_fab2_b2.txt')
+    print('fab2', fab2['second_virial_ratio']*b2hs_ref, '+/-', fab2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 443.20 ± 0.26')
+    fv1 = b2(params['prefix']+'_fv1_b2.txt')
+    print('fv1', fv1['second_virial_ratio']*b2hs_ref, '+/-', fv1['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 208.13 ± 018')
+    fv2 = b2(params['prefix']+'_fv2_b2.txt')
+    print('fv2', fv2['second_virial_ratio']*b2hs_ref, '+/-', fv2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 208.13 ± 018')
+    ch1_1 = b2(params['prefix']+'_ch1_1_b2.txt')
+    print('ch1_1', ch1_1['second_virial_ratio']*b2hs_ref, '+/-', ch1_1['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 179.09 ± 0.06')
+    ch1_2 = b2(params['prefix']+'_ch1_2_b2.txt')
+    print('ch1_2', ch1_2['second_virial_ratio']*b2hs_ref, '+/-', ch1_2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 179.09 ± 0.06')
+    ch2 = b2(params['prefix']+'_ch2_b2.txt')
+    print('ch2', ch2['second_virial_ratio']*b2hs_ref, '+/-', ch2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 316.83 ± 0.62')
+    ch3 = b2(params['prefix']+'_ch3_b2.txt')
+    print('ch3', ch3['second_virial_ratio']*b2hs_ref, '+/-', ch3['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 196.05 ± 0.14')
 
-# parse arguments
-parser = argparse.ArgumentParser()
-parser.add_argument('--run_type', '-r', type=int, default=0, help="0: submit batch to scheduler, 1: run batch on host")
-args = parser.parse_args()
-
-params={'procs_per_node': 9, 'script': __file__}
-
-# run a single simulation as part of the batch to fill a node
-def run(proc):
-    if proc == 0: params['domain'] = 'fc'
-    if proc == 1: params['domain'] = 'fab1'
-    if proc == 2: params['domain'] = 'fab2'
-    if proc == 3: params['domain'] = 'fv1'
-    if proc == 4: params['domain'] = 'fv2'
-    if proc == 5: params['domain'] = 'ch1_1'
-    if proc == 6: params['domain'] = 'ch1_2'
-    if proc == 7: params['domain'] = 'ch2'
-    if proc == 8: params['domain'] = 'ch3'
-    params["seed"] = random.randrange(int(1e9))
-    file_name = "launch_run"+params['domain']+".txt"
-    mc(file_name)
-    syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > launch_run"+params['domain']+".log", shell=True, executable='/bin/bash')
-    if syscode == 0:
-        unittest.main(argv=[''], verbosity=2, exit=False)
-    return syscode
-
-# after the simulation is complete, perform some analysis
-class TestCGmAb(unittest.TestCase):
-    def test(self):
-        def b2(file_name):
-            file1 = open(file_name, 'r')
-            lines = file1.readlines()
-            file1.close()
-            exec('iprm=' + lines[0], globals())
-            return iprm
-        b2hs_ref = 2*np.pi*3**3/3 # sigma=3 nanometer reference HS
-        fc = b2('cg_b2_fc.txt')
-        print('fc', fc['second_virial_ratio']*b2hs_ref, '+/-', fc['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 527.87 ± 1.91')
-        fab1 = b2('cg_b2_fab1.txt')
-        print('fab1', fab1['second_virial_ratio']*b2hs_ref, '+/-', fab1['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 443.20 ± 0.26')
-        fab2 = b2('cg_b2_fab2.txt')
-        print('fab2', fab2['second_virial_ratio']*b2hs_ref, '+/-', fab2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 443.20 ± 0.26')
-        fv1 = b2('cg_b2_fv1.txt')
-        print('fv1', fv1['second_virial_ratio']*b2hs_ref, '+/-', fv1['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 208.13 ± 018')
-        fv2 = b2('cg_b2_fv2.txt')
-        print('fv2', fv2['second_virial_ratio']*b2hs_ref, '+/-', fv2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 208.13 ± 018')
-        ch1_1 = b2('cg_b2_ch1_1.txt')
-        print('ch1_1', ch1_1['second_virial_ratio']*b2hs_ref, '+/-', ch1_1['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 179.09 ± 0.06')
-        ch1_2 = b2('cg_b2_ch1_2.txt')
-        print('ch1_2', ch1_2['second_virial_ratio']*b2hs_ref, '+/-', ch1_2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 179.09 ± 0.06')
-        ch2 = b2('cg_b2_ch2.txt')
-        print('ch2', ch2['second_virial_ratio']*b2hs_ref, '+/-', ch2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 316.83 ± 0.62')
-        ch3 = b2('cg_b2_ch3.txt')
-        print('ch3', ch3['second_virial_ratio']*b2hs_ref, '+/-', ch3['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 196.05 ± 0.14')
-
-if __name__ == "__main__":
-    if args.run_type == 0:
-        slurm_queue()
-        subprocess.call("sbatch slurm.txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
-    elif args.run_type == 1:
-        with Pool(params["procs_per_node"]) as pool:
-            codes = pool.starmap(run, zip(range(0, params["procs_per_node"])))
-            if np.count_nonzero(codes) > 0:
-                sys.exit(1)
-    else:
-        assert False  # unrecognized run_type
+if __name__ == '__main__':
+    feasstio.run_simulations(params=PARAMS,
+                             sim_node_dependent_params=sim_node_dependent_params,
+                             write_feasst_script=write_feasst_script,
+                             post_process=post_process,
+                             queue_function=feasstio.slurm_single_node,
+                             args=ARGS)

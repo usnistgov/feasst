@@ -13,7 +13,7 @@ for col in plugins.columns:
             if 'build' and 'dev' and 'feasst_test_env' and 'library' not in str(filename.parent):
                 with cd.cd(filename.parent):
                     print("Running:", filename.name, "in", filename.parent)
-                    subprocess.call("python " + str(filename.name) + " 2> launch.log", shell=True, executable='/bin/bash')
+                    subprocess.call("python " + str(filename.name) + " -r 1 2> launch.log", shell=True, executable='/bin/bash')
     #                subprocess.call("jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout=10000 --execute " + str(filename) + " > tutorial_log.txt 2>&1; grep \"Error\|Assertion\" tutorial_log.txt >> tutorial_failures.txt")
     #                subprocess.call("grep \"FAILED (fa\" " + str(filename) +" >> tutorial_failures.txt")
     #                subprocess.call("grep \"Error\" " + str(filename) +" >> tutorial_failures.txt")
@@ -22,7 +22,7 @@ for col in plugins.columns:
 
 # put all ids in nums list
 nums=list()
-for filename in Path('../').rglob('launch_ids.txt'):
+for filename in Path('../').rglob('*_queue_ids.txt'):
     print(filename, filename.name, filename.parent)
     with open(filename) as f:
         nums.append(f.read().splitlines())
@@ -46,16 +46,16 @@ while not finished:
     time.sleep(60)
 
 # scrap job output for errors
-for filename in Path('../').rglob('hostname_*.out'):
+for filename in Path('../').rglob('*_slurm_*.txt'):
     with cd.cd(filename.parent):
         subprocess.call("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
-        subprocess.call("grep \"Throw\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+        subprocess.call("grep \"Throw\" " + str(filename.name) + " | grep -v 'Terminating because Checkpoint has reached the user input' >> launch_failures.txt", shell=True, executable='/bin/bash')
         subprocess.call("grep \"No such file or directory\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
     subprocess.call("grep \"Err\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
     subprocess.call("grep \"Throw\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
     subprocess.call("grep \"No such file or directory\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
 
-for filename in Path('../').rglob('launch.log'):
+for filename in Path('../').rglob('*_run.log'):
     with cd.cd(filename.parent):
         subprocess.call("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
         subprocess.call("grep \"FAILED\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')

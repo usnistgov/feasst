@@ -35,9 +35,9 @@ std::string Log::header(const Criteria& criteria,
   std::stringstream ss;
   ss << system.status_header()
      << criteria.status_header(system)
-     // print number of attempts here instead of TrialFactory header because
+     // print number of trials here instead of TrialFactory header because
      // multiple factories makes it redundant.
-     << ",attempt"
+     << ",trial"
      << trial_factory.status_header()
      << std::endl;
   return ss.str();

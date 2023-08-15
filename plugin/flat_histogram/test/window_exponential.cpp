@@ -53,4 +53,33 @@ TEST(WindowExponential, window) {
   );
 }
 
+TEST(WindowExponential, min0) {
+  WindowExponential windows1({
+    {"minimum", "5"},
+    {"maximum", "200"},
+    {"num", "3"},
+    {"alpha", "1.5"}});
+  std::vector<double> segment1 = windows1.segment();
+  //INFO(feasst_str(segment1));
+  WindowExponential windows2({
+    {"min0", "0"},
+    {"min1", "5"},
+    {"maximum", "200"},
+    {"num", "4"},
+    {"alpha", "1.5"}});
+  std::vector<double> segment2 = windows2.segment();
+  //INFO(feasst_str(segment2));
+  EXPECT_NEAR(segment2[0], 0, NEAR_ZERO);
+  EXPECT_NEAR(segment2[1], 5, NEAR_ZERO);
+  EXPECT_NEAR(segment2[2], segment1[1], NEAR_ZERO);
+  EXPECT_NEAR(segment2[3], segment1[2], NEAR_ZERO);
+  EXPECT_NEAR(segment2[4], segment1[3], NEAR_ZERO);
+  EXPECT_NEAR(segment2[4], 200, NEAR_ZERO);
+//  EXPECT_NEAR(segment1[0], 0, NEAR_ZERO);
+//  EXPECT_NEAR(segment1[1], 79.370052598409956, 1e-13);
+//  EXPECT_NEAR(segment1[2], 125.99210498948727, 1e-13);
+//  EXPECT_NEAR(segment1[3], 165.09636244473126, 1e-13);
+//  EXPECT_NEAR(segment1[4], 200, NEAR_ZERO);
+}
+
 }  // namespace feasst

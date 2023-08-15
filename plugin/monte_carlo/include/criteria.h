@@ -186,7 +186,7 @@ class Criteria {
   void serialize_criteria_(std::ostream& ostr) const;
   bool was_accepted_ = false;
   SynchronizeData data_;
-  void check_num_iterations_(const int num_attemps_per_iteration);
+  void check_num_iterations_(const int num_trials_per_iteration);
 
  private:
   double previous_energy_ = 0.;

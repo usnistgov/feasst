@@ -9,6 +9,12 @@
 
 namespace feasst {
 
+/**
+ * Return the number of cpu hours used by the process.
+ * If OMP is used, then times the number of threads.
+ * However, a pool of processors will not.
+ * If the process is slowed down, it may return less than wall clock.
+ */
 inline double cpu_hours() {
   return static_cast<double>(clock())
          /static_cast<double>(CLOCKS_PER_SEC)/60./60.;

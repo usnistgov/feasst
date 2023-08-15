@@ -80,6 +80,7 @@ class Checkpoint {
   template <typename T>
   void read(T * obj) {
     std::ifstream file(file_name_.c_str());
+    ASSERT(file.good(), "cannot find " << file_name_);
     std::string line;
     std::getline(file, line);
     std::stringstream ss(line);

@@ -1,118 +1,120 @@
-import sys
-import subprocess
+"""
+Simulate a 7-bead mAb and compute scattering intensity.
+"""
+
+import os
 import argparse
-import random
-import unittest
 import numpy as np
-from multiprocessing import Pool
+import pandas as pd
+import matplotlib.pyplot as plt
+from pyfeasst import feasstio
+from pyfeasst import scattering
 
-params = {
-    "cubic_box_length": 90, "fstprt": "/feasst/plugin/chain/forcefield/cg7mab2.fstprt",
-    "trials_per": 1e5, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 0.8,
-    "equilibration": 1e5, "production": 1e7, "num_nodes": 1, "procs_per_node": 1, "script": __file__}
-params["num_minutes"] = round(params["num_hours"]*60)
-params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
-nums=[30,3]
-#nums=[605,530,454,378,303,227,151,76,30,15,6,3]
+# Parse arguments from command line or change their default values.
+PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+                    help='FEASST install directory (e.g., the path to build)')
+PARSER.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/forcefield/cg7mab2.fstprt',
+                    help='FEASST particle definition')
+PARSER.add_argument('--cubic_box_length', type=float, default=90,
+                    help='cubic periodic boundary conditions')
+PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
+                    help='like cycles, but not necessary num_particles')
+PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e0),
+                    help='number of iterations for equilibraiton')
+PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
+                    help='number of iterations for production')
+PARSER.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
+PARSER.add_argument('--hours_terminate', type=float, default=1., help='hours until termination')
+PARSER.add_argument('--procs_per_node', type=int, default=2, help='number of processors')
+PARSER.add_argument('--prefix', type=str, default='cg7', help='prefix for all output file names')
+PARSER.add_argument('--run_type', '-r', type=int, default=0,
+                    help='0: run, 1: submit to queue, 2: post-process')
+PARSER.add_argument('--seed', type=int, default=-1,
+                    help='Random number generator seed. If -1, assign random seed to each sim.')
+PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+PARSER.add_argument('--scratch', type=str, default=None,
+                    help='Optionally write scheduled job to scratch/logname/jobid.')
+PARSER.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
+PARSER.add_argument('--node', type=int, default=0, help='node ID')
+PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
-# write fst script to run a single simulation
-def mc_cg7mab(params=params, file_name="launch.txt"):
-    with open(file_name, "w") as myfile: myfile.write("""
+# Convert arguments into a parameter dictionary, and add argument-dependent parameters.
+ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
+assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
+PARAMS = vars(ARGS)
+PARAMS['script'] = __file__
+PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
+PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
+PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate before queue
+PARAMS['procs_per_sim'] = 1
+PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
+PARAMS['nums'] = [30, 3]
+def sim_node_dependent_params(params):
+    """ Set parameters that depent upon the sim or node here. """
+    params['num_particles'] = params['nums'][params['sim']]
+
+def write_feasst_script(params, file_name):
+    """ Write fst script for a single simulation with keys of params {} enclosed. """
+    with open(file_name, 'w', encoding='utf-8') as myfile:
+        myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
 Potential Model HardSphere VisitModel VisitModelCell min_length 5.3283
-ThermoParams beta 1 chemical_potential 1
+ThermoParams beta 1 chemical_potential -1
 Metropolis
-TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
+TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
 TrialParticlePivot weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25 particle_type 0
-Log trials_per_write {trials_per} file_name cg7mab_n{num_particles}.csv
-Tune
-CheckEnergy trials_per_update {trials_per} tolerance 1e-8
-Checkpoint file_name cg7mab_n{num_particles}.fst num_hours_terminate {num_hours_terminate}
+Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
-# gcmc initialization and nvt equilibration
+# grand canonical ensemble initalization
 TrialAdd particle_type 0
 Run until_num_particles {num_particles}
 RemoveTrial name TrialAdd
-Run num_trials {equilibration}
 
-# nvt production
-Movie trials_per_write {trials_per} file_name cg7mab_n{num_particles}.xyz
-PairDistribution trials_per_update 1000 trials_per_write {trials_per} dr 0.025 file_name cg7mab_gr_n{num_particles}.csv print_intra true
-Scattering trials_per_update 100 trials_per_write {trials_per} num_frequency 4 file_name cg7mab_iq_n{num_particles}.csv
-Run num_trials {production}
+# canonical ensemble equilibration
+Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Tune
+CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
+Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.txt
+Run until_criteria_complete true
+RemoveModify name Tune
+RemoveAnalyze name Log
+
+# canonical ensemble production
+Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
+Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}.txt
+Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}.xyz
+PairDistribution trials_per_update 1000 trials_per_write {trials_per_iteration} dr 0.025 file_name {prefix}{sim}_gr.csv print_intra true
+Scattering trials_per_update 100 trials_per_write {trials_per_iteration} num_frequency 4 file_name {prefix}{sim}_iq.csv
+Energy trials_per_write {trials_per_iteration} file_name {prefix}{sim}_en.txt
+CPUTime trials_per_write {trials_per_iteration} file_name {prefix}{sim}_cpu.txt
+Run until_criteria_complete true
 """.format(**params))
 
-# write slurm script
-def slurm_queue():
-    with open("slurm.txt", "w") as myfile: myfile.write("""#!/bin/bash
-#SBATCH -n {procs_per_node} -N {num_nodes} -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
-echo "Running {script} ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
-cd $PWD
-export OMP_NUM_THREADS={procs_per_node}
-python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
-if [ $? == 0 ]; then
-  echo "Job is done"
-  scancel $SLURM_ARRAY_JOB_ID
-else
-  echo "Job is terminating, to be restarted again"
-fi
-echo "Time is $(date)"
-""".format(**params))
+def post_process(params):
+    iq3=pd.read_csv(params['prefix']+'1_iq.csv', comment="#")
+    iq30=pd.read_csv(params['prefix']+'0_iq.csv', comment="#")
+    grp3 = iq3.groupby('q', as_index=False)
+    grp30 = iq30.groupby('q', as_index=False)
+    plt.scatter(grp3.mean()['q'], grp30.mean()['i']/grp3.mean()['i'], label='direct I(10g/L)/I(1g/L)', marker='.')
+    iq3rdfft = scattering.intensity(gr_file=params['prefix']+'1_gr.csv', iq_file=params['prefix']+'1_iq.csv', num_density=3/90**3, skip=10)
+    iq30rdfft = scattering.intensity(gr_file=params['prefix']+'0_gr.csv', iq_file=params['prefix']+'0_iq.csv', num_density=30/90**3, skip=10)
+    plt.scatter(iq3rdfft['q'], iq30rdfft['iq']/iq3rdfft['iq'], label='rdf ft I(10g/L)/I(1g/L)')
+    plt.ylabel('S', fontsize=16)
+    plt.xlabel('q(1/nm)', fontsize=16)
+    plt.legend()
+    #plt.savefig(params['prefix']+'.png', bbox_inches='tight', transparent='True')
+    assert np.abs(grp30.mean()['i'][0]/grp3.mean()['i'][0] - 0.82777) < 0.05
+    assert np.abs(iq30rdfft['iq'][0]/iq3rdfft['iq'][0] - 0.7784) < 0.05
 
-# parse arguments
-parser = argparse.ArgumentParser()
-parser.add_argument('--run_type', '-r', type=int, default=0, help="0: submit batch to scheduler, 1: run batch on host")
-parser.add_argument('--task', type=int, default=0, help="input by slurm scheduler. If >0, restart from checkpoint.")
-args = parser.parse_args()
-
-# after the simulation is complete, perform some analysis
-class TestFlatHistogramHS(unittest.TestCase):
-    def test(self):
-        import numpy as np
-        import math
-        import pandas as pd
-        import matplotlib.pyplot as plt
-        from pyfeasst import scattering
-        #gr3=pd.read_csv('cg7mab_gr_n3.csv', comment="#")
-        #gr30=pd.read_csv('cg7mab_gr_n30.csv', comment="#")
-        iq3=pd.read_csv('cg7mab_iq_n3.csv', comment="#")
-        iq30=pd.read_csv('cg7mab_iq_n30.csv', comment="#")
-        grp3 = iq3.groupby('q', as_index=False)
-        grp30 = iq30.groupby('q', as_index=False)
-        plt.scatter(grp3.mean()['q'], grp30.mean()['i']/grp3.mean()['i'], label='direct I(10g/L)/I(1g/L)', marker='.')
-        iq3rdfft = scattering.intensity(gr_file='cg7mab_gr_n3.csv', iq_file='cg7mab_iq_n3.csv', num_density=3/90**3, skip=10)
-        iq30rdfft = scattering.intensity(gr_file='cg7mab_gr_n30.csv', iq_file='cg7mab_iq_n30.csv', num_density=30/90**3, skip=10)
-        plt.scatter(iq3rdfft['q'], iq30rdfft['iq']/iq3rdfft['iq'], label='rdf ft I(10g/L)/I(1g/L)')
-#        plt.ylabel('S', fontsize=16)
-#        plt.xlabel('q(1/nm)', fontsize=16)
-#        plt.legend()
-#        plt.show()
-        self.assertAlmostEqual(grp30.mean()['i'][0]/grp3.mean()['i'][0], 0.82777, delta=0.05)
-        self.assertAlmostEqual(iq30rdfft['iq'][0]/iq3rdfft['iq'][0], 0.7784, delta=0.05)
-
-# run the simulation and, if complete, analyze.
-def run(nump):
-    params["num_particles"] = nump
-    if args.task == 0:
-        file_name = "cg7mab_launch"+str(nump)+".txt"
-        mc_cg7mab(params, file_name=file_name)
-        syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > cg7mab_launch"+str(nump)+".log", shell=True, executable='/bin/bash')
-    else:
-        syscode = subprocess.call("../../../build/bin/rst cg7mab_n" + str(nump) + ".fst", shell=True, executable='/bin/bash')
-    if syscode == 0:
-        unittest.main(argv=[''], verbosity=2, exit=False)
-    return syscode
-
-if __name__ == "__main__":
-    if args.run_type == 0:
-        slurm_queue()
-        subprocess.call("sbatch --array=0-10%1 slurm.txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
-    elif args.run_type == 1:
-        with Pool(len(nums)) as pool:
-            codes = pool.starmap(run, zip(nums))
-            if np.count_nonzero(codes) > 0:
-                sys.exit(1)
-    else:
-        assert False  # unrecognized run_type
+if __name__ == '__main__':
+    feasstio.run_simulations(params=PARAMS,
+                             sim_node_dependent_params=sim_node_dependent_params,
+                             write_feasst_script=write_feasst_script,
+                             post_process=post_process,
+                             queue_function=feasstio.slurm_single_node,
+                             args=ARGS)

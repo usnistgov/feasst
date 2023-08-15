@@ -1,114 +1,116 @@
-import random
-import unittest
+"""
+Example Mayer-sampling simulation with a rigid coarse-grained mAb model
+"""
+
+import os
 import argparse
-import sys
-import subprocess
 import numpy as np
-from multiprocessing import Pool
+import pandas as pd
+import matplotlib.pyplot as plt
+from pyfeasst import feasstio
 from pyfeasst import physical_constants
 from pyfeasst import coarse_grain_pdb
 
-params = {
-    "seed": random.randrange(int(1e9)),
-    "reference_sigma": 4.5,
-    "trials_per": 1e4,
-    'procs_per_node': 1, 'script': __file__}
+# Parse arguments from command line or change their default values.
+PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+                    help='FEASST install directory (e.g., the path to build)')
+PARSER.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/forcefield/cg7mab2.fstprt',
+                    help='FEASST particle definition')
+PARSER.add_argument('--reference_sigma', type=float, default=4.5,
+                    help='reference potential is a hard sphere of this size at the hinge')
+PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
+                    help='like cycles, but not necessary num_particles')
+PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
+                    help='number of iterations for equilibraiton')
+PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
+                    help='number of iterations for production')
+PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
+PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
+PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
+PARSER.add_argument('--prefix', type=str, default='cg7mab2_', help='prefix for all output file names')
+PARSER.add_argument('--run_type', '-r', type=int, default=0,
+                    help='0: run, 1: submit to queue, 2: post-process')
+PARSER.add_argument('--seed', type=int, default=-1,
+                    help='Random number generator seed. If -1, assign random seed to each sim.')
+PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+PARSER.add_argument('--scratch', type=str, default=None,
+                    help='Optionally write scheduled job to scratch/logname/jobid.')
+PARSER.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
+PARSER.add_argument('--node', type=int, default=0, help='node ID')
+PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
-def mc(file_name):
-    with open(file_name, 'w') as file: file.write("""
+# Convert arguments into a parameter dictionary, and add argument-dependent parameters.
+ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
+assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
+PARAMS = vars(ARGS)
+PARAMS['script'] = __file__
+PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
+PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
+PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
+PARAMS['procs_per_sim'] = 1
+PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
+
+def write_feasst_script(params, file_name):
+    """ Write fst script for a single simulation with keys of params {} enclosed. """
+    with open(file_name, 'w', encoding='utf-8') as myfile:
+        myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_box_length 500 particle_type0 /feasst/plugin/chain/forcefield/cg7mab2.fstprt \
     add_particles_of_type0 2 \
     group0 first first_particle_index 0
 Potential Model HardSphere
-#RefPotential Model HardSphere sigma0 {reference_sigma} sigma1 0 sigma2 0 sigma3 0 sigma4 0 sigma5 0 sigma6 0 \
-#                       cutoff0 {reference_sigma} cutoff1 0 cutoff2 0 cutoff3 0 cutoff4 0 cutoff5 0 cutoff6 0
 RefPotential Model HardSphere sigma 0 sigma0 {reference_sigma} cutoff 0 cutoff0 {reference_sigma}
 ThermoParams beta 1
-MayerSampling
+MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialTranslate new_only true reference_index 0 tunable_param 1 group first
 TrialRotate new_only true reference_index 0 tunable_param 40
+Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # tune trial parameters
-CriteriaWriter trials_per_write {trials_per} file_name cg_b2_eq.txt
-Log trials_per_write {trials_per} file_name cg_eq.txt
-Movie trials_per_write {trials_per} file_name cg_eq.xyz
+CriteriaWriter trials_per_write {trials_per_iteration} file_name {prefix}{sim}_b2_eq.txt
+Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.txt
+Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.xyz
 Tune
-Run num_trials 1e5
+Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name CriteriaWriter
 
 # production
-CriteriaWriter trials_per_write {trials_per} file_name cg_b2.txt
-Log trials_per_write {trials_per} file_name cg.txt
-Movie trials_per_write {trials_per} file_name cg.xyz
-MayerSampling
-Run num_trials 1e6
+CriteriaWriter trials_per_write {trials_per_iteration} file_name {prefix}{sim}_b2.txt
+Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}.txt
+Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}.xyz
+MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
+Run until_criteria_complete true
 """.format(**params))
 
-# write slurm script to fill an HPC node with simulations
-def slurm_queue():
-    with open("slurm.txt", "w") as myfile: myfile.write("""#!/bin/bash
-#SBATCH -n {procs_per_node} -N 1 -t 1440:00 -o hostname_%j.out -e hostname_%j.out
-echo "Running ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
-cd $PWD
-python {script} --run_type 1
-if [ $? == 0 ]; then
-  echo "Job is done"
-  scancel $SLURM_ARRAY_JOB_ID
-else
-  echo "Job is terminating, to be restarted again"
-fi
-echo "Time is $(date)"
-""".format(**params))
+def post_process(params):
+    def b2(file_name):
+        file1 = open(file_name, 'r')
+        lines = file1.readlines()
+        file1.close()
+        exec('iprm=' + lines[0], globals())
+        return iprm
+    b2hs_ref = 2*np.pi*params['reference_sigma']**3/3 # reference HS in nm^3
+    b2 = b2(params['prefix']+'0_b2.txt')
+    print('b2', b2['second_virial_ratio']*b2hs_ref, '+/-', b2['second_virial_ratio_block_stdev']*b2hs_ref)
+    lpm_fac = 1e-24*physical_constants.AvogadroConstant().value()
+    print('b2', b2['second_virial_ratio']*b2hs_ref*lpm_fac,
+         '+/-', b2['second_virial_ratio_block_stdev']*b2hs_ref*lpm_fac,
+         'L/mol')
+    mlmg_fac = 1e-24*physical_constants.AvogadroConstant().value()/150000
+    print('b2', b2['second_virial_ratio']*b2hs_ref*mlmg_fac,
+         '+/-', b2['second_virial_ratio_block_stdev']*b2hs_ref*mlmg_fac,
+         'mL/mg')
+    assert np.abs(b2['second_virial_ratio']*b2hs_ref*mlmg_fac - 0.0113) < 0.001
 
-# parse arguments
-parser = argparse.ArgumentParser()
-parser.add_argument('--run_type', '-r', type=int, default=0, help="0: submit batch to scheduler, 1: run batch on host")
-args = parser.parse_args()
-
-# run a single simulation as part of the batch to fill a node
-def run(proc):
-    file_name = "launch_run.txt"
-    mc(file_name)
-    syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > launch_run.log", shell=True, executable='/bin/bash')
-    if syscode == 0:
-        unittest.main(argv=[''], verbosity=2, exit=False)
-    return syscode
-
-# after the simulation is complete, perform some analysis
-class TestCGmAb(unittest.TestCase):
-    def test(self):
-        def b2(file_name):
-            file1 = open(file_name, 'r')
-            lines = file1.readlines()
-            file1.close()
-            exec('iprm=' + lines[0], globals())
-            return iprm
-        b2hs_ref = 2*np.pi*params['reference_sigma']**3/3 # reference HS in nm^3
-        b2 = b2('cg_b2.txt')
-        print('b2', b2['second_virial_ratio']*b2hs_ref, '+/-', b2['second_virial_ratio_block_stdev']*b2hs_ref)
-        lpm_fac = 1e-24*physical_constants.AvogadroConstant().value()
-        print('b2', b2['second_virial_ratio']*b2hs_ref*lpm_fac,
-             '+/-', b2['second_virial_ratio_block_stdev']*b2hs_ref*lpm_fac,
-             'L/mol')
-        mlmg_fac = 1e-24*physical_constants.AvogadroConstant().value()/150000
-        print('b2', b2['second_virial_ratio']*b2hs_ref*mlmg_fac,
-             '+/-', b2['second_virial_ratio_block_stdev']*b2hs_ref*mlmg_fac,
-             'mL/mg')
-        self.assertAlmostEqual(b2['second_virial_ratio']*b2hs_ref*mlmg_fac, 0.0113, delta=0.001)
-
-if __name__ == "__main__":
-    if args.run_type == 0:
-        slurm_queue()
-        subprocess.call("sbatch slurm.txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
-    elif args.run_type == 1:
-        with Pool(params["procs_per_node"]) as pool:
-            codes = pool.starmap(run, zip(range(0, params["procs_per_node"])))
-            if np.count_nonzero(codes) > 0:
-                sys.exit(1)
-    elif args.run_type == 2:
-        unittest.main(argv=[''], verbosity=2, exit=False)
-    else:
-        assert False  # unrecognized run_type
+if __name__ == '__main__':
+    feasstio.run_simulations(params=PARAMS,
+                             sim_node_dependent_params=None,
+                             write_feasst_script=write_feasst_script,
+                             post_process=post_process,
+                             queue_function=feasstio.slurm_single_node,
+                             args=ARGS)

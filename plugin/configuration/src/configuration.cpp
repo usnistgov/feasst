@@ -719,7 +719,7 @@ std::string Configuration::status_header() const {
   std::stringstream ss;
   ss << domain().status_header();
   for (int type = 0; type < num_particle_types(); ++type) {
-    ss << ",p" << type;
+    ss << ",num_particles_of_type" << type;
   }
   return ss.str();
 }

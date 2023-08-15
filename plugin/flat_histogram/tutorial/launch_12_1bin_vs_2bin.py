@@ -1,3 +1,8 @@
+"""
+Comparison of the efficiency of 1 vs 2 bin flat histogram simulations, as described in
+https://doi.org/10.1021/acs.jpcb.3c00613
+"""
+
 import sys
 import subprocess
 import argparse
@@ -13,7 +18,7 @@ params = {
     "cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/0.7, "mu": -4.1603632,
     #"cubic_box_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.5, "mu": -2.352321,
     "min_particles": 100, "min_sweeps": 1e9,
-    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 1,
+    "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 0.5,
     "equilibration": 1e6, "num_nodes": 1, "procs_per_sim": 1, "procs_per_node": 4, "script": __file__, "dccb_cut": 2**(1./6.),
     "dir": str(pathlib.Path(__file__).parent.resolve())}
 params["max_particles"] = params["min_particles"] + 1
@@ -78,8 +83,8 @@ wrk=/wrk/$LOGNAME/$SLURM_JOB_ID/; mkdir -p $wrk; cd $wrk; echo "wrk:$wrk"
 rsync -au $original_dir/* .; rm hostname_*
 ls
 export OMP_NUM_THREADS={procs_per_node}
-python {script} --run_type 1 --dir $original_dir --min_particles {min_particles}
-#python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID --dir $original_dir --min_particles {min_particles}
+python {script} --run_type 0 --dir $original_dir --min_particles {min_particles}
+#python {script} --run_type 0 --task $SLURM_ARRAY_TASK_ID --dir $original_dir --min_particles {min_particles}
 echo "sync"
 rsync -au . $original_dir/
 if [ $? == 0 ]; then
@@ -93,7 +98,7 @@ echo "Time is $(date)"
 
 # parse arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('--run_type', '-r', type=int, default=0, help="0: submit batch to scheduler, 1: run batch on host")
+parser.add_argument('--run_type', '-r', type=int, default=0, help="0: run, 1: submit to queue")
 #parser.add_argument('--task', type=int, default=0, help="input by slurm scheduler. If >0, restart from checkpoint.")
 parser.add_argument('--dir', type=str, default="", help="orginal working directory that the script was launched.")
 parser.add_argument('--min_particles', type=int, default=100, help="minimum number of particles")
@@ -173,15 +178,15 @@ def run(sim):
 
 if __name__ == "__main__":
     if args.run_type == 0:
-        for min_particles in [200]:
-            slurm_queue(min_particles=min_particles)
-            subprocess.call("sbatch slurm.txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
-    elif args.run_type == 1:
         params['num_1bin_batch'] = int(params['procs_per_node']/4)
         with Pool(3*params['num_1bin_batch']) as pool:
             codes = pool.starmap(run, zip(range(0, 3*params['num_1bin_batch'])))
             if np.count_nonzero(codes) > 0:
                 sys.exit(1)
+    elif args.run_type == 1:
+        for min_particles in [200]:
+            slurm_queue(min_particles=min_particles)
+            subprocess.call("sbatch slurm.txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
     elif args.run_type == 2:
         unittest.main(argv=[''], verbosity=2, exit=False)
     else:

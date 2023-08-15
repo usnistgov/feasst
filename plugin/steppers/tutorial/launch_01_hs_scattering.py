@@ -1,120 +1,123 @@
-import sys
-import subprocess
+"""
+Simulate hard spheres and compute scattering intensity.
+"""
+
+import os
 import argparse
-import random
-import unittest
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from pyfeasst import feasstio
+from pyfeasst import scattering
 
-# define parameters of a pure component NVT MC hard sphere simulation
-params = {
-    "cubic_box_length": 8, "fstprt": "/feasst/forcefield/atom.fstprt",
-    "num_particles": 128,
-    "trials_per": 1e6, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
-    "equilibration": 1e5, "production": 1e6, "num_nodes": 1, "procs_per_node": 1, "script": __file__}
-params["num_minutes"] = round(params["num_hours"]*60)
-params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
+# Parse arguments from command line or change their default values.
+PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+                    help='FEASST install directory (e.g., the path to build)')
+PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/atom.fstprt',
+                    help='FEASST particle definition')
+PARSER.add_argument('--num_particles', type=int, default=128, help='number of particles')
+PARSER.add_argument('--cubic_box_length', type=float, default=8,
+                    help='cubic periodic boundary conditions')
+PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
+                    help='like cycles, but not necessary num_particles')
+PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e0),
+                    help='number of iterations for equilibraiton')
+PARSER.add_argument('--production_iterations', type=int, default=int(1e1),
+                    help='number of iterations for production')
+PARSER.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
+PARSER.add_argument('--hours_terminate', type=float, default=1., help='hours until termination')
+PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
+PARSER.add_argument('--prefix', type=str, default='hs', help='prefix for all output file names')
+PARSER.add_argument('--run_type', '-r', type=int, default=0,
+                    help='0: run, 1: submit to queue, 2: post-process')
+PARSER.add_argument('--seed', type=int, default=-1,
+                    help='Random number generator seed. If -1, assign random seed to each sim.')
+PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+PARSER.add_argument('--scratch', type=str, default=None,
+                    help='Optionally write scheduled job to scratch/logname/jobid.')
+PARSER.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
+PARSER.add_argument('--node', type=int, default=0, help='node ID')
+PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
-# write fst script to run a single simulation
-def mc_hs(params=params, file_name="launch.txt"):
-    with open(file_name, "w") as myfile: myfile.write("""
+# Convert arguments into a parameter dictionary, and add argument-dependent parameters.
+ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
+assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
+PARAMS = vars(ARGS)
+PARAMS['script'] = __file__
+PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
+PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
+PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
+PARAMS['procs_per_sim'] = 1
+PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
+
+def write_feasst_script(params, file_name):
+    """ Write fst script for a single simulation with keys of params {} enclosed. """
+    with open(file_name, 'w', encoding='utf-8') as myfile:
+        myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
 Potential Model HardSphere VisitModel VisitModelCell min_length 1
-ThermoParams beta 1 chemical_potential 1
+ThermoParams beta 1 chemical_potential -1
 Metropolis
-TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-Log trials_per_write {trials_per} file_name hs.csv
-Tune
-CheckEnergy trials_per_update {trials_per} tolerance 1e-8
-Checkpoint file_name hs.fst num_hours_terminate {num_hours_terminate}
+TrialTranslate tunable_param 0.2 tunable_target_acceptance 0.25
+Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
-# gcmc initialization and nvt equilibration
+# grand canonical ensemble initalization
 TrialAdd particle_type 0
 Run until_num_particles {num_particles}
 RemoveTrial name TrialAdd
-Run num_trials {equilibration}
 
-# nvt production
-Movie trials_per_write {trials_per} file_name hs.xyz
-PairDistribution trials_per_update 1000 trials_per_write {trials_per} dr 0.025 file_name hs_gr.csv
-Scattering trials_per_update 100 trials_per_write {trials_per} num_frequency 10 file_name hs_iq.csv
-Run num_trials {production}
+# canonical ensemble equilibration
+Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Tune
+CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
+Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.txt
+Run until_criteria_complete true
+RemoveModify name Tune
+RemoveAnalyze name Log
+
+# canonical ensemble production
+Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
+Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}.txt
+Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}.xyz
+PairDistribution trials_per_update 1000 trials_per_write {trials_per_iteration} dr 0.025 file_name {prefix}{sim}_gr.csv
+Scattering trials_per_update 100 trials_per_write {trials_per_iteration} num_frequency 10 file_name {prefix}{sim}_iq.csv
+Run until_criteria_complete true
 """.format(**params))
 
-# write slurm script
-def slurm_queue():
-    with open("slurm.txt", "w") as myfile: myfile.write("""#!/bin/bash
-#SBATCH -n {procs_per_node} -N {num_nodes} -t {num_minutes}:00 -o hostname_%j.out -e hostname_%j.out
-echo "Running {script} ID $SLURM_JOB_ID on $(hostname) at $(date) in $PWD"
-cd $PWD
-export OMP_NUM_THREADS={procs_per_node}
-python {script} --run_type 1 --task $SLURM_ARRAY_TASK_ID
-if [ $? == 0 ]; then
-  echo "Job is done"
-  scancel $SLURM_ARRAY_JOB_ID
-else
-  echo "Job is terminating, to be restarted again"
-fi
-echo "Time is $(date)"
-""".format(**params))
+def post_process(params):
+    gr=pd.read_csv(params['prefix'] + '0_gr.csv', comment="#")
+    iq=pd.read_csv(params['prefix'] + '0_iq.csv', comment="#")
+    grp = iq.groupby('q', as_index=False)
+    assert np.abs(gr['g0-0'][45] - 1.2829) < 0.05
+    assert np.abs(iq['i'][3810] - 5.72894) < 0.4
+    assert np.abs(iq['i'][0]/iq['p0'][0]**2 - 1) < 0.075
 
-# parse arguments
-parser = argparse.ArgumentParser()
-parser.add_argument('--run_type', '-r', type=int, default=0, help="0: submit batch to scheduler, 1: run batch on host")
-parser.add_argument('--task', type=int, default=0, help="input by slurm scheduler. If >0, restart from checkpoint.")
-args = parser.parse_args()
+    # scale the gr closer to one at the tail by dividing by the average of the last 5%
+    # A fourier transform of this scaled gr will result in a smoother low-q
+    gr_scaled = gr['g0-0']/np.average(gr['g0-0'][int(0.95*len(gr['r'])):])
+    plt.plot(gr['r'], gr['g0-0'], label='gr')
+    plt.scatter(iq['q'], iq['i']/iq['p0']**2, label='sq_all')
+    plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0']**2, label='sq_av')
+    qs = np.arange(2*np.pi/8, 10, 0.01)
+    sq=list(); sqs=list()
+    number_density = params['num_particles']/params['cubic_box_length']**3
+    for q in qs:
+        sqs.append(scattering.structure_factor(gr['r'], gr_scaled, frequency=q, number_density=number_density))
+        sq.append(scattering.structure_factor(gr['r'], gr['g0-0'], frequency=q, number_density=number_density))
+    plt.plot(qs, sq, label='sq_from_gr')
+    plt.plot(qs, sqs, label='sq_from_scaled_gr')
+    #plt.savefig(params['prefix']+'.png', bbox_inches='tight', transparent='True')
+    #plt.show()
 
-# after the simulation is complete, perform some analysis
-class TestFlatHistogramHS(unittest.TestCase):
-    def test(self):
-        import numpy as np
-        import math
-        import pandas as pd
-        from pyfeasst import scattering
-        gr=pd.read_csv('hs_gr.csv', comment="#")
-        iq=pd.read_csv('hs_iq.csv', comment="#")
-        grp = iq.groupby('q', as_index=False)
-        self.assertAlmostEqual(gr['g0-0'][45], 1.2829, delta=0.05)
-        self.assertAlmostEqual(iq['i'][3810], 5.72894, delta=0.4)
-        self.assertAlmostEqual(iq['i'][0]/iq['p0'][0]**2, 1, delta=0.075)
-
-        # scale the gr closer to one at the tail by dividing by the average of the last 5%
-        # A fourier transform of this scaled gr will result in a smoother low-q
-        gr_scaled = gr['g0-0']/np.average(gr['g0-0'][int(0.95*len(gr['r'])):])
-        import matplotlib.pyplot as plt
-        plt.plot(gr['r'], gr['g0-0'], label='gr')
-        plt.scatter(iq['q'], iq['i']/iq['p0']**2, label='sq_all')
-        plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0']**2, label='sq_av')
-        qs = np.arange(2*np.pi/8, 10, 0.01)
-        sq=list(); sqs=list()
-        number_density = params['num_particles']/params['cubic_box_length']**3
-        for q in qs:
-            sqs.append(scattering.structure_factor(gr['r'], gr_scaled, frequency=q, number_density=number_density))
-            sq.append(scattering.structure_factor(gr['r'], gr['g0-0'], frequency=q, number_density=number_density))
-        plt.plot(qs, sq, label='sq_from_gr')
-        plt.plot(qs, sqs, label='sq_from_scaled_gr')
-        plt.legend()
-        #plt.show()
-
-# run the simulation and, if complete, analyze.
-def run():
-    if args.task == 0:
-        file_name = "hs_launch.txt"
-        mc_hs(params, file_name=file_name)
-        syscode = subprocess.call("../../../build/bin/fst < " + file_name + " > hs_launch.log", shell=True, executable='/bin/bash')
-    else:
-        syscode = subprocess.call("../../../build/bin/rst hs_checkpoint.fst", shell=True, executable='/bin/bash')
-    if syscode == 0:
-        unittest.main(argv=[''], verbosity=2, exit=False)
-    return syscode
-
-if __name__ == "__main__":
-    if args.run_type == 0:
-        slurm_queue()
-        subprocess.call("sbatch --array=0-10%1 slurm.txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
-    elif args.run_type == 1:
-        syscode = run()
-        if syscode != 0:
-            sys.exit(1)
-    else:
-        assert False  # unrecognized run_type
+if __name__ == '__main__':
+    feasstio.run_simulations(params=PARAMS,
+                             sim_node_dependent_params=None,
+                             write_feasst_script=write_feasst_script,
+                             post_process=post_process,
+                             queue_function=feasstio.slurm_single_node,
+                             args=ARGS)

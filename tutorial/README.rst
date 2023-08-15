@@ -34,6 +34,7 @@ Others:
 .. toctree::
    :glob:
 
+   ../plugin/confinement/tutorial/tutorial*
    ../plugin/chain/tutorial/tutorial*
    ../plugin/cluster/tutorial/tutorial*
    ../plugin/steppers/tutorial/tutorial*
@@ -42,6 +43,10 @@ Others:
    ../plugin/mayer/tutorial/tutorial*
    ../plugin/math/tutorial/tutorial*
    ../plugin/prefetch/tutorial/tutorial*
+   ../plugin/aniso/tutorial/tutorial*
+   ../plugin/fftw/tutorial/tutorial*
+   ../plugin/morph/tutorial/tutorial*
+   ../plugin/netcdf/tutorial/tutorial*
 
 Text file interface
 ======================

@@ -8,7 +8,7 @@
 namespace feasst {
 
 /**
-  Periodically print the cpu time spent on the simulation.
+  Periodically print the cpu time spent on the simulation as defined in Timer.
  */
 class CPUTime : public AnalyzeWriteOnly {
  public:

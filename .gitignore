@@ -23,6 +23,8 @@ pyfeasst/docs/build
 *.xyze
 *.csv
 *.fst
+*.json
+*.png
 *phase0
 *phase1
 

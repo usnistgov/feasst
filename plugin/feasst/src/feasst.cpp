@@ -111,10 +111,11 @@ int main() {
   while (line.empty() || line[0] == '#') {
     std::getline(std::cin, line);
     ++num_lines;
-    ASSERT(num_lines < 1e4, "Improperly formated input");
+    ASSERT(num_lines < 1e6, "Improperly formated input");
   }
 
   if (line == "MonteCarlo") {
+    std::cout << "MonteCarlo" << std::endl;
     arglist list = parse_mc();
     auto mc = std::make_shared<MonteCarlo>(list);
   } else if (line.substr(0, 22) == "CollectionMatrixSplice") {

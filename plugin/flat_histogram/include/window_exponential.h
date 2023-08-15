@@ -43,6 +43,9 @@ class WindowExponential : public Window {
   /**
     args:
     - alpha: exponential factor (default: 1.5).
+    - min[i]: minimum macrostate value of the i-th window (default: None),
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      This allows the user to override alpha at the smaller windows.
    */
   explicit WindowExponential(argtype args = argtype());
   std::vector<double> segment() const override;
@@ -50,6 +53,7 @@ class WindowExponential : public Window {
 
  private:
   double alpha_;
+  std::vector<double> partial_segment_;
 };
 
 }  // namespace feasst
