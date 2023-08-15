@@ -25,8 +25,7 @@ Features
    :target: https://pages.nist.gov/feasst
    :align: right
 
-:doc:`/plugin/README` contains the list of features available.
-Some features include but are not limited to the following:
+The :doc:`/plugin/README` is summarized as follows:
 
 Monte Carlo simulation techniques
 

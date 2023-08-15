@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forcefield and Units &mdash; FEASST v0.22.1 documentation</title>
+  <title>Forcefield and Units &mdash; FEASST v0.22.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Modify FEASST" href="../plugin/example/README.html" />
-    <link rel="prev" title="Prefetch example" href="../plugin/prefetch/tutorial/tutorial_1_prefetch.html" />
+    <link rel="next" title="List of all capabilities" href="../plugin/README.html" />
+    <link rel="prev" title="Compare XYZ (ascii) with netCDF" href="../plugin/netcdf/tutorial/tutorial_1_lj_nvt.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.1
+                v0.22.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -74,8 +74,8 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">List of all capabilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">All Classes/plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
@@ -181,9 +181,9 @@
 </style>
 <section id="forcefield-and-units">
 <h1>Forcefield and Units<a class="headerlink" href="#forcefield-and-units" title="Permalink to this heading"></a></h1>
-<p>The forcefield directory is a place for files which describe atoms, molecules and coarse-grained models.
+<p>The forcefield directory is a place for files which describe a single particle, which could represent an atom, molecule or coarse-grained model.
 These files are LAMMPS-inspired (<a class="reference external" href="https://lammps.sandia.gov/doc/read_data.html">https://lammps.sandia.gov/doc/read_data.html</a>), but deviate significantly from LAMMPS as described in detail below.
-Each file represents only a single particle (or molecule), and these files are used to define the types of molecules that can exist in the simulation.
+Each file represents only a single particle (or molecule), and these files are used to define the types of particles (or molecules) that can exist in the simulation.
 Each plugin many also contain a forcefield directory as additional examples and for use in tutorials.
 The units used in these files (length, energy, etc) are not assumed (with one exception) and must be consistent with the units to initialize your simulations.</p>
 <section id="units">
@@ -279,8 +279,8 @@ Always end comments with a blank line immediately after.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../plugin/prefetch/tutorial/tutorial_1_prefetch.html" class="btn btn-neutral float-left" title="Prefetch example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../plugin/example/README.html" class="btn btn-neutral float-right" title="Modify FEASST" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../plugin/netcdf/tutorial/tutorial_1_lj_nvt.html" class="btn btn-neutral float-left" title="Compare XYZ (ascii) with netCDF" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../plugin/README.html" class="btn btn-neutral float-right" title="List of all capabilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

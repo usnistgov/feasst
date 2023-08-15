@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; FEASST v0.22.1 documentation</title>
+  <title>Index &mdash; FEASST v0.22.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -49,15 +49,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.1
+                v0.22.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">List of all capabilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">All Classes/plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
@@ -181,9 +181,11 @@
       </ul></li>
       <li><a href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator">Accumulator (class in accumulator)</a>
 </li>
+      <li><a href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator.add">add() (accumulator.Accumulator method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator.add">add() (accumulator.Accumulator method)</a>
+      <li><a href="pyfeasst/docs/source/feasstio.html#feasstio.all_sims_complete">all_sims_complete() (in module feasstio)</a>
 </li>
       <li><a href="plugin/utils/doc/debug.html#c.ASSERT">ASSERT (C macro)</a>
 </li>
@@ -2210,11 +2212,13 @@
 </li>
       <li><a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegrE">feasst::ModelTableCart3DIntegr (C++ class)</a>
 </li>
-      <li><a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi">feasst::ModelTableCart3DIntegr::compute_table (C++ function)</a>, <a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP6SystemP6SelectKi">[1]</a>
+      <li><a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeRK6DomainP6Random7argtypeKi">feasst::ModelTableCart3DIntegr::compute_table (C++ function)</a>, <a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeRK6DomainP6RandomP7argtypeKi">[1]</a>, <a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP6SystemP6SelectKi">[2]</a>
 </li>
-      <li><a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi">feasst::ModelTableCart3DIntegr::compute_table_omp (C++ function)</a>, <a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP6SystemP6SelectKiKiKi">[1]</a>
+      <li><a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeRK6DomainP6Random7argtypeKiKiKi">feasst::ModelTableCart3DIntegr::compute_table_omp (C++ function)</a>, <a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeRK6DomainP6RandomP7argtypeKiKiKi">[1]</a>, <a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP6SystemP6SelectKiKiKi">[2]</a>
 </li>
       <li><a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">feasst::ModelTableCart3DIntegr::energy (C++ function)</a>
+</li>
+      <li><a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst22ModelTableCart3DIntegr22ModelTableCart3DIntegrE7argtype">feasst::ModelTableCart3DIntegr::ModelTableCart3DIntegr (C++ function)</a>
 </li>
       <li><a href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4NK6feasst22ModelTableCart3DIntegr9serializeERNSt7ostreamE">feasst::ModelTableCart3DIntegr::serialize (C++ function)</a>
 </li>
@@ -3596,7 +3600,7 @@
 </li>
       <li><a href="plugin/shape/doc/SlabSine.html#_CPPv4N6feasst8SlabSineE">feasst::SlabSine (C++ class)</a>
 </li>
-      <li><a href="plugin/shape/doc/SlabSine.html#_CPPv4N6feasst8SlabSine8SlabSineENSt10shared_ptrI15FormulaSineWaveEE7argtype">feasst::SlabSine::SlabSine (C++ function)</a>
+      <li><a href="plugin/shape/doc/SlabSine.html#_CPPv4N6feasst8SlabSine8SlabSineE7argtype">feasst::SlabSine::SlabSine (C++ function)</a>
 </li>
       <li><a href="plugin/math/doc/Solver.html#_CPPv4N6feasst6SolverE">feasst::Solver (C++ class)</a>
 </li>
@@ -4650,6 +4654,13 @@
 </li>
       <li><a href="plugin/utils/doc/debug.html#c.FEASST_MACRO_OUTPUT">FEASST_MACRO_OUTPUT (C macro)</a>
 </li>
+      <li>
+    feasstio
+
+      <ul>
+        <li><a href="pyfeasst/docs/source/feasstio.html#module-feasstio">module</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -4691,8 +4702,6 @@
 </li>
       <li><a href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.minimums">minimums() (macrostate_distribution.MacrostateDistribution method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
@@ -4701,6 +4710,8 @@
 </li>
         <li><a href="pyfeasst/docs/source/cd.html#module-cd">cd</a>
 </li>
+        <li><a href="pyfeasst/docs/source/feasstio.html#module-feasstio">feasstio</a>
+</li>
         <li><a href="pyfeasst/docs/source/macrostate_distribution.html#module-macrostate_distribution">macrostate_distribution</a>
 </li>
         <li><a href="pyfeasst/docs/source/multistate_accumulator.html#module-multistate_accumulator">multistate_accumulator</a>
@@ -4708,6 +4719,8 @@
         <li><a href="pyfeasst/docs/source/physical_constants.html#module-physical_constants">physical_constants</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyfeasst/docs/source/physical_constants.html#physical_constants.MolarGasConstant">MolarGasConstant (class in physical_constants)</a>
 </li>
       <li>
@@ -4756,11 +4769,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.read_appended">read_appended() (in module macrostate_distribution)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyfeasst/docs/source/feasstio.html#feasstio.read_checkpoint">read_checkpoint() (in module feasstio)</a>
+</li>
       <li><a href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.reweight">reweight() (macrostate_distribution.MacrostateDistribution method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.reweight_to_macrostate">reweight_to_macrostate() (macrostate_distribution.MacrostateDistribution method)</a>
+</li>
+      <li><a href="pyfeasst/docs/source/feasstio.html#feasstio.run_simulations">run_simulations() (in module feasstio)</a>
+</li>
+      <li><a href="pyfeasst/docs/source/feasstio.html#feasstio.run_single">run_single() (in module feasstio)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -4776,12 +4795,14 @@
 </li>
       <li><a href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_minimum_smoothing">set_minimum_smoothing() (macrostate_distribution.MacrostateDistribution method)</a>
 </li>
-      <li><a href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice">splice() (in module macrostate_distribution)</a>
+      <li><a href="pyfeasst/docs/source/feasstio.html#feasstio.slurm_single_node">slurm_single_node() (in module feasstio)</a>
 </li>
-      <li><a href="pyfeasst/docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_max_column">splice_by_max_column() (in module multistate_accumulator)</a>
+      <li><a href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice">splice() (in module macrostate_distribution)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyfeasst/docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_max_column">splice_by_max_column() (in module multistate_accumulator)</a>
+</li>
       <li><a href="pyfeasst/docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_node">splice_by_node() (in module multistate_accumulator)</a>
 </li>
       <li><a href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice_collection_matrix">splice_collection_matrix() (in module macrostate_distribution)</a>
@@ -4848,6 +4869,10 @@
         <li><a href="pyfeasst/docs/source/physical_constants.html#physical_constants.VacuumElectricPermittivity.value">(physical_constants.VacuumElectricPermittivity method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyfeasst/docs/source/feasstio.html#feasstio.vector3d_to_list">vector3d_to_list() (in module feasstio)</a>
+</li>
   </ul></td>
 </tr></table>
 

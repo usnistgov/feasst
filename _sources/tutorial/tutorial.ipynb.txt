@@ -4,7 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Lennard Jones in the Canonical ensemble\n",
+    "# Lennard Jones in the canonical ensemble\n",
     "\n",
     "In this example, we will reproduce the [average energy reported in the NIST SRSW](https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm) at T*=0.9 and $\\rho*=0.009$ using a Monte Carlo simulation of a bulk Lennard Jones fluid.\n",
     "The simulation will be initialized with a desired number of particles in a cubic box, equilibrated while tuning the maximum trial displacement before obtaining the ensemble average energy.\n",
@@ -25,7 +25,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library\n",
+      "# FEASST version: v0.22.1-2-g81f37e384c-develop\n",
+      "MonteCarlo\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       " \n",
@@ -34,6 +35,8 @@
     }
    ],
    "source": [
+    "import subprocess\n",
+    "    \n",
     "script=\"\"\"\n",
     "# comments begin with the '#' symbol\n",
     "MonteCarlo\n",
@@ -42,7 +45,6 @@
     "\n",
     "def run(script):\n",
     "    with open('script.txt', 'w') as file: file.write(script)\n",
-    "    import subprocess\n",
     "    syscode = subprocess.call(\"../build/bin/fst < script.txt > script.log\", shell=True, executable='/bin/bash')\n",
     "    with open('script.log', 'r') as file: print(file.read(), '\\n', 'exit:', syscode)\n",
     "run(script)"
@@ -74,7 +76,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library\n",
+      "# FEASST version: v0.22.1-2-g81f37e384c-develop\n",
+      "MonteCarlo\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       "Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt  \n",
@@ -153,7 +156,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library\n",
+      "# FEASST version: v0.22.1-2-g81f37e384c-develop\n",
+      "MonteCarlo\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       "Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt  \n",
@@ -201,7 +205,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "With the help of [TrialAdd](../plugin/monte_carlo/doc/TrialTranslate.rst), we can now generate an initial configuration with a [Run](../plugin/monte_carlo/doc/Run.rst) until the desired number of particles are reached. [RemoveTrial](../plugin/monte_carlo/doc/Run.rst) is then used to revert back to the Canonical ensemble."
+    "With the help of [TrialAdd](../plugin/monte_carlo/doc/TrialTranslate.rst), we can now generate an initial configuration with a [Run](../plugin/monte_carlo/doc/Run.rst) until the desired number of particles are reached. [RemoveTrial](../plugin/monte_carlo/doc/Run.rst) is then used to revert back to the canonical ensemble."
    ]
   },
   {
@@ -213,7 +217,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library\n",
+      "# FEASST version: v0.22.1-2-g81f37e384c-develop\n",
+      "MonteCarlo\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       "Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt  \n",
@@ -282,7 +287,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library\n",
+      "# FEASST version: v0.22.1-2-g81f37e384c-develop\n",
+      "MonteCarlo\n",
       "RandomMT19937 seed 1572362164  \n",
       "# initializing random number generator with seed: 1572362164\n",
       "Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt  \n",
@@ -373,7 +379,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.10.6"
+   "version": "3.10.12"
   }
  },
  "nbformat": 4,

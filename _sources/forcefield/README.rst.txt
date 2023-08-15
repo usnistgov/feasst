@@ -2,9 +2,9 @@
 Forcefield and Units
 **********************
 
-The forcefield directory is a place for files which describe atoms, molecules and coarse-grained models.
+The forcefield directory is a place for files which describe a single particle, which could represent an atom, molecule or coarse-grained model.
 These files are LAMMPS-inspired (https://lammps.sandia.gov/doc/read_data.html), but deviate significantly from LAMMPS as described in detail below.
-Each file represents only a single particle (or molecule), and these files are used to define the types of molecules that can exist in the simulation.
+Each file represents only a single particle (or molecule), and these files are used to define the types of particles (or molecules) that can exist in the simulation.
 Each plugin many also contain a forcefield directory as additional examples and for use in tutorials.
 The units used in these files (length, energy, etc) are not assumed (with one exception) and must be consistent with the units to initialize your simulations.
 

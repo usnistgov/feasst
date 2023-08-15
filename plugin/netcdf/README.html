@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NetCDF &mdash; FEASST v0.22.1 documentation</title>
+  <title>NetCDF &mdash; FEASST v0.22.2 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Compare XYZ (ascii) with netCDF" href="tutorial/tutorial_1_lj_nvt.html" />
+    <link rel="next" title="&lt;no title&gt;" href="doc/toc.html" />
     <link rel="prev" title="ScatteringFFTW" href="../fftw/doc/ScatteringFFTW.html" />
 
 	<!-- frame blocking -->
@@ -52,52 +52,51 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.1
+                v0.22.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html#list-of-plugins">List of plugins</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../threads/README.html">Threads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/README.html">Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../math/README.html">Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../configuration/README.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../system/README.html">System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/README.html">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../steppers/README.html">Steppers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patch/README.html">Patch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mayer/README.html">Mayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../xtc/README.html">XTC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chain/README.html">Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../shape/README.html">Shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../charge/README.html">Charge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cluster/README.html">Cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../morph/README.html">Morph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aniso/README.html">Aniso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fftw/README.html">FFTW</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">NetCDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_1_lj_nvt.html">Compare XYZ (ascii) with netCDF</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../README.html">All Classes/plugins</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../utils/README.html">Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../math/README.html">Math</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../configuration/README.html">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../system/README.html">System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../models/README.html">Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../steppers/README.html">Steppers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../flat_histogram/README.html">Flat histogram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../patch/README.html">Patch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../mayer/README.html">Mayer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../xtc/README.html">XTC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../chain/README.html">Chain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../shape/README.html">Shape</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../charge/README.html">Charge</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cluster/README.html">Cluster</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../morph/README.html">Morph</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../aniso/README.html">Aniso</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../example/README.html">Modify FEASST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../fftw/README.html">FFTW</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">NetCDF</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/tutorial_1_lj_nvt.html">Compare XYZ (ascii) with netCDF</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="doc/FileNETCDF.html">FileNETCDF</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/MovieNETCDF.html">MovieNETCDF</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTACT.html">Contact</a></li>
@@ -160,7 +159,7 @@
     
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../README.html">All Classes/plugins</a> &raquo;</li>
+          <li><a href="../README.html">List of all capabilities</a> &raquo;</li>
         
       <li>NetCDF</li>
     
@@ -285,7 +284,7 @@ Also, include “-DUSE_NETCDF=ON -DNETCDF_DIR=$HOME/local” for the cmake comma
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../fftw/doc/ScatteringFFTW.html" class="btn btn-neutral float-left" title="ScatteringFFTW" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="tutorial/tutorial_1_lj_nvt.html" class="btn btn-neutral float-right" title="Compare XYZ (ascii) with netCDF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="doc/toc.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
