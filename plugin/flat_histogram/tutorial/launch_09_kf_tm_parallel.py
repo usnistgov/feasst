@@ -3,7 +3,6 @@ Flat-histogram simulation of Kern-Frenkel patchy particles in the grand canonica
 https://doi.org/10.1063/1.1569473
 """
 
-import os
 import argparse
 import numpy as np
 import pandas as pd
@@ -12,7 +11,7 @@ from pyfeasst import feasstio
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fstprt', type=str, default='/feasst/plugin/patch/forcefield/two_patch_linear.fstprt',
                     help='FEASST particle definition')

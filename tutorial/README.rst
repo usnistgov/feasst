@@ -53,7 +53,7 @@ Text file interface
 
 The above tutorials feature the text-based interface of FEASST.
 This is considered the public interface to FEASST, which essentially comprises the names of all Classes and their constructor arguments.
-Thus, must users will want to search the documentation for these.
+Thus, most users will want to search the documentation for these.
 However, the search box for the html documentation was disabled for security reasons.
 But the html is generated entirely from the downloaded code.
 Thus, the bash command "grep" is a great option to search for more information on classes and their arguments.
@@ -70,5 +70,6 @@ Python and C++ interface
 ===============================
 
 FEASST may also be called directly in Python and C++ as a `library <library/tutorial.html>`_.
-Note that this interface may change with minor version.
+Note that these interfaces may change with minor version.
+Thus, the Python and C++ interfaces are not recommended for beginning users.
 

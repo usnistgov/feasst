@@ -5,7 +5,6 @@ The first node will have less particles but a higher number of sweeps required.
 The second node will have dccb but not avb.
 """
 
-import os
 import argparse
 import numpy as np
 import pandas as pd
@@ -16,7 +15,7 @@ from pyfeasst import multistate_accumulator
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/lj.fstprt',
                     help='FEASST particle definition')
@@ -121,7 +120,7 @@ RemoveAnalyze name Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
+Bias WLTM min_sweeps {min_sweeps} min_flatness 22 collect_flatness 18 min_collect_sweeps 1
 {gce_trial}
 Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].txt
 Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1

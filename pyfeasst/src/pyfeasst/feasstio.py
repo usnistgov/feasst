@@ -96,6 +96,8 @@ scratch={scratch}/$LOGNAME/${{SLURM_ARRAY_JOB_ID}}_${{SLURM_ARRAY_TASK_ID}}/; mk
 rsync -au $original_dir/* .
 ls""".format(**params)
         params['scratch_slurm_postamble'] = 'rsync -au . $original_dir/'
+    if not 'queue_flags' in params:
+        params['queue_flags'] = ''
     with open(params['prefix'] + '_slurm.txt', 'w', encoding='utf-8') as myfile:
         myfile.write("""#!/bin/bash
 #SBATCH -n {procs_per_node}

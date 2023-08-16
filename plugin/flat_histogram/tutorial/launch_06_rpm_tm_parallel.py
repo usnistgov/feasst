@@ -4,7 +4,6 @@ Dual-cut configurational bias is used for insertions and deletions.
 The results are are compared with https://doi.org/10.1063/1.5123683
 """
 
-import os
 import argparse
 import numpy as np
 import pandas as pd
@@ -14,7 +13,7 @@ from pyfeasst import physical_constants
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--plus', type=str, default='/feasst/plugin/charge/forcefield/rpm_plus.fstprt',
                     help='FEASST particle definition of the positive charge RPM')

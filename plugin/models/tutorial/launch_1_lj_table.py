@@ -5,7 +5,6 @@ This table potential is nearly as fast as the built-in LJ potential,
 and this tutorial serves a test of the table potential.
 """
 
-import os
 import subprocess
 import argparse
 import numpy as np
@@ -14,64 +13,64 @@ import matplotlib.pyplot as plt
 from pyfeasst import feasstio
 
 # Parse arguments from command line or change their default values.
-parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
     help='FEASST install directory (e.g., the path to build)')
-parser.add_argument('--fstprt', type=str, default='/feasst/forcefield/lj.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/lj.fstprt',
     help='FEASST particle definition')
-parser.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
-parser.add_argument('--num_particles', type=int, default=500, help='number of particles')
-parser.add_argument('--rho_lower', type=float, default=1e-3, help='lowest number density')
-parser.add_argument('--rho_upper', type=float, default=9e-3, help='highest number density')
-parser.add_argument('--trials_per_iteration', type=int, default=int(1e5),
+PARSER.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
+PARSER.add_argument('--num_particles', type=int, default=500, help='number of particles')
+PARSER.add_argument('--rho_lower', type=float, default=1e-3, help='lowest number density')
+PARSER.add_argument('--rho_upper', type=float, default=9e-3, help='highest number density')
+PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
     help='like cycles, but not necessary num_particles')
-parser.add_argument('--equilibration_iterations', type=int, default=int(1e1),
+PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
     help='number of iterations for equilibraiton')
-parser.add_argument('--production_iterations', type=int, default=int(1e3),
+PARSER.add_argument('--production_iterations', type=int, default=int(1e3),
     help='number of iterations for production')
-parser.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
-parser.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
-parser.add_argument('--procs_per_node', type=int, default=5, help='number of processors')
-parser.add_argument('--prefix', type=str, default='lj', help='prefix for all output file names')
-parser.add_argument('--table_file', type=str, default='lj_table.txt', help='table file name')
-parser.add_argument('--plot_table', type=int, default=0, help='0: no plot, 1: plot')
-parser.add_argument('--num_z', type=int, default=int(1e3), help='number of table elements')
-parser.add_argument('--inner', type=float, default=0.75, help='As described in TablePotential')
-parser.add_argument('--cutoff', type=float, default=3, help='potential cutoff distance')
-parser.add_argument('--run_type', '-r', type=int, default=0,
+PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
+PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
+PARSER.add_argument('--procs_per_node', type=int, default=5, help='number of processors')
+PARSER.add_argument('--prefix', type=str, default='lj', help='prefix for all output file names')
+PARSER.add_argument('--table_file', type=str, default='lj_table.txt', help='table file name')
+PARSER.add_argument('--plot_table', type=int, default=0, help='0: no plot, 1: plot')
+PARSER.add_argument('--num_z', type=int, default=int(1e3), help='number of table elements')
+PARSER.add_argument('--inner', type=float, default=0.75, help='As described in TablePotential')
+PARSER.add_argument('--cutoff', type=float, default=3, help='potential cutoff distance')
+PARSER.add_argument('--run_type', '-r', type=int, default=0,
     help='0: run, 1: submit to queue, 2: post-process')
-parser.add_argument('--seed', type=int, default=-1,
+PARSER.add_argument('--seed', type=int, default=-1,
     help='Random number generator seed. If -1, assign random seed to each sim.')
-parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
-parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
-parser.add_argument('--scratch', type=str, default=None,
+PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+PARSER.add_argument('--scratch', type=str, default=None,
     help='Optionally write scheduled job to scratch/logname/jobid.')
 PARSER.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
-parser.add_argument('--node', type=int, default=0, help='node ID')
-parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
-parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
+PARSER.add_argument('--node', type=int, default=0, help='node ID')
+PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
 # Convert arguments into a parameter dictionary, and add argument-dependent parameters.
-args, unknown_args = parser.parse_known_args()
-assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
-params = vars(args)
-params['script'] = __file__
-params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
-params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
-params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
-params['procs_per_sim'] = 1
-params['num_sims'] = params['num_nodes']*params['procs_per_node']
-params['rhos'] = np.linspace(params['rho_lower'], params['rho_upper'], num=params['num_sims'])
-params['cubic_box_lengths'] = np.power(params['num_particles']/params['rhos'], 1./3.).tolist()
-params['rhos'] = params['rhos'].tolist()
-params['gamma'] = -2 # as described in TablePotential
+ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
+assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
+PARAMS = vars(ARGS)
+PARAMS['script'] = __file__
+PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
+PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
+PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
+PARAMS['procs_per_sim'] = 1
+PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
+PARAMS['rhos'] = np.linspace(PARAMS['rho_lower'], PARAMS['rho_upper'], num=PARAMS['num_sims'])
+PARAMS['cubic_box_lengths'] = np.power(PARAMS['num_particles']/PARAMS['rhos'], 1./3.).tolist()
+PARAMS['rhos'] = PARAMS['rhos'].tolist()
+PARAMS['gamma'] = -2 # as described in TablePotential
 def sim_node_dependent_params(params):
     params['cubic_box_length'] = params['cubic_box_lengths'][params['sim']]
 
 def user_potential(distance):
     return 4*(distance**-12 - distance**-6)
 
-def generate_table():
+def generate_table(params):
     assert params['num_z'] > 1
     dz = 1./(params['num_z'] - 1)
     rhg = params['inner']**params['gamma']
@@ -87,7 +86,7 @@ def generate_table():
             en = user_potential(distance)
             #print('distance', distance, 'en', en)
             file1.write(str(en) + " ")
-generate_table()
+generate_table(PARAMS)
 
 def run_en():
     """
@@ -113,7 +112,7 @@ Run num_trials 1
     syscode = subprocess.call(params['feasst_install']+"bin/fst < launch.txt > launch.log", shell=True, executable='/bin/bash')
     if syscode > 0: sys.exit(1)
 
-if args.plot_table == 1:
+if ARGS.plot_table == 1:
     # check the energy interpolated from the table against the analytical value
     dists = np.arange(0.97, params['cutoff'], 0.01)
     ens = list()
@@ -193,9 +192,9 @@ def post_process(params):
             assert np.abs(diff) < 1.96*np.sqrt(ens[sim][1]**2 + en_stds_srsw[sim]**2)
 
 if __name__ == '__main__':
-    feasstio.run_simulations(params=params,
+    feasstio.run_simulations(params=PARAMS,
                              sim_node_dependent_params=sim_node_dependent_params,
                              write_feasst_script=write_feasst_script,
                              post_process=post_process,
                              queue_function=feasstio.slurm_single_node,
-                             args=args)
+                             args=ARGS)

@@ -7,7 +7,6 @@ The results are are compared with the SRSW https://doi.org/10.18434/T4M88Q
 (which use CODATA2010 physical constants).
 """
 
-import os
 import argparse
 import numpy as np
 import pandas as pd
@@ -17,7 +16,7 @@ from pyfeasst import physical_constants
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/spce.fstprt',
                     help='FEASST particle definition')

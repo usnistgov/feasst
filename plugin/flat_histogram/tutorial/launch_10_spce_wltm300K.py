@@ -5,7 +5,6 @@ The first node will have less particles but a higher number of sweeps required.
 The second node will have dccb.
 """
 
-import os
 import argparse
 import numpy as np
 import pandas as pd
@@ -17,7 +16,7 @@ from pyfeasst import multistate_accumulator
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/spce.fstprt',
                     help='FEASST particle definition')
@@ -31,7 +30,7 @@ PARSER.add_argument('--cubic_box_length', type=float, default=20,
                     help='cubic periodic boundary length')
 PARSER.add_argument('--dccb_cut', type=float, default=0.9*3.165,
                     help='dual-cut configurational bias cutoff')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
+PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=0,
                     help='number of iterations for equilibraiton')
@@ -132,7 +131,7 @@ RemoveAnalyze name Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
+Bias WLTM min_sweeps {min_sweeps} min_flatness 22 collect_flatness 18 min_collect_sweeps 1
 {gce_trial}
 Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].txt
 Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1

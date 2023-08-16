@@ -2,7 +2,6 @@
 Example Mayer-sampling simulation with a rigid coarse-grained mAb model
 """
 
-import os
 import argparse
 import numpy as np
 import pandas as pd
@@ -13,7 +12,7 @@ from pyfeasst import coarse_grain_pdb
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/forcefield/cg7mab2.fstprt',
                     help='FEASST particle definition')

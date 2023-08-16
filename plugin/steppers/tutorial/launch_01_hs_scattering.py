@@ -2,7 +2,6 @@
 Simulate hard spheres and compute scattering intensity.
 """
 
-import os
 import argparse
 import numpy as np
 import pandas as pd
@@ -12,7 +11,7 @@ from pyfeasst import scattering
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/atom.fstprt',
                     help='FEASST particle definition')
