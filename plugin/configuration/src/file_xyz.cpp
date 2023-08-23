@@ -8,12 +8,21 @@
 
 namespace feasst {
 
+FileVMD::FileVMD(argtype * args) {
+  min_sigma_ = dble("min_sigma", args, 0.1);
+}
+FileVMD::FileVMD(argtype args) : FileVMD(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
+
 void FileVMD::serialize(std::ostream& ostr) const {
   feasst_serialize_version(1, ostr);
+  feasst_serialize(min_sigma_, ostr);
 }
 
 FileVMD::FileVMD(std::istream& istr) {
   feasst_deserialize_version(istr);
+  feasst_deserialize(&min_sigma_, istr);
 }
 
 void FileVMD::get_params(const Configuration& config,
@@ -21,7 +30,11 @@ void FileVMD::get_params(const Configuration& config,
     double * radius,
     double * distance,
     int * center_index) const {
-  *radius = 0.5*config.model_params().select("sigma").value(site_type);
+  double sigma = config.model_params().select("sigma").value(site_type);
+  if (sigma < min_sigma_) {
+    sigma = min_sigma_;
+  }
+  *radius = 0.5*sigma;
   *distance = 0.;
   *center_index = -1;
 }

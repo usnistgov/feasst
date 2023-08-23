@@ -26,7 +26,7 @@ int main(int argc, char ** argv) {
   feasst::MonteCarlo mc;
   mc.set(feasst::MakeRandomMT19937({{"seed", args.get("--seed")}}));
   mc.add(feasst::Configuration(
-    feasst::MakeDomain({{"cubic_box_length", feasst::str(std::pow(args.get_double("--num")/args.get_double("--density"), 1./3.))}}),
+    feasst::MakeDomain({{"cubic_side_length", feasst::str(std::pow(args.get_double("--num")/args.get_double("--density"), 1./3.))}}),
     {{"particle_type", args.get("--data")}}));
   mc.add(feasst::MakePotential(feasst::MakeLennardJones()));
   mc.add(feasst::MakePotential(feasst::MakeLongRangeCorrections()));

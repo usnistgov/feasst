@@ -12,7 +12,7 @@ namespace feasst {
   Return a system with two Lennard-Jones particles.
 
   args:
-  - cubic_box_length: default 6
+  - cubic_side_length: default 6
  */
 System two_particle_system(argtype args = argtype());
 

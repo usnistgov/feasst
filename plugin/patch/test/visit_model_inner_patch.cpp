@@ -38,7 +38,7 @@ TEST(VisitModelInnerPatch, patch_one) {
 
 TEST(VisitModelInnerPatch, patch_one_2body) {
   System system;
-  { auto config = MakeConfiguration({{"cubic_box_length", "10"},
+  { auto config = MakeConfiguration({{"cubic_side_length", "10"},
       {"particle_type", "../plugin/patch/forcefield/janus.fstprt"},
       {"add_particles_of_type0", "2"},
       {"patch_angle1", "5"}});

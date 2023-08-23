@@ -63,7 +63,7 @@ TEST(MayerSampling, ljb2) {
 MayerSampling ljb2(const int trials) {
   MonteCarlo mc;
   { // initialize system
-    auto config = MakeConfiguration({{"cubic_box_length", "1000"},
+    auto config = MakeConfiguration({{"cubic_side_length", "1000"},
                                      {"particle_type0", "../forcefield/lj.fstprt"},
                                      {"add_particles_of_type0", "2"}});
     config->set_model_param("cutoff", 0, config->domain().side_length(0)/2.);
@@ -102,7 +102,7 @@ TEST(MonteCarlo, ljb2_LONG) {
 
 TEST(MayerSampling, square_well_LONG) {
   MonteCarlo mc;
-  auto config = MakeConfiguration({{"cubic_box_length", "10"},
+  auto config = MakeConfiguration({{"cubic_side_length", "10"},
     {"particle_type0", install_dir() + "/forcefield/lj.fstprt"}});
   config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "2");
   config->add_particle_of_type(0);
@@ -134,7 +134,7 @@ TEST(MayerSampling, square_well_LONG) {
 
 TEST(MayerSampling, cg4_rigid_LONG) {
   MonteCarlo mc;
-  auto config = MakeConfiguration({{"cubic_box_length", "1000"},
+  auto config = MakeConfiguration({{"cubic_side_length", "1000"},
     {"particle_type0", install_dir() + "/plugin/chain/forcefield/cg4_mab.fstprt"}});
   config->add_particle_type(install_dir() + "/plugin/chain/forcefield/cg4_mab.fstprt", "2");
   config->add_particle_of_type(0);
@@ -168,7 +168,7 @@ TEST(MayerSampling, cg4_rigid_LONG) {
 //// Fig 1 of https://doi.org/10.1063/1.5016165
 //TEST(MayerSampling, SPCE_LONG) {
 //  MonteCarlo mc;
-//  { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
+//  { auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)}});
 //    config->add_particle_type(install_dir() + "/forcefield/spce.fstprt");
 //    config->add_particle_type(install_dir() + "/forcefield/spce.fstprt", "2");
 //    for (int stype = 0; stype < config->num_site_types(); ++stype) {
@@ -230,7 +230,7 @@ TEST(MayerSampling, cg4_rigid_LONG) {
 TEST(MayerSampling, trimer_LONG) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1663862890"}}));
-  { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
+  { auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)}});
     config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt");
     config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt", "2");
     config->add_particle_of_type(0);

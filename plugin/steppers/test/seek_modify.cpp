@@ -14,7 +14,7 @@ namespace feasst {
 
 TEST(SeekModify, seek) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));

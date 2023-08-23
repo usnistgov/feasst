@@ -8,7 +8,7 @@
 namespace feasst {
 
 TEST(VisitModelIntra, energy) {
-  auto config = MakeConfiguration({{"cubic_box_length", "10"},
+  auto config = MakeConfiguration({{"cubic_side_length", "10"},
     {"particle_type", "../forcefield/chain10.fstprt"},
     {"add_particles_of_type0", "1"}});
   LennardJones model;

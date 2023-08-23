@@ -9,8 +9,15 @@
 namespace feasst {
 
 Domain::Domain(argtype * args) {
-  bool is_cubic = used("cubic_box_length", *args);
+  bool is_cubic = used("cubic_side_length", *args);
   if (is_cubic) {
+    set_cubic(dble("cubic_side_length", args));
+  }
+  bool is_cubic_box = used("cubic_box_length", *args);
+  ASSERT(!(is_cubic && is_cubic_box),
+    "Cannot use both cubic_side_length and cubic_box_length");
+  if (is_cubic_box) {
+    WARN("cubic_box_length is depreciated. Use cubic_side_length instead.");
     set_cubic(dble("cubic_box_length", args));
   }
 
@@ -20,7 +27,7 @@ Domain::Domain(argtype * args) {
     std::stringstream key;
     key << start << dim;
     while (used(key.str(), *args)) {
-      ASSERT(!is_cubic, "cubic_box_length argument should not be used in " <<
+      ASSERT(!is_cubic, "cubic_side_length argument should not be used in " <<
         "conjunction with side_length arguments");
       add_side_length(dble(key.str(), args));
       ++dim;

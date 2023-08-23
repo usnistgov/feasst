@@ -22,7 +22,7 @@ PARSER.add_argument('--max_particles', type=int, default=100, help='maximum numb
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
 PARSER.add_argument('--min_sweeps', type=int, default=20,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
-PARSER.add_argument('--cubic_box_length', type=float, default=8,
+PARSER.add_argument('--cubic_side_length', type=float, default=8,
                     help='cubic periodic boundary length')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
                     help='like cycles, but not necessary num_particles')
@@ -69,7 +69,7 @@ WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} cutoff0_1 {rwca} cutoff1_1 {rwca}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff0_1 {rwca} cutoff1_1 {rwca}
 NeighborCriteria energy_maximum -0.5 site_type0 0 site_type1 0
 Potential EnergyMap EnergyMapNeighborCriteria neighbor_index 0 Model LennardJonesForceShift
 RefPotential Model LennardJonesForceShift cutoff {rwca} VisitModel VisitModelCell min_length {rwca}

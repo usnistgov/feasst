@@ -10,7 +10,7 @@ System lj_system(const double cutoff) {
   std::stringstream particle;
   particle << install_dir() << "/forcefield/lj.fstprt";
   Configuration config(
-      MakeDomain({{"cubic_box_length", str(2.*cutoff)}}),
+      MakeDomain({{"cubic_side_length", str(2.*cutoff)}}),
       {{"particle_type", particle.str()}});
   config.set_model_param("cutoff", 0, cutoff);
   system.add(config);

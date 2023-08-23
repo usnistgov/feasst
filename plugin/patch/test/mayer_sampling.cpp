@@ -17,7 +17,7 @@ TEST(MayerSampling, patch_LONG) {
   for (const double degrees : {180, 90}) {
     MonteCarlo mc;
     const std::string fstprt = install_dir() + "/plugin/patch/forcefield/janus.fstprt";
-    { auto config = MakeConfiguration({{"cubic_box_length", str(NEAR_INFINITY)}});
+    { auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)}});
       config->add_particle_type(fstprt);
       config->add_particle_type(fstprt, "2");
       config->add(MakeGroup({{"site_type0", "0"}, {"site_type1", "2"}}));

@@ -170,7 +170,7 @@ def write_feasst_script(params, file_name):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length 200 particle_type0 1igt_{domain}.fstprt \
+Configuration cubic_side_length 200 particle_type0 1igt_{domain}.fstprt \
     add_particles_of_type0 2 \
     group0 first first_particle_index 0 \
     group1 com com_site_type 5

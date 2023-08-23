@@ -21,7 +21,7 @@ namespace feasst {
 inline System chain(const double alpha,
                     const int kmax_squared) {
   System system;
-  { auto config = MakeConfiguration({{"cubic_box_length", "20"},
+  { auto config = MakeConfiguration({{"cubic_side_length", "20"},
       {"particle_type0", "../forcefield/chain10_3types.fstprt"},
       {"particle_type1", "../plugin/charge/forcefield/rpm_minus.fstprt"},
       {"particle_type2", "../plugin/charge/forcefield/rpm_plus.fstprt"},

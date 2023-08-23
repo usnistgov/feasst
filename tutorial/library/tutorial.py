@@ -20,7 +20,7 @@ print("args:", args)
 mc = fst.MonteCarlo()
 mc.set(fst.MakeRandomMT19937(fst.args({"seed" : args.seed})))
 mc.add(fst.MakeConfiguration(fst.args({
-  "cubic_box_length": str(args.length), "particle_type": args.data})))
+  "cubic_side_length": str(args.length), "particle_type": args.data})))
 mc.add(fst.MakePotential(fst.MakeLennardJones()))
 mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
 mc.set(fst.MakeThermoParams(fst.args({"beta": "0.1", "chemical_potential": "10"})))

@@ -38,7 +38,7 @@ def mc(thread, mn, mx):
     trials_per=int(1e5)
     avb, dccb = avb_or_dccb(mx)
     mc = fst.MakeMonteCarlo()
-    mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "20",
+    mc.add(fst.MakeConfiguration(fst.args({"cubic_side_length": "20",
         "physical_constants": "CODATA2010",
         "particle_type0": fst.install_dir() + "/forcefield/spce.fstprt"})))
     mc.add(fst.MakePotential(fst.MakeEwald(fst.args({"alpha": str(5.6/20),

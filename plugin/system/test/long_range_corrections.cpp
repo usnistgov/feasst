@@ -23,7 +23,7 @@ TEST(LongRangeCorrections, LRC) {
 }
 
 TEST(LongRangeCorrections, many_types) {
-  auto config = MakeConfiguration({{"cubic_box_length", "8.5"},
+  auto config = MakeConfiguration({{"cubic_side_length", "8.5"},
     {"particle_type0", "../forcefield/atom.fstprt"},
     {"particle_type1", "../forcefield/lj.fstprt"},
     {"add_particles_of_type0", "4"},

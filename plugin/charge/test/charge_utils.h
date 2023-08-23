@@ -23,7 +23,7 @@ double kelvin2kJpermol(const double kelvin, const Configuration& config);
 
   args:
   - Configuration args with the following default values:
-      - cubic_box_length: 20,
+      - cubic_side_length: 20,
       - particle_type: /path/to/feasst/forcefield/spce.fstprt,
       - physical_constants: CODATA2018.
   - Ewald args.
@@ -41,7 +41,7 @@ System spce(argtype args = argtype());
 
   args:
   - Configuration args with the following default values:
-      - cubic_box_length: default 12
+      - cubic_side_length: default 12
       - particle0: default plugin/charge/forcefield/rpm_plus.fstprt
       - particle1: default plugin/charge/forcefield/rpm_minus.fstprt
   - Ewald args.

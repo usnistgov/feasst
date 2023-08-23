@@ -12,7 +12,7 @@
 namespace feasst {
 
 TEST(ModelTwoBodyTable, spce) {
-  auto config = MakeConfiguration({{"cubic_box_length", "20"},
+  auto config = MakeConfiguration({{"cubic_side_length", "20"},
     {"particle_type0", "../plugin/charge/forcefield/rpm_plus.fstprt"},
     {"particle_type1", "../plugin/charge/forcefield/rpm_minus.fstprt"},
     {"add_particles_of_type0", "1"},

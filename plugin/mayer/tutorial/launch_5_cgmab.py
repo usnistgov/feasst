@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from pyfeasst import feasstio
 from pyfeasst import physical_constants
 from pyfeasst import coarse_grain_pdb
+from pyfeasst import accumulator
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -58,7 +59,7 @@ def write_feasst_script(params, file_name):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length 500 particle_type0 /feasst/plugin/chain/forcefield/cg7mab2.fstprt \
+Configuration cubic_side_length 500 particle_type0 /feasst/plugin/chain/forcefield/cg7mab2.fstprt \
     add_particles_of_type0 2 \
     group0 first first_particle_index 0
 Potential Model HardSphere
@@ -77,6 +78,8 @@ Tune
 Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name CriteriaWriter
+RemoveAnalyze name Log
+RemoveAnalyze name Movie
 
 # production
 CriteriaWriter trials_per_write {trials_per_iteration} file_name {prefix}{sim}_b2.txt
@@ -94,17 +97,23 @@ def post_process(params):
         exec('iprm=' + lines[0], globals())
         return iprm
     b2hs_ref = 2*np.pi*params['reference_sigma']**3/3 # reference HS in nm^3
-    b2 = b2(params['prefix']+'0_b2.txt')
-    print('b2', b2['second_virial_ratio']*b2hs_ref, '+/-', b2['second_virial_ratio_block_stdev']*b2hs_ref)
     lpm_fac = 1e-24*physical_constants.AvogadroConstant().value()
-    print('b2', b2['second_virial_ratio']*b2hs_ref*lpm_fac,
-         '+/-', b2['second_virial_ratio_block_stdev']*b2hs_ref*lpm_fac,
-         'L/mol')
     mlmg_fac = 1e-24*physical_constants.AvogadroConstant().value()/150000
-    print('b2', b2['second_virial_ratio']*b2hs_ref*mlmg_fac,
-         '+/-', b2['second_virial_ratio_block_stdev']*b2hs_ref*mlmg_fac,
-         'mL/mg')
-    assert np.abs(b2['second_virial_ratio']*b2hs_ref*mlmg_fac - 0.0113) < 0.001
+    b2_overall = accumulator.Accumulator()
+    for i in range(params['num_sims']):
+        print('i', i)
+        b2t = b2(params['prefix']+str(i)+'_b2.txt')
+        print('b2', b2t['second_virial_ratio']*b2hs_ref, '+/-', b2t['second_virial_ratio_block_stdev']*b2hs_ref)
+        print('b2', b2t['second_virial_ratio']*b2hs_ref*lpm_fac,
+             '+/-', b2t['second_virial_ratio_block_stdev']*b2hs_ref*lpm_fac,
+             'L/mol')
+        b2_mlmg = b2t['second_virial_ratio']*b2hs_ref*mlmg_fac
+        print('b2', b2_mlmg,
+             '+/-', b2t['second_virial_ratio_block_stdev']*b2hs_ref*mlmg_fac,
+             'mL/mg')
+        b2_overall.add(b2_mlmg)
+        assert np.abs(b2_mlmg - 0.0113) < 0.001
+    print('b2 overall(ml/mg)', b2_overall.mean(), b2_overall.stdev()/np.sqrt(b2_overall.num_values()))
 
 if __name__ == '__main__':
     feasstio.run_simulations(params=PARAMS,

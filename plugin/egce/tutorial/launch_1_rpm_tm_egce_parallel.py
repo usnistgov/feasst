@@ -26,7 +26,7 @@ PARSER.add_argument('--max_particles', type=int, default=10, help='maximum numbe
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
 PARSER.add_argument('--min_sweeps', type=int, default=1e2,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
-PARSER.add_argument('--cubic_box_length', type=float, default=12,
+PARSER.add_argument('--cubic_side_length', type=float, default=12,
                     help='cubic periodic boundary length')
 PARSER.add_argument('--dccb_cut', type=float, default=2**(1./6.),
                     help='dual-cut configurational bias cutoff')
@@ -63,11 +63,11 @@ PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
 PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
 PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
-PARAMS['alpha'] = 6.87098396396261/PARAMS['cubic_box_length']
+PARAMS['alpha'] = 6.87098396396261/PARAMS['cubic_side_length']
 PARAMS['mu'] = PARAMS['beta_mu']/PARAMS['beta']
 PARAMS['charge_plus'] = 1./np.sqrt(1.602176634E-19**2/(4*np.pi*8.8541878128E-12*1e3/1e10/6.02214076E+23))
 PARAMS['charge_minus'] = -PARAMS['charge_plus']
-PARAMS['dccb_cut'] = PARAMS['cubic_box_length']/int(PARAMS['cubic_box_length']/PARAMS['dccb_cut']) # maximize inside box
+PARAMS['dccb_cut'] = PARAMS['cubic_side_length']/int(PARAMS['cubic_side_length']/PARAMS['dccb_cut']) # maximize inside box
 
 def write_feasst_script(params, file_name):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -79,7 +79,7 @@ WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {plus} particle_type1 {minus} cutoff 4.891304347826090 charge0 {charge_plus} charge1 {charge_minus}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {plus} particle_type1 {minus} cutoff 4.891304347826090 charge0 {charge_plus} charge1 {charge_minus}
 Potential VisitModel Ewald alpha {alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 HardSphere model1 ChargeScreened table_size 1e6
 ConvertToRefPotential potential_index 1 cutoff {dccb_cut} use_cell true

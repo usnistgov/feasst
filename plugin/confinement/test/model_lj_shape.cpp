@@ -14,7 +14,7 @@ TEST(ModelLJShape, half_space) {
     {"direction", "1"},
   });
   ModelLJShape model(std::make_shared<HalfSpace>(half_space));
-  auto config = MakeConfiguration({{"cubic_box_length", "8"},
+  auto config = MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type", "../forcefield/atom.fstprt"},
     {"add_particles_of_type0", "1"}});
   const ModelParams model_params = config->model_params();

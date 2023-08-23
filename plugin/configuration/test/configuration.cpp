@@ -32,7 +32,7 @@ TEST(Configuration, type_to_file_name) {
 }
 
 TEST(Configuration, coordinates_and_wrapping) {
-  auto config = MakeConfiguration({{"cubic_box_length", "5"},
+  auto config = MakeConfiguration({{"cubic_side_length", "5"},
     {"particle_type0", "../forcefield/atom.fstprt"},
     {"add_particles_of_type0", "2"}});
   Position pos;
@@ -129,7 +129,7 @@ TEST(Configuration, bonds_spce) {
 }
 
 TEST(Configuration, group) {
-  auto config = MakeConfiguration({{"cubic_box_length", "7"}});
+  auto config = MakeConfiguration({{"cubic_side_length", "7"}});
   TRY(
     Configuration config_err(*config);
     config_err.add(MakeGroup({{"site_type", "0"}}));
@@ -249,7 +249,7 @@ TEST(Configuration, copy_particles) {
 }
 
 TEST(Configuration, change_volume) {
-  auto config = MakeConfiguration({{"cubic_box_length", "10"},
+  auto config = MakeConfiguration({{"cubic_side_length", "10"},
     {"particle_type", install_dir() + "/forcefield/spce.fstprt"}});
   config->add_particle_of_type(0);
   config->add_particle_of_type(0);

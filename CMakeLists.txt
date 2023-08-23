@@ -226,7 +226,7 @@ endif()
 # example
 list (FIND FEASST_PLUGINS "example" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstexample feasstsystem)
+  target_link_libraries(feasstexample feasstsystem feasstmonte_carlo feasststeppers)
 endif()
 
 # shape

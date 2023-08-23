@@ -13,7 +13,7 @@ namespace feasst {
 TEST(PerturbParticleType, serialize) {
   System sys;
   {
-    auto config = MakeConfiguration({{"cubic_box_length", "8"},
+    auto config = MakeConfiguration({{"cubic_side_length", "8"},
       {"particle_type0", "../forcefield/lj.fstprt"}});
     config->add_particle_type("../forcefield/lj.fstprt", "sig0.25");
     config->add_particle_of_type(0);

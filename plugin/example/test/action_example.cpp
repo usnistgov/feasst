@@ -13,7 +13,7 @@ TEST(ActionExample, serialize) {
 TEST(ActionExample, fh) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"particle_type0", "../forcefield/atom.fstprt"},
-                       {"cubic_box_length", "8"}}},
+                       {"cubic_side_length", "8"}}},
     {"Potential", {{"Model", "IdealGas"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},
     {"FlatHistogram", {{"Macrostate", "MacrostateNumParticles"}, {"width", "1"}, {"max", "4"}, {"min", "0"}, {"Bias", "TransitionMatrix"}, {"min_sweeps", "2"}}},

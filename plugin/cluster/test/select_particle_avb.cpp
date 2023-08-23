@@ -15,7 +15,7 @@ TEST(SelectParticleAVB, serialize) {
   //for (const double max_dist : {3.}) {
     System system;
     {
-      auto config = MakeConfiguration({{"cubic_box_length", "8"},
+      auto config = MakeConfiguration({{"cubic_side_length", "8"},
         {"particle_type", "../forcefield/lj.fstprt"},
         {"add_particles_of_type0", "3"}});
       config->update_positions({{0, 0, 0},

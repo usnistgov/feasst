@@ -6,7 +6,7 @@
 namespace feasst {
 
 TEST(SelectSiteOfType, serialize) {
-  auto config = MakeConfiguration({{"cubic_box_length", "20"},
+  auto config = MakeConfiguration({{"cubic_side_length", "20"},
     {"particle_type", "../forcefield/chain10_3types.fstprt"},
     {"add_particles_of_type0", "1"}});
   auto sel = MakeSelectSiteOfType({{"site_type", "1"}});

@@ -33,7 +33,7 @@ assert(feasst.install_dir() == '/home/hwh/gcfetch/feasst')
 def lj_system(box_length):
     system = feasst.System()
     config = feasst.Configuration(
-        feasst.Domain(feasst.args({"cubic_box_length": str(box_length)})),
+        feasst.Domain(feasst.args({"cubic_side_length": str(box_length)})),
         feasst.args({"particle_type": feasst.install_dir() + "/forcefield/lj.fstprt"}))
     config.set_model_param("cutoff", 0, args.cutoff)
     system.add(config)

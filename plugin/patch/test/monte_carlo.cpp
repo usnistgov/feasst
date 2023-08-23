@@ -32,7 +32,7 @@ MonteCarlo patchmc(const int min, const int max) {
   //DEBUG("patch_angle_degrees " << patch_angle_degrees);
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  { auto config = MakeConfiguration({{"cubic_box_length", "8"},
+  { auto config = MakeConfiguration({{"cubic_side_length", "8"},
       {"patch_angle1", str(patch_angle_degrees)},
       {"particle_type0", install_dir() + "/plugin/patch/forcefield/two_patch_linear.fstprt"}});
       //{"particle_type0", install_dir() + "/plugin/patch/forcefield/janus.fstprt"}});

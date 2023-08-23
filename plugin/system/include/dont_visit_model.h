@@ -47,7 +47,7 @@ class DontVisitModel : public VisitModel {
       Configuration * config,
       const int group_index = 0) override { set_energy(0.); }
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
-  std::shared_ptr<VisitModel> create(argtype * args) const {
+  std::shared_ptr<VisitModel> create(argtype * args) const override {
     return std::make_shared<DontVisitModel>(); }
   void serialize(std::ostream& ostr) const override;
   explicit DontVisitModel(std::istream& istr);

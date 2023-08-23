@@ -17,7 +17,7 @@ int main(int argc, char ** argv) {
   // high temperature gcmc to generate initial configuration
   feasst::MonteCarlo mc;
   mc.set(feasst::MakeRandomMT19937({{"seed", args.get("--seed")}}));
-  mc.add(feasst::MakeConfiguration({{"cubic_box_length", args.get("--length")},
+  mc.add(feasst::MakeConfiguration({{"cubic_side_length", args.get("--length")},
                                     {"particle_type", args.get("--data")}}));
   mc.add(feasst::MakePotential({{"Model", "LennardJones"}}));
   mc.add(feasst::MakePotential({{"VisitModel", "LongRangeCorrections"}}));

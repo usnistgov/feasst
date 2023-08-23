@@ -16,7 +16,7 @@ PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
 PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/atom.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--num_particles', type=int, default=128, help='number of particles')
-PARSER.add_argument('--cubic_box_length', type=float, default=8,
+PARSER.add_argument('--cubic_side_length', type=float, default=8,
                     help='cubic periodic boundary conditions')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
@@ -58,7 +58,7 @@ def write_feasst_script(params, file_name):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model HardSphere VisitModel VisitModelCell min_length 1
 ThermoParams beta 1 chemical_potential -1
 Metropolis
@@ -104,7 +104,7 @@ def post_process(params):
     plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0']**2, label='sq_av')
     qs = np.arange(2*np.pi/8, 10, 0.01)
     sq=list(); sqs=list()
-    number_density = params['num_particles']/params['cubic_box_length']**3
+    number_density = params['num_particles']/params['cubic_side_length']**3
     for q in qs:
         sqs.append(scattering.structure_factor(gr['r'], gr_scaled, frequency=q, number_density=number_density))
         sq.append(scattering.structure_factor(gr['r'], gr['g0-0'], frequency=q, number_density=number_density))

@@ -19,7 +19,7 @@ PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/spce.fstpr
     help='FEASST particle definition')
 PARSER.add_argument('--temperature', type=float, default=298, help='temperature in Kelvin')
 PARSER.add_argument('--num_particles', type=int, default=512, help='number of particles')
-PARSER.add_argument('--cubic_box_length', type=float, default=24.8586887,
+PARSER.add_argument('--cubic_side_length', type=float, default=24.8586887,
     help='cubic periodic boundary length')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
     help='like cycles, but not necessary num_particles')
@@ -54,8 +54,8 @@ PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on que
 PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
 PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
 PARAMS['procs_per_sim'] = 1
-PARAMS['cutoff'] = 0.5*PARAMS['cubic_box_length']
-PARAMS['alpha'] = 5.6/PARAMS['cubic_box_length']
+PARAMS['cutoff'] = 0.5*PARAMS['cubic_side_length']
+PARAMS['alpha'] = 5.6/PARAMS['cubic_side_length']
 PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 
 def write_feasst_script(params, file_name):
@@ -64,7 +64,7 @@ def write_feasst_script(params, file_name):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} physical_constants CODATA2010 cutoff {cutoff}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} physical_constants CODATA2010 cutoff {cutoff}
 Potential VisitModel Ewald alpha {alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened VisitModel VisitModelCutoffOuter table_size 1e6
 Potential Model ChargeScreenedIntra VisitModel VisitModelBond

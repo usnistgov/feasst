@@ -46,7 +46,7 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   argtype spce_args = {{"physical_constants", "CODATA2010"},
-                       {"cubic_box_length", "20"},
+                       {"cubic_side_length", "20"},
                        {"alpha", str(5.6/20)},
                        {"kmax_squared", "38"},
                        //{"table_size", "0"},
@@ -174,7 +174,7 @@ TEST(MonteCarlo, spce_fh2_LONG) {
 // Seems there is an issue with TrialGrow transfer_avb spce
 TEST(TrialGrow, transfer_avb_spce) {
   System system = spce({{"physical_constants", "CODATA2010"},
-                        {"cubic_box_length", "20"},
+                        {"cubic_side_length", "20"},
                         {"alpha", str(5.6/20)},
                         {"kmax_squared", "38"},
                         {"add_particles_of_type0", "1"}});

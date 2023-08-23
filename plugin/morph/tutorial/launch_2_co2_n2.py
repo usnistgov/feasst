@@ -26,7 +26,7 @@ PARSER.add_argument('--num_particles', type=int, default=10, help='total number 
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
 PARSER.add_argument('--min_sweeps', type=int, default=1e2,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
-PARSER.add_argument('--cubic_box_length', type=float, default=30,
+PARSER.add_argument('--cubic_side_length', type=float, default=30,
                     help='cubic periodic boundary length')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
                     help='like cycles, but not necessary num_particles')
@@ -61,7 +61,7 @@ PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
 PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
 PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
-PARAMS['ewald_alpha'] = 5.6/PARAMS['cubic_box_length']
+PARAMS['ewald_alpha'] = 5.6/PARAMS['cubic_side_length']
 PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 
 def write_feasst_script(params, file_name):
@@ -74,7 +74,7 @@ WindowExponential maximum {num_particles} minimum {min_particles} num {procs_per
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt0} particle_type1 {fstprt1}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt0} particle_type1 {fstprt1}
 Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
 Potential Model ChargeScreenedIntra VisitModel VisitModelBond

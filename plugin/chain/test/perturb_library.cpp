@@ -13,7 +13,7 @@ TEST(PerturbLibrary, serialize) {
 TEST(PerturbLibrary, dimer) {
   System sys;
   sys.add(*MakeConfiguration({
-    {"cubic_box_length", "8"},
+    {"cubic_side_length", "8"},
     {"particle_type0", "../forcefield/dimer.fstprt"}}));
   sys.precompute();
   auto sel = MakeTrialSelectParticle({{"particle_type", "0"}});

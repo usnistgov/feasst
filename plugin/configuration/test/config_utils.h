@@ -17,7 +17,7 @@ Configuration spce_sample1();
   Return a configuration with two single-site particles.
 
   args:
-  - cubic_box_length: default 6
+  - cubic_side_length: default 6
  */
 Configuration two_particle_configuration(argtype args = argtype());
 

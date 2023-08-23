@@ -7,7 +7,7 @@ parser.add_argument("--task", type=int, help="SLURM job array index", default=0)
 parser.add_argument("--num_procs", type=int, help="number of processors", default=12)
 parser.add_argument("--num_hours", type=float, help="number of hours before restart", default=1.)
 parser.add_argument("--max_particles", type=int, help="maximum number of particles", default=270)
-parser.add_argument("--cubic_box_length", type=float, help="cubic_box_length", default=8)
+parser.add_argument("--cubic_side_length", type=float, help="cubic_side_length", default=8)
 parser.add_argument("--temperature", type=float, help="temperature", default=0.3)
 parser.add_argument("--particle", type=str, help="fstprt file that describes trimer", default=fst.install_dir() + "/forcefield/trimer_0.4L.fstprt")
 parser.add_argument("--mu", type=float, help="chemical potential", default=-1)
@@ -16,7 +16,7 @@ args = parser.parse_args()
 print("args:", args)
 
 def config():
-    config = fst.MakeConfiguration(fst.args({"cubic_box_length": str(args.cubic_box_length),
+    config = fst.MakeConfiguration(fst.args({"cubic_side_length": str(args.cubic_side_length),
                                              "particle_type": args.particle}))
     wca_cutoff = 2**(1./6.)
     config.set_model_param("cutoff", 0, 1, wca_cutoff)

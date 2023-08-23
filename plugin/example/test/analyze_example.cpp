@@ -13,7 +13,7 @@ TEST(AnalyzeExample, serialize) {
 TEST(AnalyzeExample, ideal_gas_fluid_geometric_center_LONG) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"particle_type0", "../forcefield/atom.fstprt"},
-                       {"cubic_box_length", "8"},
+                       {"cubic_side_length", "8"},
                        {"add_particles_of_type0", "100"}}},
     {"Potential", {{"Model", "IdealGas"}}},
     {"ThermoParams", {{"beta", "1"}}},

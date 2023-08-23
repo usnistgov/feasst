@@ -9,7 +9,7 @@
 namespace feasst {
 
 TEST(MacrostateMorph, lj) {
-  auto conf = MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}});
+  auto conf = MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}});
   conf->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "0.25");
   conf->set_model_param("sigma", 1, 0.25);
   conf->set_model_param("cutoff", 1, 1.0);

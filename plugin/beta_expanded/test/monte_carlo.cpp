@@ -26,7 +26,7 @@ namespace feasst {
 TEST(MonteCarlo, beta_expanded) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
@@ -62,7 +62,7 @@ TEST(MonteCarlo, beta_expanded) {
 
 //MonteCarlo sweeptest(const int min_sweeps, const int beta_num) {
 //  MonteCarlo mc;
-//  mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+//  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
 //  mc.add(MakePotential(MakeDontVisitModel()));
 //  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
 //  const double beta_min = 0.8;

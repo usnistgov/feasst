@@ -5,8 +5,8 @@ with open ("plugins.txt", "r") as plug:
 for i, plug in enumerate(plugins):
     plugins[i] = 'libfeasst' + plug + '.so'
 
-with open("../dev/README_PYPI.rst", "r") as fh:
-    long_description = fh.read()
+#with open("../dev/README_PYPI.rst", "r") as fh:
+#    long_description = fh.read()
 
 setuptools.setup(
     name='feasst',
@@ -14,7 +14,8 @@ setuptools.setup(
     author='Harold Hatch',
     author_email='harold.hatch@nist.gov',
     description='Free Energy and Advanced Sampling Simulation Toolkit',
-    long_description=long_description,
+    #long_description=long_description,
+    long_description='see https://pages.nist.gov/feasst',
     long_description_content_type="text/x-rst",
     url='https://github.com/usnistgov/feasst',
     #version='${GIT_COMMIT_HASH}',

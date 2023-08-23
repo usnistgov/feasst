@@ -35,7 +35,7 @@ TEST(Domain, random_position) {
 }
 
 TEST(Domain, wrap) {
-  auto domain = MakeDomain({{"cubic_box_length", "5"}});
+  auto domain = MakeDomain({{"cubic_side_length", "5"}});
   Position pos;
   pos.set_vector({5, 5, 5});
   Position shift = domain->shift(pos);
@@ -44,7 +44,7 @@ TEST(Domain, wrap) {
   EXPECT_NEAR(-5, shift.coord(1), NEAR_ZERO);
   EXPECT_NEAR(-5, shift.coord(2), NEAR_ZERO);
 
-  domain = MakeDomain({{"cubic_box_length", "5"},
+  domain = MakeDomain({{"cubic_side_length", "5"},
     {"xy", "1"}});
   shift = domain->shift(pos);
   EXPECT_TRUE(domain->is_tilted());
@@ -52,7 +52,7 @@ TEST(Domain, wrap) {
   EXPECT_NEAR(-5, shift.coord(1), NEAR_ZERO);
   EXPECT_NEAR(-5, shift.coord(2), NEAR_ZERO);
 
-  domain = MakeDomain({{"cubic_box_length", "5"},
+  domain = MakeDomain({{"cubic_side_length", "5"},
     {"xy", "1"}, {"xz", "1"}});
   shift = domain->shift(pos);
   EXPECT_TRUE(domain->is_tilted());
@@ -60,7 +60,7 @@ TEST(Domain, wrap) {
   EXPECT_NEAR(-5, shift.coord(1), NEAR_ZERO);
   EXPECT_NEAR(-5, shift.coord(2), NEAR_ZERO);
 
-  domain = MakeDomain({{"cubic_box_length", "5"},
+  domain = MakeDomain({{"cubic_side_length", "5"},
     {"xy", "1"}, {"xz", "1"}, {"yz", "1"}});
   shift = domain->shift(pos);
   EXPECT_TRUE(domain->is_tilted());

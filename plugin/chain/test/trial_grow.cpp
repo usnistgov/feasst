@@ -23,7 +23,7 @@ namespace feasst {
 
 TEST(TrialGrow, angle_distribution_LONG) {
   MonteCarlo mc;
-  mc.set(spce({{"physical_constants", "CODATA2010"}, {"cubic_box_length", "20"},
+  mc.set(spce({{"physical_constants", "CODATA2010"}, {"cubic_side_length", "20"},
         {"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"dual_cut", "3.2"}}));
   mc.get_system()->get_configuration()->add_particle_of_type(0);
   mc.set(MakeThermoParams({{"beta", "1"}}));
@@ -42,7 +42,7 @@ TEST(TrialGrow, angle_distribution_LONG) {
 TEST(TrialGrow, bond_harmonic) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration({{"cubic_box_length", "10"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "10"},
     {"particle_type0", "../plugin/chain/test/data/dimer_harmonic.fstprt"},
     {"add_particles_of_type0", "1"}}));
   mc.add(MakePotential(MakeIdealGas()));

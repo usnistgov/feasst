@@ -49,7 +49,7 @@ MonteCarlo rpm_egce(const int min = 0,
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(rpm({
-    {"cubic_box_length", "12"},
+    {"cubic_side_length", "12"},
     {"cutoff", "4.891304347826090"},
     {"kmax_squared", "38"},
     {"alpha", str(6.87098396396261/12)},
@@ -298,7 +298,7 @@ MonteCarlo dival_egce(
   mc.set(rpm({
     {"delta", "0.3"},
     {"charge_ratio", "2"},
-    {"cubic_box_length", "15"},
+    {"cubic_side_length", "15"},
     {"cutoff", "7.5"},
     {"kmax_squared", "25"},
     {"alpha", str(5./15)}}));
@@ -650,7 +650,7 @@ double energy_av467(const int macro, const MonteCarlo& mc) {
 
 TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_box_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));

@@ -15,7 +15,7 @@ PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/forcefield/cg7mab2.fstprt',
                     help='FEASST particle definition')
-PARSER.add_argument('--cubic_box_length', type=float, default=90,
+PARSER.add_argument('--cubic_side_length', type=float, default=90,
                     help='cubic periodic boundary conditions')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
@@ -61,7 +61,7 @@ def write_feasst_script(params, file_name):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model HardSphere VisitModel VisitModelCell min_length 5.3283
 ThermoParams beta 1 chemical_potential -1
 Metropolis

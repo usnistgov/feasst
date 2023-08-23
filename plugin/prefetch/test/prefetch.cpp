@@ -38,7 +38,7 @@ void run_prefetch(const int trials, const int trials_per) {
   auto mc = MakePrefetch();
 //  mc->set(MakeRandomMT19937({{"seed", "1592943710"}}));
   mc->set(MakeRandomMT19937({{"seed", "1596650884"}}));
-  mc->add(MakeConfiguration({{"cubic_box_length", "8"},
+  mc->add(MakeConfiguration({{"cubic_side_length", "8"},
                              {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
@@ -124,7 +124,7 @@ void prefetch(System system, const int sync = 0) {
 
 TEST(Prefetch, MUVT) {
   System sys;
-  sys.add(MakeConfiguration({{"cubic_box_length", "8"},
+  sys.add(MakeConfiguration({{"cubic_side_length", "8"},
                              {"particle_type0", "../forcefield/lj.fstprt"}}));
   sys.add(MakePotential(MakeLennardJones()));
   sys.add(MakePotential(MakeLongRangeCorrections()));
@@ -167,7 +167,7 @@ TEST(Prefetch, AVB) {
   const int trials_per = 1e2;
   auto monte_carlo = MakePrefetch({{"synchronize", "true"},
                                    {"trials_per_check", str(trials_per)}});
-  monte_carlo->add(MakeConfiguration({{"cubic_box_length", "6"},
+  monte_carlo->add(MakeConfiguration({{"cubic_side_length", "6"},
                                       {"particle_type", "../forcefield/lj.fstprt"}}));
   monte_carlo->add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

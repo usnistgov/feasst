@@ -1,5 +1,5 @@
 ==================================================================
-Virial coefficients of all-atom mAb domains.
+Virial coefficients of 7-bead coarse-grained mAb model.
 ==================================================================
 
-.. literalinclude:: launch_4_cgmab.py
+.. literalinclude:: launch_5_cgmab.py

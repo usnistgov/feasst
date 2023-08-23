@@ -32,7 +32,7 @@ MonteCarlo monte_carlo2(const int thread, const int min, const int max,
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   //mc.set(MakeRandomMT19937({{"seed", "1646430438"}}));
-  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../forcefield/lj.fstprt"},
                             {"add_particles_of_type0", "1"}}));
   mc.add(MakePotential(MakeLennardJones()));

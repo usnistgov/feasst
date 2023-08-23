@@ -61,11 +61,11 @@ PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate 
 PARAMS['procs_per_sim'] = 1
 PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
 PARAMS['rhos'] = np.linspace(PARAMS['rho_lower'], PARAMS['rho_upper'], num=PARAMS['num_sims'])
-PARAMS['cubic_box_lengths'] = np.power(PARAMS['num_particles']/PARAMS['rhos'], 1./3.).tolist()
+PARAMS['cubic_side_lengths'] = np.power(PARAMS['num_particles']/PARAMS['rhos'], 1./3.).tolist()
 PARAMS['rhos'] = PARAMS['rhos'].tolist()
 PARAMS['gamma'] = -2 # as described in TablePotential
 def sim_node_dependent_params(params):
-    params['cubic_box_length'] = params['cubic_box_lengths'][params['sim']]
+    params['cubic_side_length'] = params['cubic_side_lengths'][params['sim']]
 
 def user_potential(distance):
     return 4*(distance**-12 - distance**-6)
@@ -136,7 +136,7 @@ def write_feasst_script(params, file_name):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model TwoBodyTable VisitModel VisitModelCell min_length max_cutoff VisitModelInner TablePotential table_file {table_file}
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential -1

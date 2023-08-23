@@ -36,7 +36,7 @@ if args.task > 0:
     quit()
 mc.set(fst.MakeRandomMT19937(fst.args({"seed" : args.seed})))
 mc.add(fst.Configuration(
-    fst.MakeDomain(fst.args({"cubic_box_length": str((args.num/args.density)**(1./3.))})),
+    fst.MakeDomain(fst.args({"cubic_side_length": str((args.num/args.density)**(1./3.))})),
     fst.args({"particle_type": args.data})))
 mc.add(fst.MakePotential(fst.MakeLennardJones()))
 mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))

@@ -25,7 +25,7 @@ PARSER.add_argument('--mu_init', type=float, default=10, help='initial chemical 
 PARSER.add_argument('--num_particles', type=int, default=475, help='number of particles')
 PARSER.add_argument('--num_particles_first_node', type=int, default=375,
                     help='number of particles in the first node')
-PARSER.add_argument('--cubic_box_length', type=float, default=8,
+PARSER.add_argument('--cubic_side_length', type=float, default=8,
                     help='cubic periodic boundary length')
 PARSER.add_argument('--dccb_cut', type=float, default=1,
                     help='dual-cut configurational bias cutoff')
@@ -61,7 +61,7 @@ PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
 PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
 PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
-PARAMS['dccb_cut'] = PARAMS['cubic_box_length']/int(PARAMS['cubic_box_length']/PARAMS['dccb_cut'])
+PARAMS['dccb_cut'] = PARAMS['cubic_side_length']/int(PARAMS['cubic_side_length']/PARAMS['dccb_cut'])
 def sim_node_dependent_params(params):
     """ Define parameters that are dependent on the sim or node. """
     if params['node'] == 0:
@@ -95,7 +95,7 @@ WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 NeighborCriteria maximum_distance 1.375 minimum_distance 0.9
 {lj_potential}
 {ref_potential}
@@ -158,10 +158,10 @@ def post_process(params):
         beta_mu_eq.append(params['beta']*params['mu'] + delta_beta_mu)
         for index, phase in enumerate(lnpi.split()):
             n_gce = phase.average_macrostate()
-            rho = n_gce/params['cubic_box_length']**3
+            rho = n_gce/params['cubic_side_length']**3
             energy = phase.ensemble_average(energy_header)/n_gce
             if index == 0:
-                pressure.append(-phase.ln_prob()[0]/params['beta']/params['cubic_box_length']**3)
+                pressure.append(-phase.ln_prob()[0]/params['beta']/params['cubic_side_length']**3)
                 rho_vapor.append(rho)
                 en_vapor.append(energy)
             else:

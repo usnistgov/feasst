@@ -22,7 +22,7 @@ TEST(SelectCluster, serialize) {
     //mc_lj(&mc);
     System sys;
     {
-      auto config = MakeConfiguration({{"cubic_box_length", "8"},
+      auto config = MakeConfiguration({{"cubic_side_length", "8"},
         {"particle_type", "../forcefield/lj.fstprt"},
         {"add_particles_of_type0", "3"}});
       config->update_positions({{0, 0, 0},

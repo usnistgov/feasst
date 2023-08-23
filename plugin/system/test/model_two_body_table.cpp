@@ -10,7 +10,7 @@
 namespace feasst {
 
 TEST(ModelTwoBodyTable, lj) {
-  auto config = MakeConfiguration({{"cubic_box_length", "8"},
+  auto config = MakeConfiguration({{"cubic_side_length", "8"},
       {"particle_type0", "../forcefield/lj.fstprt"},
       {"particle_type1", "../forcefield/atom.fstprt"},
       {"add_particles_of_type0", "1"},

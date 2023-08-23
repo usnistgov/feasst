@@ -19,7 +19,12 @@ namespace feasst {
  */
 class FileVMD {
  public:
-  FileVMD() {}
+  /**
+    args:
+    - min_sigma: minimum sigma for printing radius in VMD (default: 0.1).
+   */
+  explicit FileVMD(argtype args = argtype());
+  explicit FileVMD(argtype * args);
 
   // Place holder for derived classes (e.g. FileVMDPatch)
   virtual void get_params(const Configuration& config,
@@ -35,6 +40,9 @@ class FileVMD {
   void serialize(std::ostream& ostr) const;
   explicit FileVMD(std::istream& istr);
   virtual ~FileVMD() {}
+
+ private:
+  double min_sigma_;
 };
 
 // Utility class to print XYZ files from selection.

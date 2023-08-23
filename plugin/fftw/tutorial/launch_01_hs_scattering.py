@@ -10,7 +10,7 @@ import unittest
 
 # define parameters of a pure component NVT MC hard sphere simulation
 params = {
-    "cubic_box_length": 8, "fstprt": "/feasst/forcefield/atom.fstprt",
+    "cubic_side_length": 8, "fstprt": "/feasst/forcefield/atom.fstprt",
     "num_particles": 128,
     "trials_per": 1e6, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
     "equilibration": 1e5, "production": 1e6, "num_nodes": 1, "procs_per_node": 1, "script": __file__}
@@ -22,7 +22,7 @@ def mc_hs(params=params, file_name="launch.txt"):
     with open(file_name, "w") as myfile: myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model HardSphere VisitModel VisitModelCell min_length 1
 ThermoParams beta 1 chemical_potential 1
 Metropolis

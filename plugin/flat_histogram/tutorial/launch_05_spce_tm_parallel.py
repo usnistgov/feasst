@@ -27,7 +27,7 @@ PARSER.add_argument('--max_particles', type=int, default=265, help='maximum numb
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
 PARSER.add_argument('--min_sweeps', type=int, default=5,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
-PARSER.add_argument('--cubic_box_length', type=float, default=20,
+PARSER.add_argument('--cubic_side_length', type=float, default=20,
                     help='cubic periodic boundary length')
 PARSER.add_argument('--dccb_cut', type=float, default=0.9*3.165,
                     help='dual-cut configurational bias cutoff')
@@ -63,10 +63,10 @@ PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
 PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
 PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
-PARAMS['alpha'] = 5.6/PARAMS['cubic_box_length']
+PARAMS['alpha'] = 5.6/PARAMS['cubic_side_length']
 PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 PARAMS['mu'] = PARAMS['beta_mu']/PARAMS['beta']
-PARAMS['dccb_cut'] = PARAMS['cubic_box_length']/int(PARAMS['cubic_box_length']/PARAMS['dccb_cut']) # maximize inside box
+PARAMS['dccb_cut'] = PARAMS['cubic_side_length']/int(PARAMS['cubic_side_length']/PARAMS['dccb_cut']) # maximize inside box
 PARAMS['place_h'] = 'angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0'
 if 'tip4p' in PARAMS['fstprt']:
     PARAMS['place_h'] = 'branch true mobile_site 2 mobile_site2 3 anchor_site 0 anchor_site2 1 reference_index 0'
@@ -90,7 +90,7 @@ WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} group0 oxygen oxygen_site_type 0
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} group0 oxygen oxygen_site_type 0
 Potential VisitModel Ewald alpha {alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
 RefPotential Model HardSphere group oxygen cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut} cell_group oxygen

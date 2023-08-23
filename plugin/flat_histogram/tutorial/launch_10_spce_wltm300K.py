@@ -26,7 +26,7 @@ PARSER.add_argument('--mu_init', type=float, default=-7, help='initial chemical 
 PARSER.add_argument('--num_particles', type=int, default=296, help='number of particles')
 PARSER.add_argument('--num_particles_first_node', type=int, default=180,
                     help='number of particles in the first node')
-PARSER.add_argument('--cubic_box_length', type=float, default=20,
+PARSER.add_argument('--cubic_side_length', type=float, default=20,
                     help='cubic periodic boundary length')
 PARSER.add_argument('--dccb_cut', type=float, default=0.9*3.165,
                     help='dual-cut configurational bias cutoff')
@@ -62,8 +62,8 @@ PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
 PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
 PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
-PARAMS['dccb_cut'] = PARAMS['cubic_box_length']/int(PARAMS['cubic_box_length']/PARAMS['dccb_cut'])
-PARAMS['ewald_alpha'] = 5.6/PARAMS['cubic_box_length']
+PARAMS['dccb_cut'] = PARAMS['cubic_side_length']/int(PARAMS['cubic_side_length']/PARAMS['dccb_cut'])
+PARAMS['ewald_alpha'] = 5.6/PARAMS['cubic_side_length']
 PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 PARAMS['mu'] = PARAMS['beta_mu']/PARAMS['beta']
 def sim_node_dependent_params(params):
@@ -104,7 +104,7 @@ WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} group0 oxygen oxygen_site_type 0
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} group0 oxygen oxygen_site_type 0
 Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
 {ref_potential}
@@ -173,10 +173,10 @@ def post_process(params):
         beta_mu_eq.append(params['beta']*params['mu'] + delta_beta_mu)
         for index, phase in enumerate(lnpi.split()):
             n_gce = phase.average_macrostate()
-            rho = rho_conv*n_gce/params['cubic_box_length']**3
+            rho = rho_conv*n_gce/params['cubic_side_length']**3
             energy = phase.ensemble_average(energy_header)/n_gce
             if index == 0:
-                pressure.append(-pressure_conv*phase.ln_prob()[0]/params['beta']/params['cubic_box_length']**3)
+                pressure.append(-pressure_conv*phase.ln_prob()[0]/params['beta']/params['cubic_side_length']**3)
                 rho_vapor.append(rho)
                 en_vapor.append(energy)
             else:
@@ -214,7 +214,7 @@ def post_process(params):
     # plot lnpi
     fst = pd.read_csv(params['prefix']+'_lnpi.csv')
     plt.plot(fst['state'], fst['ln_prob'], label='FEASST')
-    plt.plot(srsw['N'], srsw['lnPI'], linestyle='dashed', label='SRSW')
+    plt.plot(srsw[0], srsw[1], linestyle='dashed', label='SRSW')
     plt.xlabel('number of particles', fontsize=16)
     plt.ylabel('ln probability', fontsize=16)
     plt.legend(fontsize=16)

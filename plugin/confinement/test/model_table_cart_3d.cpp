@@ -11,7 +11,7 @@
 namespace feasst {
 
 TEST(ModelTableCart3DIntegr, SineSlabTable_LONG) {
-  auto domain = MakeDomain({{"cubic_box_length", "20"}});
+  auto domain = MakeDomain({{"cubic_side_length", "20"}});
   auto hamaker = MakeModelTableCart3DIntegr(MakeTable3D({
     {"num0", "3"},
     {"num1", "3"},
@@ -42,10 +42,10 @@ TEST(ModelTableCart3DIntegr, SineSlabTable_LONG) {
 }
 
 TEST(ModelTableCart3DIntegr, SineSlabTable_TXT_LONG) {
-//  MakeDomain({{"cubic_box_length", "20"}}).get(),
+//  MakeDomain({{"cubic_side_length", "20"}}).get(),
   auto hamaker = MakeModelTableCart3DIntegr({
     {"file_name", "tmp/table3d_out.txt"},
-    {"cubic_box_length", "20"},
+    {"cubic_side_length", "20"},
     {"num0", "11"},
     {"num1", "11"},
     {"num2", "11"},
@@ -64,7 +64,7 @@ TEST(ModelTableCart3DIntegr, SineSlabTable_TXT_LONG) {
     {"max_radius", "10"},
     {"num_shells", "10"},
     {"points_per_shell", "10"}});
-  auto config = MakeConfiguration({{"cubic_box_length", "20"}});
+  auto config = MakeConfiguration({{"cubic_side_length", "20"}});
   hamaker->precompute(config->model_params());
   MakeCheckpoint({{"file_name", "tmp/sine_slab_table"}})->write(hamaker->table());
   ModelTableCart3DIntegr hamaker2 = test_serialize(*hamaker);
@@ -73,7 +73,7 @@ TEST(ModelTableCart3DIntegr, SineSlabTable_TXT_LONG) {
 }
 
 TEST(ModelTableCard1DHard, compute_table) {
-  auto domain = MakeDomain({{"cubic_box_length", "10"}});
+  auto domain = MakeDomain({{"cubic_side_length", "10"}});
   auto shape = MakeSlabSine(
     { {"dimension", "1"}, {"wave_dimension", "0"}, {"average_bound0", "-5"},
       {"average_bound1", "5"}, {"amplitude", "2"}, {"width", "10"}});

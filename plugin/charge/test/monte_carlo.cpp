@@ -43,7 +43,7 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
   MonteCarlo mc;
   mc.set(spce({
     {"physical_constants", "CODATA2010"},
-    {"cubic_box_length", "24.8586887"},
+    {"cubic_side_length", "24.8586887"},
     {"alpha", str(5.6/24.8586887)},
     {"kmax_squared", "38"},
     {"xyz_file", install_dir() + "/plugin/charge/test/data/spce_sample_config_hummer_eq.xyz"}}));
@@ -79,7 +79,7 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
 TEST(MonteCarlo, spce_gce_LONG) {
   const int trials_per = 1e2;
   MonteCarlo mc;
-  mc.set(spce({{"alpha", str(5.6/24.8586887)}, {"kmax_squared", "38"}, {"cubic_box_length", str(24.8586887)}}));
+  mc.set(spce({{"alpha", str(5.6/24.8586887)}, {"kmax_squared", "38"}, {"cubic_side_length", str(24.8586887)}}));
   { const double sigma = mc.configuration().model_params().select("sigma").value(0);
     INFO("sigma " << sigma);
     mc.add_to_reference(MakePotential(
@@ -158,8 +158,8 @@ TEST(MonteCarlo, rpm) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}})); WARN("temporary");
-  mc.set(rpm({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"cubic_box_length", "20"}}));
-  //mc.set(rpm({{"cubic_box_length", "20"}, {"kmax_squared", "3"}})); WARN("temp");
+  mc.set(rpm({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"cubic_side_length", "20"}}));
+  //mc.set(rpm({{"cubic_side_length", "20"}, {"kmax_squared", "3"}})); WARN("temp");
   { Configuration * config = mc.get_system()->get_configuration();
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);
@@ -193,7 +193,7 @@ TEST(MonteCarlo, rpm) {
 
 TEST(MonteCarlo, spcearglist) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"cubic_box_length", "20"},
+    {"Configuration", {{"cubic_side_length", "20"},
                        {"particle_type0", "../forcefield/spce.fstprt"},
                        {"particle_type1", "../plugin/charge/forcefield/rpm_plus.fstprt"}}},
     {"Potential", {{"VisitModel", "Ewald"}, {"alpha", str(5.6/20)}, {"kmax_squared", "38"}}},

@@ -14,17 +14,17 @@ def nvtw(num_particles, num_procs, num_equil, num_prod, num_hours, dccb_begin, t
     #mc.set(fst.MakeRandomMT19937(fst.args({"seed": "1633373856"})))
     beta = 1./temperature
     if model == "lj":
-        mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "8",
+        mc.add(fst.MakeConfiguration(fst.args({"cubic_side_length": "8",
             "particle_type0": fst.install_dir() + "/forcefield/lj.fstprt"})))
         mc.add(fst.MakePotential(fst.MakeLennardJones()))
         mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
     elif model == "sqw":
-        config = fst.MakeConfiguration(fst.args({"cubic_box_length": "8", "particle_type0": fst.install_dir() + "/forcefield/atom.fstprt"}))
+        config = fst.MakeConfiguration(fst.args({"cubic_side_length": "8", "particle_type0": fst.install_dir() + "/forcefield/atom.fstprt"}))
         config.set_model_param("cutoff", 0, 1.5)
         mc.add(config)
         mc.add(fst.MakePotential(fst.MakeSquareWell()))
     elif model == "spce":
-        mc.add(fst.MakeConfiguration(fst.args({"cubic_box_length": "20",
+        mc.add(fst.MakeConfiguration(fst.args({"cubic_side_length": "20",
             "particle_type0": fst.install_dir() + "/forcefield/spce.fstprt"})))
         mc.add(fst.MakePotential(fst.MakeEwald(fst.args({"alpha": str(5.6/20),
             "kmax_squared": "38"}))))

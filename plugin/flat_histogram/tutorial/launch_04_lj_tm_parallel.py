@@ -31,7 +31,7 @@ PARSER.add_argument('--max_particles', type=int, default=370, help='maximum numb
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
 PARSER.add_argument('--min_sweeps', type=int, default=1e2,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
-PARSER.add_argument('--cubic_box_length', type=float, default=8,
+PARSER.add_argument('--cubic_side_length', type=float, default=8,
                     help='cubic periodic boundary length')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
                     help='like cycles, but not necessary num_particles')
@@ -76,7 +76,7 @@ WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential {mu_init}

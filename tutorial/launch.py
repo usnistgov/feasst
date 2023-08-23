@@ -57,11 +57,11 @@ PARAMS['procs_per_sim'] = 1
 PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
 PARAMS['densities'] = np.linspace(PARAMS['density_lower'], PARAMS['density_upper'],
                                   num=PARAMS['num_sims'])
-PARAMS['cubic_box_lengths'] = np.power(PARAMS['num_particles']/PARAMS['densities'], 1./3.).tolist()
+PARAMS['cubic_side_lengths'] = np.power(PARAMS['num_particles']/PARAMS['densities'], 1./3.).tolist()
 PARAMS['densities'] = PARAMS['densities'].tolist()
 def sim_node_dependent_params(params):
     """ Set parameters that depent upon the sim or node here. """
-    params['cubic_box_length'] = params['cubic_box_lengths'][params['sim']]
+    params['cubic_side_length'] = params['cubic_side_lengths'][params['sim']]
 
 def write_feasst_script(params, file_name):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -69,7 +69,7 @@ def write_feasst_script(params, file_name):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential -1

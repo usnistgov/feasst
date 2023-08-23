@@ -58,7 +58,7 @@ class Domain {
     args:
     - side_length[i]: set the side length of the i-th dimension.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
-    - cubic_box_length: side length of cubic perioidic boundary conditions.
+    - cubic_side_length: side length of cubic perioidic boundary conditions.
     - periodic[i]: set if the i-th dimension is periodic (default: true).
     - xy: set the tilt along the x-y direction (default: 0).
     - xz: set the tilt along the x-z direction (default: 0).

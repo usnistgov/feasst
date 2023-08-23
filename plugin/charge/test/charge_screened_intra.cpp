@@ -25,7 +25,7 @@ TEST(ChargeScreenedIntra, SRSW_refconfig) {
 }
 
 TEST(ChargeScreenedIntra, SRSW_refconfig_bond) {
-  auto config = MakeConfiguration({{"cubic_box_length", "20"},
+  auto config = MakeConfiguration({{"cubic_side_length", "20"},
                                    {"particle_type", "../forcefield/spce.fstprt"}});
   config->add_model_param("alpha", 5.6/config->domain().inscribed_sphere_diameter());
   config->add_particle_of_type(0);

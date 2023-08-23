@@ -42,7 +42,7 @@ namespace feasst {
 
 TEST(MonteCarlo, ShapeUnion) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeShapeUnion(
@@ -63,7 +63,7 @@ TEST(MonteCarlo, ShapeUnion) {
 
 TEST(MonteCarlo, ShapeUnion_LONG) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_box_length", "20"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "20"},
     {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape({{"file_name", "../plugin/shape/test/data/network.txt"}})));
@@ -82,7 +82,7 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
 
 TEST(MonteCarlo, ShapeTable_LONG) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_box_length", "20"}, {"particle_type", "../forcefield/lj.fstprt"}}));
+  mc.add(MakeConfiguration({{"cubic_side_length", "20"}, {"particle_type", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   auto pore = MakeShapeFile({{"file_name", "../plugin/shape/test/data/network.txt"}});
   mc.add(MakePotential(MakeModelHardShape(pore)));
@@ -134,7 +134,7 @@ TEST(MonteCarlo, ShapeTable_LONG) {
 System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
   System system;
   system.add(MakeConfiguration({
-    {"cubic_box_length", "5"},
+    {"cubic_side_length", "5"},
     {"particle_type0", "../forcefield/dimer.fstprt"},
     {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab5x5.fstprt"},
     {"particle_type2", "../forcefield/lj.fstprt"},
@@ -256,7 +256,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
 
 TEST(Ewald, henry_coefficient_LONG) {
   System system;
-  auto config = MakeConfiguration({{"cubic_box_length", "20"},
+  auto config = MakeConfiguration({{"cubic_side_length", "20"},
       {"particle_type0", "../forcefield/spce.fstprt"},
       //{"particle_type0", "../plugin/charge/forcefield/rpm_plus.fstprt"},
       {"particle_type1", install_dir() + "/plugin/confinement/forcefield/slab20x20.fstprt"},
@@ -283,7 +283,7 @@ TEST(Ewald, henry_coefficient_LONG) {
 TEST(HardShape, henry_LONG) {
   for (const double length : {10, 20}) {
     System system;
-    system.add(*MakeConfiguration({{"cubic_box_length", str(length)},
+    system.add(*MakeConfiguration({{"cubic_side_length", str(length)},
       {"particle_type0", "../forcefield/hard_sphere.fstprt"},
       {"periodic2", "false"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
@@ -299,7 +299,7 @@ TEST(HardShape, henry_LONG) {
 TEST(HardShape, henry2_LONG) {
   for (const double length : {10, 20}) {
     System system;
-    system.add(*MakeConfiguration({{"cubic_box_length", str(length)},
+    system.add(*MakeConfiguration({{"cubic_side_length", str(length)},
       {"particle_type0", "../forcefield/hard_sphere.fstprt"},
       {"periodic2", "false"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlabSine(
@@ -318,7 +318,7 @@ TEST(HardShape, henry_dimer_LONG) {
   for (const double length : {10}) {
   //for (const double length : {10, 20}) {
     System system;
-    system.add(*MakeConfiguration({{"cubic_box_length", str(length)},
+    system.add(*MakeConfiguration({{"cubic_side_length", str(length)},
       {"particle_type0", "../forcefield/dimer.fstprt"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
       {"dimension", "2"},
@@ -333,7 +333,7 @@ TEST(HardShape, henry_dimer_LONG) {
 
 TEST(DensityProfile, ig_hard_slab) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_box_length", "10"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "10"},
     {"particle_type0", "../forcefield/hard_sphere.fstprt"},
     {"particle_type1", "../forcefield/lj.fstprt"}}));
   INFO(mc.configuration().unique_type(0).site(0).is_anisotropic());
@@ -370,7 +370,7 @@ TEST(DensityProfile, ig_hard_slab) {
 TEST(MonteCarlo, SineSlab) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration({{"cubic_box_length", "16"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "16"},
     {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeSlabSine(
@@ -391,7 +391,7 @@ TEST(MonteCarlo, SineSlab) {
 
 TEST(MonteCarlo, SineSlabTable_LONG) {
   auto random = MakeRandomMT19937({{"seed", "time"}});
-  auto domain = MakeDomain({{"cubic_box_length", "16"}});
+  auto domain = MakeDomain({{"cubic_side_length", "16"}});
   auto pore = MakeSlabSine(
     { {"dimension", "1"}, {"wave_dimension", "0"}, {"average_bound0", "-5"},
       {"average_bound1", "5"}, {"amplitude", "2"}, {"width", "20"}});
@@ -421,7 +421,7 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
 
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration({{"cubic_box_length", "16"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "16"},
     {"particle_type0", "../forcefield/lj.fstprt"}}));
   mc.add(MakePotential(MakeModelHardShape(pore)));
   mc.add(MakePotential(MakeLennardJones()));

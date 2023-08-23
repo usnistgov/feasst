@@ -7,7 +7,7 @@ namespace feasst {
 
 TEST(TablePotential, serialize) {
   auto config = MakeConfiguration({
-    {"cubic_box_length", "8"},
+    {"cubic_side_length", "8"},
     {"particle_type0", "../forcefield/lj.fstprt"},
     {"add_particles_of_type0", "2"}});
   config->update_positions({{0, 0, 0}, {2, 0, 0}});

@@ -49,7 +49,7 @@ PARAMS = vars(ARGS)
 epsilon = 1. #4*eps*h^2/24mkbT/sigma^2
 PARAMS['s_14'] = 132*epsilon
 PARAMS['s_8'] = -30*epsilon
-PARAMS['cubic_box_length'] = (PARAMS['num_particles']/PARAMS['density'])**(1./3.)
+PARAMS['cubic_side_length'] = (PARAMS['num_particles']/PARAMS['density'])**(1./3.)
 PARAMS['script'] = __file__
 PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
 PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
@@ -63,7 +63,7 @@ def write_feasst_script(params, file_name):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model ModelTwoBodyFactory \
   model0 LennardJones \
   model1 TwoBodyAlpha alpha0 14 s0 {s_14} alpha1 8 s1 {s_8} \

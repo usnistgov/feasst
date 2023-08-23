@@ -25,7 +25,7 @@ PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number
 PARSER.add_argument('--min_particles_second_window', type=int, default=30, help='minimum number of particles in the second window')
 PARSER.add_argument('--min_sweeps', type=int, default=2,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
-PARSER.add_argument('--cubic_box_length', type=float, default=45,
+PARSER.add_argument('--cubic_side_length', type=float, default=45,
                     help='cubic periodic boundary length')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
                     help='like cycles, but not necessary num_particles')
@@ -62,7 +62,7 @@ PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
 PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 PARAMS['mu'] = PARAMS['beta_mu']/PARAMS['beta']
 PARAMS['dccb_cut'] = 4.
-PARAMS['dccb_cut'] = PARAMS['cubic_box_length']/int(PARAMS['cubic_box_length']/PARAMS['dccb_cut']) # maximize inside box
+PARAMS['dccb_cut'] = PARAMS['cubic_side_length']/int(PARAMS['cubic_side_length']/PARAMS['dccb_cut']) # maximize inside box
 PARAMS['mu_init']=10
 if 'n-butane' in PARAMS['fstprt']:
     PARAMS['num_sites'] = 4
@@ -141,7 +141,7 @@ WindowExponential maximum {max_particles} min0 {min_particles} min1 {min_particl
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} cutoff {cutoff}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff {cutoff}
 Potential Model LennardJones
 Potential Model LennardJones VisitModel VisitModelIntra intra_cut 4
 Potential VisitModel LongRangeCorrections
@@ -189,7 +189,7 @@ def post_process(params):
     #lnp.plot(show=True)
     print('WARNING: max_particles should be higher but the liquid peak was truncated to make the simulation faster')
     vapor, liquid = lnp.split()
-    volume = params['cubic_box_length']**3
+    volume = params['cubic_side_length']**3
     na = physical_constants.AvogadroConstant().value()
     dens_conv = 1./volume/na*params['molecular_weight']/1e3*1e30 # convert from N/V units of molecules/A^3 to kg/m
     # https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n

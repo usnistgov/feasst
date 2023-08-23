@@ -27,7 +27,7 @@ namespace feasst {
 System spce(argtype args) {
   System system;
   double dual_cut = dble("dual_cut", &args, -1);
-  add_if_not_used("cubic_box_length", &args, "20");
+  add_if_not_used("cubic_side_length", &args, "20");
   add_if_not_used("physical_constants", &args, "CODATA2018");
   add_if_not_used("particle_type", &args,
     install_dir() + "/forcefield/spce.fstprt");
@@ -60,7 +60,7 @@ System spce(argtype args) {
 System rpm(argtype args) {
   System system;
   double dual_cut = dble("dual_cut", &args, -1);
-  add_if_not_used("cubic_box_length", &args, "12");
+  add_if_not_used("cubic_side_length", &args, "12");
   add_if_not_used("particle_type0", &args,
     install_dir() + "/plugin/charge/forcefield/rpm_plus.fstprt");
   add_if_not_used("particle_type1", &args,

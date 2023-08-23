@@ -56,7 +56,7 @@ void test_morph(const System& system) {
 
 TEST(MonteCarlo, TrialMorph) {
   System system;
-  system.add(MakeConfiguration({{"cubic_box_length", "8"},
+  system.add(MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type0", "../forcefield/lj.fstprt"},
     {"particle_type1", "../plugin/morph/forcefield/lj2.fstprt"}}));
   system.add(MakePotential(MakeLennardJones()));
@@ -66,7 +66,7 @@ TEST(MonteCarlo, TrialMorph) {
 
 TEST(MonteCarlo, TrialMorphCO2N2) {
   System system;
-  system.add(MakeConfiguration({{"cubic_box_length", "30"},
+  system.add(MakeConfiguration({{"cubic_side_length", "30"},
     {"particle_type0", "../forcefield/co2.fstprt"},
     {"particle_type1", "../forcefield/n2.fstprt"}}));
   system.add(MakePotential(MakeLennardJones()));
@@ -78,7 +78,7 @@ MonteCarlo test_morph_expanded_lj(
   const std::vector<std::vector<int> > grow_sequence,
   const int max = 5) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../forcefield/lj.fstprt"},
                             {"particle_type1", "../forcefield/atom.fstprt"},
                             {"sigma1", "0.5"},
@@ -180,7 +180,7 @@ TEST(MonteCarlo, TrialMorph_RPM) {
 
 MonteCarlo test_morph_expanded(const std::string trials_per) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../plugin/morph/forcefield/lj0.fstprt"},
                             {"particle_type1", "../plugin/morph/forcefield/lj1.fstprt"},
                             {"particle_type2", "../plugin/morph/forcefield/lj2.fstprt"},
@@ -251,7 +251,7 @@ TEST(MonteCarlo, TrialMorphExpanded_LONG) {
 TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "1234"}}));
-  mc.add(MakeConfiguration({{"cubic_box_length", "8"},
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../plugin/morph/forcefield/lj0.fstprt"},
                             {"particle_type1", "../plugin/morph/forcefield/lj0b.fstprt"},
                             {"particle_type2", "../plugin/morph/forcefield/lj2.fstprt"},

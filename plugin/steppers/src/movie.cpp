@@ -18,6 +18,7 @@ Movie::Movie(argtype * args) : AnalyzeWriteOnly(args) {
   ASSERT(!file_name().empty(), "file name is required");
   args->insert({"append", "true"}); // always append
   xyz_ = FileXYZ(args);
+  vmd_ = FileVMD(args);
 }
 Movie::Movie(argtype args) : Movie(&args) { FEASST_CHECK_ALL_USED(args); }
 

@@ -6,8 +6,8 @@ import unittest
 
 # define parameters of a pure component NVT MC Lennard-Jones simulation
 params = {
-    "cubic_box_length": 5, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.2,
-    #"cubic_box_length": 6, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.5,
+    "cubic_side_length": 5, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.2,
+    #"cubic_side_length": 6, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.5,
     "max_particles": 90, "min_particles": 0, "min_sweeps": 1, "mu": -2.352321,
     #"max_particles": 156, "min_particles": 0, "min_sweeps": 1e4, "mu": -2.352321,
     "trials_per": int(5e3), "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,
@@ -30,7 +30,7 @@ Checkpoint file_name lj_checkpoint.fst num_hours {hours_per_checkpoint} num_hour
 
 # begin description of each MC clone
 RandomMT19937 seed {seed}
-Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt} cutoff 2.5
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff 2.5
 Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
 ConvertToRefPotential cutoff {dccb_cut} use_cell true
@@ -117,7 +117,7 @@ class TestFlatHistogramLJ(unittest.TestCase):
             #if frame == frames - 1:
                 #lnpi.reweight(-1, inplace=True)
                 #print(lnpi.equilibrium())
-            fac = (np.pi/6)/params['cubic_box_length']**3
+            fac = (np.pi/6)/params['cubic_side_length']**3
             volfrac = lnpi.macrostates()*fac
             prob = np.exp(lnpi.ln_prob())
             fig, ax = plt.subplots()

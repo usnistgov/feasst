@@ -17,8 +17,8 @@ Configuration spce_sample1() {
 }
 
 Configuration two_particle_configuration(argtype args) {
-  const double cubic_box_length = dble("cubic_box_length", &args, 6.);
-  Configuration config({{"cubic_box_length", feasst::str(cubic_box_length)},
+  const double cubic_side_length = dble("cubic_side_length", &args, 6.);
+  Configuration config({{"cubic_side_length", feasst::str(cubic_side_length)},
                         {"particle_type0", "../forcefield/atom.fstprt"}});
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);

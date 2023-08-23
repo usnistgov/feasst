@@ -22,7 +22,7 @@ def mc_lj(params=params, file_name="launch.txt"):
 MonteCarlo
 Checkpoint file_name checkpoint.fst
 RandomMT19937 seed time
-Configuration cubic_box_length {box_length} particle_type0 {fstprt}
+Configuration cubic_side_length {box_length} particle_type0 {fstprt}
 Potential Model LennardJones VisitModel VisitModelCell min_length 3
 Potential VisitModel LongRangeCorrections
 ThermoParams beta 0.1 chemical_potential 10

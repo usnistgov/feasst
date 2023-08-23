@@ -11,7 +11,7 @@ namespace feasst {
 TEST(PerturbAddAVB, gce_add) {
   System system;
   {
-    auto config = MakeConfiguration({{"cubic_box_length", "8"},
+    auto config = MakeConfiguration({{"cubic_side_length", "8"},
       {"particle_type", "../forcefield/lj.fstprt"},
       {"add_particles_of_type0", "1"}});
     config->update_positions({{0, 0, 0}});
