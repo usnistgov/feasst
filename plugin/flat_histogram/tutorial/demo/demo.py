@@ -6,8 +6,8 @@ import unittest
 
 # define parameters of a pure component NVT MC Lennard-Jones simulation
 params = {
-    "cubic_side_length": 5, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.2,
-    #"cubic_side_length": 6, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.5,
+    "cubic_side_length": 5, "fstprt": "/feasst/particle/lj.fstprt", "beta": 1/1.2,
+    #"cubic_side_length": 6, "fstprt": "/feasst/particle/lj.fstprt", "beta": 1/1.5,
     "max_particles": 90, "min_particles": 0, "min_sweeps": 1, "mu": -2.352321,
     #"max_particles": 156, "min_particles": 0, "min_sweeps": 1e4, "mu": -2.352321,
     "trials_per": int(5e3), "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(int(1e9)), "num_hours": 5*24,

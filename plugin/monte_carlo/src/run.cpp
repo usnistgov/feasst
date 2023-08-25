@@ -1,4 +1,6 @@
 
+#include <fstream>
+#include <sstream>
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "utils/include/timer.h"
@@ -429,6 +431,60 @@ void RefPotential::serialize(std::ostream& ostr) const {
 
 void RefPotential::run(MonteCarlo * mc) {
   mc->add_to_reference(MakePotential(args_), reference_index_);
+}
+
+WriteModelParams::WriteModelParams(argtype * args) {
+  class_name_ = "WriteModelParams";
+  file_name_ = str("file_name", args);
+  potential_index_ = integer("potential_index", args, -1);
+  reference_index_ = integer("reference_index", args, -1);
+}
+WriteModelParams::WriteModelParams(argtype args) : WriteModelParams(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
+
+class MapWriteModelParams {
+ public:
+  MapWriteModelParams() {
+    auto obj = MakeWriteModelParams({{"file_name", "place_holder"}});
+    obj->deserialize_map()["WriteModelParams"] = obj;
+  }
+};
+
+static MapWriteModelParams mapper_WriteModelParams = MapWriteModelParams();
+
+WriteModelParams::WriteModelParams(std::istream& istr) : Action(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 2890, "mismatch version: " << version);
+  feasst_deserialize(&file_name_, istr);
+  feasst_deserialize(&potential_index_, istr);
+  feasst_deserialize(&reference_index_, istr);
+}
+
+void WriteModelParams::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_action_(ostr);
+  feasst_serialize_version(2890, ostr);
+  feasst_serialize(file_name_, ostr);
+  feasst_serialize(potential_index_, ostr);
+  feasst_serialize(reference_index_, ostr);
+}
+
+void WriteModelParams::run(MonteCarlo * mc) {
+  std::ofstream file(file_name_);
+  const Configuration& config = mc->configuration();
+  if (potential_index_ == -1) {
+    file << config.model_params().str();
+  } else {
+    if (reference_index_ == -1) {
+      const Potential& potential = mc->system().potential(potential_index_);
+      file << potential.model_params(config).str();
+    } else {
+      const Potential& potential = mc->system().reference(reference_index_,
+                                                          potential_index_);
+      file << potential.model_params(config).str();
+    }
+  }
 }
 
 }  // namespace feasst

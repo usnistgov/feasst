@@ -7,14 +7,14 @@ namespace feasst {
 
 TEST(FileParticle, data_lj) {
   FileParticle lmp_file;
-  Particle particle = lmp_file.read("../forcefield/lj.fstprt");
+  Particle particle = lmp_file.read("../particle/lj.fstprt");
   EXPECT_EQ(particle.num_sites(), 1);
   EXPECT_EQ(particle.site(0).type(), 0);
   Position position;
   for (double coord : particle.site(0).position().coord()) {
     EXPECT_NEAR(0., coord, NEAR_ZERO);
   }
-  FileParticle().read_properties("../forcefield/lj.fstprt", &particle);
+  FileParticle().read_properties("../particle/lj.fstprt", &particle);
   EXPECT_NEAR(1., particle.site(0).property("epsilon"), NEAR_ZERO);
   EXPECT_NEAR(1., particle.site(0).property("sigma"), NEAR_ZERO);
   EXPECT_NEAR(3., particle.site(0).property("cutoff"), NEAR_ZERO);
@@ -34,7 +34,7 @@ TEST(FileParticle, data_lj) {
 
 TEST(FileParticle, data_spce) {
   FileParticle lmp_file;
-  Particle particle = lmp_file.read("../forcefield/spce.fstprt");
+  Particle particle = lmp_file.read("../particle/spce.fstprt");
   EXPECT_EQ(particle.num_sites(), 3);
   Site site;
   site = particle.site(0);
@@ -53,7 +53,7 @@ TEST(FileParticle, data_spce) {
   EXPECT_NEAR(0.942816142731718000, site.position().coord(1), NEAR_ZERO);
   EXPECT_NEAR(0., site.position().coord(2), NEAR_ZERO);
 
-  lmp_file.read_properties("../forcefield/spce.fstprt", &particle);
+  lmp_file.read_properties("../particle/spce.fstprt", &particle);
   EXPECT_NEAR(0.650169581, particle.site(0).property("epsilon"), NEAR_ZERO);
   EXPECT_NEAR(3.16555789, particle.site(0).property("sigma"), NEAR_ZERO);
   EXPECT_NEAR(-0.8476, particle.site(0).property("charge"), NEAR_ZERO);
@@ -83,7 +83,7 @@ TEST(FileParticle, data_spce) {
 
 TEST(FileParticle, dimer) {
   FileParticle lmp_file;
-  Particle particle = lmp_file.read("../forcefield/dimer.fstprt");
+  Particle particle = lmp_file.read("../particle/dimer.fstprt");
   EXPECT_EQ(particle.num_sites(), 2);
   EXPECT_EQ(-0.5, particle.site(0).position().coord(0));
 }

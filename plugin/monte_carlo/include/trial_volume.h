@@ -7,10 +7,17 @@
 
 namespace feasst {
 
-/// Attempt to change the volume.
-/// Not currently fully implemented or tested.
+/**
+  Attempt to change the volume.
+  Not currently fully implemented or tested for many cases, including Ewald
+  or VisitModelCell, etc.
+ */
 class TrialVolume : public Trial {
  public:
+  /**
+    args:
+    - PerturbVolume arguments 
+   */
   explicit TrialVolume(argtype args = argtype());
   explicit TrialVolume(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {

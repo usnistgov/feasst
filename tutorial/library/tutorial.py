@@ -7,8 +7,8 @@ parser.add_argument("--seed", type=str, help="random number generator seed",
     default="time")
 parser.add_argument("--length", type=float, help="cubic box length", default=8)
 parser.add_argument("--num", type=int, help="number of particles", default=50)
-parser.add_argument("--data", type=str, help="LMP forcefield data file",
-    default=fst.install_dir() + "/forcefield/lj.fstprt")
+parser.add_argument("--data", type=str, help="LMP particle data file",
+    default=fst.install_dir() + "/particle/lj.fstprt")
 parser.add_argument("--beta", type=float, help="inverse temperature",
     default=1.2)
 parser.add_argument("--trials", type=str, help="number of Monte Carlo trials",

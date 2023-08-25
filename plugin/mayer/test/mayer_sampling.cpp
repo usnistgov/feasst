@@ -64,7 +64,7 @@ MayerSampling ljb2(const int trials) {
   MonteCarlo mc;
   { // initialize system
     auto config = MakeConfiguration({{"cubic_side_length", "1000"},
-                                     {"particle_type0", "../forcefield/lj.fstprt"},
+                                     {"particle_type0", "../particle/lj.fstprt"},
                                      {"add_particles_of_type0", "2"}});
     config->set_model_param("cutoff", 0, config->domain().side_length(0)/2.);
     mc.add(config);
@@ -103,8 +103,8 @@ TEST(MonteCarlo, ljb2_LONG) {
 TEST(MayerSampling, square_well_LONG) {
   MonteCarlo mc;
   auto config = MakeConfiguration({{"cubic_side_length", "10"},
-    {"particle_type0", install_dir() + "/forcefield/lj.fstprt"}});
-  config->add_particle_type(install_dir() + "/forcefield/lj.fstprt", "2");
+    {"particle_type0", install_dir() + "/particle/lj.fstprt"}});
+  config->add_particle_type(install_dir() + "/particle/lj.fstprt", "2");
   config->add_particle_of_type(0);
   config->add_particle_of_type(1);
   mc.add(config);
@@ -135,8 +135,8 @@ TEST(MayerSampling, square_well_LONG) {
 TEST(MayerSampling, cg4_rigid_LONG) {
   MonteCarlo mc;
   auto config = MakeConfiguration({{"cubic_side_length", "1000"},
-    {"particle_type0", install_dir() + "/plugin/chain/forcefield/cg4_mab.fstprt"}});
-  config->add_particle_type(install_dir() + "/plugin/chain/forcefield/cg4_mab.fstprt", "2");
+    {"particle_type0", install_dir() + "/plugin/chain/particle/cg4_mab.fstprt"}});
+  config->add_particle_type(install_dir() + "/plugin/chain/particle/cg4_mab.fstprt", "2");
   config->add_particle_of_type(0);
   config->add_particle_of_type(1);
   mc.add(config);
@@ -169,8 +169,8 @@ TEST(MayerSampling, cg4_rigid_LONG) {
 //TEST(MayerSampling, SPCE_LONG) {
 //  MonteCarlo mc;
 //  { auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)}});
-//    config->add_particle_type(install_dir() + "/forcefield/spce.fstprt");
-//    config->add_particle_type(install_dir() + "/forcefield/spce.fstprt", "2");
+//    config->add_particle_type(install_dir() + "/particle/spce.fstprt");
+//    config->add_particle_type(install_dir() + "/particle/spce.fstprt", "2");
 //    for (int stype = 0; stype < config->num_site_types(); ++stype) {
 //      config->set_model_param("cutoff", stype, 100.);
 //      // HWH Why is there dependence on the cutoff? If large, it drifts too far away
@@ -231,8 +231,8 @@ TEST(MayerSampling, trimer_LONG) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1663862890"}}));
   { auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)}});
-    config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt");
-    config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt", "2");
+    config->add_particle_type(install_dir() + "/particle/trimer_0.4L.fstprt");
+    config->add_particle_type(install_dir() + "/particle/trimer_0.4L.fstprt", "2");
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);
     const double rwca = std::pow(2, 1./6.);

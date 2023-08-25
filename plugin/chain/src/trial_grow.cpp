@@ -8,7 +8,6 @@
 #include "monte_carlo/include/perturb_add.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "monte_carlo/include/perturb_anywhere.h"
-#include "monte_carlo/include/perturb_to_anchor.h"
 #include "monte_carlo/include/perturb_distance.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
 #include "monte_carlo/include/perturb_dihedral.h"
@@ -39,6 +38,9 @@
 #include "chain/include/trial_grow.h"
 #include "chain/include/select_branch.h"
 #include "chain/include/perturb_branch.h"
+#include "chain/include/perturb_to_anchor.h"
+#include "chain/include/select_two_sites.h"
+#include "chain/include/perturb_position_swap.h"
 
 namespace feasst {
 
@@ -224,8 +226,18 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           select = MakeTrialSelectBond({
             {"particle_type", particle_type},
             {"mobile_site", str("mobile_site", &iargs)},
-            {"anchor_site", str("anchor_site", &iargs)}});
+            {"anchor_site", str("anchor_site", &iargs)},
+            {"ignore_bond", "true"}});
           perturb = std::make_shared<PerturbToAnchor>(&iargs);
+        }
+        if (boolean("position_swap", &iargs, false)) {
+          ASSERT(used == 0, "cannot have more than one");
+          ++used;
+          select = MakeSelectTwoSites({
+            {"particle_type", particle_type},
+            {"mobile_site", str("mobile_site", &iargs)},
+            {"mobile_site2", str("mobile_site2", &iargs)}});
+          perturb = std::make_shared<PerturbPositionSwap>(&iargs);
         }
         if (boolean("rigid_body_connector", &iargs, false)) {
           ASSERT(used == 0, "cannot have more than one");

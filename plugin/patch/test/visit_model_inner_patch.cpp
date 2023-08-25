@@ -15,7 +15,7 @@ TEST(VisitModelInnerPatch, serialize) {
 
 TEST(VisitModelInnerPatch, patch_one) {
   Configuration config;
-  config.add_particle_type("../plugin/patch/forcefield/janus.fstprt");
+  config.add_particle_type("../plugin/patch/particle/janus.fstprt");
   config.set_model_param("cutoff", 0, 3.);
   config.set_model_param("cutoff", 1, 3.);
   config.set_model_param("patch_angle", 1, 90);
@@ -39,7 +39,7 @@ TEST(VisitModelInnerPatch, patch_one) {
 TEST(VisitModelInnerPatch, patch_one_2body) {
   System system;
   { auto config = MakeConfiguration({{"cubic_side_length", "10"},
-      {"particle_type", "../plugin/patch/forcefield/janus.fstprt"},
+      {"particle_type", "../plugin/patch/particle/janus.fstprt"},
       {"add_particles_of_type0", "2"},
       {"patch_angle1", "5"}});
     config->add(MakeGroup({{"site_type", "0"}}));

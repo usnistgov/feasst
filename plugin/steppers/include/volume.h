@@ -31,7 +31,7 @@ class Volume : public Analyze {
       const System& system,
       const TrialFactory& trial_factory) override;
 
-  const Accumulator& energy() const { return accumulator(); }
+  const Accumulator& volume() const { return accumulator(); }
 
   // serialize
   std::string class_name() const override { return std::string("Volume"); }

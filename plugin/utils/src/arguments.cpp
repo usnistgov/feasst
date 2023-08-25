@@ -187,9 +187,13 @@ std::pair<std::string, argtype> parse_line(const std::string line,
   std::string major;
   ss >> major;
   argtype args;
+  int num_pairs = 0;
   while(!ss.eof()) {
     std::string minor, value;
     ss >> minor >> value;
+    if (minor.empty()) {
+      break; // skip trailing whitespace
+    }
     ASSERT(!value.empty(), "Error parsing text file on line: \"" << ss.str()
       << "\". Line syntax typically requires an odd number of space-separated "
       << "strings (e.g., Object key0 value0 ... keyN valueN."
@@ -214,6 +218,8 @@ std::pair<std::string, argtype> parse_line(const std::string line,
       }
       args[minor] = value;
     }
+    ++num_pairs;
+    ASSERT(num_pairs < 1e8, "reached maximum number of pairs");
   }
   return std::pair<std::string, argtype>(major, args);
 }

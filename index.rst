@@ -15,7 +15,7 @@ Contents:
 
    README
    tutorial/README
-   forcefield/README
+   particle/README
    plugin/README
    plugin/example/README
    pyfeasst/README

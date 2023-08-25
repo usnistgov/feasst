@@ -13,7 +13,7 @@ from pyfeasst import feasstio
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/trimer.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/trimer.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--beta', type=float, default=1./0.275, help='inverse temperature')
 PARSER.add_argument('--mu', type=float, default=-1.375, help='chemical potential')
@@ -27,7 +27,7 @@ PARSER.add_argument('--cubic_side_length', type=float, default=8,
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=0,
-                    help='number of iterations for equilibraiton')
+                    help='number of iterations for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=16, help='number of processors')
@@ -70,6 +70,7 @@ Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} n
 
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff0_1 {rwca} cutoff1_1 {rwca}
+WriteModelParams file_name {prefix}_model_params.txt
 NeighborCriteria energy_maximum -0.5 site_type0 0 site_type1 0
 Potential EnergyMap EnergyMapNeighborCriteria neighbor_index 0 Model LennardJonesForceShift
 RefPotential Model LennardJonesForceShift cutoff {rwca} VisitModel VisitModelCell min_length {rwca}

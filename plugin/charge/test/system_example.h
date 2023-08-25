@@ -22,9 +22,9 @@ inline System chain(const double alpha,
                     const int kmax_squared) {
   System system;
   { auto config = MakeConfiguration({{"cubic_side_length", "20"},
-      {"particle_type0", "../forcefield/chain10_3types.fstprt"},
-      {"particle_type1", "../plugin/charge/forcefield/rpm_minus.fstprt"},
-      {"particle_type2", "../plugin/charge/forcefield/rpm_plus.fstprt"},
+      {"particle_type0", "../particle/chain10_3types.fstprt"},
+      {"particle_type1", "../plugin/charge/particle/rpm_minus.fstprt"},
+      {"particle_type2", "../plugin/charge/particle/rpm_plus.fstprt"},
       {"add_particles_of_type1", "1"},
       {"add_particles_of_type2", "1"},
     });

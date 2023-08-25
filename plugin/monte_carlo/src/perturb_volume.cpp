@@ -32,7 +32,7 @@ void PerturbVolume::perturb(
     TrialSelect * select,
     Random * random,
     const bool is_position_held) {
-  WARN("PerturbVolume is not correctly implemented.");
+  //WARN("PerturbVolume is not correctly implemented.");
   ASSERT(!is_position_held, "not implemented");
   // lnvn = lnv0 + dlnv
   //vn = exp(lnvo + dlnv)

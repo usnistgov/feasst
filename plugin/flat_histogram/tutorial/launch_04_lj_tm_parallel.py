@@ -22,7 +22,7 @@ from pyfeasst import feasstio
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/lj.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--beta', type=float, default=1./1.5, help='inverse temperature')
 PARSER.add_argument('--mu', type=float, default=-2.352321, help='chemical potential')
@@ -36,7 +36,7 @@ PARSER.add_argument('--cubic_side_length', type=float, default=8,
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=0,
-                    help='number of iterations for equilibraiton')
+                    help='number of iterations for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')

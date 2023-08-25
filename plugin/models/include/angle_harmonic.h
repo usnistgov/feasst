@@ -12,7 +12,7 @@ namespace feasst {
   with parameters given in Angle Properties.
 
   The usual 1/2 factor is not included, but can be incorporated into
-  the k parameter manually by the user input to the forcefield file.
+  the k parameter manually by the user input to the particle file.
  */
 class AngleHarmonic : public BondThreeBody {
  public:

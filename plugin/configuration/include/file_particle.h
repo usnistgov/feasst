@@ -8,7 +8,7 @@
 namespace feasst {
 
 /**
-  See <a href="../../../forcefield/README.html">Forcefield</a> for more details.
+  See <a href="../../../particle/README.html">Forcefield</a> for more details.
  */
 class FileParticle {
  public:

@@ -21,6 +21,6 @@ setuptools.setup(
     #version='${GIT_COMMIT_HASH}',
     py_modules = ["feasst"],
     packages=[''],
-    package_data={'': ['_feasst.so', 'forcefield/*'] + plugins},
+    package_data={'': ['_feasst.so', 'particle/*'] + plugins},
     include_package_data=True,
 )

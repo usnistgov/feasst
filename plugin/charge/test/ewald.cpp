@@ -187,7 +187,7 @@ TEST(Ewald, srsw_ref_config) {
     {"xz", "-2.6146722824297473"},
     {"yz", "-4.692615336756641"},
     {"xyz_file", "../plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz"},
-    {"particle_type0", install_dir() + "/forcefield/spce.fstprt"},
+    {"particle_type0", install_dir() + "/particle/spce.fstprt"},
     {"cutoff", "10"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));

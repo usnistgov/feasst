@@ -5,8 +5,8 @@ static feasst::ArgumentParse args("A canonical ensemble Metropolis Monte Carlo s
   {"--seed", "random number generator seed", "time"},
   {"--length", "cubic periodic boundary length", "8"},
   {"--num", "number of particles", "50"},
-  {"--data", "LMP forcefield data file",
-    feasst::install_dir() + "/forcefield/lj.fstprt"},
+  {"--data", "LMP particle data file",
+    feasst::install_dir() + "/particle/lj.fstprt"},
   {"--beta", "inverse temperature", "1.2"},
   {"--trials", "number of Monte Carlo trials", "1e6"}});
 

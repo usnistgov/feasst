@@ -11,8 +11,8 @@ namespace feasst {
 
 TEST(ModelTwoBodyTable, lj) {
   auto config = MakeConfiguration({{"cubic_side_length", "8"},
-      {"particle_type0", "../forcefield/lj.fstprt"},
-      {"particle_type1", "../forcefield/atom.fstprt"},
+      {"particle_type0", "../particle/lj.fstprt"},
+      {"particle_type1", "../particle/atom.fstprt"},
       {"add_particles_of_type0", "1"},
       {"add_particles_of_type1", "1"}});
   config->update_positions({{0, 0, 0}, {0, 0, 2}});

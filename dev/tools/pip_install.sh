@@ -12,7 +12,7 @@ rm -r build
 mkdir -p build
 cd build
 
-ln -s ../forcefield .
+ln -s ../particle .
 cmake -DUSE_SWIG=ON ..
 make _feasst -j$CPU_COUNT
 

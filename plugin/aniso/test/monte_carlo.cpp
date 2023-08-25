@@ -17,9 +17,9 @@ TEST(MonteCarlo, VisitModelInnerTable) {
   EXPECT_NEAR(vis->energy()[0][0].minimum(), -1, 1e-3);
   EXPECT_NEAR(vis->energy()[0][0].maximum(), -1., 1e-3);
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/aniso/forcefield/aniso_tabular.fstprt"},
+    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/aniso/particle/aniso_tabular.fstprt"},
       {"xyz_file", "../plugin/aniso/test/data/two.xyz"}}},
-    //{"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/aniso/forcefield/aniso_tabular.fstprt"},
+    //{"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/aniso/particle/aniso_tabular.fstprt"},
     //  {"add_particles_of_type0", "1"}}},
     //{"Potential", {{"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},
     {"Potential", {{"Model", "TwoBodyTable"}, {"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},

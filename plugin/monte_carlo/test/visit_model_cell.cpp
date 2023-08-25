@@ -92,7 +92,7 @@ TEST(VisitModelCell, spce_reference_config) {
 //// inconsistent
 //TEST(VisitModelCell, spce_reference_config_buildup) {
 //  Configuration config;
-//  config.add_particle_type("../forcefield/spce.fstprt");
+//  config.add_particle_type("../particle/spce.fstprt");
 //  const int rcut = 5;
 //  for (int site_index = 0; site_index < config.num_site_types(); ++site_index) {
 //    config.set_model_param("cutoff", site_index, rcut);

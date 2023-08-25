@@ -14,8 +14,8 @@ TEST(PerturbParticleType, serialize) {
   System sys;
   {
     auto config = MakeConfiguration({{"cubic_side_length", "8"},
-      {"particle_type0", "../forcefield/lj.fstprt"}});
-    config->add_particle_type("../forcefield/lj.fstprt", "sig0.25");
+      {"particle_type0", "../particle/lj.fstprt"}});
+    config->add_particle_type("../particle/lj.fstprt", "sig0.25");
     config->add_particle_of_type(0);
     config->add_particle_of_type(0);
     config->set_model_param("sigma", 1, 0.25);

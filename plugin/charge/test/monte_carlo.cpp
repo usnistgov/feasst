@@ -194,8 +194,8 @@ TEST(MonteCarlo, rpm) {
 TEST(MonteCarlo, spcearglist) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "20"},
-                       {"particle_type0", "../forcefield/spce.fstprt"},
-                       {"particle_type1", "../plugin/charge/forcefield/rpm_plus.fstprt"}}},
+                       {"particle_type0", "../particle/spce.fstprt"},
+                       {"particle_type1", "../plugin/charge/particle/rpm_plus.fstprt"}}},
     {"Potential", {{"VisitModel", "Ewald"}, {"alpha", str(5.6/20)}, {"kmax_squared", "38"}}},
     {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"VisitModel", "VisitModelCutoffOuter"}, {"table_size", "1e6"}}},
     {"Potential", {{"Model", "ChargeScreenedIntra"}, {"VisitModel", "VisitModelBond"}}},

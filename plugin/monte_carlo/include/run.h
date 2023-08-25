@@ -259,6 +259,40 @@ inline std::shared_ptr<RefPotential> MakeRefPotential(
   return std::make_shared<RefPotential>(args);
 }
 
+/**
+  Write ModelParams to file.
+ */
+class WriteModelParams : public Action {
+ public:
+  /**
+    args:
+    - file_name: name of file to write.
+    - potential_index: index of potential.
+      If -1, use Configuration (default: -1)
+    - reference_index: index of reference potential (default: -1).
+   */
+  explicit WriteModelParams(argtype args = argtype());
+  explicit WriteModelParams(argtype * args);
+  void run(MonteCarlo * mc) override;
+  std::shared_ptr<Action> create(std::istream& istr) const override {
+    return std::make_shared<WriteModelParams>(istr); }
+  std::shared_ptr<Action> create(argtype * args) const override {
+    return std::make_shared<WriteModelParams>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit WriteModelParams(std::istream& istr);
+  virtual ~WriteModelParams() {}
+
+ private:
+  int potential_index_;
+  int reference_index_;
+  std::string file_name_;
+};
+
+inline std::shared_ptr<WriteModelParams> MakeWriteModelParams(
+    argtype args = argtype()) {
+  return std::make_shared<WriteModelParams>(args);
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_MONTE_CARLO_RUN_H_

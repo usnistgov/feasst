@@ -13,7 +13,7 @@ from pyfeasst import scattering
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/atom.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/atom.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--num_particles', type=int, default=128, help='number of particles')
 PARSER.add_argument('--cubic_side_length', type=float, default=8,
@@ -21,7 +21,7 @@ PARSER.add_argument('--cubic_side_length', type=float, default=8,
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e0),
-                    help='number of iterations for equilibraiton')
+                    help='number of iterations for equilibration')
 PARSER.add_argument('--production_iterations', type=int, default=int(1e1),
                     help='number of iterations for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')

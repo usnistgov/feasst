@@ -7,10 +7,14 @@
 namespace feasst {
 
 /**
-  Change the volume of the system.
+  Change the volume of the system uniformly randomly in :math:`\ln V`.
  */
 class PerturbVolume : public Perturb {
  public:
+  /**
+    args:
+    - Tunable arguments.
+   */
   explicit PerturbVolume(argtype args = argtype());
   explicit PerturbVolume(argtype * args);
 

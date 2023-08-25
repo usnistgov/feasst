@@ -34,6 +34,8 @@ bool Metropolis::is_accepted(
     Random * random) {
   check_num_iterations_(num_trials_per_iteration_);
   DEBUG("ln_prob " << acceptance->ln_metropolis_prob());
+  DEBUG("is_allowed " << is_allowed(system, *acceptance));
+  DEBUG("reject " << acceptance->reject());
   if ( (!acceptance->reject()) &&
        is_allowed(system, *acceptance) &&
        (random->uniform() < std::exp(acceptance->ln_metropolis_prob())) ) {

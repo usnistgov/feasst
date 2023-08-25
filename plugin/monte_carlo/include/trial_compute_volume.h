@@ -21,17 +21,16 @@ The derivation of the acceptance criteria follows a similar procedure as
 descibed in TrialComputeMove, except with the following differences.
 See Lecture 9 of Kofke's CHE 530 course.
 Note that, following https://doi.org/10.1080/00268970210126619, this
-implementation does not make use of a shell particle and thus deviates from the
-true NPT ensemble for small systems.
-For example, the ideal gas with this algorithm will be :math:`\beta PV=N+1`.
+implementation makes use of a shell particle.
+The ideal gas with this algorithm will be :math:`\beta P\langle V\rangle=N`.
 
 The limiting distribution in the isothermal-isobaric ensemble is
 
-:math:`\pi_i \propto e^{-\beta U - \beta P V + N \ln V} dV`
+:math:`\pi_i \propto e^{-\beta U - \beta P V + (N-1) \ln V} dV`
 
 But if volume is changed in \ln units
 
-:math:`\pi_i \propto e^{-\beta U - \beta P V + (N+1) \ln V} d\ln V`
+:math:`\pi_i \propto e^{-\beta U - \beta P V + N \ln V} d\ln V`
 
 The transition probabilities are as follows, assuming that this move is
 coupled with a trial that removes particles with the same selection weight.
@@ -53,14 +52,14 @@ coupled with a trial that removes particles with the same selection weight.
 Application of local detailed balance yields the acceptance probability,
 :math:`\chi`.
 
-:math:`\frac{e^{-\beta U_o - \beta P V_o + N \ln V_o}}{\Delta V}min(1, \chi) =
-\frac{e^{-\beta U_n - \beta P V_n + N \ln V_n}}{\Delta V}min(1, 1/\chi)`
+:math:`\frac{e^{-\beta U_o - \beta P V_o + (N-1) \ln V_o}}{\Delta V}min(1, \chi) =
+\frac{e^{-\beta U_n - \beta P V_n + (N-1) \ln V_n}}{\Delta V}min(1, 1/\chi)`
 
-:math:`\chi = e^{-\beta\Delta U - \beta P \Delta V + N \ln V_n/V_o}`
+:math:`\chi = e^{-\beta\Delta U - \beta P \Delta V + (N-1) \ln V_n/V_o}`
 
 And if volume is changed in \ln units
 
-:math:`\chi = e^{-\beta\Delta U - \beta P \Delta V + (N+1) \ln V_n/V_o}`
+:math:`\chi = e^{-\beta\Delta U - \beta P \Delta V + N \ln V_n/V_o}`
 \endrst
  */
 class TrialComputeVolume : public TrialCompute {

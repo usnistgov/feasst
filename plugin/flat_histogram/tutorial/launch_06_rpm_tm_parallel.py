@@ -15,9 +15,9 @@ from pyfeasst import physical_constants
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--plus', type=str, default='/feasst/plugin/charge/forcefield/rpm_plus.fstprt',
+PARSER.add_argument('--plus', type=str, default='/feasst/plugin/charge/particle/rpm_plus.fstprt',
                     help='FEASST particle definition of the positive charge RPM')
-PARSER.add_argument('--minus', type=str, default='/feasst/plugin/charge/forcefield/rpm_minus.fstprt',
+PARSER.add_argument('--minus', type=str, default='/feasst/plugin/charge/particle/rpm_minus.fstprt',
                     help='FEASST particle definition of the negative charge RPM')
 PARSER.add_argument('--beta', type=float, default=1./0.047899460618081, help='inverse temperature')
 PARSER.add_argument('--beta_mu', type=float, default=-13.94, help='beta times chemical potential')
@@ -32,7 +32,7 @@ PARSER.add_argument('--dccb_cut', type=float, default=2**(1./6.),
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=0,
-                    help='number of iterations for equilibraiton')
+                    help='number of iterations for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=2, help='number of processors')

@@ -57,8 +57,8 @@ void test_morph(const System& system) {
 TEST(MonteCarlo, TrialMorph) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "8"},
-    {"particle_type0", "../forcefield/lj.fstprt"},
-    {"particle_type1", "../plugin/morph/forcefield/lj2.fstprt"}}));
+    {"particle_type0", "../particle/lj.fstprt"},
+    {"particle_type1", "../plugin/morph/particle/lj2.fstprt"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));
   test_morph(system);
@@ -67,8 +67,8 @@ TEST(MonteCarlo, TrialMorph) {
 TEST(MonteCarlo, TrialMorphCO2N2) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "30"},
-    {"particle_type0", "../forcefield/co2.fstprt"},
-    {"particle_type1", "../forcefield/n2.fstprt"}}));
+    {"particle_type0", "../particle/co2.fstprt"},
+    {"particle_type1", "../particle/n2.fstprt"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));
   test_morph(system);
@@ -79,8 +79,8 @@ MonteCarlo test_morph_expanded_lj(
   const int max = 5) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../forcefield/lj.fstprt"},
-                            {"particle_type1", "../forcefield/atom.fstprt"},
+                            {"particle_type0", "../particle/lj.fstprt"},
+                            {"particle_type1", "../particle/atom.fstprt"},
                             {"sigma1", "0.5"},
                             {"cutoff1", "1"},
                             {"add_particles_of_type0", "1"}}));
@@ -181,10 +181,10 @@ TEST(MonteCarlo, TrialMorph_RPM) {
 MonteCarlo test_morph_expanded(const std::string trials_per) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../plugin/morph/forcefield/lj0.fstprt"},
-                            {"particle_type1", "../plugin/morph/forcefield/lj1.fstprt"},
-                            {"particle_type2", "../plugin/morph/forcefield/lj2.fstprt"},
-                            {"particle_type3", "../plugin/morph/forcefield/lj3.fstprt"},
+                            {"particle_type0", "../plugin/morph/particle/lj0.fstprt"},
+                            {"particle_type1", "../plugin/morph/particle/lj1.fstprt"},
+                            {"particle_type2", "../plugin/morph/particle/lj2.fstprt"},
+                            {"particle_type3", "../plugin/morph/particle/lj3.fstprt"},
                             {"add_particles_of_type0", "1"}}));
   mc.add(MakePotential(MakeLennardJones()));
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
@@ -252,10 +252,10 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "1234"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../plugin/morph/forcefield/lj0.fstprt"},
-                            {"particle_type1", "../plugin/morph/forcefield/lj0b.fstprt"},
-                            {"particle_type2", "../plugin/morph/forcefield/lj2.fstprt"},
-                            {"particle_type3", "../plugin/morph/forcefield/lj2b.fstprt"}}));
+                            {"particle_type0", "../plugin/morph/particle/lj0.fstprt"},
+                            {"particle_type1", "../plugin/morph/particle/lj0b.fstprt"},
+                            {"particle_type2", "../plugin/morph/particle/lj2.fstprt"},
+                            {"particle_type3", "../plugin/morph/particle/lj2b.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};

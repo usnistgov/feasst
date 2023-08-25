@@ -12,7 +12,7 @@ namespace feasst {
 
 TEST(VisitModelCell, cells) {
   auto config = MakeConfiguration({{"cubic_side_length", "7"},
-    {"particle_type0", "../forcefield/spce.fstprt"},
+    {"particle_type0", "../particle/spce.fstprt"},
     {"add_particles_of_type0", "1"}});
   config->add(MakeGroup({{"site_type", "0"}}));
 
@@ -65,7 +65,7 @@ TEST(VisitModelCell, cells) {
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, simple_lj) {
   auto config = MakeConfiguration({{"cubic_side_length", "15"},
-    {"particle_type", "../forcefield/lj.fstprt"},
+    {"particle_type", "../particle/lj.fstprt"},
     {"add_particles_of_type0", "2"}});
   Select select(config->newest_particle_index(), config->newest_particle());
   config->add_particle_of_type(0);

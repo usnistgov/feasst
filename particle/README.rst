@@ -1,11 +1,11 @@
 **********************
-Forcefield and Units
-**********************
+Particle files and units
+*************************
 
-The forcefield directory is a place for files which describe a single particle, which could represent an atom, molecule or coarse-grained model.
+The particle directory is a place for files which describe a single particle, which could represent an atom, molecule or coarse-grained model.
 These files are LAMMPS-inspired (https://lammps.sandia.gov/doc/read_data.html), but deviate significantly from LAMMPS as described in detail below.
 Each file represents only a single particle (or molecule), and these files are used to define the types of particles (or molecules) that can exist in the simulation.
-Each plugin many also contain a forcefield directory as additional examples and for use in tutorials.
+Each plugin many also contain a particle directory as additional examples and for use in tutorials.
 The units used in these files (length, energy, etc) are not assumed (with one exception) and must be consistent with the units to initialize your simulations.
 
 ======
@@ -59,7 +59,7 @@ The labels are typically the ones described in :cpp:class:`ModelParams <feasst::
 The use of these parameters depends on the chosen models.
 For example, :cpp:class:`LennardJones <feasst::LennardJones>` or :cpp:class:`SquareWell <feasst::SquareWell>`.
 
-Other more complex models may utilize a custom defined ModelParam, such as :cpp:class:`patch_angle <feasst::PatchAngle>` as shown in /path/to/feasst/plugin/patch/forcefield/patch_one.fstprt.
+Other more complex models may utilize a custom defined ModelParam, such as :cpp:class:`patch_angle <feasst::PatchAngle>` as shown in /path/to/feasst/plugin/patch/particle/patch_one.fstprt.
 In addition, the label "director" is described in :cpp:class:`VisitModelInnerPatch <feasst::VisitModelInnerPatch>` and utilized by :cpp:class:`Site <feasst::Site>`.
 
 Sites

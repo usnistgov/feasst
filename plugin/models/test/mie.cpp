@@ -7,7 +7,7 @@ namespace feasst {
 
 TEST(Mie, analytical) {
   Configuration config;
-  config.add_particle_type("../forcefield/lj.fstprt");
+  config.add_particle_type("../particle/lj.fstprt");
   auto model1 = std::make_shared<LennardJones>();
   auto model2 = std::make_shared<Mie>();
   model1->precompute(config.model_params());

@@ -15,8 +15,8 @@ from pyfeasst import cd
 
 # define parameters of a pure component NVT MC Lennard-Jones simulation
 params = {
-    "cubic_side_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/0.7, "mu": -4.1603632,
-    #"cubic_side_length": 8, "fstprt": "/feasst/forcefield/lj.fstprt", "beta": 1/1.5, "mu": -2.352321,
+    "cubic_side_length": 8, "fstprt": "/feasst/particle/lj.fstprt", "beta": 1/0.7, "mu": -4.1603632,
+    #"cubic_side_length": 8, "fstprt": "/feasst/particle/lj.fstprt", "beta": 1/1.5, "mu": -2.352321,
     "min_particles": 100, "min_sweeps": 1e9,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 0.5,
     "equilibration": 1e6, "num_nodes": 1, "procs_per_sim": 1, "procs_per_node": 4, "script": __file__, "dccb_cut": 2**(1./6.),

@@ -18,8 +18,8 @@ TEST(TrialSelectParticle, serialize) {
 TEST(TrialSelectParticle, exclude_perturbed) {
   System system;
   { auto config = MakeConfiguration({
-      {"particle_type0", "../forcefield/lj.fstprt"},
-      {"particle_type1", "../forcefield/atom.fstprt"}});
+      {"particle_type0", "../particle/lj.fstprt"},
+      {"particle_type1", "../particle/atom.fstprt"}});
     config->add_particle_of_type(0);
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);

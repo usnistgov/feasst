@@ -10,7 +10,7 @@ namespace feasst {
 TEST(TrialSwapSites, swap) {
   System sys;
   sys.add(*MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type", "../forcefield/chain10_3types.fstprt"},
+    {"particle_type", "../particle/chain10_3types.fstprt"},
     {"add_particles_of_type0", "1"}}));
   sys.add(MakePotential(MakeLennardJones()));
   sys.energy();

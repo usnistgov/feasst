@@ -19,6 +19,8 @@ class TrialSelectBond : public TrialSelect {
     args:
     - mobile_site: index of the mobile site.
     - anchor_site: index of the anchor site.
+    - ignore_bond: if true, do not try to find a bond between mobile and anchor.
+      This is used for generic reptations (default: false).
    */
   explicit TrialSelectBond(argtype args = argtype());
   explicit TrialSelectBond(argtype * arg);
@@ -48,6 +50,7 @@ class TrialSelectBond : public TrialSelect {
  private:
   int mobile_site_;
   int anchor_site_;
+  bool ignore_bond_;
 };
 
 inline std::shared_ptr<TrialSelectBond> MakeTrialSelectBond(

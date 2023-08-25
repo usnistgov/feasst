@@ -17,8 +17,8 @@ parser.add_argument("--seed", type=str, help="random number generator seed",
     default="time")
 parser.add_argument("--density", type=float, help="number density, num/volume", default=0.776)
 parser.add_argument("--num", type=int, help="number of particles", default=500)
-parser.add_argument("--data", type=str, help="LMP forcefield data file",
-    default=fst.install_dir() + "/forcefield/lj.fstprt")
+parser.add_argument("--data", type=str, help="LMP particle data file",
+    default=fst.install_dir() + "/particle/lj.fstprt")
 parser.add_argument("--beta", type=float, help="inverse temperature",
     default=1/0.9)
 parser.add_argument("--equilibration_trials", type=int, help="number of trials for equilibration",

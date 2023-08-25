@@ -15,7 +15,7 @@ from pyfeasst import scattering
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/atom.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/atom.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--xyz_file', type=str, default='post_process.xyz',
                     help='The xyz file to read configurations')

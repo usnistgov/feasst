@@ -13,7 +13,7 @@ namespace feasst {
 
   \f$ U = -0.5*\f$k_energy_per_length_sq\f$*\f$R_0\f$^2\ln\left[1-\left(\frac{r}{R_0}\right)^2\right] \f$
 
-  where k_energy_per_length_sq and R_0 are input bond parameters in the forcefield.
+  where k_energy_per_length_sq and R_0 are input bond parameters in the particle.
 
   Note that FENE is typically coupled with a WCA potential as described in
   LennardJonesCutShift.

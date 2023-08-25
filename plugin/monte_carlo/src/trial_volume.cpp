@@ -1,6 +1,6 @@
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
-#include "monte_carlo/include/trial_select_particle.h"
+#include "monte_carlo/include/trial_select_all.h"
 #include "monte_carlo/include/perturb_volume.h"
 #include "monte_carlo/include/trial_compute_volume.h"
 #include "monte_carlo/include/trial_volume.h"
@@ -21,7 +21,7 @@ TrialVolume::TrialVolume(argtype * args) : Trial(args) {
   class_name_ = "TrialVolume";
   set_description("TrialVolume");
   add_stage(
-    std::make_shared<TrialSelectParticle>(args),
+    std::make_shared<TrialSelectAll>(args),
     std::make_shared<PerturbVolume>(args),
     args);
   set(MakeTrialComputeVolume());

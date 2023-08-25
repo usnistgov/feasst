@@ -31,15 +31,14 @@ void TrialComputeVolume::perturb_and_acceptance(
   const Configuration& config = system->configuration();
   const double volume_old = config.domain().volume();
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_new());
-  acceptance->set_energy_profile_new(criteria->current_energy_profile());
-  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_new());
+  acceptance->set_energy_new(acceptance->energy_new());
+  acceptance->set_energy_profile_new(acceptance->energy_profile_new());
   const double volume_new = config.domain().volume();
   if (volume_old == volume_new) acceptance->set_reject(true);
   const ThermoParams& thermo = system->thermo_params();
   acceptance->add_to_ln_metropolis_prob(
     - thermo.beta()*thermo.pressure()*(volume_new - volume_old)
-    + (config.num_particles() + 1)*std::log(volume_new/volume_old)
+    + config.num_particles()*std::log(volume_new/volume_old)
   );
 }
 

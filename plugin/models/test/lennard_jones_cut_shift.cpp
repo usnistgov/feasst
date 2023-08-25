@@ -6,7 +6,7 @@
 namespace feasst {
 
 TEST(LennardJonesCutShift, analytical) {
-  auto config = MakeConfiguration({{"particle_type0", "../forcefield/lj.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.fstprt"}});
   auto shift = std::make_shared<LennardJonesCutShift>();
   shift->precompute(config->model_params());
   EXPECT_NEAR(0., shift->energy(3*3, 0, 0, config->model_params()), NEAR_ZERO);
@@ -14,7 +14,7 @@ TEST(LennardJonesCutShift, analytical) {
 }
 
 TEST(LennardJonesCutShift, analytical_delta) {
-  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/forcefield/ljdelta.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljdelta.fstprt"}});
   //auto shift = std::make_shared<LennardJonesAlpha>();
   auto shift = std::make_shared<LennardJonesCutShift>();
   shift->precompute(config->model_params());
@@ -24,7 +24,7 @@ TEST(LennardJonesCutShift, analytical_delta) {
 }
 
 TEST(LennardJonesCutShift, wca) {
-  auto config = MakeConfiguration({{"particle_type0", "../forcefield/lj.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.fstprt"}});
   auto wca = std::make_shared<LennardJonesCutShift>();
   ModelParams wca_params = deep_copy(config->model_params());
   EXPECT_NEAR(3., config->model_params().select("cutoff").mixed_values()[0][0], NEAR_ZERO);
@@ -38,7 +38,7 @@ TEST(LennardJonesCutShift, wca) {
 }
 
 TEST(LennardJonesCutShift, serialize) {
-  auto config = MakeConfiguration({{"particle_type0", "../forcefield/spce.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.fstprt"}});
   auto shift = MakeLennardJonesCutShift({{"alpha", "12"},
                                          {"hard_sphere_threshold", "0.3"}});
   shift->precompute(config->model_params());
@@ -47,7 +47,7 @@ TEST(LennardJonesCutShift, serialize) {
 }
 
 TEST(LennardJonesCutShift, analytical_lambda) {
-  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/forcefield/ljlambda.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljlambda.fstprt"}});
   auto shift = MakeLennardJonesCutShift({{"lambda", "true"}});
   shift->precompute(config->model_params());
   EXPECT_NEAR(-0.002739720872119390 - -0.001087390195827500, shift->energy(2.5*2.5, 0, 0, config->model_params()), NEAR_ZERO);

@@ -131,11 +131,11 @@ class MacrostateDistribution:
         """
         return (np.exp(self.ln_prob()) * self._dataframe[header]).sum()
 
-    def plot(self, show=False):
+    def plot(self, show=False, label=None, fontsize=16):
         '''Create a matplotlib.pyplot plot of the ln_prob.'''
-        plt.plot(self.macrostates(), self.ln_prob())
-        plt.xlabel('macrostate')
-        plt.ylabel(r'$\ln\Pi$')
+        plt.plot(self.macrostates(), self.ln_prob(), label=label)
+        plt.xlabel('macrostate', fontsize=fontsize)
+        plt.ylabel(r'$\ln\Pi$', fontsize=fontsize)
         if show:
             plt.show()
 

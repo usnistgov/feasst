@@ -29,7 +29,7 @@ TEST(FileXYZ, load_spce) {
 
 TEST(FileXYZ, load_frame) {
   auto config = MakeConfiguration({{"particle_type0",
-                                    "../forcefield/dimer.fstprt"}});
+                                    "../particle/dimer.fstprt"}});
   std::ifstream xyz("../plugin/configuration/test/data/dimer4.xyz");
   FileXYZ fxyz;
   fxyz.load_frame(xyz, config.get());

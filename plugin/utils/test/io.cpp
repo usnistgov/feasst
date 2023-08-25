@@ -25,11 +25,11 @@ TEST(IO, trim) {
   fs.assign(trim("/", f2));
   EXPECT_EQ(0, fs.compare("file"));
 
-  const char* f3 = "/home/username/feasst/forcefield/cg7mabaniso.json";
+  const char* f3 = "/home/username/feasst/particle/cg7mabaniso.json";
   EXPECT_EQ("json", trim(".", f3));
 
   // now find the path by trimming from right (3rd flag 0) instead of the left
-  EXPECT_EQ("/home/username/feasst/forcefield/", trim("/", f3, 0));
+  EXPECT_EQ("/home/username/feasst/particle/", trim("/", f3, 0));
 }
 
 TEST(IO, serialize) {

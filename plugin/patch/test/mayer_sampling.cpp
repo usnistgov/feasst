@@ -16,7 +16,7 @@ namespace feasst {
 TEST(MayerSampling, patch_LONG) {
   for (const double degrees : {180, 90}) {
     MonteCarlo mc;
-    const std::string fstprt = install_dir() + "/plugin/patch/forcefield/janus.fstprt";
+    const std::string fstprt = install_dir() + "/plugin/patch/particle/janus.fstprt";
     { auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)}});
       config->add_particle_type(fstprt);
       config->add_particle_type(fstprt, "2");

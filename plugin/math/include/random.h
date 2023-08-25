@@ -166,7 +166,7 @@ class Random {
 //
 //    Note that the spring_constant has units of energy/degree^exponent.
 //    The usual 1/2 factor is not included, but can be incorporated into
-//    the spring constant manually by the user input to the forcefield file.
+//    the spring constant manually by the user input to the particle file.
 //  */
 //  double bond_angle(const double theta0, /// units of radians
 //    const double beta_spring_constant,  /// units of 1/degree^exponent

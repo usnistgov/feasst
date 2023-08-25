@@ -18,7 +18,7 @@ from pyfeasst import multistate_accumulator
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/spce.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/spce.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--temperature', type=float, default=300, help='temperature in Kelvin')
 PARSER.add_argument('--beta_mu', type=float, default=-15.24, help='beta times chemical potential')
@@ -33,7 +33,7 @@ PARSER.add_argument('--dccb_cut', type=float, default=0.9*3.165,
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=0,
-                    help='number of iterations for equilibraiton')
+                    help='number of iterations for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=5*24, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
@@ -79,14 +79,14 @@ def sim_node_dependent_params(params):
     elif params['node'] == 1:
         params['min_particles'] = params['num_particles_first_node']
         params['max_particles'] = params['num_particles']
-        params["gce_trial"]="TrialGrowFile file_name spce_grow.txt"
+        params["gce_trial"]="""TrialGrowFile file_name {prefix}_grow.txt""".format(**params)
         params["ref_potential"]="""RefPotential Model HardSphere group oxygen cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut} cell_group oxygen""".format(**params)
         params['min_sweeps'] = 1
         params['window_alpha'] = 1.25
         params['min_window_size'] = 3
 
-# write TrialGrowFile for SPCE
-with open('spce_grow.txt', 'w') as f:
+# write TrialGrowFile
+with open(PARAMS['prefix']+'_grow.txt', 'w') as f:
     f.write("""TrialGrowFile
 
 particle_type 0 weight 2 transfer true site 0 num_steps 10 reference_index 0

@@ -15,7 +15,7 @@ TEST(ModelHardShape, half_space) {
   });
   ModelHardShape model(std::make_shared<HalfSpace>(half_space));
   auto config = MakeConfiguration({{"cubic_side_length", "8"},
-    {"particle_type", "../forcefield/atom.fstprt"},
+    {"particle_type", "../particle/atom.fstprt"},
     {"add_particles_of_type0", "1"}});
   const ModelParams model_params = config->model_params();
   model.precompute(model_params);

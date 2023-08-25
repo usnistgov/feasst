@@ -15,14 +15,14 @@ from pyfeasst import accumulator
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/forcefield/cg7mab2.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/particle/cg7mab2.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--reference_sigma', type=float, default=4.5,
                     help='reference potential is a hard sphere of this size at the hinge')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
-                    help='number of iterations for equilibraiton')
+                    help='number of iterations for equilibration')
 PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
                     help='number of iterations for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
@@ -59,7 +59,7 @@ def write_feasst_script(params, file_name):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length 500 particle_type0 /feasst/plugin/chain/forcefield/cg7mab2.fstprt \
+Configuration cubic_side_length 500 particle_type0 /feasst/plugin/chain/particle/cg7mab2.fstprt \
     add_particles_of_type0 2 \
     group0 first first_particle_index 0
 Potential Model HardSphere

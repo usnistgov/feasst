@@ -41,7 +41,7 @@ TEST(MonteCarlo, cluster_LONG) {
     MonteCarlo mc;
     //mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
     mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-      {"particle_type0", "../forcefield/lj.fstprt"},
+      {"particle_type0", "../particle/lj.fstprt"},
       {"add_particles_of_type0", "3"}}));
     mc.get_system()->get_configuration()->update_positions({{0, 0, 0}, {2, 0, 0}, {4, 0, 0}});
     mc.add(MakePotential({{"Model", "LennardJones"}, {"EnergyMap", "EnergyMapNeighbor"}}));
@@ -105,7 +105,7 @@ TEST(MonteCarlo, GCMCmap) {
     INFO(mapstr);
     MonteCarlo mc;
     //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-    mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+    mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}));
     mc.add(MakePotential(MakeLennardJones()));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
@@ -148,7 +148,7 @@ MonteCarlo mc_avb_test(
   MonteCarlo monte_carlo;
   // monte_carlo.set(MakeRandomMT19937({{"seed", "default"}}));
   monte_carlo.add(MakeConfiguration({{"cubic_side_length", "6"},
-                                     {"particle_type", "../forcefield/lj.fstprt"}}));
+                                     {"particle_type", "../particle/lj.fstprt"}}));
   if (avb) {
     monte_carlo.add(MakePotential({{"Model", "LennardJones"}, {"EnergyMap", "EnergyMapAll"}}));
     //monte_carlo.add(MakePotential(MakeLennardJones(),

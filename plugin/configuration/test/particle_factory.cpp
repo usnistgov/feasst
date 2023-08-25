@@ -6,15 +6,15 @@ namespace feasst {
 
 TEST(ParticleFactory, site_types) {
   ParticleFactory particles;
-  particles.add(FileParticle().read("../forcefield/atom.fstprt"));
-  particles.add(FileParticle().read("../forcefield/spce.fstprt"));
+  particles.add(FileParticle().read("../particle/atom.fstprt"));
+  particles.add(FileParticle().read("../particle/spce.fstprt"));
   EXPECT_EQ(2, particles.num_site_types());
   EXPECT_EQ(0, particles.particle(0).site(0).type());
   EXPECT_EQ(0, particles.particle(1).site(0).type());
   EXPECT_EQ(1, particles.particle(1).site(1).type());
   EXPECT_EQ(1, particles.particle(1).site(2).type());
   TRY(
-    particles.add("../forcefield/atom.fstprt");
+    particles.add("../particle/atom.fstprt");
     CATCH_PHRASE("particles by file");
   );
 }
@@ -22,8 +22,8 @@ TEST(ParticleFactory, site_types) {
 TEST(ParticleFactory, unique_particles) {
   ParticleFactory particles;
   particles.unique_particles();
-  particles.add("../forcefield/atom.fstprt");
-  particles.add("../forcefield/spce.fstprt");
+  particles.add("../particle/atom.fstprt");
+  particles.add("../particle/spce.fstprt");
   ParticleFactory part2 = test_serialize(particles);
   EXPECT_EQ(2, part2.num_particle_types());
   EXPECT_EQ(3, part2.num_site_types());

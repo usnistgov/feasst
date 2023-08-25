@@ -8,7 +8,7 @@ namespace feasst {
 
 TEST(ConvertToRefPotential, lj) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));
   EXPECT_EQ(mc.system().num_references(), 1);

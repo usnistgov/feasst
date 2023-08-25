@@ -15,7 +15,7 @@ TEST(PerturbMoveAVB, move) {
     {
       if (mol == "lj") {
         auto config = MakeConfiguration({{"cubic_side_length", "8"},
-          {"particle_type", "../forcefield/lj.fstprt"},
+          {"particle_type", "../particle/lj.fstprt"},
           {"add_particles_of_type0", "2"}});
         config->update_positions({{0, 0, 0}, {1.5, 0, 0}});
         system.add(*config);
@@ -136,7 +136,7 @@ TEST(PerturbMoveAVB, AVB4) {
   System system;
   {
     auto config = MakeConfiguration({{"cubic_side_length", "8"},
-      {"particle_type", "../forcefield/lj.fstprt"},
+      {"particle_type", "../particle/lj.fstprt"},
       {"add_particles_of_type0", "3"}});
     config->update_positions({{0, 0, 0},
                              {1.5, 0, 0},

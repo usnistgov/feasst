@@ -110,6 +110,7 @@ void VisitModel::compute(
       }
     }
   }
+  TRACE("computed en: " << inner().energy());
   set_energy(inner().energy());
 }
 
@@ -174,7 +175,11 @@ void VisitModel::compute(
         }
       }
     }
-  // If selection is more than one particle, skip those in selection
+  } else if (selection.num_particles() == config->num_particles()) {
+    TRACE("all particles in selection");
+    compute(model, model_params, config, group_index);
+
+  // If selection is more than one particle but not all particles, skip those in selection
   // Calculate energy in two separate loops.
   } else {
     TRACE("more than one particle in selection");

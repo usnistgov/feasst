@@ -7,7 +7,7 @@ namespace feasst {
 TEST(PerturbSiteType, serialize) {
   System sys;
   sys.add(*MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type", "../forcefield/chain10_3types.fstprt"},
+    {"particle_type", "../particle/chain10_3types.fstprt"},
     {"add_particles_of_type0", "1"}}));
   const Configuration& config = sys.configuration();
   auto morph = MakePerturbSiteType({{"type", "0"}});

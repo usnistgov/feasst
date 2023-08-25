@@ -13,7 +13,7 @@ namespace feasst {
 TEST(TrialRotate, spce) {
   System system;
   system.add(*MakeConfiguration({{"cubic_side_length", "4"},
-    {"particle_type", "../forcefield/spce.fstprt"},
+    {"particle_type", "../particle/spce.fstprt"},
     {"add_particles_of_type0", "1"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "1.0"}}));

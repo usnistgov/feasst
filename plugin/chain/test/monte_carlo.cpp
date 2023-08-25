@@ -114,10 +114,10 @@ TEST(MonteCarlo, TrialGrow_LONG) {
   for (const std::string particle : {"lj", "spce"}) {
     INFO(particle);
     double box_length = 8.;
-    std::string data = "../forcefield/dimer.fstprt";
+    std::string data = "../particle/dimer.fstprt";
     if (particle == "spce") {
       box_length=20;
-      data = "../forcefield/spce.fstprt";
+      data = "../particle/spce.fstprt";
     }
     MonteCarlo mc;
     //mc.set(MakeRandomMT19937({{"seed", "1635356012"}}));
@@ -184,7 +184,7 @@ MonteCarlo cg7mab2(const std::string& data, const int num, const int trials_per 
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1633624429"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "30"},
-    {"particle_type", "../plugin/chain/forcefield/" + data},
+    {"particle_type", "../plugin/chain/particle/" + data},
     {"set_cutoff_min_to_sigma", "true"}}));
   mc.add(MakePotential(MakeHardSphere()));
   if (is_found_in(data, "fullangflex")) {
@@ -248,7 +248,7 @@ TEST(MonteCarlo, cg7mab2_LONG) {
 TEST(System, Angles2D) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"side_length0", "6"}, {"side_length1", "6"},
-    {"particle_type", "../plugin/chain/forcefield/heterotrimer2d.fstprt"},
+    {"particle_type", "../plugin/chain/particle/heterotrimer2d.fstprt"},
     {"add_particles_of_type0", "1"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.set(MakeThermoParams({{"beta", "1"}}));
@@ -261,7 +261,7 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({{"side_length0", "6"}, {"side_length1", "6"},
-    {"particle_type", "../plugin/chain/forcefield/heterotrimer2d.fstprt"}}));
+    {"particle_type", "../plugin/chain/particle/heterotrimer2d.fstprt"}}));
   EXPECT_EQ(2, mc.configuration().dimension());
   mc.add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
@@ -342,7 +342,7 @@ TEST(MonteCarlo, multisite_neighbors) {
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   //mc.set(MakeRandomMT19937({{"seed", "1610132694"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "6"},
-                            {"particle_type0", "../forcefield/dimer.fstprt"}}));
+                            {"particle_type0", "../particle/dimer.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1"}}));
   mc.set(MakeMetropolis());
@@ -408,7 +408,7 @@ TEST(MonteCarlo, cg4_flexible_LONG) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({
     {"cubic_side_length", "30"},
-    {"particle_type0", install_dir() + "/plugin/chain/forcefield/cg4_mab_flex.fstprt"},
+    {"particle_type0", install_dir() + "/plugin/chain/particle/cg4_mab_flex.fstprt"},
     {"add_particles_of_type0", "1"},
   }));
   EXPECT_EQ(1, mc.configuration().num_particles());
@@ -458,8 +458,8 @@ void test_b2_cg4_flex(const bool mayer_intra) {
   //mc.set(MakeRandomMT19937({{"seed", "1629905961"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)},
-    {"particle_type0", install_dir() + "/plugin/chain/forcefield/cg4_mab_flex.fstprt"}});
-  config->add_particle_type(install_dir() + "/plugin/chain/forcefield/cg4_mab_flex.fstprt", "2");
+    {"particle_type0", install_dir() + "/plugin/chain/particle/cg4_mab_flex.fstprt"}});
+  config->add_particle_type(install_dir() + "/plugin/chain/particle/cg4_mab_flex.fstprt", "2");
   config->add_particle_of_type(0);
   config->add_particle_of_type(1);
   mc.add(config);
@@ -527,8 +527,8 @@ TEST(MayerSampling, trimer_grow_LONG) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   { auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)}});
-    config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L.fstprt");
-//    config->add_particle_type(install_dir() + "/forcefield/trimer_0.4L", "2.fstprt");
+    config->add_particle_type(install_dir() + "/particle/trimer_0.4L.fstprt");
+//    config->add_particle_type(install_dir() + "/particle/trimer_0.4L", "2.fstprt");
     config->add_particle_of_type(0);
     config->add_particle_of_type(0);
     //config->add_particle_of_type(1);
@@ -585,7 +585,7 @@ TEST(MayerSampling, trimer_grow_LONG) {
 TEST(TrialGrow, reptate) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type0", "../plugin/chain/forcefield/chain5.fstprt"},
+    {"particle_type0", "../plugin/chain/particle/chain5.fstprt"},
     {"add_particles_of_type0", "1"}}));
   mc.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"intra_cut", "1"}})));
   mc.set(MakeThermoParams({{"beta", "1"}}));
@@ -610,8 +610,8 @@ TEST(TrialGrow, reptate) {
 
 TEST(MonteCarlo, RigidBondAngleDihedral) {
   for (const std::string data : {
-    "../forcefield/dimer.fstprt",
-    "../forcefield/trimer_0.4L.fstprt",
+    "../particle/dimer.fstprt",
+    "../particle/trimer_0.4L.fstprt",
     "../plugin/chain/test/data/tetramer_rigid.fstprt",
     }) {
     INFO(data);
@@ -627,11 +627,11 @@ TEST(MonteCarlo, RigidBondAngleDihedral) {
 
     std::shared_ptr<TrialSelect> select;
     std::shared_ptr<Perturb> perturb;
-    if (data == "../forcefield/dimer.fstprt") {
+    if (data == "../particle/dimer.fstprt") {
       select = MakeTrialSelectBond({{"particle_type", "0"}, {"mobile_site", "1"},
         {"anchor_site", "0"}});
       perturb = MakePerturbDistance();
-    } else if (data == "../forcefield/trimer_0.4L.fstprt") {
+    } else if (data == "../particle/trimer_0.4L.fstprt") {
       select = MakeTrialSelectAngle({{"particle_type", "0"}, {"mobile_site", "2"},
         {"anchor_site", "0"}, {"anchor_site2", "1"}});
       perturb = MakePerturbDistanceAngle();
@@ -772,7 +772,7 @@ TEST(MonteCarlo, single_butane) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({
-    {"particle_type0", "../forcefield/n-butane.fstprt"},
+    {"particle_type0", "../particle/n-butane.fstprt"},
     {"add_particles_of_type0", "1"},
     {"cubic_side_length", "100"}}));
   mc.add(MakePotential(MakeLennardJones(),
@@ -814,7 +814,7 @@ TEST(MonteCarlo, ethane) {
   auto mc = MakeMonteCarlo();
   //mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "30"},
-                             {"particle_type0", "../forcefield/ethane.fstprt"},
+                             {"particle_type0", "../particle/ethane.fstprt"},
                              {"cutoff", "15"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
@@ -852,7 +852,7 @@ TEST(MonteCarlo, water) {
   auto mc = MakeMonteCarlo();
   mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "20"},
-                             {"particle_type0", "../forcefield/spce.fstprt"},
+                             {"particle_type0", "../particle/spce.fstprt"},
                              {"cutoff", "10"}}));
   mc->add(MakePotential(MakeLennardJones(),
                         MakeVisitModelCutoffOuter()));
@@ -900,7 +900,7 @@ TEST(MonteCarlo, water) {
 TEST(MonteCarlo, chainarglist) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "20"},
-                       {"particle_type0", "../plugin/chain/forcefield/chain20.fstprt"}}},
+                       {"particle_type0", "../plugin/chain/particle/chain20.fstprt"}}},
     {"Potential", {{"Model", "IdealGas"}}},
     {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential0", "10"}}},
     {"Metropolis", {{}}},
@@ -928,7 +928,7 @@ TEST(MonteCarlo, angle_square_well) {
   auto mc = MakeMonteCarlo();
   mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "20"},
-                             {"particle_type0", "../plugin/chain/forcefield/chain3.fstprt"},
+                             {"particle_type0", "../plugin/chain/particle/chain3.fstprt"},
                              {"cutoff", "10"},
                              {"add_particles_of_type0", "1"},
                              {"group0", "end"},

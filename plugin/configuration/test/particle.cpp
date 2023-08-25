@@ -26,7 +26,7 @@ TEST(Particle, check) {
 }
 
 TEST(Particle, bond) {
-  Particle chain = FileParticle().read("../forcefield/chain10.fstprt");
+  Particle chain = FileParticle().read("../particle/chain10.fstprt");
   TRY(
     chain.bond(9, 10);
     CATCH_PHRASE("not found");
@@ -46,7 +46,7 @@ TEST(Particle, bond) {
 }
 
 TEST(Particle, angle) {
-  Particle spce = FileParticle().read("../forcefield/spce.fstprt");
+  Particle spce = FileParticle().read("../particle/spce.fstprt");
   EXPECT_EQ(0, spce.angle(1, 0, 2).type());
   EXPECT_EQ(0, spce.angle(1, 2, 0).type());
   EXPECT_EQ(0, spce.angle(0, 1, 2).type());

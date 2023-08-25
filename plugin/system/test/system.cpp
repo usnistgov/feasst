@@ -34,7 +34,7 @@ TEST(System, triclinic) {
     {"xy", "1.7364817766693041"},
     {"xz", "2.5881904510252074"},
     {"yz", "0.42863479791864567"},
-    {"particle_type0", "../forcefield/lj.fstprt"},
+    {"particle_type0", "../particle/lj.fstprt"},
     {"xyz_file", "../plugin/configuration/test/data/lj_triclinic_sample_config_periodic3.xyz"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));

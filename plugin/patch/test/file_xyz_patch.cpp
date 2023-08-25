@@ -18,7 +18,7 @@ TEST(FileXYZPatch, serialize) {
 
 TEST(FileXYZPatch, patch) {
   MonteCarlo mc;
-  const std::string fstprt = install_dir() + "/plugin/patch/forcefield/janus.fstprt";
+  const std::string fstprt = install_dir() + "/plugin/patch/particle/janus.fstprt";
   { auto config = MakeConfiguration({{"cubic_side_length", "8"}});
     config->add_particle_type(fstprt);
     config->add_particle_type(fstprt, "2");

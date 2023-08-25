@@ -14,7 +14,7 @@ namespace feasst {
 TEST(TrialPivot, chain10) {
   System system;
   system.add(*MakeConfiguration({{"cubic_side_length", "12"},
-    {"particle_type", "../forcefield/chain10.fstprt"},
+    {"particle_type", "../particle/chain10.fstprt"},
     {"add_particles_of_type0", "1"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "100.0"}}));

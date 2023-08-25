@@ -12,7 +12,7 @@ namespace feasst {
 
 /**
   Intensive thermodynamic state variables.
-  Units should be consistent with the <a href="../../../forcefield/README.html">forcefield</a>.
+  Units should be consistent with the <a href="../../../particle/README.html">particle</a>.
  */
 class ThermoParams {
  public:

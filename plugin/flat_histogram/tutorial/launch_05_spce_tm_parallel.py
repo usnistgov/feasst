@@ -18,7 +18,7 @@ from pyfeasst import physical_constants
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/forcefield/spce.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/spce.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--temperature', type=float, default=525, help='temperature in Kelvin')
 PARSER.add_argument('--beta_mu', type=float, default=-8.14, help='beta times chemical potential')
@@ -34,7 +34,7 @@ PARSER.add_argument('--dccb_cut', type=float, default=0.9*3.165,
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=0,
-                    help='number of iterations for equilibraiton')
+                    help='number of iterations for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
@@ -70,15 +70,6 @@ PARAMS['dccb_cut'] = PARAMS['cubic_side_length']/int(PARAMS['cubic_side_length']
 PARAMS['place_h'] = 'angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0'
 if 'tip4p' in PARAMS['fstprt']:
     PARAMS['place_h'] = 'branch true mobile_site 2 mobile_site2 3 anchor_site 0 anchor_site2 1 reference_index 0'
-
-# write TrialGrowFile for SPCE
-with open('spce_grow.txt', 'w') as f:
-    f.write("""TrialGrowFile
-
-particle_type 0 weight 2 transfer true site 0 num_steps 10 reference_index 0
-bond true mobile_site 1 anchor_site 0 reference_index 0
-{place_h}
-""".format(**PARAMS))
 
 def write_feasst_script(params, file_name):
     """ Write fst script for a single simulation with keys of params {} enclosed. """

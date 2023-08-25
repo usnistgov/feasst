@@ -34,8 +34,8 @@ MonteCarlo patchmc(const int min, const int max) {
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   { auto config = MakeConfiguration({{"cubic_side_length", "8"},
       {"patch_angle1", str(patch_angle_degrees)},
-      {"particle_type0", install_dir() + "/plugin/patch/forcefield/two_patch_linear.fstprt"}});
-      //{"particle_type0", install_dir() + "/plugin/patch/forcefield/janus.fstprt"}});
+      {"particle_type0", install_dir() + "/plugin/patch/particle/two_patch_linear.fstprt"}});
+      //{"particle_type0", install_dir() + "/plugin/patch/particle/janus.fstprt"}});
     config->add(MakeGroup({{"site_type0", "0"}}));
     mc.add(config);
   }
@@ -136,7 +136,7 @@ TEST(MonteCarlo, patch_LONG) {
 
 TEST(MonteCarlo, patch_arglist) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"particle_type0", install_dir()+"/plugin/patch/forcefield/janus.fstprt"},
+    {"Configuration", {{"particle_type0", install_dir()+"/plugin/patch/particle/janus.fstprt"},
       {"xyz_file", "../plugin/patch/test/data/patch5.xyz"},
       {"cutoff", "3"},
       {"group0", "centers"}, {"centers_site_type0", "0"}}},

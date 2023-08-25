@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "monte_carlo/include/perturb_to_anchor.h"
+#include "chain/include/perturb_to_anchor.h"
 
 namespace feasst {
 

@@ -13,9 +13,9 @@ from pyfeasst import macrostate_distribution
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt0', type=str, default='/feasst/forcefield/atom.fstprt',
+PARSER.add_argument('--fstprt0', type=str, default='/feasst/particle/atom.fstprt',
                     help='FEASST particle definition of the first particle.')
-PARSER.add_argument('--fstprt1', type=str, default='/feasst/forcefield/lj.fstprt',
+PARSER.add_argument('--fstprt1', type=str, default='/feasst/particle/lj.fstprt',
                     help='FEASST particle definition of the second particle.')
 PARSER.add_argument('--beta', type=float, default=0.8, help='inverse temperature')
 PARSER.add_argument('--mu0', type=float, default=-5.4, help='chemical potential')
@@ -30,7 +30,7 @@ PARSER.add_argument('--cubic_side_length', type=float, default=7,
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=0,
-                    help='number of iterations for equilibraiton')
+                    help='number of iterations for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=2, help='number of processors')

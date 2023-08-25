@@ -42,6 +42,8 @@ namespace feasst {
     Requires arguments described in SelectBranch, Angle and Bond.
   - reptate: if true, add TrialSelectBond and PerturbToAnchor.
     Requires arguments described in TrialSelectBond.
+  - position_swap: if true, add SelectTwoSites and PerturbPositionSwap.
+    Requires arguments described in SelectTwoSites.
   - rigid_body_connector: if true, add TrialSelectBond and PerturbConnector.
     Requires arguments described in TrialSelectBond.
   - rigid_body_angle: if true, add TrialSelectAngle and PerturbDistanceAngleConnector.

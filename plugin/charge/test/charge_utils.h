@@ -24,7 +24,7 @@ double kelvin2kJpermol(const double kelvin, const Configuration& config);
   args:
   - Configuration args with the following default values:
       - cubic_side_length: 20,
-      - particle_type: /path/to/feasst/forcefield/spce.fstprt,
+      - particle_type: /path/to/feasst/particle/spce.fstprt,
       - physical_constants: CODATA2018.
   - Ewald args.
   - lrc: use long range corrections (default: true)
@@ -42,8 +42,8 @@ System spce(argtype args = argtype());
   args:
   - Configuration args with the following default values:
       - cubic_side_length: default 12
-      - particle0: default plugin/charge/forcefield/rpm_plus.fstprt
-      - particle1: default plugin/charge/forcefield/rpm_minus.fstprt
+      - particle0: default plugin/charge/particle/rpm_plus.fstprt
+      - particle1: default plugin/charge/particle/rpm_minus.fstprt
   - Ewald args.
   - cutoff: (default: None, use particle file)
   - delta: optional size disparity, sigma_+/- = 1 +/- delta

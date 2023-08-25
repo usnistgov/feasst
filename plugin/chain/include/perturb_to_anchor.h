@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_PERTURB_TO_ANCHOR_H_
-#define FEASST_MONTE_CARLO_PERTURB_TO_ANCHOR_H_
+#ifndef FEASST_CHAIN_PERTURB_TO_ANCHOR_H_
+#define FEASST_CHAIN_PERTURB_TO_ANCHOR_H_
 
 #include "monte_carlo/include/perturb_move.h"
 
@@ -39,4 +39,4 @@ inline std::shared_ptr<PerturbToAnchor> MakePerturbToAnchor(
 
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_PERTURB_TO_ANCHOR_H_
+#endif  // FEASST_CHAIN_PERTURB_TO_ANCHOR_H_

@@ -8,7 +8,7 @@ namespace feasst {
 
 inline Configuration config() {
   return *MakeConfiguration({{"cubic_side_length", "12"},
-    {"particle_type0", "../forcefield/chain10.fstprt"},
+    {"particle_type0", "../particle/chain10.fstprt"},
     {"add_particles_of_type0", "1"}});
 }
 

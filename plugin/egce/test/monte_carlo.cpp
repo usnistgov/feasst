@@ -238,9 +238,9 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
 //    const double q_plus = config->model_params().charge().value(0);
 //    const double q_minus = config->model_params().charge().value(1);
 //    config->add_particle_type(install_dir() +
-//      "/plugin/charge/forcefield/rpm_plus.fstprt", "0.5");
+//      "/plugin/charge/particle/rpm_plus.fstprt", "0.5");
 //    config->add_particle_type(install_dir() +
-//      "/plugin/charge/forcefield/rpm_minus.fstprt", "0.5");
+//      "/plugin/charge/particle/rpm_minus.fstprt", "0.5");
 //    config->set_model_param("charge", 2, 0.5*q_plus);
 //    config->set_model_param("charge", 3, 0.5*q_minus);
 //    config->set_model_param("cutoff", 2, 6);
@@ -544,9 +544,9 @@ TEST(MonteCarlo, rpm_divalent_morph_LONG) {
     const double q_plus = config->model_params().select("charge").value(0);
     const double q_minus = config->model_params().select("charge").value(1);
     config->add_particle_type(install_dir() +
-      "/plugin/charge/forcefield/rpm_plus.fstprt", "0.5");
+      "/plugin/charge/particle/rpm_plus.fstprt", "0.5");
     config->add_particle_type(install_dir() +
-      "/plugin/charge/forcefield/rpm_minus.fstprt", "0.5");
+      "/plugin/charge/particle/rpm_minus.fstprt", "0.5");
     config->set_model_param("charge", 2, 0.5*q_plus);
     config->set_model_param("charge", 3, 0.5*q_minus);
     config->set_model_param("cutoff", 2, 7.5);
@@ -650,7 +650,7 @@ double energy_av467(const int macro, const MonteCarlo& mc) {
 
 TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../forcefield/lj.fstprt"}}));
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));

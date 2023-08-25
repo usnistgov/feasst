@@ -27,7 +27,7 @@ TEST(PairDistribution, gr_LONG) {
   const double density = 0.776;
   mc.add(MakeConfiguration({
     {"cubic_side_length", feasst::str(std::pow(500/density, 1./3.))},
-    {"particle_type0", "../forcefield/lj.fstprt"}}));
+    {"particle_type0", "../particle/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", feasst::str(1./0.85)}, {"chemical_potential", "-6."}}));
