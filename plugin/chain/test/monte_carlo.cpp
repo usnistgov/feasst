@@ -155,7 +155,7 @@ TEST(MonteCarlo, TrialGrow_LONG) {
     EXPECT_EQ(50, mc.trial(0).weight());
     EXPECT_EQ(50, mc.trial(1).weight());
     EXPECT_EQ(100, mc.trial(2).weight());
-    mc.add(MakeLogAndMovie({{"trials_per_write", str(1e0)}, {"file_name", "tmp/lj"}}));
+//    mc.add(MakeLogAndMovie({{"trials_per_write", str(1e0)}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergy({{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}));
     mc.add(MakeTune());
     EXPECT_EQ(3, mc.trials().num());
@@ -215,7 +215,7 @@ MonteCarlo cg7mab2(const std::string& data, const int num, const int trials_per 
       {{"angle", "1"}, {"mobile_site", "3"}, {"anchor_site", "4"}, {"anchor_site2", "0"}},
       {{"angle", "1"}, {"mobile_site", "5"}, {"anchor_site", "6"}, {"anchor_site2", "0"}}}));
   }
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/" + data}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/" + data}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-9)}}));
   mc.add(MakeTune());
   return mc;
@@ -306,7 +306,7 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string trials_per = feasst::str(1e5);
   mc.add(MakeEnergy());
-  mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer2d"}, {"trials_per_write", trials_per}}));
+//  mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer2d"}, {"trials_per_write", trials_per}}));
   mc.add(MakeChirality2D());
   mc.add(MakeAnalyzeBonds());
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
@@ -364,7 +364,7 @@ TEST(MonteCarlo, multisite_neighbors) {
      {"regrow", "true"}, {"particle_type", "0"}, {"site", "1"}},
     {{"bond", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}}}));
   EXPECT_EQ(4, mc.trial(0).stage(0).num_steps());
-  mc.add(MakeLogAndMovie({{"trials_per_write", "100"}, {"file_name", "tmp/dimer"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", "100"}, {"file_name", "tmp/dimer"}}));
   for (int i = 0; i < 1e1; ++i) {
     mc.attempt(1);
     neigh->check(mc.configuration());
@@ -570,7 +570,7 @@ TEST(MayerSampling, trimer_grow_LONG) {
 //    }, {{"reference_index", "0"}, {"new_only", "true"}}));
   }
   const std::string trials_per = "1e4";
-  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/trib"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/trib"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}, {"tolerance", "1e-4"}}));
   mc.attempt(1e6);
   double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().select("sigma").value(0), 3); // A^3
@@ -719,7 +719,7 @@ TEST(MonteCarlo, equipartition_LONG) {
       }
       //const std::string trials_per = "1";
       const std::string trials_per = "1e3";
-      mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/harmonic"}}));
+//      mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/harmonic"}}));
       mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
       auto en = MakeEnergy({{"trials_per_write", trials_per}});
       mc.add(en);
@@ -786,7 +786,7 @@ TEST(MonteCarlo, single_butane) {
     {{"dihedral", "1"}, {"mobile_site", "3"}, {"anchor_site", "2"}, {"anchor_site2", "1"}, {"anchor_site3", "0"}}}));
   //const std::string trials_per = "1";
   const std::string trials_per = "1e3";
-  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/butane"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/butane"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
   auto en = MakeEnergy({{"trials_per_write", trials_per}});
   mc.add(en);
@@ -842,7 +842,7 @@ TEST(MonteCarlo, ethane) {
   mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string trials_per = "1e0";
   mc->add(MakeWrapParticles({{"trials_per_update", trials_per}}));
-  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/ethane.txt"}}));
+//  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/ethane.txt"}}));
   mc->add(MakeCheckEnergy({{"trials_per_update", trials_per}, {"tolerance", str(1e-2)}}));
   mc->add(MakeTune());
   mc->attempt(1e1);
@@ -891,7 +891,7 @@ TEST(MonteCarlo, water) {
   mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string trials_per = "1e0";
   mc->add(MakeWrapParticles({{"trials_per_update", trials_per}}));
-  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/water"}}));
+//  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/water"}}));
   mc->add(MakeCheckEnergy({{"trials_per_update", trials_per}, {"tolerance", str(1e-2)}}));
   mc->add(MakeTune());
   mc->attempt(1e1);

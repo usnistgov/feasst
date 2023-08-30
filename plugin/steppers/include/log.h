@@ -2,13 +2,14 @@
 #ifndef FEASST_STEPPERS_LOG_H_
 #define FEASST_STEPPERS_LOG_H_
 
+#include "system/include/bond_visitor.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
 
 /**
-  Periodically print the status of the Criteria and Trials in a one-line comma
-  separated value format with headers.
+  Periodically print the status of the Syste, Criteria and Trials in a one-line
+  comma separated value format with headers.
 
   This log file is designed more for checking status than computing ensemble
   averages.
@@ -27,6 +28,7 @@ class Log : public AnalyzeWriteOnly {
   /**
     args:
     - max_precision: use maximum precision if true (default: false).
+    - include_bonds: if true, print bond energies (default:false).
    */
   explicit Log(argtype args = argtype());
   explicit Log(argtype * args);
@@ -54,6 +56,8 @@ class Log : public AnalyzeWriteOnly {
 
  private:
   bool max_precision_;
+  bool include_bonds_;
+  BondVisitor bond_visitor_;
 };
 
 inline std::shared_ptr<Log> MakeLog(argtype args = argtype()) {

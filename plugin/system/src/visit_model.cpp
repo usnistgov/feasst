@@ -175,9 +175,10 @@ void VisitModel::compute(
         }
       }
     }
-  } else if (selection.num_particles() == config->num_particles()) {
-    TRACE("all particles in selection");
-    compute(model, model_params, config, group_index);
+  } else if (selection.is_equal(config->selection_of_all())) {
+  //} else if (selection.num_particles() == config->num_particles()) {
+    compute_between_selection(model, model_params, selection,
+      config, is_old_config, &relative_, &pbc_);
 
   // If selection is more than one particle but not all particles, skip those in selection
   // Calculate energy in two separate loops.

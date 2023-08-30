@@ -22,7 +22,7 @@ PARSER.add_argument('--beta_mu', type=float, default=-6, help='beta time chemica
 PARSER.add_argument('--cutoff', type=float, default=12, help='real space cutoff distance')
 PARSER.add_argument('--max_particles', type=int, default=485, help='maximum number of particles')
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
-PARSER.add_argument('--min_particles_second_window', type=int, default=30, help='minimum number of particles in the second window')
+PARSER.add_argument('--min_particles_second_window', type=int, default=50, help='minimum number of particles in the second window')
 PARSER.add_argument('--min_sweeps', type=int, default=2,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
 PARSER.add_argument('--cubic_side_length', type=float, default=45,
@@ -157,7 +157,7 @@ CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 
 # gcmc initialization and nvt equilibration
 TrialGrowFile file_name trappe_grow_grand_canonical.txt
-Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.txt
+Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.txt include_bonds true
 Tune
 Run until_num_particles [soft_macro_min]
 RemoveTrial index 7
@@ -174,7 +174,7 @@ RemoveAnalyze name Log
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
 Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialGrowFile file_name trappe_grow_grand_canonical.txt
-Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].txt
+Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].txt include_bonds true
 Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
 Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].xyz start_after_iteration 1
 Tune trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1

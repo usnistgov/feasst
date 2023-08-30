@@ -274,7 +274,7 @@ TEST(MayerSampling, trimer_LONG) {
   mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
     {"tunable_param", "40"}}));
   const std::string trials_per = "1e4";
-  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/trib"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/trib"}}));
   mc.attempt(1e6);
   double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().select("sigma").value(0), 3); // A^3
   INFO(mayer->second_virial_ratio());

@@ -87,6 +87,7 @@ def slurm_single_node(params):
     which is assumed to output the job id.
     """
     params['queue_command'] = "sbatch --array=0-" + str(params['max_restarts']) + "%1 " + params['prefix'] + "_slurm.txt"
+    params['command_to_queue_id'] = " | tail -1 | awk '{print $4}'"
     if params['scratch'] == None:
         params['scratch_slurm_preamble'] = ''
         params['scratch_slurm_postamble'] = ''
@@ -200,7 +201,7 @@ def run_simulations(params, sim_node_dependent_params, write_feasst_script, post
         for node in range(params['num_nodes']):
             params['node'] = node
             queue_function(params)
-            subprocess.call(params['queue_command'] + " | awk '{print $4}' >> " + queue_id_file, shell=True, executable='/bin/bash')
+            subprocess.check_call(params['queue_command'] + params['command_to_queue_id'] + " >> " + queue_id_file, shell=True, executable='/bin/bash')
             with open(queue_id_file, 'r') as file1:
                 queue_id = file1.read().splitlines()[-1]
             with open(params['prefix']+'_params'+queue_id+'.json', 'w') as file1:

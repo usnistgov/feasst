@@ -27,7 +27,7 @@ bool TrialSelectAll::select(const Select& perturbed,
                                  Random * random) {
   set_probability_(1.);
   const Configuration& config = system->configuration();
-  set_mobile(config.group_selects()[0]);
+  set_mobile(config.selection_of_all());
   //get_mobile()->load_positions(config.particles());
   DEBUG("selected " << mobile_.str());
   remove_unphysical_sites(config);

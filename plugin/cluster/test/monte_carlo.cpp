@@ -62,7 +62,7 @@ TEST(MonteCarlo, cluster_LONG) {
       {"rotate_param", "50"},
       {"translate_param", "1"}}));
     const int trials_per = 1e2;
-    mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/lj"}}));
+//    mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergy({{"trials_per_update", "1"}}));
     mc.add(MakeTune({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/tune.txt"}}));
     // conduct the trials
@@ -111,7 +111,7 @@ TEST(MonteCarlo, GCMCmap) {
     mc.set(MakeMetropolis());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     const std::string trials_per = str(1e4);
-    mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/lj"}}));
+//    mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
     mc.add(MakeTune());
     std::shared_ptr<EnergyMap> map;

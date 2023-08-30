@@ -266,26 +266,38 @@ int Particle::num_sites_of_type(const int type) const {
 void Particle::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
   TypedEntity::serialize(ostr);
-  feasst_serialize_version(365, ostr);
+  feasst_serialize_version(366, ostr);
   feasst_serialize_fstobj(sites_, ostr);
   feasst_serialize_fstobj(bonds_, ostr);
   feasst_serialize_fstobj(angles_, ostr);
+  feasst_serialize_fstobj(dihedrals_, ostr);
   feasst_serialize(bond_list_, ostr);
   feasst_serialize(bond_neighbors_, ostr);
   feasst_serialize(angle_list_, ostr);
+  feasst_serialize(angle_neighbors_, ostr);
+  feasst_serialize(dihedral_list_, ostr);
+  feasst_serialize(dihedral_neighbors_, ostr);
 }
 
 Particle::Particle(std::istream& istr)
   : PropertiedEntity(istr),
     TypedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 365, "version mismatch: " << version);
+  ASSERT(version == 365 || version == 366, "version mismatch: " << version);
   feasst_deserialize_fstobj(&sites_, istr);
   feasst_deserialize_fstobj(&bonds_, istr);
   feasst_deserialize_fstobj(&angles_, istr);
+  if (version >= 336) {
+    feasst_deserialize_fstobj(&dihedrals_, istr);
+  }
   feasst_deserialize(&bond_list_, istr);
   feasst_deserialize(&bond_neighbors_, istr);
   feasst_deserialize(&angle_list_, istr);
+  if (version >= 336) {
+    feasst_deserialize(&angle_neighbors_, istr);
+    feasst_deserialize(&dihedral_list_, istr);
+    feasst_deserialize(&dihedral_neighbors_, istr);
+  }
 }
 
 const std::vector<int>& Particle::bond_neighbors(const int site) const {

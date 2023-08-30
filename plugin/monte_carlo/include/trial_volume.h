@@ -16,7 +16,7 @@ class TrialVolume : public Trial {
  public:
   /**
     args:
-    - PerturbVolume arguments 
+    - PerturbVolume arguments.
    */
   explicit TrialVolume(argtype args = argtype());
   explicit TrialVolume(argtype * args);

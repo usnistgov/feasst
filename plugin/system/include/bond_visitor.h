@@ -34,6 +34,9 @@ class BondVisitor {
   void compute_four(const Configuration& config, const int group_index = 0);
   void compute_four(const Select& selection, const Configuration& config);
   double energy() const { return energy_; }
+  double energy_two_body() const { return energy_two_body_; }
+  double energy_three_body() const { return energy_three_body_; }
+  double energy_four_body() const { return energy_four_body_; }
 
   // serialize
   std::string class_name() const { return class_name_; }

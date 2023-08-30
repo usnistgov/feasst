@@ -130,8 +130,6 @@ void Configuration::add_particle_type(const std::string file_name,
   unique_types_.add(file_name);
   ghosts_.push_back(Select());
   ASSERT(ghosts_.back().is_group_empty(), "no ghosts in brand new type");
-  ASSERT(!find_in_list(file_name + append, type_to_file_),
-    "file_name(" << file_name << ") already provided.");
   type_to_file_.push_back(file_name + append);
   num_particles_of_type_.push_back(0);
 }

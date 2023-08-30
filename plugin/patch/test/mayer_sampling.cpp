@@ -47,7 +47,8 @@ TEST(MayerSampling, patch_LONG) {
     mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"}, {"tunable_param", "1"}, {"particle_type", "1"}}));
     mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"}, {"tunable_param", "40"}}));
     const std::string trials_per = "1e4";
-    mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/patch"}}));
+    //mc.add(MakeLog({{"trials_per_write", trials_per}, {"file_name", "tmp/patch.txt"}}));
+    //mc.add(MakeMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/patch.xyz"}}));
     mc.attempt(1e6);
     const double chi = std::pow(std::sin(degrees_to_radians(degrees)/2), 2);
     const double b2_reduced_analytical = 1-chi*chi*(std::pow(1.5, 3)-1)*(std::exp(beta)-1);

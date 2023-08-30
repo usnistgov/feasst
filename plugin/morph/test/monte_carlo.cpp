@@ -46,7 +46,7 @@ void test_morph(const System& system) {
   EXPECT_EQ(mc.configuration().num_particles_of_type(1), 2);
   mc.add(MakeTrialMorph({{"particle_type0", "1"},
                          {"particle_type_morph0", "0"}}));
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e2)}, {"file_name", "tmp/growth"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e2)}, {"file_name", "tmp/growth"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(1e2)}}));
   mc.add(MakeTune());
   mc.attempt(1e3);
@@ -103,7 +103,7 @@ MonteCarlo test_morph_expanded_lj(
   mc.add(MakeTrialMorphExpanded(grow_sequence,
     {{"reference_index", "0"}}));//, {"shift", str(-1*num_parts_in_grow)}}));
   const std::string trials_per = str(int(1e3));
-  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/grow_fh"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/grow_fh"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
   mc.add(MakeTune());
   mc.add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));
@@ -202,7 +202,7 @@ MonteCarlo test_morph_expanded(const std::string trials_per) {
     MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialMorphExpanded(grow_sequence));
-  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/growth"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/growth"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
   mc.add(MakeTune());
   mc.add(MakeCriteriaUpdater({{"trials_per_write", trials_per}}));
@@ -274,7 +274,7 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialMorphExpanded(grow_sequence, {{"reference_index", "0"}}));
   const std::string trials_per = str(int(1e3));
-  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/growth"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/growth"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
   mc.add(MakeTune());
   mc.add(MakeCriteriaUpdater({{"trials_per_write", trials_per}}));

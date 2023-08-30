@@ -118,7 +118,7 @@ class Configuration {
     return particle_types_.particle(type); }
 
   /// Return the file name used to initialize the particle types.
-  std::string type_to_file_name(const int type) const {
+  const std::string& type_to_file_name(const int type) const {
     return type_to_file_[type]; }
 
   /// Return the particle types.

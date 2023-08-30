@@ -51,7 +51,7 @@ TEST(MonteCarlo, trimer) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
-  mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer"}, {"trials_per_write", "1e2"}}));
+//  mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer"}, {"trials_per_write", "1e2"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", "100"}, {"tolerance", "1e-10"}}));
   mc.attempt(1e3);
 }

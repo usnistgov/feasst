@@ -53,7 +53,7 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
   // without erfc table EXPECT_NEAR(mc.criteria().current_energy(), -24027.470339718111, 1e-10);
   EXPECT_NEAR(mc.criteria().current_energy(), -24027.470338455631, 1e-3);
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/spce_nvt"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/spce_nvt"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeTune());
   // mc.seek_num_particles(512);
@@ -99,7 +99,7 @@ TEST(MonteCarlo, spce_gce_LONG) {
     {"particle_type", "0"},
     {"num_steps", "4"},
     {"reference_index", "0"}}));
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/spce_gce"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/spce_gce"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeTune());
   mc.add(MakeCheckProperties({{"trials_per_update", str(trials_per)}}));
@@ -128,7 +128,7 @@ TEST(MonteCarlo, spce) {
   //mc.add(MakeTrialAdd({{"weight", "4."}, {"particle_type", "0"}}));
   //mc.run(MakeRun({{"until_num_particles", "2"}}));
   //mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(5e2)}, {"file_name", "tmp/spce"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(5e2)}, {"file_name", "tmp/spce"}}));
   //mc.add(MakeCheckEnergyAndTune({{"trials_per", "1"}, {"tolerance", str(1e-6)}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(5e2)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeTune());
@@ -148,7 +148,7 @@ TEST(MonteCarlo, spce_NVT_BENCHMARK_LONG) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e4)}, {"file_name", "tmp/spce"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e4)}, {"file_name", "tmp/spce"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(1e4)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeTune());
   mc.attempt(2e5);
@@ -166,7 +166,7 @@ TEST(MonteCarlo, rpm) {
     config->update_positions({{0., 0., 0.}, {1.01, 0., 0.}});
   }
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
-  const int trials_per = 1e2;
+  const int trials_per = 1e0;
   mc.set(MakeThermoParams({
     {"beta", "0.02"},
     {"chemical_potential0", "-509"},
@@ -184,7 +184,7 @@ TEST(MonteCarlo, rpm) {
   mc.add(MakeCheckPhysicality({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeCPUTime({{"trials_per_write", str(5*trials_per)}}));
   mc.add(MakeCheckNetCharge());
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/rpm"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/rpm"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeTune());
   mc.attempt(1e3);

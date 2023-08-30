@@ -9,7 +9,8 @@
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
-#include "steppers/include/log_and_movie.h"
+#include "steppers/include/log.h"
+#include "steppers/include/movie.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/criteria_writer.h"
@@ -62,7 +63,8 @@ MonteCarlo patchmc(const int min, const int max) {
 //  mc.run(MakeRun({{"until_num_particles", "10"}}));
 //  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string trials_per = "1e5";
-  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/patch_nvt"}}));
+  mc.add(MakeLog({{"trials_per_write", trials_per}, {"file_name", "tmp/patch_nvt.txt"}}));
+  mc.add(MakeMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/patch_nvt.xyz"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
   mc.add(MakeMoviePatch({{"trials_per_write", trials_per}, {"file_name", "tmp/patch_nvt_vis.xyz"}}));
   mc.add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));

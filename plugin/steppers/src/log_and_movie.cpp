@@ -11,6 +11,7 @@ LogAndMovie::LogAndMovie(argtype args) : AnalyzeFactory() {
   add(MakeLog(log_args));
   feasst::append("file_name", &args, ".xyz");
   add(MakeMovie(args));
+  WARN("LogAndMovie is depreciated. Please use Log and Movie separately.");
 }
 
 }  // namespace feasst

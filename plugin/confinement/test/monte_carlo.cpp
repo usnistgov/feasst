@@ -54,9 +54,9 @@ TEST(MonteCarlo, ShapeUnion) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "10"}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  const int trials_per = 1e0;
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-                          {"file_name", "tmp/confine"}}));
+//  const int trials_per = 1e0;
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
+//                          {"file_name", "tmp/confine"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e3);
 }
@@ -73,9 +73,9 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "500"}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  const int trials_per = 1e3;
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-                          {"file_name", "tmp/confine"}}));
+//  const int trials_per = 1e3;
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
+//                          {"file_name", "tmp/confine"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e4);
 }
@@ -212,7 +212,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "25."}}));
-  mc.add(MakeLogAndMovie({{"trials_per_write", "1e4"}, {"file_name", "tutorial_0"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", "1e4"}, {"file_name", "tutorial_0"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", "1e4"}, {"tolerance", str(1e-9)}}));
   mc.add(MakeTune());
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
@@ -382,9 +382,9 @@ TEST(MonteCarlo, SineSlab) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "500"}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  const int trials_per = 1e2;
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-                          {"file_name", "tmp/sine"}}));
+//  const int trials_per = 1e2;
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
+//                          {"file_name", "tmp/sine"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e3);
 }
@@ -432,9 +432,9 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "500"}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  const int trials_per = 1e2;
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-                          {"file_name", "tmp/sine"}}));
+//  const int trials_per = 1e2;
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
+//                          {"file_name", "tmp/sine"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e3);
 }

@@ -15,20 +15,21 @@ TEST(Configuration, type_to_file_name) {
     {"particle_type0", "../particle/atom.fstprt"},
     {"particle_type1", "../particle/lj.fstprt"},
     {"particle_type2", "../particle/spce.fstprt"},
+    {"particle_type3", "../particle/lj.fstprt"},
   });
-  TRY(
-    auto config2 = config;
-    config2.add_particle_type("../particle/atom.fstprt");
-    CATCH_PHRASE("already provided");
-  );
-  EXPECT_EQ(3, config.num_particle_types());
+//  TRY(
+//    auto config2 = config;
+//    config2.add_particle_type("../particle/atom.fstprt");
+//    CATCH_PHRASE("already provided");
+//  );
+  EXPECT_EQ(4, config.num_particle_types());
   EXPECT_EQ("../particle/atom.fstprt", config.type_to_file_name(0));
   EXPECT_EQ("../particle/lj.fstprt", config.type_to_file_name(1));
   EXPECT_EQ("../particle/spce.fstprt", config.type_to_file_name(2));
 
   config.add_particle_type("../particle/lj.fstprt", "2");
-  EXPECT_EQ(4, config.num_particle_types());
-  EXPECT_EQ("../particle/lj.fstprt2", config.type_to_file_name(3));
+  EXPECT_EQ(5, config.num_particle_types());
+  EXPECT_EQ("../particle/lj.fstprt2", config.type_to_file_name(4));
 }
 
 TEST(Configuration, coordinates_and_wrapping) {

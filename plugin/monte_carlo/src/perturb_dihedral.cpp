@@ -52,8 +52,12 @@ double PerturbDihedral::random_dihedral_radians(const System& system,
 
 double PerturbDihedral::old_dihedral_energy(const System& system,
     const TrialSelect * select) {
-  const Dihedral& dihedral = system.configuration().unique_type(
-    select->particle_type()).dihedral(dihedral_type_);
+  const Particle& unique_type = system.configuration().unique_type(
+    select->particle_type());
+  ASSERT(dihedral_type_ < unique_type.num_dihedrals(),
+    "dihedral_type:" << dihedral_type_ << " >= number of dihedrals:"
+    << unique_type.num_dihedrals());
+  const Dihedral& dihedral = unique_type.dihedral(dihedral_type_);
   ASSERT(dihedral_.deserialize_map().count(dihedral.model()) == 1,
     dihedral.model() << " not found");
   const BondFourBody * model = dihedral_.deserialize_map()[dihedral.model()].get();

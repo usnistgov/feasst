@@ -51,8 +51,8 @@ MonteCarlo monte_carlo2(const int thread, const int min, const int max,
     MakeTransitionMatrix({{"min_sweeps", "100000"}, {"new_sweep", "1"}})));//, {"max_block_operations", "6"}})));
   mc.add(MakeCheckEnergy({{"trials_per_write", str(trials_per)}}));
   mc.add(MakeTune({{"trials_per_write", str(trials_per)}, {"multistate", "true"}, {"file_name", "tune" + str(thread)}}));
-  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-    {"file_name", "tmp/clones" + str(thread)}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
+//    {"file_name", "tmp/clones" + str(thread)}}));
   mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per_write", str(trials_per)},
