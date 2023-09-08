@@ -26,7 +26,7 @@ bool TrialSelectAll::select(const Select& perturbed,
                                  System* system,
                                  Random * random) {
   set_probability_(1.);
-  const Configuration& config = system->configuration();
+  const Configuration& config = configuration(*system);
   set_mobile(config.selection_of_all());
   //get_mobile()->load_positions(config.particles());
   DEBUG("selected " << mobile_.str());

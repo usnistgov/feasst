@@ -17,6 +17,8 @@ TEST(TrialSwapSites, swap) {
   sys.set(MakeThermoParams({{"beta", "1.0"}}));
   auto random = MakeRandomMT19937();
   auto criteria = MakeMetropolis();
+  criteria->set_current_energy(sys.energy());
+  criteria->set_current_energy_profile({0.});
   auto trial = MakeTrialSwapSites({{"particle_type", "0"}, {"site_type1", "0"}, {"site_type2", "1"}});
   trial->attempt(criteria.get(), &sys, random.get());
   EXPECT_EQ(trial->num_success(), 1);

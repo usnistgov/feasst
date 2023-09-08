@@ -5,6 +5,8 @@
 #include <string>
 #include "utils/include/arguments.h"
 #include "math/include/accumulator.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 
 namespace feasst {
 
@@ -48,7 +50,7 @@ class Stepper {
     - rewrite_header: set true to rewrite header every write (default: true).
       If multistate_aggregate, automatically set to false.
     - Accumulator arguments.
-    - configuration: index of configuration (default: 0)
+    - configuration_index: index of configuration (default: 0)
    */
   explicit Stepper(argtype args = argtype());
   explicit Stepper(argtype * args);
@@ -90,7 +92,11 @@ class Stepper {
   int start_after_iteration() const { return start_after_iteration_; }
 
   /// Return the configuration index
-  int configuration() const { return configuration_; }
+  int configuration_index() const { return configuration_index_; }
+
+  /// Given the system, return the configuration.
+  const Configuration& configuration(const System& system) const {
+    return system.configuration(configuration_index_); }
 
   /// Set the state. Append file name if not empty.
   void set_state(const int state = 0);
@@ -167,7 +173,7 @@ class Stepper {
   bool is_multistate_;
   bool is_multistate_aggregate_;
   int state_ = 0;
-  int configuration_;
+  int configuration_index_;
   bool rewrite_header_;
 };
 

@@ -16,10 +16,10 @@
    RigidDihedral
    BondVisitor
    VisitModel
-   DontVisitModel
-   LongRangeCorrections
    ModelOneBody
    ModelEmpty
+   DontVisitModel
+   LongRangeCorrections
    ModelTwoBody
    IdealGas
    ModelTwoBodyFactory
@@ -32,7 +32,7 @@
    PotentialFactory
    System
    VisitModelIntra
-   CutoffOuter
    VisitModelIntraMap
    VisitModelBond
    LennardJones
+   CutoffOuter

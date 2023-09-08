@@ -63,7 +63,8 @@ void MonteCarlo::parse_(arglist * args) {
   // parse Potential
   if (args->begin()->first == "Potential") {
     DEBUG("parsing Potential");
-    add(MakePotential(args->begin()->second));
+    const int config = integer("configuration_index", &(args->begin()->second), 0);
+    add(MakePotential(args->begin()->second), config);
     args->erase(args->begin());
     return;
   }
@@ -202,11 +203,11 @@ void MonteCarlo::add(const Configuration& config) {
   ASSERT(!criteria_set_, "add config before criteria");
 }
 
-void MonteCarlo::add(std::shared_ptr<Potential> potential) {
+void MonteCarlo::add(std::shared_ptr<Potential> potential, const int config) {
   ASSERT(!criteria_set_, "add potential before criteria");
   ASSERT(config_set_ || system_set_, "config:" << config_set_ <<
     " or system:" << system_set_ << " must be set before adding a potential");
-  system_.add(potential);
+  system_.add(potential, config);
   system_.precompute();
   potential_set_ = true;
 }
@@ -285,6 +286,12 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
       }
     }
   }
+
+//  // Need to implement some way to handle profiles when config is only in the first select
+//  if (trial->num_stages() > 1) {
+//    ASSERT(system_.num_configurations() == 1,
+//      "not implemented. Fix TrialStage::set_rosenbluth_energy_");
+//  }
 
   // flatten TrialFactory by adding the individual trials instead.
   if (trial->class_name() == "TrialFactory") {
@@ -580,22 +587,26 @@ void MonteCarlo::imitate_trial_rejection_(const int trial_index,
   criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new, endpoint);
 }
 
-double MonteCarlo::initialize_system() {
+double MonteCarlo::initialize_system(const int config) {
   system_.precompute();
-  const double en = system_.unoptimized_energy();
-  system_.energy();
-  for (int ref = 0; ref < system_.num_references(); ++ref) {
-    system_.reference_energy(ref);
+  const double en = system_.unoptimized_energy(config);
+  system_.energy(config);
+  for (int ref = 0; ref < system_.num_references(config); ++ref) {
+    system_.reference_energy(ref, config);
   }
   return en;
 }
 
 void MonteCarlo::initialize_criteria() {
-  const double en = initialize_system();
-  // HWH set up a Criteria::precompute for this instead.
+  for (int iconf = 0; iconf < system_.num_configurations(); ++iconf) {
+    const double en = initialize_system(iconf);
+    // HWH set up a Criteria::precompute for this instead.
+    if (criteria_) {
+      criteria_->set_current_energy(en, iconf);
+      criteria_->set_current_energy_profile(system_.stored_energy_profile(iconf), iconf);
+    }
+  }
   if (criteria_) {
-    criteria_->set_current_energy(en);
-    criteria_->set_current_energy_profile(system_.stored_energy_profile());
     criteria_->precompute(&system_);
   }
 }

@@ -1,6 +1,6 @@
-feasstio
+fstplot
 ===========================================================
 
-.. automodule:: feasstio
+.. automodule:: fstplot
    :members:
 

@@ -36,6 +36,7 @@ bool MayerSampling::is_accepted(
     Acceptance * acceptance,
     Random * random) {
   check_num_iterations_(num_trials_per_iteration_);
+  ASSERT(system.num_configurations() == 1, "assumes 1 config");
   double energy_new = acceptance->energy_new();
   const double beta = system.thermo_params().beta();
   TRACE("*** MayerSampling ***");

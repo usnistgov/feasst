@@ -41,89 +41,101 @@ class Acceptance {
   /// Reset all stored quantities before each trial.
   void reset();
 
+  /// Return 1 if this conf has updated energy.
+  int updated(const int conf = 0) const;
+
   /// Return the energy of the new configuration.
-  double energy_new() const { return energy_new_; }
+  double energy_new(const int config = 0) const;
 
   /// Set the above quantity.
-  void set_energy_new(const double energy) { energy_new_ = energy; }
+  void set_energy_new(const double energy, const int config = 0);
 
   /// Add to the above quantity.
-  void add_to_energy_new(const double energy) { energy_new_ += energy; }
+  void add_to_energy_new(const double energy, const int config = 0);
+
+  /// Return the configuration indices.
+  int num_configurations() const;
 
   /// Return the energy profile of the new configuration.
-  const std::vector<double>& energy_profile_new() const {
-    return energy_profile_new_; }
+  const std::vector<double>& energy_profile_new(const int config = 0) const;
 
   /// Set the above quantity.
-  void set_energy_profile_new(const std::vector<double>& energy) {
-    energy_profile_new_ = energy; }
+  void set_energy_profile_new(const std::vector<double>& energy, const int config = 0);
 
   /// Add to the above quantity.
-  void add_to_energy_profile_new(const std::vector<double>& energy);
+  void add_to_energy_profile_new(const std::vector<double>& energy,
+                                 const int config = 0);
 
   /// Subtract from the above quantity.
-  void subtract_from_energy_profile_new(const std::vector<double>& energy);
+  void subtract_from_energy_profile_new(const std::vector<double>& energy,
+                                        const int config = 0);
 
   /// Return the energy of the old configuration.
-  double energy_old() const { return energy_old_; }
+  double energy_old(const int config = 0) const;
 
   /// Set the above quantity.
-  void set_energy_old(const double energy) { energy_old_ = energy; }
+  void set_energy_old(const double energy, const int config = 0);
 
   /// Add to the above quantity.
-  void add_to_energy_old(const double energy) { energy_old_ += energy; }
+  void add_to_energy_old(const double energy, const int config = 0);
 
   /// Return the energy profile of the old configuration.
-  const std::vector<double>& energy_profile_old() const {
-    return energy_profile_old_; }
+  const std::vector<double>& energy_profile_old(const int config = 0) const;
 
   /// Set the above quantity.
-  void set_energy_profile_old(const std::vector<double>& energy) {
-    energy_profile_old_ = energy; }
+  void set_energy_profile_old(const std::vector<double>& energy, const int config = 0);
 
   /// Add to the above quantity.
-  void add_to_energy_profile_old(const std::vector<double>& energy);
+  void add_to_energy_profile_old(const std::vector<double>& energy,
+                                 const int config = 0);
 
   /// Return the energy of the reference.
-  double energy_ref() const { return energy_ref_; }
+  double energy_ref(const int config = 0) const { return energy_ref_[config]; }
 
   /// Set the above quantity.
-  void set_energy_ref(const double energy) { energy_ref_ = energy; }
+  void set_energy_ref(const double energy, const int config = 0) { energy_ref_[config] = energy; }
 
   /// Return the shift in the macrostate due to an optimization where
   /// Perturb does not completely update system until finalize.
   /// This assumes a particular macrostate is used for the given trial.
   // HWH refactor this so that perturb_remove shows deleted particle but
   // cell lists, etc are only updated upon finalization (optimization).
-  int macrostate_shift() const { return macrostate_shift_; }
-  int macrostate_shift_type() const { return macrostate_shift_type_; }
+  int macrostate_shift(const int config = 0) const { return macrostate_shift_[config]; }
+  int macrostate_shift_type(const int config = 0) const { return macrostate_shift_type_[config]; }
 
   /// Add to the above.
-  void add_to_macrostate_shift(const int shift) { macrostate_shift_ += shift; }
-  void set_macrostate_shift_type(const int type) {
-    macrostate_shift_type_ += type; }
+  void add_to_macrostate_shift(const int shift, const int config = 0);
+  void set_macrostate_shift_type(const int type, const int config = 0);
 
   /// Add to perturbed selection and equate trial state.
-  void add_to_perturbed(const Select& select);
+  void add_to_perturbed(const Select& select, const int config = 0);
 
   /// Set perturbed trial state.
-  void set_perturbed_state(const int state);
+  void set_perturbed_state(const int state, const int config = 0);
 
   /// Return the perturbed selection.
-  const Select& perturbed() const { return perturbed_; }
+  const Select& perturbed(const int config = 0) const;
 
  private:
   double ln_metropolis_prob_;
-  double energy_new_;
-  double energy_old_;
-  double energy_ref_;
-  int macrostate_shift_;
-  int macrostate_shift_type_;
+  std::vector<double> energy_new_;
+  std::vector<double> energy_old_;
+  std::vector<double> energy_ref_;
+  std::vector<int> macrostate_shift_;
+  std::vector<int> macrostate_shift_type_;
   bool reject_;
   bool endpoint_;
-  std::vector<double> energy_profile_new_;
-  std::vector<double> energy_profile_old_;
-  Select perturbed_;
+  std::vector<std::vector<double> > energy_profile_new_;
+  std::vector<std::vector<double> > energy_profile_old_;
+  std::vector<Select> perturbed_;
+  std::vector<int> updated_;
+
+  template <typename T>
+  void resize_(const int config, std::vector<T> * vec) {
+    if (config >= static_cast<int>(vec->size())) {
+      vec->resize(config + 1);
+    }
+  }
 };
 
 }  // namespace feasst

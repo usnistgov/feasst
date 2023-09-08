@@ -37,7 +37,15 @@ std::string Log::header(const Criteria& criteria,
   ss << system.status_header();
   ss << criteria.status_header(system);
   if (include_bonds_) {
-    ss << ",BondTwoBody,BondThreeBody,BondFourBody";
+    std::string append = "";
+    for (int iconf = 0; iconf < system.num_configurations(); ++iconf) {
+      if (system.num_configurations()) {
+        append = "_config" + str(iconf);
+      }
+      ss << ",BondTwoBody" << append <<
+            ",BondThreeBody" << append <<
+            ",BondFourBody" << append;
+    }
   }
   // print number of trials here instead of TrialFactory header because
   // multiple factories makes it redundant.
@@ -55,15 +63,17 @@ std::string Log::write(const Criteria& criteria,
   ss << system.status();
   ss << criteria.status(max_precision_);
   if (include_bonds_) {
-    bond_visitor_.compute_all(system.configuration());
-    if (max_precision_) {
-      ss << "," << MAX_PRECISION << bond_visitor_.energy_two_body()
-         << "," << MAX_PRECISION << bond_visitor_.energy_three_body()
-         << "," << MAX_PRECISION << bond_visitor_.energy_four_body();
-    } else {
-      ss << "," << bond_visitor_.energy_two_body()
-         << "," << bond_visitor_.energy_three_body()
-         << "," << bond_visitor_.energy_four_body();
+    for (int iconf = 0; iconf < system.num_configurations(); ++iconf) {
+      bond_visitor_.compute_all(system.configuration());
+      if (max_precision_) {
+        ss << "," << MAX_PRECISION << bond_visitor_.energy_two_body()
+           << "," << MAX_PRECISION << bond_visitor_.energy_three_body()
+           << "," << MAX_PRECISION << bond_visitor_.energy_four_body();
+      } else {
+        ss << "," << bond_visitor_.energy_two_body()
+           << "," << bond_visitor_.energy_three_body()
+           << "," << bond_visitor_.energy_four_body();
+      }
     }
   }
   ss << "," << trial_factory.num_attempts()

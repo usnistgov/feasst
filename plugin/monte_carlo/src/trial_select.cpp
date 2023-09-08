@@ -13,6 +13,7 @@ TrialSelect::TrialSelect(argtype * args) {
 
   // parse particle type and group index from args.
   particle_type_ = -1;
+  configuration_index_ = integer("configuration_index", args, 0);
   group_index_ = 0;
   if (used("particle_type", *args)) {
     is_particle_type_set_ = true;
@@ -89,12 +90,13 @@ std::shared_ptr<TrialSelect> TrialSelect::deserialize(std::istream& istr) {
 }
 
 void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
-  feasst_serialize_version(273, ostr);
+  feasst_serialize_version(274, ostr);
   feasst_serialize_fstobj(mobile_original_, ostr);
   feasst_serialize_fstobj(mobile_, ostr);
   feasst_serialize_fstobj(anchor_, ostr);
   feasst_serialize(group_index_, ostr);
   feasst_serialize(particle_type_, ostr);
+  feasst_serialize(configuration_index_, ostr);
   feasst_serialize(is_particle_type_set_, ostr);
   feasst_serialize(is_ghost_, ostr);
   feasst_serialize_fstobj(properties_, ostr);
@@ -103,12 +105,15 @@ void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
 TrialSelect::TrialSelect(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(273 == version, "mismatch version: " << version);
+  ASSERT(version >= 273 && version <= 274, "mismatch version: " << version);
   feasst_deserialize_fstobj(&mobile_original_, istr);
   feasst_deserialize_fstobj(&mobile_, istr);
   feasst_deserialize_fstobj(&anchor_, istr);
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize(&particle_type_, istr);
+  if (version >= 274) {
+    feasst_deserialize(&configuration_index_, istr);
+  }
   feasst_deserialize(&is_particle_type_set_, istr);
   feasst_deserialize(&is_ghost_, istr);
   feasst_deserialize_fstobj(&properties_, istr);
@@ -159,12 +164,12 @@ bool TrialSelect::select(
 
 const EnergyMap& TrialSelect::map_(const System& system,
     const int neighbor_index) const {
-  const int num_neigh = static_cast<int>(system.neighbor_criteria().size());
+  const int num_neigh = static_cast<int>(system.neighbor_criteria(configuration_index()).size());
   ASSERT(num_neigh > neighbor_index,
     "With " << num_neigh << " NeighborCriteria added to system, the index "
     << neighbor_index << " is out of range.");
   const NeighborCriteria& neighbor_criteria =
-    system.neighbor_criteria(neighbor_index);
+    system.neighbor_criteria(neighbor_index, configuration_index());
   DEBUG("ref potential " << neighbor_criteria.reference_potential());
   if (neighbor_criteria.reference_potential() == -1) {
     return system.potentials().potential(neighbor_criteria.potential_index()).visit_model().inner().energy_map();

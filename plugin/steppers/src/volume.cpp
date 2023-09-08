@@ -37,7 +37,7 @@ std::string Volume::header(const Criteria& criteria,
 void Volume::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  const double volume = system.configuration(configuration()).domain().volume();
+  const double volume = configuration(system).domain().volume();
   DEBUG("volume: " << volume);
   DEBUG("state: " << state());
   accumulator_.accumulate(volume);

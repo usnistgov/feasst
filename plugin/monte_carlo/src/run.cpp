@@ -14,6 +14,7 @@ namespace feasst {
 Run::Run(argtype * args) {
   num_trials_ = integer("num_trials", args, -1);
   until_num_particles_ = integer("until_num_particles", args, -1);
+  configuration_index_ = integer("configuration_index", args, 0);
   particle_type_ = integer("particle_type", args, -1);
   for_hours_ = dble("for_hours", args, -1);
   until_criteria_complete_ = boolean("until_criteria_complete", args, false);
@@ -35,9 +36,12 @@ static MapRun mapper_Run = MapRun();
 
 Run::Run(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 3854, "mismatch version: " << version);
+  ASSERT(version >= 3854 && version <= 3855, "mismatch version: " << version);
   feasst_deserialize(&num_trials_, istr);
   feasst_deserialize(&until_num_particles_, istr);
+  if (version >= 3855) {
+    feasst_deserialize(&configuration_index_, istr);
+  }
   feasst_deserialize(&particle_type_, istr);
   feasst_deserialize(&for_hours_, istr);
   feasst_deserialize(&until_criteria_complete_, istr);
@@ -46,9 +50,10 @@ Run::Run(std::istream& istr) : Action(istr) {
 void Run::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_action_(ostr);
-  feasst_serialize_version(3854, ostr);
+  feasst_serialize_version(3855, ostr);
   feasst_serialize(num_trials_, ostr);
   feasst_serialize(until_num_particles_, ostr);
+  feasst_serialize(configuration_index_, ostr);
   feasst_serialize(particle_type_, ostr);
   feasst_serialize(for_hours_, ostr);
   feasst_serialize(until_criteria_complete_, ostr);
@@ -60,11 +65,12 @@ void Run::run(MonteCarlo * mc) {
     --num_trials_;
     DEBUG("num_trials " << num_trials_);
   }
+  const Configuration& conf = mc->configuration(configuration_index_);
   while ((until_num_particles_ > 0) &&
-         ((particle_type_ == -1 && (mc->configuration().num_particles() != until_num_particles_)) ||
-          (particle_type_ != -1 && (mc->configuration().num_particles_of_type(particle_type_) != until_num_particles_)))) {
+         ((particle_type_ == -1 && (conf.num_particles() != until_num_particles_)) ||
+          (particle_type_ != -1 && (conf.num_particles_of_type(particle_type_) != until_num_particles_)))) {
     mc->attempt(1);
-    DEBUG("num_particles " << mc->configuration().num_particles());
+    DEBUG("num_particles " << conf.num_particles());
   }
   if (for_hours_ > 0) {
     const double begin = cpu_hours();
@@ -87,6 +93,7 @@ RemoveTrial::RemoveTrial(argtype * args) {
   index_ = integer("index", args, -1);
   name_ = str("name", args, "");
   all_ = boolean("all", args, false);
+  name_contains_ = str("name_contains", args, "");
 }
 RemoveTrial::RemoveTrial(argtype args) : RemoveTrial(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -104,18 +111,22 @@ static MapRemoveTrial mapper_RemoveTrial = MapRemoveTrial();
 
 RemoveTrial::RemoveTrial(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 3854, "mismatch version: " << version);
+  ASSERT(version >= 3854 && version <= 3855, "mismatch version: " << version);
   feasst_deserialize(&index_, istr);
   feasst_deserialize(&name_, istr);
+  if (version >= 3855) {
+    feasst_deserialize(&name_contains_, istr);
+  }
   feasst_deserialize(&all_, istr);
 }
 
 void RemoveTrial::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_action_(ostr);
-  feasst_serialize_version(3854, ostr);
+  feasst_serialize_version(3855, ostr);
   feasst_serialize(index_, ostr);
   feasst_serialize(name_, ostr);
+  feasst_serialize(name_contains_, ostr);
   feasst_serialize(all_, ostr);
 }
 
@@ -133,6 +144,17 @@ void RemoveTrial::run(MonteCarlo * mc) {
   }
   if (index_ >= 0) {
     mc->remove_trial(index_);
+  }
+  if (!name_contains_.empty()) {
+    for (int trial = mc->trials().num() - 1; trial >= 0; --trial) {
+      std::string name = mc->trial(trial).class_name();
+      if (name == "Trial") {
+        name = mc->trial(trial).description();
+      }
+      if (name.find(name_contains_) != std::string::npos) {
+        mc->remove_trial(trial);
+      }
+    }
   }
   if (all_) {
     for (int i = 0; mc->trials().num() > 0; ++i) {

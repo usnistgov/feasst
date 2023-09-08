@@ -31,17 +31,18 @@ void TrialComputeAdd::perturb_and_acceptance(
     Random * random) {
   DEBUG("TrialComputeAdd");
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  acceptance->add_to_energy_new(criteria->current_energy());
+  const int iconf = stages->front()->select().configuration_index();
+  acceptance->add_to_energy_new(criteria->current_energy(iconf), iconf);
   //acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
-  acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
-  acceptance->add_to_macrostate_shift(1);
+  acceptance->add_to_energy_profile_new(criteria->current_energy_profile(iconf), iconf);
+  acceptance->add_to_macrostate_shift(1, iconf);
   { // Metropolis
-    const Configuration& config = system->configuration();
+    const Configuration& config = system->configuration(iconf);
     const double volume = config.domain().volume();
     const TrialSelect& select = (*stages)[0]->trial_select();
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
-    acceptance->set_macrostate_shift_type(particle_type);
+    acceptance->set_macrostate_shift_type(particle_type, iconf);
     const double prob = 1./(config.num_particles_of_type(particle_type) + 1);
     DEBUG("volume " << volume << " prob " << prob << " betamu " << system->thermo_params().beta_mu(particle_type));
     acceptance->add_to_ln_metropolis_prob(

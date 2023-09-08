@@ -27,46 +27,53 @@ void CheckEnergy::update(Criteria * criteria,
   check_->update(*criteria, *system, *trial_factory);
   DEBUG("computing unoptimized energy for check");
 
-  const double energy = system->unoptimized_energy();
-  const double current_energy = criteria->current_energy();
-  DEBUG("energy:" << energy << " "
-     << "current_energy: " << current_energy << " "
-     << "diff: " << energy - current_energy
-  );
-  accumulator_.accumulate(energy - current_energy);
+  for (int config = 0; config < system->num_configurations(); ++config) {
+    DEBUG("config " << config);
+    const double energy = system->unoptimized_energy(config);
+    // HWH configuration_index_
+    const double current_energy = criteria->current_energy(config);
+    DEBUG("energy:" << energy << " "
+       << "current_energy: " << current_energy << " "
+       << "diff: " << energy - current_energy
+    );
+    // HWH configuration_index_
+    accumulator_.accumulate(energy - current_energy);
 
-  // loop over each profile and perform the energy check
-  const std::vector<double>& energy_profile = system->unoptimized().stored_energy_profile();
-  const std::vector<double>& current_energy_profile = criteria->current_energy_profile();
-  DEBUG("energy_profile " << feasst_str(energy_profile));
-  DEBUG("current_energy_profile " << feasst_str(current_energy_profile));
-  for (int i = 0; i < static_cast<int>(energy_profile.size()); ++i) {
-    ASSERT(std::abs(energy_profile[i] - current_energy_profile[i]) < tolerance_,
+    // loop over each profile and perform the energy check
+    const std::vector<double>& energy_profile = system->unoptimized(config).stored_energy_profile();
+    // HWH configuration_index_
+    const std::vector<double>& current_energy_profile = criteria->current_energy_profile(config);
+    DEBUG("energy_profile " << feasst_str(energy_profile));
+    DEBUG("current_energy_profile " << feasst_str(current_energy_profile));
+    for (int i = 0; i < static_cast<int>(energy_profile.size()); ++i) {
+      ASSERT(std::abs(energy_profile[i] - current_energy_profile[i]) < tolerance_,
+        MAX_PRECISION <<
+        "Energy check failure. There is a problem with the potentials. " <<
+        "The unoptimized energy of potential " << i << " in configuration " <<
+        config << " was computed as " <<
+        energy_profile[i] << " but the running energy from criteria " <<
+        "(the accumulation of a change in energy over a series of steps) is " <<
+        current_energy_profile[i] <<
+        ". The difference(" << std::abs(energy_profile[i] - current_energy_profile[i]) << ") is " <<
+        "greater than the tolerance(" << tolerance_ << "). ");
+    }
+    criteria->set_current_energy_profile(energy_profile, config);
+
+    // perform same energy check for entire system
+    ASSERT(std::abs(energy - current_energy) < tolerance_,
       MAX_PRECISION <<
       "Energy check failure. There is a problem with the potentials. " <<
-      "The unoptimized energy of potential " << i << " was computed as " <<
-      energy_profile[i] << " but the running energy from criteria " <<
-      "(the accumulation of a change in energy over a series of steps) is " <<
-      current_energy_profile[i] <<
-      ". The difference(" << std::abs(energy_profile[i] - current_energy_profile[i]) << ") is " <<
-      "greater than the tolerance(" << tolerance_ << "). ");
+      "The unoptimized energy of configuration " << config <<
+      " was computed as " << energy << " but the running energy from criteria "
+      << "(the accumulation of a change in energy over a series of steps) is "
+      << current_energy <<
+      ". The difference(" << std::abs(energy - current_energy) << ") is " <<
+      "greater than the tolerance(" << tolerance_ << "). "
+      << system->unoptimized().str());
+    criteria->set_current_energy(energy, config);
+
+    // loop over all queryable maps and check those as well.
   }
-  criteria->set_current_energy_profile(energy_profile);
-
-  // perform same energy check for entire system
-  ASSERT(std::abs(energy - current_energy) < tolerance_,
-    MAX_PRECISION <<
-    "Energy check failure. There is a problem with the potentials. " <<
-    "The unoptimized energy of the entire configuration was computed as " <<
-    energy << " but the running energy from criteria " <<
-    "(the accumulation of a change in energy over a series of steps) is " <<
-    current_energy <<
-    ". The difference(" << std::abs(energy - current_energy) << ") is " <<
-    "greater than the tolerance(" << tolerance_ << "). "
-    << system->unoptimized().str());
-  criteria->set_current_energy(energy);
-
-  // loop over all queryable maps and check those as well.
 }
 
 void CheckEnergy::serialize(std::ostream& ostr) const {

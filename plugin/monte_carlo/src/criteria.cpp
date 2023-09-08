@@ -12,8 +12,10 @@ namespace feasst {
 
 Criteria::Criteria(argtype * args) {
   set_expanded_state();
-  data_.get_dble_1D()->resize(1);
   data_.get_dble_2D()->resize(1);
+  *current_energy_() = std::vector<double>();
+  data_.get_dble_3D()->resize(1);
+  *current_energy_profile_() = std::vector<std::vector<double> >();
   data_.get_int_1D()->resize(2);
   *num_iterations_() = 0;
   *num_attempt_since_last_iteration_() = 0;
@@ -31,19 +33,50 @@ Criteria::Criteria(std::shared_ptr<Constraint> constraint, argtype args)
   add(constraint);
 }
 
+double Criteria::current_energy(const int config) const {
+  ASSERT(config < static_cast<int>(data_.dble_2D()[0].size()),
+    "config:" << config << " >= size:" << data_.dble_2D()[0].size());
+  return data_.dble_2D()[0][config];
+}
+
+const std::vector<double>& Criteria::current_energy_profile(const int config) const {
+  ASSERT(config < static_cast<int>(data_.dble_3D()[0].size()),
+    "config:" << config << " >= size:" << data_.dble_3D()[0].size());
+//  if (config == static_cast<int>(const_current_energy_profile_()->size())) {
+//    const_current_energy_profile_()->resize(config + 1);
+//  }
+  return data_.dble_3D()[0][config];
+}
+
+void Criteria::update_current_energy(const Acceptance& acceptance) {
+  for (int iconf = 0; iconf < acceptance.num_configurations(); ++iconf) {
+    if (acceptance.updated(iconf) == 1) {
+      DEBUG("iconf " << iconf);
+      set_current_energy(acceptance.energy_new(iconf), iconf);
+      set_current_energy_profile(acceptance.energy_profile_new(iconf), iconf);
+    }
+  }
+}
+
 std::string Criteria::status_header(const System& system) const {
   std::stringstream ss;
   if (num_states() > 1) {
     ss << ",state";
   }
-  ss << ",energy";
-  for (int i = 0; i < static_cast<int>(current_energy_profile().size()); ++i) {
-    std::string name;
-    name = system.potential(i).model().class_name();
-    if (name == "ModelEmpty") {
-      name = system.potential(i).visit_model().class_name();
+  std::string append = "";
+  for (int iconf = 0; iconf < system.num_configurations(); ++iconf) {
+    if (system.num_configurations() > 1) {
+      append = "_config" + str(iconf);
     }
-    ss << "," << name;
+    ss << ",energy" << append;
+    for (int i = 0; i < static_cast<int>(current_energy_profile().size()); ++i) {
+      std::string name;
+      name = system.potential(i).model().class_name();
+      if (name == "ModelEmpty") {
+        name = system.potential(i).visit_model().class_name();
+      }
+      ss << "," << name << append;
+    }
   }
   return ss.str();
 }
@@ -56,9 +89,12 @@ std::string Criteria::status(const bool max_precision) const {
   if (num_states() > 1) {
     ss << "," << state();
   }
-  ss << "," << current_energy();
-  for (const double potential : current_energy_profile()) {
-    ss << "," << potential;
+  const int num_configs = static_cast<int>(const_current_energy_().size());
+  for (int iconf = 0; iconf < num_configs; ++iconf) {
+    ss << "," << current_energy(iconf);
+    for (const double potential : current_energy_profile(iconf)) {
+      ss << "," << potential;
+    }
   }
   return ss.str();
 }
@@ -75,8 +111,8 @@ void Criteria::set_expanded_state(const int state, const int num) {
 
 void Criteria::revert_(const bool accepted, const bool endpoint, const double ln_prob) {
   if (accepted) {
-    *current_energy_() = previous_energy_;
-    *current_energy_profile_() = previous_energy_profile_;
+    (*current_energy_())[0] = previous_energy_;
+    (*current_energy_profile_())[0] = previous_energy_profile_;
   }
 }
 
@@ -175,16 +211,23 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize_fstobj(&data_, istr);
 }
 
-void Criteria::set_current_energy(const double energy) {
-  previous_energy_ = current_energy();
-  *current_energy_() = energy;
-  DEBUG("setting current energy: " << current_energy());
+void Criteria::set_current_energy(const double energy, const int config) {
+  if (config == static_cast<int>(current_energy_()->size())) {
+    current_energy_()->resize(config + 1);
+  }
+  previous_energy_ = current_energy(config);
+  (*current_energy_())[config] = energy;
+  DEBUG("setting current energy: " << current_energy(config));
   DEBUG("previous " << previous_energy_);
 }
 
-void Criteria::set_current_energy_profile(const std::vector<double>& energy) {
-  previous_energy_profile_ = current_energy_profile();
-  *current_energy_profile_() = energy;
+void Criteria::set_current_energy_profile(const std::vector<double>& energy,
+    const int config) {
+  if (config == static_cast<int>(current_energy_profile_()->size())) {
+    current_energy_profile_()->resize(config + 1);
+  }
+  previous_energy_profile_ = current_energy_profile(config);
+  (*current_energy_profile_())[config] = energy;
 }
 
 /// Return whether constraints are statisfied.

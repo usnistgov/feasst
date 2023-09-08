@@ -31,17 +31,18 @@ void TrialComputeRemove::perturb_and_acceptance(
     Random * random) {
   DEBUG("TrialComputeRemove");
   compute_rosenbluth(1, criteria, system, acceptance, stages, random);
-  acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_old());
-  acceptance->set_energy_profile_new(criteria->current_energy_profile());
-  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
-  acceptance->add_to_macrostate_shift(-1);
+  const int iconf = stages->front()->select().configuration_index();
+  acceptance->set_energy_new(criteria->current_energy(iconf) - acceptance->energy_old(iconf), iconf);
+  acceptance->set_energy_profile_new(criteria->current_energy_profile(iconf), iconf);
+  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old(iconf), iconf);
+  acceptance->add_to_macrostate_shift(-1, iconf);
   { // Metropolis
-    const Configuration& config = system->configuration();
+    const Configuration& config = system->configuration(iconf);
     const double volume = config.domain().volume();
     const TrialSelect& select = (*stages)[0]->trial_select();
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
-    acceptance->set_macrostate_shift_type(particle_type);
+    acceptance->set_macrostate_shift_type(particle_type, iconf);
     DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << system->thermo_params().beta_mu(particle_type));
     acceptance->add_to_ln_metropolis_prob(
       - std::log(volume*select.probability())

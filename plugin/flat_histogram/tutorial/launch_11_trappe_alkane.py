@@ -7,7 +7,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import feasstio
+from pyfeasst import fstio
 from pyfeasst import physical_constants
 from pyfeasst import macrostate_distribution
 
@@ -160,10 +160,8 @@ TrialGrowFile file_name trappe_grow_grand_canonical.txt
 Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.txt include_bonds true
 Tune
 Run until_num_particles [soft_macro_min]
-RemoveTrial index 7
-RemoveTrial index 7
-RemoveTrial index 7
-RemoveTrial index 7
+RemoveTrial name_contains add
+RemoveTrial name_contains remove
 ThermoParams beta {beta} chemical_potential {mu}
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Run until_criteria_complete true
@@ -197,9 +195,9 @@ def post_process(params):
     assert np.abs(508 - liquid.average_macrostate()*dens_conv) < 30
 
 if __name__ == '__main__':
-    feasstio.run_simulations(params=PARAMS,
-                             sim_node_dependent_params=None,
-                             write_feasst_script=write_feasst_script,
-                             post_process=post_process,
-                             queue_function=feasstio.slurm_single_node,
-                             args=ARGS)
+    fstio.run_simulations(params=PARAMS,
+                          sim_node_dependent_params=None,
+                          write_feasst_script=write_feasst_script,
+                          post_process=post_process,
+                          queue_function=fstio.slurm_single_node,
+                          args=ARGS)

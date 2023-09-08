@@ -39,7 +39,7 @@ void PerturbAdd::add(
     const bool is_position_held) {
   DEBUG("is_position_held " << is_position_held);
   DEBUG(select->mobile().str());
-  Configuration* config = system->get_configuration();
+  Configuration* config = select->get_configuration(system);
   if (!delay_add_) config->revive(select->mobile());
   const int particle_type = config->select_particle(
     select->mobile().particle_index(0)
@@ -71,7 +71,7 @@ void PerturbAdd::revert(System * system) {
 //    system->revert(revert_select()->mobile());
     anywhere_.revert(system);
     if (!delay_add_) {
-      system->get_configuration()->remove_particles(revert_select()->mobile());
+      revert_select()->get_configuration(system)->remove_particles(revert_select()->mobile());
     }
   }
 }
@@ -82,7 +82,7 @@ void PerturbAdd::finalize(System * system) {
 //    DEBUG("finalizing mobile " << finalize_select()->mobile().str());
 //    system->finalize(finalize_select()->mobile());
     if (delay_add_) {
-      system->get_configuration()->revive(finalize_select()->mobile());
+      finalize_select()->get_configuration(system)->revive(finalize_select()->mobile());
     }
   }
 }

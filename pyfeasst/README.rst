@@ -9,7 +9,8 @@ Python package to analyze FEASST simulations.
 
    docs/source/accumulator
    docs/source/cd
-   docs/source/feasstio
+   docs/source/fstio
+   docs/source/fstplot
    docs/source/macrostate_distribution
    docs/source/multistate_accumulator
    docs/source/physical_constants

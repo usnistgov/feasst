@@ -14,6 +14,8 @@ TEST(Criteria, current_energy) {
   auto trans = MakeTrialTranslate({{"tunable_param", "0.1"}});
   Metropolis crit;
   crit.set_current_energy(sys.energy());
+  crit.set_current_energy_profile({0.});
+  crit.precompute(&sys);
   RandomMT19937 random;
   TRY(
     auto sys2 = sys;

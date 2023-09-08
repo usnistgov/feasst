@@ -24,8 +24,9 @@ class MapPerturbTranslate {
 static MapPerturbTranslate mapper_ = MapPerturbTranslate();
 
 void PerturbTranslate::precompute(TrialSelect * select, System * system) {
+  const Configuration& config = select->configuration(*system);
   set_tunable_min_and_max(2*NEAR_ZERO,
-    0.5*system->configuration().domain().max_side_length());  // +/- L/2
+    0.5*config.domain().max_side_length());  // +/- L/2
 }
 
 void PerturbTranslate::update_selection(const Position& trajectory,
@@ -59,7 +60,7 @@ void PerturbTranslate::move(
     System * system,
     TrialSelect * select) {
   update_selection(trajectory, select);
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
 }
 
 void PerturbTranslate::move(const bool is_position_held,
@@ -90,7 +91,7 @@ void PerturbTranslate::mid_stage(const TrialSelect& select,
   if (select.mobile().num_sites() == 1) {
     // Fix this , mobile isn't in the chosen position!
     //anchor_ = select.mobile().site_positions()[0][0];
-    anchor_ = system.configuration().select_particle(select.mobile().particle_index(0)).site(select.mobile().site_index(0, 0)).position();
+    anchor_ = select.configuration(system).select_particle(select.mobile().particle_index(0)).site(select.mobile().site_index(0, 0)).position();
     anchor_set_ = true;
   }
 }

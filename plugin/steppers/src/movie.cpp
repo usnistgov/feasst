@@ -31,20 +31,20 @@ void Movie::initialize(Criteria * criteria,
 
   // write xyz
   if (state() == criteria->state()) {
-    xyz_.write(name, system->configuration());
+    xyz_.write(name, configuration(*system));
   }
 
   // write vmd
   std::stringstream ss;
   ss << name << ".vmd";
-  vmd_.write(ss.str(), system->configuration(), name);
+  vmd_.write(ss.str(), configuration(*system), name);
 }
 
 std::string Movie::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   // ensure the following order matches the header from initialization.
-  xyz_.write(file_name(criteria), system.configuration());
+  xyz_.write(file_name(criteria), configuration(system));
   return std::string("");
 }
 

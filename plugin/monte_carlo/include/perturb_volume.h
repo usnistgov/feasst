@@ -13,6 +13,11 @@ class PerturbVolume : public Perturb {
  public:
   /**
     args:
+    - uniform_volume: if true, change volume uniformly in V instead of
+      :math:`\ln V` (default: false).
+    - constrain_volume_change: if true, use the previous volume change to
+      do the opposite for use as the second stage in Gibbs ensemble
+      (default: false).
     - Tunable arguments.
    */
   explicit PerturbVolume(argtype args = argtype());
@@ -30,6 +35,7 @@ class PerturbVolume : public Perturb {
       const Select& select) {
     system->change_volume(delta_volume, args_); }
 
+  void precompute(TrialSelect * select, System * system) override;
   void revert(System * system) override;
   void finalize(System * system) override;
 
@@ -40,6 +46,8 @@ class PerturbVolume : public Perturb {
   virtual ~PerturbVolume() {}
 
  private:
+  bool uniform_volume_;
+  bool constrain_volume_change_;
   argtype args_;
 
   // temporary

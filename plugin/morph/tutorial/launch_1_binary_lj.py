@@ -6,7 +6,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import feasstio
+from pyfeasst import fstio
 from pyfeasst import macrostate_distribution
 
 # Parse arguments from command line or change their default values.
@@ -114,9 +114,9 @@ def post_process(params):
     assert np.abs(9.327631384282558 - lnpi.average_macrostate()) < 0.5
 
 if __name__ == '__main__':
-    feasstio.run_simulations(params=PARAMS,
-                             sim_node_dependent_params=None,
-                             write_feasst_script=write_feasst_script,
-                             post_process=post_process,
-                             queue_function=feasstio.slurm_single_node,
-                             args=ARGS)
+    fstio.run_simulations(params=PARAMS,
+                          sim_node_dependent_params=None,
+                          write_feasst_script=write_feasst_script,
+                          post_process=post_process,
+                          queue_function=fstio.slurm_single_node,
+                          args=ARGS)

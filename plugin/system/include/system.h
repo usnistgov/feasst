@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include "configuration/include/configuration.h"
+#include "configuration/include/neighbor_criteria.h"
 #include "system/include/potential_factory.h"
 #include "system/include/thermo_params.h"
 #include "system/include/bond_visitor.h"
@@ -69,46 +70,54 @@ class System {
   //@{
 
   /// Add a potential. By default, the potential is considered unoptimized.
-  void add(std::shared_ptr<Potential> potential) { add_to_unoptimized(potential); }
+  void add(std::shared_ptr<Potential> potential, const int config = 0) {
+    add_to_unoptimized(potential, config); }
 
   /// Set an unoptimized potential.
-  void set_unoptimized(const int index, std::shared_ptr<Potential> potential);
+  void set_unoptimized(const int index, std::shared_ptr<Potential> potential,
+    const int config = 0);
 
   /// Add an unoptimized potential.
-  void add_to_unoptimized(std::shared_ptr<Potential> potential);
+  void add_to_unoptimized(std::shared_ptr<Potential> potential,
+    const int config = 0);
 
   /// Return the unoptimized potentials.
-  const PotentialFactory& unoptimized() const { return unoptimized_; }
+  const PotentialFactory& unoptimized(const int config = 0) const {
+    return unoptimized_[config]; }
 
   /// Return an unoptimized potential.
-  const Potential& potential(const int index) const {
-    return unoptimized_.potential(index); }
+  const Potential& potential(const int index, const int config = 0) const {
+    return unoptimized_[config].potential(index); }
 
   // Return an unoptimized potential.
-  Potential * get_potential(const int index) {
-    return unoptimized_.get_potential(index); }
+  Potential * get_potential(const int index, const int config = 0) {
+    return unoptimized_[config].get_potential(index); }
 
   /// Add an optimized potential.
-  void add_to_optimized(std::shared_ptr<Potential> potential);
+  void add_to_optimized(std::shared_ptr<Potential> potential,
+    const int config = 0);
 
   /// Return the optimized potentials.
-  const PotentialFactory& optimized() const { return optimized_; }
+  const PotentialFactory& optimized(const int config = 0) const {
+    return optimized_[config]; }
 
   /// Add a reference potential.
   void add_to_reference(std::shared_ptr<Potential> ref,
     /// Store different references by index.
-    const int index = 0);
+    const int index = 0,
+    const int config = 0);
 
-  int num_references() const { return static_cast<int>(references_.size()); }
+  int num_references(const int config = 0) const;
 
   /// Return a reference potential.
-  const Potential& reference(const int ref, const int potential) const;
+  const Potential& reference(const int ref, const int potential,
+    const int config = 0) const;
 
   /// Return the list of reference potentials.
-  const std::vector<PotentialFactory> references() const { return references_; }
+  const std::vector<std::vector<PotentialFactory> > references() const { return references_; }
 
   /// Return a constant reference to the full potentials.
-  const PotentialFactory& potentials() const;
+  const PotentialFactory& potentials(const int config = 0) const;
 
   /// Remove optimization when overlap is detected, which is default.
   void remove_opt_overlap();
@@ -120,20 +129,21 @@ class System {
   //@{
 
   /// Add a NeighborCriteria.
-  void add(std::shared_ptr<NeighborCriteria> neighbor_criteria) {
-    configurations_[0].add(neighbor_criteria); }
+  void add(std::shared_ptr<NeighborCriteria> neighbor_criteria,
+    const int config = 0) {
+    configurations_[config].add(neighbor_criteria); }
 
   /// Return a NeighborCriteria by index in order added.
-  const NeighborCriteria& neighbor_criteria(const int index) const {
-    return configurations_[0].neighbor_criteria(index); }
+  const NeighborCriteria& neighbor_criteria(const int index,
+    const int config) const;
 
   /// Return a NeighborCriteria by index in order added.
-  const std::vector<NeighborCriteria>& neighbor_criteria() const {
-    return configurations_[0].neighbor_criteria(); }
+  const std::vector<NeighborCriteria>& neighbor_criteria(
+    const int config) const;
 
   // Return a NeighborCriteria by index in order added.
-  NeighborCriteria * get_neighbor_criteria(const int index) {
-    return configurations_[0].get_neighbor_criteria(index); }
+  NeighborCriteria * get_neighbor_criteria(const int index,
+                                           const int config);
 
   //@}
   /** @name Energy
@@ -145,7 +155,7 @@ class System {
   void precompute();
 
   /// Return the unoptimized energy. The following use optimized if available.
-  double unoptimized_energy(const int config = 0);
+  double unoptimized_energy(const int config);
 
   /// Return the energy of all.
   double energy(const int config = 0);
@@ -159,12 +169,12 @@ class System {
   double perturbed_energy(const Select& select, const int config = 0);
 
   /// Return the last computed energy.
-  double stored_energy() const {
-    return potentials().stored_energy(); }
+  double stored_energy(const int config = 0) const {
+    return potentials(config).stored_energy(); }
 
   /// Return the profile of energies that were last computed.
-  std::vector<double> stored_energy_profile() const {
-    return potentials().stored_energy_profile(); }
+  std::vector<double> stored_energy_profile(const int config = 0) const {
+    return potentials(config).stored_energy_profile(); }
 
   /// Return the reference energy.
   double reference_energy(const int ref = 0, const int config = 0);
@@ -196,7 +206,7 @@ class System {
   //@}
   // Other functions:
 
-  /*
+  /**
     Change the volume.
 
     args:
@@ -205,6 +215,19 @@ class System {
    */
   void change_volume(const double delta_volume, argtype args = argtype());
   void change_volume(const double delta_volume, argtype * args);
+
+  /// Return the previous delta_volume.
+  double delta_volume_previous() const { return delta_volume_previous_; }
+//  /**
+//    Change the volume in the opposite amount as the last volume change.
+//    This is implemented to keep the total volume constant for Gibbs ensemble.
+//    Return the actual volume change.
+//
+//    args:
+//    - Same as change_volume above.
+//   */
+//  double constrained_volume_change(argtype * args);
+//  double constrained_volume_change(argtype args = argtype());
 
   /// Revert changes due to energy computation of perturbations.
   void revert(const Select& select, const int config = 0);
@@ -239,21 +262,21 @@ class System {
 
  private:
   std::vector<Configuration> configurations_;
-  BondVisitor bonds_;
-  // HWH should each config have its own set of the three potential factories?
-  PotentialFactory unoptimized_;
-  PotentialFactory optimized_;
+  std::vector<BondVisitor> bonds_;
+  std::vector<PotentialFactory> unoptimized_;
+  std::vector<PotentialFactory> optimized_;
   bool is_optimized_ = false;
-  std::vector<PotentialFactory> references_;
+  std::vector<std::vector<PotentialFactory> > references_;
   std::shared_ptr<ThermoParams> thermo_params_;
 
   // temporary variable, not needed for serialization
   // In order to finalize or restart the correct reference potential utilized
   // in a trial, this temporarily stores that reference potential index.
   int ref_used_last_ = -1;
+  double delta_volume_previous_ = 1e30; // implemented for Gibbs ensemble.
 
-  PotentialFactory * reference_(const int index);
-  PotentialFactory * potentials_();
+  PotentialFactory * reference_(const int index, const int config);
+  PotentialFactory * potentials_(const int config);
 };
 
 inline std::shared_ptr<System> MakeSystem() {

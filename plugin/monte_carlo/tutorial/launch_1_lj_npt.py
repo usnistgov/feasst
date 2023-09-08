@@ -5,7 +5,7 @@ Isothermal-isobaric ensemble Monte Carlo simulation of Lennard Jones particles.
 
 import argparse
 import json
-from pyfeasst import feasstio
+from pyfeasst import fstio
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -129,9 +129,9 @@ def post_process(params):
     en_stds_srsw = [1.89E-05, 3.21E-05]
 
 if __name__ == '__main__':
-    feasstio.run_simulations(params=PARAMS,
-                             sim_node_dependent_params=sim_node_dependent_params,
-                             write_feasst_script=write_feasst_script,
-                             post_process=post_process,
-                             queue_function=feasstio.slurm_single_node,
-                             args=ARGS)
+    fstio.run_simulations(params=PARAMS,
+                          sim_node_dependent_params=sim_node_dependent_params,
+                          write_feasst_script=write_feasst_script,
+                          post_process=post_process,
+                          queue_function=fstio.slurm_single_node,
+                          args=ARGS)

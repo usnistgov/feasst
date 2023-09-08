@@ -20,6 +20,7 @@ class Run : public Action {
     args:
     - num_trials: run this many trials (default: -1. e.g., None)
     - until_num_particles: run until this many particles (default: -1. e.g., None)
+    - configuration_index: configuration for until_num_particles (default: 0).
     - particle_type: type of particle to count. If -1, all particles (default: -1).
     - for_hours: run for this many CPU hours (default: -1 e.g., None).
     - until_criteria_complete: run until Criteria is complete (default: false)
@@ -38,6 +39,7 @@ class Run : public Action {
  private:
   int num_trials_;
   int until_num_particles_;
+  int configuration_index_;
   int particle_type_;
   double for_hours_;
   bool until_criteria_complete_;
@@ -59,6 +61,10 @@ class RemoveTrial : public Action {
     - name: remove first trial with this class name, if not empty.
       (default: empty).
     - all: remove all trials (default: false)
+    - name_contains: remove all trials with this in the class name, if not
+      empty (default: empty).
+      Similar to the name that appears in Log, if the class_name is Trial,
+      use the description instead (e.g., TrialGrowadd in TrialGrow).
    */
   explicit RemoveTrial(argtype args = argtype());
   explicit RemoveTrial(argtype * args);
@@ -74,6 +80,7 @@ class RemoveTrial : public Action {
  private:
   int index_;
   std::string name_;
+  std::string name_contains_;
   bool all_;
 };
 

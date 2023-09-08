@@ -6,6 +6,7 @@
    Bond
    PhysicalConstants
    Domain
+   NeighborCriteria
    Site
    Particle
    Group
@@ -14,7 +15,6 @@
    ParticleFactory
    Select
    VisitParticles
-   NeighborCriteria
    Configuration
    VisitConfiguration
    FileVMD

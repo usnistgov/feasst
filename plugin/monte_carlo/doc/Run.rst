@@ -32,3 +32,7 @@ Run
 .. doxygenclass:: feasst::RefPotential
    :project: FEASST
    :members:
+
+.. doxygenclass:: feasst::WriteModelParams
+   :project: FEASST
+   :members:

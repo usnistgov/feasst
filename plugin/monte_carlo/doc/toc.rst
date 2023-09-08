@@ -2,33 +2,33 @@
 .. toctree::
 
    Action
-   Stepper
+   Run
    Rosenbluth
    Acceptance
+   Stepper
    Criteria
    Metropolis
-   TrialSelect
-   TrialSelectParticle
    Constraint
    ConstrainNumParticles
-   Run
-   TrialSelectBond
-   TrialSelectAngle
-   TrialSelectDihedral
+   TrialSelect
    Tunable
    Perturb
    PerturbMove
-   PerturbToAnchor
-   PerturbTranslate
    PerturbDistance
    PerturbDistanceAngle
    PerturbDihedral
    PerturbRotate
+   PerturbTranslate
    PerturbAnywhere
    PerturbRemove
    PerturbAdd
    TrialStage
    PerturbVolume
+   TrialSelectBond
+   TrialSelectAngle
+   TrialSelectDihedral
+   TrialSelectAll
+   TrialSelectParticle
    TrialCompute
    TrialComputeMove
    TrialComputeTranslate

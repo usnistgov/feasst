@@ -96,31 +96,36 @@ CentOS 7
 CMake version is usually too old.
 Try the command cmake3 instead of cmake.
 
-Windows 10
-~~~~~~~~~~~
+Rocky 8
+~~~~~~~~
 
-* Install Windows subsystem for Linux (Ubuntu 16)
-* See Ubuntu 16
+* yum install gcc-c++
 
 Ubuntu 16
 ~~~~~~~~~~
 
 * Update to CMake 3 (https://cmake.org/download/)
 
+Ubuntu 18, 20, 22
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* We are not aware of any install issues with these OS.
+
+Cray (NERSC CORI)
+~~~~~~~~~~~~~~~~~~
+
+* OpenMP functions may not work unless the cray programming environment is disabled.
+
 macOS Mojave
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * for omp, try brew install libomp
 
-Cray (NERSC CORI)
-~~~~~~~~~~~~~~~~~~
+Windows 10
+~~~~~~~~~~~
 
-* OpenMP functions apparently do not work unless the cray programming environment is disabled.
-
-Ubuntu 18, 20, 22
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-* We are not aware of any issues with these OS.
+* Install Windows subsystem for Linux (Ubuntu 16)
+* See Ubuntu 16
 
 Documentation for a specific version of FEASST
 ===============================================

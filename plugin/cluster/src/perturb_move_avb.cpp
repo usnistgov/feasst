@@ -55,7 +55,7 @@ void PerturbMoveAVB::move(const bool is_position_held,
   DEBUG("anchor_pos " << anchor_pos.str());
 
   DEBUG("inside " << inside_);
-  NeighborCriteria * neighbor = system->get_neighbor_criteria(neighbor_);
+  NeighborCriteria * neighbor = system->get_neighbor_criteria(neighbor_, select->configuration_index());
   if (inside_) {
     // translate mobile particle to AV of anchor
     random->position_in_spherical_shell(

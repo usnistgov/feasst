@@ -39,7 +39,7 @@ class MonteCarlo {
     Objects are processed with the following (derived-)names and arguments.
     - Random (default: RandomMT19937).
     - Configuration (multiple)
-    - Potential (multiple)
+    - Potential (multiple; with configuration_index)
     - ThermoParams
     - Criteria
     - Trial (multiple)
@@ -89,7 +89,7 @@ class MonteCarlo {
     return system_.configuration(index); }
 
   /// The second action is to add Potentials.
-  void add(std::shared_ptr<Potential> potential);
+  void add(std::shared_ptr<Potential> potential, const int config = 0);
 
   /// Warning for depreciated use.
   void add(const Potential& potential);
@@ -108,8 +108,9 @@ class MonteCarlo {
     system_.add_to_reference(potential, index); }
 
   /// Add NeighborCriteria.
-  void add(std::shared_ptr<NeighborCriteria> neighbor_criteria) {
-    system_.add(neighbor_criteria); }
+  void add(std::shared_ptr<NeighborCriteria> neighbor_criteria,
+      const int config = 0) {
+    system_.add(neighbor_criteria, config); }
 
   /// The third action is to set the ThermoParams.
   void set(std::shared_ptr<ThermoParams> thermo_params);
@@ -126,7 +127,7 @@ class MonteCarlo {
   const System& system() const { return system_; }
 
   /// Reinitialize the system. Return total energy.
-  double initialize_system();
+  double initialize_system(const int config);
 
   // HWH depreciate: only in rare cases should the system be modified directly.
   System * get_system() { return &system_; }

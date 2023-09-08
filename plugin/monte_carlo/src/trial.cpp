@@ -1,8 +1,9 @@
 #include <string>
 #include <memory>
 #include "utils/include/serialize.h"
-#include "monte_carlo/include/trial.h"
 #include "math/include/random.h"
+#include "configuration/include/domain.h"
+#include "monte_carlo/include/trial.h"
 
 namespace feasst {
 
@@ -121,8 +122,13 @@ void Trial::finalize(System * system, Criteria * criteria) {
   for (int index = num_stages() - 1; index >= 0; --index) {
     stages_[index]->finalize(system);
   }
-  DEBUG("finalize perturbed");
-  system->finalize(acceptance_.perturbed());
+  DEBUG("finalize perturbed. Num configs? " << acceptance_.num_configurations());
+  for (int iconf = 0; iconf < acceptance_.num_configurations(); ++iconf) {
+    DEBUG("iconf:" << iconf << " updated? " << acceptance_.updated(iconf));
+    if (acceptance_.updated(iconf) == 1) {
+      system->finalize(acceptance_.perturbed(iconf), iconf);
+    }
+  }
   DEBUG("done finalizing perturbed");
   criteria->finalize(acceptance_);
 }
@@ -131,13 +137,19 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   DEBUG("**********************************************************");
   DEBUG("* " << class_name() << " " << description() << " attempt " << num_attempts() << " *");
   DEBUG("**********************************************************");
-  DEBUG("num particles: " << system->configuration().num_particles());
-  DEBUG("num ghosts: " << system->configuration().particles().num() -
-                         system->configuration().num_particles());
-  DEBUG("existing: " << system->configuration().group_select(0).str());
-  DEBUG("num of type 0: " << system->configuration().num_particles_of_type(0));
-  DEBUG("current_energy: " << criteria->current_energy());
-  DEBUG("all: " << system->configuration().selection_of_all().str());
+  DEBUG("config index: " << stages_[0]->trial_select().configuration_index());
+  for (int iconf = 0; iconf < system->num_configurations(); ++iconf) {
+    DEBUG("config " << iconf);
+    const Configuration& config = system->configuration(iconf);
+    DEBUG("num particles: " << config.num_particles());
+    DEBUG("num ghosts: " << config.particles().num() -
+                           config.num_particles());
+    DEBUG("volume " << config.domain().volume());
+    //DEBUG("existing: " << config.group_select(0).str());
+    DEBUG("num of type 0: " << config.num_particles_of_type(0));
+    DEBUG("current_energy: " << criteria->current_energy(iconf));
+    DEBUG("all: " << system->configuration(iconf).selection_of_all().str());
+  }
   increment_num_attempts();
   acceptance_.reset();
   criteria->before_attempt(*system);

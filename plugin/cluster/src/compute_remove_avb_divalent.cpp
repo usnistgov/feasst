@@ -60,7 +60,8 @@ void ComputeRemoveAVBDivalent::perturb_and_acceptance(
 
   // HWH Optimize: use select[1,2].probability to obtain number of neighbors.
   Select neighbors_;
-  const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_);
+  // HWH update with configuration_index_
+  const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_, 0);
   select0.map_(*system, neighbor_).neighbors(
     neighbor,
     config,

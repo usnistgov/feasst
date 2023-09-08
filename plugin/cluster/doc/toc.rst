@@ -1,9 +1,6 @@
 
 .. toctree::
 
-   SelectCluster
-   SelectParticleAVBDivalent
-   SelectParticleAVB
    EnergyMapAll
    EnergyMapAllCriteria
    EnergyMapNeighbor
@@ -12,6 +9,9 @@
    PerturbRotateCOM
    PerturbMoveAVB
    PerturbAddAVB
+   SelectCluster
+   SelectParticleAVBDivalent
+   SelectParticleAVB
    ComputeAVB4
    ComputeAVB2
    TrialAVB4

@@ -167,28 +167,29 @@ bool TrialSelectParticle::select(const Select& perturbed,
                                  System* system,
                                  Random * random) {
   DEBUG("is_ghost " << is_ghost());
+  DEBUG("selection from configuration " << configuration_index());
+  Configuration * config = system->get_configuration(configuration_index());
   if (is_ghost()) {
     if (exclude_perturbed_) {
-      ghost_particle(system->get_configuration(),
-        const_cast<Select*>(&perturbed), &mobile_);
+      ghost_particle(config, const_cast<Select*>(&perturbed), &mobile_);
     } else {
-      ghost_particle(system->get_configuration(), &mobile_);
+      ghost_particle(config, &mobile_);
     }
     set_probability_(1.);
   } else {
     int num = -1;
     if (exclude_perturbed_) {
-      num = random_particle(system->configuration(),
+      num = random_particle(*config,
         const_cast<Select*>(&perturbed), &mobile_, random);
     } else {
-      num = random_particle(system->configuration(), &mobile_, random);
+      num = random_particle(*config, &mobile_, random);
     }
     DEBUG("num " << num);
     if (num <= 0) return false;
     set_probability_(1./static_cast<double>(num));
   }
   DEBUG("selected " << mobile_.str());
-  remove_unphysical_sites(system->configuration());
+  remove_unphysical_sites(*config);
   ASSERT(mobile_.num_particles() > 0, "all sites shouldn't be unphysical");
   set_mobile_original(system);
   DEBUG("selected " << mobile_.str());

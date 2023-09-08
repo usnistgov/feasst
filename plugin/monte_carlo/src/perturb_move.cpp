@@ -21,7 +21,8 @@ void PerturbMove::perturb(
 void PerturbMove::revert(System * system) {
   DEBUG("revert? " << revert_possible());
   if (revert_possible()) {
-    Configuration* config = system->get_configuration();
+    const int iconf = revert_select()->configuration_index();
+    Configuration* config = system->get_configuration(iconf);
     config->update_positions(revert_select()->mobile_original(),
       // don't wrap if reverting
       false);

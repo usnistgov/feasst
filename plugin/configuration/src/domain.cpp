@@ -237,9 +237,9 @@ double Domain::inscribed_sphere_diameter() const {
   return diameter;
 }
 
-std::string Domain::status_header() const {
+std::string Domain::status_header(const std::string append) const {
   std::stringstream ss;
-  ss << ",volume";
+  ss << ",volume" << append;
   return ss.str();
 }
 

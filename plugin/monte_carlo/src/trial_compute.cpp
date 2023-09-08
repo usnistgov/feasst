@@ -45,18 +45,19 @@ void TrialCompute::compute_rosenbluth(
       //acceptance->set_reject(true);
     }
     double energy;
+    const int config = stage->trial_select().configuration_index();
     if (old == 1) {
       energy = stage->rosenbluth().energy(0);
-      acceptance->add_to_energy_old(energy);
-      acceptance->add_to_energy_profile_old(stage->rosenbluth().energy_profile(0));
+      acceptance->add_to_energy_old(energy, config);
+      acceptance->add_to_energy_profile_old(stage->rosenbluth().energy_profile(0), config);
       ln_rosenbluth -= stage->rosenbluth().ln_total_rosenbluth();
       DEBUG("adding to old energy " << energy);
     } else {
       energy = stage->rosenbluth().chosen_energy();
       DEBUG("energy new " << acceptance->energy_new());
       DEBUG("energy " << energy);
-      acceptance->add_to_energy_new(energy);
-      acceptance->add_to_energy_profile_new(stage->rosenbluth().chosen_energy_profile());
+      acceptance->add_to_energy_new(energy, config);
+      acceptance->add_to_energy_profile_new(stage->rosenbluth().chosen_energy_profile(), config);
       DEBUG("energy new updated " << acceptance->energy_new());
       ln_rosenbluth += stage->rosenbluth().ln_total_rosenbluth();
       DEBUG("adding to new energy " << energy);
@@ -65,18 +66,36 @@ void TrialCompute::compute_rosenbluth(
     if (stage->reference() >= 0) reference_used = true;
   }
 
-  // update the trial state of the perturbed selection
-  int trial_state = (*stages)[0]->trial_select().mobile().trial_state();
-  // set the trial state if old configuration and is a move type (1)
-  if (trial_state == 1 && old == 1) trial_state = 0;
-  acceptance->set_perturbed_state(trial_state);
+  // update the trial state of the perturbed selection for each config
+  // first, find the first stage for each config in acceptance
+  // use each of those first stages to set trial_state
+  int trial_state;
+  if (acceptance->num_configurations() == 1) {
+    trial_state = (*stages)[0]->trial_select().mobile().trial_state();
+    // set the trial state if old configuration and is a move type (1)
+    if (trial_state == 1 && old == 1) trial_state = 0;
+    const int config = (*stages)[0]->trial_select().configuration_index();
+    acceptance->set_perturbed_state(trial_state, config);
+  } else {
+    for (int iconf = 0; iconf < acceptance->num_configurations(); ++iconf) {
+      for (TrialStage * stage : *stages) {
+        if (iconf == stage->select().configuration_index()) {
+          trial_state = stage->select().mobile().trial_state();
+          acceptance->set_perturbed_state(trial_state, iconf);
+          continue;
+        }
+      }
+    }
+  }
 
   DEBUG("reference used? " << reference_used);
   if (reference_used) {
     ASSERT(acceptance->perturbed().num_sites() > 0, "error");
     DEBUG(acceptance->perturbed().str());
     DEBUG("state " << acceptance->perturbed().trial_state());
-    const double en_full = system->perturbed_energy(acceptance->perturbed());
+    // HWH configuration_index_
+    ASSERT(system->num_configurations() == 1, "assumes 1 config");
+    const double en_full = system->perturbed_energy(acceptance->perturbed(), 0);
     const std::vector<double>& en_profile_full = system->stored_energy_profile();
     DEBUG("en_full: " << en_full);
     DEBUG("energy ref: " << energy_change);

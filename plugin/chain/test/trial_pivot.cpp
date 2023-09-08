@@ -19,6 +19,8 @@ TEST(TrialPivot, chain10) {
   system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "100.0"}}));
   auto criteria = MakeMetropolis();
+  criteria->set_current_energy(system.energy());
+  criteria->set_current_energy_profile({0.});
   auto pivot = MakeTrialPivot({{"tunable_param", "90."}});
   TrialFactory factory;
   factory.add(pivot);

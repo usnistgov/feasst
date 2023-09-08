@@ -6,7 +6,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import feasstio
+from pyfeasst import fstio
 from pyfeasst import scattering
 
 # Parse arguments from command line or change their default values.
@@ -111,9 +111,9 @@ def post_process(params):
     assert np.abs(iq30rdfft['iq'][0]/iq3rdfft['iq'][0] - 0.7784) < 0.05
 
 if __name__ == '__main__':
-    feasstio.run_simulations(params=PARAMS,
-                             sim_node_dependent_params=sim_node_dependent_params,
-                             write_feasst_script=write_feasst_script,
-                             post_process=post_process,
-                             queue_function=feasstio.slurm_single_node,
-                             args=ARGS)
+    fstio.run_simulations(params=PARAMS,
+                          sim_node_dependent_params=sim_node_dependent_params,
+                          write_feasst_script=write_feasst_script,
+                          post_process=post_process,
+                          queue_function=fstio.slurm_single_node,
+                          args=ARGS)

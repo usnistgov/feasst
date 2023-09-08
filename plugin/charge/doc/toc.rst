@@ -1,17 +1,17 @@
 
 .. toctree::
 
-   SlabCorrection
    ElectricField
    ChargeSelf
+   SlabCorrection
    Coulomb
    ChargeScreenedIntra
    ChargeScreened
    DebyeHuckel
    Ewald
    ComputeRemoveMultiple
-   TrialAddMultiple
    TrialRemoveMultiple
+   TrialAddMultiple
    TrialTransferMultiple
    CheckNetCharge
    utils

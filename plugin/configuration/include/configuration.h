@@ -504,7 +504,7 @@ class Configuration {
   void check_dimensions() const;
 
   /// Return the header of the status for periodic output.
-  std::string status_header() const;
+  std::string status_header(const std::string append = "") const;
 
   /// Return the brief status for periodic output.
   std::string status() const;

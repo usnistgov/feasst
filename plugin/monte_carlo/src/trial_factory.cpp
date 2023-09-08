@@ -41,6 +41,8 @@ void TrialFactory::update_cumul_prob_() {
 }
 
 void TrialFactory::remove(const int index) {
+  ASSERT(index < num(),
+    "Trial index:" << index << " >= number of trials:" << num());
   trials_.erase(trials_.begin() + index);
   update_cumul_prob_();
 }

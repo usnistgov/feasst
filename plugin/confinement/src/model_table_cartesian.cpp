@@ -542,8 +542,10 @@ void ModelTableCart3DIntegr::compute_table(
         point.set_coord(2,
           table->bin_to_value(2, bin2)*domain.side_length(2)/2.);
         perturb.set_position(point, system, &tsel);
-        system->energy();
-        const double energy = system->perturbed_energy(*select);
+        // HWH configuration_index_
+        system->energy(0);
+        // HWH configuration_index_
+        const double energy = system->perturbed_energy(*select, 0);
         TRACE(system->configuration().select_particle(0).site(0).position().str() << " " << energy);
         table->set_data(bin0, bin1, bin2, energy);
         perturb.finalize(system);
@@ -593,8 +595,10 @@ void ModelTableCart3DIntegr::compute_table_omp(
 
         perturb.set_position(point, &system_t, &tsel);
         perturb.set_finalize_possible(true, &tsel);
-        system_t.energy();
-        const double energy = system_t.perturbed_energy(select_t);
+        // HWH configuration_index_
+        system_t.energy(0);
+        // HWH configuration_index_
+        const double energy = system_t.perturbed_energy(select_t, 0);
         TRACE(system_t.configuration().select_particle(0).site(0).position().str() << " " << energy);
         table->set_data(bin0, bin1, bin2, energy);
         perturb.finalize(&system_t);

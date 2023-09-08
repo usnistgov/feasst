@@ -20,6 +20,10 @@ TEST(TrialFactory, serialize) {
 //  factory3.serialize(ss);
 //  INFO(ss.str());
   TrialFactory factory2 = test_serialize(factory);
+  TRY(
+    factory2.remove(100);
+    CATCH_PHRASE("Trial index:100 >= number of trials:4");
+  );
 }
 
 }  // namespace feasst

@@ -61,7 +61,8 @@ void ComputeAddAVBDivalent::perturb_and_acceptance(
   ASSERT(particle_type0 != particle_type1,
     "acceptance hard-coded for particle_type0: " << particle_type0 <<
     " != particle_type1: " << particle_type1);
-  const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_);
+  // HWH update with configuration_index_
+  const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_, 0);
   const double volume_av = neighbor.volume(config.dimension());
 
   select0.map_(*system, neighbor_).neighbors(

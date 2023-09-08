@@ -53,7 +53,8 @@ bool SelectParticleAVBDivalent::select(const Select& perturbed,
       const_cast<const Select*>(&perturbed),
       &mobile_);
   } else {
-    const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_);
+    // HWH update with configuration_index_
+    const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_, 0);
     map_(*system, neighbor_).neighbors(
       neighbor,
       config,

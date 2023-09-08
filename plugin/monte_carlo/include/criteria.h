@@ -66,16 +66,20 @@ class Criteria {
   /// to avoid recomputation of the energy of the entire configuration.
   /// For example, Metropolis Monte Carlo trials are concerned with the change
   /// in energy, and this variable tracks the total from the changes.
-  void set_current_energy(const double energy);
+  void set_current_energy(const double energy, const int config = 0);
 
   /// Return the current total energy based on energy changes per trial.
-  double current_energy() const { return data_.dble_1D()[0]; }
+  double current_energy(const int config = 0) const;
 
   /// Same as above, except for energy profiles instead of total energy.
-  void set_current_energy_profile(const std::vector<double>& energy);
+  void set_current_energy_profile(const std::vector<double>& energy,
+    const int config = 0);
 
   /// Return the current energy profile based on energy changes per trial.
-  const std::vector<double>& current_energy_profile() const { return data_.dble_2D()[0]; }
+  const std::vector<double>& current_energy_profile(const int config = 0) const;
+
+  /// Update the current energy.
+  void update_current_energy(const Acceptance& acceptance);
 
   /// Return the header of the status for periodic output.
   std::string status_header(const System& system) const;
@@ -197,8 +201,10 @@ class Criteria {
   int num_iterations_to_complete_;
   std::vector<std::shared_ptr<Constraint> > constraints_;
 
-  double * current_energy_() { return &((*data_.get_dble_1D())[0]); }
-  std::vector<double> * current_energy_profile_() { return &((*data_.get_dble_2D())[0]); }
+  std::vector<double> * current_energy_() { return &((*data_.get_dble_2D())[0]); }
+  const std::vector<double>& const_current_energy_() const { return data_.dble_2D()[0]; }
+  std::vector<std::vector<double> > * current_energy_profile_() { return &((*data_.get_dble_3D())[0]); }
+  const std::vector<std::vector<double> >& const_current_energy_profile_() const { return data_.dble_3D()[0]; }
   int * num_attempt_since_last_iteration_() { return &((*data_.get_int_1D())[0]); }
   int * num_iterations_() { return &((*data_.get_int_1D())[1]); }
   int const_num_iterations_() const { return data_.int_1D()[1]; }

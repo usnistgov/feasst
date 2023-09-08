@@ -52,11 +52,12 @@ Text file interface
 ======================
 
 The above tutorials feature the text-based interface of FEASST.
-This is considered the public interface to FEASST, which essentially comprises the names of all Classes and their constructor arguments.
-Thus, most users will want to search the documentation for these.
-However, the search box for the html documentation was disabled for security reasons.
-But the html is generated entirely from the downloaded code.
-Thus, the bash command "grep" is a great option to search for more information on classes and their arguments.
+The text interface comprises the names of all Classes and their constructor arguments.
+Thus, most users will want to search the documentation for these classes.
+Documentation for a particular class can be found by searching the `list of all capabilities <../plugin/README.html>`_ (typically, using ctrl-f).
+All available arguments for that class can then be found in the list of "args" of that class, or its base classes.
+
+For developers, the bash command "grep" is also an option to search for more information on classes and their arguments.
 For example, if you would like more information on `RandomMT19937 <plugin/math/doc/RandomMT19937.html>`_ but are not sure where to find it, you could search headers files
 
 .. code-block:: bash
@@ -64,12 +65,11 @@ For example, if you would like more information on `RandomMT19937 <plugin/math/d
    grep -r --include=*.h RandomMT19937
 
 And find that the class is part of the `Math <plugin/math/README.html>`_ plugin.
-Searching the GitHub repository is another option.
 
 Python and C++ interface
 ===============================
 
 FEASST may also be called directly in Python and C++ as a `library <library/tutorial.html>`_.
-Note that these interfaces may change with minor version.
+Note that the Python and C++ interfaces may change with minor version.
 Thus, the Python and C++ interfaces are not recommended for beginning users.
 

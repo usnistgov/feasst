@@ -19,7 +19,7 @@ for f in $(find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot' 
   #rm $f/ttmp
   #sed 's/(Potential(/(MakePotential(/g' $f > ttmp; mv ttmp $f
   #sed 's/steps_per/trials_per/g' $f > ttmp; mv ttmp $f
-  sed 's/forcefield/particle/g' $f > ttmp; mv ttmp $f
+  sed 's/feasstio/fstio/g' $f > ttmp; mv ttmp $f
   #sed 's/AddReference/ConvertToRefPotential/g' $f > ttmp; mv ttmp $f
   #sed 's/steps_since/trials_since/g' $f > ttmp; mv ttmp $f
   #sed 's/epsilon/Epsilon/g' $f > ttmp; mv ttmp $f

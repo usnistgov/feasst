@@ -15,9 +15,9 @@ class PerturbLibrary : public PerturbRotate {
   /**
     args:
     - library_xyz: name of xyz file that contains many configurations.
-    - pivot_site: set the site index in selection with which to use as the
-      pivot for rotation (default: 0).
    */
+//    - pivot_site: set the site index in selection with which to use as the
+//      pivot for rotation (default: 0).
   explicit PerturbLibrary(argtype args = argtype());
   explicit PerturbLibrary(argtype * args);
 
@@ -42,7 +42,7 @@ class PerturbLibrary : public PerturbRotate {
  private:
   std::string library_xyz_file_name_;
   std::vector<std::vector<Position> > xyz_;
-  int pivot_site_;
+//  int pivot_site_;
 };
 
 inline std::shared_ptr<PerturbLibrary> MakePerturbLibrary(

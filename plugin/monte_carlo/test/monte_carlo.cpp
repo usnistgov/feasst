@@ -206,7 +206,7 @@ TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
   mc.add(MakeCheckEnergy({{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.add(MakeTune());
   mc.add_to_optimized(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "3"}})));
-  mc.initialize_system();
+  mc.initialize_system(0);
   mc.attempt(1e5);
 }
 
@@ -231,7 +231,7 @@ TEST(MonteCarlo, NVT_cells2_BENCHMARK_LONG) {
     {"Tune", {{}}},
     {"OptimizedPotential", {{"Model", "LennardJones"}, {"VisitModel", "VisitModelCell"}, {"min_length", "3"}}}
   }});
-  mc->initialize_system();
+  mc->initialize_system(0);
   mc->attempt(1e5);
 }
 
@@ -248,7 +248,8 @@ TEST(MonteCarlo, NVT_SRSW) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", str(nMol)}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemoveTrial({{"name_contains", "Add"}}));
+  //mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e3)}, {"file_name", "tmp/lj"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(1e3)}, {"tolerance", str(1e-9)}}));
   mc.add(MakeTune());
@@ -694,13 +695,45 @@ TEST(MonteCarlo, group_in_arglist) {
     {"Checkpoint", {{"num_hours", "0.0001"}, {"file_name", "tmp/ljrst"}}},
     {"Log", {{"trials_per_write", str(1e0)}, {"file_name", "tmp/lj.txt"}}},
     {"Movie", {{"trials_per_write", str(1e0)}, {"file_name", "tmp/lj.xyz"}}},
-    {"CheckEnergy", {{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}},
+    {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
     {"Run", {{"num_trials", "1e2"}}},
   }});
   EXPECT_EQ(2, mc->configuration().num_groups());
   EXPECT_NEAR(-2.060346185437E+00, mc->configuration().particle(2).site(0).position().coord(0), NEAR_ZERO);
   EXPECT_TRUE(std::abs(mc->configuration().particle(0).site(0).position().coord(0)-1.077169909511E+00)>1e-8);
+}
+
+TEST(MonteCarlo, two_configs) {
+  auto mc = MakeMonteCarlo({{
+    //{"RandomMT19937", {{"seed", "1234"}}},
+    {"Configuration", {{"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
+      {"particle_type0", "../particle/lj.fstprt"}, {"group0", "first"}, {"first_particle_index", "0"}}},
+    {"Configuration", {{"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
+      {"particle_type0", "../particle/lj.fstprt"}, {"group0", "first"}, {"first_particle_index", "0"}}},
+    {"Potential", {{"Model", "LennardJones"}, {"configuration_index", "0"}}},
+    {"Potential", {{"Model", "LennardJones"}, {"configuration_index", "1"}}},
+    {"ThermoParams", {{"beta", "100.2"}, {"chemical_potential", "1."}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"configuration_index", "0"}}},
+    {"TrialTranslate", {{"configuration_index", "1"}}},
+    {"TrialTransfer", {{"particle_type", "0"}, {"configuration_index", "0"}}},
+    {"TrialTransfer", {{"particle_type", "0"}, {"configuration_index", "1"}}},
+    {"Log", {{"trials_per_write", str(1e0)}, {"file_name", "tmp/lj.txt"}}},
+    {"Movie", {{"trials_per_write", str(1e0)}, {"file_name", "tmp/lj0.xyz"}, {"configuration_index", "0"}}},
+    {"Movie", {{"trials_per_write", str(1e0)}, {"file_name", "tmp/lj1.xyz"}, {"configuration_index", "1"}}},
+    {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
+    {"Run", {{"num_trials", "1e2"}}},
+    {"ThermoParams", {{"beta", "100.2"}, {"chemical_potential", "-10."}}},
+    {"Run", {{"num_trials", "1e2"}}},
+  }});
+  EXPECT_EQ(2, mc->system().num_configurations());
+  EXPECT_NE(mc->system().potential(0, 0).stored_energy(),
+            mc->system().potential(0, 1).stored_energy());
+//  INFO(mc->system().potential(0, 0).stored_energy() << " " <<
+//       mc->system().potential(0, 1).stored_energy());
+  EXPECT_NE(mc->system().potential(0, 1).stored_energy(), 0);
+  EXPECT_GT(std::abs(mc->system().potential(0, 1).stored_energy() + 16.7903), 0.0001);
 }
 
 }  // namespace feasst

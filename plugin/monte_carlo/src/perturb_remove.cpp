@@ -46,6 +46,7 @@ void PerturbRemove::before_select() {
 
 void PerturbRemove::finalize(System * system) {
   if (finalize_possible()) {
+    // HWH removals are performed by System::finalize for trial_state == 2.
     //system->finalize(finalize_select()->mobile());
   }
 }

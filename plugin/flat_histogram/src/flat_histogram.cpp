@@ -87,6 +87,7 @@ bool FlatHistogram::is_accepted(
   DEBUG(macrostate_old_ << " " <<  macrostate_new_ << " " << ln_metropolis_prob << " " << is_accepted << " " << is_endpoint);
 
   if (is_accepted) {
+    ASSERT(system.num_configurations() == 1, "assumes 1 config");
     set_current_energy(acceptance->energy_new());
     set_current_energy_profile(acceptance->energy_profile_new());
     DEBUG("current energy: " << current_energy());

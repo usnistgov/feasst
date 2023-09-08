@@ -22,31 +22,33 @@ CheckProperties::CheckProperties(argtype args) : CheckProperties(&args) {
 void CheckProperties::update(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  // store a copy of the system/config
-  Configuration config = deep_copy(system->configuration());
+  for (int iconf = 0; iconf < system->num_configurations(); ++iconf) {
+    // store a copy of the system/config
+    Configuration config = deep_copy(system->configuration(iconf));
 
-  // update properties
-  system->unoptimized_energy();
+    // update properties
+    system->unoptimized_energy(iconf);
 
-  // see if any properties do not match the copy
-  bool failure = false;
-  const Select& selection = config.selection_of_all();
-  for (int select_index = 0;
-       select_index < selection.num_particles();
-       ++select_index) {
-    const int part_index = selection.particle_index(select_index);
-    for (int site_index : selection.site_indices(select_index)) {
-      const Site& site1 = config.select_particle(part_index).site(site_index);
-      const Site& site2 = system->configuration().select_particle(part_index).site(site_index);
-      if (!site1.properties().is_equal(site2.properties(), tolerance_)) {
-        INFO(site1.properties().str());
-        INFO(site2.properties().str());
-        INFO("The site properties (old/new) are not equal for " <<
-             "part_index:" << part_index << " and site_index:" << site_index);
-        failure = true;
+    // see if any properties do not match the copy
+    bool failure = false;
+    const Select& selection = config.selection_of_all();
+    for (int select_index = 0;
+         select_index < selection.num_particles();
+         ++select_index) {
+      const int part_index = selection.particle_index(select_index);
+      for (int site_index : selection.site_indices(select_index)) {
+        const Site& site1 = config.select_particle(part_index).site(site_index);
+        const Site& site2 = system->configuration(iconf).select_particle(part_index).site(site_index);
+        if (!site1.properties().is_equal(site2.properties(), tolerance_)) {
+          INFO(site1.properties().str());
+          INFO(site2.properties().str());
+          INFO("The site properties (old/new) are not equal for " <<
+               "part_index:" << part_index << " and site_index:" << site_index);
+          failure = true;
+        }
       }
+      ASSERT(!failure, "check failed");
     }
-    ASSERT(!failure, "check failed");
   }
 }
 

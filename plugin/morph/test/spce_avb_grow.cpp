@@ -197,11 +197,13 @@ TEST(TrialGrow, transfer_avb_spce) {
   //ran = MakeRandomMT19937({{"seed", "1628624844"}});
   //ran = MakeRandomMT19937({{"seed", "1628878165"}});
   auto metropolis = MakeMetropolis();
+  metropolis->set_current_energy(system.energy());
+  metropolis->set_current_energy_profile({0.});
   system.set(MakeThermoParams({
     {"beta", "0.1"},
     {"chemical_potential", "1"}}));
   system.add(ncrit);
-  const double vol_av = system.neighbor_criteria(0).volume(config.dimension());
+  const double vol_av = system.neighbor_criteria(0, 0).volume(config.dimension());
 
   DEBUG("vol_av: " << vol_av);
   auto grow = MakeTrialGrow({

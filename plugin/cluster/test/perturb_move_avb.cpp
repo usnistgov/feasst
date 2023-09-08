@@ -87,7 +87,7 @@ TEST(PerturbMoveAVB, move) {
 
     Position rel = config.particle(sel_in2.mobile().particle_index(0)).site(0).position();
     rel.subtract(config.particle(sel_in2.anchor().particle_index(0)).site(0).position());
-    EXPECT_FALSE(system.get_neighbor_criteria(0)->is_position_accepted(rel, config.domain()));
+    EXPECT_FALSE(system.get_neighbor_criteria(0, 0)->is_position_accepted(rel, config.domain()));
 
     SelectParticleAVB sel_out(
       {{"grand_canonical", "false"},
@@ -128,7 +128,7 @@ TEST(PerturbMoveAVB, move) {
 
     rel = config.particle(sel_out2.mobile().particle_index(0)).site(0).position();
     rel.subtract(config.particle(sel_out2.anchor().particle_index(0)).site(0).position());
-    EXPECT_TRUE(system.get_neighbor_criteria(0)->is_position_accepted(rel, config.domain()));
+    EXPECT_TRUE(system.get_neighbor_criteria(0, 0)->is_position_accepted(rel, config.domain()));
   }
 }
 

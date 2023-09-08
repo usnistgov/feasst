@@ -15,8 +15,8 @@ def vector3d_to_list(vec):
     """
     Converts a swig stl vector to python list
 
-    >>> from pyfeasst import feasstio
-    >>> feasstio.vector3d_to_list([[[[0]]]])
+    >>> from pyfeasst import fstio
+    >>> fstio.vector3d_to_list([[[[0]]]])
     [[[[0]]]]
     """
     lst = list()
@@ -34,8 +34,8 @@ def read_checkpoint(filename):
     """
     Return contents of checkpoint file as a string
 
-    >>> from pyfeasst import feasstio
-    >>> table = feasstio.read_checkpoint('../../tests/tutorial_0_table.txt')
+    >>> from pyfeasst import fstio
+    >>> table = fstio.read_checkpoint('../../tests/tutorial_0_table.txt')
     >>> table[:13]
     '6867 11 11 11'
     """
@@ -49,7 +49,7 @@ def all_sims_complete(filename, num_sims):
     Read filename and see if all sim ID's from [0, num_sims-1] are present (e.g., complete).
     If no file is present, also consider the simulation incomplete.
 
-    >>> from pyfeasst import feasstio
+    >>> from pyfeasst import fstio
     >>> all_sims_complete('../../tests/lj_sim_ids.txt', 8)
     True
     >>> all_sims_complete('../../tests/lj_sim_ids2.txt', 8)

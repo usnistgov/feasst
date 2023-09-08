@@ -160,7 +160,7 @@ class Domain {
   void unwrap(const int dim, const int num_wrap, Position * shift) const;
 
   /// Return the header of the status for periodic output.
-  std::string status_header() const;
+  std::string status_header(const std::string append = "") const;
 
   /// Return the brief status for periodic output.
   std::string status() const;

@@ -17,11 +17,11 @@ namespace feasst {
  */
 class PerturbRotate : public PerturbMove {
  public:
-  /**
-    args:
-    - pivot_site: set the site index in selection with which to use as the
-      pivot for rotation (default: 0).
-   */
+//  /**
+//    args:
+//    - pivot_site: set the site index in selection with which to use as the
+//      pivot for rotation (default: 0).
+//   */
   explicit PerturbRotate(argtype args = argtype());
   explicit PerturbRotate(argtype * args);
 
@@ -64,7 +64,7 @@ class PerturbRotate : public PerturbMove {
   void serialize_perturb_rotate_(std::ostream& ostr) const;
 
  private:
-  int pivot_site_;
+//  int pivot_site_;
 
   // temporary and not serialized
   RotationMatrix rot_mat1_, rot_mat2_, rot_mat3_;

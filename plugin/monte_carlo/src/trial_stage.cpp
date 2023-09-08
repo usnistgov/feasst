@@ -34,7 +34,8 @@ bool TrialStage::select(System * system,
                                            system, random);
   DEBUG("is_selected " << is_selected);
   if (is_selected) {
-    acceptance->add_to_perturbed(select_->mobile());
+    acceptance->add_to_perturbed(select_->mobile(),
+                                 select_->configuration_index());
 //    set_mobile_physical(false, system);
     DEBUG("select: " << select_->mobile().str());
     DEBUG("perturbed: " << acceptance->perturbed().str());
@@ -46,7 +47,7 @@ bool TrialStage::select(System * system,
 
 void TrialStage::set_mobile_physical(const bool physical, System * system) {
   DEBUG("setting mobile physical " << physical);
-  system->get_configuration()->set_selection_physical(
+  select_->get_configuration(system)->set_selection_physical(
     select_->mobile(),
     physical);
 }
@@ -55,9 +56,9 @@ void TrialStage::set_rosenbluth_energy_(const int step, System * system) {
   DEBUG("select " << select_->mobile().str());
   double energy;
   if (reference_ == -1) {
-    energy = system->perturbed_energy(select_->mobile());
+    energy = system->perturbed_energy(select_->mobile(), select_->configuration_index());
   } else {
-    energy = system->reference_energy(select_->mobile(), reference_);
+    energy = system->reference_energy(select_->mobile(), reference_, select_->configuration_index());
   }
   const double excluded = select().exclude_energy();
   ASSERT(!std::isinf(energy), "energy: " << energy << " is inf.");
@@ -65,7 +66,8 @@ void TrialStage::set_rosenbluth_energy_(const int step, System * system) {
   ASSERT(!std::isinf(excluded), "excluded: " << excluded << " is inf.");
   ASSERT(!std::isnan(excluded), "excluded: " << excluded << " is nan.");
   rosenbluth_.set_energy(step, energy, excluded);
-  rosenbluth_.set_energy_profile(step, system->stored_energy_profile());
+  const int config = select_->configuration_index();
+  rosenbluth_.set_energy_profile(step, system->stored_energy_profile(config));
 }
 
 void TrialStage::attempt(System * system,

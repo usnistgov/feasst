@@ -1,3 +1,7 @@
+
+#ifndef FEASST_MONTE_CARLO_TEST_MONTE_CARLO_BENCHMARK_H_
+#define FEASST_MONTE_CARLO_TEST_MONTE_CARLO_BENCHMARK_H_
+
 #include <iostream>
 #ifdef _OPENMP
   #include <omp.h>
@@ -263,3 +267,5 @@ void parallel(RandomBenchmark * random) {
 //}
 
 #endif // _OPENMP
+
+#endif  // FEASST_MONTE_CARLO_TEST_MONTE_CARLO_BENCHMARK_H_

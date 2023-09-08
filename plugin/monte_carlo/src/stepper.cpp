@@ -49,7 +49,7 @@ Stepper::Stepper(argtype * args) {
 //  if (used("num_moments", *args)) {
 //    accumulator_.set_moments(integer("num_moments", args));
 //  }
-  configuration_ = integer("configuration", args, 0);
+  configuration_index_ = integer("configuration_index", args, 0);
 }
 
 bool Stepper::is_time(const int trials_per, int * trials_since) {
@@ -112,7 +112,7 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(is_multistate_, ostr);
   feasst_serialize(is_multistate_aggregate_, ostr);
   feasst_serialize(state_, ostr);
-  feasst_serialize(configuration_, ostr);
+  feasst_serialize(configuration_index_, ostr);
   feasst_serialize(rewrite_header_, ostr);
   feasst_serialize_fstobj(accumulator_, ostr);
   feasst_serialize_endcap("Stepper", ostr);
@@ -137,7 +137,7 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&is_multistate_, istr);
   feasst_deserialize(&is_multistate_aggregate_, istr);
   feasst_deserialize(&state_, istr);
-  feasst_deserialize(&configuration_, istr);
+  feasst_deserialize(&configuration_index_, istr);
   feasst_deserialize(&rewrite_header_, istr);
   feasst_deserialize_fstobj(&accumulator_, istr);
   feasst_deserialize_endcap("Stepper", istr);

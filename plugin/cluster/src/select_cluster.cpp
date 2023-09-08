@@ -42,15 +42,17 @@ void SelectCluster::select_cluster(const int first_particle,
   select->load_positions_of_last(part, frame_of_reference);
   DEBUG("first node " << select->str());
   DEBUG("first node pos " << select->site_positions()[0][0].str());
-  map_(system, neighbor_).select_cluster(system.neighbor_criteria(neighbor_),
+  // HWH update with configuration_index_
+  map_(system, neighbor_).select_cluster(system.neighbor_criteria(neighbor_, 0),
     config, first_particle, select, frame_of_reference);
 }
 
 bool SelectCluster::are_constraints_satisfied(const int old,
     const System& system) const {
   if (old == 0) {
+    // HWH update with configuration_index_
     const bool constraint = !map_(system, neighbor_).is_cluster_changed(
-      system.neighbor_criteria(neighbor_), mobile_, system.configuration());
+      system.neighbor_criteria(neighbor_, 0), mobile_, system.configuration());
     DEBUG("constraint " << constraint);
     return constraint;
   }

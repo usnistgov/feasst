@@ -89,7 +89,8 @@ bool SelectParticleAVB::select(const Select& perturbed,
     anchor_.set_particle(0, target_.particle_index(0));
   }
   ASSERT(target_.num_sites() == 1, "Error");
-  const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_);
+  // HWH update with configuration_index_
+  const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_, 0);
   map_(*system, neighbor_).neighbors(
     neighbor,
     config,

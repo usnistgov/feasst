@@ -37,9 +37,9 @@ std::string Density::header(const Criteria& criteria,
 void Density::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  const double volume = system.configuration(configuration()).domain().volume();
+  const double volume = configuration(system).domain().volume();
   DEBUG("volume: " << volume);
-  const int num_particles = system.configuration(configuration()).num_particles();
+  const int num_particles = configuration(system).num_particles();
   DEBUG("num_particles: " << num_particles);
   DEBUG("state: " << state());
   accumulator_.accumulate(static_cast<double>(num_particles)/volume);

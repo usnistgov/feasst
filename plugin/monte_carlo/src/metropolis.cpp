@@ -40,8 +40,7 @@ bool Metropolis::is_accepted(
        is_allowed(system, *acceptance) &&
        (random->uniform() < std::exp(acceptance->ln_metropolis_prob())) ) {
     DEBUG("accepted");
-    set_current_energy(acceptance->energy_new());
-    set_current_energy_profile(acceptance->energy_profile_new());
+    update_current_energy(*acceptance);
     was_accepted_ = true;
   } else {
     DEBUG("rejected");
