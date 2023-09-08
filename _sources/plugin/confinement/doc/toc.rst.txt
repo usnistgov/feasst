@@ -5,7 +5,7 @@
    ModelSquareWellShape
    Background
    ModelLJShape
-   ModelTableCart1DHard
    AlwaysReject
+   ModelTableCart1DHard
    trial_anywhere
    HenryCoefficient

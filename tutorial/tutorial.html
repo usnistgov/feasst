@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lennard Jones in the canonical ensemble &mdash; FEASST v0.22.2-1-g5e7e72770c documentation</title>
+  <title>Lennard Jones in the canonical ensemble &mdash; FEASST v0.23.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.2-1-g5e7e72770c
+                v0.23.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -98,7 +98,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../plugin/mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/mayer/tutorial/tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../plugin/mayer/tutorial/tutorial_4_cgmab.html">Virial coefficients of coarse-grained mAb models.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugin/mayer/tutorial/tutorial_4_cgmab.html">Virial coefficients of all-atom mAb domains.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugin/mayer/tutorial/tutorial_5_cgmab.html">Virial coefficients of 7-bead coarse-grained mAb model.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/math/tutorial/tutorial_1_block_average.html">Block average analysis for correlated data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/prefetch/tutorial/tutorial_1_prefetch.html">Prefetch example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
@@ -110,7 +111,7 @@
 <li class="toctree-l2"><a class="reference internal" href="README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">List of all capabilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
@@ -503,7 +504,7 @@ a space and are provided first as the name of the argument and then the value. I
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.22.1-2-g81f37e384c-develop
+# FEASST version: v0.22.2-11-g5377b2e66a-dirty-hwh/txttrlwhite
 MonteCarlo
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
@@ -514,7 +515,7 @@ RandomMT19937 seed 1572362164
 <p>The output of <code class="docutils literal notranslate"><span class="pre">fst</span></code> in <code class="docutils literal notranslate"><span class="pre">script.log</span></code> is displayed. It includes the FEASST version as well as a confirmation of the seed. Note that the version shown may not match your version.</p>
 <p>If there is a typo in the arguments, this may result in an exception which will print to the terminal. You may test this now by changing the <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument to <code class="docutils literal notranslate"><span class="pre">sd</span></code>. Because the argument <code class="docutils literal notranslate"><span class="pre">sd</span></code> is not recognized by <a class="reference internal" href="../plugin/math/doc/RandomMT19937.html"><span class="doc">RandomMT19937</span></a>, a nonzero system code should be returned and a verbose error should appear in your terminal.</p>
 <p>The next step is to add a <a class="reference internal" href="../plugin/configuration/README.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box is defined based on the number of particles and density. Because the cubic length needs to be input to high precision, a Python format string is used to input a variable enclosed in curly brackets.</p>
-<p>In addition, the first particle type with an index of <code class="docutils literal notranslate"><span class="pre">0</span></code> is defined by the file <code class="docutils literal notranslate"><span class="pre">lj.fstprt</span></code>. Any argument value beginning with “/feasst” will have that beginning replaced with <a class="reference internal" href="../plugin/utils/doc/io.html"><span class="doc">feasst::install_dir()</span></a>, and thus the full path to the file <code class="docutils literal notranslate"><span class="pre">lj.fstprt</span></code> is displayed in <code class="docutils literal notranslate"><span class="pre">script.log</span></code> shown below. See <a class="reference internal" href="../forcefield/README.html"><span class="doc">Forcefield</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
+<p>In addition, the first particle type with an index of <code class="docutils literal notranslate"><span class="pre">0</span></code> is defined by the file <code class="docutils literal notranslate"><span class="pre">lj.fstprt</span></code>. Any argument value beginning with “/feasst” will have that beginning replaced with <a class="reference internal" href="../plugin/utils/doc/io.html"><span class="doc">feasst::install_dir()</span></a>, and thus the full path to the file <code class="docutils literal notranslate"><span class="pre">lj.fstprt</span></code> is displayed in <code class="docutils literal notranslate"><span class="pre">script.log</span></code> shown below. See <a class="reference internal" href="../particle/README.html"><span class="doc">Particle</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -522,7 +523,7 @@ RandomMT19937 seed 1572362164
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_particles</span><span class="o">=</span><span class="mi">500</span>
 <span class="n">density</span><span class="o">=</span><span class="mf">0.009</span>
 <span class="n">script</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Configuration cubic_box_length </span><span class="si">{length}</span><span class="s2"> particle_type0 /feasst/forcefield/lj.fstprt</span>
+<span class="s2">Configuration cubic_side_length </span><span class="si">{length}</span><span class="s2"> particle_type0 /feasst/particle/lj.fstprt</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="p">(</span><span class="n">num_particles</span><span class="o">/</span><span class="n">density</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">))</span>
 <span class="n">run</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 </pre></div>
@@ -533,11 +534,11 @@ RandomMT19937 seed 1572362164
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.22.1-2-g81f37e384c-develop
+# FEASST version: v0.22.2-11-g5377b2e66a-dirty-hwh/txttrlwhite
 MonteCarlo
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
-Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Configuration cubic_side_length 38.15714141844439 particle_type0 /home/hwh/feasst/particle/lj.fstprt
 
  exit: 0
 </pre></div></div>
@@ -586,11 +587,11 @@ unity.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.22.1-2-g81f37e384c-develop
+# FEASST version: v0.22.2-11-g5377b2e66a-dirty-hwh/txttrlwhite
 MonteCarlo
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
-Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Configuration cubic_side_length 38.15714141844439 particle_type0 /home/hwh/feasst/particle/lj.fstprt
 Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff
 Potential VisitModel LongRangeCorrections
 ThermoParams beta 1.1111111111111112 chemical_potential0 -1
@@ -632,11 +633,11 @@ Tune
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.22.1-2-g81f37e384c-develop
+# FEASST version: v0.22.2-11-g5377b2e66a-dirty-hwh/txttrlwhite
 MonteCarlo
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
-Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Configuration cubic_side_length 38.15714141844439 particle_type0 /home/hwh/feasst/particle/lj.fstprt
 Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff
 Potential VisitModel LongRangeCorrections
 ThermoParams beta 1.1111111111111112 chemical_potential0 -1
@@ -685,11 +686,11 @@ the XYZ format may also be produced using <a class="reference internal" href="..
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.22.1-2-g81f37e384c-develop
+# FEASST version: v0.22.2-11-g5377b2e66a-dirty-hwh/txttrlwhite
 MonteCarlo
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
-Configuration cubic_box_length 38.15714141844439 particle_type0 /home/hwh/feasst/forcefield/lj.fstprt
+Configuration cubic_side_length 38.15714141844439 particle_type0 /home/hwh/feasst/particle/lj.fstprt
 Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff
 Potential VisitModel LongRangeCorrections
 ThermoParams beta 1.1111111111111112 chemical_potential0 -1

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>README &mdash; FEASST v0.22.2-1-g5e7e72770c documentation</title>
+  <title>README &mdash; FEASST v0.23.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.2-1-g5e7e72770c
+                v0.23.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -61,11 +61,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#how-to-install-e-g-compile-the-executables">How to install (e.g., compile the executables).</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#troubleshooting-install">Troubleshooting install</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#centos-7">CentOS 7</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#windows-10">Windows 10</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rocky-8">Rocky 8</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ubuntu-16">Ubuntu 16</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#macos-mojave">macOS Mojave</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cray-nersc-cori">Cray (NERSC CORI)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ubuntu-18-20-22">Ubuntu 18, 20, 22</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cray-nersc-cori">Cray (NERSC CORI)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macos-mojave">macOS Mojave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows-10">Windows 10</a></li>
 </ul>
 </li>
 </ul>
@@ -83,7 +84,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">List of all capabilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
@@ -270,11 +271,10 @@ pip<span class="w"> </span>install<span class="w"> </span>../pyfeasst<span class
 <p>CMake version is usually too old.
 Try the command cmake3 instead of cmake.</p>
 </section>
-<section id="windows-10">
-<h4>Windows 10<a class="headerlink" href="#windows-10" title="Permalink to this heading"></a></h4>
+<section id="rocky-8">
+<h4>Rocky 8<a class="headerlink" href="#rocky-8" title="Permalink to this heading"></a></h4>
 <ul class="simple">
-<li><p>Install Windows subsystem for Linux (Ubuntu 16)</p></li>
-<li><p>See Ubuntu 16</p></li>
+<li><p>yum install gcc-c++</p></li>
 </ul>
 </section>
 <section id="ubuntu-16">
@@ -283,22 +283,29 @@ Try the command cmake3 instead of cmake.</p>
 <li><p>Update to CMake 3 (<a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a>)</p></li>
 </ul>
 </section>
+<section id="ubuntu-18-20-22">
+<h4>Ubuntu 18, 20, 22<a class="headerlink" href="#ubuntu-18-20-22" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>We are not aware of any install issues with these OS.</p></li>
+</ul>
+</section>
+<section id="cray-nersc-cori">
+<h4>Cray (NERSC CORI)<a class="headerlink" href="#cray-nersc-cori" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>OpenMP functions may not work unless the cray programming environment is disabled.</p></li>
+</ul>
+</section>
 <section id="macos-mojave">
 <h4>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Permalink to this heading"></a></h4>
 <ul class="simple">
 <li><p>for omp, try brew install libomp</p></li>
 </ul>
 </section>
-<section id="cray-nersc-cori">
-<h4>Cray (NERSC CORI)<a class="headerlink" href="#cray-nersc-cori" title="Permalink to this heading"></a></h4>
+<section id="windows-10">
+<h4>Windows 10<a class="headerlink" href="#windows-10" title="Permalink to this heading"></a></h4>
 <ul class="simple">
-<li><p>OpenMP functions apparently do not work unless the cray programming environment is disabled.</p></li>
-</ul>
-</section>
-<section id="ubuntu-18-20-22">
-<h4>Ubuntu 18, 20, 22<a class="headerlink" href="#ubuntu-18-20-22" title="Permalink to this heading"></a></h4>
-<ul class="simple">
-<li><p>We are not aware of any issues with these OS.</p></li>
+<li><p>Install Windows subsystem for Linux (Ubuntu 16)</p></li>
+<li><p>See Ubuntu 16</p></li>
 </ul>
 </section>
 </section>

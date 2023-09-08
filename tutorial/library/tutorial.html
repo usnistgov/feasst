@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; FEASST v0.22.2-1-g5e7e72770c documentation</title>
+  <title>Tutorial &mdash; FEASST v0.23.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,13 +52,13 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.2-1-g5e7e72770c
+                v0.23.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../plugin/README.html">List of all capabilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pyfeasst/README.html">pyfeasst</a></li>
@@ -557,18 +557,18 @@ version: v0.19.0-29-g791da1d05f-hwh/multistate_tunable2
 </pre></div>
 </div>
 </div>
-<p>The second step is to add a <a class="reference internal" href="../../plugin/configuration/README.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box of length 8 is defined with a single type of particle as described in <code class="docutils literal notranslate"><span class="pre">forcefield/lj.fstprt</span></code>. See <a class="reference internal" href="../../forcefield/README.html"><span class="doc">Forcefield</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
+<p>The second step is to add a <a class="reference internal" href="../../plugin/configuration/README.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box of length 8 is defined with a single type of particle as described in <code class="docutils literal notranslate"><span class="pre">particle/lj.fstprt</span></code>. See <a class="reference internal" href="../../particle/README.html"><span class="doc">Particle</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
-     <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/lj.fstprt&quot;</span><span class="p">})))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeConfiguration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_side_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/particle/lj.fstprt&quot;</span><span class="p">})))</span>
 </pre></div>
 </div>
 </div>
 <p>FEASST arguments are input as a dictionary of strings with limited type checking. Thus, care must be taken to input strings which follow the documentation.</p>
-<p>If there is a typo in the arguments, this may result in an exception which will print to the terminal and crash the notebook kernel. You can test this now by changing the <code class="docutils literal notranslate"><span class="pre">cubic_box_length</span></code> argument to a non-existent argument such as <code class="docutils literal notranslate"><span class="pre">cubic_box_len</span></code>.</p>
+<p>If there is a typo in the arguments, this may result in an exception which will print to the terminal and crash the notebook kernel. You can test this now by changing the <code class="docutils literal notranslate"><span class="pre">cubic_side_length</span></code> argument to a non-existent argument such as <code class="docutils literal notranslate"><span class="pre">cubic_box_len</span></code>.</p>
 <p>Next, initializing the <a class="reference internal" href="../../plugin/system/doc/Potential.html"><span class="doc">Potential</span></a> proceeds as follows:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:

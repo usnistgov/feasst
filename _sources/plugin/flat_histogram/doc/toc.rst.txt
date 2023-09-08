@@ -11,9 +11,9 @@
    WangLandau
    WLTM
    Macrostate
-   Ensemble
-   FlatHistogram
    MacrostateEnergy
+   FlatHistogram
    MacrostateNumParticles
+   Ensemble
    CollectionMatrixSplice
    Clones

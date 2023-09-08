@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialComputeVolume &mdash; FEASST v0.22.2-1-g5e7e72770c documentation</title>
+  <title>TrialComputeVolume &mdash; FEASST v0.23.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,13 +54,13 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.2-1-g5e7e72770c
+                v0.23.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
@@ -218,13 +218,12 @@
 descibed in TrialComputeMove, except with the following differences.
 See Lecture 9 of Kofke’s CHE 530 course.
 Note that, following <a class="reference external" href="https://doi.org/10.1080/00268970210126619">https://doi.org/10.1080/00268970210126619</a>, this
-implementation does not make use of a shell particle and thus deviates from the
-true NPT ensemble for small systems.
-For example, the ideal gas with this algorithm will be <span class="math notranslate nohighlight">\(\beta PV=N+1\)</span>.</p>
+implementation makes use of a shell particle.
+The ideal gas with this algorithm will be <span class="math notranslate nohighlight">\(\beta P\langle V\rangle=N\)</span>.</p>
 <p>The limiting distribution in the isothermal-isobaric ensemble is</p>
-<p><span class="math notranslate nohighlight">\(\pi_i \propto e^{-\beta U - \beta P V + N \ln V} dV\)</span></p>
+<p><span class="math notranslate nohighlight">\(\pi_i \propto e^{-\beta U - \beta P V + (N-1) \ln V} dV\)</span></p>
 <p>But if volume is changed in ln units</p>
-<p><span class="math notranslate nohighlight">\(\pi_i \propto e^{-\beta U - \beta P V + (N+1) \ln V} d\ln V\)</span></p>
+<p><span class="math notranslate nohighlight">\(\pi_i \propto e^{-\beta U - \beta P V + N \ln V} d\ln V\)</span></p>
 <p>The transition probabilities are as follows, assuming that this move is
 coupled with a trial that removes particles with the same selection weight.</p>
 <table class="docutils align-default">
@@ -254,11 +253,11 @@ coupled with a trial that removes particles with the same selection weight.</p>
 </table>
 <p>Application of local detailed balance yields the acceptance probability,
 <span class="math notranslate nohighlight">\(\chi\)</span>.</p>
-<p><span class="math notranslate nohighlight">\(\frac{e^{-\beta U_o - \beta P V_o + N \ln V_o}}{\Delta V}min(1, \chi) =
-\frac{e^{-\beta U_n - \beta P V_n + N \ln V_n}}{\Delta V}min(1, 1/\chi)\)</span></p>
-<p><span class="math notranslate nohighlight">\(\chi = e^{-\beta\Delta U - \beta P \Delta V + N \ln V_n/V_o}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\frac{e^{-\beta U_o - \beta P V_o + (N-1) \ln V_o}}{\Delta V}min(1, \chi) =
+\frac{e^{-\beta U_n - \beta P V_n + (N-1) \ln V_n}}{\Delta V}min(1, 1/\chi)\)</span></p>
+<p><span class="math notranslate nohighlight">\(\chi = e^{-\beta\Delta U - \beta P \Delta V + (N-1) \ln V_n/V_o}\)</span></p>
 <p>And if volume is changed in ln units</p>
-<p><span class="math notranslate nohighlight">\(\chi = e^{-\beta\Delta U - \beta P \Delta V + (N+1) \ln V_n/V_o}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\chi = e^{-\beta\Delta U - \beta P \Delta V + N \ln V_n/V_o}\)</span></p>
 </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>

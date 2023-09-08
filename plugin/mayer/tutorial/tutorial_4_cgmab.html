@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Virial coefficients of coarse-grained mAb models. &mdash; FEASST v0.22.2-1-g5e7e72770c documentation</title>
+  <title>Virial coefficients of all-atom mAb domains. &mdash; FEASST v0.23.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Block average analysis for correlated data" href="../../math/tutorial/tutorial_1_block_average.html" />
+    <link rel="next" title="Virial coefficients of 7-bead coarse-grained mAb model." href="tutorial_5_cgmab.html" />
     <link rel="prev" title="Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling" href="tutorial_3_kf_b2.html" />
 
 	<!-- frame blocking -->
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.2-1-g5e7e72770c
+                v0.23.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -96,7 +96,8 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Virial coefficients of coarse-grained mAb models.</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Virial coefficients of all-atom mAb domains.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_5_cgmab.html">Virial coefficients of 7-bead coarse-grained mAb model.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/tutorial/tutorial_1_block_average.html">Block average analysis for correlated data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_1_prefetch.html">Prefetch example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
@@ -108,7 +109,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">List of all capabilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
@@ -175,7 +176,7 @@
         
           <li><a href="../../../tutorial/README.html">Tutorials</a> &raquo;</li>
         
-      <li>Virial coefficients of coarse-grained mAb models.</li>
+      <li>Virial coefficients of all-atom mAb domains.</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -216,8 +217,8 @@
     text-align: unset;
 }
 </style>
-<section id="virial-coefficients-of-coarse-grained-mab-models">
-<h1>Virial coefficients of coarse-grained mAb models.<a class="headerlink" href="#virial-coefficients-of-coarse-grained-mab-models" title="Permalink to this heading"></a></h1>
+<section id="virial-coefficients-of-all-atom-mab-domains">
+<h1>Virial coefficients of all-atom mAb domains.<a class="headerlink" href="#virial-coefficients-of-all-atom-mab-domains" title="Permalink to this heading"></a></h1>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This is a reproduction of the work described in https://doi.org/10.1016/j.xphs.2018.12.013</span>
 <span class="sd">Group a mAb into domains and use the pdb file to compute the domain center of mass positions, bond lengths and angles.</span>
@@ -228,21 +229,21 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">feasstio</span>
+<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
 <span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">coarse_grain_pdb</span>
 
 <span class="c1"># Parse arguments from command line or change their default values.</span>
 <span class="n">PARSER</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--feasst_install&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;../../../build/&#39;</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;FEASST install directory (e.g., the path to build)&#39;</span><span class="p">)</span>
-<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fstprt&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;/feasst/forcefield/lj.fstprt&#39;</span><span class="p">,</span>
+<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fstprt&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;/feasst/particle/lj.fstprt&#39;</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;FEASST particle definition&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--pdb_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;../../../pyfeasst/tests/1igt.pdb&quot;</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;pdb file that describes a mAb&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--trials_per_iteration&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;like cycles, but not necessary num_particles&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--equilibration_iterations&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e0</span><span class="p">),</span>
-                    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of iterations for equilibraiton&#39;</span><span class="p">)</span>
+                    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of iterations for equilibration&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--production_iterations&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e1</span><span class="p">),</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of iterations for production&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_checkpoint&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours per checkpoint&#39;</span><span class="p">)</span>
@@ -390,7 +391,7 @@
         <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">MonteCarlo</span>
 <span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
-<span class="s2">Configuration cubic_box_length 200 particle_type0 1igt_</span><span class="si">{domain}</span><span class="s2">.fstprt </span><span class="se">\</span>
+<span class="s2">Configuration cubic_side_length 200 particle_type0 1igt_</span><span class="si">{domain}</span><span class="s2">.fstprt </span><span class="se">\</span>
 <span class="s2">    add_particles_of_type0 2 </span><span class="se">\</span>
 <span class="s2">    group0 first first_particle_index 0 </span><span class="se">\</span>
 <span class="s2">    group1 com com_site_type 5</span>
@@ -447,12 +448,12 @@
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ch3&#39;</span><span class="p">,</span> <span class="n">ch3</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">b2hs_ref</span><span class="p">,</span> <span class="s1">&#39;+/-&#39;</span><span class="p">,</span> <span class="n">ch3</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio_block_stdev&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">b2hs_ref</span><span class="p">,</span> <span class="s1">&#39;nm^3 vs 196.05 ± 0.14&#39;</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">feasstio</span><span class="o">.</span><span class="n">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span>
-                             <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="n">sim_node_dependent_params</span><span class="p">,</span>
-                             <span class="n">write_feasst_script</span><span class="o">=</span><span class="n">write_feasst_script</span><span class="p">,</span>
-                             <span class="n">post_process</span><span class="o">=</span><span class="n">post_process</span><span class="p">,</span>
-                             <span class="n">queue_function</span><span class="o">=</span><span class="n">feasstio</span><span class="o">.</span><span class="n">slurm_single_node</span><span class="p">,</span>
-                             <span class="n">args</span><span class="o">=</span><span class="n">ARGS</span><span class="p">)</span>
+    <span class="n">fstio</span><span class="o">.</span><span class="n">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span>
+                          <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="n">sim_node_dependent_params</span><span class="p">,</span>
+                          <span class="n">write_feasst_script</span><span class="o">=</span><span class="n">write_feasst_script</span><span class="p">,</span>
+                          <span class="n">post_process</span><span class="o">=</span><span class="n">post_process</span><span class="p">,</span>
+                          <span class="n">queue_function</span><span class="o">=</span><span class="n">fstio</span><span class="o">.</span><span class="n">slurm_single_node</span><span class="p">,</span>
+                          <span class="n">args</span><span class="o">=</span><span class="n">ARGS</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -462,7 +463,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="tutorial_3_kf_b2.html" class="btn btn-neutral float-left" title="Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../math/tutorial/tutorial_1_block_average.html" class="btn btn-neutral float-right" title="Block average analysis for correlated data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial_5_cgmab.html" class="btn btn-neutral float-right" title="Virial coefficients of 7-bead coarse-grained mAb model." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>feasstio &mdash; FEASST v0.22.2-1-g5e7e72770c documentation</title>
+  <title>fstio &mdash; FEASST v0.23.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="macrostate_distribution" href="macrostate_distribution.html" />
+    <link rel="next" title="fstplot" href="fstplot.html" />
     <link rel="prev" title="cd" href="cd.html" />
 
 	<!-- frame blocking -->
@@ -52,27 +52,28 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.2-1-g5e7e72770c
+                v0.23.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugin/README.html">List of all capabilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">pyfeasst</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulator.html">accumulator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cd.html">cd</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">feasstio</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#feasstio.vector3d_to_list"><code class="docutils literal notranslate"><span class="pre">vector3d_to_list()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#feasstio.read_checkpoint"><code class="docutils literal notranslate"><span class="pre">read_checkpoint()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#feasstio.all_sims_complete"><code class="docutils literal notranslate"><span class="pre">all_sims_complete()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#feasstio.slurm_single_node"><code class="docutils literal notranslate"><span class="pre">slurm_single_node()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#feasstio.run_single"><code class="docutils literal notranslate"><span class="pre">run_single()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#feasstio.run_simulations"><code class="docutils literal notranslate"><span class="pre">run_simulations()</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">fstio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fstio.vector3d_to_list"><code class="docutils literal notranslate"><span class="pre">vector3d_to_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fstio.read_checkpoint"><code class="docutils literal notranslate"><span class="pre">read_checkpoint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fstio.all_sims_complete"><code class="docutils literal notranslate"><span class="pre">all_sims_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fstio.slurm_single_node"><code class="docutils literal notranslate"><span class="pre">slurm_single_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fstio.run_single"><code class="docutils literal notranslate"><span class="pre">run_single()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fstio.run_simulations"><code class="docutils literal notranslate"><span class="pre">run_simulations()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="fstplot.html">fstplot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="macrostate_distribution.html">macrostate_distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multistate_accumulator.html">multistate_accumulator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physical_constants.html">physical_constants</a></li>
@@ -141,7 +142,7 @@
         
           <li><a href="../../README.html">pyfeasst</a> &raquo;</li>
         
-      <li>feasstio</li>
+      <li>fstio</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -182,26 +183,26 @@
     text-align: unset;
 }
 </style>
-<section id="module-feasstio">
-<span id="feasstio"></span><h1>feasstio<a class="headerlink" href="#module-feasstio" title="Permalink to this heading"></a></h1>
+<section id="module-fstio">
+<span id="fstio"></span><h1>fstio<a class="headerlink" href="#module-fstio" title="Permalink to this heading"></a></h1>
 <p>This module provides some utility input / output functions for use with the FEASST simulation program.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="feasstio.vector3d_to_list">
-<span class="sig-prename descclassname"><span class="pre">feasstio.</span></span><span class="sig-name descname"><span class="pre">vector3d_to_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/feasstio.html#vector3d_to_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feasstio.vector3d_to_list" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="fstio.vector3d_to_list">
+<span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">vector3d_to_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#vector3d_to_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.vector3d_to_list" title="Permalink to this definition"></a></dt>
 <dd><p>Converts a swig stl vector to python list</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">feasstio</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">feasstio</span><span class="o">.</span><span class="n">vector3d_to_list</span><span class="p">([[[[</span><span class="mi">0</span><span class="p">]]]])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fstio</span><span class="o">.</span><span class="n">vector3d_to_list</span><span class="p">([[[[</span><span class="mi">0</span><span class="p">]]]])</span>
 <span class="go">[[[[0]]]]</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="feasstio.read_checkpoint">
-<span class="sig-prename descclassname"><span class="pre">feasstio.</span></span><span class="sig-name descname"><span class="pre">read_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/feasstio.html#read_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feasstio.read_checkpoint" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="fstio.read_checkpoint">
+<span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">read_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#read_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.read_checkpoint" title="Permalink to this definition"></a></dt>
 <dd><p>Return contents of checkpoint file as a string</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">feasstio</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">feasstio</span><span class="o">.</span><span class="n">read_checkpoint</span><span class="p">(</span><span class="s1">&#39;../../tests/tutorial_0_table.txt&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">fstio</span><span class="o">.</span><span class="n">read_checkpoint</span><span class="p">(</span><span class="s1">&#39;../../tests/tutorial_0_table.txt&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="p">[:</span><span class="mi">13</span><span class="p">]</span>
 <span class="go">&#39;6867 11 11 11&#39;</span>
 </pre></div>
@@ -209,11 +210,11 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="feasstio.all_sims_complete">
-<span class="sig-prename descclassname"><span class="pre">feasstio.</span></span><span class="sig-name descname"><span class="pre">all_sims_complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sims</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/feasstio.html#all_sims_complete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feasstio.all_sims_complete" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="fstio.all_sims_complete">
+<span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">all_sims_complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sims</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#all_sims_complete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.all_sims_complete" title="Permalink to this definition"></a></dt>
 <dd><p>Read filename and see if all sim ID’s from [0, num_sims-1] are present (e.g., complete).
 If no file is present, also consider the simulation incomplete.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">feasstio</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">all_sims_complete</span><span class="p">(</span><span class="s1">&#39;../../tests/lj_sim_ids.txt&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">all_sims_complete</span><span class="p">(</span><span class="s1">&#39;../../tests/lj_sim_ids2.txt&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
@@ -225,8 +226,8 @@ If no file is present, also consider the simulation incomplete.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="feasstio.slurm_single_node">
-<span class="sig-prename descclassname"><span class="pre">feasstio.</span></span><span class="sig-name descname"><span class="pre">slurm_single_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/feasstio.html#slurm_single_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feasstio.slurm_single_node" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="fstio.slurm_single_node">
+<span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">slurm_single_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#slurm_single_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.slurm_single_node" title="Permalink to this definition"></a></dt>
 <dd><p>Write slurm script to fill one node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -246,14 +247,14 @@ which is assumed to output the job id.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="feasstio.run_single">
-<span class="sig-prename descclassname"><span class="pre">feasstio.</span></span><span class="sig-name descname"><span class="pre">run_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_node_dependent_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_feasst_script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_process</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/feasstio.html#run_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feasstio.run_single" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="fstio.run_single">
+<span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">run_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_node_dependent_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_feasst_script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_process</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#run_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.run_single" title="Permalink to this definition"></a></dt>
 <dd><p>Run a single simulation. If all simulations are complete, run PostProcess.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="feasstio.run_simulations">
-<span class="sig-prename descclassname"><span class="pre">feasstio.</span></span><span class="sig-name descname"><span class="pre">run_simulations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_node_dependent_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_feasst_script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_process</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/feasstio.html#run_simulations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feasstio.run_simulations" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="fstio.run_simulations">
+<span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">run_simulations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_node_dependent_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_feasst_script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_process</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#run_simulations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.run_simulations" title="Permalink to this definition"></a></dt>
 <dd><p>Run a simulation either locally in the shell or queue on HPC nodes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -286,7 +287,7 @@ and has the only argument as the params.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cd.html" class="btn btn-neutral float-left" title="cd" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="macrostate_distribution.html" class="btn btn-neutral float-right" title="macrostate_distribution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="fstplot.html" class="btn btn-neutral float-right" title="fstplot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

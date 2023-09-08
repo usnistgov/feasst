@@ -17,6 +17,7 @@
    ExtensiveMoments
    CriteriaWriter
    Log
+   Density
    Scattering
    LogAndMovie
    CheckProperties

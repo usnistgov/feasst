@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forcefield and Units &mdash; FEASST v0.22.2-1-g5e7e72770c documentation</title>
+  <title>Particle files and units &mdash; FEASST v0.23.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,13 +52,13 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.2-1-g5e7e72770c
+                v0.23.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Forcefield and Units</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Particle files and units</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#units">Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-files">Data files</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#differences-from-lammps">Differences from LAMMPS</a></li>
@@ -138,7 +138,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Forcefield and Units</li>
+      <li>Particle files and units</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -179,12 +179,12 @@
     text-align: unset;
 }
 </style>
-<section id="forcefield-and-units">
-<h1>Forcefield and Units<a class="headerlink" href="#forcefield-and-units" title="Permalink to this heading"></a></h1>
-<p>The forcefield directory is a place for files which describe a single particle, which could represent an atom, molecule or coarse-grained model.
+<section id="particle-files-and-units">
+<h1>Particle files and units<a class="headerlink" href="#particle-files-and-units" title="Permalink to this heading"></a></h1>
+<p>The particle directory is a place for files which describe a single particle, which could represent an atom, molecule or coarse-grained model.
 These files are LAMMPS-inspired (<a class="reference external" href="https://lammps.sandia.gov/doc/read_data.html">https://lammps.sandia.gov/doc/read_data.html</a>), but deviate significantly from LAMMPS as described in detail below.
 Each file represents only a single particle (or molecule), and these files are used to define the types of particles (or molecules) that can exist in the simulation.
-Each plugin many also contain a forcefield directory as additional examples and for use in tutorials.
+Each plugin many also contain a particle directory as additional examples and for use in tutorials.
 The units used in these files (length, energy, etc) are not assumed (with one exception) and must be consistent with the units to initialize your simulations.</p>
 <section id="units">
 <h2>Units<a class="headerlink" href="#units" title="Permalink to this heading"></a></h2>
@@ -226,7 +226,7 @@ Finally, the units of length must be in Angstroms.</p>
 <p>The labels are typically the ones described in <a class="reference internal" href="../plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ModelParams</span></code></a>, such as sigma, epsilon, cutoff and charge.
 The use of these parameters depends on the chosen models.
 For example, <a class="reference internal" href="../plugin/system/doc/LennardJones.html#_CPPv4N6feasst12LennardJonesE" title="feasst::LennardJones"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">LennardJones</span></code></a> or <a class="reference internal" href="../plugin/models/doc/SquareWell.html#_CPPv4N6feasst10SquareWellE" title="feasst::SquareWell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SquareWell</span></code></a>.</p>
-<p>Other more complex models may utilize a custom defined ModelParam, such as <a class="reference internal" href="../plugin/patch/doc/PatchAngle.html#_CPPv4N6feasst10PatchAngleE" title="feasst::PatchAngle"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">patch_angle</span></code></a> as shown in /path/to/feasst/plugin/patch/forcefield/patch_one.fstprt.
+<p>Other more complex models may utilize a custom defined ModelParam, such as <a class="reference internal" href="../plugin/patch/doc/PatchAngle.html#_CPPv4N6feasst10PatchAngleE" title="feasst::PatchAngle"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">patch_angle</span></code></a> as shown in /path/to/feasst/plugin/patch/particle/patch_one.fstprt.
 In addition, the label “director” is described in <a class="reference internal" href="../plugin/patch/doc/VisitModelInnerPatch.html#_CPPv4N6feasst20VisitModelInnerPatchE" title="feasst::VisitModelInnerPatch"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">VisitModelInnerPatch</span></code></a> and utilized by <a class="reference internal" href="../plugin/configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Site</span></code></a>.</p>
 </section>
 <section id="sites">

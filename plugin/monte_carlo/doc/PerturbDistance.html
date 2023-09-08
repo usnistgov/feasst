@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PerturbDistance &mdash; FEASST v0.22.2-1-g5e7e72770c documentation</title>
+  <title>PerturbDistance &mdash; FEASST v0.23.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="PerturbDistanceAngle" href="PerturbDistanceAngle.html" />
-    <link rel="prev" title="PerturbTranslate" href="PerturbTranslate.html" />
+    <link rel="prev" title="PerturbMove" href="PerturbMove.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,13 +52,13 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.2-1-g5e7e72770c
+                v0.23.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
@@ -211,7 +211,7 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst15PerturbDistanceE">
 <span class="target" id="classfeasst_1_1PerturbDistance"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PerturbDistance</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="PerturbMove.html#_CPPv4N6feasst11PerturbMoveE" title="feasst::PerturbMove"><span class="n"><span class="pre">PerturbMove</span></span></a><a class="headerlink" href="#_CPPv4N6feasst15PerturbDistanceE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Put first site in selection in a spherical shell about the first site in anchor. For rigid bonds, the spherical shell has infinitesimal thickness (a sphere). The following <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a> <a class="reference internal" href="../../configuration/doc/Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a> (e.g., /feasst/forcefield/README.rst): length, maximum_length and spring_constant and exponent are as described in Random::bond_length. The length in <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a> <a class="reference internal" href="../../configuration/doc/Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a> is equilibrium_length in Random::bond_length. If maximum_length is not provided, it is assumed to be twice the length. If spring_constant is not provided, the bond is assumed to be rigid. If exponent is not provided, it is assumed to be 2 (harmonic). </p>
+<dd><p>Put first site in selection in a spherical shell about the first site in anchor. For rigid bonds, the spherical shell has infinitesimal thickness (a sphere). The following <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a> <a class="reference internal" href="../../configuration/doc/Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a> (e.g., /feasst/particle/README.rst): length, maximum_length and spring_constant and exponent are as described in Random::bond_length. The length in <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a> <a class="reference internal" href="../../configuration/doc/Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a> is equilibrium_length in Random::bond_length. If maximum_length is not provided, it is assumed to be twice the length. If spring_constant is not provided, the bond is assumed to be rigid. If exponent is not provided, it is assumed to be 2 (harmonic). </p>
 <p>Subclassed by <a class="reference internal" href="PerturbDistanceAngle.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">feasst::PerturbDistanceAngle</span></a>, <a class="reference internal" href="../../chain/doc/PerturbReptate.html#classfeasst_1_1PerturbReptate"><span class="std std-ref">feasst::PerturbReptate</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
@@ -264,7 +264,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="PerturbTranslate.html" class="btn btn-neutral float-left" title="PerturbTranslate" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="PerturbMove.html" class="btn btn-neutral float-left" title="PerturbMove" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="PerturbDistanceAngle.html" class="btn btn-neutral float-right" title="PerturbDistanceAngle" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

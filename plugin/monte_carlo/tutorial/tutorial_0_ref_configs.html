@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lennard Jones potential test &mdash; FEASST v0.22.2-1-g5e7e72770c documentation</title>
+  <title>Lennard Jones potential test &mdash; FEASST v0.23.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.22.2-1-g5e7e72770c
+                v0.23.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -98,7 +98,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_4_cgmab.html">Virial coefficients of coarse-grained mAb models.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_4_cgmab.html">Virial coefficients of all-atom mAb domains.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_5_cgmab.html">Virial coefficients of 7-bead coarse-grained mAb model.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/tutorial/tutorial_1_block_average.html">Block average analysis for correlated data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_1_prefetch.html">Prefetch example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
@@ -110,7 +111,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield and Units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">List of all capabilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
@@ -518,7 +519,7 @@ div.rendered_html tbody tr:hover {
 <span class="sd">-1 8 8 8</span>
 <span class="sd">0 0 0 0</span>
 <span class="sd">1 0 0 {displacement}&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
-        <span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;particle_type0 /feasst/forcefield/lj.fstprt xyz_file two.xyz&quot;</span><span class="p">})</span>
+        <span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;particle_type0 /feasst/particle/lj.fstprt xyz_file two.xyz&quot;</span><span class="p">})</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 
@@ -537,7 +538,7 @@ div.rendered_html tbody tr:hover {
 <span class="sd">        In particular, the 4th configuration of the LJ SRSW reference:</span>
 <span class="sd">        https://www.nist.gov/mml/csd/chemical-informatics-research-group/lennard-jones-fluid-reference-calculations</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;cubic_box_length 8 particle_type0 /feasst/forcefield/lj.fstprt </span><span class="se">\</span>
+        <span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;cubic_side_length 8 particle_type0 /feasst/particle/lj.fstprt </span><span class="se">\</span>
 <span class="s2">                  xyz_file /feasst/plugin/configuration/test/data/lj_sample_config_periodic4.xyz&quot;</span><span class="p">})</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">30</span><span class="p">)</span>
@@ -554,7 +555,7 @@ div.rendered_html tbody tr:hover {
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;side_length0 10.0 side_length1 9.84807753012208 side_length2 9.64974312607518 </span><span class="se">\</span>
 <span class="s2">            xy 1.7364817766693041 xz 2.5881904510252074 yz 0.42863479791864567 </span><span class="se">\</span>
-<span class="s2">            particle_type0 /feasst/forcefield/lj.fstprt </span><span class="se">\</span>
+<span class="s2">            particle_type0 /feasst/particle/lj.fstprt </span><span class="se">\</span>
 <span class="s2">            xyz_file /feasst/plugin/configuration/test/data/lj_triclinic_sample_config_periodic3.xyz&quot;</span><span class="p">})</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">300</span><span class="p">)</span>
