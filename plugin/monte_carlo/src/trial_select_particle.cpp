@@ -13,6 +13,8 @@ TrialSelectParticle::TrialSelectParticle(argtype args)
 TrialSelectParticle::TrialSelectParticle(argtype * args) : TrialSelect(args) {
   class_name_ = "TrialSelectParticle";
   load_coordinates_ = boolean("load_coordinates", args, true);
+  min_particles_ = integer("min_particles", args, -1);
+  max_particles_ = integer("max_particles", args, -1);
 
   // parse site
   site_ = integer("site", args, -1);
@@ -169,6 +171,16 @@ bool TrialSelectParticle::select(const Select& perturbed,
   DEBUG("is_ghost " << is_ghost());
   DEBUG("selection from configuration " << configuration_index());
   Configuration * config = system->get_configuration(configuration_index());
+  if (min_particles_ != -1) {
+    if (config->num_particles() < min_particles_) {
+      return false;
+    }
+  }
+  if (max_particles_ != -1) {
+    if (config->num_particles() > max_particles_) {
+      return false;
+    }
+  }
   if (is_ghost()) {
     if (exclude_perturbed_) {
       ghost_particle(config, const_cast<Select*>(&perturbed), &mobile_);
@@ -204,20 +216,26 @@ TrialSelectParticle::TrialSelectParticle(std::istream& istr)
   : TrialSelect(istr) {
   // ASSERT(class_name_ == "TrialSelectParticle", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(760 == version, "mismatch version: " << version);
+  ASSERT(version >= 760 && version <= 761, "mismatch version: " << version);
   feasst_deserialize(&load_coordinates_, istr);
   feasst_deserialize(&site_, istr);
   feasst_deserialize(&site_vec_, istr);
   feasst_deserialize(&exclude_perturbed_, istr);
+  if (version >= 761) {
+    feasst_deserialize(&min_particles_, istr);
+    feasst_deserialize(&max_particles_, istr);
+  }
 }
 
 void TrialSelectParticle::serialize_trial_select_particle_(std::ostream& ostr) const {
   serialize_trial_select_(ostr);
-  feasst_serialize_version(760, ostr);
+  feasst_serialize_version(761, ostr);
   feasst_serialize(load_coordinates_, ostr);
   feasst_serialize(site_, ostr);
   feasst_serialize(site_vec_, ostr);
   feasst_serialize(exclude_perturbed_, ostr);
+  feasst_serialize(&min_particles_, ostr);
+  feasst_serialize(&max_particles_, ostr);
 }
 
 void TrialSelectParticle::serialize(std::ostream& ostr) const {

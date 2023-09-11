@@ -36,13 +36,20 @@ void PerturbPositionSwap::move(const bool is_position_held,
   if (is_position_held) return;
   Select * mobile = select->get_mobile();
   Position * site0 = mobile->get_site_position(0, 0);
-  Position * site1 = mobile->get_site_position(0, 1);
-  INFO("mobile " << mobile->str());
-  INFO("old pos " << site0->str() << " " << site1->str());
+  Position * site1;
+  if (mobile->num_particles() == 1) {
+    site1 = mobile->get_site_position(0, 1);
+  } else if (mobile->num_particles() == 2) {
+    site1 = mobile->get_site_position(1, 0);
+  } else {
+    FATAL("unrecognized number of mobile parts: " << mobile->num_particles());
+  }
+  DEBUG("mobile " << mobile->str());
+  DEBUG("old pos " << site0->str() << " " << site1->str());
   Position site_tmp = *site0;
   *site0 = *site1;
   *site1 = site_tmp;
-  INFO("new pos " << site0->str() << " " << site1->str());
+  DEBUG("new pos " << site0->str() << " " << site1->str());
   system->get_configuration()->update_positions(select->mobile());
 }
 

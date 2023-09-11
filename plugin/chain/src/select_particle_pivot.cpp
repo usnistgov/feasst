@@ -28,6 +28,7 @@ static MapSelectParticlePivot mapper_ = MapSelectParticlePivot();
 void SelectParticlePivot::precompute(System * system) {
   TrialSelect::precompute(system);
   ASSERT(is_particle_type_set(), "required particle_type as argument");
+  ASSERT(particle_type() >= 0, "particle_type required and must be >= 0");
   anchor_.clear();
   anchor_.add_site(0, pivot_site_);
 }

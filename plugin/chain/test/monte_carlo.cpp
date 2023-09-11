@@ -953,4 +953,36 @@ TEST(MonteCarlo, angle_square_well) {
   }
 }
 
+TEST(MonteCarlo, lj_position_swap) {
+  auto mc = MakeMonteCarlo();
+  mc->set(MakeRandomMT19937({{"seed", "123"}}));
+  mc->add(MakeConfiguration({{"cubic_side_length", "8"},
+                             {"particle_type0", "../particle/lj.fstprt"},
+                             {"particle_type1", "../particle/lj.fstprt"}}));
+  mc->add(MakePotential(MakeLennardJones()));
+  mc->add(MakePotential(MakeLongRangeCorrections()));
+  mc->set(MakeThermoParams({{"beta", str(1./1.5)},
+                            {"chemical_potential0", "-1"},
+                            {"chemical_potential1", "-1"}}));
+  mc->set(MakeMetropolis());
+  mc->add(MakeTrialGrow({
+    {{"position_swap", "true"},
+     {"mobile_site", "0"},
+     {"mobile_site2", "0"},
+     {"particle_type", "0"},
+     {"particle_type2", "1"},
+     {"weight", "4"}}}));
+  mc->add(MakeTrialAdd({{"weight", "1"}, {"particle_type", "0"}}));
+  mc->run(MakeRun({{"until_num_particles", "2"}}));
+  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->add(MakeTrialAdd({{"weight", "1"}, {"particle_type", "1"}}));
+  mc->run(MakeRun({{"until_num_particles", "4"}}));
+  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  const std::string trials_per = "1e0";
+  mc->add(MakeMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/lj.xyz"}}));
+  mc->add(MakeCheckEnergy({{"trials_per_update", trials_per}, {"tolerance", str(1e-2)}}));
+  mc->add(MakeTune());
+  mc->attempt(1e1);
+}
+
 }  // namespace feasst

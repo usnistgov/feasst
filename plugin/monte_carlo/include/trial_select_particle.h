@@ -18,6 +18,12 @@ class TrialSelectParticle : public TrialSelect {
     - site: site index to select. If all sites, set to -1 (default).
     - ghost: select ghost particles (default: false).
     - exclude_perturbed: if true, exclude perturbed particle (default: false)
+    - min_particles: do not select if less than min number of particles.
+      If -1, no constraint (default: -1).
+      Note that this is the number of particles before the Trial.
+    - max_particles: do not select if more than max number of particles.
+      If -1, no constraint (default: -1).
+      Note that this is the number of particles before the Trial.
    */
   explicit TrialSelectParticle(argtype args = argtype());
   explicit TrialSelectParticle(argtype * args);
@@ -71,6 +77,8 @@ class TrialSelectParticle : public TrialSelect {
   bool load_coordinates_;
   bool exclude_perturbed_;
   int site_;
+  int min_particles_;
+  int max_particles_;
   std::vector<int> site_vec_;
 
   // compute the number of excluded particles which are candidates for selection

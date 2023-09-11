@@ -78,8 +78,7 @@ class Select {
 
   /// Return number of selected particles.
   int num_particles() const {
-    return static_cast<int>(particle_indices_.size());
-  }
+    return static_cast<int>(particle_indices_.size()); }
 
   /// Return number of selected sites.
   int num_sites(

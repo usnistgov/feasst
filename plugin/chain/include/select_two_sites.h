@@ -19,6 +19,8 @@ class SelectTwoSites : public TrialSelect {
     args:
     - mobile_site: index of the mobile site.
     - mobile_site2: index of the second mobile site.
+    - particle_type2: type of particle for second site. If -1, use the same
+      particle (default: -1).
    */
   explicit SelectTwoSites(argtype args = argtype());
   explicit SelectTwoSites(argtype * arg);
@@ -47,6 +49,7 @@ class SelectTwoSites : public TrialSelect {
  private:
   int mobile_site_;
   int mobile_site2_;
+  int particle_type2_;
 };
 
 inline std::shared_ptr<SelectTwoSites> MakeSelectTwoSites(

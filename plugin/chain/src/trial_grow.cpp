@@ -235,6 +235,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           ++used;
           select = MakeSelectTwoSites({
             {"particle_type", particle_type},
+            {"particle_type2", str("particle_type2", &iargs)},
             {"mobile_site", str("mobile_site", &iargs)},
             {"mobile_site2", str("mobile_site2", &iargs)}});
           perturb = std::make_shared<PerturbPositionSwap>(&iargs);
