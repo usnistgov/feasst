@@ -101,6 +101,7 @@ FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min 
 Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialTransfer weight 2 particle_type 0
 Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].txt
+#To print trajectories for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false
 Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
 Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].xyz start_after_iteration 1
 Tune trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1

@@ -61,22 +61,42 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   const std::string default_num_steps = str("default_num_steps", &(*args)[0], "1");
   const std::string default_reference_index = str("default_reference_index", &(*args)[0], "-1");
   const std::string default_new_only = str("default_new_only", &(*args)[0], "false");
+  bool half_weight = false; // half weights if added as a pair (e.g., transfer, or transfer_avb).
   // First, determine all trial types from args[0]
   std::vector<std::string> trial_types;
+  if (used("add", (*args)[0])) {
+    str("add", &(*args)[0]);
+    trial_types.push_back("add");
+  }
+  if (used("remove", (*args)[0])) {
+    str("remove", &(*args)[0]);
+    trial_types.push_back("remove");
+  }
   if (used("transfer", (*args)[0])) {
     str("transfer", &(*args)[0]);
     trial_types.push_back("add");
     trial_types.push_back("remove");
+    half_weight = true;
+  }
+  if (used("add_avb", (*args)[0])) {
+    str("add_avb", &(*args)[0]);
+    trial_types.push_back("add_avb");
+  }
+  if (used("remove_avb", (*args)[0])) {
+    str("remove_avb", &(*args)[0]);
+    trial_types.push_back("remove_avb");
   }
   if (used("transfer_avb", (*args)[0])) {
     str("transfer_avb", &(*args)[0]);
     trial_types.push_back("add_avb");
     trial_types.push_back("remove_avb");
+    half_weight = true;
   }
   if (used("regrow_avb2", (*args)[0])) {
     str("regrow_avb2", &(*args)[0]);
     trial_types.push_back("regrow_avb2_in");
     trial_types.push_back("regrow_avb2_out");
+    half_weight = true;
   }
   if (used("regrow", (*args)[0])) {
     str("regrow", &(*args)[0]);
@@ -105,9 +125,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
       trial->set_weight(weight);
       //trial->set_weight(weight/static_cast<int>(trial_types.size()));
     }
-    if (trial_type == "add" || trial_type == "remove" ||
-        trial_type == "add_avb" || trial_type == "remove_avb" ||
-        trial_type == "regrow_avb2_in" || trial_type == "regrow_avb2_out") {
+    if (half_weight) {
       trial->set_weight(trial->weight()/2.);
     }
     std::shared_ptr<TrialCompute> compute;
@@ -117,7 +135,10 @@ void TrialGrow::build_(std::vector<argtype> * args) {
       std::shared_ptr<TrialSelect> select;
       std::shared_ptr<Perturb> perturb;
       if (iarg == 0 && trial_type != "partial_regrow") {
-        argtype sel_args = {{"particle_type", particle_type}, {"site", site}};
+        argtype sel_args = {{"particle_type", particle_type},
+                            {"site", site},
+                            {"max_particles", str("max_particles", &iargs, "-1")},
+                            {"min_particles", str("min_particles", &iargs, "-1")}};
         select = MakeTrialSelectParticle(sel_args);
         if (trial_type == "translate") {
           perturb = std::make_shared<PerturbTranslate>(&iargs);

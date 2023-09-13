@@ -30,6 +30,14 @@ namespace feasst {
   - default_reference_index: optional default reference index for all stages.
   - default_new_only: optional default new only for all stages.
 
+  The following options are as described above but not recommended for typical
+  use.
+  Instead, use transfer and transfer_avb.
+  - add: if true, create an add trial (default: false).
+  - remove: if true, create an add trial (default: false).
+  - add_avb: if true, create an add trial (default: false).
+  - remove_avb: if true, create an add trial (default: false).
+
   The following options may be used in any argtype.
   If used in the first, then it is a partial regrowth move.
   - bond: if true, add TrialSelectBond and PerturbDistance.

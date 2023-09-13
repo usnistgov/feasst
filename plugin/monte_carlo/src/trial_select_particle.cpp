@@ -234,8 +234,8 @@ void TrialSelectParticle::serialize_trial_select_particle_(std::ostream& ostr) c
   feasst_serialize(site_, ostr);
   feasst_serialize(site_vec_, ostr);
   feasst_serialize(exclude_perturbed_, ostr);
-  feasst_serialize(&min_particles_, ostr);
-  feasst_serialize(&max_particles_, ostr);
+  feasst_serialize(min_particles_, ostr);
+  feasst_serialize(max_particles_, ostr);
 }
 
 void TrialSelectParticle::serialize(std::ostream& ostr) const {
