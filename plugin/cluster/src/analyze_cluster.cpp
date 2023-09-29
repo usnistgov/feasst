@@ -1,4 +1,5 @@
 #include "utils/include/serialize.h"
+#include "math/include/random_mt19937.h"
 #include "cluster/include/analyze_cluster.h"
 
 namespace feasst {
@@ -37,6 +38,7 @@ void AnalyzeCluster::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   const int trial = trial_factory.last_index();
+  ASSERT(trial != -1, "no trials to harvest cluster information from.");
   const TrialSelect& sel = trial_factory.trial(trial).stage(0).trial_select();
   if (sel.class_name() == "SelectCluster") {
     const Accumulator& csize = sel.printable("cluster_size");

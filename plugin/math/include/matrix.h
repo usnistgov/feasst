@@ -123,6 +123,9 @@ class RotationMatrix : public Matrix {
   /// Rotate a position given a pivot point.
   void rotate(const Position& pivot, Position * rotated) const;
 
+  /// Same as above, but optimized with temporary storage.
+  void rotate(const Position& pivot, Position * rotated, Position * temp) const;
+
   /// Compute rotation matrix based on quaternions (3D only).
   void quaternion(const Position& quaternion);
 

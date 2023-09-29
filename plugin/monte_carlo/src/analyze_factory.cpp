@@ -86,10 +86,12 @@ void AnalyzeFactory::trial(const Criteria& criteria,
     if (is_multistate_aggregate()) {
       DEBUG("aggregating");
       DEBUG("sz " << analyzers_.size());
+      DEBUG("state " << criteria.state());
       ASSERT(criteria.state() < static_cast<int>(analyzers_.size()),
         "state: " << criteria.state() << " >= multistate analyzers: " <<
         analyzers_.size() << ". Was a flat histogram simulation reinitialized"
         << " after a multistate Analyzer?");
+      ASSERT(criteria.state() >= 0, "No state");
       analyzers_[criteria.state()]->check_update_(criteria, system, trial_factory);
       if (is_time(trials_per_write(), &trials_since_write_)) {
         const int min_block = min_block_(criteria);

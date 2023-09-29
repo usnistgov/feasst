@@ -146,7 +146,8 @@ class VisitModel {
   const SynchronizeData& manual_data() const { return manual_data_; }
 
   /// Change the volume.
-  virtual void change_volume(const double delta_volume, const int dimension) {}
+  virtual void change_volume(const double delta_volume, const int dimension,
+    Configuration * config) {}
 
   /// Return the ModelParams index of epsilon.
   int epsilon_index() const { return epsilon_index_; }

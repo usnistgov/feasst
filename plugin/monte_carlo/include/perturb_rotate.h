@@ -68,7 +68,7 @@ class PerturbRotate : public PerturbMove {
 
   // temporary and not serialized
   RotationMatrix rot_mat1_, rot_mat2_, rot_mat3_;
-  Position axis_tmp_, vec1_;
+  Position axis_tmp_, vec1_, vec2_;
   Euler euler_;
 
   const Position& piv_sel_(const Position& pivot, const TrialSelect * select) {

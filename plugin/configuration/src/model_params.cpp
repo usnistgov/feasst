@@ -39,6 +39,10 @@ ModelParam::ModelParam(std::istream& istr) {
   feasst_deserialize(&values_, istr);
   feasst_deserialize(&mixed_values_, istr);
   feasst_deserialize(&is_mixed_override_, istr);
+  set_max_and_mixed();
+}
+
+void ModelParam::set_max_and_mixed() {
   if (values_.size() > 0) {
     max_value_ = *std::max_element(values_.begin(), values_.end());
     if (mixed_values_.size() > 0) {
@@ -95,7 +99,7 @@ void ModelParam::mix() {
       }
     }
   }
-  max_mixed_value_ = maximum(mixed_values_);
+  set_max_and_mixed();
 }
 
 void ModelParam::set_mixed(const int site_type1,
@@ -374,18 +378,24 @@ double Epsilon::mix_(const double value1, const double value2) {
 }
 
 void ModelParams::set_cutoff_min_to_sigma() {
-  DEBUG("here goes");
   auto sigma = select_("sigma");
   auto cutoff = select_("cutoff");
-  DEBUG("here goes");
   for (int itype = 0; itype < sigma->size(); ++itype) {
+    const double isig = sigma->value(itype);
+    DEBUG("isig " << isig);
+    if (cutoff->value(itype) < isig) {
+      DEBUG("setting " << itype << " sig " << isig);
+      cutoff->set(itype, isig);
+    }
     for (int jtype = 0; jtype < sigma->size(); ++jtype) {
       const double sig = sigma->mixed_value(itype, jtype);
       if (cutoff->mixed_value(itype, jtype) < sig) {
+        DEBUG("setting " << itype << "-" << jtype << " sig " << sig);
         cutoff->set_mixed(itype, jtype, sig);
       }
     }
   }
+  cutoff->set_max_and_mixed();
 }
 
 std::string ModelParams::str() const {

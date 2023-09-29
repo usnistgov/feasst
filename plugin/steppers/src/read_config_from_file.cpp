@@ -27,10 +27,16 @@ void ReadConfigFromFile::initialize(Criteria * criteria,
 void ReadConfigFromFile::update(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
+  INFO("ReadConfigFromFile::update");
   Configuration * config = system->get_configuration();
-  xyz_.load_frame(file_, config);
-  if (file_.peek() == EOF) {
-    criteria->set_num_iterations_to_complete(0);
+  if (xyz_.load_frame(file_, config)) {
+    Acceptance acc_;
+    criteria->update_state(*system, acc_);
+    INFO("state " << criteria->state());
+    if (file_.peek() == EOF) {
+      INFO("setting complete");
+      criteria->set_complete();
+    }
   }
 }
 

@@ -609,6 +609,7 @@ void MonteCarlo::initialize_criteria() {
   if (criteria_) {
     criteria_->precompute(&system_);
   }
+  criteria_->update_state(system_, Acceptance());
 }
 
 void MonteCarlo::initialize_trials() {

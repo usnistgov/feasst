@@ -109,24 +109,45 @@ void VisitModelInnerTable::read_table_(const std::string file_name,
       for (int e2 = 0; e2 < ne2; ++e2) {
       for (int e3 = 0; e3 < ne3; ++e3) {
         ++num_orientations;
+      }}}}}
+      INFO("num_orientations " << num_orientations);
+      // temporarily store values to recall for redundant orientations
+      std::vector<std::vector<double> > tmp_store;
+      resize(num_orientations, num_z + 2, &tmp_store);
+      int ior = 0;
+      for (int s1 = 0; s1 < ns1; ++s1) {
+      for (int s2 = 0; s2 < ns2; ++s2) {
+      for (int e1 = 0; e1 < ne1; ++e1) {
+      for (int e2 = 0; e2 < ne2; ++e2) {
+      for (int e3 = 0; e3 < ne3; ++e3) {
         file >> double_val;
-        //ASSERT(std::abs(double_val - 1) < NEAR_ZERO, num_orientations << " " << double_val);
-        in->set_data(s1, s2, e1, e2, e3, double_val);
-        if (num_z > 0) {
-          //file >> double_val;
-          //ASSERT(std::abs(double_val - 1.5) < NEAR_ZERO, num_orientations << " " << double_val);
-//          out->set_data(s1, s2, e1, e2, e3, double_val);
-          for (int z = 0; z < num_z; ++z) {
-            file >> double_val;
-            if (!ignore_energy) {
-              en->set_data(s1, s2, e1, e2, e3, z, double_val);
-              //ASSERT(std::abs(double_val) < NEAR_ZERO || std::abs(double_val+1) < NEAR_ZERO,
-              //  num_orientations << " " << double_val);
+        // check for unique orientations
+        if (std::abs(double_val + 1) < NEAR_ZERO) {
+          int unique_ior;
+          file >> unique_ior;
+          in->set_data(s1, s2, e1, e2, e3, tmp_store[unique_ior][0]);
+          if (num_z > 0) {
+            for (int z = 0; z < num_z; ++z) {
+              if (!ignore_energy) {
+                en->set_data(s1, s2, e1, e2, e3, z, tmp_store[unique_ior][z + 1]);
+              }
+            }
+          }
+        } else {
+          in->set_data(s1, s2, e1, e2, e3, double_val);
+          tmp_store[ior][0] = double_val;
+          if (num_z > 0) {
+            for (int z = 0; z < num_z; ++z) {
+              file >> double_val;
+              if (!ignore_energy) {
+                en->set_data(s1, s2, e1, e2, e3, z, double_val);
+                tmp_store[ior][z + 1] = double_val;
+              }
             }
           }
         }
+        ++ior;
       }}}}}
-      INFO("num_orientations " << num_orientations);
 
       // check the table for bad values
       ASSERT(!has_bad_value(in->data()), "error");
@@ -169,9 +190,13 @@ void VisitModelInnerTable::precompute(Configuration * config) {
   t2index_.resize(config->num_site_types(), 0);
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
+    ASSERT(type1 < config->num_site_types(),"site type: " << type1 <<
+      " in table > number of site types:" << config->num_site_types());
     t2index_[type1] = t1;
     for (int t2 = t1; t2 < static_cast<int>(site_types_.size()); ++t2) {
       const int type2 = site_types_[t2];
+      ASSERT(type2 < config->num_site_types(),"site type: " << type2 <<
+        " in table > number of site types:" << config->num_site_types());
       const double cutoff = inner_[t1][t2].maximum() + delta_[t1][t2];
       config->set_model_param("cutoff", type1, type2, cutoff);
       config->set_model_param("cutoff", type2, type1, cutoff);

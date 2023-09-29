@@ -25,7 +25,8 @@ void Position::add_to_coord(const int dimension, const double coord) {
 }
 
 void Position::add(const Position &position) {
-  ASSERT(position.size() == size(), "size mismatch");
+  ASSERT(position.size() == size(),
+    "size:" << size() << " != position.size:" << position.size());
   for (int dim = 0; dim < size(); ++dim) {
     coord_[dim] += position.coord(dim);
   }

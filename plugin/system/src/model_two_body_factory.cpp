@@ -20,7 +20,7 @@ ModelTwoBodyFactory::ModelTwoBodyFactory(argtype * args) {
   std::stringstream key;
   key << "model" << model_index;
   while (used(key.str(), *args)) {
-    const std::string model_name = str(key.str(), args); 
+    const std::string model_name = str(key.str(), args);
     auto model = ModelTwoBody().factory(model_name, args);
     models_.push_back(model);
     ++model_index;

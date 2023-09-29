@@ -44,6 +44,8 @@ class VisitModelCell : public VisitModel {
   /// Same as base class, but also prepare the cells.
   void precompute(Configuration * config) override;
 
+  void change_volume(const double delta_volume, const int dimension, Configuration * config) override;
+
   void compute(
       ModelTwoBody * model,
       const ModelParams& model_params,
@@ -81,6 +83,8 @@ class VisitModelCell : public VisitModel {
   double opt_r2_;
 
   void position_tracker_(const Select& select, Configuration * config);
+  double min_len_(const Configuration& config) const;
+  void rebuild_(const Configuration& config);
 };
 
 inline std::shared_ptr<VisitModelCell> MakeVisitModelCell(

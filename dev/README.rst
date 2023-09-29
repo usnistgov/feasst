@@ -370,3 +370,4 @@ To Do List
 * Implement a class-specific debug output setting
 * Update Translate tunable maximum when volume changes..?
 * tutorials which segfault on restart dont report errors in automated tests
+* remove prefix from argparse in tutorials: prefix can't change in slurm runs

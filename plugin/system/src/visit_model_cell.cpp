@@ -57,6 +57,18 @@ int VisitModelCell::cell_id_opt_(const Domain& domain,
   return cells_.id(opt_rel_.coord());
 }
 
+double VisitModelCell::min_len_(const Configuration& config) const {
+  double min_length = -1;
+  if (min_length_ == "max_sigma") {
+    min_length = config.model_params().select("sigma").mixed_max();
+  } else if (min_length_ == "max_cutoff") {
+    min_length = config.model_params().select("cutoff").mixed_max();
+  } else {
+    min_length = str_to_double(min_length_);
+  }
+  return min_length;
+}
+
 void VisitModelCell::precompute(Configuration * config) {
   VisitModel::precompute(config);
   ASSERT(config->domain().side_lengths().size() > 0,
@@ -65,32 +77,46 @@ void VisitModelCell::precompute(Configuration * config) {
   if (!group_.empty()) {
     group_index_ = config->group_index(group_);
   }
-  double min_length = -1;
-  if (min_length_ == "max_sigma") {
-    min_length = config->model_params().select("sigma").mixed_max();
-  } else if (min_length_ == "max_cutoff") {
-    min_length = config->model_params().select("cutoff").mixed_max();
-  } else {
-    min_length = str_to_double(min_length_);
-  }
   if (cells_.type() == -1) {
-    Cells cells;
-    cells.create(min_length, config->domain().side_lengths().coord());
-    cells.set_type(config->num_cell_lists());
+    rebuild_(*config);
     config->increment_num_cell_lists();
-    cells.set_group(group_index_);
-    if (cells.num_total() > 0) {
-      cells_ = cells;
-    } else {
-      FATAL("Requested cell list rejected: min_length:" << min_length <<
-            " did not meet requirements.");
-    }
     opt_origin_.set_to_origin(config->dimension());
     opt_rel_.set_to_origin(config->dimension());
     opt_pbc_.set_to_origin(config->dimension());
     position_tracker_(config->group_selects()[group_index_], config);
   }
   check(*config);
+}
+
+void VisitModelCell::rebuild_(const Configuration& config) {
+  const double min_length = min_len_(config);
+  Cells cells;
+  cells.create(min_length, config.domain().side_lengths().coord());
+  cells.set_group(group_index_);
+  if (cells_.num_total() == 0) {
+    // if first initialize of cells
+    cells.set_type(config.num_cell_lists());
+  } else {
+    cells.set_type(cells_.type());
+  }
+  if (cells.num_total() > 0) {
+    cells_ = cells;
+  } else {
+    FATAL("Requested cell list rejected: min_length:" << min_length <<
+          " did not meet requirements when the minimum domain side length " <<
+          "is " << config.domain().min_side_length());
+  }
+  //INFO("num cells " << cells_.num_total());
+  //INFO("volume " << config.domain().volume());
+}
+
+void VisitModelCell::change_volume(const double delta_volume, const int dimension, Configuration * config) {
+  // HWH optimize check if rebuild is necessary
+  bool rebuild = true;
+  if (rebuild) {
+    rebuild_(*config);
+    position_tracker_(config->group_selects()[group_index_], config);
+  }
 }
 
 void VisitModelCell::compute(
@@ -190,6 +216,7 @@ void VisitModelCell::compute(
   init_relative_(domain, &relative_, &pbc_);
 
   // If only one particle in selection, simply exclude part1==part2
+  DEBUG("num particles in selection " << selection.num_particles());
   if (selection.num_particles() == 1) {
     for (int select1_index = 0;
          select1_index < selection.num_particles();

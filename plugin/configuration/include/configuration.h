@@ -363,6 +363,7 @@ class Configuration {
 
     args:
     - dimension: index of dimension to change. If -1, change all (default: -1)
+    - scale_particles: if true, scale particle positions (default: true).
    */
   void change_volume(const double delta_volume, argtype args);
   void change_volume(const double delta_volume, argtype * args);

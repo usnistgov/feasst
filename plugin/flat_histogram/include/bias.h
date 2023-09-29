@@ -71,6 +71,7 @@ class Bias {
 
   virtual int num_iterations(const int state, const Macrostate& macro) const = 0;
   bool is_complete() const { return is_complete_; }
+  void set_complete_() { is_complete_ = true; }
 
   // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
   virtual void set_cm(const int macro, const Bias& bias);
@@ -90,7 +91,6 @@ class Bias {
  protected:
   std::string class_name_ = "Bias";
 
-  void set_complete_() { is_complete_ = true; }
   void set_incomplete_() { is_complete_ = false; }
 
   int bin_(

@@ -249,11 +249,12 @@ void Select::reset_excluded_and_bond() {
 
 bool Select::replace_indices(const int particle_index,
     const std::vector<int>& site_indices) {
-  if (static_cast<int>(particle_indices_.size()) == 1 and
-      site_indices_.size() == site_indices.size()) {
-    particle_indices_[0] = particle_index;
-    site_indices_[0] = site_indices;
-    return true;
+  if (static_cast<int>(particle_indices_.size()) == 1) {
+    if (site_indices_[0].size() == site_indices.size()) {
+      particle_indices_[0] = particle_index;
+      site_indices_[0] = site_indices;
+      return true;
+    }
   }
   clear();
   add_particle(particle_index, site_indices);

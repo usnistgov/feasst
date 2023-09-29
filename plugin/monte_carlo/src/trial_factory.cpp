@@ -236,4 +236,10 @@ void TrialFactory::set_tunable(const int trial_index, const double tunable) {
   trials_[trial_index]->get_stage_(0)->set_tunable(tunable);
 }
 
+const Trial& TrialFactory::trial(const int index) const {
+  ASSERT(index >= 0, "index: " << index << " < 0");
+  ASSERT(index < num(), "trial: " << index << " >= num trials:" << num());
+  return const_cast<Trial&>(*trials_[index]);
+}
+
 }  // namespace feasst

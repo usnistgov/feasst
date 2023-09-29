@@ -121,8 +121,9 @@ class Potential {
   void set_stored_energy(const double energy) { stored_energy_ = energy; }
 
   /// Change the volume.
-  void change_volume(const double delta_volume, const int dimension) {
-    visit_model_->change_volume(delta_volume, dimension); }
+  void change_volume(const double delta_volume, const int dimension,
+      Configuration * config) {
+    visit_model_->change_volume(delta_volume, dimension, config); }
 
   /// Revert any changes to the configuration due to the last energy computation
   void revert(const Select& select) { visit_model_->revert(select); }

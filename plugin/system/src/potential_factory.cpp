@@ -143,9 +143,9 @@ void PotentialFactory::synchronize_(const PotentialFactory& factory,
 }
 
 void PotentialFactory::change_volume(const double delta_volume,
-    const int dimension) {
+    const int dimension, Configuration * config) {
   for (int index = 0; index < num(); ++index) {
-    potentials_[index]->change_volume(delta_volume, dimension);
+    potentials_[index]->change_volume(delta_volume, dimension, config);
   }
 }
 

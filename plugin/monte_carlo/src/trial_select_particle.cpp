@@ -245,11 +245,13 @@ void TrialSelectParticle::serialize(std::ostream& ostr) const {
 
 void TrialSelectParticle::select_particle(const int index,
     const Configuration& config) {
-  mobile_.clear();
   const Select& select = config.group_selects()[group_index()];
   ASSERT(index < select.num_particles(), "error");
-  mobile_.add_particle(select.particle_index(index), select.site_indices(index));
-  mobile_.resize_positions();
+  bool fast = mobile_.replace_indices(select.particle_index(index),
+                                      select.site_indices(index));
+  if (!fast) {
+    mobile_.resize_positions();
+  }
   mobile_.load_positions(config.particles());
 }
 

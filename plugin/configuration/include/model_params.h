@@ -44,6 +44,9 @@ class ModelParam {
     const int site_type2,
     const double value);
 
+  /// Compute and store the maximum mixed value.
+  void set_max_and_mixed();
+
   /// Return the value.
   double value(const int type) const;
 

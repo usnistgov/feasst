@@ -118,6 +118,9 @@ class Criteria {
   virtual bool is_complete() const {
     return num_iterations() >= num_iterations_to_complete(); }
 
+  /// Set the simulation as complete. Used for post processing.
+  virtual void set_complete() { set_num_iterations_to_complete(0); }
+
   /// Return the state index for multistate simulations (default: 0).
   virtual int state() const { return 0; }
 
@@ -173,6 +176,9 @@ class Criteria {
   virtual int soft_min() const;
   virtual const Bias& bias() const;
   virtual const FlatHistogram& flat_histogram() const;
+
+  // HWH hackish interface for setting the state in post processing.
+  virtual void update_state(const System& system, const Acceptance& accept) {}
 
   // serialize
   std::string class_name() const { return class_name_; }

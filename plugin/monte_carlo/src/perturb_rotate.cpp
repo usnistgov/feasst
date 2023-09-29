@@ -43,7 +43,8 @@ void PerturbRotate::update_selection(const Position& pivot,
          site < static_cast<int>(rotated->site_indices(select_index).size());
          ++site) {
       Position position = rotated->site_positions()[select_index][site];
-      rotation.rotate(pivot, &position);
+      //rotation.rotate(pivot, &position);
+      rotation.rotate(pivot, &position, &vec2_);
       rotated->set_site_position(select_index, site, position);
     }
   }

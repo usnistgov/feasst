@@ -668,7 +668,8 @@ std::vector<std::vector<std::vector<double> > > * Ewald::eik_() {
   return &(*manual_data_.get_dble_3D());
 }
 
-void Ewald::change_volume(const double delta_volume, const int dimension) {
+void Ewald::change_volume(const double delta_volume, const int dimension,
+    Configuration * config) {
   FATAL("not implemented");
 }
 

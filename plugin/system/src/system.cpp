@@ -309,11 +309,11 @@ void System::change_volume(const double delta_volume, argtype * args) {
   const int dimen = integer("dimension", args, -1);
   args->insert({"dimension", str(dimen)});
   configurations_[config].change_volume(delta_volume, args);
-  unoptimized_[config].change_volume(delta_volume, dimen);
-  optimized_[config].change_volume(delta_volume, dimen);
+  unoptimized_[config].change_volume(delta_volume, dimen, &configurations_[config]);
+  optimized_[config].change_volume(delta_volume, dimen, &configurations_[config]);
   if (num_references(config) > 0) {
     for (PotentialFactory& ref : references_[config]) {
-      ref.change_volume(delta_volume, dimen);
+      ref.change_volume(delta_volume, dimen, &configurations_[config]);
     }
   }
   delta_volume_previous_ = delta_volume;

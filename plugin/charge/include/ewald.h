@@ -136,7 +136,8 @@ class Ewald : public VisitModel {
       Configuration * config,
       const int group_index) override;
 
-  void change_volume(const double delta_volume, const int dimension) override;
+  void change_volume(const double delta_volume, const int dimension,
+    Configuration * config) override;
 
   // update structure factors and eiks based on new calculations.
   void finalize(const Select& select, Configuration * config) override;

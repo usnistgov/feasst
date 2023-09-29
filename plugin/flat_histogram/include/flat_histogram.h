@@ -60,6 +60,7 @@ class FlatHistogram : public Criteria {
   int num_iterations(const int state = -1) const override {
     return bias_->num_iterations(state, *macrostate_); }
   bool is_complete() const override { return bias_->is_complete(); }
+  void set_complete() override { bias_->set_complete_(); } 
 
   void before_attempt(const System& system) override;
 
@@ -77,6 +78,7 @@ class FlatHistogram : public Criteria {
   int num_states() const override { return macrostate_->histogram().size(); }
   int state_old() const override { return macrostate_old_; }
   int state_new() const override { return macrostate_new_; }
+  void update_state(const System& system, const Acceptance& accept) override;
 
   /// Set the macrostate probability distribution.
   void set_ln_prob(const LnProbability& ln_prob) {

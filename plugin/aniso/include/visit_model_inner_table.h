@@ -64,7 +64,7 @@ namespace feasst {
      energy to zero. Specifically, r_c - smoothing_distance is the z=1 value.
      If smoothing_distance is <= 0, then it is not used at all.
 
-  6. The remaining lines are for each unique set of the five angles.
+  6. The remaining lines are for each unique set of the five angles separated by spaces.
      The outer loop is s1, with range [-pi, pi]. If i == j, the range is [0, pi]
      for i-j swap symmetry (e.g., swap i and j if s1 < 0).
      The next loop is s2 in [0, pi], then e1 in [-pi, pi], e2 and [0, pi],
@@ -72,6 +72,8 @@ namespace feasst {
      The number of lines should be (k+1)^3(2k+1)^2, where k=num_orientations_per_pi.
      Each line then reports the contact distance, r_h, followed by num_z values
      of the potential energy uniformly in the z range of [0, 1].
+     If the orientation is duplicate, then the first number is -1 and the second
+     is the integer number of the orientation that it is a duplicate of.
  */
 class VisitModelInnerTable : public VisitModelInner {
  public:

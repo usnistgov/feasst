@@ -355,18 +355,24 @@ bool Configuration::are_all_sites_physical() const {
 
 void Configuration::update_positions(
     const std::vector<std::vector<double> > coords) {
+  if (coords.size() == 0) {
+    return;
+  }
   ASSERT(static_cast<int>(coords.size()) == num_sites(), "the number of " <<
-    "coordinates provided: " << coords.size() << " does not match the number "
+    "coordinates provided: " << coords.size() << " does not match the number"
     << " of sites: " << num_sites());
   DEBUG("dimension: " << dimension());
+  DEBUG("num sites " << coords.size());
+  DEBUG("num sites in config  " << num_sites());
+  DEBUG("num particles in config " << num_particles());
   ASSERT(static_cast<int>(coords[0].size()) == dimension(), "the dimensions: " <<
     coords[0].size() << " of the coordinates do not match the dimensions: " <<
     dimension() << " of the configuration.");
   Position position;
   int iter_site = 0;
   for (int part_index : group_selects_[0].particle_indices()) {
-    int num_site = 0;
     Particle part = select_particle(part_index);
+    DEBUG("part_index " << part_index);
     for (int site_index = 0;
          site_index < part.num_sites();
          ++site_index) {
@@ -374,7 +380,6 @@ void Configuration::update_positions(
       Site site = part.site(site_index);
       site.set_position(position);
       part.set_site(site_index, site);
-      ++num_site;
       ++iter_site;
     }
     replace_position_(part_index, part);
@@ -881,7 +886,9 @@ void Configuration::change_volume(const double delta_volume,
   } else {
     domain_->set_side_length(dimen, domain_->side_length(dimen)*factor);
   }
-  particles_.scale_particle_positions(dimen, factor);
+  if (boolean("scale_particles", args, true)) {
+    particles_.scale_particle_positions(dimen, factor);
+  }
   position_tracker_();
 }
 

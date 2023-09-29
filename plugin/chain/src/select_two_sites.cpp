@@ -12,7 +12,6 @@ SelectTwoSites::SelectTwoSites(argtype * args) : TrialSelect(args) {
   mobile_site_ = integer("mobile_site", args);
   mobile_site2_ = integer("mobile_site2", args);
   particle_type2_ = integer("particle_type2", args, -1);
-  INFO("particle_type2_ " << particle_type2_);
   if (particle_type2_ == -1) {
     ASSERT(mobile_site_ != mobile_site2_, "the mobile site: " << mobile_site_ <<
       " cannot be the same as mobile_site2_: " << mobile_site2_);

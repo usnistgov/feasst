@@ -1,10 +1,11 @@
 
 #include <fstream>
 #include <sstream>
-#include "configuration/include/file_xyz.h"
-#include "configuration/include/domain.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
+#include "configuration/include/file_xyz.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/select.h"
 
 namespace feasst {
 
@@ -75,8 +76,11 @@ FileXYZ::FileXYZ(argtype args) : FileXYZ(&args) {
   FEASST_CHECK_ALL_USED(args);
 }
 
-void FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const {
+bool FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const {
   ASSERT(xyz_file, "xyz_file is empty");
+  if (xyz_file.peek() == EOF) {
+    return false;
+  }
   int num_sites;
   std::string line;
   std::getline(xyz_file, line);
@@ -95,7 +99,7 @@ void FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const 
   }
   Position position;
   position.set_vector(coord);
-  TRACE("coord " << feasst::feasst_str(coord) << " pos " << position.str());
+  INFO("coord " << feasst::feasst_str(coord) << " pos " << position.str());
   config->set_side_lengths(position);
   // ASSERT(config->num_sites() == num_sites, "site mismatch");
   if (config->num_sites() == 0) {
@@ -130,11 +134,36 @@ void FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const 
       DEBUG("euler " << eulers[i][0]);
     }
   }
+
+  // update the number of particles
+  if (num_sites != config->num_sites()) {
+    DEBUG("update number of particles");
+    const int particle_type = 0;
+    ASSERT(config->num_particle_types() == 1, "assumes 1 particle type");
+    if (num_sites < config->num_sites()) {
+      int spi = config->num_particles() - 1;
+      Select sel;
+      sel.add_particle(config->particle_type(particle_type), 0);
+      while (num_sites < config->num_sites()) {
+        ASSERT(spi >= 0, "error");
+        sel.set_particle(0, config->selection_of_all().particle_index(spi));
+        config->remove_particle(sel);
+        --spi;
+      }
+    } else {
+      while (num_sites > config->num_sites()) {
+        config->add_particle_of_type(particle_type);
+        ASSERT(config->num_sites() < 1e20, "infinite loop?");
+      }
+    }
+  }
+
   if (euler_) {
     config->update_positions(coords, eulers);
   } else {
     config->update_positions(coords);
   }
+  return true;
 }
 
 void FileXYZ::load(const std::string file_name, Configuration * config) const {

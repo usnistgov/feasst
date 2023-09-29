@@ -163,10 +163,16 @@ void RotationMatrix::axis_angle_opt(const Position& unit_axis,
   }
 }
 
-void RotationMatrix::rotate(const Position& pivot, Position * rotated) const {
+void RotationMatrix::rotate(const Position& pivot, Position * rotated, Position * temp) const {
   rotated->subtract(pivot);
-  *rotated = multiply(*rotated);
+  temp->set_vector(rotated->coord());
+  //*temp = *rotated;
+  multiply(*temp, rotated);
   rotated->add(pivot);
+}
+void RotationMatrix::rotate(const Position& pivot, Position * rotated) const {
+  Position temp = *rotated;
+  rotate(pivot, rotated, &temp);
 }
 
 void RotationMatrix::quaternion(const Position& q) {

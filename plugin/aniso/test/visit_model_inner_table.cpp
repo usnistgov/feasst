@@ -20,4 +20,18 @@ TEST(VisitModelInnerTable, b2) {
 //  vis->write_surface({{"xyz_file", "tmp/surf.xyz"}, {"expand_t", "1"}});
 }
 
+TEST(VisitModelInnerTable, mab) {
+  const std::string table_file = "../plugin/aniso/test/data/mab_p1z2.txt";
+  auto vis = MakeVisitModelInnerTable({{"table_file", table_file}});
+  EXPECT_NEAR(74.09830, vis->inner()[0][0].data()[0][0][0][0][0], 1e-5);
+  EXPECT_NEAR(71.76155, vis->inner()[0][0].data()[0][0][0][0][1], 1e-5);
+  EXPECT_NEAR(74.09830, vis->inner()[0][0].data()[0][0][0][0][2], 1e-5);
+  EXPECT_NEAR(-6.835550, vis->energy()[0][0].data()[0][0][0][0][0][0], 1e-6);
+  EXPECT_NEAR(-0.001538283, vis->energy()[0][0].data()[0][0][0][0][0][1], 1e-9);
+  EXPECT_NEAR(-6.736353, vis->energy()[0][0].data()[0][0][0][0][1][0], 1e-6);
+  EXPECT_NEAR(0.001778595, vis->energy()[0][0].data()[0][0][0][0][1][1], 1e-9);
+  EXPECT_NEAR(-6.835550, vis->energy()[0][0].data()[0][0][0][0][2][0], 1e-6);
+  EXPECT_NEAR(-0.001538283, vis->energy()[0][0].data()[0][0][0][0][2][1], 1e-9);
+}
+
 }  // namespace feasst

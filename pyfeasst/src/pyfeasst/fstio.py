@@ -10,6 +10,7 @@ import subprocess
 from multiprocessing import Pool
 from itertools import repeat
 import numpy as np
+from pathlib import Path
 
 def vector3d_to_list(vec):
     """
@@ -86,6 +87,8 @@ def slurm_single_node(params):
     This function also adds the key 'queue_command' to the params dictionary,
     which is assumed to output the job id.
     """
+    if not 'max_restarts' in params:
+        params['max_restarts'] = '0'
     params['queue_command'] = "sbatch --array=0-" + str(params['max_restarts']) + "%1 " + params['prefix'] + "_slurm.txt"
     params['command_to_queue_id'] = " | tail -1 | awk '{print $4}'"
     if params['scratch'] == None:
@@ -126,8 +129,9 @@ def run_single(sim, params, args, sim_node_dependent_params, write_feasst_script
     """ Run a single simulation. If all simulations are complete, run PostProcess. """
     if args.queue_task == 0:
         params['sim'] = sim
-        if params['seed'] == -1:
-            params['seed'] = random.randrange(int(1e9))
+        if 'seed' in params:
+            if params['seed'] == -1:
+                params['seed'] = random.randrange(int(1e9))
         if sim_node_dependent_params:
             sim_node_dependent_params(params)
         file_name = params['prefix']+str(sim)+'_run'
@@ -210,6 +214,33 @@ def run_simulations(params, sim_node_dependent_params, write_feasst_script, post
         post_process(params)
     else:
         assert False  # unrecognized run_type
+
+def combine_tables_two_rigid_body(prefix, suffix, num_procs, num_header_lines=6):
+    """ Combine table files generated in parallel by TableTwoRigidBody3D."""
+    lines = list()
+    for proc in range(num_procs):
+        filename = prefix + str(proc) + suffix
+        with open(filename, 'r') as file1:
+            lines.append(file1.readlines())
+    with open(prefix + suffix, 'w') as file1:
+        # write header
+        for line in range(6):
+            file1.write(lines[0][line])
+        proc = 0
+        done = 0
+        line = 6
+        itr = 0
+        while done == 0:
+            if line >= len(lines[proc]):
+                done = 1
+            else:
+                file1.write(lines[proc][line])
+            #print('proc', proc, 'line', line)
+            proc += 1
+            if proc == num_procs:
+                proc = 0
+                line += 1
+            assert itr < 1e50
 
 if __name__ == "__main__":
     import doctest

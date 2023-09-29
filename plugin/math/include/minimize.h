@@ -23,7 +23,7 @@ class Minimize {
     - lower: lower bound.
     - upper: upper bound.
    */
-  Minimize(argtype args = argtype());
+  explicit Minimize(argtype args = argtype());
 
   /// Return the tolerance
   double tolerance() const { return tolerance_; }

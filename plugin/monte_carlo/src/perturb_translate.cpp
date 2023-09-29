@@ -59,6 +59,7 @@ void PerturbTranslate::move(
     const Position& trajectory,
     System * system,
     TrialSelect * select) {
+  DEBUG("trajectory " << trajectory.str());
   update_selection(trajectory, select);
   select->get_configuration(system)->update_positions(select->mobile());
 }

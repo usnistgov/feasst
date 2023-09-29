@@ -16,10 +16,10 @@ void ProgressReport::reset() {
 ProgressReport::ProgressReport(argtype args) {
   reset();
   num_ = integer("num", &args, 1);
-  percent_per_write_ = dble("percent", &args, 0.1);
+  percent_per_write_ = dble("percent_per_write", &args, 0.1);
   if (used("file_name", args)) file_name_ = str("file_name", &args);
-  ASSERT(percent_per_write_ > 0.01, "percent_per_write: " << percent_per_write_
-    << " must be > 0.01");
+  ASSERT(percent_per_write_ > 0.0001,
+    "percent_per_write: " << percent_per_write_ << " must be > 0.0001");
   FEASST_CHECK_ALL_USED(args);
 }
 

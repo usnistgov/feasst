@@ -63,7 +63,8 @@ class PotentialFactory {
   std::string str() const;
 
   /// Change the volume.
-  void change_volume(const double delta_volume, const int dimension);
+  void change_volume(const double delta_volume, const int dimension,
+    Configuration * config);
 
   /// Revert any changes to the configuration due to the last energy computation
   void revert(const Select& select);

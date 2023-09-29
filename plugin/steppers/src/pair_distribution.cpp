@@ -80,6 +80,7 @@ void PairDistribution::initialize(Criteria * criteria,
   DEBUG("init");
   num_updates_ = 0;
   const int num_site_types = system->configuration().num_site_types();
+  DEBUG("num_site_types " << num_site_types);
   inter_.radial_.clear();
   intra_.radial_.clear();
   resize(num_site_types, num_site_types, &inter_.radial_);
@@ -95,13 +96,14 @@ void PairDistribution::initialize(Criteria * criteria,
 
   // set cutoff to half the minimum box length
   params_ = deep_copy(system->configuration().model_params());
-  //DEBUG(params_.cutoff().size());
   const double min_side = system->configuration().domain().inscribed_sphere_diameter();
+  DEBUG("min_side " << min_side);
   for (int itype = 0; itype < num_site_types; ++itype) {
     params_.set("cutoff", itype, 0.5*min_side);
+    for (int jtype = 0; jtype < num_site_types; ++jtype) {
+      params_.set("cutoff", itype, jtype, 0.5*min_side);
+    }
   }
-  //DEBUG(params_.cutoff().size());
-  //DEBUG(params_.cutoff().mixed_value(0, 0));
   inter_visit_.precompute(system->get_configuration());
   intra_visit_.precompute(system->get_configuration());
 }
