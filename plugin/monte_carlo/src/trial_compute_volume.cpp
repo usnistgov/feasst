@@ -39,6 +39,9 @@ void TrialComputeVolume::perturb_and_acceptance(
   acceptance->add_to_ln_metropolis_prob(
     - thermo.beta()*thermo.pressure()*(volume_new - volume_old)
     + config.num_particles()*std::log(volume_new/volume_old)
+    // manually add the energy of the old configuration
+    // this is an optimization to avoid recomputing the old energy
+    + thermo.beta()*criteria->current_energy()
   );
 }
 

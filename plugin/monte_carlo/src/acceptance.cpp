@@ -138,11 +138,22 @@ double Acceptance::energy_new(const int config) const {
   return energy_new_[config];
 }
 
+double Acceptance::energy_ref(const int config) const {
+  ASSERT(config < static_cast<int>(energy_ref_.size()),
+    "config:" << config << " >= size:" << energy_ref_.size());
+  return energy_ref_[config];
+}
+
 void Acceptance::set_energy_new(const double energy, const int config) {
   resize_(config, &energy_new_);
   energy_new_[config] = energy;
   resize_(config, &updated_);
   updated_[config] = 1;
+}
+
+void Acceptance::set_energy_ref(const double energy, const int config) {
+  resize_(config, &energy_ref_);
+  energy_ref_[config] = energy;
 }
 
 void Acceptance::add_to_energy_new(const double energy, const int config) {

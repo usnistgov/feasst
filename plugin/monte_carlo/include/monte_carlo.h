@@ -104,8 +104,9 @@ class MonteCarlo {
   /// Add potential to reference.
   void add_to_reference(std::shared_ptr<Potential> potential,
     /// Store different references by index.
-    const int index = 0) {
-    system_.add_to_reference(potential, index); }
+    const int index = 0,
+    const int config = 0) {
+    system_.add_to_reference(potential, index, config); }
 
   /// Add NeighborCriteria.
   void add(std::shared_ptr<NeighborCriteria> neighbor_criteria,

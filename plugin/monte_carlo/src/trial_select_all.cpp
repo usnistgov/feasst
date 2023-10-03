@@ -31,7 +31,7 @@ bool TrialSelectAll::select(const Select& perturbed,
   //get_mobile()->load_positions(config.particles());
   DEBUG("selected " << mobile_.str());
   remove_unphysical_sites(config);
-  ASSERT(mobile_.num_particles() > 0, "all sites shouldn't be unphysical");
+  //ASSERT(mobile_.num_particles() > 0, "all sites should not be unphysical");
   set_mobile_original(system);
   DEBUG("selected " << mobile_.str());
   return true;

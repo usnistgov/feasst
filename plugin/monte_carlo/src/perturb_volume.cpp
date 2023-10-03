@@ -42,7 +42,7 @@ void PerturbVolume::perturb(
   ASSERT(!is_position_held, "not implemeted");
   DEBUG("config " << select->configuration_index());
   const double volume = select->configuration(*system).domain().volume();
-  DEBUG("volume " << volume);
+  DEBUG("volume " << MAX_PRECISION << volume);
   if (constrain_volume_change_) {
     volume_change_ = -system->delta_volume_previous();
   } else  if (uniform_volume_) {

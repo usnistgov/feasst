@@ -1,4 +1,5 @@
 #include <cmath>  // isinf and isnan
+#include "configuration/include/domain.h"
 #include "system/include/system.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
@@ -374,6 +375,14 @@ const std::vector<NeighborCriteria>& System::neighbor_criteria(
 NeighborCriteria * System::get_neighbor_criteria(const int index,
                                                  const int config) {
   return configurations_[config].get_neighbor_criteria(index);
+}
+
+double System::total_volume() const {
+  double volume = 0.;
+  for (const Configuration& config : configurations_) {
+    volume += config.domain().volume();
+  }
+  return volume;
 }
 
 }  // namespace feasst

@@ -36,9 +36,10 @@ std::string Energy::header(const Criteria& criteria,
 void Energy::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  DEBUG("en: " << criteria.current_energy());
+  const double en = criteria.current_energy(configuration_index());
+  DEBUG("en: " << en);
   DEBUG("state: " << state());
-  accumulator_.accumulate(criteria.current_energy());
+  accumulator_.accumulate(en);
 }
 
 std::string Energy::write(const Criteria& criteria,

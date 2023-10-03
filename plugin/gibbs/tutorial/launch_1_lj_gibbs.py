@@ -23,10 +23,10 @@ PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
                     help='number of iterations for equilibraiton')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e3),
+PARSER.add_argument('--production_iterations', type=int, default=int(5e2),
                     help='number of iterations for production')
-PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
-PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
+PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
+PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
 PARSER.add_argument('--prefix', type=str, default='lj', help='prefix for all output file names')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
@@ -67,24 +67,26 @@ Potential Model LennardJones configuration_index 0
 Potential Model LennardJones configuration_index 1
 #Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff configuration_index 0
 #Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff configuration_index 1
-#Potential VisitModel LongRangeCorrections configuration_index 0
-#Potential VisitModel LongRangeCorrections configuration_index 1
-ThermoParams beta {beta} chemical_potential -1
+Potential VisitModel LongRangeCorrections configuration_index 0
+Potential VisitModel LongRangeCorrections configuration_index 1
+RefPotential VisitModel DontVisitModel configuration_index 0
+RefPotential VisitModel DontVisitModel configuration_index 1
+ThermoParams beta {beta} chemical_potential 10
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2 configuration_index 0
 TrialTranslate tunable_param 0.1 tunable_target_acceptance 0.2 configuration_index 1
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # grand canonical ensemble initalization
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_fill.txt
+Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_fill.csv
 Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c0_fill.xyz configuration_index 0
 Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c1_fill.xyz configuration_index 1
 Tune
 TrialAdd particle_type 0 configuration_index 0
-Run until_num_particles 64 configuration_index 0
+Run until_num_particles 32 configuration_index 0
 RemoveTrial name TrialAdd
 TrialAdd particle_type 0 configuration_index 1
-Run until_num_particles 470 configuration_index 1
+Run until_num_particles 480 configuration_index 1
 RemoveTrial name TrialAdd
 RemoveAnalyze name Log
 RemoveAnalyze name Movie
@@ -92,10 +94,11 @@ RemoveAnalyze name Movie
 
 # gibbs ensemble equilibration
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
-TrialGibbsParticleTransfer weight 0.05 particle_type 0
-TrialGibbsVolumeTransfer weight 0.001 tunable_param 0.1
+TrialGibbsParticleTransfer weight 0.05 particle_type 0 reference_index 0
+TrialGibbsVolumeTransfer weight 0.001 tunable_param 0.1 reference_index 0
 CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.txt
+CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
+Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.csv
 Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c0_eq.xyz configuration_index 0
 Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c1_eq.xyz configuration_index 1
 Run until_criteria_complete true
@@ -106,37 +109,43 @@ RemoveAnalyze name Movie
 
 # gibbs ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}.txt
+Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}.csv
 Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c0.xyz configuration_index 0
 Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c1.xyz configuration_index 1
-Energy trials_per_write {trials_per_iteration} file_name {prefix}{sim}_en.txt
-CPUTime trials_per_write {trials_per_iteration} file_name {prefix}{sim}_cpu.txt
+Energy trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c0_en.csv configuration_index 0
+Energy trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c1_en.csv configuration_index 1
+Density trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c0_dens.csv configuration_index 0
+Density trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c1_dens.csv configuration_index 1
+PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} file_name {prefix}{sim}_pressure.csv
+# the pressure in the liquid phase is harder to converge with test volume changes? and faster to compute in the vapor.
+#PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} file_name {prefix}{sim}_c1_pressure.csv configuration_index 1
+CPUTime trials_per_write {trials_per_iteration} file_name {prefix}{sim}_cpu.csv
 Run until_criteria_complete true
 """.format(**params))
 
 def post_process(params):
-    """ Plot energy and compare with https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm """
-    ens = np.zeros(shape=(params['num_sims'], 2))
-    for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.txt')
-        assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+str(sim)+'_en.txt')
-        ens[sim] = np.array([energy['average'][0],
-                             energy['block_stdev'][0]])/params['num_particles']
-    # data from https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm
-    rhos_srsw = [0.001, 0.003, 0.005, 0.007, 0.009]
-    ens_srsw = [-9.9165E-03, -2.9787E-02, -4.9771E-02, -6.9805E-02, -8.9936E-02]
-    en_stds_srsw = [1.89E-05, 3.21E-05, 3.80E-05, 7.66E-05, 2.44E-05]
-    plt.errorbar(rhos_srsw, ens_srsw, en_stds_srsw, fmt='+', label='SRSW')
-    plt.errorbar(params['densities'], ens[:, 0], ens[:, 1], fmt='x', label='FEASST')
-    plt.xlabel(r'$\rho$', fontsize=16)
-    plt.ylabel(r'$U/N$', fontsize=16)
-    plt.legend(fontsize=16)
-    #plt.savefig(params['prefix']+'_energy.png', bbox_inches='tight', transparent='True')
-    if len(rhos_srsw) == params['num_sims']: # compare with srsw exactly
-        for sim in range(params['num_sims']):
-            diff = ens[sim][0] - ens_srsw[sim]
-            assert np.abs(diff) < 10*np.sqrt(ens[sim][1]**2 + en_stds_srsw[sim]**2)
+    z_factor = 3
+    vapor_density = pd.read_csv(params['prefix']+"0_c0_dens.csv")
+    vapor_density['diff'] = np.abs(vapor_density['average']-6.1007E-03)
+    vapor_density['tol'] = np.sqrt(vapor_density['block_stdev']**2+5.63E-07**2)
+    #print(vapor_density)
+    diverged = vapor_density[vapor_density['diff'] > z_factor*vapor_density['tol']]
+    print(diverged)
+    assert len(diverged) == 0
+    liquid_density = pd.read_csv(params['prefix']+"0_c1_dens.csv")
+    liquid_density['diff'] = np.abs(liquid_density['average']-0.79981)
+    liquid_density['tol'] = np.sqrt(liquid_density['block_stdev']**2+0.000013**2)
+    #print(liquid_density)
+    diverged = liquid_density[liquid_density['diff'] > z_factor*liquid_density['tol']]
+    print(diverged)
+    assert len(diverged) == 0
+    pressure = pd.read_csv(params['prefix']+"0_pressure.csv")
+    pressure['diff'] = np.abs(pressure['pressure_average']-0.0046465)
+    pressure['tol'] = np.sqrt(pressure['pressure_block_stdev']**2+(3.74e-7)**2)
+    #print(pressure)
+    diverged = pressure[pressure['diff'] > z_factor*pressure['tol']]
+    print(diverged)
+    assert len(diverged) == 0
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,

@@ -21,7 +21,11 @@ void Rosenbluth::compute(const double beta, Random * random, const bool old) {
     chosen_step_ = 0;
     weight_[chosen_step_] =
       -beta*(energy_[chosen_step_] - excluded_[chosen_step_]);
+    DEBUG("beta " << beta);
+    DEBUG("en " << energy_[chosen_step_]);
+    DEBUG("ex " << excluded_[chosen_step_]);
     ln_total_rosenbluth_ = weight_[chosen_step_];
+    DEBUG("ln total ros " << ln_total_rosenbluth_);
     return;
   }
   // const double lnk = std::log(num());

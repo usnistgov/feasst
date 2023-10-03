@@ -90,10 +90,10 @@ class Acceptance {
                                  const int config = 0);
 
   /// Return the energy of the reference.
-  double energy_ref(const int config = 0) const { return energy_ref_[config]; }
+  double energy_ref(const int config = 0) const;
 
   /// Set the above quantity.
-  void set_energy_ref(const double energy, const int config = 0) { energy_ref_[config] = energy; }
+  void set_energy_ref(const double energy, const int config = 0);
 
   /// Return the shift in the macrostate due to an optimization where
   /// Perturb does not completely update system until finalize.

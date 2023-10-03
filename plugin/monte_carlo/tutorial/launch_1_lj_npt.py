@@ -15,16 +15,14 @@ PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
 PARSER.add_argument('--num_particles', type=int, default=500, help='number of particles')
-PARSER.add_argument('--pressures', type=json.loads, default='{"pressure":[8.9429E-04, 2.6485E-03]}',
-#NPT diverges from NVT when approaching the binodal.
-#PARSER.add_argument('--pressures', type=json.loads, default='{"pressure":[8.9429E-04, 2.6485E-03, 4.3569E-03, 6.0193E-03, 7.6363E-03]}',
+PARSER.add_argument('--pressures', type=json.loads, default='{"pressure":[8.9429E-04, 2.6485E-03, 4.3569E-03, 6.0193E-03, 7.6363E-03]}',
                     help='dictionary with a list of pressures to simulate')
 PARSER.add_argument('--initial_cubic_side_length', type=int, default=20, help='cubic periodic boundary length')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
                     help='number of iterations for equilibraiton')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e1),
+PARSER.add_argument('--production_iterations', type=int, default=int(1e3),
                     help='number of iterations for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
@@ -124,8 +122,8 @@ def post_process(params):
     # data from https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm
     #rhos_srsw = [0.001, 0.003, 0.005, 0.007, 0.009]
     print('rhos', rhos)
-    ens_srsw = [-9.9165E-03, -2.9787E-02]
-    #ens_srsw = [-9.9165E-03, -2.9787E-02, -4.9771E-02, -6.9805E-02, -8.9936E-02]
+    #ens_srsw = [-9.9165E-03, -2.9787E-02]
+    ens_srsw = [-9.9165E-03, -2.9787E-02, -4.9771E-02, -6.9805E-02, -8.9936E-02]
     en_stds_srsw = [1.89E-05, 3.21E-05]
 
 if __name__ == '__main__':

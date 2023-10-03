@@ -420,6 +420,7 @@ void ConvertToRefPotential::run(MonteCarlo * mc) {
 RefPotential::RefPotential(argtype * args) {
   class_name_ = "RefPotential";
   reference_index_ = integer("reference_index", args, 0);
+  configuration_index_ = integer("configuration_index", args, 0);
   args_ = *args;
   args->clear();
 }
@@ -441,6 +442,7 @@ RefPotential::RefPotential(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 4017, "mismatch version: " << version);
   feasst_deserialize(&reference_index_, istr);
+  feasst_deserialize(&configuration_index_, istr);
   feasst_deserialize(&args_, istr);
 }
 
@@ -449,11 +451,14 @@ void RefPotential::serialize(std::ostream& ostr) const {
   serialize_action_(ostr);
   feasst_serialize_version(4017, ostr);
   feasst_serialize(reference_index_, ostr);
+  feasst_serialize(configuration_index_, ostr);
   feasst_serialize(args_, ostr);
 }
 
 void RefPotential::run(MonteCarlo * mc) {
-  mc->add_to_reference(MakePotential(args_), reference_index_);
+  mc->add_to_reference(MakePotential(args_),
+                       reference_index_,
+                       configuration_index_);
 }
 
 WriteModelParams::WriteModelParams(argtype * args) {

@@ -229,6 +229,9 @@ class System {
 //  double constrained_volume_change(argtype * args);
 //  double constrained_volume_change(argtype args = argtype());
 
+  /// Return the total volume of all Configurations.
+  double total_volume() const;
+
   /// Revert changes due to energy computation of perturbations.
   void revert(const Select& select, const int config = 0);
 

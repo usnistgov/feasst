@@ -26,6 +26,7 @@ void TrialCompute::compute_rosenbluth(
   double ln_rosenbluth = 0.;
   double energy_change = 0.;
   bool reference_used = false;
+  std::vector<int> configs_used;
   for (TrialStage* stage : *stages) {
     DEBUG("*** Attempting stage. old: " << old << " ***");
     stage->attempt(system, acceptance, criteria, old, random);
@@ -46,6 +47,9 @@ void TrialCompute::compute_rosenbluth(
     }
     double energy;
     const int config = stage->trial_select().configuration_index();
+    if (!find_in_list(config, configs_used)) {
+      configs_used.push_back(config);
+    }
     if (old == 1) {
       energy = stage->rosenbluth().energy(0);
       acceptance->add_to_energy_old(energy, config);
@@ -69,7 +73,7 @@ void TrialCompute::compute_rosenbluth(
   // update the trial state of the perturbed selection for each config
   // first, find the first stage for each config in acceptance
   // use each of those first stages to set trial_state
-  int trial_state;
+  int trial_state = -1;
   if (acceptance->num_configurations() == 1) {
     trial_state = (*stages)[0]->trial_select().mobile().trial_state();
     // set the trial state if old configuration and is a move type (1)
@@ -90,29 +94,39 @@ void TrialCompute::compute_rosenbluth(
 
   DEBUG("reference used? " << reference_used);
   if (reference_used) {
-    ASSERT(acceptance->perturbed().num_sites() > 0, "error");
-    DEBUG(acceptance->perturbed().str());
-    DEBUG("state " << acceptance->perturbed().trial_state());
-    // HWH configuration_index_
-    ASSERT(system->num_configurations() == 1, "assumes 1 config");
-    const double en_full = system->perturbed_energy(acceptance->perturbed(), 0);
-    const std::vector<double>& en_profile_full = system->stored_energy_profile();
-    DEBUG("en_full: " << en_full);
-    DEBUG("energy ref: " << energy_change);
-    acceptance->set_energy_ref(energy_change);
-    DEBUG("old " << old);
-    DEBUG("trial_state " << trial_state);
-    if (old == 1) {
-      acceptance->set_energy_old(en_full);
-      acceptance->set_energy_profile_old(en_profile_full);
-      acceptance->add_to_ln_metropolis_prob(-1.*system->thermo_params().beta()*
-        (-en_full + energy_change));
-    } else {
-      acceptance->set_energy_new(en_full);
-      acceptance->set_energy_profile_new(en_profile_full);
-      DEBUG("updated energy_new " << acceptance->energy_new());
-      acceptance->add_to_ln_metropolis_prob(-1.*system->thermo_params().beta()*
-        (en_full - energy_change));
+    for (int conf = 0; conf < acceptance->num_configurations(); ++conf) {
+      if (acceptance->updated(conf) == 1 && find_in_list(conf, configs_used)) {
+        DEBUG("conf " << conf);
+        //ASSERT(acceptance->perturbed(conf).num_sites() > 0, "error");
+        if (acceptance->perturbed(conf).num_sites() > 0) {
+          DEBUG(acceptance->perturbed(conf).str());
+          DEBUG("state " << acceptance->perturbed(conf).trial_state());
+          const double en_full = system->perturbed_energy(acceptance->perturbed(conf), conf);
+          const std::vector<double>& en_profile_full = system->stored_energy_profile(conf);
+          DEBUG("en_full: " << en_full);
+          DEBUG("en_profile_full: " << feasst_str(en_profile_full));
+          DEBUG("energy ref: " << energy_change);
+          acceptance->set_energy_ref(energy_change, conf);
+          DEBUG("old " << old);
+          DEBUG("trial_state " << trial_state);
+          if (old == 1) {
+            acceptance->set_energy_old(en_full, conf);
+            acceptance->set_energy_profile_old(en_profile_full, conf);
+            const double ln_met = -1.*system->thermo_params().beta()*
+              (-en_full + energy_change);
+            DEBUG("ln_met " << ln_met);
+            acceptance->add_to_ln_metropolis_prob(ln_met);
+          } else {
+            acceptance->set_energy_new(en_full, conf);
+            acceptance->set_energy_profile_new(en_profile_full, conf);
+            DEBUG("updated energy_new " << acceptance->energy_new(conf));
+            const double ln_met = -1.*system->thermo_params().beta()*
+              (en_full - energy_change);
+            DEBUG("ln_met " << ln_met);
+            acceptance->add_to_ln_metropolis_prob(ln_met);
+          }
+        }
+      }
     }
   }
   DEBUG("ln_rosenbluth " << ln_rosenbluth);
