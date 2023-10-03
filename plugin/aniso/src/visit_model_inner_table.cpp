@@ -12,18 +12,16 @@ namespace feasst {
 
 VisitModelInnerTable::VisitModelInnerTable(argtype * args) : VisitModelInner(args) {
   class_name_ = "VisitModelInnerTable";
-  const std::string table_file = str("table_file", args, "-1");
-  const bool ignore_energy = boolean("ignore_energy", args, false);
-  if (table_file != "-1") {
-    read_table_(table_file, ignore_energy);
-  }
+  table_file_ = str("table_file", args, "-1");
+  ignore_energy_ = boolean("ignore_energy", args, false);
 }
 VisitModelInnerTable::VisitModelInnerTable(argtype args) : VisitModelInnerTable(&args) {
   FEASST_CHECK_ALL_USED(args);
 }
 
 void VisitModelInnerTable::read_table_(const std::string file_name,
-    const bool ignore_energy) {
+    const bool ignore_energy,
+    Configuration * config) {
   DEBUG("file_name " << file_name);
   std::ifstream file(file_name);
   ASSERT(file.good(), "cannot find " << file_name);
@@ -40,9 +38,10 @@ void VisitModelInnerTable::read_table_(const std::string file_name,
 
   // size arrays
   site_types_.resize(num_sites);
-  resize(num_sites, num_sites, &inner_);
-//  resize(num_sites, num_sites, &outer_);
-  resize(num_sites, num_sites, &energy_);
+  std::vector<std::vector<Table5D> > * inner = config->get_table5d();
+  std::vector<std::vector<Table6D> > * energy = config->get_table6d();
+  resize(num_sites, num_sites, inner);
+  resize(num_sites, num_sites, energy);
   resize(num_sites, num_sites, &delta_);
   resize(num_sites, num_sites, &gamma_);
   resize(num_sites, num_sites, &smoothing_distance_);
@@ -93,9 +92,9 @@ void VisitModelInnerTable::read_table_(const std::string file_name,
       DEBUG("ne3 " << ne3);
       argtype dof = {{"num0", str(ns1)}, {"num1", str(ns2)}, {"num2", str(ne1)},
                      {"num3", str(ne2)}, {"num4", str(ne3)}};
-      Table5D * in = &inner_[itype][jtype];
+      Table5D * in = &(*inner)[itype][jtype];
 //      Table5D * out = &outer_[itype][jtype];
-      Table6D * en = &energy_[itype][jtype];
+      Table6D * en = &(*energy)[itype][jtype];
       *in = Table5D(dof);
       if (num_z > 0 && !ignore_energy) {
 //        *out = Table5D(dof);
@@ -172,10 +171,10 @@ void VisitModelInnerTable::read_table_(const std::string file_name,
 //  return false;
 //}
 
-bool VisitModelInnerTable::is_energy_table() const {
-  if (energy_.size() > 0) {
-    if (energy_[0].size() > 0) {
-      if (energy_[0][0].num0() > 1) {
+bool VisitModelInnerTable::is_energy_table(const std::vector<std::vector<Table6D> >& energy) const {
+  if (energy.size() > 0) {
+    if (energy[0].size() > 0) {
+      if (energy[0][0].num0() > 1) {
         return true;
       }
     }
@@ -185,9 +184,11 @@ bool VisitModelInnerTable::is_energy_table() const {
 
 void VisitModelInnerTable::precompute(Configuration * config) {
   VisitModelInner::precompute(config);
+  read_table_(table_file_, ignore_energy_, config);
   aniso_index_ = config->model_params().index("anisotropic");
   DEBUG("aniso_index_ " << aniso_index_);
   t2index_.resize(config->num_site_types(), 0);
+  const std::vector<std::vector<Table5D> >& inner = config->table5d();
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
     ASSERT(type1 < config->num_site_types(),"site type: " << type1 <<
@@ -197,7 +198,7 @@ void VisitModelInnerTable::precompute(Configuration * config) {
       const int type2 = site_types_[t2];
       ASSERT(type2 < config->num_site_types(),"site type: " << type2 <<
         " in table > number of site types:" << config->num_site_types());
-      const double cutoff = inner_[t1][t2].maximum() + delta_[t1][t2];
+      const double cutoff = inner[t1][t2].maximum() + delta_[t1][t2];
       config->set_model_param("cutoff", type1, type2, cutoff);
       config->set_model_param("cutoff", type2, type1, cutoff);
       INFO("cutoff for " << type1 << "-" << type2 << " site types: " << cutoff);
@@ -340,9 +341,10 @@ void VisitModelInnerTable::compute(
   const int tabtype2 = t2index_[type2];
 
   // check the inner cutoff.
-  DEBUG("size1 " << inner_.size());
-  DEBUG("size2 " << inner_[0].size());
-  const float inner = inner_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
+  const std::vector<std::vector<Table5D> >& innert = config->table5d();
+  DEBUG("size1 " << innert.size());
+  DEBUG("size2 " << innert[0].size());
+  const float inner = innert[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
   DEBUG("inner " << inner);
   double en = 0.;
   if (squared_distance < inner*inner) {
@@ -356,9 +358,10 @@ void VisitModelInnerTable::compute(
     if (squared_distance < outer*outer) {
       const double gamma = gamma_[tabtype1][tabtype2];
       DEBUG("gamma " << gamma);
+      const std::vector<std::vector<Table6D> >& energyt = config->table6d();
       if ((std::abs(gamma) < NEAR_ZERO)) {
         en = -1;
-      } else if (is_energy_table()) {
+      } else if (is_energy_table(energyt)) {
         const double rhg = std::pow(inner, gamma);
         const double rcg = std::pow(outer, gamma);
         const double rg = std::pow(squared_distance, 0.5*gamma);
@@ -369,13 +372,13 @@ void VisitModelInnerTable::compute(
         DEBUG("z " << z);
         if (z > 1.) {
           const double smooth = smoothing_distance_[tabtype1][tabtype2];
-          en = energy_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, 1.);
+          en = energyt[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, 1.);
           const double dx = std::sqrt(squared_distance) - inner - delta + smooth;
           ASSERT(dx >= 0 && dx <= 1, "dx: " << MAX_PRECISION << dx);
           en *= dx/smooth;
         } else {
           ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
-          en = energy_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, z);
+          en = energyt[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, z);
         }
       } else {
         return;
@@ -401,6 +404,8 @@ VisitModelInnerTable::VisitModelInnerTable(std::istream& istr) : VisitModelInner
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 7945, "unrecognized version: " << version);
   feasst_deserialize(&aniso_index_, istr);
+  feasst_deserialize(&table_file_, istr);
+  feasst_deserialize(&ignore_energy_, istr);
 }
 
 void VisitModelInnerTable::serialize(std::ostream& ostr) const {
@@ -408,9 +413,11 @@ void VisitModelInnerTable::serialize(std::ostream& ostr) const {
   serialize_visit_model_inner_(ostr);
   feasst_serialize_version(7945, ostr);
   feasst_serialize(aniso_index_, ostr);
+  feasst_serialize(table_file_, ostr);
+  feasst_serialize(ignore_energy_, ostr);
 }
 
-double VisitModelInnerTable::second_virial_coefficient(argtype args) const {
+double VisitModelInnerTable::second_virial_coefficient(const Configuration& config, argtype args) const {
   const int expand_t = integer("expand_t", &args, 1);
   const int expand_z = integer("expand_z", &args, 1);
   const int type1 = integer("site_type1", &args, 0);
@@ -418,12 +425,13 @@ double VisitModelInnerTable::second_virial_coefficient(argtype args) const {
   ASSERT(smoothing_distance_[type1][type2] < NEAR_ZERO, "not implemented with smoothing_distance");
   const double beta = dble("beta", &args, 1.);
   FEASST_CHECK_ALL_USED(args);
-  if (energy_[0][0].num0() == 1) {
+  const Table5D& inner = config.table5d()[type1][type2];
+  const Table6D& energy = config.table6d()[type1][type2];
+  if (energy.num0() == 1) {
     WARN("Only implemented for hard particles (num_z == 0).");
   }
   double b2_h = 0.;
   double b2_a = 0.;
-  const Table5D& inner = inner_[type1][type2];
 //  const Table5D& outer = outer_[type1][type2];
   const int ns1 = inner.num0();
   const int ns2 = inner.num1();
@@ -439,8 +447,7 @@ double VisitModelInnerTable::second_virial_coefficient(argtype args) const {
   DEBUG("ds1 " << ds1 << " ds2 " << ds2 << " de1 " << de1 << " de2 " << de2 << " de3 " << de3);
   int num_z = 0;
   double dz = 0;
-  const Table6D& energy = energy_[type1][type2];
-  if (is_energy_table()) {
+  if (is_energy_table(config.table6d())) {
     num_z = energy.num5();
     dz = 1./static_cast<double>(num_z*expand_z - 1);
   }

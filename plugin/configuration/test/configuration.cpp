@@ -17,6 +17,9 @@ TEST(Configuration, type_to_file_name) {
     {"particle_type2", "../particle/spce.fstprt"},
     {"particle_type3", "../particle/lj.fstprt"},
   });
+  //std::stringstream ss;
+  //config.serialize(ss);
+  //INFO(ss.str());
 //  TRY(
 //    auto config2 = config;
 //    config2.add_particle_type("../particle/atom.fstprt");

@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "utils/include/arguments.h"
+#include "math/include/table.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
 #include "configuration/include/neighbor_criteria.h"
@@ -514,6 +515,17 @@ class Configuration {
   std::string str() const;
 
   //@}
+  /** @name Tables
+    Shared tables that can be used in multiple VisitModel.
+   */
+  //@{
+
+  const std::vector<std::vector<Table6D> >& table6d() const { return table6d_; }
+  const std::vector<std::vector<Table5D> >& table5d() const { return table5d_; }
+  std::vector<std::vector<Table6D> > * get_table6d() { return &table6d_; }
+  std::vector<std::vector<Table5D> > * get_table5d() { return &table5d_; }
+
+  //@}
 
   // HWH updates entire particle. Optimize by updating per site.
   void synchronize_(const Configuration& config, const Select& perturbed);
@@ -618,6 +630,9 @@ class Configuration {
   /// Store the number of particles of each type.
   std::vector<int> num_particles_of_type_;
   std::vector<NeighborCriteria> neighbor_criteria_;
+
+  std::vector<std::vector<Table6D> > table6d_;
+  std::vector<std::vector<Table5D> > table5d_;
 };
 
 inline std::shared_ptr<Configuration> MakeConfiguration(

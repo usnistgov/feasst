@@ -85,15 +85,8 @@ class VisitModelInnerTable : public VisitModelInner {
   explicit VisitModelInnerTable(argtype args = argtype());
   explicit VisitModelInnerTable(argtype * args);
 
-  const std::vector<std::vector<Table6D> >& energy() const { return energy_; }
-  const std::vector<std::vector<Table5D> >& inner() const { return inner_; }
-//  const std::vector<std::vector<Table5D> >& outer() const { return outer_; }
-
-//  /// Return true if there is an outer table.
-//  bool is_outer() const;
-
   /// Return true if there is an energy table.
-  bool is_energy_table() const;
+  bool is_energy_table(const std::vector<std::vector<Table6D> >& energy) const;
 
   /**
     Compute the second virial coefficient between anisotropic sites by table
@@ -114,7 +107,7 @@ class VisitModelInnerTable : public VisitModelInner {
     - expand_z: increase translation points by this factor (default: 1).
     - beta: see ThermoParams (default: 1).
    */
-  double second_virial_coefficient(argtype args = argtype()) const;
+  double second_virial_coefficient(const Configuration& config, argtype args = argtype()) const;
 
 // HWH this doesn't work but may be salvaged later.
 //  /**
@@ -152,8 +145,8 @@ class VisitModelInnerTable : public VisitModelInner {
 
  private:
   int aniso_index_ = -1;
-  std::vector<std::vector<Table6D> > energy_;
-  std::vector<std::vector<Table5D> > inner_; //, outer_;
+  std::string table_file_;
+  bool ignore_energy_;
   std::vector<int> site_types_;
   std::vector<int> t2index_;
   std::vector<std::vector<double> > gamma_;
@@ -165,7 +158,7 @@ class VisitModelInnerTable : public VisitModelInner {
   RotationMatrix rot1_, rot2_, rot3_;
   Euler euler_;
 
-  void read_table_(const std::string table_file, const bool ignore_energy);
+  void read_table_(const std::string table_file, const bool ignore_energy, Configuration * config);
 };
 
 inline std::shared_ptr<VisitModelInnerTable> MakeVisitModelInnerTable(
