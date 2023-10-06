@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monte Carlo with rigid cluster moves &mdash; FEASST v0.23.0 documentation</title>
+  <title>Monte Carlo with rigid cluster moves &mdash; FEASST v0.23.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.0
+                v0.23.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -487,7 +487,8 @@ particle translations are still required to form a droplet. Without single parti
     <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sim&quot;</span><span class="p">:</span> <span class="n">sim</span><span class="p">,</span>
             <span class="s2">&quot;potential&quot;</span><span class="p">:</span> <span class="s2">&quot;Potential Model LennardJones&quot;</span><span class="p">,</span>
             <span class="s2">&quot;translate&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialTranslate tunable_param 2 tunable_target_acceptance 0.2&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;rigid&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">}</span>
+            <span class="s2">&quot;rigid&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;trials_per&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)}</span>
     <span class="k">if</span> <span class="n">sim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s2">&quot;potential&quot;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;Potential Model LennardJones EnergyMap EnergyMapAll&quot;</span>
     <span class="k">if</span> <span class="n">sim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -495,7 +496,8 @@ particle translations are still required to form a droplet. Without single parti
     <span class="k">if</span> <span class="n">sim</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">sim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s2">&quot;rigid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">NeighborCriteria energy_maximum -0.5</span>
-<span class="s2">TrialRigidCluster neighbor_index 0&quot;&quot;&quot;</span>
+<span class="s2">TrialRigidCluster neighbor_index 0</span>
+<span class="s2">AnalyzeCluster trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name cluster</span><span class="si">{sim}</span><span class="s2">.txt&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
     <span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">MonteCarlo</span>
 <span class="s2">Configuration cubic_side_length 8 particle_type0 /feasst/particle/lj.fstprt</span>
@@ -507,13 +509,11 @@ particle translations are still required to form a droplet. Without single parti
 <span class="s2">Run until_num_particles 25</span>
 <span class="s2">RemoveTrial name TrialAdd</span>
 <span class="si">{rigid}</span>
-<span class="s2">set_variable trials_per 1e3</span>
 <span class="s2">Tune</span>
-<span class="s2">Log trials_per_write trials_per file_name log</span><span class="si">{sim}</span><span class="s2">.txt</span>
-<span class="s2">CPUTime trials_per_write trials_per file_name cpu</span><span class="si">{sim}</span><span class="s2">.txt</span>
-<span class="s2">Movie trials_per_write trials_per file_name movie</span><span class="si">{sim}</span><span class="s2">.xyz clear_file True</span>
-<span class="s2">CheckEnergy trials_per_update trials_per tolerance 1e-8</span>
-<span class="s2">AnalyzeCluster trials_per_write trials_per file_name cluster</span><span class="si">{sim}</span><span class="s2">.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name log</span><span class="si">{sim}</span><span class="s2">.txt</span>
+<span class="s2">CPUTime trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name cpu</span><span class="si">{sim}</span><span class="s2">.txt</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{trials_per}</span><span class="s2"> file_name movie</span><span class="si">{sim}</span><span class="s2">.xyz clear_file True</span>
+<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per}</span><span class="s2"> tolerance 1e-8</span>
 <span class="s2">Run num_trials 1e5</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
@@ -529,63 +529,65 @@ particle translations are still required to form a droplet. Without single parti
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library
-Configuration cubic_side_length 8 particle_type0 /home/hwh/feasst/particle/lj.fstprt
+# FEASST version: v0.23.0-52-g781fe2b0e3-hwh/widom3
+MonteCarlo
+Configuration cubic_side_length 8 particle_type0 /home/hwh/open_mab_cg/feasst/particle/lj.fstprt
 Potential Model LennardJones
 ThermoParams beta 4 chemical_potential0 1
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
 TrialAdd particle_type 0
 Run until_num_particles 25
-# initializing random number generator with seed: 1678985917
+# initializing random number generator with seed: 1695991527
 RemoveTrial name TrialAdd
 Tune
-Log file_name log1.txt trials_per_write 1e3
-CPUTime file_name cpu1.txt trials_per_write 1e3
-Movie clear_file True file_name movie1.xyz trials_per_write 1e3
-CheckEnergy tolerance 1e-8 trials_per_update 1e3
-AnalyzeCluster file_name cluster1.txt trials_per_write 1e3
+Log file_name log1.txt trials_per_write 1000
+CPUTime file_name cpu1.txt trials_per_write 1000
+Movie clear_file True file_name movie1.xyz trials_per_write 1000
+CheckEnergy tolerance 1e-8 trials_per_update 1000
 Run num_trials 1e5
 
  exit: 0
-# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library
-Configuration cubic_side_length 8 particle_type0 /home/hwh/feasst/particle/lj.fstprt
+# FEASST version: v0.23.0-52-g781fe2b0e3-hwh/widom3
+MonteCarlo
+Configuration cubic_side_length 8 particle_type0 /home/hwh/open_mab_cg/feasst/particle/lj.fstprt
 Potential EnergyMap EnergyMapAll Model LennardJones
 ThermoParams beta 4 chemical_potential0 1
 Metropolis
 TrialAdd particle_type 0
 Run until_num_particles 25
-# initializing random number generator with seed: 1678985918
+# initializing random number generator with seed: 1695991527
 RemoveTrial name TrialAdd
 NeighborCriteria energy_maximum -0.5
 TrialRigidCluster neighbor_index 0
+AnalyzeCluster file_name cluster2.txt trials_per_write 1000
 Tune
-Log file_name log2.txt trials_per_write 1e3
-CPUTime file_name cpu2.txt trials_per_write 1e3
-Movie clear_file True file_name movie2.xyz trials_per_write 1e3
-CheckEnergy tolerance 1e-8 trials_per_update 1e3
-AnalyzeCluster file_name cluster2.txt trials_per_write 1e3
+Log file_name log2.txt trials_per_write 1000
+CPUTime file_name cpu2.txt trials_per_write 1000
+Movie clear_file True file_name movie2.xyz trials_per_write 1000
+CheckEnergy tolerance 1e-8 trials_per_update 1000
 Run num_trials 1e5
 
  exit: 0
-# FEASST version: v0.21-21-g12898a9d3b-dirty-hwh/trial_library
-Configuration cubic_side_length 8 particle_type0 /home/hwh/feasst/particle/lj.fstprt
+# FEASST version: v0.23.0-52-g781fe2b0e3-hwh/widom3
+MonteCarlo
+Configuration cubic_side_length 8 particle_type0 /home/hwh/open_mab_cg/feasst/particle/lj.fstprt
 Potential EnergyMap EnergyMapAll Model LennardJones
 ThermoParams beta 4 chemical_potential0 1
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
 TrialAdd particle_type 0
 Run until_num_particles 25
-# initializing random number generator with seed: 1678985918
+# initializing random number generator with seed: 1695991527
 RemoveTrial name TrialAdd
 NeighborCriteria energy_maximum -0.5
 TrialRigidCluster neighbor_index 0
+AnalyzeCluster file_name cluster3.txt trials_per_write 1000
 Tune
-Log file_name log3.txt trials_per_write 1e3
-CPUTime file_name cpu3.txt trials_per_write 1e3
-Movie clear_file True file_name movie3.xyz trials_per_write 1e3
-CheckEnergy tolerance 1e-8 trials_per_update 1e3
-AnalyzeCluster file_name cluster3.txt trials_per_write 1e3
+Log file_name log3.txt trials_per_write 1000
+CPUTime file_name cpu3.txt trials_per_write 1000
+Movie clear_file True file_name movie3.xyz trials_per_write 1000
+CheckEnergy tolerance 1e-8 trials_per_update 1000
 Run num_trials 1e5
 
  exit: 0
@@ -635,7 +637,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0    13.880786
+0    24.602957
 Name: average, dtype: float64
 </pre></div></div>
 </div>
@@ -645,7 +647,7 @@ Name: average, dtype: float64
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7fe3ba374400&gt;
+&lt;unittest.main.TestProgram at 0x7f0014f0fcd0&gt;
 </pre></div></div>
 </div>
 <p>Take a look at the cpu files. Sim 1 is faster than sim 2 because cluster moves are more expensive. Even when clusters are small, energy map book keeping and cluster calculations can be slow compared to a simple LJ potential.</p>

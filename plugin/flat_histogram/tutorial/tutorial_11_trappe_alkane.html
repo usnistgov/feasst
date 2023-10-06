@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand Canonical Flat Histogram Simulation of TraPPE alkanes &mdash; FEASST v0.23.0 documentation</title>
+  <title>Grand Canonical Flat Histogram Simulation of TraPPE alkanes &mdash; FEASST v0.23.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.0
+                v0.23.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -317,7 +317,7 @@
                         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;site&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">site</span> <span class="o">+</span> <span class="n">sign</span><span class="o">*</span><span class="n">i</span>
                         <span class="k">if</span> <span class="n">inv</span><span class="p">:</span>
                             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;site&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">site</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">sign</span><span class="o">*</span><span class="n">i</span>
-                    <span class="n">bond</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;bond true mobile_site </span><span class="si">{site0}</span><span class="s2"> anchor_site </span><span class="si">{site1}</span><span class="s2"> reference_index 0 num_steps 4 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+                    <span class="n">bond</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;bond true mobile_site </span><span class="si">{site0}</span><span class="s2"> anchor_site </span><span class="si">{site1}</span><span class="s2"> num_steps 4 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
                     <span class="n">angle</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;angle true mobile_site </span><span class="si">{site0}</span><span class="s2"> anchor_site </span><span class="si">{site1}</span><span class="s2"> anchor_site2 </span><span class="si">{site2}</span><span class="s2"> num_steps 4 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
                     <span class="n">dihedral</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;dihedral true mobile_site </span><span class="si">{site0}</span><span class="s2"> anchor_site </span><span class="si">{site1}</span><span class="s2"> anchor_site2 </span><span class="si">{site2}</span><span class="s2"> anchor_site3 </span><span class="si">{site3}</span><span class="s2"> num_steps 4 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 

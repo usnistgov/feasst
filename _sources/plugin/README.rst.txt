@@ -54,6 +54,7 @@ The plugins and classes listed below represent all the publicly available capabi
    prefetch/README
    aniso/README
    example/README
+   gibbs/README
    fftw/README
    netcdf/README
 

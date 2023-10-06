@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>System &mdash; FEASST v0.23.0 documentation</title>
+  <title>System &mdash; FEASST v0.23.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.0
+                v0.23.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -91,6 +91,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
@@ -259,6 +260,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6System12total_volumeEv">
+<span class="target" id="classfeasst_1_1System_1ae88e69475a05884138bad2a155046ff0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">total_volume</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6System12total_volumeEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the total volume of all Configurations. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6System6revertERK6SelectKi">
 <span class="target" id="classfeasst_1_1System_1a43ae636b0e42b7ee30c35584c68cbfd6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">revert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">config</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6System6revertERK6SelectKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Revert changes due to energy computation of perturbations. </p>
@@ -395,6 +402,12 @@
 <dd class="field-odd"><p>Store different references by index. </p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6System14num_referencesEKi">
+<span class="target" id="classfeasst_1_1System_1a533961cff80bd8022f9e55904b0c8008"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_references</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">config</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6System14num_referencesEKi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the number of reference potentials. </p>
 </dd></dl>
 
 <dl class="cpp function">

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configuration &mdash; FEASST v0.23.0 documentation</title>
+  <title>Configuration &mdash; FEASST v0.23.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.0
+                v0.23.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -105,6 +105,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
@@ -233,50 +234,8 @@
 <p>The spatial domain contains periodic boundaries and cells.</p>
 <p>Finally, note that an optimization for grand canonical ensemble simulations allows for the possibility of ghost particles. Ghost particles do not interact and serve as a pool for adding/removing particles in an optimized fashion without having to resize the particle arrays. Thus, one must use caution when accessing particles and sites by indices, because these indices may include ghost particles. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-checks">Checks</p>
-<p>Consistency checks and tests. </p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration5checkEv">
-<span class="target" id="classfeasst_1_1Configuration_1a2ef281f20f97b63df6024cf88db03db6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration5checkEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> consistency of dimensions and lists. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration22are_all_sites_physicalEv">
-<span class="target" id="classfeasst_1_1Configuration_1a1cf652e94ccf235ea9c2f15252189c9b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">are_all_sites_physical</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration22are_all_sites_physicalEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Return true if all sites are physical. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration8is_equalERK13ConfigurationKd">
-<span class="target" id="classfeasst_1_1Configuration_1a0c75ebd015c22f915b74af8bfd273f5d"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">configuration</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tolerance</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8is_equalERK13ConfigurationKd" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> if configuration is approximately equivalent. Not all quantities are checked, including ghosts, etc. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration16check_dimensionsEv">
-<span class="target" id="classfeasst_1_1Configuration_1a34c570b970353b810f4e597f73695b82"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_dimensions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration16check_dimensionsEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that the dimensions of all particle types and domain match. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration13status_headerEKNSt6stringE">
-<span class="target" id="classfeasst_1_1Configuration_1a774e913c0a86dd57a3676ad9ead2daf0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status_header</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">append</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13status_headerEKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Return the header of the status for periodic output. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration6statusEv">
-<span class="target" id="classfeasst_1_1Configuration_1a63fac9420e1ef3b96c16c78b8c0eb58b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration6statusEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Return the brief status for periodic output. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration3strEv">
-<span class="target" id="classfeasst_1_1Configuration_1ad91933bfc872ed507ed51e79b986930e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration3strEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Return the configuration in human readable format for testing. </p>
-</dd></dl>
-
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-tables">Tables</p>
+<p>Shared tables that can be used in multiple <a class="reference internal" href="../../system/doc/VisitModel.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>. </p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration9serializeERNSt7ostreamE">
 <span class="target" id="classfeasst_1_1Configuration_1a49d0f3537a16e755a7a82b3ac49ce493"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
@@ -830,6 +789,52 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration17neighbor_criteriaEv">
 <span class="target" id="classfeasst_1_1Configuration_1af35da21d4278e6c2e4dca43130de96d7"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria"><span class="n"><span class="pre">NeighborCriteria</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">neighbor_criteria</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration17neighbor_criteriaEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a <a class="reference internal" href="NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> by index in order added. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-checks">Checks</p>
+<p>Consistency checks and tests. </p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration5checkEv">
+<span class="target" id="classfeasst_1_1Configuration_1a2ef281f20f97b63df6024cf88db03db6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration5checkEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> consistency of dimensions and lists. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration22are_all_sites_physicalEv">
+<span class="target" id="classfeasst_1_1Configuration_1a1cf652e94ccf235ea9c2f15252189c9b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">are_all_sites_physical</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration22are_all_sites_physicalEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return true if all sites are physical. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration8is_equalERK13ConfigurationKd">
+<span class="target" id="classfeasst_1_1Configuration_1a0c75ebd015c22f915b74af8bfd273f5d"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">configuration</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tolerance</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration8is_equalERK13ConfigurationKd" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> if configuration is approximately equivalent. Not all quantities are checked, including ghosts, etc. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration16check_dimensionsEv">
+<span class="target" id="classfeasst_1_1Configuration_1a34c570b970353b810f4e597f73695b82"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_dimensions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration16check_dimensionsEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that the dimensions of all particle types and domain match. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration13status_headerEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Configuration_1a774e913c0a86dd57a3676ad9ead2daf0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status_header</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">append</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration13status_headerEKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the header of the status for periodic output. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration6statusEv">
+<span class="target" id="classfeasst_1_1Configuration_1a63fac9420e1ef3b96c16c78b8c0eb58b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration6statusEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the brief status for periodic output. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration3strEv">
+<span class="target" id="classfeasst_1_1Configuration_1ad91933bfc872ed507ed51e79b986930e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration3strEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the configuration in human readable format for testing. </p>
 </dd></dl>
 
 </div>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialSelectParticle &mdash; FEASST v0.23.0 documentation</title>
+  <title>TrialSelectParticle &mdash; FEASST v0.23.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="TrialCompute" href="TrialCompute.html" />
-    <link rel="prev" title="TrialSelectAll" href="TrialSelectAll.html" />
+    <link rel="prev" title="TrialSelectDihedral" href="TrialSelectDihedral.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.0
+                v0.23.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -90,6 +90,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
@@ -222,7 +223,9 @@
 <li><p>load_coordinates: load the coordinates into the selection (default: true)</p></li>
 <li><p>site: site index to select. If all sites, set to -1 (default).</p></li>
 <li><p>ghost: select ghost particles (default: false).</p></li>
-<li><p>exclude_perturbed: if true, exclude perturbed particle (default: false) </p></li>
+<li><p>exclude_perturbed: if true, exclude perturbed particle (default: false)</p></li>
+<li><p>min_particles: do not select if less than min number of particles. If -1, no constraint (default: -1). Note that this is the number of particles before the <a class="reference internal" href="Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>.</p></li>
+<li><p>max_particles: do not select if more than max number of particles. If -1, no constraint (default: -1). Note that this is the number of particles before the <a class="reference internal" href="Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -299,7 +302,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="TrialSelectAll.html" class="btn btn-neutral float-left" title="TrialSelectAll" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TrialSelectDihedral.html" class="btn btn-neutral float-left" title="TrialSelectDihedral" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="TrialCompute.html" class="btn btn-neutral float-right" title="TrialCompute" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

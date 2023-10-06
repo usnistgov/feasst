@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VisitModelInnerTable &mdash; FEASST v0.23.0 documentation</title>
+  <title>VisitModelInnerTable &mdash; FEASST v0.23.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Modify FEASST" href="../../example/README.html" />
+    <link rel="next" title="ContactObjective" href="ContactObjective.html" />
     <link rel="prev" title="Anisotropic" href="Anisotropic.html" />
 
 	<!-- frame blocking -->
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.0
+                v0.23.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -88,11 +88,13 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html">Aniso</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Anisotropic.html">Anisotropic</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">VisitModelInnerTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ContactObjective.html">ContactObjective</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
@@ -216,9 +218,10 @@
 <span class="target" id="classfeasst_1_1VisitModelInnerTable"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VisitModelInnerTable</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/VisitModelInner.html#_CPPv4N6feasst15VisitModelInnerE" title="feasst::VisitModelInner"><span class="n"><span class="pre">VisitModelInner</span></span></a><a class="headerlink" href="#_CPPv4N6feasst20VisitModelInnerTableE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Represent anisotropic sites using a tabular potential that is precomputed and read from a file.</p>
 <p>The relative position and orientation of an arbitrary rigid body is given by 5 orientational degrees of freedom and the radial distance, r between the centers of the two bodies.</p>
-<p>The spherical coordinate azimuthal angle [0, 2pi] and polar angle [0, pi] are denoted s1 and s2, and are as described in the <a class="reference internal" href="../../math/doc/Position.html#classfeasst_1_1Position"><span class="std std-ref">Position</span></a> class. Note that there is increased resolution at the poles. A Fibonacci lattice could more uniformly represent a spherical surface, but interpolation would be more complicated.</p>
+<p>The spherical coordinate azimuthal angle [0, 2pi] and polar angle [0, pi] are denoted s1 and s2, and are as described in the <a class="reference internal" href="../../math/doc/Position.html#classfeasst_1_1Position"><span class="std std-ref">Position</span></a> class. Note that there is increased resolution at the poles. While something resembling a Fibonacci lattice could more uniformly represent a spherical surface, interpolation would be more complicated.</p>
 <p>The <a class="reference internal" href="../../math/doc/Euler.html#classfeasst_1_1Euler"><span class="std std-ref">Euler</span></a> angles, [e1, e2, e3], in order, are as described in the <a class="reference internal" href="../../math/doc/Euler.html#classfeasst_1_1Euler"><span class="std std-ref">Euler</span></a> class.</p>
-<p>The radial distance, r, is transformed into z which varies from z=0 at the hard contact distance, r_h, to z=1 at the cutoff, r_c. A stretching parameter, <span class="math notranslate nohighlight">\(\gamma\)</span>, increases the resolution at shorter distances when negative. <span class="math notranslate nohighlight">\(z=[(r^\gamma - r_h^\gamma)/(r_c^\gamma - r_h^\gamma)]\)</span>.</p>
+<p>The radial distance, r, is transformed into z which varies from z=0 at the hard contact distance, r_h, to z=1 at the cutoff, r_c. A stretching parameter, <span class="math notranslate nohighlight">\(\gamma\)</span>, increases the resolution at shorter distances when negative.</p>
+<p><span class="math notranslate nohighlight">\(z=[(r^\gamma - r_h^\gamma)/(r_c^\gamma - r_h^\gamma)]\)</span>.</p>
 <p>The format of the tabular potential stored in a file is as follows.</p>
 <p>The first line should be ‘site_types’ followed by the number of site types and then the identity of each of those site types in order of the tables given below. (e.g., “site_types n i” where n is the number of site types and each following number is the type of each anisotropic site.)</p>
 <p>There is a table for each unique pair of site types. For example, if the first line is as follows: “site_types 2 1 7” then the first table will be for interactions of site type 1 with site type 1 (i.e., 1-1), the second table will be for 1-7 interactions, and the third table will be for 7-7 interactions.</p>
@@ -229,7 +232,7 @@
 <li><p>”delta [value]” is the distance between the hard particle inner cutoff and the outer cutoff when the potential goes to zero (e.g., delta = r_c - r_h).</p></li>
 <li><p>”num_z [value]” is the number of energy values along the z parameter.</p></li>
 <li><p>”smoothing_distance [value]” is the distance to linearly interpolate the energy to zero. Specifically, r_c - smoothing_distance is the z=1 value. If smoothing_distance is &lt;= 0, then it is not used at all.</p></li>
-<li><p>The remaining lines are for each unique set of the five angles. The outer loop is s1, with range [-pi, pi]. If i == j, the range is [0, pi] for i-j swap symmetry (e.g., swap i and j if s1 &lt; 0). The next loop is s2 in [0, pi], then e1 in [-pi, pi], e2 and [0, pi], and finally e3 in [-pi, pi]. The number of lines should be (k+1)^3(2k+1)^2, where k=num_orientations_per_pi. Each line then reports the contact distance, r_h, followed by num_z values of the potential energy uniformly in the z range of [0, 1]. </p></li>
+<li><p>The remaining lines are for each unique set of the five angles separated by spaces. The outer loop is s1, with range [-pi, pi]. If i == j, the range is [0, pi] for i-j swap symmetry (e.g., swap i and j if s1 &lt; 0). The next loop is s2 in [0, pi], then e1 in [-pi, pi], e2 and [0, pi], and finally e3 in [-pi, pi]. The number of lines should be (k+1)^3(2k+1)^2 for i==j, and (k+1)^2(2k+1)^3 lines for i!=j, where k=num_orientations_per_pi. Each line then reports the contact distance, r_h, followed by num_z values of the potential energy uniformly in the z range of [0, 1]. If the orientation is duplicate, then the first number is -1 and the second is the integer number of the orientation that it is a duplicate of. </p></li>
 </ol>
 </p>
 <div class="breathe-sectiondef docutils container">
@@ -245,14 +248,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst20VisitModelInnerTable15is_energy_tableEv">
-<span class="target" id="classfeasst_1_1VisitModelInnerTable_1a5b13a51077f068d9c40bdbbdfa145ce8"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_energy_table</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst20VisitModelInnerTable15is_energy_tableEv" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst20VisitModelInnerTable15is_energy_tableERKNSt6vectorINSt6vectorI7Table6DEEEE">
+<span class="target" id="classfeasst_1_1VisitModelInnerTable_1a96b7838d210c40fbc9e3397b56721d38"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_energy_table</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../math/doc/Table.html#_CPPv4N6feasst7Table6DE" title="feasst::Table6D"><span class="n"><span class="pre">Table6D</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst20VisitModelInnerTable15is_energy_tableERKNSt6vectorINSt6vectorI7Table6DEEEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if there is an energy table. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst20VisitModelInnerTable25second_virial_coefficientE7argtype">
-<span class="target" id="classfeasst_1_1VisitModelInnerTable_1ab412c5c0e1dde50ff4ef0a1e5ce9b562"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">second_virial_coefficient</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst20VisitModelInnerTable25second_virial_coefficientE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst20VisitModelInnerTable25second_virial_coefficientERK13Configuration7argtype">
+<span class="target" id="classfeasst_1_1VisitModelInnerTable_1ad3c96024022743d681869d4e44c2643e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">second_virial_coefficient</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst20VisitModelInnerTable25second_virial_coefficientERK13Configuration7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Compute the second virial coefficient between anisotropic sites by table integration. See <a class="reference external" href="https://doi.org/10.1063/1.5040252">https://doi.org/10.1063/1.5040252</a> For the hard particle interaction, see Eq D5.</p>
 <p>For the Jacobian in integration, see <a class="reference external" href="https://doi.org/10.1021%2Facs.jpcb.9b06808">https://doi.org/10.1021%2Facs.jpcb.9b06808</a> <a class="reference external" href="https://doi.org/10.1063/1.432162">https://doi.org/10.1063/1.432162</a> (missing alpha integration?) <a class="reference external" href="https://doi.org/10.1098/rspa.1948.0009">https://doi.org/10.1098/rspa.1948.0009</a> <a class="reference external" href="https://doi.org/10.1063/1.4961541">https://doi.org/10.1063/1.4961541</a></p>
 <p>args:<ul class="simple">
@@ -275,7 +278,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Anisotropic.html" class="btn btn-neutral float-left" title="Anisotropic" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../example/README.html" class="btn btn-neutral float-right" title="Modify FEASST" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ContactObjective.html" class="btn btn-neutral float-right" title="ContactObjective" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialGrow &mdash; FEASST v0.23.0 documentation</title>
+  <title>TrialGrow &mdash; FEASST v0.23.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -27,7 +27,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="TrialPivot" href="TrialPivot.html" />
-    <link rel="prev" title="EndToEndDistance" href="EndToEndDistance.html" />
+    <link rel="prev" title="GhostTrialGrow" href="GhostTrialGrow.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.0
+                v0.23.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -76,19 +76,19 @@
 <li class="toctree-l3"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbConnector.html">PerturbConnector</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngleConnector.html">PerturbDistanceAngleConnector</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbPositionSwap.html">PerturbPositionSwap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbLibrary.html">PerturbLibrary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbPositionSwap.html">PerturbPositionSwap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectTwoSites.html">SelectTwoSites</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
@@ -105,6 +105,7 @@
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="GhostTrialGrow.html">GhostTrialGrow</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">TrialGrow</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a></li>
@@ -123,6 +124,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
@@ -250,11 +252,16 @@
 <li><p>site: site index in particle_type to transfer/regrow (always required).</p></li>
 <li><p>weight: weight of selection of this trial (default: see <a class="reference internal" href="../../monte_carlo/doc/Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>).</p></li>
 <li><p>transfer: if true, create add and remove trial with equal weight (default: false).</p></li>
+<li><p>gibbs_transfer: if true, create two trials which transfer particles between configuration_index and configuration_index2 (default: false).</p></li>
 <li><p>regrow: if true, place anywhere in the domain (default: false).</p></li>
 <li><p>transfer_avb: if true, same as transfer but with AVB Add/Remove for the first stage (default: false).</p></li>
 <li><p>regrow_avb2: if true, regrow using AVB2 in the first stage (default: false).</p></li>
 <li><p>regrow_avb4: if true, regrow using AVB4 in the first stage (default: false).</p></li>
 <li><p>translate: if true (default: false), translate site (which is required arg for <a class="reference internal" href="../../monte_carlo/doc/TrialSelectParticle.html#classfeasst_1_1TrialSelectParticle"><span class="std std-ref">TrialSelectParticle</span></a>). In addition, must have number of stages equal to number of sites.</p></li>
+<li><p>add: if true, create an add trial (default: false).</p></li>
+<li><p>remove: if true, create an add trial (default: false).</p></li>
+<li><p>add_avb: if true, create an avb add trial (default: false).</p></li>
+<li><p>remove_avb: if true, create an avb remove trial (default: false).</p></li>
 <li><p>default_num_steps: optional default number of steps for all stages.</p></li>
 <li><p>default_reference_index: optional default reference index for all stages.</p></li>
 <li><p>default_new_only: optional default new only for all stages.</p></li>
@@ -365,7 +372,7 @@ excluded from the energy in the acceptance probability.</p>
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13TrialGrowFile13TrialGrowFileE7argtype">
 <span class="target" id="classfeasst_1_1TrialGrowFile_1a62ee278ad35fa2d73e0c14a6b2035b33"></span><span class="sig-name descname"><span class="n"><span class="pre">TrialGrowFile</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13TrialGrowFile13TrialGrowFileE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>file_name: name of <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a> file with the following format: line1: <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a> line2: optional space line3: stage with key pair separated by space (e.g., “transfer true site 0”) lineX: additional stages until end of file or empty line (repeat line 2/3). </p></li>
+<li><p>file_name: name of <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a> file with the following format: line1: <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a> line2: optional space line3: stage with key pair separated by space (e.g., “transfer true site 0”) lineX: additional stages until end of file or empty line. lineZ: additional trials with additional stages as described above, separated by empty lines. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -379,7 +386,7 @@ excluded from the energy in the acceptance probability.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="EndToEndDistance.html" class="btn btn-neutral float-left" title="EndToEndDistance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GhostTrialGrow.html" class="btn btn-neutral float-left" title="GhostTrialGrow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="TrialPivot.html" class="btn btn-neutral float-right" title="TrialPivot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
