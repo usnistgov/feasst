@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <map>
+#include "math/include/random.h"
 #include "monte_carlo/include/stepper.h"
 #include "monte_carlo/include/trial_factory.h"
 
@@ -27,14 +28,16 @@ class Modify : public Stepper {
   /// Check every trial if action is to be performed.
   virtual void trial(Criteria * criteria,
       System * system,
+      Random * random,
       TrialFactory * trial_factory);
 
-  /// Perform update action.
+  /// Perform update.
   virtual void update(Criteria * criteria,
       System * system,
+      Random * random,
       TrialFactory * trial_factory);
 
-  /// Perform write action.
+  /// Perform write.
   virtual std::string write(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory);
@@ -61,6 +64,7 @@ class Modify : public Stepper {
   // HWH only used by ModifyFactory
   void check_update_(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory);
 };
 

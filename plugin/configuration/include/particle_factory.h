@@ -201,8 +201,7 @@ class ParticleFactory {
     model_params_.set_physical_constants(constants); }
 
   /// Set site as physical/nonphysical.
-  void set_site_physical(const int particle, const int site, const bool phys) {
-    particles_[particle].set_site_physical(site, phys); }
+  void set_site_physical(const int particle, const int site, const bool phys);
 
   /// Add particle property.
   void add_property(const std::string name,

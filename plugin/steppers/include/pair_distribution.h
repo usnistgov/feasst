@@ -56,18 +56,19 @@ class PairDistribution : public Modify {
     const TrialFactory& trials) const override;
 
   void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    TrialFactory * trial_factory) override;
 
   void update(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    Random * random,
+    TrialFactory * trial_factory) override;
 
   const grtype& radial(const Configuration& config);
 
   std::string write(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    TrialFactory * trial_factory) override;
 
   //const std::vector<std::vector<Histogram> >& radial() const { return radial_; }
 

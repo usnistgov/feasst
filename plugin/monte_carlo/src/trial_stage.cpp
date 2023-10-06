@@ -30,15 +30,15 @@ void TrialStage::before_select() {
 bool TrialStage::select(System * system,
     Acceptance * acceptance,
     Random * random) {
-  const bool is_selected = select_->select(acceptance->perturbed(),
+  const int conf = select_->configuration_index();
+  const bool is_selected = select_->select(acceptance->perturbed(conf),
                                            system, random);
   DEBUG("is_selected " << is_selected);
   if (is_selected) {
-    acceptance->add_to_perturbed(select_->mobile(),
-                                 select_->configuration_index());
+    acceptance->add_to_perturbed(select_->mobile(), conf);
 //    set_mobile_physical(false, system);
     DEBUG("select: " << select_->mobile().str());
-    DEBUG("perturbed: " << acceptance->perturbed().str());
+    DEBUG("perturbed: " << acceptance->perturbed(conf).str());
   } else {
     acceptance->set_reject(true);
   }
@@ -47,6 +47,8 @@ bool TrialStage::select(System * system,
 
 void TrialStage::set_mobile_physical(const bool physical, System * system) {
   DEBUG("setting mobile physical " << physical);
+  DEBUG("configuration_index " << select_->configuration_index());
+  DEBUG("mobile " << select_->mobile().str());
   select_->get_configuration(system)->set_selection_physical(
     select_->mobile(),
     physical);

@@ -45,11 +45,11 @@ void TrialSelect::precompute(System * system) {
   DEBUG("is_particle_type_set_ " << is_particle_type_set_);
   if (is_particle_type_set_) {
     DEBUG("particle_type " << particle_type_);
-    group_index_ = system->get_configuration()->particle_type_to_group_create(
+    group_index_ = get_configuration(system)->particle_type_to_group_create(
       particle_type_);
     DEBUG("group_index_ " << group_index_);
   } else if (!group_.empty()) {
-    group_index_ = system->configuration().group_index(group_);
+    group_index_ = configuration(*system).group_index(group_);
   }
 }
 
@@ -59,7 +59,7 @@ const Position& TrialSelect::anchor_position(const int particle_index,
   const int part = anchor_.particle_index(particle_index);
   const int site = anchor_.site_index(particle_index, site_index);
   DEBUG("site " << site);
-  return system.configuration().select_particle(part).site(site).position();
+  return configuration(system).select_particle(part).site(site).position();
 }
 
 void TrialSelect::set_ghost(const bool ghost) {
@@ -190,7 +190,7 @@ void TrialSelect::add_exclude_energy(const double energy) {
 }
 
 bool TrialSelect::is_isotropic(const System * system) const {
-  const Configuration& config = system->configuration();
+  const Configuration& config = configuration(*system);
   if (config.model_params().index("anisotropic") == -1) {
     return true;
   } else {
@@ -202,7 +202,7 @@ void TrialSelect::set_mobile_original(const System * system) {
   mobile_original_ = mobile_;
   DEBUG("is system isotropic? " << is_isotropic(system));
   if (!is_isotropic(system)) {
-    const Configuration& config = system->configuration();
+    const Configuration& config = configuration(*system);
     for (int select_index = 0;
          select_index < mobile_original_.num_particles();
          ++select_index) {
@@ -223,6 +223,10 @@ void TrialSelect::set_mobile_original(const System * system) {
 bool TrialSelect::are_constraints_satisfied(const int old,
     const System& system) const {
   return true;
+}
+
+void TrialSelect::set_configuration_index(const int config) {
+  configuration_index_ = config;
 }
 
 }  // namespace feasst

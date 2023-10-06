@@ -36,7 +36,7 @@ void SelectParticlePivot::precompute(System * system) {
 bool SelectParticlePivot::select(const Select& perturbed,
                                  System* system,
                                  Random * random) {
-  const Configuration& config = system->configuration();
+  const Configuration& config = configuration(*system);
   const int num = config.num_particles(group_index());
   if (num <= 0) return false;
   set_probability_(1./static_cast<double>(num));

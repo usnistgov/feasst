@@ -161,6 +161,8 @@ double System::reference_energy(const Select& select,
     const int config) {
   ref_used_last_ = ref;
   DEBUG("ref_used_last_ " << ref_used_last_);
+  ASSERT(ref < num_references(), "Asked for reference: " << ref <<
+    ", but there are only " << num_references());
   return reference_(ref, config)->select_energy(select,
                                                 &configurations_[config]);
 }

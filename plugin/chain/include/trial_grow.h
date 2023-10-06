@@ -18,6 +18,8 @@ namespace feasst {
   - weight: weight of selection of this trial (default: see Trial).
   - transfer: if true, create add and remove trial with equal weight
     (default: false).
+  - gibbs_transfer: if true, create two trials which transfer particles between
+    configuration_index and configuration_index2 (default: false).
   - regrow: if true, place anywhere in the domain (default: false).
   - transfer_avb: if true, same as transfer but with AVB Add/Remove for the
     first stage (default: false).
@@ -26,17 +28,13 @@ namespace feasst {
   - translate: if true (default: false), translate site (which is required arg
     for TrialSelectParticle).
     In addition, must have number of stages equal to number of sites.
+  - add: if true, create an add trial (default: false).
+  - remove: if true, create an add trial (default: false).
+  - add_avb: if true, create an avb add trial (default: false).
+  - remove_avb: if true, create an avb remove trial (default: false).
   - default_num_steps: optional default number of steps for all stages.
   - default_reference_index: optional default reference index for all stages.
   - default_new_only: optional default new only for all stages.
-
-  The following options are as described above but not recommended for typical
-  use.
-  Instead, use transfer and transfer_avb.
-  - add: if true, create an add trial (default: false).
-  - remove: if true, create an add trial (default: false).
-  - add_avb: if true, create an add trial (default: false).
-  - remove_avb: if true, create an add trial (default: false).
 
   The following options may be used in any argtype.
   If used in the first, then it is a partial regrowth move.
@@ -146,14 +144,16 @@ inline std::shared_ptr<TrialGrow> MakeTrialGrow(std::vector<argtype> args) {
 
 class TrialGrowFile : public TrialGrow {
  public:
-  TrialGrowFile() : TrialGrow() {}
+  TrialGrowFile() : TrialGrow() {} // only use for deserialize_map.
   /**
-   args:
-   - file_name: name of TrialGrowFile file with the following format:
-     line1: TrialGrowFile
-     line2: optional space
-     line3: stage with key pair separated by space (e.g., "transfer true site 0")
-     lineX: additional stages until end of file or empty line (repeat line 2/3).
+    args:
+    - file_name: name of TrialGrowFile file with the following format:
+      line1: TrialGrowFile
+      line2: optional space
+      line3: stage with key pair separated by space (e.g., "transfer true site 0")
+      lineX: additional stages until end of file or empty line.
+      lineZ: additional trials with additional stages as described above,
+             separated by empty lines.
    */
   explicit TrialGrowFile(argtype args);
   explicit TrialGrowFile(argtype * args);

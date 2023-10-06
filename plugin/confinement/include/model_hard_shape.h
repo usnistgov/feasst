@@ -10,6 +10,7 @@ namespace feasst {
 /**
   Create a cavity of a given shape, where the potential energy outside of the
   shape is infinite.
+  Optionally set the cavity to false (default: true) to model a hard shape.
  */
 class ModelHardShape : public ModelOneBody,
                        public ShapedEntity {
@@ -20,6 +21,8 @@ class ModelHardShape : public ModelOneBody,
   /**
     args:
     - Same arguments as ShapeFile.
+    - cavity: if true, the potential outside the shape is infinite.
+      if false, the potential inside the shape is infinite (default: true).
    */
   explicit ModelHardShape(argtype args);
   explicit ModelHardShape(argtype * args);
@@ -40,6 +43,9 @@ class ModelHardShape : public ModelOneBody,
     return std::make_shared<ModelHardShape>(args); }
   explicit ModelHardShape(std::istream& istr);
   virtual ~ModelHardShape() {}
+
+ private:
+  bool cavity_ = true;
 };
 
 inline std::shared_ptr<ModelHardShape> MakeModelHardShape(

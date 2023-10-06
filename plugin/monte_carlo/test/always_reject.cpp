@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "confinement/include/always_reject.h"
+#include "monte_carlo/include/always_reject.h"
 
 namespace feasst {
 

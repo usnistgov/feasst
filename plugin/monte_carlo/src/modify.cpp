@@ -33,21 +33,23 @@ std::shared_ptr<Modify> Modify::factory(const std::string name, argtype * args) 
 
 void Modify::check_update_(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   DEBUG("check update " << trials_per_update() << " " << trials_since_update());
   if (is_time(trials_per_update(), &trials_since_update_)) {
-    update(criteria, system, trial_factory);
+    update(criteria, system, random, trial_factory);
   }
 }
 
 void Modify::trial(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   if ((stop_after_phase() == -1 || criteria->phase() <= stop_after_phase()) &&
       (stop_after_iteration() == -1 || criteria->num_iterations() <= stop_after_iteration())) {
     if ((criteria->phase() > start_after_phase()) &&
         (criteria->num_iterations() > start_after_iteration())) {
-      check_update_(criteria, system, trial_factory);
+      check_update_(criteria, system, random, trial_factory);
       if (is_time(trials_per_write(), &trials_since_write_)) {
         write_to_file(criteria, system, trial_factory);
       }
@@ -65,6 +67,7 @@ void Modify::write_to_file(Criteria * criteria,
 
 void Modify::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   FATAL("not implemented");
 }

@@ -29,11 +29,25 @@ void ComputeGibbsParticleTransfer::perturb_and_acceptance(
   DEBUG("ComputeGibbsParticleTransfer");
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
 
-  // del
-  std::vector<TrialStage*> del_stages = {(*stages)[1]};
-  compute_rosenbluth(1, criteria, system, acceptance, &del_stages, random);
-  std::vector<TrialStage*> add_stages = {(*stages)[0]};
-  compute_rosenbluth(0, criteria, system, acceptance, &add_stages, random);
+  // find del and add stages
+  std::vector<TrialStage*> del_stages;
+  std::vector<TrialStage*> add_stages;
+  bool add = true;
+  for (TrialStage * stage : *stages) {
+    DEBUG("stage name: " << stage->perturb().class_name());
+    if (stage->perturb().class_name() == "PerturbRemove") {
+      add = false;
+    }
+    if (add) {
+      add_stages.push_back(stage);
+    } else {
+      del_stages.push_back(stage);
+    }
+  }
+  ASSERT(del_stages.size() > 0, "no deletion stages in Gibbs");
+  ASSERT(add_stages.size() > 0, "no insertion stages in Gibbs");
+
+  // find config of del and add
   int config_del = 0;
   int config_add = 1;
   if ((*stages)[0]->trial_select().configuration_index() == 0) {
@@ -42,6 +56,12 @@ void ComputeGibbsParticleTransfer::perturb_and_acceptance(
   }
   DEBUG("config_add " << config_add);
   DEBUG("config_del " << config_del);
+
+  // compute del as old, then add as new
+  compute_rosenbluth(1, criteria, system, acceptance, &del_stages, random);
+  compute_rosenbluth(0, criteria, system, acceptance, &add_stages, random);
+
+  // del
   acceptance->set_energy_new(criteria->current_energy(config_del) - acceptance->energy_old(config_del), config_del);
   acceptance->set_energy_profile_new(criteria->current_energy_profile(config_del), config_del);
   acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old(config_del), config_del);

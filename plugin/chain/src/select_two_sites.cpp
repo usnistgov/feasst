@@ -42,7 +42,7 @@ void SelectTwoSites::precompute(System * system) {
 bool SelectTwoSites::select(const Select& perturbed,
                              System * system,
                              Random * random) {
-  Configuration * config = system->get_configuration();
+  Configuration * config = get_configuration(system);
   int particle_index = -1, particle_index2 = -1;
   if (perturbed.num_sites() > 0) {
     ASSERT(perturbed.num_particles() <= 2, "err");

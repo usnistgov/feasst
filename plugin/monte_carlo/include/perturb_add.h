@@ -23,8 +23,7 @@ class PerturbAdd : public Perturb {
   bool delay_add() const { return delay_add_; }
 
   //initialize ghost selection in TrialSelect?
-  void precompute(TrialSelect * select, System * system) override {
-    select->set_ghost(true); }
+  void precompute(TrialSelect * select, System * system) override;
 
   void before_select() override;
 

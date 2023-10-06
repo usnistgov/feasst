@@ -47,7 +47,7 @@ SelectReptate::SelectReptate(argtype * args) : SelectEndSegment(args) {
 void SelectReptate::precompute(System * system) {
   SelectEndSegment::precompute(system);
   { // select bond
-    const Particle& part = system->configuration().particle_types().particle(particle_type());
+    const Particle& part = configuration(*system).particle_types().particle(particle_type());
     const int bond_type = part.bond(0, 1).type();  // HWH assume constant bond length
     add_or_set_property("bond_type", bond_type);
   }
@@ -60,7 +60,7 @@ void SelectReptate::precompute(System * system) {
 void SelectReptate::update_anchor(const bool is_endpoint_beginning,
   const System * system) {
   const int particle_index = mobile_.particle_indices()[0];
-  const Configuration& config = system->configuration();
+  const Configuration& config = configuration(*system);
   const Particle& particle = config.select_particle(particle_index);
   int anchor_index = 0;
   int site_bonded_to = particle.num_sites() - 2;

@@ -20,8 +20,9 @@ class IncrementPhase : public ModifyUpdateOnly {
   explicit IncrementPhase(argtype * args);
 
   void update(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    Random * random,
+    TrialFactory * trial_factory) override;
 
   std::string class_name() const override { return std::string("IncrementPhase"); }
 

@@ -22,6 +22,7 @@ CheckConstantVolume::CheckConstantVolume(argtype args) : CheckConstantVolume(&ar
 
 void CheckConstantVolume::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   const double total_volume = system->total_volume();
   if (last_total_volume_ < 0) {

@@ -12,9 +12,8 @@
 
 namespace feasst {
 
-// HWH update following next publication.
 /**
-  Attempt to transfer a particle from one configuration to another,
+  Attempt to transfer volome from one configuration to another,
   and vice versa.
  */
 class ComputeGibbsVolumeTransfer : public TrialCompute {

@@ -50,7 +50,7 @@ void PerturbPositionSwap::move(const bool is_position_held,
   *site0 = *site1;
   *site1 = site_tmp;
   DEBUG("new pos " << site0->str() << " " << site1->str());
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
 }
 
 PerturbPositionSwap::PerturbPositionSwap(std::istream& istr)

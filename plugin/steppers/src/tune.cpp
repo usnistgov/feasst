@@ -54,6 +54,7 @@ void Tune::initialize(Criteria * criteria,
 
 void Tune::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   const int trial = trial_factory->last_index();
   if (trial < min_num(*trial_factory)) {

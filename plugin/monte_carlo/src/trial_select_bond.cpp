@@ -29,7 +29,7 @@ static MapTrialSelectBond mapper_ = MapTrialSelectBond();
 void TrialSelectBond::precompute(System * system) {
   TrialSelect::precompute(system);
   if (!ignore_bond_) {
-    const Particle& part = system->configuration().particle_types().particle(particle_type());
+    const Particle& part = configuration(*system).particle_types().particle(particle_type());
     const int bond_type = part.bond(mobile_site_, anchor_site_).type();
     add_or_set_property("bond_type", bond_type);
   }
@@ -42,7 +42,7 @@ void TrialSelectBond::precompute(System * system) {
 bool TrialSelectBond::select(const Select& perturbed,
                              System * system,
                              Random * random) {
-  Configuration * config = system->get_configuration();
+  Configuration * config = get_configuration(system);
   int particle_index = -1;
   if (perturbed.num_sites() > 0) {
     particle_index = perturbed.particle_indices().back();

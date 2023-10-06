@@ -81,12 +81,16 @@ void TrialCompute::compute_rosenbluth(
     const int config = (*stages)[0]->trial_select().configuration_index();
     acceptance->set_perturbed_state(trial_state, config);
   } else {
+    DEBUG("acceptance->num_configurations() " << acceptance->num_configurations());
     for (int iconf = 0; iconf < acceptance->num_configurations(); ++iconf) {
+      DEBUG("iconf " << iconf);
+      bool found = false;
       for (TrialStage * stage : *stages) {
-        if (iconf == stage->select().configuration_index()) {
+        if (!found && iconf == stage->select().configuration_index()) {
           trial_state = stage->select().mobile().trial_state();
+          DEBUG("trial state " << trial_state);
           acceptance->set_perturbed_state(trial_state, iconf);
-          continue;
+          found = true;
         }
       }
     }

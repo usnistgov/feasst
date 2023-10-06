@@ -97,7 +97,7 @@ bool SelectSiteOfType::select(const Select& perturbed,
     System* system,
     Random * random) {
   const int num = random_site_in_particle(
-    system->configuration(),
+    configuration(*system),
     &mobile_,
     random);
   if (num <= 0) return false;

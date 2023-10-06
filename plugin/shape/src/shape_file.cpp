@@ -12,7 +12,8 @@ namespace feasst {
 class MapShapeFile {
  public:
   MapShapeFile() {
-    auto obj = MakeShapeFile({{"file_name", install_dir() + "/plugin/shape/test/data/shape.txt"}});
+    auto obj = std::make_shared<ShapeFile>();
+    //auto obj = MakeShapeFile({{"file_name", install_dir() + "/plugin/shape/test/data/shape.txt"}});
     obj->deserialize_map()["ShapeFile"] = obj;
   }
 };

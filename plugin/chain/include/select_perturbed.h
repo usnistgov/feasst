@@ -13,14 +13,7 @@ class SelectPerturbed : public TrialSelect {
  public:
   explicit SelectPerturbed(argtype args = argtype());
   explicit SelectPerturbed(argtype * args);
-
-  bool select(const Select& perturbed, System* system, Random * random) override {
-    if (perturbed.num_sites() == 0) return false;
-    replace_mobile(perturbed, 0, system->configuration());
-    set_mobile_original(system);
-    return true;
-  }
-
+  bool select(const Select& perturbed, System* system, Random * random) override;
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit SelectPerturbed(std::istream& istr);

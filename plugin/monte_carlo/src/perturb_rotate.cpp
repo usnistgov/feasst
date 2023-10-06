@@ -57,7 +57,7 @@ void PerturbRotate::update_eulers(const RotationMatrix& rotation,
     return;
   }
   DEBUG("rotation " << rotation.str());
-  const Configuration& config = system->configuration();
+  const Configuration& config = select->configuration(*system);
   Select * rotated = select->get_mobile();
   for (int select_index = 0;
        select_index < rotated->num_particles();
@@ -90,7 +90,7 @@ void PerturbRotate::move(const Position& pivot,
     TrialSelect * select) {
   update_selection(pivot, rotation, select);
   update_eulers(rotation, select, system);
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
 }
 
 void PerturbRotate::move(const bool is_position_held,

@@ -89,7 +89,7 @@ void PerturbBranch::place_in_branch(const double L,
     System * system,
     TrialSelect * select,
     Random * random) {
-  const int dimen = system->configuration().dimension();
+  const int dimen = select->configuration(*system).dimension();
   ASSERT(dimen == 3, "assumes 3D, but dimension is " << dimen);
 
   // check for a planar branch to avoid quadratic equation
@@ -152,7 +152,7 @@ void PerturbBranch::place_in_branch(const double L,
   pos3->set_coord(0, L*x3 + pos4.coord(0));
   pos3->set_coord(1, L*y3 + pos4.coord(1));
   pos3->set_coord(2, L*z3 + pos4.coord(2));
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
 }
 
 void PerturbBranch::solve_branch_(
@@ -224,11 +224,11 @@ void PerturbBranch::move(const bool is_position_held,
                          System * system,
                          TrialSelect * select,
                          Random * random) {
-  const Angle& a2a1m1 = system->configuration().unique_type(
+  const Angle& a2a1m1 = select->configuration(*system).unique_type(
     select->particle_type()).angle(a2a1m1_.angle_type());
-  const Angle& a2a1m2 = system->configuration().unique_type(
+  const Angle& a2a1m2 = select->configuration(*system).unique_type(
     select->particle_type()).angle(a2a1m2_.angle_type());
-  const Angle& m1a1m2 = system->configuration().unique_type(
+  const Angle& m1a1m2 = select->configuration(*system).unique_type(
     select->particle_type()).angle(m1a1m2_.angle_type());
   double radians_a2a1m1, radians_a2a1m2, radians_m1a1m2;
   ASSERT(angle_.deserialize_map().count(a2a1m1.model()) == 1,

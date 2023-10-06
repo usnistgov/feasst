@@ -106,7 +106,7 @@ bool SelectEndSegment::select(const Select& perturbed,
     Random * random) {
   bool is_endpoint_beginning;
   const bool is_found = random_end_segment_in_particle(
-    system->configuration(),
+    configuration(*system),
     max_length(),
     &mobile_,
     random,

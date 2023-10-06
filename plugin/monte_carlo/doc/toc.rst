@@ -8,6 +8,7 @@
    Stepper
    Criteria
    Metropolis
+   AlwaysReject
    Constraint
    ConstrainNumParticles
    TrialSelect
@@ -24,15 +25,14 @@
    PerturbAdd
    TrialStage
    PerturbVolume
+   TrialSelectAll
    TrialSelectBond
    TrialSelectAngle
    TrialSelectDihedral
-   TrialSelectAll
    TrialSelectParticle
    TrialCompute
    TrialComputeMove
    TrialComputeTranslate
-   TrialComputeVolume
    Trial
    TrialVolume
    TrialMove
@@ -47,6 +47,7 @@
    ModifyFactory
    MonteCarlo
    TrialComputeAdd
+   TrialComputeVolume
    TrialComputeRemove
    TrialRemove
    TrialTranslate

@@ -21,6 +21,7 @@ IncrementPhase::IncrementPhase(argtype args) : IncrementPhase(&args) {
 
 void IncrementPhase::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   if (num_trials_ != -1) {
     if (trial_factory->num_attempts() > num_trials_) {

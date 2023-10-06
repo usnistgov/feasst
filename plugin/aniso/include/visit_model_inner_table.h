@@ -22,8 +22,8 @@ namespace feasst {
   The spherical coordinate azimuthal angle [0, 2pi] and polar angle [0, pi]
   are denoted s1 and s2, and are as described in the Position class.
   Note that there is increased resolution at the poles.
-  A Fibonacci lattice could more uniformly represent a spherical surface,
-  but interpolation would be more complicated.
+  While something resembling a Fibonacci lattice could more uniformly represent
+  a spherical surface, interpolation would be more complicated.
 
   The Euler angles, [e1, e2, e3], in order, are as described in the Euler class.
 
@@ -31,6 +31,7 @@ namespace feasst {
   hard contact distance, r_h, to z=1 at the cutoff, r_c.
   A stretching parameter, \f$\gamma\f$, increases the resolution at shorter
   distances when negative.
+
   \f$z=[(r^\gamma - r_h^\gamma)/(r_c^\gamma - r_h^\gamma)]\f$.
 
   The format of the tabular potential stored in a file is as follows.
@@ -69,7 +70,8 @@ namespace feasst {
      for i-j swap symmetry (e.g., swap i and j if s1 < 0).
      The next loop is s2 in [0, pi], then e1 in [-pi, pi], e2 and [0, pi],
      and finally e3 in [-pi, pi].
-     The number of lines should be (k+1)^3(2k+1)^2, where k=num_orientations_per_pi.
+     The number of lines should be (k+1)^3(2k+1)^2 for i==j,
+     and (k+1)^2(2k+1)^3 lines for i!=j, where k=num_orientations_per_pi.
      Each line then reports the contact distance, r_h, followed by num_z values
      of the potential energy uniformly in the z range of [0, 1].
      If the orientation is duplicate, then the first number is -1 and the second

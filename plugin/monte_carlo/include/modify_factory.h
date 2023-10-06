@@ -31,8 +31,8 @@ class ModifyFactory : public Modify {
     return const_cast<Modify&>(*modifiers_[index]); }
 
   void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    TrialFactory * trial_factory) override;
 
   /// Write all Modify immediately.
   void write_to_file(Criteria * criteria,
@@ -44,8 +44,9 @@ class ModifyFactory : public Modify {
     ModifyFactory * analyze_factory);
 
   void trial(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    Random * random,
+    TrialFactory * trial_factory) override;
 
   Modify * get_modify(const int index) override { return modifiers_[index].get(); }
 
@@ -62,6 +63,7 @@ class ModifyFactory : public Modify {
 
   void trial_(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory,
     const int index);
 };

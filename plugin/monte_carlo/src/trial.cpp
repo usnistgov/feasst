@@ -34,7 +34,7 @@ void Trial::add_stage(
   auto stage = std::make_shared<TrialStage>(stage_args);
   stage->set(select);
   stage->set(perturb);
-  add_(stage);
+  add_stage(stage);
 }
 
 void Trial::add_stage(std::shared_ptr<TrialSelect> select,
@@ -148,7 +148,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
     //DEBUG("existing: " << config.group_select(0).str());
     DEBUG("num of type 0: " << config.num_particles_of_type(0));
     DEBUG("current_energy: " << criteria->current_energy(iconf));
-    DEBUG("all: " << system->configuration(iconf).selection_of_all().str());
+    //INFO("all: " << system->configuration(iconf).selection_of_all().str());
   }
   increment_num_attempts();
   acceptance_.reset();
@@ -319,6 +319,11 @@ double Trial::acceptance() const {
   if (num_real_attempts == 0) return -1;
   return static_cast<double>(num_success())/
          static_cast<double>(num_real_attempts);
+}
+
+void Trial::add_stage(std::shared_ptr<TrialStage> stage) {
+  stages_.push_back(stage);
+  refresh_stages_ptr_();
 }
 
 }  // namespace feasst

@@ -106,7 +106,7 @@ inline void run(const int num_orientations_per_pi, const int proc, const int num
   int ior = 0;
   for (int iorall = 0; iorall < 3; ++iorall) {
     if (table->rotator().ior_in_proc(iorall)) {
-      double expect1, expect2;
+      double expect1 = -1., expect2 = -1.;
       if (iorall == 0) {
         expect1 = -6.8349628448486328;
         //expect1 = -6.835550;

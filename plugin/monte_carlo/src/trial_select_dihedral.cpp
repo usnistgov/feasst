@@ -24,7 +24,7 @@ static MapTrialSelectDihedral mapper_ = MapTrialSelectDihedral();
 
 void TrialSelectDihedral::precompute(System * system) {
   TrialSelectAngle::precompute(system);
-  const Particle& part = system->configuration().particle_type(particle_type());
+  const Particle& part = configuration(*system).particle_type(particle_type());
   const int dihedral_type = part.dihedral(mobile_site(), anchor_site(),
                                           anchor_site2(), anchor_site3_).type();
   DEBUG("mobile: " << mobile_site());

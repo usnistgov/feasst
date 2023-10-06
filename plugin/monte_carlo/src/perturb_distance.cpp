@@ -57,7 +57,7 @@ void PerturbDistance::move(const bool is_position_held,
     Potential * poten = system->get_potential(potential_acceptance_);
     DEBUG("sel " << select->mobile().str());
     const double energy = poten->select_energy(select->mobile(),
-                                               system->get_configuration());
+      select->get_configuration(system));
     DEBUG("energy " << energy);
     if (is_position_held || random->uniform() < std::exp(-beta*energy)) {
       select->add_exclude_energy(bond_energy);
@@ -71,7 +71,7 @@ void PerturbDistance::move(const bool is_position_held,
 double PerturbDistance::old_bond_energy(const System& system,
     const TrialSelect * select) {
   // the following five lines were copy-pasted from random_distance
-  const Bond& bond = system.configuration().unique_types().particle(
+  const Bond& bond = select->configuration(system).unique_types().particle(
     select->particle_type()).bond(bond_type_);
   ASSERT(bond_.deserialize_map().count(bond.model()) == 1,
     bond.model() << " not found");
@@ -117,7 +117,7 @@ void PerturbDistance::move_once(const bool is_position_held,
   }
   site->add(anchor_pos);
   DEBUG("new pos " << site->str());
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
 }
 
 PerturbDistance::PerturbDistance(std::istream& istr)
@@ -146,7 +146,7 @@ double PerturbDistance::random_distance(const System& system,
     const TrialSelect* select,
     Random * random,
     double * bond_energy) {
-  const Bond& bond = system.configuration().unique_types().particle(
+  const Bond& bond = select->configuration(system).unique_types().particle(
     select->particle_type()).bond(bond_type_);
   ASSERT(bond_.deserialize_map().count(bond.model()) == 1,
     bond.model() << " not found");

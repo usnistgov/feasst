@@ -46,6 +46,9 @@ class Trial {
   void add_stage(std::shared_ptr<TrialSelect> select,
                  std::shared_ptr<Perturb> perturb);
 
+  /// Same as above, but by copying an existing stage.
+  void add_stage(std::shared_ptr<TrialStage> stage);
+
   /// Set a stage, as can be done just before each attempt.
   void set(const int index, std::shared_ptr<TrialStage> stage);
 
@@ -160,10 +163,6 @@ class Trial {
   std::string class_name_ = "Trial";
   SynchronizeData data_;
   void serialize_trial_(std::ostream& ostr) const;
-  void add_(std::shared_ptr<TrialStage> stage) {
-    stages_.push_back(stage);
-    refresh_stages_ptr_();
-  }
   void increment_num_success_() { *num_success_() += 1; }
   void decrement_num_success_() { *num_success_() -= 1; }
   void decrement_num_attempts_() { *num_attempts_() -= 1; }

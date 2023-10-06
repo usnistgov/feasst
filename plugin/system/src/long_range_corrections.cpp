@@ -46,7 +46,7 @@ void LongRangeCorrections::compute(
   DEBUG("num sites of type in selection: " << feasst_str(select_types_));
   double en = 0.;
   double factor = -1;
-  DEBUG(selection.trial_state());
+  DEBUG("trial state " << selection.trial_state());
   if (selection.trial_state() == 3) {
     factor = 1.;
   }

@@ -96,7 +96,7 @@ def write_grow_file(filename, params, gce):
                         params['site'+str(i)] = site + sign*i
                         if inv:
                             params['site'+str(i)] = params['num_sites'] - site - 1 - sign*i
-                    bond = """bond true mobile_site {site0} anchor_site {site1} reference_index 0 num_steps 4 reference_index 0\n""".format(**params)
+                    bond = """bond true mobile_site {site0} anchor_site {site1} num_steps 4 reference_index 0\n""".format(**params)
                     angle = """angle true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} num_steps 4 reference_index 0\n""".format(**params)
                     dihedral = """dihedral true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} anchor_site3 {site3} num_steps 4 reference_index 0\n""".format(**params)
 

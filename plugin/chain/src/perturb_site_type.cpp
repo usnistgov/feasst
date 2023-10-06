@@ -35,7 +35,7 @@ void PerturbSiteType::perturb(
     select->set_trial_state(0);
     return;
   }
-  set_site_type(system, select->mobile(), new_site_type_);
+  set_site_type(system, *select, new_site_type_);
   set_revert_possible(true, select);
   set_finalize_possible(true, select);
   select->set_trial_state(1);
@@ -43,23 +43,24 @@ void PerturbSiteType::perturb(
 
 void PerturbSiteType::set_site_type(
     System * system,
-    const Select& select,
+    const TrialSelect& tselect,
     const int type) {
+  const Select& select = tselect.mobile();
   ASSERT(select.num_particles() == 1, "assumes 1 particle: "
     << select.num_particles());
   ASSERT(select.num_sites() == 1, "assumes 1 site: " << select.num_sites());
-  const Configuration& config = system->configuration();
+  const Configuration& config = tselect.configuration(*system);
   const Particle& part = config.select_particle(select.particle_index(0));
   old_site_type_ = part.site(select.site_index(0, 0)).type();
   old_particle_type_ = part.type();
   const int site = select.site_index(0, 0);
-  system->get_configuration()->set_site_type(old_particle_type_, site, type);
+  tselect.get_configuration(system)->set_site_type(old_particle_type_, site, type);
 }
 
 void PerturbSiteType::revert(System * system) {
   DEBUG("revert_possible " << revert_possible());
   if (revert_possible()) {
-    set_site_type(system, revert_select()->mobile(), old_site_type_);
+    set_site_type(system, *revert_select(), old_site_type_);
     system->revert(revert_select()->mobile());
   }
 }

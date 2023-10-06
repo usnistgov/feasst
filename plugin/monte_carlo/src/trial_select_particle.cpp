@@ -170,7 +170,7 @@ bool TrialSelectParticle::select(const Select& perturbed,
                                  Random * random) {
   DEBUG("is_ghost " << is_ghost());
   DEBUG("selection from configuration " << configuration_index());
-  Configuration * config = system->get_configuration(configuration_index());
+  Configuration * config = get_configuration(system);
   if (min_particles_ != -1) {
     if (config->num_particles() < min_particles_) {
       return false;

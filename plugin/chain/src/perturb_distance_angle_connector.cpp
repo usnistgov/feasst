@@ -35,7 +35,7 @@ void PerturbDistanceAngleConnector::move_once(const bool is_position_held,
   if (is_position_held) return;
   // find vector between mobile (anisotropic center) and anchor (connector)
   // find this vector for both internal (fstprt) and external frame of reference (mobile)
-  const Configuration& config = system->configuration();
+  const Configuration& config = select->configuration(*system);
   const Particle& part = config.select_particle(select->mobile().particle_index(0));
   const Particle& part_type = config.particle_type(part.type());
   Position internal = part_type.site(select->anchor().site_index(0, 0)).position();
@@ -55,7 +55,7 @@ void PerturbDistanceAngleConnector::move_once(const bool is_position_held,
   select->get_mobile()->set_euler(0, 0, euler_);
 
   // update the euler angles in configuration?
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
   // optimization is possible here, as update_positions is called twice.
   // once in base class, and now again here.
 }

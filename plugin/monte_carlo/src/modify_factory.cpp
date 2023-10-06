@@ -23,6 +23,7 @@ void ModifyFactory::initialize(Criteria * criteria,
 
 void ModifyFactory::trial_(Criteria* criteria,
     System* system,
+    Random * random,
     TrialFactory* trial_factory,
     const int index) {
   // timer_.start(index + 1);
@@ -30,12 +31,13 @@ void ModifyFactory::trial_(Criteria* criteria,
   ASSERT(index < static_cast<int>(modifiers_.size()),
     "index: " << index << " too large when there are " << modifiers_.size());
   DEBUG(modifiers_[index]->class_name());
-  modifiers_[index]->trial(criteria, system, trial_factory);
+  modifiers_[index]->trial(criteria, system, random, trial_factory);
   // timer_.end();
 }
 
 void ModifyFactory::trial(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   DEBUG(" class? " << class_name());
   int stt = -1;
@@ -59,7 +61,7 @@ void ModifyFactory::trial(Criteria * criteria,
         modifiers_.size() << ". Was a flat histogram simulation reinitialized"
         << " after a multistate Modifier?");
       DEBUG(modifiers_[criteria->state()]->class_name());
-      modifiers_[criteria->state()]->check_update_(criteria, system, trial_factory);
+      modifiers_[criteria->state()]->check_update_(criteria, system, random, trial_factory);
       DEBUG("is time? " << trials_per_write() << " " << trials_since_write_);
       if (is_time(trials_per_write(), &trials_since_write_)) {
         std::stringstream ss;
@@ -78,13 +80,13 @@ void ModifyFactory::trial(Criteria * criteria,
         printer(ss.str(), file_name(*criteria));
       }
     } else {
-      trial_(criteria, system, trial_factory, criteria->state());
+      trial_(criteria, system, random, trial_factory, criteria->state());
     }
   } else {
     DEBUG("not multistate");
     for (int index = 0; index < num(); ++index) {
       DEBUG("index " << index);
-      trial_(criteria, system, trial_factory, index);
+      trial_(criteria, system, random, trial_factory, index);
     }
   }
 }

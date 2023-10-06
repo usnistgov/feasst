@@ -19,6 +19,7 @@ static MapModelHardShape map_model_hard_shape_ = MapModelHardShape();
 
 ModelHardShape::ModelHardShape(argtype * args) : ModelHardShape() {
   set_shape(std::make_shared<ShapeFile>(args));
+  cavity_ = boolean("cavity", args, true);
 }
 ModelHardShape::ModelHardShape(argtype args) : ModelHardShape(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -29,12 +30,14 @@ void ModelHardShape::serialize(std::ostream& ostr) const {
   serialize_model_(ostr);
   ShapedEntity::serialize(ostr);
   feasst_serialize_version(4276, ostr);
+  feasst_serialize(cavity_, ostr);
 }
 
 ModelHardShape::ModelHardShape(std::istream& istr)
   : ModelOneBody(istr), ShapedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 4276, "unrecognized verison: " << version);
+  feasst_deserialize(&cavity_, istr);
 }
 
 double ModelHardShape::energy(
@@ -47,11 +50,20 @@ double ModelHardShape::energy(
   TRACE("type " << type);
   const double sigma = model_params.select(sigma_index()).value(type);
   TRACE("sigma " << sigma);
-  if (shape()->is_inside(wrapped_site, sigma)) {
-    TRACE("inside");
-    return 0.;
+  const bool is_inside = shape()->is_inside(wrapped_site, sigma);
+  if (cavity_) {
+    if (is_inside) {
+      TRACE("inside cavity");
+      return 0.;
+    }
+    TRACE("outside cavity");
+  } else {
+    if (!is_inside) {
+      TRACE("outside shape");
+      return 0.;
+    }
+    TRACE("inside shape");
   }
-  TRACE("outside");
   return NEAR_INFINITY;
 }
 

@@ -461,7 +461,7 @@ void MonteCarlo::set(const std::shared_ptr<Checkpoint> checkpoint) {
 }
 
 void MonteCarlo::after_trial_modify_() {
-  modify_factory_.trial(criteria_.get(), &system_, &trial_factory_);
+  modify_factory_.trial(criteria_.get(), &system_, random_.get(), &trial_factory_);
   if (checkpoint_) {
     checkpoint_->check(*this);
   }
@@ -563,6 +563,10 @@ void MonteCarlo::revert_(const int trial_index,
 void MonteCarlo::attempt_(int num_trials,
     TrialFactory * trial_factory,
     Random * random) {
+  //ASSERT(trial_factory->num() > 0, "no Trials to attempt.");
+  if (trial_factory->num() == 0) {
+    WARN("No Trials to attempt.");
+  }
   before_attempts_();
   for (int trial = 0; trial < num_trials; ++trial) {
     DEBUG("mc trial: " << trial);

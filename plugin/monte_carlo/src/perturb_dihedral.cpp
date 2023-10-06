@@ -38,7 +38,7 @@ void PerturbDihedral::precompute(TrialSelect * select, System * system) {
 
 double PerturbDihedral::random_dihedral_radians(const System& system,
     const TrialSelect * select, Random * random, double * bond_energy) {
-  const Dihedral& dihedral = system.configuration().unique_type(
+  const Dihedral& dihedral = select->configuration(system).unique_type(
     select->particle_type()).dihedral(dihedral_type_);
   ASSERT(dihedral_.deserialize_map().count(dihedral.model()) == 1,
     dihedral.model() << " not found");
@@ -52,7 +52,7 @@ double PerturbDihedral::random_dihedral_radians(const System& system,
 
 double PerturbDihedral::old_dihedral_energy(const System& system,
     const TrialSelect * select) {
-  const Particle& unique_type = system.configuration().unique_type(
+  const Particle& unique_type = select->configuration(system).unique_type(
     select->particle_type());
   ASSERT(dihedral_type_ < unique_type.num_dihedrals(),
     "dihedral_type:" << dihedral_type_ << " >= number of dihedrals:"
@@ -94,7 +94,7 @@ void PerturbDihedral::place_dihedral(const double distance,
   System * system,
   TrialSelect * select) {
   DEBUG("placing dihedral at radian angle " << angle);
-  const int dimen = system->configuration().dimension();
+  const int dimen = select->configuration(*system).dimension();
   ASSERT(dimen == 3, "not implemented for dimen: " << dimen);
   if (origin_.dimension() == 0) origin_.set_to_origin(dimen);
   Select * mobile = select->get_mobile();
@@ -139,7 +139,7 @@ void PerturbDihedral::place_dihedral(const double distance,
   rot_mat_.rotate(origin_, site);
   site->add(rj);  // return to frame of reference
   DEBUG("new pos " << site->str());
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
 }
 
 PerturbDihedral::PerturbDihedral(std::istream& istr)

@@ -23,6 +23,7 @@ CheckEnergy::CheckEnergy(argtype args) : CheckEnergy(&args) {
 
 void CheckEnergy::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   check_->update(*criteria, *system, *trial_factory);
   DEBUG("computing unoptimized energy for check");

@@ -35,6 +35,7 @@ std::string CalculateCluster::header(const Criteria& criteria,
 
 void CalculateCluster::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   const Configuration& config = system->configuration();
   if (config.num_particles() > 0) {

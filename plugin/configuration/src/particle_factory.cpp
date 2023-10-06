@@ -266,4 +266,11 @@ void ParticleFactory::scale_particle_positions(const int dimen,
   }
 }
 
+void ParticleFactory::set_site_physical(const int particle, const int site,
+    const bool phys) {
+  ASSERT(particle < num(), "particle:" << particle << " >= number of particles:"
+    << num());
+  particles_[particle].set_site_physical(site, phys);
+}
+
 }  // namespace feasst

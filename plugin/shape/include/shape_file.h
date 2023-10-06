@@ -17,6 +17,7 @@ namespace feasst {
  */
 class ShapeFile : public Shape {
  public:
+  ShapeFile() : Shape() {} // only use for deserialize_map.
   /**
     args:
     - file_name: name of the file which describes the shape.

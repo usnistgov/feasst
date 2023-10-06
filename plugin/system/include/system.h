@@ -107,6 +107,7 @@ class System {
     const int index = 0,
     const int config = 0);
 
+  /// Return the number of reference potentials.
   int num_references(const int config = 0) const;
 
   /// Return a reference potential.

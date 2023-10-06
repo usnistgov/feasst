@@ -25,16 +25,17 @@ class Tune : public Modify {
     const TrialFactory& trials) const override;
 
   void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    TrialFactory * trial_factory) override;
 
   void update(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    Random * random,
+    TrialFactory * trial_factory) override;
 
   std::string write(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    TrialFactory * trial_factory) override;
 
   // serialize
   std::string class_name() const override { return std::string("Tune"); }

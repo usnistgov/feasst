@@ -26,6 +26,7 @@ void ReadConfigFromFile::initialize(Criteria * criteria,
 
 void ReadConfigFromFile::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   INFO("ReadConfigFromFile::update");
   Configuration * config = system->get_configuration();

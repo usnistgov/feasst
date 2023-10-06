@@ -21,6 +21,7 @@ CheckProperties::CheckProperties(argtype args) : CheckProperties(&args) {
 
 void CheckProperties::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   for (int iconf = 0; iconf < system->num_configurations(); ++iconf) {
     // store a copy of the system/config

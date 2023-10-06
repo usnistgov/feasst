@@ -29,7 +29,7 @@ class PerturbConnector : public PerturbMove {
 
  protected:
   // temporary and not serialized
-  RotationMatrix rot_mat_;  
+  RotationMatrix rot_mat_;
 
   void serialize_perturb_connector_(std::ostream& ostr) const;
 };

@@ -65,7 +65,7 @@ SelectCrankshaftSmall::SelectCrankshaftSmall(argtype * args) : TrialSelectPartic
 bool SelectCrankshaftSmall::select(const Select& perturbed,
     System* system,
     Random * random) {
-  Configuration * config = system->get_configuration();
+  Configuration * config = get_configuration(system);
   const int group_index = config->particle_type_to_group_create(particle_type());
   const int num = config->num_particles(group_index);
   if (num <= 0) return false;

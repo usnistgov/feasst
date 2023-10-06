@@ -40,7 +40,7 @@ void PerturbToAnchor::move(const bool is_position_held,
   DEBUG("old pos " << site->str());
   *site = select->anchor_position(0, 0, *system);
   DEBUG("new pos " << site->str());
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
 }
 
 PerturbToAnchor::PerturbToAnchor(std::istream& istr)

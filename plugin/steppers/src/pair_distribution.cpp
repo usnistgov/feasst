@@ -131,6 +131,7 @@ std::string PairDistribution::header(const Criteria& criteria,
 
 void PairDistribution::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   DEBUG("updating");
   ++num_updates_;

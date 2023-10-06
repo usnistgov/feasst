@@ -1,19 +1,19 @@
 
 .. toctree::
 
-   SelectPerturbed
    SelectSiteOfType
+   SelectPerturbed
    PerturbConnector
    PerturbDistanceAngleConnector
    PerturbBranch
    PerturbReptate
-   PerturbToAnchor
-   PerturbPositionSwap
    PerturbParticlePivot
    PerturbCrankshaftSmall
    PerturbPivot
    PerturbCrankshaft
    PerturbLibrary
+   PerturbToAnchor
+   PerturbPositionSwap
    PerturbSiteType
    SelectTwoSites
    SelectSegment
@@ -30,6 +30,7 @@
    AnalyzeBonds
    RadiusOfGyration
    EndToEndDistance
+   GhostTrialGrow
    TrialGrow
    TrialPivot
    SelectParticlePivot

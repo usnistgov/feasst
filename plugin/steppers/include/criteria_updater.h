@@ -14,8 +14,9 @@ class CriteriaUpdater : public ModifyUpdateOnly {
   explicit CriteriaUpdater(argtype args = argtype());
   explicit CriteriaUpdater(argtype * args);
   void update(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override { criteria->update(); }
+    System * system,
+    Random * random,
+    TrialFactory * trial_factory) override { criteria->update(); }
 
   // serialize
   std::string class_name() const override {

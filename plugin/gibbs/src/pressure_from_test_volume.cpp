@@ -3,7 +3,6 @@
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "configuration/include/domain.h"
-#include "system/include/ideal_gas.h"
 #include "gibbs/include/pressure_from_test_volume.h"
 
 namespace feasst {
@@ -46,6 +45,7 @@ void PressureFromTestVolume::initialize(Criteria * criteria,
 
 void PressureFromTestVolume::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   DEBUG("updating");
   const int config_id = configuration_index();

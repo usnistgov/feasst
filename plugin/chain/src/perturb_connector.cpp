@@ -45,7 +45,7 @@ void PerturbConnector::move(const bool is_position_held,
   DEBUG("dist " << mobile->distance(anchor));
 
   // set mobile to position of selected site in rigid definition in fstprt.
-  const Configuration& config = system->configuration();
+  const Configuration& config = select->configuration(*system);
   const Particle& part = config.select_particle(select->mobile().particle_index(0));
   const int particle_type = part.type();
   DEBUG("particle_type " << particle_type);
@@ -71,7 +71,7 @@ void PerturbConnector::move(const bool is_position_held,
   DEBUG("mobile " << mobile->str());
 
   // update config
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
 }
 
 PerturbConnector::PerturbConnector(std::istream& istr)

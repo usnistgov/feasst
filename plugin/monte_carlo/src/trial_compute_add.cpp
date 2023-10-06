@@ -36,6 +36,11 @@ void TrialComputeAdd::perturb_and_acceptance(
   //acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
   acceptance->add_to_energy_profile_new(criteria->current_energy_profile(iconf), iconf);
   acceptance->add_to_macrostate_shift(1, iconf);
+  DEBUG("iconf " << iconf);
+  DEBUG("old energy " << criteria->current_energy(iconf));
+  DEBUG("new energy " << acceptance->energy_new(iconf));
+  DEBUG("old energy profile " << feasst_str(criteria->current_energy_profile(iconf)));
+  DEBUG("new energy profile " << feasst_str(acceptance->energy_profile_new(iconf)));
   { // Metropolis
     const Configuration& config = system->configuration(iconf);
     const double volume = config.domain().volume();

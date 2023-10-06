@@ -112,4 +112,8 @@ void PerturbAdd::serialize(std::ostream& ostr) const {
   feasst_serialize(delay_add_, ostr);
 }
 
+void PerturbAdd::precompute(TrialSelect * select, System * system) {
+  select->set_ghost(true);
+}
+
 }  // namespace feasst

@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CONFINEMENT_ALWAYS_REJECT_H_
-#define FEASST_CONFINEMENT_ALWAYS_REJECT_H_
+#ifndef FEASST_MONTE_CARLO_ALWAYS_REJECT_H_
+#define FEASST_MONTE_CARLO_ALWAYS_REJECT_H_
 
 #include "monte_carlo/include/criteria.h"
 
@@ -43,4 +43,4 @@ inline std::shared_ptr<AlwaysReject> MakeAlwaysReject(
 
 }  // namespace feasst
 
-#endif  // FEASST_CONFINEMENT_ALWAYS_REJECT_H_
+#endif  // FEASST_MONTE_CARLO_ALWAYS_REJECT_H_

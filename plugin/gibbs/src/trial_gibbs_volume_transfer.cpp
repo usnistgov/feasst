@@ -21,6 +21,10 @@ TrialGibbsVolumeTransferOneWay::TrialGibbsVolumeTransferOneWay(argtype * args) :
   set_description("TrialGibbsVolumeTransferOneWay");
   const int to_configuration_index = integer("to_configuration_index", args);
   const int configuration_index = integer("configuration_index", args, 0);
+  const bool uniform_volume = boolean("uniform_volume", args, true);
+  ASSERT(uniform_volume,
+    "Gibbs volume transfers must be chosen uniformly in V.");
+  args->insert({"uniform_volume", str(uniform_volume)});
   argtype args2 = *args;
   args2.insert({"configuration_index", str(to_configuration_index)});
   add_stage(

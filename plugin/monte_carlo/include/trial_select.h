@@ -45,6 +45,9 @@ class TrialSelect {
   Configuration * get_configuration(System * system) const {
     return system->get_configuration(configuration_index_); }
 
+  /// Set the configuration index.
+  void set_configuration_index(const int config);
+
   /// Perform upkeep before select.
   void before_select();
 

@@ -38,7 +38,7 @@ void PerturbDistanceAngle::precompute(TrialSelect * select, System * system) {
 
 double PerturbDistanceAngle::random_angle_radians(const System& system,
     const TrialSelect* select, Random * random, double * bond_energy) {
-  const Angle& angle = system.configuration().unique_type(
+  const Angle& angle = select->configuration(system).unique_type(
     select->particle_type()).angle(angle_type_);
   ASSERT(angle_.deserialize_map().count(angle.model()) == 1,
     angle.model() << " not found");
@@ -52,7 +52,7 @@ double PerturbDistanceAngle::random_angle_radians(const System& system,
 
 double PerturbDistanceAngle::old_angle_energy(const System& system,
     const TrialSelect * select) {
-  const Angle& angle = system.configuration().unique_type(
+  const Angle& angle = select->configuration(system).unique_type(
     select->particle_type()).angle(angle_type_);
   ASSERT(angle_.deserialize_map().count(angle.model()) == 1,
     angle.model() << " not found");
@@ -88,7 +88,7 @@ void PerturbDistanceAngle::place_in_circle(const double distance,
   System * system,
   TrialSelect * select,
   Random * random) {
-  const int dimension = system->configuration().dimension();
+  const int dimension = select->configuration(*system).dimension();
   if (origin_.dimension() == 0) origin_.set_to_origin(dimension);
   if (orthogonal_jk_.dimension() == 0) orthogonal_jk_.set_to_origin(dimension);
   Select * mobile = select->get_mobile();
@@ -157,7 +157,7 @@ void PerturbDistanceAngle::place_in_circle(const double distance,
   site->add(rj);  // return to frame of reference
 
   DEBUG("new pos " << site->str());
-  system->get_configuration()->update_positions(select->mobile());
+  select->get_configuration(system)->update_positions(select->mobile());
 }
 
 PerturbDistanceAngle::PerturbDistanceAngle(std::istream& istr)

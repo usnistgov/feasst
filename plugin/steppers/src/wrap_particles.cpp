@@ -20,6 +20,7 @@ WrapParticles::WrapParticles(argtype args) : WrapParticles(&args) {
 
 void WrapParticles::update(Criteria * criteria,
     System * system,
+    Random * random,
     TrialFactory * trial_factory) {
   Configuration * config = system->get_configuration();
   for (int particle_index : config->group_select(0).particle_indices()) {

@@ -20,6 +20,7 @@
    TrialTranslateCluster
    TrialAVB2Half
    AnalyzeCluster
+   CalculateCluster
    ComputeRemoveAVBDivalent
    ComputeGCA
    ComputeAddAVBDivalent

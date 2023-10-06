@@ -50,7 +50,7 @@ void PerturbLibrary::precompute(TrialSelect * select, System * system) {
   FileXYZ file_xyz;
   std::ifstream xyz(library_xyz_file_name_);
   ASSERT(xyz, library_xyz_file_name_ << " is empty");
-  const Configuration& config = system->configuration();
+  const Configuration& config = select->configuration(*system);
   auto one_particle_config = MakeConfiguration({
     {"particle_type0", config.type_to_file_name(select->particle_type())}});
   const int num_sites = one_particle_config->particle_type(0).num_sites();

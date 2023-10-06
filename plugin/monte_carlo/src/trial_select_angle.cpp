@@ -27,7 +27,7 @@ static MapTrialSelectAngle mapper_ = MapTrialSelectAngle();
 
 void TrialSelectAngle::precompute(System * system) {
   TrialSelectBond::precompute(system);
-  const Particle& part = system->configuration().particle_type(particle_type());
+  const Particle& part = configuration(*system).particle_type(particle_type());
   const int angle_type = part.angle(mobile_site(),
                                     anchor_site(),
                                     anchor_site2_).type();

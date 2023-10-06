@@ -39,9 +39,9 @@ void PerturbReptate::finalize(System * system) {
   // HWH could also use revert_select instead of finalize_select?
   const Select& mobile = finalize_select()->mobile();
   const int part_index = mobile.particle_indices()[0];
-  const Particle& part = system->configuration().select_particle(part_index);
+  const Particle& part = finalize_select()->configuration(*system).select_particle(part_index);
   Select entire(part_index, part);
-  Configuration * config = system->get_configuration();
+  Configuration * config = finalize_select()->get_configuration(system);
   if (mobile.site_indices()[0][0] == 0) {
     const int site_type = part.site(0).type();
     for (int site = 1; site < entire.num_sites(); ++site) {

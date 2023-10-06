@@ -25,7 +25,7 @@ class PerturbSiteType : public Perturb {
   /// Set the site type.
   void set_site_type(
     System * system,
-    const Select& select,
+    const TrialSelect& select,
     const int type);
 
   void perturb(
