@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NeighborCriteria &mdash; FEASST v0.23.1 documentation</title>
+  <title>NeighborCriteria &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -175,7 +176,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Configuration</a> &raquo;</li>
         
@@ -227,24 +228,9 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16NeighborCriteriaE">
 <span class="target" id="classfeasst_1_1NeighborCriteria"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NeighborCriteria</span></span></span><a class="headerlink" href="#_CPPv4N6feasst16NeighborCriteriaE" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> for determining neighbors. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> for determining neighbors. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst16NeighborCriteria16NeighborCriteriaE7argtype">
-<span class="target" id="classfeasst_1_1NeighborCriteria_1a0e16deed91bf1bc282daa4fe0a5b3be3"></span><span class="sig-name descname"><span class="n"><span class="pre">NeighborCriteria</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16NeighborCriteria16NeighborCriteriaE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>reference_potential: index of reference potentials (default: -1). If -1, use full potentials.</p></li>
-<li><p>potential_index: index of potential for pair interaction (default: 0).</p></li>
-<li><p>energy_maximum: maximum energy to be in cluster (default: largest double precision).</p></li>
-<li><p>minimum_distance: minimum separation distance (default: 0).</p></li>
-<li><p>maximum_distance: maximum separation distance (default: NEAR_INFINITY).</p></li>
-<li><p>site_type0: consider only interactions between a specific site type. If -1, consider all sites (default: -1).</p></li>
-<li><p>site_type1: consider only interactions between a specific site type. If -1, consider all sites (default: -1). </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16NeighborCriteria11is_acceptedEKdKdKiKi">
 <span class="target" id="classfeasst_1_1NeighborCriteria_1a1232ec4223e1c941f46ec8c7c8204f91"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_accepted</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">energy</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">squared_distance</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type1</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16NeighborCriteria11is_acceptedEKdKdKiKi" title="Permalink to this definition"></a><br /></dt>
@@ -273,6 +259,24 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16NeighborCriteria16NeighborCriteriaERNSt7istreamE">
 <span class="target" id="classfeasst_1_1NeighborCriteria_1a22f401d88bbe217087a7788d57cc0308"></span><span class="sig-name descname"><span class="n"><span class="pre">NeighborCriteria</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">istream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">istr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16NeighborCriteria16NeighborCriteriaERNSt7istreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Construct from serialization. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst16NeighborCriteria16NeighborCriteriaE7argtype">
+<span class="target" id="classfeasst_1_1NeighborCriteria_1a0e16deed91bf1bc282daa4fe0a5b3be3"></span><span class="sig-name descname"><span class="n"><span class="pre">NeighborCriteria</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16NeighborCriteria16NeighborCriteriaE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>reference_potential: index of reference potentials (default: -1). If -1, use full potentials.</p></li>
+<li><p>potential_index: index of potential for pair interaction (default: 0).</p></li>
+<li><p>energy_maximum: maximum energy to be in cluster (default: largest double precision).</p></li>
+<li><p>minimum_distance: minimum separation distance (default: 0).</p></li>
+<li><p>maximum_distance: maximum separation distance (default: NEAR_INFINITY).</p></li>
+<li><p>site_type0: consider only interactions between a specific site type. If -1, consider all sites (default: -1).</p></li>
+<li><p>site_type1: consider only interactions between a specific site type. If -1, consider all sites (default: -1). </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

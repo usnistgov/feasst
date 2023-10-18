@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FlatHistogram &mdash; FEASST v0.23.1 documentation</title>
+  <title>FlatHistogram &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -160,7 +161,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Flat histogram</a> &raquo;</li>
         
@@ -213,21 +214,9 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogramE">
 <span class="target" id="classfeasst_1_1FlatHistogram"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FlatHistogram</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogramE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Flat histogram acceptance criteria uses a bias to improve sampling and attempt to recover the free energy of the system as a function of the give macrostate.</p>
-<p>The <a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> must be defined before the bias. </p>
+<p>The <a class="reference internal" href="Macrostate_arguments.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> must be defined before the bias. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype">
-<span class="target" id="classfeasst_1_1FlatHistogram_1accdf84b4bacb7e093f40d15ddc2e3f46"></span><span class="sig-name descname"><span class="n"><span class="pre">FlatHistogram</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>This is a flattened constructor which takes arguments for <a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a>, <a class="reference internal" href="Bias.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a> and <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> arguments (e.g., Constraints).</p>
-<p>args:<ul class="simple">
-<li><p><a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a>: <a class="reference internal" href="MacrostateNumParticles.html#classfeasst_1_1MacrostateNumParticles"><span class="std std-ref">MacrostateNumParticles</span></a>, <a class="reference internal" href="MacrostateEnergy.html#classfeasst_1_1MacrostateEnergy"><span class="std std-ref">MacrostateEnergy</span></a>, etc</p></li>
-<li><p><a class="reference internal" href="Bias.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>: <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, etc.</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> args. </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE">
 <span class="target" id="classfeasst_1_1FlatHistogram_1a48aa6b3944d1f65541b76ad0c4e265e5"></span><span class="sig-name descname"><span class="n"><span class="pre">FlatHistogram</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><span class="n"><span class="pre">Macrostate</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">macrostate</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><span class="n"><span class="pre">Bias</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bias</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE" title="Permalink to this definition"></a><br /></dt>
@@ -237,7 +226,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEE">
 <span class="target" id="classfeasst_1_1FlatHistogram_1a51adac7ca26808673853f5484cbf9992"></span><span class="sig-name descname"><span class="n"><span class="pre">FlatHistogram</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><span class="n"><span class="pre">Macrostate</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">macrostate</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><span class="n"><span class="pre">Bias</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bias</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../monte_carlo/doc/Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint"><span class="n"><span class="pre">Constraint</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">constraint</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Same as above, but with an added <a class="reference internal" href="../../monte_carlo/doc/Constraint.html#classfeasst_1_1Constraint"><span class="std std-ref">Constraint</span></a>. </p>
+<dd><p>Same as above, but with an added <a class="reference internal" href="../../monte_carlo/doc/Constraint_arguments.html#classfeasst_1_1Constraint"><span class="std std-ref">Constraint</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -255,7 +244,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst13FlatHistogram26num_iterations_to_completeEv">
 <span class="target" id="classfeasst_1_1FlatHistogram_1af8987e27f599cb8d25771314460739cf"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_iterations_to_complete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram26num_iterations_to_completeEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Return the number of iterations for a simulation to be complete. Iterations are defined by the Derived class. For example, one <a class="reference internal" href="../../monte_carlo/doc/Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> iteration is 1000 trials. <a class="reference internal" href="#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> iterations depend on the <a class="reference internal" href="Bias.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>. For <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, one iteration is a sweep. </p>
+<dd><p>Return the number of iterations for a simulation to be complete. Iterations are defined by the Derived class. For example, one <a class="reference internal" href="../../monte_carlo/doc/Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> iteration is 1000 trials. <a class="reference internal" href="FlatHistogram_arguments.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> iterations depend on the <a class="reference internal" href="Bias_arguments.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>. For <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, one iteration is a sweep. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -345,6 +334,21 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram6updateEv">
 <span class="target" id="classfeasst_1_1FlatHistogram_1a0399b8484a42ad13c7b18ec1e3f9d12d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram6updateEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Update. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype">
+<span class="target" id="classfeasst_1_1FlatHistogram_1accdf84b4bacb7e093f40d15ddc2e3f46"></span><span class="sig-name descname"><span class="n"><span class="pre">FlatHistogram</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This is a flattened constructor which takes arguments for <a class="reference internal" href="Macrostate_arguments.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a>, <a class="reference internal" href="Bias_arguments.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a> and <a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> arguments (e.g., Constraints).</p>
+<p>args:<ul class="simple">
+<li><p><a class="reference internal" href="Macrostate_arguments.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a>: <a class="reference internal" href="MacrostateNumParticles_arguments.html#classfeasst_1_1MacrostateNumParticles"><span class="std std-ref">MacrostateNumParticles</span></a>, <a class="reference internal" href="MacrostateEnergy_arguments.html#classfeasst_1_1MacrostateEnergy"><span class="std std-ref">MacrostateEnergy</span></a>, etc</p></li>
+<li><p><a class="reference internal" href="Bias_arguments.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>: <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, <a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, etc.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> args. </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

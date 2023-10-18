@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PerturbDihedral &mdash; FEASST v0.23.1 documentation</title>
+  <title>PerturbDihedral &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -160,7 +161,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Monte Carlo</a> &raquo;</li>
         
@@ -212,13 +213,13 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst15PerturbDihedralE">
 <span class="target" id="classfeasst_1_1PerturbDihedral"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PerturbDihedral</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="PerturbDistanceAngle.html#_CPPv4N6feasst20PerturbDistanceAngleE" title="feasst::PerturbDistanceAngle"><span class="n"><span class="pre">PerturbDistanceAngle</span></span></a><a class="headerlink" href="#_CPPv4N6feasst15PerturbDihedralE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Similar to <a class="reference internal" href="PerturbDistanceAngle.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">PerturbDistanceAngle</span></a>, except that the truncated conical shell has the additional constraint from the dihedral angle formed from the mobile site and its three anchors. Currently implemented for harmonic bonds (exponent: 2), but could add an optional exponent model parameter to generalize this. </p>
+<dd><p>Similar to <a class="reference internal" href="PerturbDistanceAngle_arguments.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">PerturbDistanceAngle</span></a>, except that the truncated conical shell has the additional constraint from the dihedral angle formed from the mobile site and its three anchors. Currently implemented for harmonic bonds (exponent: 2), but could add an optional exponent model parameter to generalize this. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst15PerturbDihedral10precomputeEP11TrialSelectP6System">
 <span class="target" id="classfeasst_1_1PerturbDihedral_1a90e0b9c2ba6638c42c2460a74d67346e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect"><span class="n"><span class="pre">TrialSelect</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15PerturbDihedral10precomputeEP11TrialSelectP6System" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Same as <a class="reference internal" href="PerturbDistance.html#classfeasst_1_1PerturbDistance"><span class="std std-ref">PerturbDistance</span></a>. If 2D, angles are positive when clockwise. Thus, when 2D and reverse (e.g., kji instead of ijk), angle = 2pi - angle. </p>
+<dd><p>Same as <a class="reference internal" href="PerturbDistance_arguments.html#classfeasst_1_1PerturbDistance"><span class="std std-ref">PerturbDistance</span></a>. If 2D, angles are positive when clockwise. Thus, when 2D and reverse (e.g., kji instead of ijk), angle = 2pi - angle. </p>
 </dd></dl>
 
 <dl class="cpp function">

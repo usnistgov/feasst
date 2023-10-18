@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Acceptance &mdash; FEASST v0.23.1 documentation</title>
+  <title>Acceptance &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -160,7 +161,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Monte Carlo</a> &raquo;</li>
         
@@ -212,13 +213,13 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10AcceptanceE">
 <span class="target" id="classfeasst_1_1Acceptance"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Acceptance</span></span></span><a class="headerlink" href="#_CPPv4N6feasst10AcceptanceE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>This object contains information necessary for <a class="reference internal" href="Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> to make a decision on whether or not to accept or reject a trial. </p>
+<dd><p>This object contains information necessary for <a class="reference internal" href="Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> to make a decision on whether or not to accept or reject a trial. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10Acceptance18ln_metropolis_probEv">
 <span class="target" id="classfeasst_1_1Acceptance_1ae4032a5f156a540d0dbcd9e54024d400"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ln_metropolis_prob</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance18ln_metropolis_probEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Return the natural logarithm of the <a class="reference internal" href="Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> acceptance probability. </p>
+<dd><p>Return the natural logarithm of the <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> acceptance probability. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -368,7 +369,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10Acceptance16macrostate_shiftEKi">
 <span class="target" id="classfeasst_1_1Acceptance_1afba052ffe2dac394aaebc18aaf50818d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">macrostate_shift</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">config</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance16macrostate_shiftEKi" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Return the shift in the macrostate due to an optimization where <a class="reference internal" href="Perturb.html#classfeasst_1_1Perturb"><span class="std std-ref">Perturb</span></a> does not completely update system until finalize. This assumes a particular macrostate is used for the given trial. </p>
+<dd><p>Return the shift in the macrostate due to an optimization where <a class="reference internal" href="Perturb_arguments.html#classfeasst_1_1Perturb"><span class="std std-ref">Perturb</span></a> does not completely update system until finalize. This assumes a particular macrostate is used for the given trial. </p>
 </dd></dl>
 
 <dl class="cpp function">

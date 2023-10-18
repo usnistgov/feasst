@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.23.1 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -51,14 +51,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin/text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">List of all capabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">Python interface</a></li>
@@ -181,7 +182,7 @@ simulations with Monte Carlo methods.</p>
 <section id="features">
 <h3>Features<a class="headerlink" href="#features" title="Permalink to this heading"></a></h3>
 <a class="reference external image-reference" href="https://pages.nist.gov/feasst"><img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" /></a>
-<p>The <a class="reference internal" href="plugin/README.html"><span class="doc">List of all capabilities</span></a> is summarized as follows:</p>
+<p>The features available in the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> are summarized as follows:</p>
 <p>Monte Carlo simulation techniques</p>
 <ul class="simple">
 <li><p>Metropolis</p></li>
@@ -193,8 +194,9 @@ simulations with Monte Carlo methods.</p>
 <ul class="simple">
 <li><p>Microcanonical ensemble</p></li>
 <li><p>Canonical ensemble</p></li>
-<li><p>Grand canonical ensemble</p></li>
+<li><p>Grand-canonical ensemble</p></li>
 <li><p>Temperature and growth expanded ensembles</p></li>
+<li><p>Gibbs ensemble</p></li>
 </ul>
 <p>Monte Carlo trials</p>
 <ul class="simple">
@@ -210,7 +212,7 @@ simulations with Monte Carlo methods.</p>
 <ul class="simple">
 <li><p>Hard spheres</p></li>
 <li><p>Lennard-Jones with LRC, cut and force shift</p></li>
-<li><p>Patchy particles</p></li>
+<li><p>Patchy and anisotropic particles</p></li>
 <li><p>Yukawa and charged interactions</p></li>
 <li><p>Ewald summation and 2D slab correction</p></li>
 <li><p>Bonds, angles and dihedrals</p></li>
@@ -225,8 +227,16 @@ simulations with Monte Carlo methods.</p>
 <li><p>Checkpoint files to save, restart and analyze simulations</p></li>
 </ul>
 </section>
+<section id="how-to-get-started">
+<h3>How to get started<a class="headerlink" href="#how-to-get-started" title="Permalink to this heading"></a></h3>
+<p>First, compile the executables as described below.
+Second, find <a class="reference internal" href="tutorial/README.html"><span class="doc">Tutorials</span></a> that are closest to what you would like to accomplish.
+Third, reproduce the expected result of those tutorials.
+Fourth, use the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> documentation to better understand and modify the tutorial to accomplish your goals.
+When you <a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us with issues, include the text input file instead of the python script that generates that text file.</p>
+</section>
 <section id="how-to-install-e-g-compile-the-executables">
-<h3>How to install (e.g., compile the executables).<a class="headerlink" href="#how-to-install-e-g-compile-the-executables" title="Permalink to this heading"></a></h3>
+<h3>How to install (e.g., compile the executables)<a class="headerlink" href="#how-to-install-e-g-compile-the-executables" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>apt/yum/brew<span class="o">]</span><span class="w"> </span>install<span class="w"> </span>g++<span class="w"> </span>cmake<span class="w"> </span>git<span class="w"> </span>python3
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/usnistgov/feasst.git
 mkdir<span class="w"> </span>feasst/build
@@ -315,11 +325,11 @@ google-chrome<span class="w"> </span>index.html
 <li><p>Reproduce the issue with a minimal example to reduce the complexity, run time and file size.</p></li>
 <li><p>Provide all output.</p></li>
 <li><p>Provide the version (for a git install, bash command “git describe –abbrev=10 –dirty –always –tags” and commit from git log).</p></li>
-<li><p>Provide the user code (e.g., text file, C++ with int main() or .py file).</p></li>
+<li><p>Provide the user code (e.g., input text file, C++ with int main() or .py file).</p></li>
 </ul>
 <p>Optionally, the following information may also be useful:</p>
 <ul class="simple">
-<li><p>the output of the “cmake ..” command on an empty build directory in order to see which compilers and libraries are used in the installation.</p></li>
+<li><p>the output of the “cmake ..” command on an empty build directory in order to see which compilers and libraries are used when encountering installation errors.</p></li>
 </ul>
 </section>
 <section id="email-list">
@@ -349,7 +359,8 @@ google-chrome<span class="w"> </span>index.html
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="README.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#how-to-install-e-g-compile-the-executables">How to install (e.g., compile the executables).</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#how-to-get-started">How to get started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#how-to-install-e-g-compile-the-executables">How to install (e.g., compile the executables)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="README.html#troubleshooting-install">Troubleshooting install</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="README.html#centos-7">CentOS 7</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#rocky-8">Rocky 8</a></li>
@@ -430,6 +441,204 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l2"><a class="reference internal" href="tutorial/README.html#python-and-c-interface">Python and C++ interface</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="plugin/text_interface.html">Text Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plugin/utils/doc/Checkpoint_arguments.html">Checkpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#random-number-generators">Random Number Generators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/Random_arguments.html">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/RandomMT19937_arguments.html">RandomMT19937</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/RandomModulo_arguments.html">RandomModulo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Configuration_arguments.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Domain_arguments.html">Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/PhysicalConstants.html">PhysicalConstants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria_arguments.html">NeighborCriteria</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/ModelEmpty_arguments.html">ModelEmpty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/IdealGas_arguments.html">IdealGas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/HardSphere_arguments.html">HardSphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/LennardJones_arguments.html">LennardJones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyFactory_arguments.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/SquareWell_arguments.html">SquareWell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesAlpha_arguments.html">LennardJonesAlpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesCutShift_arguments.html">LennardJonesCutShift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesForceShift_arguments.html">LennardJonesForceShift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/TablePotential_arguments.html">TablePotential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/Mie_arguments.html">Mie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/Yukawa_arguments.html">Yukawa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/Coulomb_arguments.html">Coulomb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/DebyeHuckel_arguments.html">DebyeHuckel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/ElectricField_arguments.html">ElectricField</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/HenryCoefficient_arguments.html">HenryCoefficient</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/example/doc/ModelExample_arguments.html">ModelExample</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/VisitModelInnerPatch_arguments.html">VisitModelInnerPatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/MoviePatch_arguments.html">MoviePatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/aniso/doc/VisitModelInnerTable_arguments.html">VisitModelInnerTable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/aniso/doc/ContactObjective_arguments.html">ContactObjective</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/Ewald_arguments.html">Ewald</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/ChargeScreened_arguments.html">ChargeScreened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/ChargeScreenedIntra_arguments.html">ChargeScreenedIntra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/ChargeSelf_arguments.html">ChargeSelf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/SlabCorrection_arguments.html">SlabCorrection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#neighbor-lists">Neighbor lists</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/VisitModelInner_arguments.html">VisitModelInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/EnergyMap_arguments.html">EnergyMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/EnergyMapAll_arguments.html">EnergyMapAll</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/EnergyMapAllCriteria_arguments.html">EnergyMapAllCriteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/EnergyMapNeighbor_arguments.html">EnergyMapNeighbor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/EnergyMapNeighborCriteria_arguments.html">EnergyMapNeighborCriteria</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/Background_arguments.html">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/ModelHardShape_arguments.html">ModelHardShape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1DHard_arguments.html">ModelTableCart1DHard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#nonbonded-potentials">Nonbonded Potentials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/Potential_arguments.html">Potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/VisitModel_arguments.html">VisitModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/DontVisitModel_arguments.html">DontVisitModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/VisitModelBond_arguments.html">VisitModelBond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/VisitModelCell_arguments.html">VisitModelCell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/VisitModelIntra_arguments.html">VisitModelIntra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap_arguments.html">VisitModelIntraMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections_arguments.html">LongRangeCorrections</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#bonded-interactions">Bonded Interactions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/RigidBond_arguments.html">RigidBond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/RigidAngle_arguments.html">RigidAngle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/RigidDihedral_arguments.html">RigidDihedral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/BondSquareWell_arguments.html">BondSquareWell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/AngleSquareWell_arguments.html">AngleSquareWell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/BondHarmonic_arguments.html">BondHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/AngleHarmonic_arguments.html">AngleHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/DihedralHarmonic_arguments.html">DihedralHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/DihedralTraPPE_arguments.html">DihedralTraPPE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/FENE_arguments.html">FENE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/doc/ThermoParams_arguments.html">ThermoParams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#acceptance-criteria">Acceptance Criteria</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/Metropolis_arguments.html">Metropolis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/FlatHistogram_arguments.html">FlatHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/mayer/doc/MayerSampling_arguments.html">MayerSampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/AlwaysReject_arguments.html">AlwaysReject</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#constraints">Constraints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/ConstrainNumParticles_arguments.html">ConstrainNumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/egce/doc/AEqualB_arguments.html">AEqualB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/egce/doc/AHalfB_arguments.html">AHalfB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#monte-carlo-trials">Monte Carlo Trials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/TrialTranslate_arguments.html">TrialTranslate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialParticlePivot_arguments.html">TrialParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/TrialTransfer_arguments.html">TrialTransfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialGrow_arguments.html">TrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/TrialAdd_arguments.html">TrialAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRemove_arguments.html">TrialRemove</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/TrialVolume_arguments.html">TrialVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/beta_expanded/doc/TrialBeta_arguments.html">TrialBeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialCrankshaft_arguments.html">TrialCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialCrankshaftSmall_arguments.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialPivot_arguments.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/TrialSwapSites_arguments.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/TrialAddMultiple_arguments.html">TrialAddMultiple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/TrialRemoveMultiple_arguments.html">TrialRemoveMultiple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/TrialTransferMultiple_arguments.html">TrialTransferMultiple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/TrialAVB2_arguments.html">TrialAVB2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/TrialAVB4_arguments.html">TrialAVB4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/TrialRigidCluster_arguments.html">TrialRigidCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/TrialTransferAVB_arguments.html">TrialTransferAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/TrialTransferAVBDivalent_arguments.html">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/morph/doc/TrialMorph_arguments.html">TrialMorph</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#analyze-and-modify">Analyze and Modify</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Check_arguments.html">Check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckEnergy_arguments.html">CheckEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Chirality2D_arguments.html">Chirality2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CPUTime_arguments.html">CPUTime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaUpdater_arguments.html">CriteriaUpdater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaWriter_arguments.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Density_arguments.html">Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/DensityProfile_arguments.html">DensityProfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Energy_arguments.html">Energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/ExtensiveMoments_arguments.html">ExtensiveMoments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Log_arguments.html">Log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/MeanSquaredDisplacement_arguments.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Movie_arguments.html">Movie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/NumParticles_arguments.html">NumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/PairDistributionInner_arguments.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/ProfileTrials_arguments.html">ProfileTrials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/ReadConfigFromFile_arguments.html">ReadConfigFromFile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Scattering_arguments.html">Scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Tune_arguments.html">Tune</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Volume_arguments.html">Volume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/WallClockLimit_arguments.html">WallClockLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/WrapParticles_arguments.html">WrapParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/AnalyzeBonds_arguments.html">AnalyzeBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/EndToEndDistance_arguments.html">EndToEndDistance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/GhostTrialGrow_arguments.html">GhostTrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/RadiusOfGyration_arguments.html">RadiusOfGyration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/charge/doc/CheckNetCharge_arguments.html">CheckNetCharge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/cluster/doc/AnalyzeCluster_arguments.html">AnalyzeCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/example/doc/AnalyzeExample_arguments.html">AnalyzeExample</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#actions">Actions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/Run_arguments.html">Run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/RemoveTrial_arguments.html">RemoveTrial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/RemoveAnalyze_arguments.html">RemoveAnalyze</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/RemoveModify_arguments.html">RemoveModify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/WriteCheckpoint_arguments.html">WriteCheckpoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/WriteModelParams_arguments.html">WriteModelParams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/RefPotential_arguments.html">RefPotential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/doc/ConvertToRefPotential_arguments.html">ConvertToRefPotential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/example/doc/ActionExample_arguments.html">ActionExample</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#flat-histogram">Flat Histogram</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/FlatHistogram_arguments.html">FlatHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/MacrostateNumParticles_arguments.html">MacrostateNumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/MacrostateEnergy_arguments.html">MacrostateEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/beta_expanded/doc/MacrostateBeta_arguments.html">MacrostateBeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/WangLandau_arguments.html">WangLandau</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/TransitionMatrix_arguments.html">TransitionMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/CollectionMatrix_arguments.html">CollectionMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/WLTM_arguments.html">WLTM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/CollectionMatrixSplice_arguments.html">CollectionMatrixSplice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/Window_arguments.html">Window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/WindowExponential_arguments.html">WindowExponential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/doc/WindowCustom_arguments.html">WindowCustom</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#gibbs-ensemble">Gibbs Ensemble</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/gibbs/doc/TrialGibbsVolumeTransfer_arguments.html">TrialGibbsVolumeTransfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/gibbs/doc/TrialGibbsParticleTransfer_arguments.html">TrialGibbsParticleTransfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/gibbs/doc/PressureFromTestVolume_arguments.html">PressureFromTestVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/gibbs/doc/CheckConstantVolume_arguments.html">CheckConstantVolume</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="particle/README.html">Particle files and units</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="particle/README.html#units">Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="particle/README.html#data-files">Data files</a><ul>
@@ -446,7 +655,7 @@ google-chrome<span class="w"> </span>index.html
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">List of all capabilities</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">C++ Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="plugin/README.html#list-of-plugins">List of plugins</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/threads/README.html">Threads</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/threads/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -573,7 +782,11 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/README.html#api">API</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Action.html">Action</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/RefPotential.html">RefPotential</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/WriteModelParams.html">WriteModelParams</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Run.html">Run</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/RemoveTrial.html">RemoveTrial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/RemoveAnalyze.html">RemoveAnalyze</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Acceptance.html">Acceptance</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Stepper.html">Stepper</a></li>
@@ -583,6 +796,8 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Constraint.html">Constraint</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/ConstrainNumParticles.html">ConstrainNumParticles</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/RemoveModify.html">RemoveModify</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Tunable.html">Tunable</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbMove.html">PerturbMove</a></li>
@@ -592,23 +807,24 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbRemove.html">PerturbRemove</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbRemove.html">PerturbRemove</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectAll.html">TrialSelectAll</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/ConvertToRefPotential.html">ConvertToRefPotential</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectBond.html">TrialSelectBond</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectDihedral.html">TrialSelectDihedral</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/WriteCheckpoint.html">WriteCheckpoint</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeTranslate.html">TrialComputeTranslate</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Trial.html">Trial</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialVolume.html">TrialVolume</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialMove.html">TrialMove</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRotate.html">TrialRotate</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialTransfer.html">TrialTransfer</a></li>
@@ -762,30 +978,30 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/README.html">Chain</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectPerturbed.html">SelectPerturbed</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbConnector.html">PerturbConnector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectSegment.html">SelectSegment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectEndSegment.html">SelectEndSegment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectReptate.html">SelectReptate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbDistanceAngleConnector.html">PerturbDistanceAngleConnector</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbPositionSwap.html">PerturbPositionSwap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbConnector.html">PerturbConnector</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbParticlePivot.html">PerturbParticlePivot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaft.html">PerturbCrankshaft</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbLibrary.html">PerturbLibrary</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbPositionSwap.html">PerturbPositionSwap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectTwoSites.html">SelectTwoSites</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectSegment.html">SelectSegment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectEndSegment.html">SelectEndSegment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/SelectBranch.html">SelectBranch</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/TrialSwapSites.html">TrialSwapSites</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/TrialReptate.html">TrialReptate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/TrialReptate.html">TrialReptate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/TrialParticlePivot.html">TrialParticlePivot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/RadiusOfGyration.html">RadiusOfGyration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/EndToEndDistance.html">EndToEndDistance</a></li>
@@ -884,20 +1100,20 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapNeighbor.html">EnergyMapNeighbor</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapNeighborCriteria.html">EnergyMapNeighborCriteria</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectCluster.html">SelectCluster</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbPointReflect.html">PerturbPointReflect</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbRotateCOM.html">PerturbRotateCOM</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbMoveAVB.html">PerturbMoveAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbAddAVB.html">PerturbAddAVB</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectCluster.html">SelectCluster</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB4.html">ComputeAVB4</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB2.html">ComputeAVB2</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAVB4.html">TrialAVB4</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAddAVB.html">TrialAddAVB</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAddAVBDivalent.html">TrialAddAVBDivalent</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialTranslateCluster.html">TrialTranslateCluster</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAVB2Half.html">TrialAVB2Half</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialTransferAVB.html">TrialTransferAVB</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialTransferAVBDivalent.html">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialRigidCluster.html">TrialRigidCluster</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAVB2.html">TrialAVB2</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/AnalyzeCluster.html">AnalyzeCluster</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/CalculateCluster.html">CalculateCluster</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeRemoveAVBDivalent.html">ComputeRemoveAVBDivalent</a></li>
@@ -984,8 +1200,8 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l3"><a class="reference internal" href="plugin/gibbs/README.html">Gibbs</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/gibbs/doc/ComputeGibbsParticleTransfer.html">ComputeGibbsParticleTransfer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/gibbs/doc/ComputeGibbsVolumeTransfer.html">ComputeGibbsVolumeTransfer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/gibbs/doc/TrialGibbsVolumeTransferOneWay.html">TrialGibbsVolumeTransferOneWay</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/gibbs/doc/TrialGibbsParticleTransferOneWay.html">TrialGibbsParticleTransferOneWay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/gibbs/doc/TrialGibbsVolumeTransfer.html">TrialGibbsVolumeTransfer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/gibbs/doc/TrialGibbsParticleTransfer.html">TrialGibbsParticleTransfer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/gibbs/doc/PressureFromTestVolume.html">PressureFromTestVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/gibbs/doc/CheckConstantVolume.html">CheckConstantVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/gibbs/README.html#tutorial">Tutorial</a><ul>

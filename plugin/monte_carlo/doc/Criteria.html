@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Criteria &mdash; FEASST v0.23.1 documentation</title>
+  <title>Criteria &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -160,7 +161,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Monte Carlo</a> &raquo;</li>
         
@@ -213,19 +214,9 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8CriteriaE">
 <span class="target" id="classfeasst_1_1Criteria"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Criteria</span></span></span><a class="headerlink" href="#_CPPv4N6feasst8CriteriaE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Determine whether to accept or reject a trial. Stores the total energy based on energy changes from each trial. probability of acceptance. </p>
-<p>Subclassed by <a class="reference internal" href="AlwaysReject.html#classfeasst_1_1AlwaysReject"><span class="std std-ref">feasst::AlwaysReject</span></a>, <a class="reference internal" href="../../flat_histogram/doc/FlatHistogram.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">feasst::FlatHistogram</span></a>, <a class="reference internal" href="../../mayer/doc/MayerSampling.html#classfeasst_1_1MayerSampling"><span class="std std-ref">feasst::MayerSampling</span></a>, <a class="reference internal" href="Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">feasst::Metropolis</span></a></p>
+<p>Subclassed by <a class="reference internal" href="AlwaysReject_arguments.html#classfeasst_1_1AlwaysReject"><span class="std std-ref">feasst::AlwaysReject</span></a>, <a class="reference internal" href="../../flat_histogram/doc/FlatHistogram_arguments.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">feasst::FlatHistogram</span></a>, <a class="reference internal" href="../../mayer/doc/MayerSampling_arguments.html#classfeasst_1_1MayerSampling"><span class="std std-ref">feasst::MayerSampling</span></a>, <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">feasst::Metropolis</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Criteria8CriteriaE7argtype">
-<span class="target" id="classfeasst_1_1Criteria_1aefcff52f184cab89b3731470ee7b668c"></span><span class="sig-name descname"><span class="n"><span class="pre">Criteria</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Criteria8CriteriaE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>num_iterations_to_complete: set the number of iterations for a simulation to be considered complete (default: 20).</p></li>
-<li><p><a class="reference internal" href="Constraint.html#classfeasst_1_1Constraint"><span class="std std-ref">Constraint</span></a>: <a class="reference internal" href="ConstrainNumParticles.html#classfeasst_1_1ConstrainNumParticles"><span class="std std-ref">ConstrainNumParticles</span></a>, <a class="reference internal" href="../../egce/doc/AHalfB.html#classfeasst_1_1AHalfB"><span class="std std-ref">AHalfB</span></a>, etc. </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8Criteria8CriteriaENSt10shared_ptrI10ConstraintEE7argtype">
 <span class="target" id="classfeasst_1_1Criteria_1a96720fcc589462d2bd652fdc870f39f8"></span><span class="sig-name descname"><span class="n"><span class="pre">Criteria</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint"><span class="n"><span class="pre">Constraint</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">constraint</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Criteria8CriteriaENSt10shared_ptrI10ConstraintEE7argtype" title="Permalink to this definition"></a><br /></dt>
@@ -265,7 +256,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8Criteria18set_current_energyEKdKi">
 <span class="target" id="classfeasst_1_1Criteria_1a3ec4980d4af6e3ffe4c17291e975ae22"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_current_energy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">energy</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">config</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Criteria18set_current_energyEKdKi" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Set the current total energy based on energy changes per trial in order to avoid recomputation of the energy of the entire configuration. For example, <a class="reference internal" href="Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> Monte Carlo trials are concerned with the change in energy, and this variable tracks the total from the changes. </p>
+<dd><p>Set the current total energy based on energy changes per trial in order to avoid recomputation of the energy of the entire configuration. For example, <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> Monte Carlo trials are concerned with the change in energy, and this variable tracks the total from the changes. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -325,7 +316,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Criteria26num_iterations_to_completeEv">
 <span class="target" id="classfeasst_1_1Criteria_1a009e4ef28e42eab15c14a80540b6a962"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_iterations_to_complete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Criteria26num_iterations_to_completeEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Return the number of iterations for a simulation to be complete. Iterations are defined by the Derived class. For example, one <a class="reference internal" href="Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> iteration is 1000 trials. <a class="reference internal" href="../../flat_histogram/doc/FlatHistogram.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> iterations depend on the <a class="reference internal" href="../../flat_histogram/doc/Bias.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>. For <a class="reference internal" href="../../flat_histogram/doc/TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, one iteration is a sweep. </p>
+<dd><p>Return the number of iterations for a simulation to be complete. Iterations are defined by the Derived class. For example, one <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> iteration is 1000 trials. <a class="reference internal" href="../../flat_histogram/doc/FlatHistogram_arguments.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> iterations depend on the <a class="reference internal" href="../../flat_histogram/doc/Bias_arguments.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>. For <a class="reference internal" href="../../flat_histogram/doc/TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, one iteration is a sweep. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -403,6 +394,19 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Criteria8is_equalERK8Criteria">
 <span class="target" id="classfeasst_1_1Criteria_1a0b1f86510797e066fb7352a6f7fb9335"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Criteria8is_equalERK8Criteria" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Same as above but with a default tolerance of NEAR_ZERO. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Criteria8CriteriaE7argtype">
+<span class="target" id="classfeasst_1_1Criteria_1aefcff52f184cab89b3731470ee7b668c"></span><span class="sig-name descname"><span class="n"><span class="pre">Criteria</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Criteria8CriteriaE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>num_iterations_to_complete: set the number of iterations for a simulation to be considered complete (default: 20).</p></li>
+<li><p><a class="reference internal" href="Constraint_arguments.html#classfeasst_1_1Constraint"><span class="std std-ref">Constraint</span></a>: <a class="reference internal" href="ConstrainNumParticles_arguments.html#classfeasst_1_1ConstrainNumParticles"><span class="std std-ref">ConstrainNumParticles</span></a>, <a class="reference internal" href="../../egce/doc/AHalfB_arguments.html#classfeasst_1_1AHalfB"><span class="std std-ref">AHalfB</span></a>, etc. </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

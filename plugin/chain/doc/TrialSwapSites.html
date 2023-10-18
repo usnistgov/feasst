@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialSwapSites &mdash; FEASST v0.23.1 documentation</title>
+  <title>TrialSwapSites &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="TrialReptate" href="TrialReptate.html" />
-    <link rel="prev" title="TrialGrowLinear" href="TrialGrowLinear.html" />
+    <link rel="next" title="TrialCrankshaftSmall" href="TrialCrankshaftSmall.html" />
+    <link rel="prev" title="SelectBranch" href="SelectBranch.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -76,30 +77,30 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbConnector.html">PerturbConnector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngleConnector.html">PerturbDistanceAngleConnector</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbBranch.html">PerturbBranch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbPositionSwap.html">PerturbPositionSwap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbConnector.html">PerturbConnector</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbParticlePivot.html">PerturbParticlePivot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbCrankshaftSmall.html">PerturbCrankshaftSmall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbLibrary.html">PerturbLibrary</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbPositionSwap.html">PerturbPositionSwap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectTwoSites.html">SelectTwoSites</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectBranch.html">SelectBranch</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">TrialSwapSites</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a></li>
@@ -192,7 +193,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Chain</a> &raquo;</li>
         
@@ -244,11 +245,23 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst14TrialSwapSitesE">
 <span class="target" id="classfeasst_1_1TrialSwapSites"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialSwapSites</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><a class="headerlink" href="#_CPPv4N6feasst14TrialSwapSitesE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Swap the types of two sites in a particle. args:<ul class="simple">
+<dd><p>Swap the types of two sites in a particle. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14TrialSwapSites14TrialSwapSitesE7argtype">
+<span class="target" id="classfeasst_1_1TrialSwapSites_1a45d419dc67f65d22f4bb2396f7a4bd7c"></span><span class="sig-name descname"><span class="n"><span class="pre">TrialSwapSites</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14TrialSwapSites14TrialSwapSitesE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
 <li><p>site_type1: type of site to swap.</p></li>
-<li><p>site_type2: type of other site to swap. </p></li>
+<li><p>site_type2: type of other site to swap.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> arguments.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/TrialStage_arguments.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> arguments.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/TrialSelect_arguments.html#classfeasst_1_1TrialSelect"><span class="std std-ref">TrialSelect</span></a> arguments. </p></li>
 </ul>
 </p>
+</dd></dl>
+
+</div>
 </dd></dl>
 
 </section>
@@ -257,8 +270,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="TrialGrowLinear.html" class="btn btn-neutral float-left" title="TrialGrowLinear" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="TrialReptate.html" class="btn btn-neutral float-right" title="TrialReptate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SelectBranch.html" class="btn btn-neutral float-left" title="SelectBranch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TrialCrankshaftSmall.html" class="btn btn-neutral float-right" title="TrialCrankshaftSmall" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Interface &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Checkpoint" href="utils/doc/Checkpoint_arguments.html" />
+    <link rel="prev" title="Compare XYZ (ascii) with netCDF" href="netcdf/tutorial/tutorial_1_lj_nvt.html" />
+
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FEASST
+          </a>
+              <div class="version">
+                v0.23.1-1-gb004405c22
+              </div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Text Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/doc/Checkpoint_arguments.html">Checkpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#random-number-generators">Random Number Generators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="math/doc/Random_arguments.html">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="math/doc/RandomMT19937_arguments.html">RandomMT19937</a></li>
+<li class="toctree-l3"><a class="reference internal" href="math/doc/RandomModulo_arguments.html">RandomModulo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="configuration/doc/Configuration_arguments.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/doc/Domain_arguments.html">Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/doc/PhysicalConstants.html">PhysicalConstants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/doc/NeighborCriteria_arguments.html">NeighborCriteria</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#nonbonded-isotropic-models">Nonbonded Isotropic Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/ModelEmpty_arguments.html">ModelEmpty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/IdealGas_arguments.html">IdealGas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/HardSphere_arguments.html">HardSphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/LennardJones_arguments.html">LennardJones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/ModelTwoBodyFactory_arguments.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/SquareWell_arguments.html">SquareWell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/LennardJonesAlpha_arguments.html">LennardJonesAlpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/LennardJonesCutShift_arguments.html">LennardJonesCutShift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/LennardJonesForceShift_arguments.html">LennardJonesForceShift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/TablePotential_arguments.html">TablePotential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/Mie_arguments.html">Mie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/Yukawa_arguments.html">Yukawa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/Coulomb_arguments.html">Coulomb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/DebyeHuckel_arguments.html">DebyeHuckel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/ElectricField_arguments.html">ElectricField</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/HenryCoefficient_arguments.html">HenryCoefficient</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example/doc/ModelExample_arguments.html">ModelExample</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="patch/doc/VisitModelInnerPatch_arguments.html">VisitModelInnerPatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patch/doc/MoviePatch_arguments.html">MoviePatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aniso/doc/VisitModelInnerTable_arguments.html">VisitModelInnerTable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aniso/doc/ContactObjective_arguments.html">ContactObjective</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#long-range-electrostatics">Long-Range Electrostatics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/Ewald_arguments.html">Ewald</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/ChargeScreened_arguments.html">ChargeScreened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/ChargeScreenedIntra_arguments.html">ChargeScreenedIntra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/ChargeSelf_arguments.html">ChargeSelf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/SlabCorrection_arguments.html">SlabCorrection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#neighbor-lists">Neighbor lists</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelInner_arguments.html">VisitModelInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/EnergyMap_arguments.html">EnergyMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/EnergyMapAll_arguments.html">EnergyMapAll</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/EnergyMapAllCriteria_arguments.html">EnergyMapAllCriteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/EnergyMapNeighbor_arguments.html">EnergyMapNeighbor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/EnergyMapNeighborCriteria_arguments.html">EnergyMapNeighborCriteria</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#zero-or-one-body-potentials">Zero- or One-Body Potentials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/Background_arguments.html">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelHardShape_arguments.html">ModelHardShape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelTableCart1DHard_arguments.html">ModelTableCart1DHard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#nonbonded-potentials">Nonbonded Potentials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/Potential_arguments.html">Potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModel_arguments.html">VisitModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/DontVisitModel_arguments.html">DontVisitModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelBond_arguments.html">VisitModelBond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelCell_arguments.html">VisitModelCell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelIntra_arguments.html">VisitModelIntra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelIntraMap_arguments.html">VisitModelIntraMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/LongRangeCorrections_arguments.html">LongRangeCorrections</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bonded-interactions">Bonded Interactions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/RigidBond_arguments.html">RigidBond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/RigidAngle_arguments.html">RigidAngle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/RigidDihedral_arguments.html">RigidDihedral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/BondSquareWell_arguments.html">BondSquareWell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/AngleSquareWell_arguments.html">AngleSquareWell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/BondHarmonic_arguments.html">BondHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/AngleHarmonic_arguments.html">AngleHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/DihedralHarmonic_arguments.html">DihedralHarmonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/DihedralTraPPE_arguments.html">DihedralTraPPE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/FENE_arguments.html">FENE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#thermodynamic-parameters">Thermodynamic Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/ThermoParams_arguments.html">ThermoParams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#acceptance-criteria">Acceptance Criteria</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Metropolis_arguments.html">Metropolis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/FlatHistogram_arguments.html">FlatHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mayer/doc/MayerSampling_arguments.html">MayerSampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/AlwaysReject_arguments.html">AlwaysReject</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#constraints">Constraints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/ConstrainNumParticles_arguments.html">ConstrainNumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="egce/doc/AEqualB_arguments.html">AEqualB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="egce/doc/AHalfB_arguments.html">AHalfB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#monte-carlo-trials">Monte Carlo Trials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialTranslate_arguments.html">TrialTranslate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/TrialParticlePivot_arguments.html">TrialParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialTransfer_arguments.html">TrialTransfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/TrialGrow_arguments.html">TrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialAdd_arguments.html">TrialAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialRemove_arguments.html">TrialRemove</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialVolume_arguments.html">TrialVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="beta_expanded/doc/TrialBeta_arguments.html">TrialBeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/TrialCrankshaft_arguments.html">TrialCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/TrialCrankshaftSmall_arguments.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/TrialPivot_arguments.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/TrialSwapSites_arguments.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/TrialAddMultiple_arguments.html">TrialAddMultiple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/TrialRemoveMultiple_arguments.html">TrialRemoveMultiple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/TrialTransferMultiple_arguments.html">TrialTransferMultiple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialAVB2_arguments.html">TrialAVB2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialAVB4_arguments.html">TrialAVB4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialRigidCluster_arguments.html">TrialRigidCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialTransferAVB_arguments.html">TrialTransferAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialTransferAVBDivalent_arguments.html">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="morph/doc/TrialMorph_arguments.html">TrialMorph</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#analyze-and-modify">Analyze and Modify</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Check_arguments.html">Check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/CheckEnergy_arguments.html">CheckEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Chirality2D_arguments.html">Chirality2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/CPUTime_arguments.html">CPUTime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/CriteriaUpdater_arguments.html">CriteriaUpdater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/CriteriaWriter_arguments.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Density_arguments.html">Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/DensityProfile_arguments.html">DensityProfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Energy_arguments.html">Energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/ExtensiveMoments_arguments.html">ExtensiveMoments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Log_arguments.html">Log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/MeanSquaredDisplacement_arguments.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Movie_arguments.html">Movie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/NumParticles_arguments.html">NumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/PairDistributionInner_arguments.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/ProfileTrials_arguments.html">ProfileTrials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/ReadConfigFromFile_arguments.html">ReadConfigFromFile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Scattering_arguments.html">Scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Tune_arguments.html">Tune</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Volume_arguments.html">Volume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/WallClockLimit_arguments.html">WallClockLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/WrapParticles_arguments.html">WrapParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/AnalyzeBonds_arguments.html">AnalyzeBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/EndToEndDistance_arguments.html">EndToEndDistance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/GhostTrialGrow_arguments.html">GhostTrialGrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/RadiusOfGyration_arguments.html">RadiusOfGyration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="charge/doc/CheckNetCharge_arguments.html">CheckNetCharge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/AnalyzeCluster_arguments.html">AnalyzeCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example/doc/AnalyzeExample_arguments.html">AnalyzeExample</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#actions">Actions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Run_arguments.html">Run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/RemoveTrial_arguments.html">RemoveTrial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/RemoveAnalyze_arguments.html">RemoveAnalyze</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/RemoveModify_arguments.html">RemoveModify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/WriteCheckpoint_arguments.html">WriteCheckpoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/WriteModelParams_arguments.html">WriteModelParams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/RefPotential_arguments.html">RefPotential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/ConvertToRefPotential_arguments.html">ConvertToRefPotential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example/doc/ActionExample_arguments.html">ActionExample</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#flat-histogram">Flat Histogram</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/FlatHistogram_arguments.html">FlatHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/MacrostateNumParticles_arguments.html">MacrostateNumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/MacrostateEnergy_arguments.html">MacrostateEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="beta_expanded/doc/MacrostateBeta_arguments.html">MacrostateBeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/WangLandau_arguments.html">WangLandau</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/TransitionMatrix_arguments.html">TransitionMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/CollectionMatrix_arguments.html">CollectionMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/WLTM_arguments.html">WLTM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/CollectionMatrixSplice_arguments.html">CollectionMatrixSplice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/Window_arguments.html">Window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/WindowExponential_arguments.html">WindowExponential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/WindowCustom_arguments.html">WindowCustom</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gibbs-ensemble">Gibbs Ensemble</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gibbs/doc/TrialGibbsVolumeTransfer_arguments.html">TrialGibbsVolumeTransfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gibbs/doc/TrialGibbsParticleTransfer_arguments.html">TrialGibbsParticleTransfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gibbs/doc/PressureFromTestVolume_arguments.html">PressureFromTestVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gibbs/doc/CheckConstantVolume_arguments.html">CheckConstantVolume</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">C++ Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../py/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FEASST</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <header class="nist-header" id="nist-header" role="banner">
+
+  <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
+    <svg aria-hidden="true" class="nist-header__logo-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+      <path d="M20.911 5.375l-9.482 9.482 9.482 9.482c0.446 0.446 0.446 1.161 0 1.607l-2.964 2.964c-0.446 0.446-1.161 0.446-1.607 0l-13.25-13.25c-0.446-0.446-0.446-1.161 0-1.607l13.25-13.25c0.446-0.446 1.161-0.446 1.607 0l2.964 2.964c0.446 0.446 0.446 1.161 0 1.607z"></path>
+    </svg>
+    <svg class="nist-header__logo-image" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-237 385.7 109.7 29.3">
+      <title>National Institute of Standards and Technology</title>
+      <g>
+        <path class="st0" d="M-231,415h-6v-23.1c0,0,0-4.4,4.4-5.8c4-1.3,6.6,1.3,6.6,1.3l19.7,21.3c1,0.6,1.4,0,1.4-0.6v-22h6.1V409
+          c0,1.9-1.6,4.4-4,5.3c-2.4,0.9-4.9,0.9-7.9-1.7l-18.5-20c-0.5-0.5-1.8-0.6-1.8,0.4L-231,415L-231,415z"/>
+        <path class="st0" d="M-195,386.1h6.1v20.7c0,2.2,1.9,2.2,3.6,2.2h26.8c1.1,0,2.4-1.3,2.4-2.7c0-1.4-1.3-2.8-2.5-2.8H-176
+          c-3,0.1-9.2-2.7-9.2-8.5c0-7.1,5.9-8.8,8.6-9h49.4v6.1h-12.3V415h-6v-22.9h-30.2c-2.9-0.2-4.9,4.7-0.2,5.4h18.6
+          c2.8,0,7.4,2.4,7.5,8.4c0,6.1-3.6,9-7.5,9H-185c-4.5,0-6.2-1.1-7.8-2.5c-1.5-1.5-1.7-2.3-2.2-5.3L-195,386.1
+          C-194.9,386.1-195,386.1-195,386.1z"/>
+      </g>
+    </svg>
+  </a>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Text Interface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="text-interface">
+<h1>Text Interface<a class="headerlink" href="#text-interface" title="Permalink to this heading"></a></h1>
+<p>The first word in each line of a FEASST input text file is the name of a class, followed by pairs of class arguments.
+The following related lists of classes and their arguments aid in understanding or modifying <a class="reference internal" href="../tutorial/README.html"><span class="doc">Tutorials</span></a>.
+The text interface is backwards compatible within major version (e.g., text files using version v0.23.0 should also work with v0.23.1).</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/doc/Checkpoint_arguments.html">Checkpoint</a></li>
+</ul>
+</div>
+<section id="random-number-generators">
+<h2>Random Number Generators<a class="headerlink" href="#random-number-generators" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="math/doc/Random_arguments.html">Random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math/doc/RandomMT19937_arguments.html">RandomMT19937</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math/doc/RandomModulo_arguments.html">RandomModulo</a></li>
+</ul>
+</div>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading"></a></h2>
+<p>These classes describe the identity of the particles, their positions and the spatial domain in which they reside.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration/doc/Configuration_arguments.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration/doc/Domain_arguments.html">Domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration/doc/PhysicalConstants.html">PhysicalConstants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration/doc/NeighborCriteria_arguments.html">NeighborCriteria</a></li>
+</ul>
+</div>
+</section>
+<section id="nonbonded-isotropic-models">
+<h2>Nonbonded Isotropic Models<a class="headerlink" href="#nonbonded-isotropic-models" title="Permalink to this heading"></a></h2>
+<p>These classes include pair-wise (two-body) isotropic interactions.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/ModelEmpty_arguments.html">ModelEmpty</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/IdealGas_arguments.html">IdealGas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/HardSphere_arguments.html">HardSphere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/LennardJones_arguments.html">LennardJones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/ModelTwoBodyFactory_arguments.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/SquareWell_arguments.html">SquareWell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/LennardJonesAlpha_arguments.html">LennardJonesAlpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/LennardJonesCutShift_arguments.html">LennardJonesCutShift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/LennardJonesForceShift_arguments.html">LennardJonesForceShift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/TablePotential_arguments.html">TablePotential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/Mie_arguments.html">Mie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/Yukawa_arguments.html">Yukawa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/Coulomb_arguments.html">Coulomb</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/DebyeHuckel_arguments.html">DebyeHuckel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/ElectricField_arguments.html">ElectricField</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confinement/doc/HenryCoefficient_arguments.html">HenryCoefficient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example/doc/ModelExample_arguments.html">ModelExample</a></li>
+</ul>
+</div>
+</section>
+<section id="nonbonded-anisotropic-models">
+<h2>Nonbonded Anisotropic Models<a class="headerlink" href="#nonbonded-anisotropic-models" title="Permalink to this heading"></a></h2>
+<p>These classes include anisotropic interactions.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="patch/doc/VisitModelInnerPatch_arguments.html">VisitModelInnerPatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patch/doc/MoviePatch_arguments.html">MoviePatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aniso/doc/VisitModelInnerTable_arguments.html">VisitModelInnerTable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aniso/doc/ContactObjective_arguments.html">ContactObjective</a></li>
+</ul>
+</div>
+</section>
+<section id="long-range-electrostatics">
+<h2>Long-Range Electrostatics<a class="headerlink" href="#long-range-electrostatics" title="Permalink to this heading"></a></h2>
+<p>These classes include Ewald and long-range electrostatics.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/Ewald_arguments.html">Ewald</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/ChargeScreened_arguments.html">ChargeScreened</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/ChargeScreenedIntra_arguments.html">ChargeScreenedIntra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/ChargeSelf_arguments.html">ChargeSelf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/SlabCorrection_arguments.html">SlabCorrection</a></li>
+</ul>
+</div>
+</section>
+<section id="neighbor-lists">
+<h2>Neighbor lists<a class="headerlink" href="#neighbor-lists" title="Permalink to this heading"></a></h2>
+<p>These classes store neighbors and their interaction energies.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelInner_arguments.html">VisitModelInner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/EnergyMap_arguments.html">EnergyMap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/EnergyMapAll_arguments.html">EnergyMapAll</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/EnergyMapAllCriteria_arguments.html">EnergyMapAllCriteria</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/EnergyMapNeighbor_arguments.html">EnergyMapNeighbor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/EnergyMapNeighborCriteria_arguments.html">EnergyMapNeighborCriteria</a></li>
+</ul>
+</div>
+</section>
+<section id="zero-or-one-body-potentials">
+<h2>Zero- or One-Body Potentials<a class="headerlink" href="#zero-or-one-body-potentials" title="Permalink to this heading"></a></h2>
+<p>These classes include zero- or one-body interactions.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="confinement/doc/Background_arguments.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confinement/doc/ModelHardShape_arguments.html">ModelHardShape</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confinement/doc/ModelTableCart1DHard_arguments.html">ModelTableCart1DHard</a></li>
+</ul>
+</div>
+</section>
+<section id="nonbonded-potentials">
+<h2>Nonbonded Potentials<a class="headerlink" href="#nonbonded-potentials" title="Permalink to this heading"></a></h2>
+<p>These classes include various ways that interactions may be computed over a <a class="reference internal" href="configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Selection</span></code></a> or the entire <a class="reference internal" href="configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Configuration</span></code></a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/Potential_arguments.html">Potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModel_arguments.html">VisitModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/DontVisitModel_arguments.html">DontVisitModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelBond_arguments.html">VisitModelBond</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelCell_arguments.html">VisitModelCell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelIntra_arguments.html">VisitModelIntra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelIntraMap_arguments.html">VisitModelIntraMap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/LongRangeCorrections_arguments.html">LongRangeCorrections</a></li>
+</ul>
+</div>
+</section>
+<section id="bonded-interactions">
+<h2>Bonded Interactions<a class="headerlink" href="#bonded-interactions" title="Permalink to this heading"></a></h2>
+<p>The following bonded interactions are typically specified in fstprt files (see <a class="reference internal" href="../particle/README.html"><span class="doc">Particle files and units</span></a>):</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/RigidBond_arguments.html">RigidBond</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/RigidAngle_arguments.html">RigidAngle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/RigidDihedral_arguments.html">RigidDihedral</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/BondSquareWell_arguments.html">BondSquareWell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/AngleSquareWell_arguments.html">AngleSquareWell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/BondHarmonic_arguments.html">BondHarmonic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/AngleHarmonic_arguments.html">AngleHarmonic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/DihedralHarmonic_arguments.html">DihedralHarmonic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/DihedralTraPPE_arguments.html">DihedralTraPPE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/FENE_arguments.html">FENE</a></li>
+</ul>
+</div>
+</section>
+<section id="thermodynamic-parameters">
+<h2>Thermodynamic Parameters<a class="headerlink" href="#thermodynamic-parameters" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/ThermoParams_arguments.html">ThermoParams</a></li>
+</ul>
+</div>
+</section>
+<section id="acceptance-criteria">
+<h2>Acceptance Criteria<a class="headerlink" href="#acceptance-criteria" title="Permalink to this heading"></a></h2>
+<p>These classes determine if a <a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MonteCarlo</span></code></a> <a class="reference internal" href="monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Trial</span></code></a> is accepted or rejected.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/Metropolis_arguments.html">Metropolis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/FlatHistogram_arguments.html">FlatHistogram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mayer/doc/MayerSampling_arguments.html">MayerSampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/AlwaysReject_arguments.html">AlwaysReject</a></li>
+</ul>
+</div>
+</section>
+<section id="constraints">
+<h2>Constraints<a class="headerlink" href="#constraints" title="Permalink to this heading"></a></h2>
+<p>These classes impose <a class="reference internal" href="monte_carlo/doc/Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Constraints</span></code></a> on the acceptance <a class="reference internal" href="monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Criteria</span></code></a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/ConstrainNumParticles_arguments.html">ConstrainNumParticles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="egce/doc/AEqualB_arguments.html">AEqualB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="egce/doc/AHalfB_arguments.html">AHalfB</a></li>
+</ul>
+</div>
+</section>
+<section id="monte-carlo-trials">
+<h2>Monte Carlo Trials<a class="headerlink" href="#monte-carlo-trials" title="Permalink to this heading"></a></h2>
+<p>These classes add <a class="reference internal" href="monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Trials</span></code></a>.
+<a class="reference internal" href="chain/doc/TrialGrow.html#_CPPv4N6feasst9TrialGrowE" title="feasst::TrialGrow"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">TrialGrow</span></code></a> has the most features.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/TrialTranslate_arguments.html">TrialTranslate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/TrialParticlePivot_arguments.html">TrialParticlePivot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/TrialTransfer_arguments.html">TrialTransfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/TrialGrow_arguments.html">TrialGrow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/TrialAdd_arguments.html">TrialAdd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/TrialRemove_arguments.html">TrialRemove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/TrialVolume_arguments.html">TrialVolume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beta_expanded/doc/TrialBeta_arguments.html">TrialBeta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/TrialCrankshaft_arguments.html">TrialCrankshaft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/TrialCrankshaftSmall_arguments.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/TrialPivot_arguments.html">TrialPivot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/TrialSwapSites_arguments.html">TrialSwapSites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/TrialAddMultiple_arguments.html">TrialAddMultiple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/TrialRemoveMultiple_arguments.html">TrialRemoveMultiple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/TrialTransferMultiple_arguments.html">TrialTransferMultiple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialAVB2_arguments.html">TrialAVB2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialAVB4_arguments.html">TrialAVB4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialRigidCluster_arguments.html">TrialRigidCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialTransferAVB_arguments.html">TrialTransferAVB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialTransferAVBDivalent_arguments.html">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="morph/doc/TrialMorph_arguments.html">TrialMorph</a></li>
+</ul>
+</div>
+</section>
+<section id="analyze-and-modify">
+<h2>Analyze and Modify<a class="headerlink" href="#analyze-and-modify" title="Permalink to this heading"></a></h2>
+<p>Analyze happen every so many steps, and do not change the simulation.
+Modify happen every so many steps, and may change the simulation.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Check_arguments.html">Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/CheckEnergy_arguments.html">CheckEnergy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Chirality2D_arguments.html">Chirality2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/CPUTime_arguments.html">CPUTime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/CriteriaUpdater_arguments.html">CriteriaUpdater</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/CriteriaWriter_arguments.html">CriteriaWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Density_arguments.html">Density</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/DensityProfile_arguments.html">DensityProfile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Energy_arguments.html">Energy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/ExtensiveMoments_arguments.html">ExtensiveMoments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Log_arguments.html">Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/MeanSquaredDisplacement_arguments.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Movie_arguments.html">Movie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/NumParticles_arguments.html">NumParticles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/PairDistributionInner_arguments.html">PairDistributionInner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/ProfileTrials_arguments.html">ProfileTrials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/ReadConfigFromFile_arguments.html">ReadConfigFromFile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Scattering_arguments.html">Scattering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Tune_arguments.html">Tune</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Volume_arguments.html">Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/WallClockLimit_arguments.html">WallClockLimit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/WrapParticles_arguments.html">WrapParticles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/AnalyzeBonds_arguments.html">AnalyzeBonds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/EndToEndDistance_arguments.html">EndToEndDistance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/GhostTrialGrow_arguments.html">GhostTrialGrow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/RadiusOfGyration_arguments.html">RadiusOfGyration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charge/doc/CheckNetCharge_arguments.html">CheckNetCharge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/AnalyzeCluster_arguments.html">AnalyzeCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example/doc/AnalyzeExample_arguments.html">AnalyzeExample</a></li>
+</ul>
+</div>
+</section>
+<section id="actions">
+<h2>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h2>
+<p>Actions happen one time.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/Run_arguments.html">Run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/RemoveTrial_arguments.html">RemoveTrial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/RemoveAnalyze_arguments.html">RemoveAnalyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/RemoveModify_arguments.html">RemoveModify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/WriteCheckpoint_arguments.html">WriteCheckpoint</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/WriteModelParams_arguments.html">WriteModelParams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/RefPotential_arguments.html">RefPotential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/ConvertToRefPotential_arguments.html">ConvertToRefPotential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example/doc/ActionExample_arguments.html">ActionExample</a></li>
+</ul>
+</div>
+</section>
+<section id="flat-histogram">
+<h2>Flat Histogram<a class="headerlink" href="#flat-histogram" title="Permalink to this heading"></a></h2>
+<p>Flat-histogram simulations bias along a 1-dimensional macrostate.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/FlatHistogram_arguments.html">FlatHistogram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/MacrostateNumParticles_arguments.html">MacrostateNumParticles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/MacrostateEnergy_arguments.html">MacrostateEnergy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beta_expanded/doc/MacrostateBeta_arguments.html">MacrostateBeta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/WangLandau_arguments.html">WangLandau</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/TransitionMatrix_arguments.html">TransitionMatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/CollectionMatrix_arguments.html">CollectionMatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/WLTM_arguments.html">WLTM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/CollectionMatrixSplice_arguments.html">CollectionMatrixSplice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/Window_arguments.html">Window</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/WindowExponential_arguments.html">WindowExponential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flat_histogram/doc/WindowCustom_arguments.html">WindowCustom</a></li>
+</ul>
+</div>
+</section>
+<section id="gibbs-ensemble">
+<h2>Gibbs Ensemble<a class="headerlink" href="#gibbs-ensemble" title="Permalink to this heading"></a></h2>
+<p>Simultaneous simulate multiple configurations and transfer particles and/or volume between them.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gibbs/doc/TrialGibbsVolumeTransfer_arguments.html">TrialGibbsVolumeTransfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gibbs/doc/TrialGibbsParticleTransfer_arguments.html">TrialGibbsParticleTransfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gibbs/doc/PressureFromTestVolume_arguments.html">PressureFromTestVolume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gibbs/doc/CheckConstantVolume_arguments.html">CheckConstantVolume</a></li>
+</ul>
+</div>
+<p>The information available here is identical to the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation, but with only the class arguments and no member functions.
+The list above is pruned manually from the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation.
+Therefore the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation represents all capabilities of FEASST, some of which are hidden from text users for various reasons (e.g., because the classes may be used internally, still in development, buggy, depreciated, debugging tools or simply forgotten).</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="netcdf/tutorial/tutorial_1_lj_nvt.html" class="btn btn-neutral float-left" title="Compare XYZ (ascii) with netCDF" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utils/doc/Checkpoint_arguments.html" class="btn btn-neutral float-right" title="Checkpoint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+
+
+  <br></br>
+  <footer class="nist-footer">
+  <div class="nist-footer__inner">
+    <div class="nist-footer__menu" role="navigation">
+      <ul>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy">Privacy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#privpolicy">Privacy Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#secnot">Security Notice</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#accesstate">Accessibility Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy">NIST Privacy Program</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/disclaimer">Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/office-director/freedom-information-act">FOIA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#cookie">Cookie Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity Summary</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/nist-information-quality-standards">NIST Information Quality Standards</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://business.usa.gov/">Business USA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.commerce.gov/">Commerce.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.healthcare.gov/">Healthcare.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.science.gov/">Science.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.usa.gov/">USA.gov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nist-footer__logo">
+    <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-footer__logo-link" rel="home">
+      <img src="https://pages.nist.gov/nist-header-footer/images/nist_logo_centered_rev.svg" alt="National Institute of Standards and Technology logo" />
+    </a>
+  </div>
+</footer>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115121490-6');
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
+
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

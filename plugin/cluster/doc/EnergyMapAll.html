@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EnergyMapAll &mdash; FEASST v0.23.1 documentation</title>
+  <title>EnergyMapAll &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -160,7 +161,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Cluster</a> &raquo;</li>
         
@@ -214,7 +215,7 @@
 <span class="target" id="classfeasst_1_1EnergyMapAll"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EnergyMapAll</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMapE" title="feasst::EnergyMap"><span class="n"><span class="pre">EnergyMap</span></span></a><a class="headerlink" href="#_CPPv4N6feasst12EnergyMapAllE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Map energies with an inefficient but simple data structure. All pairwise interactions between particles and sites are stored, even when the interaction is zero.</p>
 <p>This implementation stores two versions of the map, the current map and the new map. Updates from perturbations change only the new map. If the perturbation is accepted, the updates are finalized into the current map. Otherwise, the new map is synchronized to the old map. </p>
-<p>Subclassed by <a class="reference internal" href="EnergyMapAllCriteria.html#classfeasst_1_1EnergyMapAllCriteria"><span class="std std-ref">feasst::EnergyMapAllCriteria</span></a></p>
+<p>Subclassed by <a class="reference internal" href="EnergyMapAllCriteria_arguments.html#classfeasst_1_1EnergyMapAllCriteria"><span class="std std-ref">feasst::EnergyMapAllCriteria</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">

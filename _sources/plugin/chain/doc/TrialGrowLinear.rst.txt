@@ -4,3 +4,4 @@ TrialGrowLinear
 .. doxygenclass:: feasst::TrialGrowLinear
    :project: FEASST
    :members:
+   

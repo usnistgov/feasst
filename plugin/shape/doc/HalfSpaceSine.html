@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HalfSpaceSine &mdash; FEASST v0.23.1 documentation</title>
+  <title>HalfSpaceSine &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,14 +54,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -161,7 +162,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Shape</a> &raquo;</li>
         
@@ -213,7 +214,7 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13HalfSpaceSineE">
 <span class="target" id="classfeasst_1_1HalfSpaceSine"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HalfSpaceSine</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="HalfSpace.html#_CPPv4N6feasst9HalfSpaceE" title="feasst::HalfSpace"><span class="n"><span class="pre">HalfSpace</span></span></a><a class="headerlink" href="#_CPPv4N6feasst13HalfSpaceSineE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Similar to <a class="reference internal" href="HalfSpace.html#classfeasst_1_1HalfSpace"><span class="std std-ref">HalfSpace</span></a>, which divides space by a plane (or line in 2D), except that space is divided by a sine wave instead. <a class="reference internal" href="FormulaSineWave.html#classfeasst_1_1FormulaSineWave"><span class="std std-ref">FormulaSineWave</span></a> describes the surface. Note that the “y” coordinate refers to the one specified in the “dimension” input argument. Thus, the “intersect” argument in <a class="reference internal" href="HalfSpace.html#classfeasst_1_1HalfSpace"><span class="std std-ref">HalfSpace</span></a> overrides the “shift” argument in <a class="reference internal" href="FormulaSineWave.html#classfeasst_1_1FormulaSineWave"><span class="std std-ref">FormulaSineWave</span></a>. The “x” coordinate is given by wave_dimension.</p>
+<dd><p>Similar to <a class="reference internal" href="HalfSpace_arguments.html#classfeasst_1_1HalfSpace"><span class="std std-ref">HalfSpace</span></a>, which divides space by a plane (or line in 2D), except that space is divided by a sine wave instead. <a class="reference internal" href="FormulaSineWave_arguments.html#classfeasst_1_1FormulaSineWave"><span class="std std-ref">FormulaSineWave</span></a> describes the surface. Note that the “y” coordinate refers to the one specified in the “dimension” input argument. Thus, the “intersect” argument in <a class="reference internal" href="HalfSpace_arguments.html#classfeasst_1_1HalfSpace"><span class="std std-ref">HalfSpace</span></a> overrides the “shift” argument in <a class="reference internal" href="FormulaSineWave_arguments.html#classfeasst_1_1FormulaSineWave"><span class="std std-ref">FormulaSineWave</span></a>. The “x” coordinate is given by wave_dimension.</p>
 <p>To find the nearest distance of the sine wall from the point, the squared distance, <span class="math notranslate nohighlight">\(D^2\)</span> of the point (e,f) to the sine wave,</p>
 <p><span class="math notranslate nohighlight">\(D^2 = (x-e)^2 + (y-f)^2\)</span></p>
 <p>should be a minimum. Thus, the derivative should be zero.</p>

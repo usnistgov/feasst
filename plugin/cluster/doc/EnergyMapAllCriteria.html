@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EnergyMapAllCriteria &mdash; FEASST v0.23.1 documentation</title>
+  <title>EnergyMapAllCriteria &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -160,7 +161,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Cluster</a> &raquo;</li>
         
@@ -212,18 +213,9 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst20EnergyMapAllCriteriaE">
 <span class="target" id="classfeasst_1_1EnergyMapAllCriteria"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EnergyMapAllCriteria</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="EnergyMapAll.html#_CPPv4N6feasst12EnergyMapAllE" title="feasst::EnergyMapAll"><span class="n"><span class="pre">EnergyMapAll</span></span></a><a class="headerlink" href="#_CPPv4N6feasst20EnergyMapAllCriteriaE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Same as <a class="reference internal" href="EnergyMapAll.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a>, except subject update to <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
+<dd><p>Same as <a class="reference internal" href="EnergyMapAll_arguments.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a>, except subject update to <a class="reference internal" href="../../configuration/doc/NeighborCriteria_arguments.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst20EnergyMapAllCriteria20EnergyMapAllCriteriaE7argtype">
-<span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1afcfec4d321bb8959653a0df8efcec66b"></span><span class="sig-name descname"><span class="n"><span class="pre">EnergyMapAllCriteria</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20EnergyMapAllCriteria20EnergyMapAllCriteriaE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>neighbor_index: <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (default: 0). </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst20EnergyMapAllCriteria6updateEKdKiKiKiKiKiKiKdPK8PositionRK13Configuration">
 <span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1a219e11c80e7cdabec752ab7baf15ba1e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">energy</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">part1_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site1_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site1_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">part2_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site2_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site2_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">squared_distance</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">pbc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20EnergyMapAllCriteria6updateEKdKiKiKiKiKiKiKdPK8PositionRK13Configuration" title="Permalink to this definition"></a><br /></dt>
@@ -234,6 +226,18 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst20EnergyMapAllCriteria12is_queryableEv">
 <span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1ae92a40ae0472369f1e9647c50f60bf8e"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_queryable</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst20EnergyMapAllCriteria12is_queryableEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return true if the total interaction energy is stored (e.g., no criteria for inclusion. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst20EnergyMapAllCriteria20EnergyMapAllCriteriaE7argtype">
+<span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1afcfec4d321bb8959653a0df8efcec66b"></span><span class="sig-name descname"><span class="n"><span class="pre">EnergyMapAllCriteria</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20EnergyMapAllCriteria20EnergyMapAllCriteriaE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>neighbor_index: <a class="reference internal" href="../../configuration/doc/NeighborCriteria_arguments.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (default: 0). </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

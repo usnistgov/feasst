@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PerturbDistance &mdash; FEASST v0.23.1 documentation</title>
+  <title>PerturbDistance &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -160,7 +161,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Monte Carlo</a> &raquo;</li>
         
@@ -212,20 +213,10 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst15PerturbDistanceE">
 <span class="target" id="classfeasst_1_1PerturbDistance"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PerturbDistance</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="PerturbMove.html#_CPPv4N6feasst11PerturbMoveE" title="feasst::PerturbMove"><span class="n"><span class="pre">PerturbMove</span></span></a><a class="headerlink" href="#_CPPv4N6feasst15PerturbDistanceE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Put first site in selection in a spherical shell about the first site in anchor. For rigid bonds, the spherical shell has infinitesimal thickness (a sphere). The following <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a> <a class="reference internal" href="../../configuration/doc/Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a> (e.g., /feasst/particle/README.rst): length, maximum_length and spring_constant and exponent are as described in Random::bond_length. The length in <a class="reference internal" href="../../configuration/doc/Bond.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a> <a class="reference internal" href="../../configuration/doc/Properties.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a> is equilibrium_length in Random::bond_length. If maximum_length is not provided, it is assumed to be twice the length. If spring_constant is not provided, the bond is assumed to be rigid. If exponent is not provided, it is assumed to be 2 (harmonic). </p>
-<p>Subclassed by <a class="reference internal" href="PerturbDistanceAngle.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">feasst::PerturbDistanceAngle</span></a>, <a class="reference internal" href="../../chain/doc/PerturbReptate.html#classfeasst_1_1PerturbReptate"><span class="std std-ref">feasst::PerturbReptate</span></a></p>
+<dd><p>Put first site in selection in a spherical shell about the first site in anchor. For rigid bonds, the spherical shell has infinitesimal thickness (a sphere). The following <a class="reference internal" href="../../configuration/doc/Bond_arguments.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a> <a class="reference internal" href="../../configuration/doc/Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a> (e.g., /feasst/particle/README.rst): length, maximum_length and spring_constant and exponent are as described in Random::bond_length. The length in <a class="reference internal" href="../../configuration/doc/Bond_arguments.html#classfeasst_1_1Bond"><span class="std std-ref">Bond</span></a> <a class="reference internal" href="../../configuration/doc/Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a> is equilibrium_length in Random::bond_length. If maximum_length is not provided, it is assumed to be twice the length. If spring_constant is not provided, the bond is assumed to be rigid. If exponent is not provided, it is assumed to be 2 (harmonic). </p>
+<p>Subclassed by <a class="reference internal" href="PerturbDistanceAngle_arguments.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">feasst::PerturbDistanceAngle</span></a>, <a class="reference internal" href="../../chain/doc/PerturbReptate_arguments.html#classfeasst_1_1PerturbReptate"><span class="std std-ref">feasst::PerturbReptate</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst15PerturbDistance15PerturbDistanceE7argtype">
-<span class="target" id="classfeasst_1_1PerturbDistance_1a259ef811407f8d112a20f017561dd4a2"></span><span class="sig-name descname"><span class="n"><span class="pre">PerturbDistance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15PerturbDistance15PerturbDistanceE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>potential_acceptance: index of intramolecular potential that will be used to select the move. This option is intended for <a class="reference internal" href="../../mayer/doc/MayerSampling.html#classfeasst_1_1MayerSampling"><span class="std std-ref">MayerSampling</span></a> only. Note: if the <a class="reference internal" href="Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> has multiple stages, this may cause problems. Ignore if -1 (default: -1).</p></li>
-<li><p>enable_tunable: enable tunable perturbation, but only implemented for a single stage and a single step. </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst15PerturbDistance10precomputeEP11TrialSelectP6System">
 <span class="target" id="classfeasst_1_1PerturbDistance_1a333e0999e64abd0c4371edd53b3dfc31"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect"><span class="n"><span class="pre">TrialSelect</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15PerturbDistance10precomputeEP11TrialSelectP6System" title="Permalink to this definition"></a><br /></dt>
@@ -254,6 +245,19 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst15PerturbDistance4moveEKbP6SystemP11TrialSelectP6Random">
 <span class="target" id="classfeasst_1_1PerturbDistance_1a8f72fdce913671aba28f9911a8f7b466"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">move</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">is_position_held</span></span>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect"><span class="n"><span class="pre">TrialSelect</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15PerturbDistance4moveEKbP6SystemP11TrialSelectP6Random" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Move the selection of the system. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst15PerturbDistance15PerturbDistanceE7argtype">
+<span class="target" id="classfeasst_1_1PerturbDistance_1a259ef811407f8d112a20f017561dd4a2"></span><span class="sig-name descname"><span class="n"><span class="pre">PerturbDistance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15PerturbDistance15PerturbDistanceE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>potential_acceptance: index of intramolecular potential that will be used to select the move. This option is intended for <a class="reference internal" href="../../mayer/doc/MayerSampling_arguments.html#classfeasst_1_1MayerSampling"><span class="std std-ref">MayerSampling</span></a> only. Note: if the <a class="reference internal" href="Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> has multiple stages, this may cause problems. Ignore if -1 (default: -1).</p></li>
+<li><p>enable_tunable: enable tunable perturbation, but only implemented for a single stage and a single step. </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

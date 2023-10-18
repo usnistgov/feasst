@@ -25,7 +25,7 @@ Features
    :target: https://pages.nist.gov/feasst
    :align: right
 
-The :doc:`/plugin/README` is summarized as follows:
+The features available in the :doc:`/plugin/text_interface` are summarized as follows:
 
 Monte Carlo simulation techniques
 
@@ -38,8 +38,9 @@ Thermodynamic ensembles
 
 * Microcanonical ensemble
 * Canonical ensemble
-* Grand canonical ensemble
+* Grand-canonical ensemble
 * Temperature and growth expanded ensembles
+* Gibbs ensemble
 
 Monte Carlo trials
 
@@ -55,7 +56,7 @@ Interaction potentials
 
 * Hard spheres
 * Lennard-Jones with LRC, cut and force shift
-* Patchy particles
+* Patchy and anisotropic particles
 * Yukawa and charged interactions
 * Ewald summation and 2D slab correction
 * Bonds, angles and dihedrals
@@ -69,7 +70,16 @@ Modern software
 * OpenMP parallelization and prefetching
 * Checkpoint files to save, restart and analyze simulations
 
-How to install (e.g., compile the executables).
+How to get started
+===============================================
+
+First, compile the executables as described below.
+Second, find :doc:`tutorial/README` that are closest to what you would like to accomplish.
+Third, reproduce the expected result of those tutorials.
+Fourth, use the :doc:`../plugin/text_interface` documentation to better understand and modify the tutorial to accomplish your goals.
+When you :doc:`../CONTACT` us with issues, include the text input file instead of the python script that generates that text file.
+
+How to install (e.g., compile the executables)
 ===============================================
 
 .. code-block:: bash

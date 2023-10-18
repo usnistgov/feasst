@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FileVMD &mdash; FEASST v0.23.1 documentation</title>
+  <title>FileVMD &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -175,7 +176,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Configuration</a> &raquo;</li>
         
@@ -229,9 +230,9 @@
 <span class="target" id="classfeasst_1_1FileVMD"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FileVMD</span></span></span><a class="headerlink" href="#_CPPv4N6feasst7FileVMDE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Print a vmd script to view an xyz file via Bash: “vmd -e file.vmd”</p>
 <p>For macOS, consider using an alias in your .bash_profile such as: alias vmd=’/Applications/VMD\ 1.9.4a51-x86_64-Rev9.app/Contents/MacOS/startup.command’ </p>
-<p>Subclassed by <a class="reference internal" href="../../patch/doc/FileVMDPatch.html#classfeasst_1_1FileVMDPatch"><span class="std std-ref">feasst::FileVMDPatch</span></a></p>
+<p>Subclassed by <a class="reference internal" href="../../patch/doc/FileVMDPatch_arguments.html#classfeasst_1_1FileVMDPatch"><span class="std std-ref">feasst::FileVMDPatch</span></a></p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst7FileVMD7FileVMDE7argtype">
 <span class="target" id="classfeasst_1_1FileVMD_1a9bd0b88e6c9d010b87ce61eea6a96cff"></span><span class="sig-name descname"><span class="n"><span class="pre">FileVMD</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7FileVMD7FileVMDE7argtype" title="Permalink to this definition"></a><br /></dt>
@@ -253,21 +254,9 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst7FileXYZE">
 <span class="target" id="classfeasst_1_1FileXYZ"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FileXYZ</span></span></span><a class="headerlink" href="#_CPPv4N6feasst7FileXYZE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The XYZ file format has no formal standard: <a class="reference external" href="https://en.wikipedia.org/wiki/XYZ_file_format">https://en.wikipedia.org/wiki/XYZ_file_format</a> It is important to remember that FEASST has its own variant.</p>
-<p>The first line is the number of sites, n. The second line is of the format [id lx ly lz xy xz yz], where id is a placeholder for order parameters or macrostates, lx is the box length in the x direction, ly is the box length in the y direction, lz is the box length in the z direction, xy is the xy domain tilt (see <a class="reference internal" href="Domain.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a>), xz is the xz domain tilt, and yz is the yz domain tilt. If lz == 0, then the domain is set to two dimensions. The following n lines are in the format [id x y z], where id is the unique site type and x, y, z are the Cartesian coordinates. </p>
+<p>The first line is the number of sites, n. The second line is of the format [id lx ly lz xy xz yz], where id is a placeholder for order parameters or macrostates, lx is the box length in the x direction, ly is the box length in the y direction, lz is the box length in the z direction, xy is the xy domain tilt (see <a class="reference internal" href="Domain_arguments.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a>), xz is the xz domain tilt, and yz is the yz domain tilt. If lz == 0, then the domain is set to two dimensions. The following n lines are in the format [id x y z], where id is the unique site type and x, y, z are the Cartesian coordinates. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst7FileXYZ7FileXYZE7argtype">
-<span class="target" id="classfeasst_1_1FileXYZ_1afb674ee0645c99d13209bb95a30e658c"></span><span class="sig-name descname"><span class="n"><span class="pre">FileXYZ</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7FileXYZ7FileXYZE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>group_index: print the coordinates of this group index only (default: 0).</p></li>
-<li><p>group: name of group defined within system (default: “”).</p></li>
-<li><p>append: append file output if set to true. Do not append if false (default: “false”).</p></li>
-<li><p>euler: if true, print <a class="reference internal" href="../../math/doc/Euler.html#classfeasst_1_1Euler"><span class="std std-ref">Euler</span></a> angles (default: “false”). </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst7FileXYZ4loadEKNSt6stringEP13Configuration">
 <span class="target" id="classfeasst_1_1FileXYZ_1a562170c34ad189dd96eb8f1b3171dcc3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span>, <a class="reference internal" href="Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst7FileXYZ4loadEKNSt6stringEP13Configuration" title="Permalink to this definition"></a><br /></dt>
@@ -289,6 +278,21 @@
 <dd class="field-odd"><p>Number of decimal places </p>
 </dd>
 </dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst7FileXYZ7FileXYZE7argtype">
+<span class="target" id="classfeasst_1_1FileXYZ_1afb674ee0645c99d13209bb95a30e658c"></span><span class="sig-name descname"><span class="n"><span class="pre">FileXYZ</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7FileXYZ7FileXYZE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>group_index: print the coordinates of this group index only (default: 0).</p></li>
+<li><p>group: name of group defined within system (default: “”).</p></li>
+<li><p>append: append file output if set to true. Do not append if false (default: “false”).</p></li>
+<li><p>euler: if true, print <a class="reference internal" href="../../math/doc/Euler_arguments.html#classfeasst_1_1Euler"><span class="std std-ref">Euler</span></a> angles (default: “false”). </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

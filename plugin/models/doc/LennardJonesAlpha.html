@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LennardJonesAlpha &mdash; FEASST v0.23.1 documentation</title>
+  <title>LennardJonesAlpha &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,14 +54,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -175,7 +176,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Models</a> &raquo;</li>
         
@@ -227,29 +228,19 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst17LennardJonesAlphaE">
 <span class="target" id="classfeasst_1_1LennardJonesAlpha"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LennardJonesAlpha</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/LennardJones.html#_CPPv4N6feasst12LennardJonesE" title="feasst::LennardJones"><span class="n"><span class="pre">LennardJones</span></span></a><a class="headerlink" href="#_CPPv4N6feasst17LennardJonesAlphaE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>This Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{LJ}\)</span> is a generalization of the one described in <a class="reference internal" href="../../system/doc/LennardJones.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a>.</p>
+<dd><p>This Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{LJ}\)</span> is a generalization of the one described in <a class="reference internal" href="../../system/doc/LennardJones_arguments.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a>.</p>
 <p><span class="math notranslate nohighlight">\( U_{LJ} = 4\epsilon \left[ \left(\frac{\sigma + \Delta_\sigma}{r + \Delta_\sigma}\right)^{2\alpha} - \left(\frac{\sigma + \Delta_\sigma}{r + \Delta_\sigma}\right)^\alpha \right] \)</span>,</p>
-<p>In this class, the <span class="math notranslate nohighlight">\(\alpha\)</span> parameter may be varied (default: 6). In addition, the delta_sigma parameter may be set as a site-specific <a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> in the fstprt file (default: 0).</p>
+<p>In this class, the <span class="math notranslate nohighlight">\(\alpha\)</span> parameter may be varied (default: 6). In addition, the delta_sigma parameter may be set as a site-specific <a class="reference internal" href="../../configuration/doc/ModelParam_arguments.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> in the fstprt file (default: 0).</p>
 <p>Note that <span class="math notranslate nohighlight">\(U_{LJ}\)</span> crosses zero when <span class="math notranslate nohighlight">\(r=\sigma\)</span>.</p>
 <p>Consider an alternative interpretation for <span class="math notranslate nohighlight">\(\Delta_\sigma = \sigma_r - \sigma\)</span></p>
 <p><span class="math notranslate nohighlight">\( U_{LJ} = 4\epsilon \left[ \left(\frac{\sigma_r}{r - \sigma + \sigma_r}\right)^{2\alpha} - \left(\frac{\sigma_r}{r - \sigma + \sigma_r}\right)^\alpha \right] \)</span></p>
 <p>Thus, <span class="math notranslate nohighlight">\(\sigma_r = \sigma + \Delta_\sigma\)</span> determines the well width and shape of the potential, while <span class="math notranslate nohighlight">\(\sigma\)</span> determines the excluded volume by shifting the potential right or left.</p>
 <p>An additional option is the use of a “lambda” potential which decouples the attractive and repulsive portions of the LJ potential to allow for a modified well-depth or even a shoulder, as shown in Fig. 1 of <a class="reference external" href="https://doi.org/10.1039/C7SM01005B">https://doi.org/10.1039/C7SM01005B</a> and also described in <a class="reference external" href="https://dx.doi.org/10.1021/ja802124e">https://dx.doi.org/10.1021/ja802124e</a>.</p>
 <p><span class="math notranslate nohighlight">\( U^\lambda = \left\{ \begin{array}{lr} U_{LJ} + \epsilon(1 - \lambda_{ij}) &amp; r \le r_m \\ \lambda_{ij}U_{LJ} &amp; r &gt; r_m \end{array} \right. \)</span></p>
-<p>where <span class="math notranslate nohighlight">\(r_m = (\sigma + \Delta_\sigma)2^{1/\alpha}-\Delta_\sigma\)</span> is the minimum. The lambda parameter is also a site-specific <a class="reference internal" href="../../configuration/doc/ModelParam.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> in the fstprt file. </p>
-<p>Subclassed by <a class="reference internal" href="LennardJonesCutShift.html#classfeasst_1_1LennardJonesCutShift"><span class="std std-ref">feasst::LennardJonesCutShift</span></a>, <a class="reference internal" href="LennardJonesForceShift.html#classfeasst_1_1LennardJonesForceShift"><span class="std std-ref">feasst::LennardJonesForceShift</span></a></p>
+<p>where <span class="math notranslate nohighlight">\(r_m = (\sigma + \Delta_\sigma)2^{1/\alpha}-\Delta_\sigma\)</span> is the minimum. The lambda parameter is also a site-specific <a class="reference internal" href="../../configuration/doc/ModelParam_arguments.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> in the fstprt file. </p>
+<p>Subclassed by <a class="reference internal" href="LennardJonesCutShift_arguments.html#classfeasst_1_1LennardJonesCutShift"><span class="std std-ref">feasst::LennardJonesCutShift</span></a>, <a class="reference internal" href="LennardJonesForceShift_arguments.html#classfeasst_1_1LennardJonesForceShift"><span class="std std-ref">feasst::LennardJonesForceShift</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst17LennardJonesAlpha17LennardJonesAlphaE7argtype">
-<span class="target" id="classfeasst_1_1LennardJonesAlpha_1a143c8eed6bdb5fb63cc83cdc21f2a7e6"></span><span class="sig-name descname"><span class="n"><span class="pre">LennardJonesAlpha</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17LennardJonesAlpha17LennardJonesAlphaE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>alpha: set the value of <span class="math notranslate nohighlight">\(\alpha\)</span> (default: 6).</p></li>
-<li><p>lambda: enable “lambda” potentials (default: false) </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst17LennardJonesAlpha5alphaEv">
 <span class="target" id="classfeasst_1_1LennardJonesAlpha_1a48f7957f815ddf112dd4da2da2c1b8fd"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">alpha</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst17LennardJonesAlpha5alphaEv" title="Permalink to this definition"></a><br /></dt>
@@ -278,6 +269,19 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst17LennardJonesAlpha9serializeERNSt7ostreamE">
 <span class="target" id="classfeasst_1_1LennardJonesAlpha_1ae0f7321c2d707580cd63c0b71de1c8d3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst17LennardJonesAlpha9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Output a serialized version of the existing model. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst17LennardJonesAlpha17LennardJonesAlphaE7argtype">
+<span class="target" id="classfeasst_1_1LennardJonesAlpha_1a143c8eed6bdb5fb63cc83cdc21f2a7e6"></span><span class="sig-name descname"><span class="n"><span class="pre">LennardJonesAlpha</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17LennardJonesAlpha17LennardJonesAlphaE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>alpha: set the value of <span class="math notranslate nohighlight">\(\alpha\)</span> (default: 6).</p></li>
+<li><p>lambda: enable “lambda” potentials (default: false) </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NumParticles &mdash; FEASST v0.23.1 documentation</title>
+  <title>NumParticles &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -187,7 +188,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Steppers</a> &raquo;</li>
         
@@ -243,16 +244,6 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst12NumParticles12NumParticlesE7argtype">
-<span class="target" id="classfeasst_1_1NumParticles_1a6a65edbac3d658c2c6b4bb0a7670c2a2"></span><span class="sig-name descname"><span class="n"><span class="pre">NumParticles</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12NumParticles12NumParticlesE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>particle_type: index of particle type from configuration. If -1, sum all particles (default: -1).</p></li>
-<li><p>group: index of group from configuration. If -1, sum all particles (default: -1). Can only be specified if particle_type is -1. </p></li>
-</ul>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst12NumParticles6headerERK8CriteriaRK6SystemRK12TrialFactory">
 <span class="target" id="classfeasst_1_1NumParticles_1a41121866728cfd1b2b749a6c4add3fce"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">header</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">trials</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12NumParticles6headerERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the header for writing. </p>
@@ -274,6 +265,20 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst12NumParticles5writeERK8CriteriaRK6SystemRK12TrialFactory">
 <span class="target" id="classfeasst_1_1NumParticles_1a3b61d7477f28e167a9b1011eceefed92"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12NumParticles5writeERK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Perform write action. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12NumParticles12NumParticlesE7argtype">
+<span class="target" id="classfeasst_1_1NumParticles_1a6a65edbac3d658c2c6b4bb0a7670c2a2"></span><span class="sig-name descname"><span class="n"><span class="pre">NumParticles</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12NumParticles12NumParticlesE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>particle_type: index of particle type from configuration. If -1, sum all particles (default: -1).</p></li>
+<li><p>group: index of group from configuration. If -1, sum all particles (default: -1). Can only be specified if particle_type is -1.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

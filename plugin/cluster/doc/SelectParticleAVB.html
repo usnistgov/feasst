@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SelectParticleAVB &mdash; FEASST v0.23.1 documentation</title>
+  <title>SelectParticleAVB &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="ComputeAVB4" href="ComputeAVB4.html" />
+    <link rel="next" title="PerturbPointReflect" href="PerturbPointReflect.html" />
     <link rel="prev" title="SelectParticleAVBDivalent" href="SelectParticleAVBDivalent.html" />
 
 	<!-- frame blocking -->
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -160,7 +161,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Cluster</a> &raquo;</li>
         
@@ -212,24 +213,9 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst17SelectParticleAVBE">
 <span class="target" id="classfeasst_1_1SelectParticleAVB"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SelectParticleAVB</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect"><span class="n"><span class="pre">TrialSelect</span></span></a><a class="headerlink" href="#_CPPv4N6feasst17SelectParticleAVBE" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> a random particle as target, then selection another particle that has index of site either inside or outside the aggregation volume (AV) of target_site. Inside selections may optionally set the anchor to a second target particle, allowing for inside-&gt;inside moves. </p>
+<dd><p><a class="reference internal" href="../../configuration/doc/Select_arguments.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> a random particle as target, then selection another particle that has index of site either inside or outside the aggregation volume (AV) of target_site. Inside selections may optionally set the anchor to a second target particle, allowing for inside-&gt;inside moves. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst17SelectParticleAVB17SelectParticleAVBE7argtype">
-<span class="target" id="classfeasst_1_1SelectParticleAVB_1a526efd65f183b274bf36c9b543d99e57"></span><span class="sig-name descname"><span class="n"><span class="pre">SelectParticleAVB</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17SelectParticleAVB17SelectParticleAVBE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>target_particle_type: type of target particle (default: 0).</p></li>
-<li><p>target_site: index of target site (default: 0).</p></li>
-<li><p>site: index of site on particle_type to put in AV of target site (default: 0).</p></li>
-<li><p>grand_canonical: true if used for grand canonical, false otherwise.</p></li>
-<li><p>inside: true if selecting in the AV, otherwise out (default: true). Not implemented for grand_canonical.</p></li>
-<li><p>second_target: if true, set anchor to a second target particle (default: false).</p></li>
-<li><p>neighbor_index: <a class="reference internal" href="../../configuration/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../system/doc/System.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> (default: 0). </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst17SelectParticleAVB10precomputeEP6System">
 <span class="target" id="classfeasst_1_1SelectParticleAVB_1a05a4a93e202136de0c0833f52c238dd2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17SelectParticleAVB10precomputeEP6System" title="Permalink to this definition"></a><br /></dt>
@@ -248,6 +234,25 @@
 </dd></dl>
 
 </div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst17SelectParticleAVB17SelectParticleAVBE7argtype">
+<span class="target" id="classfeasst_1_1SelectParticleAVB_1a526efd65f183b274bf36c9b543d99e57"></span><span class="sig-name descname"><span class="n"><span class="pre">SelectParticleAVB</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17SelectParticleAVB17SelectParticleAVBE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>target_particle_type: type of target particle (default: 0).</p></li>
+<li><p>target_site: index of target site (default: 0).</p></li>
+<li><p>site: index of site on particle_type to put in AV of target site (default: 0).</p></li>
+<li><p>grand_canonical: true if used for grand canonical, false otherwise.</p></li>
+<li><p>inside: true if selecting in the AV, otherwise out (default: true). Not implemented for grand_canonical.</p></li>
+<li><p>second_target: if true, set anchor to a second target particle (default: false).</p></li>
+<li><p>neighbor_index: <a class="reference internal" href="../../configuration/doc/NeighborCriteria_arguments.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../system/doc/System_arguments.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> (default: 0).</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/TrialSelect_arguments.html#classfeasst_1_1TrialSelect"><span class="std std-ref">TrialSelect</span></a> arguments. </p></li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
 </dd></dl>
 
 </section>
@@ -257,7 +262,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="SelectParticleAVBDivalent.html" class="btn btn-neutral float-left" title="SelectParticleAVBDivalent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ComputeAVB4.html" class="btn btn-neutral float-right" title="ComputeAVB4" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="PerturbPointReflect.html" class="btn btn-neutral float-right" title="PerturbPointReflect" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Metropolis &mdash; FEASST v0.23.1 documentation</title>
+  <title>Metropolis &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -160,7 +161,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Monte Carlo</a> &raquo;</li>
         
@@ -212,19 +213,10 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10MetropolisE">
 <span class="target" id="classfeasst_1_1Metropolis"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Metropolis</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><a class="headerlink" href="#_CPPv4N6feasst10MetropolisE" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> acceptance criteria.</p>
+<dd><p><a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> acceptance criteria.</p>
 <p><a class="reference external" href="https://doi.org/10.1063%2F1.1699114">https://doi.org/10.1063%2F1.1699114</a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst10Metropolis10MetropolisE7argtype">
-<span class="target" id="classfeasst_1_1Metropolis_1a721f3b3bdc39728ca4bd417462be7dbb"></span><span class="sig-name descname"><span class="n"><span class="pre">Metropolis</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Metropolis10MetropolisE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>num_trials_per_iteration: define an iteration as a number of trials (as measured by number of calls to is_accepted) default: 1e9. Note that iterations are defined like cycles, but are not necessarily the number of particles. </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10Metropolis10MetropolisENSt10shared_ptrI10ConstraintEE">
 <span class="target" id="classfeasst_1_1Metropolis_1ade7a143d4fd95aefc9c22bfbe8906434"></span><span class="sig-name descname"><span class="n"><span class="pre">Metropolis</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint"><span class="n"><span class="pre">Constraint</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">constraint</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Metropolis10MetropolisENSt10shared_ptrI10ConstraintEE" title="Permalink to this definition"></a><br /></dt>
@@ -235,6 +227,19 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10Metropolis11is_acceptedERK6SystemP10AcceptanceP6Random">
 <span class="target" id="classfeasst_1_1Metropolis_1ab87c6ba576007cfe2117c91ef81d30f8"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_accepted</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance"><span class="n"><span class="pre">Acceptance</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">acceptance</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Metropolis11is_acceptedERK6SystemP10AcceptanceP6Random" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return whether or not the trial attempt should be accepted. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst10Metropolis10MetropolisE7argtype">
+<span class="target" id="classfeasst_1_1Metropolis_1a721f3b3bdc39728ca4bd417462be7dbb"></span><span class="sig-name descname"><span class="n"><span class="pre">Metropolis</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Metropolis10MetropolisE7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>num_trials_per_iteration: define an iteration as a number of trials (as measured by number of calls to is_accepted) default: 1e9. Note that iterations are defined like cycles, but are not necessarily the number of particles.</p></li>
+<li><p><a class="reference internal" href="Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> arguments. </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

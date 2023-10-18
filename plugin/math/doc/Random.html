@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Random &mdash; FEASST v0.23.1 documentation</title>
+  <title>Random &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
@@ -180,7 +181,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
         
           <li><a href="../README.html">Math</a> &raquo;</li>
         
@@ -232,19 +233,10 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6RandomE">
 <span class="target" id="classfeasst_1_1Random"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Random</span></span></span><a class="headerlink" href="#_CPPv4N6feasst6RandomE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Psuedo random number generator class. Note that all other <a class="reference internal" href="#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> distributions depend upon the uniform distribution, such that reproduction by storage is simplified. </p>
-<p>Subclassed by <a class="reference internal" href="RandomMT19937.html#classfeasst_1_1RandomMT19937"><span class="std std-ref">feasst::RandomMT19937</span></a>, <a class="reference internal" href="RandomModulo.html#classfeasst_1_1RandomModulo"><span class="std std-ref">feasst::RandomModulo</span></a></p>
+<dd><p>Psuedo random number generator class. Note that all other <a class="reference internal" href="Random_arguments.html#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> distributions depend upon the uniform distribution, such that reproduction by storage is simplified. </p>
+<p>Subclassed by <a class="reference internal" href="RandomMT19937_arguments.html#classfeasst_1_1RandomMT19937"><span class="std std-ref">feasst::RandomMT19937</span></a>, <a class="reference internal" href="RandomModulo_arguments.html#classfeasst_1_1RandomModulo"><span class="std std-ref">feasst::RandomModulo</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random6RandomEP7argtype">
-<span class="target" id="classfeasst_1_1Random_1a65b5d8d3631c56575563f7a58ab4b284"></span><span class="sig-name descname"><span class="n"><span class="pre">Random</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random6RandomEP7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>seed : Provide an integer to seed the random number generator. If the string “time” is provided, then use the time and date to generate the seed. If no seed is provided, but random numbers are requested, then the time will be used to generate a seed. If the string “default” is provided, then use the default integer included in <a class="reference internal" href="#classfeasst_1_1Random_1ac7e8720b7d4e06c2464b29909edab500"><span class="std std-ref">Random::seed()</span></a>. </p></li>
-</ul>
-</p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random12seed_by_timeEv">
 <span class="target" id="classfeasst_1_1Random_1ad43c2a83f0cb051be1c0d15d7e09c200"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">seed_by_time</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random12seed_by_timeEv" title="Permalink to this definition"></a><br /></dt>
@@ -342,13 +334,13 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random19unit_sphere_surfaceEP8Position">
 <span class="target" id="classfeasst_1_1Random_1a36cac6f5967d3096fec5eaf92bc7a3c0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unit_sphere_surface</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random19unit_sphere_surfaceEP8Position" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> point on the surface of a unit sphere. </p>
+<dd><p><a class="reference internal" href="Random_arguments.html#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> point on the surface of a unit sphere. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random27position_in_spherical_shellEKdKdP8Position">
 <span class="target" id="classfeasst_1_1Random_1a44eb84c0371949165b3e0fbcf5f973db"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">position_in_spherical_shell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lower</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">upper</span></span>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random27position_in_spherical_shellEKdKdP8Position" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> point in a spherical shell. </p>
+<dd><p><a class="reference internal" href="Random_arguments.html#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> point in a spherical shell. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -409,19 +401,31 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random17set_cache_to_loadEKb">
 <span class="target" id="classfeasst_1_1Random_1a136ae2d0174e9a7498a79a15af41423e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_cache_to_load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">load</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random17set_cache_to_loadEKb" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Set <a class="reference internal" href="../../utils/doc/Cache.html#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a> to load. </p>
+<dd><p>Set <a class="reference internal" href="../../utils/doc/Cache_arguments.html#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a> to load. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random19set_cache_to_unloadERK6Random">
 <span class="target" id="classfeasst_1_1Random_1aaa87c79eaffcb8586482f544b94e0e9b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_cache_to_unload</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">random</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random19set_cache_to_unloadERK6Random" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Set <a class="reference internal" href="../../utils/doc/Cache.html#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a> to unload. </p>
+<dd><p>Set <a class="reference internal" href="../../utils/doc/Cache_arguments.html#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a> to unload. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Random10class_nameEv">
 <span class="target" id="classfeasst_1_1Random_1a4dd5db7cc753111f08f9a63b018069ff"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">class_name</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Random10class_nameEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Serialize. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Random6RandomEP7argtype">
+<span class="target" id="classfeasst_1_1Random_1a65b5d8d3631c56575563f7a58ab4b284"></span><span class="sig-name descname"><span class="n"><span class="pre">Random</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random6RandomEP7argtype" title="Permalink to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>seed : Provide an integer to seed the random number generator. If the string “time” is provided, then use the time and date to generate the seed. If no seed is provided, but random numbers are requested, then the time will be used to generate a seed. If the string “default” is provided, then use the default integer included in <a class="reference internal" href="#classfeasst_1_1Random_1ac7e8720b7d4e06c2464b29909edab500"><span class="std std-ref">Random::seed()</span></a>. </p></li>
+</ul>
+</p>
 </dd></dl>
 
 </div>

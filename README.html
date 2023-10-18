@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>README &mdash; FEASST v0.23.1 documentation</title>
+  <title>README &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,13 +52,14 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-install-e-g-compile-the-executables">How to install (e.g., compile the executables).</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-get-started">How to get started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-install-e-g-compile-the-executables">How to install (e.g., compile the executables)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#troubleshooting-install">Troubleshooting install</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#centos-7">CentOS 7</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#rocky-8">Rocky 8</a></li>
@@ -84,8 +85,9 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin/text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">List of all capabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">Python interface</a></li>
@@ -206,7 +208,7 @@ simulations with Monte Carlo methods.</p>
 <section id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this heading"></a></h2>
 <a class="reference external image-reference" href="https://pages.nist.gov/feasst"><img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" /></a>
-<p>The <a class="reference internal" href="plugin/README.html"><span class="doc">List of all capabilities</span></a> is summarized as follows:</p>
+<p>The features available in the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> are summarized as follows:</p>
 <p>Monte Carlo simulation techniques</p>
 <ul class="simple">
 <li><p>Metropolis</p></li>
@@ -218,8 +220,9 @@ simulations with Monte Carlo methods.</p>
 <ul class="simple">
 <li><p>Microcanonical ensemble</p></li>
 <li><p>Canonical ensemble</p></li>
-<li><p>Grand canonical ensemble</p></li>
+<li><p>Grand-canonical ensemble</p></li>
 <li><p>Temperature and growth expanded ensembles</p></li>
+<li><p>Gibbs ensemble</p></li>
 </ul>
 <p>Monte Carlo trials</p>
 <ul class="simple">
@@ -235,7 +238,7 @@ simulations with Monte Carlo methods.</p>
 <ul class="simple">
 <li><p>Hard spheres</p></li>
 <li><p>Lennard-Jones with LRC, cut and force shift</p></li>
-<li><p>Patchy particles</p></li>
+<li><p>Patchy and anisotropic particles</p></li>
 <li><p>Yukawa and charged interactions</p></li>
 <li><p>Ewald summation and 2D slab correction</p></li>
 <li><p>Bonds, angles and dihedrals</p></li>
@@ -250,8 +253,16 @@ simulations with Monte Carlo methods.</p>
 <li><p>Checkpoint files to save, restart and analyze simulations</p></li>
 </ul>
 </section>
+<section id="how-to-get-started">
+<h2>How to get started<a class="headerlink" href="#how-to-get-started" title="Permalink to this heading"></a></h2>
+<p>First, compile the executables as described below.
+Second, find <a class="reference internal" href="tutorial/README.html"><span class="doc">Tutorials</span></a> that are closest to what you would like to accomplish.
+Third, reproduce the expected result of those tutorials.
+Fourth, use the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> documentation to better understand and modify the tutorial to accomplish your goals.
+When you <a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us with issues, include the text input file instead of the python script that generates that text file.</p>
+</section>
 <section id="how-to-install-e-g-compile-the-executables">
-<h2>How to install (e.g., compile the executables).<a class="headerlink" href="#how-to-install-e-g-compile-the-executables" title="Permalink to this heading"></a></h2>
+<h2>How to install (e.g., compile the executables)<a class="headerlink" href="#how-to-install-e-g-compile-the-executables" title="Permalink to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>apt/yum/brew<span class="o">]</span><span class="w"> </span>install<span class="w"> </span>g++<span class="w"> </span>cmake<span class="w"> </span>git<span class="w"> </span>python3
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/usnistgov/feasst.git
 mkdir<span class="w"> </span>feasst/build
@@ -340,11 +351,11 @@ google-chrome<span class="w"> </span>index.html
 <li><p>Reproduce the issue with a minimal example to reduce the complexity, run time and file size.</p></li>
 <li><p>Provide all output.</p></li>
 <li><p>Provide the version (for a git install, bash command “git describe –abbrev=10 –dirty –always –tags” and commit from git log).</p></li>
-<li><p>Provide the user code (e.g., text file, C++ with int main() or .py file).</p></li>
+<li><p>Provide the user code (e.g., input text file, C++ with int main() or .py file).</p></li>
 </ul>
 <p>Optionally, the following information may also be useful:</p>
 <ul class="simple">
-<li><p>the output of the “cmake ..” command on an empty build directory in order to see which compilers and libraries are used in the installation.</p></li>
+<li><p>the output of the “cmake ..” command on an empty build directory in order to see which compilers and libraries are used when encountering installation errors.</p></li>
 </ul>
 </section>
 <section id="email-list">

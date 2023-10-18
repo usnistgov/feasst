@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PhysicalConstants &mdash; FEASST v0.23.1 documentation</title>
+  <title>PhysicalConstants &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Domain" href="Domain.html" />
-    <link rel="prev" title="Bond" href="Bond.html" />
+    <link rel="next" title="NeighborCriteria" href="NeighborCriteria_arguments.html" />
+    <link rel="prev" title="Domain" href="Domain_arguments.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,66 +52,41 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../text_interface.html">Text Interface</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/doc/Checkpoint_arguments.html">Checkpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Configuration_arguments.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain_arguments.html">Domain</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PhysicalConstants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NeighborCriteria_arguments.html">NeighborCriteria</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#constraints">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#monte-carlo-trials">Monte Carlo Trials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze-and-modify">Analyze and Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">List of all capabilities</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../math/README.html">Math</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Properties.html">Properties</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Bond.html">Bond</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">PhysicalConstants</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Domain.html">Domain</a></li>
-<li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Site.html">Site</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Particle.html">Particle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Group.html">Group</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FileParticle.html">FileParticle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Select.html">Select</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Configuration.html">Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../../system/README.html">System</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../models/README.html">Models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
@@ -175,11 +150,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">List of all capabilities</a> &raquo;</li>
-        
-          <li><a href="../README.html">Configuration</a> &raquo;</li>
-        
-          <li><a href="toc.html">&lt;no title&gt;</a> &raquo;</li>
+          <li><a href="../../text_interface.html">Text Interface</a> &raquo;</li>
         
       <li>PhysicalConstants</li>
     
@@ -227,7 +198,8 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst17PhysicalConstantsE">
 <span class="target" id="classfeasst_1_1PhysicalConstants"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PhysicalConstants</span></span></span><a class="headerlink" href="#_CPPv4N6feasst17PhysicalConstantsE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Subclassed by <a class="reference internal" href="#classfeasst_1_1CODATA2010"><span class="std std-ref">feasst::CODATA2010</span></a>, <a class="reference internal" href="#classfeasst_1_1CODATA2014"><span class="std std-ref">feasst::CODATA2014</span></a>, <a class="reference internal" href="#classfeasst_1_1CODATA2018"><span class="std std-ref">feasst::CODATA2018</span></a>, <a class="reference internal" href="#classfeasst_1_1PhysicalConstantsCustom"><span class="std std-ref">feasst::PhysicalConstantsCustom</span></a></p>
+<dd><p>This class provides physical constants and conversions for convenience. The main purpose is to facilitate comparison of FEASST results to machine percision. For example, the molar gas constant is derived from the Boltzmann and Avogadro constants. Please do not use this as a primary source for NIST physical constants. Instead, verify them with CODATA sources. </p>
+<p>Subclassed by <a class="reference internal" href="PhysicalConstants_arguments.html#classfeasst_1_1CODATA2010"><span class="std std-ref">feasst::CODATA2010</span></a>, <a class="reference internal" href="PhysicalConstants_arguments.html#classfeasst_1_1CODATA2014"><span class="std std-ref">feasst::CODATA2014</span></a>, <a class="reference internal" href="PhysicalConstants_arguments.html#classfeasst_1_1CODATA2018"><span class="std std-ref">feasst::CODATA2018</span></a>, <a class="reference internal" href="PhysicalConstants_arguments.html#classfeasst_1_1PhysicalConstantsCustom"><span class="std std-ref">feasst::PhysicalConstantsCustom</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-conversions">Conversions</p>
 <p>Utility functions for unit conversion. </p>
@@ -308,25 +280,25 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201818boltzmann_constantEv">
 <span class="target" id="classfeasst_1_1CODATA2018_1a61f7e2c05263b4b53c016b25effca4f9"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">boltzmann_constant</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201818boltzmann_constantEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Boltzman constant in units of Joules per Kelvin. </p>
+<dd><p>Boltzman constant: 1.380649E-23 Joules per Kelvin. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201817avogadro_constantEv">
 <span class="target" id="classfeasst_1_1CODATA2018_1a9372d7b7d23b6aae9bb9dd396b0fdb94"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">avogadro_constant</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201817avogadro_constantEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Avogadro’s constant units of number of particles per mol. </p>
+<dd><p>Avogadro constant: 6.02214076E+23 particles per mol. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201818permitivity_vacuumEv">
 <span class="target" id="classfeasst_1_1CODATA2018_1aa73b210d5a907fe481ee95cb24b96200"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">permitivity_vacuum</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201818permitivity_vacuumEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Permitivity of vacuum in units of C^2/J/m. </p>
+<dd><p>Permitivity of vacuum: 8.8541878128E-12 C^2/J/m. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201817elementary_chargeEv">
 <span class="target" id="classfeasst_1_1CODATA2018_1a78bd1adcc780a9b15f1a4c7c66da1650"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">elementary_charge</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201817elementary_chargeEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Elementary charge in units of C. </p>
+<dd><p>Elementary charge: 1.602176634E-19 C. </p>
 </dd></dl>
 
 </div>
@@ -341,25 +313,25 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201418boltzmann_constantEv">
 <span class="target" id="classfeasst_1_1CODATA2014_1a20cfc9c7a5e1b7d850ea758bb4b19309"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">boltzmann_constant</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201418boltzmann_constantEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Boltzman constant in units of Joules per Kelvin. </p>
+<dd><p>Boltzman constant: 1.38064852E-23 Joules per Kelvin. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201417avogadro_constantEv">
 <span class="target" id="classfeasst_1_1CODATA2014_1acb112b6058c2c3e98296f7060bdec464"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">avogadro_constant</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201417avogadro_constantEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Avogadro’s constant units of number of particles per mol. </p>
+<dd><p>Avogadro constant: 6.022140857E+23 particles per mol. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201418permitivity_vacuumEv">
 <span class="target" id="classfeasst_1_1CODATA2014_1a5c885d09f68632a33de84f8722d92320"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">permitivity_vacuum</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201418permitivity_vacuumEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Permitivity of vacuum in units of C^2/J/m. </p>
+<dd><p>Permitivity of vacuum: 8.854187817E-12 C^2/J/m. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201417elementary_chargeEv">
 <span class="target" id="classfeasst_1_1CODATA2014_1a1d18a973bde2cfe5a0badfb2072df3ef"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">elementary_charge</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201417elementary_chargeEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Elementary charge in units of C. </p>
+<dd><p>Elementary charge: 1.6021766208E-19 C. </p>
 </dd></dl>
 
 </div>
@@ -374,25 +346,25 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201018boltzmann_constantEv">
 <span class="target" id="classfeasst_1_1CODATA2010_1afafd6d9bd80188e6880dea88fb8b34d8"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">boltzmann_constant</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201018boltzmann_constantEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Boltzman constant in units of Joules per Kelvin. </p>
+<dd><p>Boltzman constant: 1.3806488E-23 Joules per Kelvin. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201017avogadro_constantEv">
 <span class="target" id="classfeasst_1_1CODATA2010_1a5742f2eb6208b33f2cc33233d7a22e3f"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">avogadro_constant</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201017avogadro_constantEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Avogadro’s constant units of number of particles per mol. </p>
+<dd><p>Avogadro constant: 6.02214129E+23 particles per mol. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201018permitivity_vacuumEv">
 <span class="target" id="classfeasst_1_1CODATA2010_1a3b500950b675dc89263655f25489ec5a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">permitivity_vacuum</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201018permitivity_vacuumEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Permitivity of vacuum in units of C^2/J/m. </p>
+<dd><p>Permitivity of vacuum: 8.854187817E-12 C^2/J/m. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10CODATA201017elementary_chargeEv">
 <span class="target" id="classfeasst_1_1CODATA2010_1a984e888e73db69761c0096a3c1f44815"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">elementary_charge</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201017elementary_chargeEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Elementary charge in units of C. </p>
+<dd><p>Elementary charge: 1.602176565E-19 C. </p>
 </dd></dl>
 
 </div>
@@ -449,8 +421,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Bond.html" class="btn btn-neutral float-left" title="Bond" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Domain.html" class="btn btn-neutral float-right" title="Domain" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Domain_arguments.html" class="btn btn-neutral float-left" title="Domain" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="NeighborCriteria_arguments.html" class="btn btn-neutral float-right" title="NeighborCriteria" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

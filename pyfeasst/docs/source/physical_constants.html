@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>physical_constants &mdash; FEASST v0.23.1 documentation</title>
+  <title>physical_constants &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1
+                v0.23.1-1-gb004405c22
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plugin/text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../plugin/README.html">List of all capabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plugin/README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">pyfeasst</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulator.html">accumulator</a></li>
@@ -215,7 +216,9 @@ The main purpose of this module is to facilitate comparison of FEASST results to
 For example, the molar gas constant is derived from the Boltzmann and Avogadro constants.
 However, their product to machine percision does not match
 scipy.constants.physical_constants[“molar gas constant”].
-And the conversion of elementary charge per distance to energy units can be even more problematic.</p>
+And the conversion of elementary charge per distance to energy units can be even more problematic.
+Please do not use this as a primary source for NIST physical constants.
+Instead, verify them with CODATA sources.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="physical_constants.ElementaryCharge">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">physical_constants.</span></span><span class="sig-name descname"><span class="pre">ElementaryCharge</span></span><a class="reference internal" href="../../../_modules/physical_constants.html#ElementaryCharge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#physical_constants.ElementaryCharge" title="Permalink to this definition"></a></dt>
