@@ -11,6 +11,10 @@ namespace feasst {
  */
 class PerturbBeta : public Perturb {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - fixed_beta_change: input the fixed amount that beta changes.
@@ -18,6 +22,11 @@ class PerturbBeta : public Perturb {
    */
   explicit PerturbBeta(argtype args = argtype());
   explicit PerturbBeta(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void perturb(
       System * system,
@@ -36,6 +45,7 @@ class PerturbBeta : public Perturb {
   explicit PerturbBeta(std::istream& istr);
   virtual ~PerturbBeta() {}
 
+  //@}
  private:
   double fixed_beta_change_;
 

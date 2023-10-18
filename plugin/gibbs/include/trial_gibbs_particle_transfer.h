@@ -8,6 +8,39 @@
 
 namespace feasst {
 
+/**
+  Attempt TrialGibbsParticleTransferOneWay with equal probability in either direction.
+  See https://doi.org/10.1080/00268978700101491.
+ */
+class TrialGibbsParticleTransfer : public TrialFactoryNamed {
+ public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - configuration_index0: index of one of the configurations (default: 0).
+    - configuration_index1: index of the other configuration (default: 1).
+    - TrialSelectParticle arguments.
+   */
+  explicit TrialGibbsParticleTransfer(argtype args = argtype());
+  explicit TrialGibbsParticleTransfer(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
+  std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
+    return std::make_shared<TrialGibbsParticleTransfer>(args); }
+  virtual ~TrialGibbsParticleTransfer() {}
+  //@}
+};
+
+inline std::shared_ptr<TrialGibbsParticleTransfer> MakeTrialGibbsParticleTransfer(argtype args = argtype()) {
+  return std::make_shared<TrialGibbsParticleTransfer>(args); }
+
 /// Attempt to transfer a particle from one configuration to another.
 class TrialGibbsParticleTransferOneWay : public Trial {
  public:
@@ -30,24 +63,6 @@ class TrialGibbsParticleTransferOneWay : public Trial {
 
 inline std::shared_ptr<TrialGibbsParticleTransferOneWay> MakeTrialGibbsParticleTransferOneWay(argtype args = argtype()) {
   return std::make_shared<TrialGibbsParticleTransferOneWay>(args); }
-
-/// Attempt TrialGibbsParticleTransferOneWay with equal probability in either direction.
-class TrialGibbsParticleTransfer : public TrialFactoryNamed {
- public:
-  /**
-    args:
-    - configuration_index0: index of one of the configurations (default: 0).
-    - configuration_index1: index of the other configuration (default: 1).
-   */
-  explicit TrialGibbsParticleTransfer(argtype args = argtype());
-  explicit TrialGibbsParticleTransfer(argtype * args);
-  std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
-    return std::make_shared<TrialGibbsParticleTransfer>(args); }
-  virtual ~TrialGibbsParticleTransfer() {}
-};
-
-inline std::shared_ptr<TrialGibbsParticleTransfer> MakeTrialGibbsParticleTransfer(argtype args = argtype()) {
-  return std::make_shared<TrialGibbsParticleTransfer>(args); }
 
 }  // namespace feasst
 

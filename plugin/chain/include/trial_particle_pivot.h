@@ -7,11 +7,28 @@
 
 namespace feasst {
 
-/// Rigidly pivot a random particle about one of its sites.
+/// Rigidly rotate or pivot a random particle about one of its sites.
 class TrialParticlePivot : public TrialMove {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Trial arguments.
+    - TrialStage arguments.
+    - SelectParticlePivot arguments.
+    - Tunable arguments.
+   */
   explicit TrialParticlePivot(argtype args = argtype());
   explicit TrialParticlePivot(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialParticlePivot>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -19,6 +36,7 @@ class TrialParticlePivot : public TrialMove {
   void serialize(std::ostream& ostr) const override;
   explicit TrialParticlePivot(std::istream& istr);
   virtual ~TrialParticlePivot() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialParticlePivot> MakeTrialParticlePivot(

@@ -19,13 +19,22 @@ namespace feasst {
  */
 class LennardJones : public ModelTwoBody {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
-    -hard_sphere_threshold: when r < threshold*sigma, return NEAR_INFINITY
-     (default: 0.2).
+    - hard_sphere_threshold: when r < threshold*sigma, return NEAR_INFINITY
+      (default: 0.2).
    */
   explicit LennardJones(argtype args = argtype());
   explicit LennardJones(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   double energy(
       const double squared_distance,
@@ -46,6 +55,7 @@ class LennardJones : public ModelTwoBody {
   explicit LennardJones(std::istream& istr);
   virtual ~LennardJones() {}
 
+  //@}
  protected:
   void serialize_lennard_jones_(std::ostream& ostr) const;
 

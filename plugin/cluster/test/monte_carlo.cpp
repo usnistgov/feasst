@@ -10,6 +10,7 @@
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "monte_carlo/include/run.h"
+#include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"

@@ -27,6 +27,10 @@ namespace feasst {
  */
 class DebyeHuckel : public ModelTwoBody {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - kappa: as described above.
@@ -36,6 +40,11 @@ class DebyeHuckel : public ModelTwoBody {
    */
   explicit DebyeHuckel(argtype args = argtype());
   explicit DebyeHuckel(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   double energy(
       const double squared_distance,
@@ -53,6 +62,7 @@ class DebyeHuckel : public ModelTwoBody {
   explicit DebyeHuckel(std::istream& istr);
   virtual ~DebyeHuckel() {}
 
+  //@}
  private:
   double conversion_factor_ = 0.;
   double kappa_;

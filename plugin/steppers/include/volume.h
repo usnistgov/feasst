@@ -12,8 +12,21 @@ namespace feasst {
  */
 class Volume : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Stepper arguments.
+   */
   explicit Volume(argtype args = argtype());
   explicit Volume(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -41,6 +54,7 @@ class Volume : public Analyze {
     return std::make_shared<Volume>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit Volume(std::istream& istr);
+  //@}
 };
 
 inline std::shared_ptr<Volume> MakeVolume(argtype args = argtype()) {

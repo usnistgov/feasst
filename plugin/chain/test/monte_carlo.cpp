@@ -21,6 +21,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
+#include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "monte_carlo/include/trial_select_dihedral.h"

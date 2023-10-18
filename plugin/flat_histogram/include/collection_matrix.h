@@ -32,6 +32,10 @@ namespace feasst {
  */
 class CollectionMatrix {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - delta_ln_prob_guess: if the CollectionMatrix lacks transitions to compute
@@ -57,6 +61,11 @@ class CollectionMatrix {
    */
   explicit CollectionMatrix(argtype args = argtype());
   explicit CollectionMatrix(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Construct from a matrix.
   explicit CollectionMatrix(
@@ -99,6 +108,7 @@ class CollectionMatrix {
 
   explicit CollectionMatrix(std::istream& istr);
 
+  //@}
  private:
   double delta_ln_prob_guess_;
   int visits_per_delta_ln_prob_boost_;

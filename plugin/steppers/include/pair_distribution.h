@@ -43,6 +43,10 @@ typedef std::vector<grbintype> grtype;
  */
 class PairDistribution : public Modify {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - dr: radial distribution bin size (default: 0.1).
@@ -50,6 +54,11 @@ class PairDistribution : public Modify {
    */
   explicit PairDistribution(argtype args = argtype());
   explicit PairDistribution(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -82,6 +91,7 @@ class PairDistribution : public Modify {
   explicit PairDistribution(std::istream& istr);
   explicit PairDistribution(const Modify& pair_distribution);
 
+  //@}
  private:
   double dr_;
   bool print_intra_;

@@ -11,12 +11,23 @@ namespace feasst {
  */
 class MacrostateBeta : public Macrostate {
  public:
-  // HWH consider depreciating this interface
-  MacrostateBeta(const Histogram& histogram, argtype args = argtype());
-  MacrostateBeta(const Histogram& histogram, argtype * args);
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Macrostate arguments.
+   */
   explicit MacrostateBeta(argtype args = argtype());
   explicit MacrostateBeta(argtype * args) :
     MacrostateBeta(Histogram(args), args) {}
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+  MacrostateBeta(const Histogram& histogram, argtype args = argtype());
+  MacrostateBeta(const Histogram& histogram, argtype * args);
   double value(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override {
@@ -26,6 +37,7 @@ class MacrostateBeta : public Macrostate {
   void serialize(std::ostream& ostr) const override;
   MacrostateBeta(std::istream& istr);
   virtual ~MacrostateBeta() {}
+  //@}
 };
 
 inline std::shared_ptr<MacrostateBeta> MakeMacrostateBeta(

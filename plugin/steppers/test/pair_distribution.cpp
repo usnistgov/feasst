@@ -13,6 +13,7 @@
 #include "steppers/include/seek_modify.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/run.h"
+#include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_add.h"

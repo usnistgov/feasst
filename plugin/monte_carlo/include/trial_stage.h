@@ -22,6 +22,10 @@ namespace feasst {
  */
 class TrialStage {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - num_steps: number of Rosenbluth steps (default: 1).
@@ -31,6 +35,11 @@ class TrialStage {
       (default: false).
    */
   explicit TrialStage(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the index of the reference potential.
   int reference() const { return reference_; }
@@ -121,6 +130,7 @@ class TrialStage {
 
   ~TrialStage() {}
 
+  //@}
  private:
   int reference_ = -1;
   std::shared_ptr<Perturb> perturb_;

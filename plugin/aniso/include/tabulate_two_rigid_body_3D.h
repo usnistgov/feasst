@@ -30,6 +30,10 @@ class ContactObjective : public Formula {
 
 class Rotator {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - unique_tolerance: tolerance to determine uniqueness based on positions
@@ -40,6 +44,12 @@ class Rotator {
    */
   explicit Rotator(argtype args = argtype());
   explicit Rotator(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   void gen_orientations(const int num_orientations_per_pi, const Configuration& config);
   void init(System * system, const std::string xyz_file,
     const std::string contact_xyz_file);
@@ -90,6 +100,7 @@ class Rotator {
   double unique_tolerance_;
   double contact_tolerance_;
   Position tmp1_, tmp2_;
+  //@}
 };
 
 /**
@@ -101,6 +112,10 @@ class Rotator {
  */
 class TabulateTwoRigidBody3D : public Action {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - num_orientations_per_pi: As described in VisitModelInnerTable
@@ -126,6 +141,11 @@ class TabulateTwoRigidBody3D : public Action {
    */
   explicit TabulateTwoRigidBody3D(argtype args = argtype());
   explicit TabulateTwoRigidBody3D(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the maximum cubic side length required for particle type.
   double max_cubic_side_length(const int particle_type,
@@ -167,6 +187,7 @@ class TabulateTwoRigidBody3D : public Action {
   virtual ~TabulateTwoRigidBody3D() {}
 
   void read_input_orientations_(const Configuration& config);
+  //@}
  private:
   int num_orientations_per_pi_;
   int num_z_;

@@ -14,12 +14,21 @@ namespace feasst {
  */
 class Yukawa : public ModelTwoBody {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - kappa: set the value of the kappa parameter (default: 1).
    */
   explicit Yukawa(argtype args = argtype());
   explicit Yukawa(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   double energy(
       const double squared_distance,
@@ -39,6 +48,7 @@ class Yukawa : public ModelTwoBody {
   explicit Yukawa(std::istream& istr);
   virtual ~Yukawa() {}
 
+  //@}
  private:
   double kappa_;
 };

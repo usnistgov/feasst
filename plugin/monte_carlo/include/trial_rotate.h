@@ -8,11 +8,30 @@
 
 namespace feasst {
 
-/// Attempt a rigid rotation of a random particle.
+/**
+  Attempt a rigid rotation of a random particle.
+  In most cases, TrialParticlePivot is more efficient.
+ */
 class TrialRotate : public TrialMove {
  public:
-  TrialRotate(argtype args = argtype());
-  TrialRotate(argtype * args);
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - TrialSelectParticle arguments.
+    - TrialStage arguments.
+    - Tunable arguments.
+   */
+  explicit TrialRotate(argtype args = argtype());
+  explicit TrialRotate(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialRotate>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -20,6 +39,7 @@ class TrialRotate : public TrialMove {
   void serialize(std::ostream& ostr) const override;
   explicit TrialRotate(std::istream& istr);
   virtual ~TrialRotate() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialRotate> MakeTrialRotate(argtype args = argtype()) {

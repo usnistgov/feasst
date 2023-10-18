@@ -8,7 +8,10 @@
 
 namespace feasst {
 
-/// This model throws an exception if used.
+/**
+  This model is a place holder and will throw an exception if used to compute
+  the energy.
+ */
 class ModelEmpty : public ModelOneBody {
  public:
   ModelEmpty() { class_name_ = "ModelEmpty"; }

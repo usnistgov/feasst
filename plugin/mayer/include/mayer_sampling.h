@@ -15,15 +15,25 @@ class Random;
  */
 class MayerSampling : public Criteria {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - num_trials_per_iteration: define an iteration as a number of trials
       (as measured by number of calls to is_accepted) default: 1e9.
     - intra_potential: index of intramolecular potential that will be used
       to select the move. Ignore if -1 (default: -1).
+    - Criteria arguments.
    */
   explicit MayerSampling(argtype args = argtype());
   explicit MayerSampling(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Disable optimization when overlap is detected.
   void precompute(System * system) override;
@@ -64,6 +74,7 @@ class MayerSampling : public Criteria {
 //  explicit MayerSampling(const Criteria& criteria);
   ~MayerSampling() {}
 
+  //@}
  private:
   double f12old_ = -1.;
   double f12ref_ = -1.;

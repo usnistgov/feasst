@@ -12,19 +12,28 @@ namespace feasst {
  */
 class MacrostateNumParticles : public Macrostate {
  public:
-  // HWH consider depreciating this interface?
-  /**
-   args:
-   - particle_type: number of particles of type. If -1 (default), count all
-     types.
-  */
-  MacrostateNumParticles(const Histogram& histogram, argtype args = argtype());
-  MacrostateNumParticles(const Histogram& histogram, argtype * args);
+  //@{
+  /** @name Arguments
+   */
 
-  /// flattened version of the above constructor that takes Histogram arguments.
+  /**
+    args:
+    - particle_type: number of particles of type. If -1 (default), count all
+      types.
+    - Macrostate arguments.
+  */
   explicit MacrostateNumParticles(argtype args = argtype());
   explicit MacrostateNumParticles(argtype * args) :
     MacrostateNumParticles(Histogram(args), args) {}
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
+  /// Arguments as described above, but with explicit histogram object.
+  MacrostateNumParticles(const Histogram& histogram, argtype args = argtype());
+  MacrostateNumParticles(const Histogram& histogram, argtype * args);
 
   double value(const System& system,
     const Criteria& criteria,
@@ -35,6 +44,7 @@ class MacrostateNumParticles : public Macrostate {
   MacrostateNumParticles(std::istream& istr);
   virtual ~MacrostateNumParticles() {}
 
+  //@}
  private:
   // int particle_type_;
   ConstrainNumParticles num_;

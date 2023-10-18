@@ -13,12 +13,21 @@ namespace feasst {
  */
 class EnergyMapAllCriteria : public EnergyMapAll {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - neighbor_index: NeighborCriteria index contained in Configuration (default: 0).
    */
   explicit EnergyMapAllCriteria(argtype args = argtype());
   explicit EnergyMapAllCriteria(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   double update(
       const double energy,
@@ -43,6 +52,7 @@ class EnergyMapAllCriteria : public EnergyMapAll {
   explicit EnergyMapAllCriteria(std::istream& istr);
   virtual ~EnergyMapAllCriteria() {}
 
+  //@}
  private:
   int neighbor_index_;
 };

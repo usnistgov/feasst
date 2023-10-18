@@ -104,7 +104,8 @@ class TestFlatHistogramLJ(unittest.TestCase):
         print('len', len(lines))
         print('frames', frames)
         num = pd.read_csv('lj00.txt')
-        for frame in range(1, frames):
+        skip = 1
+        for frame in range(1, frames, skip):
             print('frame', frame)
             start = lines_per_frame*frame
             end = lines_per_frame*(frame+1)
@@ -123,7 +124,7 @@ class TestFlatHistogramLJ(unittest.TestCase):
             fig, ax = plt.subplots()
             ax.scatter(volfrac, prob)
             #print('num', num, num['p0'])
-            ax.scatter(num['p0'][frame]*fac, 0.001, color='red')
+            ax.scatter(num['num_particles_of_type0'][frame]*fac, 0.001, color='red')
             im = plt.imread('tmp/untitled.'+str("{:05d}".format(frame))+'.ppm')
             plt.xlabel('Volume Fraction', fontsize=20)
             plt.ylabel('Probability', fontsize=20)
@@ -136,9 +137,11 @@ class TestFlatHistogramLJ(unittest.TestCase):
             #plt.show()
             plt.close()
             plt.clf()
+            # ffmpeg -i lj%04d.png -c:v libx264 -crf 23 -profile:v baseline -level 3.0 -pix_fmt yuv420p -c:a aac -ac 2 -b:a 128k -movflags faststart output.mp4
             # ffmpeg -an -i lj%04d.png -vcodec mpeg1video -r 24 -qscale:v 10 -vframes 500 lnpi.mpg
-            # not this#ffmpeg -an -i /home/hwh/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.%05d.ppm -vcodec mpeg1video -r 24 -vframes 2967 /home/hwh/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.mpg
-          
+            # ffmpeg -an -i lj%04d.png -vcodec libx264 -pix_fmt yuv420p -r 24 -qscale:v 10 -vframes 500 lnpi.mpg
+            # not this#ffmpeg -an -i /home/user/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.%05d.ppm -vcodec mpeg1video -r 24 -vframes 2967 /home/user/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.mpg
+            # convert old: ffmpeg -i gca.mpg -c:v libx264 -crf 23 -profile:v baseline -level 3.0 -pix_fmt yuv420p -c:a aac -ac 2 -b:a 128k -movflags faststart -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" gca2.mp4
 
 # run the simulation and, if complete, analyze.
 def run():

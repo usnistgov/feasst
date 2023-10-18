@@ -43,9 +43,11 @@ namespace feasst {
   - angle: if true, adds TrialSelectAngle and PerturbDistanceAngle.
     Requires arguments described in TrialSelectAngle and TrialSelectBond.
   - dihedral: if true, adds TrialSelectDihedral and PerturbDihedral.
-    Requires arguments described in SelectDihedral, Angle and Bond.
+    Requires arguments described in TrialSelectDihedral, TrialSelectAngle
+    and TrialSelectBond.
   - branch: if true, adds SelectBranch and PerturbBranch.
-    Requires arguments described in SelectBranch, Angle and Bond.
+    Requires arguments described in SelectBranch, TrialSelectAngle and
+    TrialSelectBond.
   - reptate: if true, add TrialSelectBond and PerturbToAnchor.
     Requires arguments described in TrialSelectBond.
   - position_swap: if true, add SelectTwoSites and PerturbPositionSwap.
@@ -145,6 +147,11 @@ inline std::shared_ptr<TrialGrow> MakeTrialGrow(std::vector<argtype> args) {
 class TrialGrowFile : public TrialGrow {
  public:
   TrialGrowFile() : TrialGrow() {} // only use for deserialize_map.
+  //@{
+  /** @name Arguments
+   */
+
+
   /**
     args:
     - file_name: name of TrialGrowFile file with the following format:
@@ -157,10 +164,17 @@ class TrialGrowFile : public TrialGrow {
    */
   explicit TrialGrowFile(argtype args);
   explicit TrialGrowFile(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
     return std::make_shared<TrialGrowFile>(args); }
   virtual ~TrialGrowFile() {}
 
+  //@}
  private:
   void add_(const argtype add_args, std::vector<argtype> * args);
 };

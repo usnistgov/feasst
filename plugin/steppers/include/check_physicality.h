@@ -11,8 +11,8 @@ namespace feasst {
  */
 class CheckPhysicality : public AnalyzeUpdateOnly {
  public:
-  CheckPhysicality(argtype args = argtype());
-  CheckPhysicality(argtype * args);
+  explicit CheckPhysicality(argtype args = argtype());
+  explicit CheckPhysicality(argtype * args);
   void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;

@@ -40,6 +40,10 @@ namespace feasst {
  */
 class WindowExponential : public Window {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - alpha: exponential factor (default: 1.5).
@@ -48,9 +52,16 @@ class WindowExponential : public Window {
       This allows the user to override alpha at the smaller windows.
    */
   explicit WindowExponential(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::vector<double> segment() const override;
   virtual ~WindowExponential() {}
 
+  //@}
  private:
   double alpha_;
   std::vector<double> partial_segment_;

@@ -21,6 +21,10 @@ class TrialFactory;
  */
 class Stepper {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - trials_per_write: Set the number of trials per write (default: 1).
@@ -54,6 +58,11 @@ class Stepper {
    */
   explicit Stepper(argtype args = argtype());
   explicit Stepper(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the number of trials per update
   int trials_per_update() const { return trials_per_update_; }
@@ -133,6 +142,7 @@ class Stepper {
   Stepper(std::istream& istr);
   virtual ~Stepper() {}
 
+  //@}
  protected:
   int trials_since_update_ = 0;
   int trials_since_write_ = 0;

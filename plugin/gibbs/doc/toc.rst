@@ -3,7 +3,7 @@
 
    ComputeGibbsParticleTransfer
    ComputeGibbsVolumeTransfer
-   TrialGibbsVolumeTransferOneWay
-   TrialGibbsParticleTransferOneWay
+   TrialGibbsVolumeTransfer
+   TrialGibbsParticleTransfer
    PressureFromTestVolume
    CheckConstantVolume

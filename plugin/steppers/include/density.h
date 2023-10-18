@@ -12,8 +12,21 @@ namespace feasst {
  */
 class Density : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Stepper args.
+   */
   explicit Density(argtype args = argtype());
   explicit Density(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -41,6 +54,7 @@ class Density : public Analyze {
     return std::make_shared<Density>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit Density(std::istream& istr);
+  //@}
 };
 
 inline std::shared_ptr<Density> MakeDensity(argtype args = argtype()) {

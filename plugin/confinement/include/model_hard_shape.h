@@ -18,6 +18,10 @@ class ModelHardShape : public ModelOneBody,
   // for serialization only
   ModelHardShape() { class_name_ = "ModelHardShape"; }
 
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - Same arguments as ShapeFile.
@@ -26,6 +30,11 @@ class ModelHardShape : public ModelOneBody,
    */
   explicit ModelHardShape(argtype args);
   explicit ModelHardShape(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   ModelHardShape(std::shared_ptr<Shape> shape)
     : ModelOneBody(), ShapedEntity(shape) { class_name_ = "ModelHardShape"; }
@@ -44,6 +53,7 @@ class ModelHardShape : public ModelOneBody,
   explicit ModelHardShape(std::istream& istr);
   virtual ~ModelHardShape() {}
 
+  //@}
  private:
   bool cavity_ = true;
 };

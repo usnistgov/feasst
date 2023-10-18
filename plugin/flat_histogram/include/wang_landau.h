@@ -16,6 +16,10 @@ namespace feasst {
  */
 class WangLandau : public Bias {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - min_flatness : Number of flatness checks required for completion.
@@ -32,6 +36,12 @@ class WangLandau : public Bias {
    */
   explicit WangLandau(argtype args = argtype());
   explicit WangLandau(argtype * args);
+  
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   int min_flatness() const { return min_flatness_; }
   void update(
     const int macrostate_old,
@@ -60,6 +70,7 @@ class WangLandau : public Bias {
   explicit WangLandau(std::istream& istr);
   virtual ~WangLandau() {}
 
+  //@}
  private:
   LnProbability ln_prob_;
   double add_to_ln_probability_ = 0;

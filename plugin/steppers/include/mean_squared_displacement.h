@@ -16,14 +16,24 @@ namespace feasst {
  */
 class MeanSquaredDisplacement : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - updates_per_origin: set the number of updates until creation of a new
       origin (default: 1000).
     - group_index: group_index associated with configuration (default: 0).
+    - Stepper arguments.
   */
   explicit MeanSquaredDisplacement(argtype args = argtype());
   explicit MeanSquaredDisplacement(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void initialize(Criteria * criteria,
       System * system,
@@ -47,6 +57,7 @@ class MeanSquaredDisplacement : public Analyze {
     return std::make_shared<MeanSquaredDisplacement>(args); }
   explicit MeanSquaredDisplacement(std::istream& istr);
 
+  //@}
  private:
   int updates_since_origin_;
   int updates_per_origin_;

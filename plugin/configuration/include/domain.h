@@ -54,6 +54,10 @@ class Random;
 */
 class Domain {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - side_length[i]: set the side length of the i-th dimension.
@@ -66,6 +70,11 @@ class Domain {
    */
   explicit Domain(argtype args = argtype());
   explicit Domain(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Get the side lengths.
   const Position& side_lengths() const { return side_lengths_; }
@@ -169,6 +178,7 @@ class Domain {
   explicit Domain(std::istream& istr);
   virtual ~Domain() {}
 
+  //@}
  protected:
   Position side_lengths_;
   double xy_, xz_, yz_;

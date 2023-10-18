@@ -19,7 +19,10 @@ namespace feasst {
  */
 class Macrostate {
  public:
-  // HWH consider depreciating this interface?
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - soft_macro_max : optionally, set a soft maximum (default: last histogram bin).
@@ -27,14 +30,18 @@ class Macrostate {
       Note that this max is a macrostate value, not an integer bin index.
     - soft_macro_min : minimum as described above (default: same as histogram).
       This argument also requires the use of soft_macro_max.
-   */
-  Macrostate(const Histogram& histogram, argtype args = argtype());
-  Macrostate(const Histogram& histogram, argtype * args);
-
-  /**
-    A flattened version of the above constructor that takes Histogram arguments.
+    - Histogram arguments.
    */
   explicit Macrostate(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
+  /// Arguments as described above, but with explicit histogram object.
+  Macrostate(const Histogram& histogram, argtype args = argtype());
+  Macrostate(const Histogram& histogram, argtype * args);
 
   /**
     Set the bins of the macrostate by providing a Histogram.
@@ -97,6 +104,7 @@ class Macrostate {
   explicit Macrostate(std::istream& istr);
   virtual ~Macrostate() {}
 
+  //@}
  protected:
   void serialize_macrostate_(std::ostream& ostr) const;
   std::string class_name_;

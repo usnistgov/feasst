@@ -13,12 +13,22 @@ namespace feasst {
  */
 class Tune : public Modify {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - trials_per_tune: number of attempted trials per tune (default: 1e3).
+    - Stepper arguments.
    */
   explicit Tune(argtype args = argtype());
   explicit Tune(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -46,6 +56,7 @@ class Tune : public Modify {
     return std::make_shared<Tune>(args); }
   explicit Tune(std::istream& istr);
 
+  //@}
  private:
   int trials_per_tune_;
   std::vector<double> values_;

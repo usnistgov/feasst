@@ -40,6 +40,10 @@ namespace feasst {
  */
 class Window {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - minimum: minimum in macrostate range (default: 0).
@@ -51,6 +55,11 @@ class Window {
    */
   explicit Window(argtype args = argtype());
   explicit Window(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the minimum.
   virtual int minimum() const { return minimum_; }
@@ -73,6 +82,7 @@ class Window {
 
   virtual ~Window() {}
 
+  //@}
  private:
   int minimum_, maximum_, num_, overlap_, min_size_;
 };

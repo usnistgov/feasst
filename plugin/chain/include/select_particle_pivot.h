@@ -15,6 +15,10 @@ namespace feasst {
  */
 class SelectParticlePivot : public TrialSelect {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - pivot_site: set the site index in selection with which to use as the
@@ -22,6 +26,11 @@ class SelectParticlePivot : public TrialSelect {
    */
   explicit SelectParticlePivot(argtype args = argtype());
   explicit SelectParticlePivot(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void precompute(System * system) override;
 
@@ -34,6 +43,7 @@ class SelectParticlePivot : public TrialSelect {
   explicit SelectParticlePivot(std::istream& istr);
   virtual ~SelectParticlePivot() {}
 
+  //@}
  protected:
   void serialize_select_particle_pivot_(std::ostream& ostr) const;
 

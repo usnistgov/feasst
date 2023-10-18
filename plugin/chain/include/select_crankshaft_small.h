@@ -13,6 +13,10 @@ namespace feasst {
  */
 class SelectCrankshaftSmall : public TrialSelectParticle {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - site[i]: add the (i+1)-th mobile site, beginning with i=1,
@@ -23,6 +27,11 @@ class SelectCrankshaftSmall : public TrialSelectParticle {
    */
   explicit SelectCrankshaftSmall(argtype args = argtype());
   explicit SelectCrankshaftSmall(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void precompute(System * system) override {
     TrialSelectParticle::precompute(system); }
@@ -36,6 +45,7 @@ class SelectCrankshaftSmall : public TrialSelectParticle {
   explicit SelectCrankshaftSmall(std::istream& istr);
   virtual ~SelectCrankshaftSmall() {}
 
+  //@}
  protected:
   void serialize_select_crankshaft_small_(std::ostream& ostr) const;
 

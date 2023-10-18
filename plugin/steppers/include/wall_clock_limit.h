@@ -9,15 +9,26 @@ namespace feasst {
 /**
   Terminate the simulation after a given number of CPU hours in order to
   prevent fragmented checkpoint files.
+  Thanks to Joshua Anderson for suggesting this.
  */
 class WallClockLimit : public AnalyzeUpdateOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - max_hours: maximum number of wall clock hours until job termination.
+    - Stepper arguments.
    */
   explicit WallClockLimit(argtype args = argtype());
   explicit WallClockLimit(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void update(const Criteria& criteria,
       const System& system,
@@ -30,8 +41,9 @@ class WallClockLimit : public AnalyzeUpdateOnly {
     return std::make_shared<WallClockLimit>(istr); }
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<WallClockLimit>(args); }
-  WallClockLimit(std::istream& istr);
+  explicit WallClockLimit(std::istream& istr);
 
+  //@}
  private:
   double max_hours_ = 0;
 };

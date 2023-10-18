@@ -11,6 +11,8 @@
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/run.h"
+#include "monte_carlo/include/remove_trial.h"
+#include "monte_carlo/include/convert_to_ref_potential.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/criteria_updater.h"

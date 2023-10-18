@@ -18,6 +18,10 @@ namespace feasst {
  */
 class TrialSelect {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - group_index: index of group defined within system (default: 0).
@@ -27,6 +31,11 @@ class TrialSelect {
    */
   explicit TrialSelect(argtype args = argtype());
   explicit TrialSelect(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the index of group for selection.
   int group_index() const { return group_index_; }
@@ -165,6 +174,7 @@ class TrialSelect {
   std::shared_ptr<TrialSelect> deserialize(std::istream& istr);
   virtual ~TrialSelect() {}
 
+  //@}
  protected:
   std::string class_name_ = "TrialSelect";
   Select mobile_original_;

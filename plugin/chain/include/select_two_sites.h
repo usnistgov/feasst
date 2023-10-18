@@ -15,6 +15,10 @@ namespace feasst {
  */
 class SelectTwoSites : public TrialSelect {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - mobile_site: index of the mobile site.
@@ -24,6 +28,11 @@ class SelectTwoSites : public TrialSelect {
    */
   explicit SelectTwoSites(argtype args = argtype());
   explicit SelectTwoSites(argtype * arg);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the mobile site.
   int mobile_site() const { return mobile_site_; }
@@ -43,6 +52,7 @@ class SelectTwoSites : public TrialSelect {
   explicit SelectTwoSites(std::istream& istr);
   virtual ~SelectTwoSites() {}
 
+  //@}
  protected:
   void serialize_select_two_sites_(std::ostream& ostr) const;
 

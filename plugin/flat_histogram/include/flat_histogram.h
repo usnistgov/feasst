@@ -24,6 +24,10 @@ class FlatHistogram : public Criteria {
  public:
   FlatHistogram() {} // do not use this constructor.
 
+  //@{
+  /** @name Arguments
+   */
+
   /**
     This is a flattened constructor which takes arguments for Macrostate,
     Bias and Criteria arguments (e.g., Constraints).
@@ -35,6 +39,11 @@ class FlatHistogram : public Criteria {
    */
   explicit FlatHistogram(argtype args);
   explicit FlatHistogram(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Construct with a macrostate and a bias
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
@@ -125,6 +134,7 @@ class FlatHistogram : public Criteria {
   FlatHistogram(const Criteria& criteria);
   ~FlatHistogram() {}
 
+  //@}
  private:
   std::shared_ptr<Bias> bias_;
   std::shared_ptr<Macrostate> macrostate_;

@@ -12,8 +12,21 @@ namespace feasst {
  */
 class WrapParticles : public ModifyUpdateOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Stepper arguments.
+   */
   explicit WrapParticles(argtype args = argtype());
   explicit WrapParticles(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void update(Criteria * criteria,
     System * system,
@@ -29,6 +42,7 @@ class WrapParticles : public ModifyUpdateOnly {
   std::shared_ptr<Modify> create(argtype * args) const override {
     return std::make_shared<WrapParticles>(args); }
   explicit WrapParticles(std::istream& istr);
+  //@}
 };
 
 inline std::shared_ptr<WrapParticles> MakeWrapParticles(

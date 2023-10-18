@@ -16,12 +16,22 @@ namespace feasst {
 class GhostTrialGrow : public Modify {
  public:
   GhostTrialGrow() : Modify() {} // only use for deserialize_map.
+
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - trial_grow_file: file name for use with TrialGrowFile.
    */
   explicit GhostTrialGrow(argtype args);
   explicit GhostTrialGrow(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -49,6 +59,7 @@ class GhostTrialGrow : public Modify {
   void serialize(std::ostream& ostr) const override;
   explicit GhostTrialGrow(std::istream& istr);
 
+  //@}
  private:
   TrialFactory grow_;
   AlwaysReject criteria_;

@@ -13,6 +13,10 @@ namespace feasst {
  */
 class AEqualB : public Constraint {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - particle_type_A: particle type for A (default: 0).
@@ -21,6 +25,12 @@ class AEqualB : public Constraint {
    */
   explicit AEqualB(argtype args = argtype());
   explicit AEqualB(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   bool is_allowed(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override;
@@ -32,6 +42,7 @@ class AEqualB : public Constraint {
   explicit AEqualB(std::istream& istr);
   virtual ~AEqualB() {}
 
+  //@}
  protected:
   void serialize_a_equal_b_(std::ostream& ostr) const;
 

@@ -246,7 +246,8 @@ for mod in next(os.walk(plugin_dir))[1]:
           print('cls', cls, 'header', header)
         if re.search(mod+'/include/', header):
           if cls:
-            doc = mod + '/doc/' + cls[0] + '.rst'
+            doc = mod + '/doc/' + cls[0]
+            #doc = mod + '/doc/' + cls[0] + '.rst'
             toc.write('   ' + cls[0] + '\n')
           else:
             funcfile = re.sub(mod+r'/include/', '', re.sub(r'.h$', '', header))
@@ -256,29 +257,37 @@ for mod in next(os.walk(plugin_dir))[1]:
             toc.write('   ' + funcfile + '\n')
             if 'include' in funcfile:
               doc = re.sub(r'include', r'doc', funcfile)
-              if 'rst' not in funcfile:
-                doc = doc + '.rst'
+#              if 'rst' not in funcfile:
+#                doc = doc + '.rst'
             else:
               #funcfile[:len(mod)] == mod:
-              doc = mod + '/doc/' + funcfile + '.rst'
+              doc = mod + '/doc/' + funcfile
+              #doc = mod + '/doc/' + funcfile + '.rst'
               funcfile = mod + '/include/' + funcfile
             if verbose:
               print('doc', doc)
-          with open(plugin_dir+doc, 'w') as fle:
-            if verbose:
-              print('doc', doc)
-            if cls:
-              fle.write(cls[0]+'\n')
-            else:
-              fle.write(funcfile + '\n')
-            fle.write('=====================================================\n')
-            if cls:
-              for cl in cls:
-                fle.write('\n')
-                fle.write('.. doxygenclass:: feasst::' + cl + '\n')
-                fle.write('   :project: FEASST\n')
-                fle.write('   :members:\n')
-            else:
-                fle.write('\n')
-                fle.write('.. doxygenfile:: ' + funcfile + '.h\n   :project: FEASST\n')
+          for arguments in [True, False]:
+            extra=''
+            if arguments:
+              extra='_arguments'
+            with open(plugin_dir+doc+extra+'.rst', 'w') as fle:
+              if arguments:
+                extra=':membergroups: Arguments'
+              if verbose:
+                print('doc', doc)
+              if cls:
+                fle.write(cls[0]+'\n')
+              else:
+                fle.write(funcfile + '\n')
+              fle.write('=====================================================\n')
+              if cls:
+                for cl in cls:
+                  fle.write('\n')
+                  fle.write('.. doxygenclass:: feasst::' + cl + '\n')
+                  fle.write('   :project: FEASST\n')
+                  fle.write('   :members:\n')
+                  fle.write('   '+extra+'\n')
+              else:
+                  fle.write('\n')
+                  fle.write('.. doxygenfile:: ' + funcfile + '.h\n   :project: FEASST\n')
 

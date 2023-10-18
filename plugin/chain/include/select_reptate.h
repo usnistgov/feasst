@@ -9,6 +9,10 @@ namespace feasst {
 /// Select a random end point for reptation.
 class SelectReptate : public SelectEndSegment {
  public:
+  /**
+    args:
+    - SelectEndSegment arguments.
+   */
   explicit SelectReptate(argtype args = argtype());
   explicit SelectReptate(argtype * args);
 

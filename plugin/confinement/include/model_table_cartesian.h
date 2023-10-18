@@ -136,6 +136,10 @@ class ModelTableCart3DIntegr : public ModelOneBody {
   // Constructor for multiple site type tables.
   explicit ModelTableCart3DIntegr(std::vector<std::shared_ptr<Table3D> > tables);
 
+  //@{
+  /** @name Arguments
+   */
+
   /**
     Constructor for text interface.
 
@@ -160,6 +164,11 @@ class ModelTableCart3DIntegr : public ModelOneBody {
    */
   explicit ModelTableCart3DIntegr(argtype args = argtype());
   explicit ModelTableCart3DIntegr(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the table for a given site type.
   const Table3D& table(const int site_type = 0) const;

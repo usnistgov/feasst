@@ -7,6 +7,7 @@
 #include "system/include/dont_visit_model.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/run.h"
+#include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/metropolis.h"

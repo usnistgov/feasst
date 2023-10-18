@@ -9,14 +9,29 @@ namespace feasst {
 
 /**
   Swap the types of two sites in a particle.
-  args:
-  - site_type1: type of site to swap.
-  - site_type2: type of other site to swap.
  */
 class TrialSwapSites : public Trial {
  public:
-  TrialSwapSites(argtype args = argtype());
-  TrialSwapSites(argtype * args);
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - site_type1: type of site to swap.
+    - site_type2: type of other site to swap.
+    - Trial arguments.
+    - TrialStage arguments.
+    - TrialSelect arguments.
+   */
+  explicit TrialSwapSites(argtype args = argtype());
+  explicit TrialSwapSites(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialSwapSites>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -24,6 +39,7 @@ class TrialSwapSites : public Trial {
   void serialize(std::ostream& ostr) const override;
   explicit TrialSwapSites(std::istream& istr);
   virtual ~TrialSwapSites() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialSwapSites> MakeTrialSwapSites(argtype args = argtype()) {

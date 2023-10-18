@@ -42,6 +42,10 @@ namespace feasst {
  */
 class ModelExample : public ModelTwoBody {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - num_discretized_steps: convert the continuous ramp potential into a number
@@ -56,6 +60,12 @@ class ModelExample : public ModelTwoBody {
    */
   explicit ModelExample(argtype args = argtype());
   explicit ModelExample(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
 
   /// Return the argument num_discretized_steps in read-only fashion.
   double num_discretized_steps() const { return num_discretized_steps_; }
@@ -92,6 +102,7 @@ class ModelExample : public ModelTwoBody {
   explicit ModelExample(std::istream& istr);
   virtual ~ModelExample() {}
 
+  //@}
  private:
   /**
     Declare private member variables here.

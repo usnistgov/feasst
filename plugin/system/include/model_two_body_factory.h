@@ -16,6 +16,10 @@ namespace feasst {
  */
 class ModelTwoBodyFactory : public ModelTwoBody {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - model[i]: add the i-th model.
@@ -23,6 +27,11 @@ class ModelTwoBodyFactory : public ModelTwoBody {
    */
   explicit ModelTwoBodyFactory(argtype args = argtype());
   explicit ModelTwoBodyFactory(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Add a vector of two body models.
   void add(std::vector<std::shared_ptr<ModelTwoBody> > models);
@@ -53,6 +62,7 @@ class ModelTwoBodyFactory : public ModelTwoBody {
   void serialize(std::ostream& ostr) const override;
   explicit ModelTwoBodyFactory(std::istream& istr);
 
+  //@}
  private:
   std::vector<std::shared_ptr<Model> > models_;
 };

@@ -15,6 +15,10 @@ namespace feasst {
  */
 class WLTM : public Bias {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - WangLandau arguments.
@@ -29,6 +33,12 @@ class WLTM : public Bias {
    */
   explicit WLTM(argtype args = argtype());
   explicit WLTM(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   void update(
     const int macrostate_old,
     const int macrostate_new,
@@ -69,6 +79,7 @@ class WLTM : public Bias {
   explicit WLTM(std::istream& istr);
   virtual ~WLTM() {}
 
+  //@}
  private:
   int collect_flatness_;
   int min_flatness_;

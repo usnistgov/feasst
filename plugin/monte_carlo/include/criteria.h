@@ -24,6 +24,10 @@ class Bias;
  */
 class Criteria {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - num_iterations_to_complete: set the number of iterations for a simulation
@@ -32,6 +36,11 @@ class Criteria {
    */
   explicit Criteria(argtype args = argtype());
   explicit Criteria(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Same as above, but also add a constraint.
   explicit Criteria(std::shared_ptr<Constraint> constraint,
@@ -191,6 +200,7 @@ class Criteria {
   explicit Criteria(std::istream& istr);
   virtual ~Criteria() {}
 
+  //@}
  protected:
   std::string class_name_ = "Criteria";
   void serialize_criteria_(std::ostream& ostr) const;

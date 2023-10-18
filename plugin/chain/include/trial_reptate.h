@@ -20,8 +20,13 @@ namespace feasst {
  */
 class TrialReptate : public TrialMove {
  public:
-  TrialReptate(argtype args = argtype());
-  TrialReptate(argtype * args);
+  /**
+    args:
+    - Trial arguments.
+    - SelectReptate arguments.
+   */
+  explicit TrialReptate(argtype args = argtype());
+  explicit TrialReptate(argtype * args);
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialReptate>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {

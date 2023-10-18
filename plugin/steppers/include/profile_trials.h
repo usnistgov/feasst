@@ -14,8 +14,21 @@ namespace feasst {
  */
 class ProfileTrials : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Stepper arguments.
+   */
   explicit ProfileTrials(argtype args = argtype());
   explicit ProfileTrials(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -44,6 +57,7 @@ class ProfileTrials : public Analyze {
   void serialize(std::ostream& ostr) const override;
   explicit ProfileTrials(std::istream& istr);
 
+  //@}
  private:
   std::vector<Accumulator> profile_;
 

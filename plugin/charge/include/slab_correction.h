@@ -29,12 +29,21 @@ namespace feasst {
  */
 class SlabCorrection : public VisitModel {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - dimension: dimension of periodically replicated slab.
    */
   explicit SlabCorrection(argtype args);
   explicit SlabCorrection(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   //void precompute(Configuration * config) override;
 
@@ -74,6 +83,7 @@ class SlabCorrection : public VisitModel {
   explicit SlabCorrection(std::istream& istr);
   virtual ~SlabCorrection() {}
 
+  //@}
  private:
   double dimension_;
   double dipole_;

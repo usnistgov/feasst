@@ -166,7 +166,7 @@ TrialTranslate weight 0.5 tunable_param 30 configuration_index 0
 TrialTranslate weight 0.5 tunable_param 1 configuration_index 1
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 pivot_site 0 configuration_index 0
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site 0 configuration_index 1
-TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 0.25 pivot_site {last_site} configuration_index 0
+TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 pivot_site {last_site} configuration_index 0
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site {last_site} configuration_index 1
 TrialGrowFile file_name trappe_c0_grow_canonical.txt
 TrialGrowFile file_name trappe_c1_grow_canonical.txt

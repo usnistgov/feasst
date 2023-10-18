@@ -7,11 +7,29 @@
 
 namespace feasst {
 
-/// Rigidly rotate a sub section of a chain.
+/**
+  Rigidly rotate a sub section of a chain.
+  This Trial is optimized for smaller molecules.
+ */
 class TrialCrankshaftSmall : public TrialMove {
  public:
-  TrialCrankshaftSmall(argtype args = argtype());
-  TrialCrankshaftSmall(argtype * args);
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Trial arguments.
+    - TrialStage arguments.
+    - SelectCrankshaftSmall arguments.
+    - Tunable arguments.
+   */
+  explicit TrialCrankshaftSmall(argtype args = argtype());
+  explicit TrialCrankshaftSmall(argtype * args);
+  //@}
+  /** @name Public Functions
+   */
+  //@{
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialCrankshaftSmall>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -19,6 +37,7 @@ class TrialCrankshaftSmall : public TrialMove {
   void serialize(std::ostream& ostr) const override;
   explicit TrialCrankshaftSmall(std::istream& istr);
   virtual ~TrialCrankshaftSmall() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialCrankshaftSmall> MakeTrialCrankshaftSmall(argtype args = argtype()) {

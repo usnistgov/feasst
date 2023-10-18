@@ -17,6 +17,10 @@ class Domain;
  */
 class NeighborCriteria {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - reference_potential: index of reference potentials (default: -1).
@@ -32,6 +36,11 @@ class NeighborCriteria {
    */
   explicit NeighborCriteria(argtype args = argtype());
   explicit NeighborCriteria(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   int reference_potential() const { return reference_potential_; }
   int potential_index() const { return potential_index_; }
@@ -59,6 +68,7 @@ class NeighborCriteria {
   /// Construct from serialization.
   explicit NeighborCriteria(std::istream& istr);
 
+  //@}
  private:
   int reference_potential_;
   int potential_index_;

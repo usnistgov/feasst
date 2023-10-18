@@ -18,12 +18,22 @@ namespace feasst {
  */
 class ExtensiveMoments : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - max_order: maximum order cutoff for the powers (default: 3).
+    - Stepper args.
    */
   explicit ExtensiveMoments(argtype args = argtype());
   explicit ExtensiveMoments(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -59,6 +69,7 @@ class ExtensiveMoments : public Analyze {
   explicit ExtensiveMoments(std::istream& istr);
   explicit ExtensiveMoments(const Analyze& extensive_moments);
 
+  //@}
  private:
   int max_order_;
   // moments_[p][m][k][j][i]

@@ -39,6 +39,10 @@ namespace feasst {
  */
 class TransitionMatrix : public Bias {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - CollectionMatrix arguments.
@@ -54,6 +58,12 @@ class TransitionMatrix : public Bias {
    */
   explicit TransitionMatrix(argtype args = argtype());
   explicit TransitionMatrix(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   void update(
     const int macrostate_old,
     const int macrostate_new,
@@ -105,6 +115,7 @@ class TransitionMatrix : public Bias {
   explicit TransitionMatrix(const Bias& bias);
   virtual ~TransitionMatrix() {}
 
+  //@}
  private:
   CollectionMatrix collection_;
   LnProbability ln_prob_;

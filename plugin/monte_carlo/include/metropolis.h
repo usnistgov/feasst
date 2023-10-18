@@ -15,15 +15,25 @@ class Random;
  */
 class Metropolis : public Criteria {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - num_trials_per_iteration: define an iteration as a number of trials
       (as measured by number of calls to is_accepted) default: 1e9.
       Note that iterations are defined like cycles, but are not necessarily
       the number of particles.
+    - Criteria arguments.
    */
   explicit Metropolis(argtype args = argtype());
   explicit Metropolis(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Same as above, but with an added constraint.
   explicit Metropolis(std::shared_ptr<Constraint> constraint);
@@ -41,6 +51,7 @@ class Metropolis : public Criteria {
   explicit Metropolis(std::istream& istr);
   ~Metropolis() {}
 
+  //@}
  private:
   int num_trials_per_iteration_;
 };

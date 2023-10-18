@@ -2,6 +2,12 @@
 Tutorials
 ==========
 
+The quickest way to get started with FEASST is to find a tutorial that is closest to what you would like to accomplish.
+After verifying that you can reproduce the expected result, use the :doc:`../plugin/text_interface` documentation to better understand and modify the classes and arguments.
+In most tutorials, a Python script is used to generate a text file based on input arguments to a formatted string.
+The generated text file will be easier to understand than the Python script, and the text files can be run directly as `/path/to/feasst/build/bin/fst < input.txt`.
+Include the text file when you :doc:`../CONTACT` us with issues.
+
 The following tutorials are also located in the code repository with the same path as the html (e.g., in /path/to/feasst/plugin/[name]/tutorial/).
 
 Basic tutorials:
@@ -51,25 +57,13 @@ Others:
 Text file interface
 ======================
 
-The above tutorials feature the text-based interface of FEASST.
-The text interface comprises the names of all Classes and their constructor arguments.
-Thus, most users will want to search the documentation for these classes.
-Documentation for a particular class can be found by searching the `list of all capabilities <../plugin/README.html>`_ (typically, using ctrl-f).
-All available arguments for that class can then be found in the list of "args" of that class, or its base classes.
-
-For developers, the bash command "grep" is also an option to search for more information on classes and their arguments.
-For example, if you would like more information on `RandomMT19937 <plugin/math/doc/RandomMT19937.html>`_ but are not sure where to find it, you could search headers files
-
-.. code-block:: bash
-
-   grep -r --include=*.h RandomMT19937
-
-And find that the class is part of the `Math <plugin/math/README.html>`_ plugin.
+The above tutorials feature the :doc:`../plugin/text_interface` of FEASST, which is the recommended interface for most users.
+The :doc:`../plugin/text_interface` comprises the names of many classes and their constructor arguments.
+Thus, most users will want to search the :doc:`../plugin/text_interface` documentation for these classes.
 
 Python and C++ interface
 ===============================
 
 FEASST may also be called directly in Python and C++ as a `library <library/tutorial.html>`_.
-Note that the Python and C++ interfaces may change with minor version.
-Thus, the Python and C++ interfaces are not recommended for beginning users.
+The :doc:`../py/README` and :doc:`../plugin/README` are not recommended for most users, and maybe change with minor version.
 

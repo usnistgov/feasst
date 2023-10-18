@@ -21,12 +21,21 @@ namespace feasst {
  */
 class TrialSelectDihedral : public TrialSelectAngle {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - anchor_site3 : index of third anchor site.
    */
   explicit TrialSelectDihedral(argtype args = argtype());
   explicit TrialSelectDihedral(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Same as TrialSelectAngle, but also add the third anchor site, and add
   /// dihedral_type as an anchor property.
@@ -37,6 +46,7 @@ class TrialSelectDihedral : public TrialSelectAngle {
   explicit TrialSelectDihedral(std::istream& istr);
   virtual ~TrialSelectDihedral() {}
 
+  //@}
  protected:
   void serialize_trial_select_dihedral_(std::ostream& ostr) const;
 

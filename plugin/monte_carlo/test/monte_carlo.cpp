@@ -23,6 +23,9 @@
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/run.h"
+#include "monte_carlo/include/remove_trial.h"
+#include "monte_carlo/include/remove_modify.h"
+#include "monte_carlo/include/convert_to_ref_potential.h"
 #include "monte_carlo/test/monte_carlo_benchmark.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
@@ -174,12 +177,12 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
 //    .run(&mc);
 //  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/cell"}}));
 //  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-//  mc.attempt(1e5);  // 2 sec with 50 particles, 10 steps on hwhdesk after moved to VisitModelCell
-//  //mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on hwhdesk after site cells integer
-//  //mc.attempt(1e5);  // 4.4 sec with 50 particles, 10 steps on hwhdesk after cell group opt
-//  //mc.attempt(1e5);  // 4.5 sec with 50 particles, 10 steps on hwhdesk after domain shift opt
-//  //mc.attempt(1e5);  // 5.6 sec with 50 particles, 10 steps on hwhdesk
-//  //mc.attempt(1e5);  // 5.1 sec with 50 particles, 10 steps on hwhdesk after opt cell_id
+//  mc.attempt(1e5);  // 2 sec with 50 particles, 10 steps on userdesk after moved to VisitModelCell
+//  //mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on userdesk after site cells integer
+//  //mc.attempt(1e5);  // 4.4 sec with 50 particles, 10 steps on userdesk after cell group opt
+//  //mc.attempt(1e5);  // 4.5 sec with 50 particles, 10 steps on userdesk after domain shift opt
+//  //mc.attempt(1e5);  // 5.6 sec with 50 particles, 10 steps on userdesk
+//  //mc.attempt(1e5);  // 5.1 sec with 50 particles, 10 steps on userdesk after opt cell_id
 //  //mc.attempt(1e3);
 //  // mc.attempt(1e6);
 //}

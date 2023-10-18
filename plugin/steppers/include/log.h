@@ -25,13 +25,23 @@ namespace feasst {
  */
 class Log : public AnalyzeWriteOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - max_precision: use maximum precision if true (default: false).
     - include_bonds: if true, print bond energies (default:false).
+    - Stepper arguments.
    */
   explicit Log(argtype args = argtype());
   explicit Log(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -52,8 +62,9 @@ class Log : public AnalyzeWriteOnly {
     return std::make_shared<Log>(istr); }
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<Log>(args); }
-  Log(std::istream& istr);
+  explicit Log(std::istream& istr);
 
+  //@}
  private:
   bool max_precision_;
   bool include_bonds_;

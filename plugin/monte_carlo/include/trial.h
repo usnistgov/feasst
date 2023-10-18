@@ -22,6 +22,10 @@ namespace feasst {
  */
 class Trial {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - weight: unnormalized relative probability of selection of this trial
@@ -29,6 +33,11 @@ class Trial {
    */
   explicit Trial(argtype args = argtype());
   explicit Trial(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the unnormalized relative probability of selection of this trial
   /// with respect to all trials.
@@ -159,6 +168,7 @@ class Trial {
   explicit Trial(std::istream& istr);
   virtual ~Trial() {}
 
+  //@}
  protected:
   std::string class_name_ = "Trial";
   SynchronizeData data_;

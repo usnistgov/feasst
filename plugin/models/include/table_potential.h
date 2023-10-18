@@ -45,12 +45,21 @@ namespace feasst {
  */
 class TablePotential : public VisitModelInner {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - table_file: table file with format described above.
    */
   explicit TablePotential(argtype args = argtype());
   explicit TablePotential(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   const std::vector<std::vector<Table1D> >& energy_table() const { return energy_table_; }
 
@@ -75,6 +84,7 @@ class TablePotential : public VisitModelInner {
   explicit TablePotential(std::istream& istr);
   virtual ~TablePotential() {}
 
+  //@}
  private:
   std::vector<std::vector<double> > inner_, inner_g_;
   std::vector<std::vector<double> > cutoff_g_;

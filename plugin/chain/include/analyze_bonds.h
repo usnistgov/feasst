@@ -16,6 +16,10 @@ namespace feasst {
  */
 class AnalyzeBonds : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - bond_bin_width: bin width for bond histogram (default: 1).
@@ -26,9 +30,15 @@ class AnalyzeBonds : public Analyze {
     - dihedral_bin_width: bin width for dihedral histogram in units of degrees.
       (default: 1).
     - dihedral_bin_center: center of first bin in dihedral histogram (default: 0).
+    - Stepper arguments.
    */
   explicit AnalyzeBonds(argtype args = argtype());
   explicit AnalyzeBonds(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void update(const Criteria& criteria,
     const System& system,
@@ -69,6 +79,7 @@ class AnalyzeBonds : public Analyze {
   void serialize(std::ostream& ostr) const override;
   explicit AnalyzeBonds(std::istream& istr);
 
+  //@}
  private:
   std::vector<Accumulator> bond_, angle_, dihedral_;
   std::vector<Histogram> bond_hist_, angle_hist_, dihedral_hist_;

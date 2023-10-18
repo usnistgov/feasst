@@ -15,15 +15,24 @@ namespace feasst {
  */
 class Movie : public AnalyzeWriteOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - append is always set to true via Stepper:set_append().
     - FileXYZ arguments (e.g., group_index).
     - FileVMD arguments (e.g., min_sigma).
-    - Analyze and Stepper base class arguments.
+    - Stepper arguments.
    */
   explicit Movie(argtype args = argtype());
   explicit Movie(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Write the sample VMD files and the initial configuration.
   void initialize(Criteria * criteria,
@@ -44,6 +53,7 @@ class Movie : public AnalyzeWriteOnly {
     return std::make_shared<Movie>(args); }
   Movie(std::istream& istr);
 
+  //@}
  private:
   FileXYZ xyz_;
   FileVMD vmd_;

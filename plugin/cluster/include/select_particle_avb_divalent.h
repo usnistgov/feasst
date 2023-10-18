@@ -15,6 +15,10 @@ namespace feasst {
  */
 class SelectParticleAVBDivalent : public TrialSelect {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - target_site_index: index of target site (default: 0).
@@ -22,8 +26,14 @@ class SelectParticleAVBDivalent : public TrialSelect {
       (default: 0).
     - ghost: true if selecting a ghost (for adding).
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
+    - TrialSelect arguments.
    */
-  SelectParticleAVBDivalent(argtype args = argtype());
+  explicit SelectParticleAVBDivalent(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   bool select(const Select& perturbed,
               System* system,
@@ -37,6 +47,7 @@ class SelectParticleAVBDivalent : public TrialSelect {
  protected:
   void serialize_select_particle_avb_divalent_(std::ostream& ostr) const;
 
+  //@}
  private:
   int neighbor_;
   TrialSelectParticle select_mobile_;

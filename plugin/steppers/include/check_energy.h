@@ -33,13 +33,23 @@ namespace feasst {
  */
 class CheckEnergy : public ModifyUpdateOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - tolerance: relative absolute difference between running energy
       and recomputed energy (default: 1e-10).
+    - Stepper arguments.
   */
   explicit CheckEnergy(argtype args = argtype());
   explicit CheckEnergy(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void update(Criteria * criteria,
     System * system,
@@ -56,6 +66,7 @@ class CheckEnergy : public ModifyUpdateOnly {
     return std::make_shared<CheckEnergy>(args); }
   explicit CheckEnergy(std::istream& istr);
 
+  //@}
  private:
   double tolerance_;
   std::shared_ptr<Analyze> check_;

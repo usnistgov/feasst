@@ -21,6 +21,10 @@ namespace feasst {
  */
 class VisitModelIntraMap : public VisitModel {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     By default, all interactions are included except with self.
 
@@ -32,6 +36,11 @@ class VisitModelIntraMap : public VisitModel {
    */
   explicit VisitModelIntraMap(argtype args = argtype());
   explicit VisitModelIntraMap(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Initialize include_map after VisitModel::precompute.
   void precompute(Configuration * config) override;
@@ -60,6 +69,7 @@ class VisitModelIntraMap : public VisitModel {
   explicit VisitModelIntraMap(std::istream& istr);
   ~VisitModelIntraMap() {}
 
+  //@}
  private:
   bool exclude_bonds_;
   bool exclude_angles_;

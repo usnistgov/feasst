@@ -10,8 +10,23 @@ namespace feasst {
 /// Rigidly pivot an end segment of a chain to a random orientation.
 class TrialPivot : public TrialMove {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Trial arguments.
+    - TrialStage arguments.
+    - SelectEndSegment arguments.
+    - Tunable arguments.
+   */
   explicit TrialPivot(argtype args = argtype());
   explicit TrialPivot(argtype * args);
+  //@}
+  /** @name Public Functions
+   */
+  //@{
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialPivot>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -19,6 +34,7 @@ class TrialPivot : public TrialMove {
   void serialize(std::ostream& ostr) const override;
   explicit TrialPivot(std::istream& istr);
   virtual ~TrialPivot() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialPivot> MakeTrialPivot(argtype args = argtype()) {

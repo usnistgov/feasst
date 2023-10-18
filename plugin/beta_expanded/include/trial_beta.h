@@ -7,11 +7,30 @@
 
 namespace feasst {
 
-/// Attempt to change the inverse temperature, \f$\beta\f$ by a fixed amount.
+/**
+  Attempt to change the inverse temperature, \f$\beta=\frac{1}{k_B T}\f$ by a
+  fixed amount.
+ */
 class TrialBeta : public Trial {
  public:
-  TrialBeta(argtype args = argtype());
-  TrialBeta(argtype * args);
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Trial arguments.
+    - PerturbBeta arguments.
+    - Tunable arguments.
+   */
+  explicit TrialBeta(argtype args = argtype());
+  explicit TrialBeta(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialBeta>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -19,6 +38,7 @@ class TrialBeta : public Trial {
   void serialize(std::ostream& ostr) const override;
   explicit TrialBeta(std::istream& istr);
   virtual ~TrialBeta() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialBeta> MakeTrialBeta(argtype args = argtype()) {

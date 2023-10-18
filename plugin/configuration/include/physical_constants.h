@@ -10,6 +10,15 @@
 
 namespace feasst {
 
+/**
+  This class provides physical constants and conversions for convenience.
+  The main purpose is to facilitate comparison of FEASST results to machine
+  percision.
+  For example, the molar gas constant is derived from the Boltzmann and
+  Avogadro constants.
+  Please do not use this as a primary source for NIST physical constants.
+  Instead, verify them with CODATA sources.
+ */
 class PhysicalConstants {
  public:
   PhysicalConstants() {}
@@ -88,9 +97,16 @@ class CODATA2018 : public PhysicalConstants {
     class_name_ = "CODATA2018";
     compute_derived_(); }
 
+  /// Boltzman constant: 1.380649E-23 Joules per Kelvin.
   const double boltzmann_constant() const override { return 1.380649E-23; }
+
+  /// Avogadro constant: 6.02214076E+23 particles per mol.
   const double avogadro_constant() const override { return 6.02214076E+23; }
+
+  /// Permitivity of vacuum: 8.8541878128E-12 C^2/J/m.
   const double permitivity_vacuum() const override { return 8.8541878128E-12; }
+
+  /// Elementary charge: 1.602176634E-19 C.
   const double elementary_charge() const override { return 1.602176634E-19; }
 
   std::shared_ptr<PhysicalConstants> create(std::istream& istr) const override {
@@ -116,9 +132,16 @@ class CODATA2014 : public PhysicalConstants {
     class_name_ = "CODATA2014";
     compute_derived_(); }
 
+  /// Boltzman constant: 1.38064852E-23 Joules per Kelvin.
   const double boltzmann_constant() const override { return 1.38064852E-23; }
+
+  /// Avogadro constant: 6.022140857E+23 particles per mol.
   const double avogadro_constant() const override { return 6.022140857E+23; }
+
+  /// Permitivity of vacuum: 8.854187817E-12 C^2/J/m.
   const double permitivity_vacuum() const override { return 8.854187817E-12; }
+
+  /// Elementary charge: 1.6021766208E-19 C.
   const double elementary_charge() const override { return 1.6021766208E-19; }
 
   std::shared_ptr<PhysicalConstants> create(std::istream& istr) const override {
@@ -144,9 +167,16 @@ class CODATA2010 : public PhysicalConstants {
     class_name_ = "CODATA2010";
     compute_derived_(); }
 
+  /// Boltzman constant: 1.3806488E-23 Joules per Kelvin.
   const double boltzmann_constant() const override { return 1.3806488E-23; }
+
+  /// Avogadro constant: 6.02214129E+23 particles per mol.
   const double avogadro_constant() const override { return 6.02214129E+23; }
+
+  /// Permitivity of vacuum: 8.854187817E-12 C^2/J/m.
   const double permitivity_vacuum() const override { return 8.854187817E-12; }
+
+  /// Elementary charge: 1.602176565E-19 C.
   const double elementary_charge() const override { return 1.602176565E-19; }
 
   std::shared_ptr<PhysicalConstants> create(std::istream& istr) const override {

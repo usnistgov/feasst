@@ -6,13 +6,26 @@
 
 namespace feasst {
 
+// HWH optimize, set anchor one site next from selection.
 /// Select an end segment.
 /// Set the anchor as the other end of the selection from the end point.
-// HWH optimize, set anchor one site next from selection.
 class SelectEndSegment : public SelectSegment {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - SelectSegment arguments.
+   */
   explicit SelectEndSegment(argtype args = argtype());
   explicit SelectEndSegment(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void precompute(System * system) override;
 
@@ -36,6 +49,7 @@ class SelectEndSegment : public SelectSegment {
   explicit SelectEndSegment(std::istream& istr);
   virtual ~SelectEndSegment() {}
 
+  //@}
  protected:
   void serialize_select_end_segment_(std::ostream& ostr) const;
 };

@@ -14,12 +14,21 @@ namespace feasst {
  */
 class WindowCustom : public Window {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - min[i]: minimum macrostate value of the i-th window.
     - max: maximum of the largest window.
    */
   explicit WindowCustom(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Construct by manual input of the segments, defined in Window.
   WindowCustom(const std::vector<double> segment,
@@ -32,6 +41,7 @@ class WindowCustom : public Window {
   int num() const override { return static_cast<int>(segment_.size() - 1); }
   virtual ~WindowCustom() {}
 
+  //@}
  private:
   std::vector<double> segment_;
   std::vector<std::vector<int> > boundaries_;

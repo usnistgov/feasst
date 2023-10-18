@@ -17,6 +17,10 @@ namespace feasst {
  */
 class ElectricField : public ModelOneBody {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - dimension: direction of the electric field (default: 0).
@@ -24,7 +28,12 @@ class ElectricField : public ModelOneBody {
       The units are assumed to be Volts/Angstrom, where charge is electron
       charge and energy is in kJ/mol.
    */
-  ElectricField(argtype args = argtype());
+  explicit ElectricField(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void precompute(const ModelParams& existing) override;
 
@@ -40,6 +49,7 @@ class ElectricField : public ModelOneBody {
   explicit ElectricField(std::istream& istr);
   virtual ~ElectricField() {}
 
+  //@}
  private:
   int dimension_;
   double field_strength_;

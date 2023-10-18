@@ -30,12 +30,21 @@ namespace feasst {
  */
 class PressureFromTestVolume : public Modify {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - delta_volume: test volume change (default: 1e-4).
    */
   explicit PressureFromTestVolume(argtype args = argtype());
   explicit PressureFromTestVolume(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -63,6 +72,7 @@ class PressureFromTestVolume : public Modify {
   void serialize(std::ostream& ostr) const override;
   explicit PressureFromTestVolume(std::istream& istr);
 
+  //@}
  private:
   double delta_volume_;
   Accumulator term_;

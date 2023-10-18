@@ -12,6 +12,10 @@ namespace feasst {
  */
 class DensityProfile : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - dimension: profile runs along this dimension (default: 0).
@@ -20,6 +24,11 @@ class DensityProfile : public Analyze {
    */
   explicit DensityProfile(argtype args = argtype());
   explicit DensityProfile(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -53,6 +62,7 @@ class DensityProfile : public Analyze {
   explicit DensityProfile(std::istream& istr);
   explicit DensityProfile(const Analyze& density_profile);
 
+  //@}
  private:
   int dimension_;
   double dr_, center_;

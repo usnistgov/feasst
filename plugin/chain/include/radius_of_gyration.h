@@ -12,12 +12,22 @@ namespace feasst {
  */
 class RadiusOfGyration : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - group_index: index of the Configuration::group (default: 0).
+    - Stepper arguments.
    */
   explicit RadiusOfGyration(argtype args = argtype());
   explicit RadiusOfGyration(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -52,6 +62,7 @@ class RadiusOfGyration : public Analyze {
   explicit RadiusOfGyration(std::istream& istr);
   explicit RadiusOfGyration(const Analyze& energy);
 
+  //@}
  private:
   int group_index_;
   Accumulator rg_e_, rg_e2_;

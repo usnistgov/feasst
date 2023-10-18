@@ -12,11 +12,26 @@ namespace feasst {
 /// equally.
 class TrialTransferMultiple : public TrialFactoryNamed {
  public:
-  TrialTransferMultiple(argtype args = argtype());
-  TrialTransferMultiple(argtype * args);
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - particle_type[i]: the i-th type of particle to add.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - TrialStage arguments.
+   */
+  explicit TrialTransferMultiple(argtype args = argtype());
+  explicit TrialTransferMultiple(argtype * args);
+  //@}
+  /** @name Public Functions
+   */
+  //@{
   std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
     return std::make_shared<TrialTransferMultiple>(args); }
   virtual ~TrialTransferMultiple() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialTransferMultiple> MakeTrialTransferMultiple(argtype args = argtype()) {

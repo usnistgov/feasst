@@ -1,0 +1,7 @@
+ModelThreeBody
+=====================================================
+
+.. doxygenclass:: feasst::ModelThreeBody
+   :project: FEASST
+   :members:
+   :membergroups: Arguments

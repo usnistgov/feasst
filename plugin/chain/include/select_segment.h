@@ -6,18 +6,27 @@
 
 namespace feasst {
 
-/// Select a random segment.
-// HWH optimzie by settting endpoints as anchors.
+/// Select a random segment of a linear chain.
 class SelectSegment : public TrialSelectParticle {
  public:
+  //@{
+  /** @name Arguments
+   */
+  
   /**
     args:
     - max_length : maximum length of selected segment. If -1 (default), then
       randomly select all possible lengths.
+    - TrialSelectParticle arguments.
    */
   explicit SelectSegment(argtype args = argtype());
   explicit SelectSegment(argtype * args);
 
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+  
   /// Return the maximum length.
   int max_length() const { return max_length_; }
 
@@ -40,6 +49,7 @@ class SelectSegment : public TrialSelectParticle {
   explicit SelectSegment(std::istream& istr);
   virtual ~SelectSegment() {}
 
+  //@}
  protected:
   void serialize_select_segment_(std::ostream& ostr) const;
 

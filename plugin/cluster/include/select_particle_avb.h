@@ -18,6 +18,10 @@ namespace feasst {
  */
 class SelectParticleAVB : public TrialSelect {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - target_particle_type: type of target particle (default: 0).
@@ -30,9 +34,15 @@ class SelectParticleAVB : public TrialSelect {
     - second_target: if true, set anchor to a second target particle
       (default: false).
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
+    - TrialSelect arguments.
    */
-  SelectParticleAVB(argtype args = argtype());
-  SelectParticleAVB(argtype * args);
+  explicit SelectParticleAVB(argtype args = argtype());
+  explicit SelectParticleAVB(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   // ghost is set in precompute
   void precompute(System * system) override;
@@ -45,6 +55,7 @@ class SelectParticleAVB : public TrialSelect {
   explicit SelectParticleAVB(std::istream& istr);
   virtual ~SelectParticleAVB() {}
 
+  //@}
  protected:
   void serialize_select_particle_avb_(std::ostream& ostr) const;
 

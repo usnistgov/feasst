@@ -13,13 +13,23 @@ namespace feasst {
  */
 class CheckConstantVolume : public ModifyUpdateOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - tolerance: relative absolute difference between current total volume
       and last recorded total volume (default: 1e-4).
+    - Stepper arguments.
   */
   explicit CheckConstantVolume(argtype args = argtype());
   explicit CheckConstantVolume(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void update(Criteria * criteria,
     System * system,
@@ -36,6 +46,7 @@ class CheckConstantVolume : public ModifyUpdateOnly {
     return std::make_shared<CheckConstantVolume>(args); }
   explicit CheckConstantVolume(std::istream& istr);
 
+  //@}
  private:
   double tolerance_;
   double last_total_volume_ = -1.;

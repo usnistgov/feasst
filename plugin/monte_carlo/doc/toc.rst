@@ -2,7 +2,11 @@
 .. toctree::
 
    Action
+   RefPotential
+   WriteModelParams
    Run
+   RemoveTrial
+   RemoveAnalyze
    Rosenbluth
    Acceptance
    Stepper
@@ -12,6 +16,8 @@
    Constraint
    ConstrainNumParticles
    TrialSelect
+   TrialSelectParticle
+   RemoveModify
    Tunable
    Perturb
    PerturbMove
@@ -21,23 +27,24 @@
    PerturbRotate
    PerturbTranslate
    PerturbAnywhere
-   PerturbRemove
    PerturbAdd
+   PerturbRemove
    TrialStage
    PerturbVolume
    TrialSelectAll
+   ConvertToRefPotential
    TrialSelectBond
    TrialSelectAngle
    TrialSelectDihedral
-   TrialSelectParticle
+   WriteCheckpoint
    TrialCompute
    TrialComputeMove
    TrialComputeTranslate
    Trial
    TrialVolume
+   TrialAdd
    TrialMove
    TrialRotate
-   TrialAdd
    TrialFactory
    SeekNumParticles
    TrialTransfer

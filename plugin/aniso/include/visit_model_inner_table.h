@@ -79,6 +79,10 @@ namespace feasst {
  */
 class VisitModelInnerTable : public VisitModelInner {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - table_file: table file with format described above.
@@ -86,6 +90,11 @@ class VisitModelInnerTable : public VisitModelInner {
    */
   explicit VisitModelInnerTable(argtype args = argtype());
   explicit VisitModelInnerTable(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return true if there is an energy table.
   bool is_energy_table(const std::vector<std::vector<Table6D> >& energy) const;
@@ -145,6 +154,7 @@ class VisitModelInnerTable : public VisitModelInner {
   explicit VisitModelInnerTable(std::istream& istr);
   virtual ~VisitModelInnerTable() {}
 
+  //@}
  private:
   int aniso_index_ = -1;
   std::string table_file_;

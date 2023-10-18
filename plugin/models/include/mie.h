@@ -16,6 +16,10 @@ namespace feasst {
  */
 class Mie : public ModelTwoBody {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - n: set the value of \f$n\f$ (default: 12).
@@ -23,6 +27,11 @@ class Mie : public ModelTwoBody {
    */
   explicit Mie(argtype args = argtype());
   explicit Mie(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the value of n.
   const double& n() const { return n_; }
@@ -44,6 +53,7 @@ class Mie : public ModelTwoBody {
   explicit Mie(std::istream& istr);
   virtual ~Mie() {}
 
+  //@}
  protected:
   void serialize_mie_(std::ostream& ostr) const;
 

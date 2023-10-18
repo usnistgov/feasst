@@ -7,14 +7,18 @@
 namespace feasst {
 
 /**
-  Change the volume of the system uniformly randomly in :math:`\ln V`.
+  Change the volume of the system uniformly randomly in \f$\ln V\f$.
  */
 class PerturbVolume : public Perturb {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - uniform_volume: if true, change volume uniformly in V instead of
-      :math:`\ln V` (default: false).
+      \f$\ln V\f$ (default: false).
     - constrain_volume_change: if true, use the previous volume change to
       do the opposite for use as the second stage in Gibbs ensemble
       (default: false).
@@ -22,6 +26,11 @@ class PerturbVolume : public Perturb {
    */
   explicit PerturbVolume(argtype args = argtype());
   explicit PerturbVolume(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void perturb(
       System * system,
@@ -45,6 +54,7 @@ class PerturbVolume : public Perturb {
   explicit PerturbVolume(std::istream& istr);
   virtual ~PerturbVolume() {}
 
+  //@}
  private:
   bool uniform_volume_;
   bool constrain_volume_change_;

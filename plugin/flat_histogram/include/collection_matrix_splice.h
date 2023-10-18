@@ -34,6 +34,10 @@ class Histogram;
  */
 class CollectionMatrixSplice {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - min_window_size: minimum size of window boundaries during adjustment.
@@ -48,6 +52,11 @@ class CollectionMatrixSplice {
    */
   explicit CollectionMatrixSplice(argtype args = argtype());
   explicit CollectionMatrixSplice(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Add a MonteCarlo.
   void add(std::shared_ptr<MonteCarlo> mc) { clones_.push_back(mc); }
@@ -125,6 +134,7 @@ class CollectionMatrixSplice {
     return CollectionMatrixSplice(ss);
   }
 
+  //@}
  private:
   std::vector<std::shared_ptr<MonteCarlo> > clones_;
   std::shared_ptr<Checkpoint> checkpoint_;

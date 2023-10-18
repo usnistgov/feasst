@@ -18,11 +18,11 @@ PARSER.add_argument('--num_particles', type=int, default=500, help='number of pa
 PARSER.add_argument('--pressures', type=json.loads, default='{"pressure":[8.9429E-04, 2.6485E-03, 4.3569E-03, 6.0193E-03, 7.6363E-03]}',
                     help='dictionary with a list of pressures to simulate')
 PARSER.add_argument('--initial_cubic_side_length', type=int, default=20, help='cubic periodic boundary length')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
+PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
                     help='number of iterations for equilibraiton')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e3),
+PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
                     help='number of iterations for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')

@@ -13,11 +13,19 @@ namespace feasst {
  */
 class Background : public VisitModel {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - constant: return this energy.
    */
   explicit Background(argtype args = argtype());
+  //@}
+  /** @name Public Functions
+   */
+  //@{
   void compute(
       ModelOneBody * model,
       const ModelParams& model_params,
@@ -34,6 +42,7 @@ class Background : public VisitModel {
   explicit Background(std::istream& istr);
   ~Background() {}
 
+  //@}
  private:
   double constant_;
 };

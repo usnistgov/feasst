@@ -26,6 +26,10 @@ namespace feasst {
  */
 class Tunable {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - tunable_param: initial value of the tunable parameter (default: 0.1).
@@ -34,6 +38,11 @@ class Tunable {
    */
   explicit Tunable(argtype args = argtype());
   explicit Tunable(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   double target() const { return target_; }
   double percent_change() const { return percent_change_; }
@@ -86,6 +95,7 @@ class Tunable {
   /// Construct from serialization.
   explicit Tunable(std::istream& istr);
 
+  //@}
  private:
   bool is_enabled_ = true;
   double value_ = 0.;

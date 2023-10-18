@@ -28,7 +28,7 @@ args = parser.parse_args()
 print(args)
 
 print(feasst.install_dir())
-assert(feasst.install_dir() == '/home/hwh/gcfetch/feasst')
+assert(feasst.install_dir() == '/home/user/gcfetch/feasst')
 
 def lj_system(box_length):
     system = feasst.System()

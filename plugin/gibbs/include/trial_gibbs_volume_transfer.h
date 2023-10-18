@@ -8,6 +8,39 @@
 
 namespace feasst {
 
+/**
+  Attempt TrialGibbsVolumeTransferOneWay with equal probability in either direction.
+  See https://doi.org/10.1080/00268978700101491.
+ */
+class TrialGibbsVolumeTransfer : public TrialFactoryNamed {
+ public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - configuration_index0: index of one of the configurations (default: 0).
+    - configuration_index1: index of the other configuration (default: 1).
+    - Tunable arguments.
+   */
+  explicit TrialGibbsVolumeTransfer(argtype args = argtype());
+  explicit TrialGibbsVolumeTransfer(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
+  std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
+    return std::make_shared<TrialGibbsVolumeTransfer>(args); }
+  virtual ~TrialGibbsVolumeTransfer() {}
+  //@}
+};
+
+inline std::shared_ptr<TrialGibbsVolumeTransfer> MakeTrialGibbsVolumeTransfer(argtype args = argtype()) {
+  return std::make_shared<TrialGibbsVolumeTransfer>(args); }
+
 /// Attempt to transfer volume from one configuration to another.
 class TrialGibbsVolumeTransferOneWay : public Trial {
  public:
@@ -30,24 +63,6 @@ class TrialGibbsVolumeTransferOneWay : public Trial {
 
 inline std::shared_ptr<TrialGibbsVolumeTransferOneWay> MakeTrialGibbsVolumeTransferOneWay(argtype args = argtype()) {
   return std::make_shared<TrialGibbsVolumeTransferOneWay>(args); }
-
-/// Attempt TrialGibbsVolumeTransferOneWay with equal probability in either direction.
-class TrialGibbsVolumeTransfer : public TrialFactoryNamed {
- public:
-  /**
-    args:
-    - configuration_index0: index of one of the configurations (default: 0).
-    - configuration_index1: index of the other configuration (default: 1).
-   */
-  explicit TrialGibbsVolumeTransfer(argtype args = argtype());
-  explicit TrialGibbsVolumeTransfer(argtype * args);
-  std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
-    return std::make_shared<TrialGibbsVolumeTransfer>(args); }
-  virtual ~TrialGibbsVolumeTransfer() {}
-};
-
-inline std::shared_ptr<TrialGibbsVolumeTransfer> MakeTrialGibbsVolumeTransfer(argtype args = argtype()) {
-  return std::make_shared<TrialGibbsVolumeTransfer>(args); }
 
 }  // namespace feasst
 

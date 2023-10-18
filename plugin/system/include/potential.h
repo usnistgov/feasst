@@ -21,6 +21,10 @@ namespace feasst {
  */
 class Potential {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - group_index: set the index of the group in the configuration which
@@ -37,6 +41,19 @@ class Potential {
    */
   explicit Potential(argtype * args);
 
+  /**
+    args:
+    - Model: derived class Model name (default: ModelEmpty).
+    - VisitModel: derived class VisitModel name (default: VisitModel).
+    - All arguments described in the first constructor.
+   */
+  explicit Potential(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   /// Return the index of the group
   int group_index() const { return group_index_; }
 
@@ -45,14 +62,6 @@ class Potential {
 
   /// Construct with model and default visitor.
   Potential(std::shared_ptr<Model> model, argtype args = argtype());
-
-  /**
-    args:
-    - Model: derived class Model name (default: ModelEmpty).
-    - VisitModel: derived class VisitModel name (default: VisitModel).
-    - All arguments described in the first constructor.
-   */
-  explicit Potential(argtype args = argtype());
 
   /// Return the model.
   const Model& model() const { return const_cast<Model&>(*model_); }
@@ -156,6 +165,7 @@ class Potential {
   explicit Potential(std::istream& istr);
   virtual ~Potential() {}
 
+  //@}
  private:
   int group_index_;
   std::string group_;

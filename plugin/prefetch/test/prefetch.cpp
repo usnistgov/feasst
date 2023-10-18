@@ -5,6 +5,7 @@
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "monte_carlo/include/run.h"
+#include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/trial_rotate.h"

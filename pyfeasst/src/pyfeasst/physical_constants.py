@@ -6,6 +6,8 @@ For example, the molar gas constant is derived from the Boltzmann and Avogadro c
 However, their product to machine percision does not match
 scipy.constants.physical_constants["molar gas constant"].
 And the conversion of elementary charge per distance to energy units can be even more problematic.
+Please do not use this as a primary source for NIST physical constants.
+Instead, verify them with CODATA sources.
 """
 
 import math

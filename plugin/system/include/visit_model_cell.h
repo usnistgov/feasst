@@ -14,6 +14,10 @@ namespace feasst {
  */
 class VisitModelCell : public VisitModel {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - min_length: build cell list with given minimum distance between cells
@@ -27,6 +31,11 @@ class VisitModelCell : public VisitModel {
    */
   explicit VisitModelCell(argtype args);
   explicit VisitModelCell(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Same as above, but with an inner.
   explicit VisitModelCell(std::shared_ptr<VisitModelInner> inner,
@@ -71,6 +80,7 @@ class VisitModelCell : public VisitModel {
   VisitModelCell() {} // for mapper only
   virtual ~VisitModelCell() {}
 
+  //@}
  private:
   Cells cells_;
   std::string min_length_;

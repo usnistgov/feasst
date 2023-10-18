@@ -10,8 +10,23 @@ namespace feasst {
 /// Rigidly rotate a sub section of a chain.
 class TrialCrankshaft : public TrialMove {
  public:
-  TrialCrankshaft(argtype args = argtype());
-  TrialCrankshaft(argtype * args);
+  //@{
+  /** @name Arguments
+   */
+  
+  /**
+    args:
+    - Trial arguments.
+    - TrialStage arguments.
+    - SelectSegment arguments.
+    - Tunable arguments
+   */
+  explicit TrialCrankshaft(argtype args = argtype());
+  explicit TrialCrankshaft(argtype * args);
+  //@}
+  /** @name Public Functions
+   */
+  //@{
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialCrankshaft>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -19,6 +34,7 @@ class TrialCrankshaft : public TrialMove {
   void serialize(std::ostream& ostr) const override;
   explicit TrialCrankshaft(std::istream& istr);
   virtual ~TrialCrankshaft() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialCrankshaft> MakeTrialCrankshaft(argtype args = argtype()) {

@@ -15,6 +15,7 @@ Contents:
 
    README
    tutorial/README
+   plugin/text_interface
    particle/README
    plugin/README
    plugin/example/README

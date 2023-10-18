@@ -16,6 +16,10 @@ namespace feasst {
  */
 class VisitModelIntra : public VisitModel {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - intra_cut: ignore the interaction between a pair of sites when the difference
@@ -23,6 +27,12 @@ class VisitModelIntra : public VisitModel {
    */
   explicit VisitModelIntra(argtype args = argtype());
   explicit VisitModelIntra(argtype * args);
+  
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   int intra_cut() const { return intra_cut_; }
   void set_intra_cut(const int cut) { intra_cut_ = cut; }
   void compute(
@@ -44,6 +54,7 @@ class VisitModelIntra : public VisitModel {
   explicit VisitModelIntra(std::istream& istr);
   ~VisitModelIntra() {}
 
+  //@}
  private:
   int intra_cut_;
 };

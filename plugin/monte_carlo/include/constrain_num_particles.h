@@ -13,6 +13,10 @@ namespace feasst {
  */
 class ConstrainNumParticles : public Constraint {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - maximum: maximum number of particles. If -1, no limit (default: -1).
@@ -21,6 +25,11 @@ class ConstrainNumParticles : public Constraint {
    */
   explicit ConstrainNumParticles(argtype args = argtype());
   explicit ConstrainNumParticles(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the particle type.
   int type() const { return type_; }
@@ -41,6 +50,7 @@ class ConstrainNumParticles : public Constraint {
   explicit ConstrainNumParticles(std::istream& istr);
   virtual ~ConstrainNumParticles() {}
 
+  //@}
  protected:
   void serialize_constrain_num_particles_(std::ostream& ostr) const;
   int maximum_;

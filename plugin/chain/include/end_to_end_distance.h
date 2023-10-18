@@ -12,12 +12,22 @@ namespace feasst {
  */
 class EndToEndDistance : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - group_index: index of the Configuration::group (default: 0).
+    - Stepper arguments.
    */
   explicit EndToEndDistance(argtype args = argtype());
   explicit EndToEndDistance(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -48,6 +58,7 @@ class EndToEndDistance : public Analyze {
   explicit EndToEndDistance(std::istream& istr);
   explicit EndToEndDistance(const Analyze& energy);
 
+  //@}
  private:
   int group_index_;
 };

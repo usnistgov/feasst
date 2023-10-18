@@ -37,6 +37,10 @@ namespace feasst {
  */
 class Ewald : public VisitModel {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - tolerance: determine the alpha parameter and number of wave vectors by
@@ -54,6 +58,11 @@ class Ewald : public VisitModel {
    */
   explicit Ewald(argtype args = argtype());
   explicit Ewald(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /**
     Recommend an alpha parameter for Ewald as described and implemented in LAMMPS
@@ -213,6 +222,7 @@ class Ewald : public VisitModel {
   Ewald(std::istream& istr);
   void serialize(std::ostream& ostr) const override;
 
+  //@}
  private:
   // HWH serialize
   std::shared_ptr<double> tolerance_, alpha_arg_;

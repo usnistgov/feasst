@@ -18,8 +18,20 @@ namespace feasst {
  */
 class ReadConfigFromFile : public ModifyUpdateOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Stepper arguments.
+   */
   explicit ReadConfigFromFile(argtype args = argtype());
   explicit ReadConfigFromFile(argtype * args);
+  //@}
+  /** @name Public Functions
+   */
+  //@{
   void initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) override;
@@ -38,6 +50,7 @@ class ReadConfigFromFile : public ModifyUpdateOnly {
     return std::make_shared<ReadConfigFromFile>(args); }
   ReadConfigFromFile(std::istream& istr);
 
+  //@}
  private:
   FileXYZ xyz_;
   std::ifstream file_;

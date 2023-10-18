@@ -10,8 +10,24 @@ namespace feasst {
 /// Attempt to add a particle.
 class TrialAdd : public Trial {
  public:
-  TrialAdd(argtype args = argtype());
-  TrialAdd(argtype * args);
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Trial arguments.
+    - TrialSelectParticle arguments.
+    - TrialStage arguments.
+   */
+  explicit TrialAdd(argtype args = argtype());
+  explicit TrialAdd(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialAdd>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -19,6 +35,7 @@ class TrialAdd : public Trial {
   void serialize(std::ostream& ostr) const override;
   explicit TrialAdd(std::istream& istr);
   virtual ~TrialAdd() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialAdd> MakeTrialAdd(argtype args = argtype()) {

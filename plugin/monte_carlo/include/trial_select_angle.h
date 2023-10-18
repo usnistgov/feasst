@@ -23,12 +23,22 @@ namespace feasst {
  */
 class TrialSelectAngle : public TrialSelectBond {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - anchor_site2 : index of second anchor site.
+    - TrialSelectBond arguments.
    */
   explicit TrialSelectAngle(argtype args = argtype());
   explicit TrialSelectAngle(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the second anchor site.
   int anchor_site2() const { return anchor_site2_; }
@@ -42,6 +52,7 @@ class TrialSelectAngle : public TrialSelectBond {
   explicit TrialSelectAngle(std::istream& istr);
   virtual ~TrialSelectAngle() {}
 
+  //@}
  protected:
   void serialize_trial_select_angle_(std::ostream& ostr) const;
 

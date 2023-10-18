@@ -22,12 +22,21 @@ class NeighborCriteria;
  */
 class EnergyMap {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - default_value: set initial or cleared values to this.
    */
   explicit EnergyMap(argtype args = argtype());
   explicit EnergyMap(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the default value.
   double default_value() const { return default_value_; }
@@ -127,6 +136,7 @@ class EnergyMap {
   std::shared_ptr<EnergyMap> factory(const std::string name, argtype * args);
   virtual ~EnergyMap() {}
 
+  //@}
  protected:
   std::string class_name_ = "EnergyMap";
   SynchronizeData data_;

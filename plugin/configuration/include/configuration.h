@@ -51,7 +51,7 @@ class Domain;
 class Configuration {
  public:
   //@{
-  /** @name Construction
+  /** @name Arguments
    */
 
   /**
@@ -66,6 +66,8 @@ class Configuration {
     - xyz_euler_file: optionally load FileXYZEuler if not empty (default: empty).
     - wrap: wrap particle centers within domain (default: true).
     - physical_constants: optional class_name of PhysicalConstants.
+      These are typically only used in charged interactions to compute the
+      conversion factor between squared charge over distance and energy.
     - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
       (default: false). This is typically used for HardSphere models that
       didn't specify cutoff.

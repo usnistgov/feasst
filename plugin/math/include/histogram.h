@@ -18,6 +18,10 @@ class Formula;
  */
 class Histogram {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - width: constant bin width (optional)
@@ -26,6 +30,11 @@ class Histogram {
    */
   explicit Histogram(argtype args = argtype());
   explicit Histogram(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /**
     Depending on the way the bins are defined, the histogram may be told how to
@@ -95,6 +104,7 @@ class Histogram {
   void serialize(std::ostream& ostr) const;
   explicit Histogram(std::istream& istr);
 
+  //@}
  private:
   std::deque<double> histogram_;
   std::deque<double> edges_;

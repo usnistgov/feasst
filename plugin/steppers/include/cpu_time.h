@@ -12,8 +12,21 @@ namespace feasst {
  */
 class CPUTime : public AnalyzeWriteOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Stepper args.
+   */
   explicit CPUTime(argtype args = argtype());
   explicit CPUTime(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void initialize(Criteria * criteria,
       System * system,
@@ -32,6 +45,7 @@ class CPUTime : public AnalyzeWriteOnly {
     return std::make_shared<CPUTime>(args); }
   CPUTime(std::istream& istr);
 
+  //@}
  private:
   int num_writes_;
   double initialize_time_;

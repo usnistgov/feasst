@@ -14,12 +14,24 @@ namespace feasst {
  */
 class TrialVolume : public Trial {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
+    - Trial arguments.
     - PerturbVolume arguments.
+    - Tunable arguments.
    */
   explicit TrialVolume(argtype args = argtype());
   explicit TrialVolume(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialVolume>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -27,6 +39,7 @@ class TrialVolume : public Trial {
   void serialize(std::ostream& ostr) const override;
   explicit TrialVolume(std::istream& istr);
   virtual ~TrialVolume() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialVolume> MakeTrialVolume(argtype args = argtype()) {

@@ -13,17 +13,29 @@ namespace feasst {
  */
 class MacrostateEnergy : public Macrostate {
  public:
-  // HWH consider depreciating this interface?
+  //@{
+  /** @name Arguments
+   */
+
   /**
-   args:
-   - particle_type: number of particles of type. If -1 (default), count all
-     types.
+    args:
+    - particle_type: number of particles of type. If -1 (default), count all
+      types.
+    - Macrostate arguments.
   */
-  MacrostateEnergy(const Histogram& histogram, argtype args = argtype());
-  MacrostateEnergy(const Histogram& histogram, argtype * args);
   explicit MacrostateEnergy(argtype args = argtype());
   explicit MacrostateEnergy(argtype * args) :
     MacrostateEnergy(Histogram(args), args) {}
+  
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
+  /// Arguments as described above, but with explicit histogram object.
+  MacrostateEnergy(const Histogram& histogram, argtype args = argtype());
+  MacrostateEnergy(const Histogram& histogram, argtype * args);
+  
   double value(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override;
@@ -32,6 +44,7 @@ class MacrostateEnergy : public Macrostate {
   void serialize(std::ostream& ostr) const override;
   MacrostateEnergy(std::istream& istr);
   virtual ~MacrostateEnergy() {}
+  //@}
 };
 
 inline std::shared_ptr<MacrostateEnergy> MakeMacrostateEnergy(

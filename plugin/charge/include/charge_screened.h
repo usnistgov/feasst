@@ -25,6 +25,10 @@ class Table1D;
  */
 class ChargeScreened : public ModelTwoBody {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - hard_sphere_threshold: return NEAR_INFINITY when distance is less than
@@ -35,6 +39,11 @@ class ChargeScreened : public ModelTwoBody {
    */
   explicit ChargeScreened(argtype args = argtype());
   explicit ChargeScreened(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   double energy(
       const double squared_distance,
@@ -56,6 +65,7 @@ class ChargeScreened : public ModelTwoBody {
   explicit ChargeScreened(std::istream& istr);
   virtual ~ChargeScreened() {}
 
+  //@}
  private:
   double alpha_;
   double conversion_factor_;

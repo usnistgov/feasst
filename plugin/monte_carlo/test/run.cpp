@@ -3,6 +3,7 @@
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/run.h"
+#include "monte_carlo/include/convert_to_ref_potential.h"
 
 namespace feasst {
 

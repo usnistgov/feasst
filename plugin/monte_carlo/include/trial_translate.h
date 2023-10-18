@@ -11,8 +11,25 @@ namespace feasst {
 /// Attempt a rigid translation of a random particle.
 class TrialTranslate : public TrialMove {
  public:
-  TrialTranslate(argtype args = argtype());
-  TrialTranslate(argtype * args);
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Trial arguments.
+    - TrialStage arguments.
+    - TrialSelectParticle arguments.
+    - Tunable arguments.
+   */
+  explicit TrialTranslate(argtype args = argtype());
+  explicit TrialTranslate(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialTranslate>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -20,6 +37,7 @@ class TrialTranslate : public TrialMove {
   void serialize(std::ostream& ostr) const override;
   explicit TrialTranslate(std::istream& istr);
   virtual ~TrialTranslate() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialTranslate> MakeTrialTranslate(argtype args = argtype()) {

@@ -22,17 +22,26 @@ namespace feasst {
  */
 class AnalyzeExample : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - group_index: index of group defined in Configuration
       (default: 0, which is all existing sites).
-    - Analyze and Stepper base class arguments.
+    - Stepper arguments.
 
     Note that Stepper, which is the Base class of Analyze, already contains
     the vast majority of arguments that are required.
    */
   explicit AnalyzeExample(argtype args = argtype());
   explicit AnalyzeExample(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the average geometric center of a given dimension.
   const Accumulator& geometric_center(const int dimension) const {
@@ -70,6 +79,7 @@ class AnalyzeExample : public Analyze {
     return std::make_shared<AnalyzeExample>(args); }
   AnalyzeExample(std::istream& istr);
 
+  //@}
  private:
   int group_index_;
   std::vector<Accumulator> center_;

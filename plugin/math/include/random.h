@@ -22,6 +22,10 @@ class RotationMatrix;
  */
 class Random {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - seed : Provide an integer to seed the random number generator.
@@ -33,6 +37,11 @@ class Random {
       included in Random::seed().
    */
   explicit Random(argtype * args);
+  
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Generate seed from time and date.
   void seed_by_time();
@@ -195,6 +204,7 @@ class Random {
   std::shared_ptr<Random> factory(const std::string name, argtype * args);
   virtual ~Random() {}
 
+  //@}
  protected:
   void parse_seed_(argtype * args);
   std::string class_name_ = "Random";

@@ -12,8 +12,21 @@ namespace feasst {
  */
 class Energy : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Stepper args.
+   */
   explicit Energy(argtype args = argtype());
   explicit Energy(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -43,6 +56,7 @@ class Energy : public Analyze {
   void serialize(std::ostream& ostr) const override;
   explicit Energy(std::istream& istr);
   explicit Energy(const Analyze& energy);
+  //@}
 };
 
 inline std::shared_ptr<Energy> MakeEnergy(argtype args = argtype()) {

@@ -24,16 +24,26 @@ namespace feasst {
         /     \
     mobile1   mobile2
 
-In the source code, these are often shortened as anchor1->a1, mobile2->m2, etc.
+  In the source code, these are often shortened as anchor1->a1, mobile2->m2, etc.
  */
 class SelectBranch : public TrialSelectAngle {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - mobile_site2 : index of second mobile site.
+    - TrialSelectAngle arguments.
    */
   explicit SelectBranch(argtype args = argtype());
   explicit SelectBranch(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Same as derived, but also add second mobile site.
   void precompute(System * system) override;
@@ -43,6 +53,7 @@ class SelectBranch : public TrialSelectAngle {
   explicit SelectBranch(std::istream& istr);
   virtual ~SelectBranch() {}
 
+  //@}
  protected:
   void serialize_select_branch_(std::ostream& ostr) const;
 

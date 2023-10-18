@@ -19,12 +19,21 @@ namespace feasst {
  */
 class FileVMD {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - min_sigma: minimum sigma for printing radius in VMD (default: 0.1).
    */
   explicit FileVMD(argtype args = argtype());
   explicit FileVMD(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   // Place holder for derived classes (e.g. FileVMDPatch)
   virtual void get_params(const Configuration& config,
@@ -41,6 +50,7 @@ class FileVMD {
   explicit FileVMD(std::istream& istr);
   virtual ~FileVMD() {}
 
+  //@}
  private:
   double min_sigma_;
 };
@@ -79,6 +89,10 @@ class PrinterXYZ : public LoopConfigOneBody {
  */
 class FileXYZ {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - group_index: print the coordinates of this group index only (default: 0).
@@ -89,6 +103,11 @@ class FileXYZ {
    */
   explicit FileXYZ(argtype args = argtype());
   explicit FileXYZ(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /**
     Load the xyz file with file_name into the configuration.
@@ -116,6 +135,7 @@ class FileXYZ {
   void serialize(std::ostream& ostr) const;
   explicit FileXYZ(std::istream& istr);
 
+  //@}
  private:
   int group_index_;
   std::string group_;

@@ -13,15 +13,25 @@ namespace feasst {
  */
 class Chirality2D : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - group: group index in Configuration (default: 0).
     - bond1: index of the first bond (default: 0).
     - bond2: index of the second bond (default: 1).
     - sign_error: error if chirality of sign and != 0 (default 0).
+    - Stepper arguments.
    */
   explicit Chirality2D(argtype args = argtype());
   explicit Chirality2D(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -52,6 +62,7 @@ class Chirality2D : public Analyze {
     return std::make_shared<Chirality2D>(args); }
   Chirality2D(std::istream& istr);
 
+  //@}
  private:
   int group_, bond1_, bond2_, sign_error_;
 };

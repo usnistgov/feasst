@@ -28,13 +28,23 @@ namespace feasst {
  */
 class Scattering : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - num_frequency: the number of linearly spaced frequencies between the
       largest and the smallest, 2*pi/minimum_domain_length (default: 100).
+    - Stepper arguments.
   */
   explicit Scattering(argtype args = argtype());
   explicit Scattering(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void initialize(Criteria * criteria,
       System * system,
@@ -59,6 +69,7 @@ class Scattering : public Analyze {
     return std::make_shared<Scattering>(args); }
   explicit Scattering(std::istream& istr);
 
+  //@}
  private:
   int num_frequency_;
   std::vector<Position> kvecs_;

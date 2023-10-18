@@ -15,12 +15,18 @@
 namespace feasst {
 
 /**
+  Save the state of a class in memory by writing to disk, such that the
+  checkpoint file can be read again later to restart the simulation.
   Checkpoint after user defined number of hours.
   Note that for OMP or parallel simulations, the number of hours is multiplied
   by the number of cores.
  */
 class Checkpoint {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - num_hours: Number of hours between printing of checkpoint file
@@ -36,6 +42,11 @@ class Checkpoint {
       Otherwise, if > 0, append each backup with an integer count beginning 0.
    */
   explicit Checkpoint(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return number of hours between writing file.
   double num_hours() const { return num_hours_; }
@@ -93,6 +104,7 @@ class Checkpoint {
   /// Deserialize object.
   explicit Checkpoint(std::istream& istr);
 
+  //@}
  private:
   std::string file_name_;
   double num_hours_ = 0;

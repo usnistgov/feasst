@@ -12,8 +12,21 @@ namespace feasst {
  */
 class AnalyzeCluster : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Stepper arguments.
+   */
   explicit AnalyzeCluster(argtype args = argtype());
   explicit AnalyzeCluster(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -43,6 +56,7 @@ class AnalyzeCluster : public Analyze {
   void serialize(std::ostream& ostr) const override;
   explicit AnalyzeCluster(std::istream& istr);
   explicit AnalyzeCluster(const Analyze& energy);
+  //@}
 };
 
 inline std::shared_ptr<AnalyzeCluster> MakeAnalyzeCluster(argtype args = argtype()) {

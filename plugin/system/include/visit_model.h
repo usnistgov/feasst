@@ -20,6 +20,8 @@ class ModelThreeBody;
 
 // HWH document and lint VisitModel
 /**
+  This class loops a Model over a Configuration or Select.
+
   See Model for a description of the compute methods. These are mirrored by
   simply switching the calling object and the first argument
   (.e.g, Model.compute(Visitor, ...) vs Visitor.compute(Model, ...)
@@ -28,6 +30,10 @@ class VisitModel {
  public:
   explicit VisitModel(std::shared_ptr<VisitModelInner> inner =
     std::make_shared<VisitModelInner>());
+
+  //@{
+  /** @name Arguments
+   */
 
   /**
     args:
@@ -38,6 +44,11 @@ class VisitModel {
    */
   explicit VisitModel(argtype args);
   explicit VisitModel(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   double energy_cutoff() const { return energy_cutoff_; }
 
@@ -177,6 +188,7 @@ class VisitModel {
   explicit VisitModel(std::istream& istr);
   virtual ~VisitModel() {}
 
+  //@}
  protected:
   std::string class_name_ = "VisitModel";
   void serialize_visit_model_(std::ostream& ostr) const;

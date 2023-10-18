@@ -1,0 +1,7 @@
+Log
+=====================================================
+
+.. doxygenclass:: feasst::Log
+   :project: FEASST
+   :members:
+   :membergroups: Arguments

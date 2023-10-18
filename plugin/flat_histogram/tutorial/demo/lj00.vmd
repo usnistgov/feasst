@@ -1,0 +1,9 @@
+display projection Orthographic
+color Display Background white
+axes location Off
+topo readvarxyz lj00.xyz
+mol modstyle 0 0 VDW 1.0000000 120.000000
+set sel [atomselect top "name 0"]
+$sel set radius 0.5
+pbc set {5 5 5}
+pbc box -center origin

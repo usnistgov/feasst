@@ -3,30 +3,30 @@
 
    SelectSiteOfType
    SelectPerturbed
-   PerturbConnector
+   SelectSegment
+   SelectEndSegment
+   SelectReptate
+   SelectCrankshaftSmall
+   PerturbToAnchor
    PerturbDistanceAngleConnector
    PerturbBranch
    PerturbReptate
+   PerturbPositionSwap
+   PerturbConnector
    PerturbParticlePivot
    PerturbCrankshaftSmall
    PerturbPivot
    PerturbCrankshaft
    PerturbLibrary
-   PerturbToAnchor
-   PerturbPositionSwap
    PerturbSiteType
    SelectTwoSites
-   SelectSegment
-   SelectEndSegment
-   SelectReptate
-   SelectCrankshaftSmall
    SelectBranch
-   TrialGrowLinear
    TrialSwapSites
-   TrialReptate
    TrialCrankshaftSmall
+   TrialReptate
    TrialCrankshaft
    TrialParticlePivot
+   TrialGrowLinear
    AnalyzeBonds
    RadiusOfGyration
    EndToEndDistance

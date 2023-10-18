@@ -11,8 +11,22 @@ namespace feasst {
  */
 class CriteriaUpdater : public ModifyUpdateOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - Stepper args.
+   */
   explicit CriteriaUpdater(argtype args = argtype());
   explicit CriteriaUpdater(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   void update(Criteria * criteria,
     System * system,
     Random * random,
@@ -27,6 +41,7 @@ class CriteriaUpdater : public ModifyUpdateOnly {
   std::shared_ptr<Modify> create(argtype * args) const override {
     return std::make_shared<CriteriaUpdater>(args); }
   CriteriaUpdater(std::istream& istr);
+  //@}
 };
 
 inline std::shared_ptr<CriteriaUpdater> MakeCriteriaUpdater(

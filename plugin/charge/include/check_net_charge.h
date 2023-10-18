@@ -12,12 +12,23 @@ namespace feasst {
  */
 class CheckNetCharge : public AnalyzeUpdateOnly {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - minimum: minimum acceptable charge (default: 0).
     - maximum: maximum acceptable charge (default: 0).
+    - Stepper arguments.
    */
-  CheckNetCharge(argtype args = argtype());
+  explicit CheckNetCharge(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   void update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) override;
@@ -29,6 +40,7 @@ class CheckNetCharge : public AnalyzeUpdateOnly {
   explicit CheckNetCharge(std::istream& istr);
   virtual ~CheckNetCharge() {}
 
+  //@}
  protected:
   Ewald ewald_;
   double minimum_;

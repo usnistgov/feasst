@@ -10,7 +10,7 @@ namespace feasst {
 
 /**
   The ideal gas does not interact.
-  Thus, this model returns 0 in call cases.
+  Thus, this model returns 0 energy in call cases.
  */
 class IdealGas : public ModelTwoBody {
  public:

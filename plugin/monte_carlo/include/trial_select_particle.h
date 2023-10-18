@@ -12,6 +12,10 @@ namespace feasst {
 /// Select a random particle for trial.
 class TrialSelectParticle : public TrialSelect {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - load_coordinates: load the coordinates into the selection (default: true)
@@ -24,9 +28,15 @@ class TrialSelectParticle : public TrialSelect {
     - max_particles: do not select if more than max number of particles.
       If -1, no constraint (default: -1).
       Note that this is the number of particles before the Trial.
+    - TrialSelect arguments.
    */
   explicit TrialSelectParticle(argtype args = argtype());
   explicit TrialSelectParticle(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return true if loading coordinates into selection.
   bool load_coordinates() const { return load_coordinates_; }
@@ -70,6 +80,7 @@ class TrialSelectParticle : public TrialSelect {
   explicit TrialSelectParticle(std::istream& istr);
   virtual ~TrialSelectParticle() {}
 
+  //@}
  protected:
   void serialize_trial_select_particle_(std::ostream& ostr) const;
 

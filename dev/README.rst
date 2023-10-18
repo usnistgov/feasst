@@ -308,6 +308,7 @@ For quick reference
 * launch errors [ for fl in `find . -name 'launch_failures.txt'`; do echo $fl; cat $fl | grep -v "Terminating because Checkpoint"; done ]
 * clear tutorial errors [ for fl in `find . -name 'tutorial_failures.txt'`; do echo $fl; rm $fl; done ]
 * clean docs before running depend.py again [ for dir in `ls --color=never -d *`; do rm $dir/doc/*rst; done ]
+* screen html errors [ make html > tt 2&>1; grep -v "WARNING: document i" tt | grep -v "WARNING: Duplicate" | grep -v "Declaration is" > ttt ]
 * find difference in serialization string: [ diff -u f1 f2 |colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]
 
 To Do List
@@ -371,3 +372,4 @@ To Do List
 * Update Translate tunable maximum when volume changes..?
 * tutorials which segfault on restart dont report errors in automated tests
 * remove prefix from argparse in tutorials: prefix can't change in slurm runs
+* Add Stepper arguments to text interface documentation

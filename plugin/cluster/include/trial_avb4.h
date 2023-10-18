@@ -11,14 +11,28 @@ namespace feasst {
 /**
   Only implemented for single site particles.
   See ComputeAVB4.
-
-  args:
-    - neighbor_index: NeighborCriteria index contained in System (default: 0).
  */
 class TrialAVB4 : public Trial {
  public:
+  //@{
+  /** @name Arguments
+   */
+
+  /**
+    args:
+    - neighbor_index: NeighborCriteria index contained in System (default: 0).
+    - Trial arguments.
+    - TrialStage arguments.
+    - SelectParticleAVB arguments.
+   */
   explicit TrialAVB4(argtype args = argtype());
   explicit TrialAVB4(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialAVB4>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -26,6 +40,7 @@ class TrialAVB4 : public Trial {
   void serialize(std::ostream& ostr) const override;
   explicit TrialAVB4(std::istream& istr);
   virtual ~TrialAVB4() {}
+  //@}
 };
 
 inline std::shared_ptr<TrialAVB4> MakeTrialAVB4(argtype args = argtype()) {

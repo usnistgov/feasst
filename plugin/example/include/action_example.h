@@ -24,6 +24,10 @@ namespace feasst {
  */
 class ActionExample : public Action {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - analyze_name: The Analyze::class_name() to print to file.
@@ -33,6 +37,12 @@ class ActionExample : public Action {
    */
   explicit ActionExample(argtype args = argtype());
   explicit ActionExample(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   void run(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<ActionExample>(istr); }
@@ -42,6 +52,7 @@ class ActionExample : public Action {
   explicit ActionExample(std::istream& istr);
   virtual ~ActionExample() {}
 
+  //@}
  private:
   std::string analyze_name_;
   std::string modify_name_;

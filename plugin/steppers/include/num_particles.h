@@ -11,6 +11,10 @@ namespace feasst {
  */
 class NumParticles : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - particle_type: index of particle type from configuration.
@@ -18,9 +22,15 @@ class NumParticles : public Analyze {
     - group: index of group from configuration.
       If -1, sum all particles (default: -1).
       Can only be specified if particle_type is -1.
+    - Stepper arguments.
    */
   explicit NumParticles(argtype args = argtype());
   explicit NumParticles(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -50,6 +60,7 @@ class NumParticles : public Analyze {
   void serialize(std::ostream& ostr) const override;
   explicit NumParticles(std::istream& istr);
 
+  //@}
  private:
   int particle_type_;
   int group_;

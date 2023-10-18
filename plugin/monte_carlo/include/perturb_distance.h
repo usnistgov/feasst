@@ -24,6 +24,10 @@ namespace feasst {
  */
 class PerturbDistance : public PerturbMove {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - potential_acceptance: index of intramolecular potential that will be used
@@ -36,6 +40,11 @@ class PerturbDistance : public PerturbMove {
    */
   explicit PerturbDistance(argtype args = argtype());
   explicit PerturbDistance(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Compute and store the distance from the bond_length property in select.
   /// Also store the spring constant.
@@ -73,6 +82,7 @@ class PerturbDistance : public PerturbMove {
   explicit PerturbDistance(std::istream& istr);
   virtual ~PerturbDistance() {}
 
+  //@}
  protected:
   void serialize_perturb_distance_(std::ostream& ostr) const;
 

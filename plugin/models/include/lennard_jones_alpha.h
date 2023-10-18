@@ -47,6 +47,10 @@ namespace feasst {
  */
 class LennardJonesAlpha : public LennardJones {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - alpha: set the value of \f$\alpha\f$ (default: 6).
@@ -54,6 +58,11 @@ class LennardJonesAlpha : public LennardJones {
    */
   explicit LennardJonesAlpha(argtype args = argtype());
   explicit LennardJonesAlpha(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the value of alpha.
   const double& alpha() const { return alpha_; }
@@ -94,6 +103,7 @@ class LennardJonesAlpha : public LennardJones {
   explicit LennardJonesAlpha(std::istream& istr);
   virtual ~LennardJonesAlpha() {}
 
+  //@}
  protected:
   void serialize_lennard_jones_alpha_(std::ostream& ostr) const;
 

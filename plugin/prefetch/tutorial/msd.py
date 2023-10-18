@@ -15,9 +15,9 @@ parser.add_argument("--max_move", type=float)
 args = parser.parse_args()
 print(args)
 
-# assert(feasst.install_dir() == '/home/local/NIST/hwh/feasst1.0')
-# assert(feasst.install_dir() == '/home/local/NIST/hwh/msd2/feasst')
-assert(feasst.install_dir() == '/home/hwh/msd4/feasst')
+# assert(feasst.install_dir() == '/home/local/NIST/user/feasst1.0')
+# assert(feasst.install_dir() == '/home/local/NIST/user/msd2/feasst')
+assert(feasst.install_dir() == '/home/user/msd4/feasst')
 
 #accept_to_param={
 #  #0.75: 0.04,

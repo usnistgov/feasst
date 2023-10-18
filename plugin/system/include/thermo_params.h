@@ -12,10 +12,15 @@ namespace feasst {
 
 /**
   Intensive thermodynamic state variables.
-  Units should be consistent with the <a href="../../../particle/README.html">particle</a>.
+  Units should be consistent with the
+  <a href="../../../particle/README.html">particle</a>.
  */
 class ThermoParams {
  public:
+  //@{
+  /** @name Arguments
+   */
+
   /**
     args:
     - beta: inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$.
@@ -27,6 +32,11 @@ class ThermoParams {
     - pressure: imposed isotropic system pressure.
    */
   explicit ThermoParams(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Set beta.
   void set_beta(const double beta);
@@ -72,6 +82,7 @@ class ThermoParams {
   void serialize(std::ostream& ostr) const;
   explicit ThermoParams(std::istream& istr);
 
+  //@}
  private:
   double beta_ = 0.;
   bool beta_initialized_ = false;

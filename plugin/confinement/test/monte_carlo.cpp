@@ -24,6 +24,7 @@
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
+#include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/always_reject.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/check_energy.h"
