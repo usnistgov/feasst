@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RemoveTrial &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>RemoveTrial &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -63,17 +63,18 @@
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#constraints">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#monte-carlo-trials">Monte Carlo Trials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze-and-modify">Analyze and Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#actions">Actions</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Run_arguments.html">Run</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">RemoveTrial</a></li>
@@ -88,6 +89,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -206,18 +208,13 @@
 <dd><p>Remove a <a class="reference internal" href="Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst11RemoveTrial11RemoveTrialE7argtype">
-<span class="target" id="classfeasst_1_1RemoveTrial_1a982fb3687ebcf716bbe93b069c4e5593"></span><span class="sig-name descname"><span class="n"><span class="pre">RemoveTrial</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
+<p><ul class="simple">
 <li><p>index: index of trial to remove, in order of trials added. If -1, do nothing. (default: -1).</p></li>
 <li><p>name: remove first trial with this class name, if not empty. (default: empty).</p></li>
 <li><p>all: remove all trials (default: false)</p></li>
 <li><p>name_contains: remove all trials with this in the class name, if not empty (default: empty). Similar to the name that appears in <a class="reference internal" href="../../steppers/doc/Log_arguments.html#classfeasst_1_1Log"><span class="std std-ref">Log</span></a>, if the class_name is <a class="reference internal" href="Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>, use the description instead (e.g., TrialGrowadd in <a class="reference internal" href="../../chain/doc/TrialGrow_arguments.html#classfeasst_1_1TrialGrow"><span class="std std-ref">TrialGrow</span></a>). </p></li>
 </ul>
 </p>
-</dd></dl>
-
 </div>
 </dd></dl>
 

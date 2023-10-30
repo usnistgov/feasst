@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Second virial coefficient calculation of a Trimer using Mayer-Sampling &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Second virial coefficient calculation of a Trimer using Mayer-Sampling &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -497,9 +497,9 @@ div.rendered_html tbody tr:hover {
 <span class="s2">TrialTranslate new_only true reference_index 0 tunable_param 1 group first</span>
 <span class="s2">TrialRotate new_only true reference_index 0 tunable_param 40</span>
 <span class="s2">set_variable trials_per 1e4</span>
-<span class="s2">CriteriaWriter trials_per_write trials_per file_name b2.txt</span>
-<span class="s2">Log trials_per_write trials_per file_name tmp/trib.txt</span>
-<span class="s2">Movie trials_per_write trials_per file_name tmp/trib.xyz</span>
+<span class="s2">CriteriaWriter trials_per_write trials_per output_file b2.txt</span>
+<span class="s2">Log trials_per_write trials_per output_file tmp/trib.txt</span>
+<span class="s2">Movie trials_per_write trials_per output_file tmp/trib.xyz</span>
 <span class="s2">Run num_trials 1e6</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
@@ -523,9 +523,9 @@ ThermoParams beta 1.2269938650306749
 MayerSampling
 TrialTranslate group first new_only true reference_index 0 tunable_param 1
 TrialRotate new_only true reference_index 0 tunable_param 40
-CriteriaWriter file_name b2.txt trials_per 1e4
-Log file_name tmp/trib.txt trials_per 1e4
-Movie file_name tmp/trib.xyz trials_per 1e4
+CriteriaWriter output_file b2.txt trials_per 1e4
+Log output_file tmp/trib.txt trials_per 1e4
+Movie output_file tmp/trib.xyz trials_per 1e4
 Run num_trials 1e6
 # initializing random number generator with seed: 1653572226
 

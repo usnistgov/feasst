@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -497,9 +497,9 @@ div.rendered_html tbody tr:hover {
 <span class="s2">TrialTranslate new_only true reference_index 0 tunable_param 0.1 group first</span>
 <span class="s2">TrialRotate new_only true reference_index 0 tunable_param 40</span>
 <span class="s2">set_variable trials_per 1e5</span>
-<span class="s2">CriteriaWriter trials_per_write trials_per file_name ethane_b2.txt</span>
-<span class="s2">Log trials_per_write trials_per file_name ethane.txt</span>
-<span class="s2">Movie trials_per_write trials_per file_name ethane.xyz</span>
+<span class="s2">CriteriaWriter trials_per_write trials_per output_file ethane_b2.txt</span>
+<span class="s2">Log trials_per_write trials_per output_file ethane.txt</span>
+<span class="s2">Movie trials_per_write trials_per output_file ethane.xyz</span>
 
 <span class="s2"># tune trial parameters</span>
 <span class="s2">Tune</span>
@@ -534,9 +534,9 @@ ThermoParams beta 0.0023629489603024575
 MayerSampling
 TrialTranslate group first new_only true reference_index 0 tunable_param 0.1
 TrialRotate new_only true reference_index 0 tunable_param 40
-CriteriaWriter file_name ethane_b2.txt trials_per 1e5
-Log file_name ethane.txt trials_per 1e5
-Movie file_name ethane.xyz trials_per 1e5
+CriteriaWriter output_file ethane_b2.txt trials_per 1e5
+Log output_file ethane.txt trials_per 1e5
+Movie output_file ethane.xyz trials_per 1e5
 Tune
 Run num_trials 1e5
 # initializing random number generator with seed: 1653572948

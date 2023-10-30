@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialTransferAVBDivalent &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>TrialTransferAVBDivalent &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="TrialMorph" href="../../morph/doc/TrialMorph_arguments.html" />
-    <link rel="prev" title="TrialTransferAVB" href="TrialTransferAVB_arguments.html" />
+    <link rel="next" title="TrialAddAVBDivalent" href="TrialAddAVBDivalent_arguments.html" />
+    <link rel="prev" title="TrialRemoveAVB" href="TrialRemoveAVB_arguments.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -63,11 +63,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
@@ -91,15 +91,23 @@
 <li class="toctree-l3"><a class="reference internal" href="TrialAVB2_arguments.html">TrialAVB2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TrialAVB4_arguments.html">TrialAVB4</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TrialRigidCluster_arguments.html">TrialRigidCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialTranslateCluster_arguments.html">TrialTranslateCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialRotateCluster_arguments.html">TrialRotateCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TrialTransferAVB_arguments.html">TrialTransferAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialAddAVB_arguments.html">TrialAddAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialRemoveAVB_arguments.html">TrialRemoveAVB</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialAddAVBDivalent_arguments.html">TrialAddAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialRemoveAVBDivalent_arguments.html">TrialRemoveAVBDivalent</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../morph/doc/TrialMorph_arguments.html">TrialMorph</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze-and-modify">Analyze and Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -215,13 +223,10 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst24TrialTransferAVBDivalentE">
 <span class="target" id="classfeasst_1_1TrialTransferAVBDivalent"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialTransferAVBDivalent</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst17TrialFactoryNamedE" title="feasst::TrialFactoryNamed"><span class="n"><span class="pre">TrialFactoryNamed</span></span></a><br /></dt>
-<dd><p>Attempt <a class="reference internal" href="#classfeasst_1_1TrialAddAVBDivalent"><span class="std std-ref">TrialAddAVBDivalent</span></a> or <a class="reference internal" href="#classfeasst_1_1TrialRemoveAVBDivalent"><span class="std std-ref">TrialRemoveAVBDivalent</span></a> with equal probability. </p>
+<dd><p>Attempt <a class="reference internal" href="TrialAddAVBDivalent_arguments.html#classfeasst_1_1TrialAddAVBDivalent"><span class="std std-ref">TrialAddAVBDivalent</span></a> or <a class="reference internal" href="TrialRemoveAVBDivalent_arguments.html#classfeasst_1_1TrialRemoveAVBDivalent"><span class="std std-ref">TrialRemoveAVBDivalent</span></a> with equal probability. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst24TrialTransferAVBDivalent24TrialTransferAVBDivalentE7argtype">
-<span class="target" id="classfeasst_1_1TrialTransferAVBDivalent_1a80be91554f6fae2132c8a76876d6c152"></span><span class="sig-name descname"><span class="n"><span class="pre">TrialTransferAVBDivalent</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
+<p><ul class="simple">
 <li><p>particle_type_a: type of second added particle in AV of first.</p></li>
 <li><p>site_index_a: index of site in type a that defines AV (default: 0).</p></li>
 <li><p>particle_type_b: type of third added particle in AV of first.</p></li>
@@ -230,52 +235,6 @@
 <li><p><a class="reference internal" href="../../monte_carlo/doc/Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> arguments. </p></li>
 </ul>
 </p>
-</dd></dl>
-
-</div>
-</dd></dl>
-
-<dl class="cpp class">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst19TrialAddAVBDivalentE">
-<span class="target" id="classfeasst_1_1TrialAddAVBDivalent"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialAddAVBDivalent</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><br /></dt>
-<dd><p>Attempt to add a particle with AVB as described in <a class="reference internal" href="ComputeAddAVBDivalent_arguments.html#classfeasst_1_1ComputeAddAVBDivalent"><span class="std std-ref">ComputeAddAVBDivalent</span></a>. </p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst19TrialAddAVBDivalent19TrialAddAVBDivalentE7argtype">
-<span class="target" id="classfeasst_1_1TrialAddAVBDivalent_1aa05ddab57208d755319a3081bdf96e1d"></span><span class="sig-name descname"><span class="n"><span class="pre">TrialAddAVBDivalent</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>particle_type_a: type of second added particle in AV of first.</p></li>
-<li><p>site_index_a: index of site in type a that defines AV (default: 0).</p></li>
-<li><p>particle_type_b: type of third added particle in AV of first.</p></li>
-<li><p>site_index_b: index of site in type b that defines AV (default: 0).</p></li>
-<li><p><a class="reference internal" href="SelectParticleAVBDivalent_arguments.html#classfeasst_1_1SelectParticleAVBDivalent"><span class="std std-ref">SelectParticleAVBDivalent</span></a> arguments. </p></li>
-</ul>
-</p>
-</dd></dl>
-
-</div>
-</dd></dl>
-
-<dl class="cpp class">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst22TrialRemoveAVBDivalentE">
-<span class="target" id="classfeasst_1_1TrialRemoveAVBDivalent"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialRemoveAVBDivalent</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><br /></dt>
-<dd><p>Attempt to add a particle with AVB as described in <a class="reference internal" href="ComputeRemoveAVBDivalent_arguments.html#classfeasst_1_1ComputeRemoveAVBDivalent"><span class="std std-ref">ComputeRemoveAVBDivalent</span></a>. </p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst22TrialRemoveAVBDivalent22TrialRemoveAVBDivalentE7argtype">
-<span class="target" id="classfeasst_1_1TrialRemoveAVBDivalent_1a902e9155322be55d3eda53dd22bfc6bc"></span><span class="sig-name descname"><span class="n"><span class="pre">TrialRemoveAVBDivalent</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>particle_type_a: type of second added particle in AV of first.</p></li>
-<li><p>site_index_a: index of site in type a that defines AV (default: 0).</p></li>
-<li><p>particle_type_b: type of third added particle in AV of first.</p></li>
-<li><p>site_index_b: index of site in type b that defines AV (default: 0).</p></li>
-<li><p><a class="reference internal" href="SelectParticleAVBDivalent_arguments.html#classfeasst_1_1SelectParticleAVBDivalent"><span class="std std-ref">SelectParticleAVBDivalent</span></a> arguments. </p></li>
-</ul>
-</p>
-</dd></dl>
-
 </div>
 </dd></dl>
 
@@ -285,8 +244,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="TrialTransferAVB_arguments.html" class="btn btn-neutral float-left" title="TrialTransferAVB" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../morph/doc/TrialMorph_arguments.html" class="btn btn-neutral float-right" title="TrialMorph" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="TrialRemoveAVB_arguments.html" class="btn btn-neutral float-left" title="TrialRemoveAVB" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TrialAddAVBDivalent_arguments.html" class="btn btn-neutral float-right" title="TrialAddAVBDivalent" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

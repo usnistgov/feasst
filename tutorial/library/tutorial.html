@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Tutorial &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -622,13 +622,13 @@ objects. This serves two purposes involving C++11 smart pointers and brace enclo
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLog</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span>
-                                            <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;log.txt&quot;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLog</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;trials_per_write&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span>
+                                            <span class="s2">&quot;output_file&quot;</span> <span class="p">:</span> <span class="s2">&quot;log.txt&quot;</span><span class="p">,</span>
                                             <span class="s2">&quot;clear_file&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMovie</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;movie.xyz&quot;</span><span class="p">})))</span>
+    <span class="p">{</span><span class="s2">&quot;trials_per_write&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span> <span class="s2">&quot;output_file&quot;</span> <span class="p">:</span> <span class="s2">&quot;movie.xyz&quot;</span><span class="p">})))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeCheckEnergy</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span> <span class="s2">&quot;tolerance&quot;</span> <span class="p">:</span> <span class="s2">&quot;1e-8&quot;</span><span class="p">})))</span>
+    <span class="p">{</span><span class="s2">&quot;trials_per_update&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span> <span class="s2">&quot;tolerance&quot;</span> <span class="p">:</span> <span class="s2">&quot;1e-8&quot;</span><span class="p">})))</span>
 </pre></div>
 </div>
 </div>
@@ -685,9 +685,21 @@ Wall time: 5.72 µs
 <p>You should also find the <code class="docutils literal notranslate"><span class="pre">movie.xyz</span></code> trajectory file with an automatically-generated <code class="docutils literal notranslate"><span class="pre">movie.xyz.vmd</span></code> file for use with VMD (e.g., <code class="docutils literal notranslate"><span class="pre">vmd</span> <span class="pre">-e</span> <span class="pre">movie.xyz.vmd</span></code>).</p>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </section>
+<section id="Comparison-between-Python-and-C++-interfaces">
+<h2>Comparison between Python and C++ interfaces<a class="headerlink" href="#Comparison-between-Python-and-C++-interfaces" title="Permalink to this heading"></a></h2>
+<p>Compare the files /path/to/feasst/tutorial/library/tutorial.cpp and /path/to/feasst/tutorial/library/tutorial.py .</p>
+</section>
 <section id="Additional-tutorials">
 <h2>Additional tutorials<a class="headerlink" href="#Additional-tutorials" title="Permalink to this heading"></a></h2>
 <p>See additional examples in the directory <code class="docutils literal notranslate"><span class="pre">/path/to/feasst/tutorial/library/</span></code>. After completing this basic tutorial, check out the tutorials specific to each <a class="reference internal" href="../../plugin/README.html"><span class="doc">Plugin</span></a>. For example, see the tutorials of the <a class="reference internal" href="../../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> and <a class="reference internal" href="../../plugin/flat_histogram/README.html"><span class="doc">flat histogram</span></a> plugins.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
 </section>
 </section>
 

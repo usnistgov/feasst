@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ShapeFile &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>ShapeFile &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,6 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Cuboid" href="Cuboid_arguments.html" />
+    <link rel="prev" title="ModelTableCart1DHard" href="../../confinement/doc/ModelTableCart1DHard_arguments.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -50,13 +52,49 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../text_interface.html">Text Interface</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/doc/Checkpoint_arguments.html">Checkpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../confinement/doc/Background_arguments.html">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../confinement/doc/ModelHardShape_arguments.html">ModelHardShape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../confinement/doc/ModelTableCart1DHard_arguments.html">ModelTableCart1DHard</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ShapeFile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cuboid_arguments.html">Cuboid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cylinder_arguments.html">Cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FiniteCylinder_arguments.html">FiniteCylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaSineWave_arguments.html">FormulaSineWave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HalfSpace_arguments.html">HalfSpace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Slab_arguments.html">Slab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SlabSine_arguments.html">SlabSine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Sphere_arguments.html">Sphere</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#constraints">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#monte-carlo-trials">Monte Carlo Trials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
@@ -122,6 +160,8 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
+          <li><a href="../../text_interface.html">Text Interface</a> &raquo;</li>
+        
       <li>ShapeFile</li>
     
     
@@ -168,7 +208,14 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst9ShapeFileE">
 <span class="target" id="classfeasst_1_1ShapeFile"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ShapeFile</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><br /></dt>
-<dd><p>Build a <a class="reference internal" href="Shape_arguments.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> using a file with the following syntax. The first line describes a <a class="reference internal" href="Shape_arguments.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> by first listing its class_name, then its arguements, space-separated. The following lines then begin with either “union” or “intersect” and then another shape description as described for the first line. </p>
+<dd><p>Build a <a class="reference internal" href="Shape_arguments.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> using a file with the following syntax. The first line describes a <a class="reference internal" href="Shape_arguments.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> by first listing its class_name, then its arguments, space-separated. The following lines then begin with either “union” or “intersect” and then another shape description as described for the first line. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>shape_file: name of the file which describes the shape. </p></li>
+</ul>
+</p>
+</div>
 </dd></dl>
 
 </section>
@@ -176,7 +223,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../confinement/doc/ModelTableCart1DHard_arguments.html" class="btn btn-neutral float-left" title="ModelTableCart1DHard" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Cuboid_arguments.html" class="btn btn-neutral float-right" title="Cuboid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

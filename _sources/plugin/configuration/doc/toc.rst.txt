@@ -18,3 +18,4 @@
    Configuration
    VisitConfiguration
    FileVMD
+   PrinterXYZ

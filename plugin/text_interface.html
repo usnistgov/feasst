@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Text Interface &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Text Interface &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -61,7 +61,6 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Text Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="utils/doc/Checkpoint_arguments.html">Checkpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#random-number-generators">Random Number Generators</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="math/doc/Random_arguments.html">Random</a></li>
 <li class="toctree-l3"><a class="reference internal" href="math/doc/RandomMT19937_arguments.html">RandomMT19937</a></li>
 <li class="toctree-l3"><a class="reference internal" href="math/doc/RandomModulo_arguments.html">RandomModulo</a></li>
 </ul>
@@ -70,7 +69,6 @@
 <li class="toctree-l3"><a class="reference internal" href="configuration/doc/Configuration_arguments.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/doc/Domain_arguments.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/doc/PhysicalConstants.html">PhysicalConstants</a></li>
-<li class="toctree-l3"><a class="reference internal" href="configuration/doc/NeighborCriteria_arguments.html">NeighborCriteria</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#nonbonded-isotropic-models">Nonbonded Isotropic Models</a><ul>
@@ -93,11 +91,22 @@
 <li class="toctree-l3"><a class="reference internal" href="example/doc/ModelExample_arguments.html">ModelExample</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#nonbonded-potentials">Nonbonded Potentials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/Potential_arguments.html">Potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModel_arguments.html">VisitModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/DontVisitModel_arguments.html">DontVisitModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelBond_arguments.html">VisitModelBond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelCell_arguments.html">VisitModelCell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelIntra_arguments.html">VisitModelIntra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelIntraMap_arguments.html">VisitModelIntraMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/LongRangeCorrections_arguments.html">LongRangeCorrections</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="patch/doc/VisitModelInnerPatch_arguments.html">VisitModelInnerPatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="patch/doc/MoviePatch_arguments.html">MoviePatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="aniso/doc/VisitModelInnerTable_arguments.html">VisitModelInnerTable</a></li>
-<li class="toctree-l3"><a class="reference internal" href="aniso/doc/ContactObjective_arguments.html">ContactObjective</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aniso/doc/TabulateTwoRigidBody3D_arguments.html">TabulateTwoRigidBody3D</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#long-range-electrostatics">Long-Range Electrostatics</a><ul>
@@ -108,7 +117,8 @@
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/SlabCorrection_arguments.html">SlabCorrection</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#neighbor-lists">Neighbor lists</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#neighbor-lists">Neighbor Lists</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="configuration/doc/NeighborCriteria_arguments.html">NeighborCriteria</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelInner_arguments.html">VisitModelInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/EnergyMap_arguments.html">EnergyMap</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/EnergyMapAll_arguments.html">EnergyMapAll</a></li>
@@ -117,21 +127,19 @@
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/EnergyMapNeighborCriteria_arguments.html">EnergyMapNeighborCriteria</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#zero-or-one-body-potentials">Zero- or One-Body Potentials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#one-body-potentials">One-Body Potentials</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="confinement/doc/Background_arguments.html">Background</a></li>
 <li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelHardShape_arguments.html">ModelHardShape</a></li>
 <li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelTableCart1DHard_arguments.html">ModelTableCart1DHard</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#nonbonded-potentials">Nonbonded Potentials</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/Potential_arguments.html">Potential</a></li>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModel_arguments.html">VisitModel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/DontVisitModel_arguments.html">DontVisitModel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelBond_arguments.html">VisitModelBond</a></li>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelCell_arguments.html">VisitModelCell</a></li>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelIntra_arguments.html">VisitModelIntra</a></li>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelIntraMap_arguments.html">VisitModelIntraMap</a></li>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/LongRangeCorrections_arguments.html">LongRangeCorrections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape/doc/ShapeFile_arguments.html">ShapeFile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape/doc/Cuboid_arguments.html">Cuboid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape/doc/Cylinder_arguments.html">Cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape/doc/FiniteCylinder_arguments.html">FiniteCylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape/doc/FormulaSineWave_arguments.html">FormulaSineWave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape/doc/HalfSpace_arguments.html">HalfSpace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape/doc/Slab_arguments.html">Slab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape/doc/SlabSine_arguments.html">SlabSine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape/doc/Sphere_arguments.html">Sphere</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#bonded-interactions">Bonded Interactions</a><ul>
@@ -183,17 +191,21 @@
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialAVB2_arguments.html">TrialAVB2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialAVB4_arguments.html">TrialAVB4</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialRigidCluster_arguments.html">TrialRigidCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialTranslateCluster_arguments.html">TrialTranslateCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialRotateCluster_arguments.html">TrialRotateCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialTransferAVB_arguments.html">TrialTransferAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialAddAVB_arguments.html">TrialAddAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialRemoveAVB_arguments.html">TrialRemoveAVB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialTransferAVBDivalent_arguments.html">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialAddAVBDivalent_arguments.html">TrialAddAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster/doc/TrialRemoveAVBDivalent_arguments.html">TrialRemoveAVBDivalent</a></li>
 <li class="toctree-l3"><a class="reference internal" href="morph/doc/TrialMorph_arguments.html">TrialMorph</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#analyze-and-modify">Analyze and Modify</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#analyze">Analyze</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/Check_arguments.html">Check</a></li>
-<li class="toctree-l3"><a class="reference internal" href="steppers/doc/CheckEnergy_arguments.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/Chirality2D_arguments.html">Chirality2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/CPUTime_arguments.html">CPUTime</a></li>
-<li class="toctree-l3"><a class="reference internal" href="steppers/doc/CriteriaUpdater_arguments.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/CriteriaWriter_arguments.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/Density_arguments.html">Density</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/DensityProfile_arguments.html">DensityProfile</a></li>
@@ -203,21 +215,26 @@
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/MeanSquaredDisplacement_arguments.html">MeanSquaredDisplacement</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/Movie_arguments.html">Movie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/NumParticles_arguments.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="steppers/doc/PairDistributionInner_arguments.html">PairDistributionInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/ProfileTrials_arguments.html">ProfileTrials</a></li>
-<li class="toctree-l3"><a class="reference internal" href="steppers/doc/ReadConfigFromFile_arguments.html">ReadConfigFromFile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/Scattering_arguments.html">Scattering</a></li>
-<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Tune_arguments.html">Tune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/Volume_arguments.html">Volume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="steppers/doc/WallClockLimit_arguments.html">WallClockLimit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="steppers/doc/WrapParticles_arguments.html">WrapParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chain/doc/AnalyzeBonds_arguments.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chain/doc/EndToEndDistance_arguments.html">EndToEndDistance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chain/doc/GhostTrialGrow_arguments.html">GhostTrialGrow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chain/doc/RadiusOfGyration_arguments.html">RadiusOfGyration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/CheckNetCharge_arguments.html">CheckNetCharge</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster/doc/AnalyzeCluster_arguments.html">AnalyzeCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="example/doc/AnalyzeExample_arguments.html">AnalyzeExample</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modify">Modify</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/CheckEnergy_arguments.html">CheckEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/CriteriaUpdater_arguments.html">CriteriaUpdater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/PairDistributionInner_arguments.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/ReadConfigFromFile_arguments.html">ReadConfigFromFile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/Tune_arguments.html">Tune</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steppers/doc/WrapParticles_arguments.html">WrapParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chain/doc/GhostTrialGrow_arguments.html">GhostTrialGrow</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#actions">Actions</a><ul>
@@ -252,6 +269,10 @@
 <li class="toctree-l3"><a class="reference internal" href="gibbs/doc/TrialGibbsParticleTransfer_arguments.html">TrialGibbsParticleTransfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gibbs/doc/PressureFromTestVolume_arguments.html">PressureFromTestVolume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gibbs/doc/CheckConstantVolume_arguments.html">CheckConstantVolume</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#change-log">Change Log</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#v0-23-1-to-v0-24-0">v0.23.1 to v0.24.0</a></li>
 </ul>
 </li>
 </ul>
@@ -364,9 +385,12 @@
 </style>
 <section id="text-interface">
 <h1>Text Interface<a class="headerlink" href="#text-interface" title="Permalink to this heading"></a></h1>
-<p>The first word in each line of a FEASST input text file is the name of a class, followed by pairs of class arguments.
-The following related lists of classes and their arguments aid in understanding or modifying <a class="reference internal" href="../tutorial/README.html"><span class="doc">Tutorials</span></a>.
-The text interface is backwards compatible within major version (e.g., text files using version v0.23.0 should also work with v0.23.1).</p>
+<p>The syntax of a FEASST text input file is follows.
+Each line begins with the name of a class in FEASST, listed below.
+The class name is then proceeded by space-separated pairs of argument names and values.
+Minor version changes support the same text files, but major version changes do not.
+For example, all text files for version v0.23.0 should also work with v0.23.1, but may not work with v0.24.0.
+For updating to a newer version, see the change log below.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="utils/doc/Checkpoint_arguments.html">Checkpoint</a></li>
@@ -374,9 +398,9 @@ The text interface is backwards compatible within major version (e.g., text file
 </div>
 <section id="random-number-generators">
 <h2>Random Number Generators<a class="headerlink" href="#random-number-generators" title="Permalink to this heading"></a></h2>
+<p>These are the number generators available for use.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="math/doc/Random_arguments.html">Random</a></li>
 <li class="toctree-l1"><a class="reference internal" href="math/doc/RandomMT19937_arguments.html">RandomMT19937</a></li>
 <li class="toctree-l1"><a class="reference internal" href="math/doc/RandomModulo_arguments.html">RandomModulo</a></li>
 </ul>
@@ -390,13 +414,12 @@ The text interface is backwards compatible within major version (e.g., text file
 <li class="toctree-l1"><a class="reference internal" href="configuration/doc/Configuration_arguments.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration/doc/Domain_arguments.html">Domain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration/doc/PhysicalConstants.html">PhysicalConstants</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration/doc/NeighborCriteria_arguments.html">NeighborCriteria</a></li>
 </ul>
 </div>
 </section>
 <section id="nonbonded-isotropic-models">
 <h2>Nonbonded Isotropic Models<a class="headerlink" href="#nonbonded-isotropic-models" title="Permalink to this heading"></a></h2>
-<p>These classes include pair-wise (two-body) isotropic interactions.</p>
+<p>These classes include pair-wise (two-body) isotropic interactions models.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="system/doc/ModelEmpty_arguments.html">ModelEmpty</a></li>
@@ -419,6 +442,22 @@ The text interface is backwards compatible within major version (e.g., text file
 </ul>
 </div>
 </section>
+<section id="nonbonded-potentials">
+<h2>Nonbonded Potentials<a class="headerlink" href="#nonbonded-potentials" title="Permalink to this heading"></a></h2>
+<p>These classes include various ways that interactions may be computed over a <a class="reference internal" href="configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Selection</span></code></a> or the entire <a class="reference internal" href="configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Configuration</span></code></a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/Potential_arguments.html">Potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModel_arguments.html">VisitModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/DontVisitModel_arguments.html">DontVisitModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelBond_arguments.html">VisitModelBond</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelCell_arguments.html">VisitModelCell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelIntra_arguments.html">VisitModelIntra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelIntraMap_arguments.html">VisitModelIntraMap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/doc/LongRangeCorrections_arguments.html">LongRangeCorrections</a></li>
+</ul>
+</div>
+</section>
 <section id="nonbonded-anisotropic-models">
 <h2>Nonbonded Anisotropic Models<a class="headerlink" href="#nonbonded-anisotropic-models" title="Permalink to this heading"></a></h2>
 <p>These classes include anisotropic interactions.</p>
@@ -427,7 +466,7 @@ The text interface is backwards compatible within major version (e.g., text file
 <li class="toctree-l1"><a class="reference internal" href="patch/doc/VisitModelInnerPatch_arguments.html">VisitModelInnerPatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patch/doc/MoviePatch_arguments.html">MoviePatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aniso/doc/VisitModelInnerTable_arguments.html">VisitModelInnerTable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aniso/doc/ContactObjective_arguments.html">ContactObjective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aniso/doc/TabulateTwoRigidBody3D_arguments.html">TabulateTwoRigidBody3D</a></li>
 </ul>
 </div>
 </section>
@@ -445,10 +484,11 @@ The text interface is backwards compatible within major version (e.g., text file
 </div>
 </section>
 <section id="neighbor-lists">
-<h2>Neighbor lists<a class="headerlink" href="#neighbor-lists" title="Permalink to this heading"></a></h2>
+<h2>Neighbor Lists<a class="headerlink" href="#neighbor-lists" title="Permalink to this heading"></a></h2>
 <p>These classes store neighbors and their interaction energies.</p>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration/doc/NeighborCriteria_arguments.html">NeighborCriteria</a></li>
 <li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelInner_arguments.html">VisitModelInner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="system/doc/EnergyMap_arguments.html">EnergyMap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cluster/doc/EnergyMapAll_arguments.html">EnergyMapAll</a></li>
@@ -458,30 +498,23 @@ The text interface is backwards compatible within major version (e.g., text file
 </ul>
 </div>
 </section>
-<section id="zero-or-one-body-potentials">
-<h2>Zero- or One-Body Potentials<a class="headerlink" href="#zero-or-one-body-potentials" title="Permalink to this heading"></a></h2>
-<p>These classes include zero- or one-body interactions.</p>
+<section id="one-body-potentials">
+<h2>One-Body Potentials<a class="headerlink" href="#one-body-potentials" title="Permalink to this heading"></a></h2>
+<p>These classes include zero- and one-body interactions.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="confinement/doc/Background_arguments.html">Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="confinement/doc/ModelHardShape_arguments.html">ModelHardShape</a></li>
 <li class="toctree-l1"><a class="reference internal" href="confinement/doc/ModelTableCart1DHard_arguments.html">ModelTableCart1DHard</a></li>
-</ul>
-</div>
-</section>
-<section id="nonbonded-potentials">
-<h2>Nonbonded Potentials<a class="headerlink" href="#nonbonded-potentials" title="Permalink to this heading"></a></h2>
-<p>These classes include various ways that interactions may be computed over a <a class="reference internal" href="configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Selection</span></code></a> or the entire <a class="reference internal" href="configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Configuration</span></code></a>.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="system/doc/Potential_arguments.html">Potential</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModel_arguments.html">VisitModel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system/doc/DontVisitModel_arguments.html">DontVisitModel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelBond_arguments.html">VisitModelBond</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelCell_arguments.html">VisitModelCell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelIntra_arguments.html">VisitModelIntra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system/doc/VisitModelIntraMap_arguments.html">VisitModelIntraMap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system/doc/LongRangeCorrections_arguments.html">LongRangeCorrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shape/doc/ShapeFile_arguments.html">ShapeFile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shape/doc/Cuboid_arguments.html">Cuboid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shape/doc/Cylinder_arguments.html">Cylinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shape/doc/FiniteCylinder_arguments.html">FiniteCylinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shape/doc/FormulaSineWave_arguments.html">FormulaSineWave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shape/doc/HalfSpace_arguments.html">HalfSpace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shape/doc/Slab_arguments.html">Slab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shape/doc/SlabSine_arguments.html">SlabSine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shape/doc/Sphere_arguments.html">Sphere</a></li>
 </ul>
 </div>
 </section>
@@ -536,8 +569,7 @@ The text interface is backwards compatible within major version (e.g., text file
 </section>
 <section id="monte-carlo-trials">
 <h2>Monte Carlo Trials<a class="headerlink" href="#monte-carlo-trials" title="Permalink to this heading"></a></h2>
-<p>These classes add <a class="reference internal" href="monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Trials</span></code></a>.
-<a class="reference internal" href="chain/doc/TrialGrow.html#_CPPv4N6feasst9TrialGrowE" title="feasst::TrialGrow"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">TrialGrow</span></code></a> has the most features.</p>
+<p>These classes add <a class="reference internal" href="monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Trials</span></code></a>.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/TrialTranslate_arguments.html">TrialTranslate</a></li>
@@ -558,23 +590,26 @@ The text interface is backwards compatible within major version (e.g., text file
 <li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialAVB2_arguments.html">TrialAVB2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialAVB4_arguments.html">TrialAVB4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialRigidCluster_arguments.html">TrialRigidCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialTranslateCluster_arguments.html">TrialTranslateCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialRotateCluster_arguments.html">TrialRotateCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialTransferAVB_arguments.html">TrialTransferAVB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialAddAVB_arguments.html">TrialAddAVB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialRemoveAVB_arguments.html">TrialRemoveAVB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialTransferAVBDivalent_arguments.html">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialAddAVBDivalent_arguments.html">TrialAddAVBDivalent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster/doc/TrialRemoveAVBDivalent_arguments.html">TrialRemoveAVBDivalent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="morph/doc/TrialMorph_arguments.html">TrialMorph</a></li>
 </ul>
 </div>
 </section>
-<section id="analyze-and-modify">
-<h2>Analyze and Modify<a class="headerlink" href="#analyze-and-modify" title="Permalink to this heading"></a></h2>
-<p>Analyze happen every so many steps, and do not change the simulation.
-Modify happen every so many steps, and may change the simulation.</p>
+<section id="analyze">
+<h2>Analyze<a class="headerlink" href="#analyze" title="Permalink to this heading"></a></h2>
+<p><a class="reference internal" href="monte_carlo/doc/Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Analyze</span></code></a> update/write every fixed number of trials, and do not change the simulation.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/Check_arguments.html">Check</a></li>
-<li class="toctree-l1"><a class="reference internal" href="steppers/doc/CheckEnergy_arguments.html">CheckEnergy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/Chirality2D_arguments.html">Chirality2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/CPUTime_arguments.html">CPUTime</a></li>
-<li class="toctree-l1"><a class="reference internal" href="steppers/doc/CriteriaUpdater_arguments.html">CriteriaUpdater</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/CriteriaWriter_arguments.html">CriteriaWriter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/Density_arguments.html">Density</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/DensityProfile_arguments.html">DensityProfile</a></li>
@@ -584,17 +619,12 @@ Modify happen every so many steps, and may change the simulation.</p>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/MeanSquaredDisplacement_arguments.html">MeanSquaredDisplacement</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/Movie_arguments.html">Movie</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/NumParticles_arguments.html">NumParticles</a></li>
-<li class="toctree-l1"><a class="reference internal" href="steppers/doc/PairDistributionInner_arguments.html">PairDistributionInner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/ProfileTrials_arguments.html">ProfileTrials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="steppers/doc/ReadConfigFromFile_arguments.html">ReadConfigFromFile</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/Scattering_arguments.html">Scattering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Tune_arguments.html">Tune</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/Volume_arguments.html">Volume</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steppers/doc/WallClockLimit_arguments.html">WallClockLimit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="steppers/doc/WrapParticles_arguments.html">WrapParticles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chain/doc/AnalyzeBonds_arguments.html">AnalyzeBonds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chain/doc/EndToEndDistance_arguments.html">EndToEndDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chain/doc/GhostTrialGrow_arguments.html">GhostTrialGrow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chain/doc/RadiusOfGyration_arguments.html">RadiusOfGyration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="charge/doc/CheckNetCharge_arguments.html">CheckNetCharge</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cluster/doc/AnalyzeCluster_arguments.html">AnalyzeCluster</a></li>
@@ -602,9 +632,24 @@ Modify happen every so many steps, and may change the simulation.</p>
 </ul>
 </div>
 </section>
+<section id="modify">
+<h2>Modify<a class="headerlink" href="#modify" title="Permalink to this heading"></a></h2>
+<p><a class="reference internal" href="monte_carlo/doc/Modify.html#_CPPv4N6feasst6ModifyE" title="feasst::Modify"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Modify</span></code></a> update/write every fixed number of trials, but may change the simulation.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/CheckEnergy_arguments.html">CheckEnergy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/CriteriaUpdater_arguments.html">CriteriaUpdater</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/PairDistributionInner_arguments.html">PairDistributionInner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/ReadConfigFromFile_arguments.html">ReadConfigFromFile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/Tune_arguments.html">Tune</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steppers/doc/WrapParticles_arguments.html">WrapParticles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chain/doc/GhostTrialGrow_arguments.html">GhostTrialGrow</a></li>
+</ul>
+</div>
+</section>
 <section id="actions">
 <h2>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h2>
-<p>Actions happen one time.</p>
+<p>Actions happen once.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="monte_carlo/doc/Run_arguments.html">Run</a></li>
@@ -641,7 +686,7 @@ Modify happen every so many steps, and may change the simulation.</p>
 </section>
 <section id="gibbs-ensemble">
 <h2>Gibbs Ensemble<a class="headerlink" href="#gibbs-ensemble" title="Permalink to this heading"></a></h2>
-<p>Simultaneous simulate multiple configurations and transfer particles and/or volume between them.</p>
+<p>Simulate multiple configurations and transfer particles and/or volume between them.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="gibbs/doc/TrialGibbsVolumeTransfer_arguments.html">TrialGibbsVolumeTransfer</a></li>
@@ -650,9 +695,27 @@ Modify happen every so many steps, and may change the simulation.</p>
 <li class="toctree-l1"><a class="reference internal" href="gibbs/doc/CheckConstantVolume_arguments.html">CheckConstantVolume</a></li>
 </ul>
 </div>
-<p>The information available here is identical to the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation, but with only the class arguments and no member functions.
-The list above is pruned manually from the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation.
-Therefore the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation represents all capabilities of FEASST, some of which are hidden from text users for various reasons (e.g., because the classes may be used internally, still in development, buggy, depreciated, debugging tools or simply forgotten).</p>
+</section>
+<section id="change-log">
+<h2>Change Log<a class="headerlink" href="#change-log" title="Permalink to this heading"></a></h2>
+<p>Below is a list of all notable changes made to the text interface which will likely lead to the errors if older text interface scripts use the newer version.
+Renamed arguments are shown as Class::old_argument-&gt;new_argument.</p>
+<section id="v0-23-1-to-v0-24-0">
+<h3>v0.23.1 to v0.24.0<a class="headerlink" href="#v0-23-1-to-v0-24-0" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Stepper::file_name-&gt;output_file</p></li>
+<li><p>WriteModelParams::file_name-&gt;output_file</p></li>
+<li><p>Checkpoint::file_name-&gt;checkpoint_file</p></li>
+<li><p>GhostTrialGrow::trial_grow_file-&gt;grow_file</p></li>
+<li><p>TrialGrowFile::file_name-&gt;grow_file</p></li>
+<li><p>ReadConfigFromFile::file_name-&gt;input_file</p></li>
+<li><p>ShapeFile::file_name-&gt;shape_file</p></li>
+<li><p>ModelTableCart3DIntegr::file_name-&gt;table_file</p></li>
+<li><p>ModelTableCart3DIntegr::shape_file_name-&gt;shape_file</p></li>
+</ul>
+<p>The information available above is pruned from the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation, with only the class arguments and no member functions.
+Therefore the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation represents all capabilities of FEASST, many of which are hidden from text users for various reasons (e.g., because the classes may be used only internally, still in development, buggy, depreciated, debugging tools or simply forgotten).</p>
+</section>
 </section>
 </section>
 

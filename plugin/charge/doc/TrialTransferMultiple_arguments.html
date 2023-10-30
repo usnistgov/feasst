@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialTransferMultiple &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>TrialTransferMultiple &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -63,11 +63,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
@@ -91,15 +91,23 @@
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialAVB2_arguments.html">TrialAVB2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialAVB4_arguments.html">TrialAVB4</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialRigidCluster_arguments.html">TrialRigidCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialTranslateCluster_arguments.html">TrialTranslateCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialRotateCluster_arguments.html">TrialRotateCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialTransferAVB_arguments.html">TrialTransferAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialAddAVB_arguments.html">TrialAddAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialRemoveAVB_arguments.html">TrialRemoveAVB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialTransferAVBDivalent_arguments.html">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialAddAVBDivalent_arguments.html">TrialAddAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialRemoveAVBDivalent_arguments.html">TrialRemoveAVBDivalent</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../morph/doc/TrialMorph_arguments.html">TrialMorph</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze-and-modify">Analyze and Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -218,16 +226,11 @@
 <dd><p>Attempt <a class="reference internal" href="TrialAddMultiple_arguments.html#classfeasst_1_1TrialAddMultiple"><span class="std std-ref">TrialAddMultiple</span></a> or <a class="reference internal" href="TrialRemoveMultiple_arguments.html#classfeasst_1_1TrialRemoveMultiple"><span class="std std-ref">TrialRemoveMultiple</span></a> and split the trial weights equally. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst21TrialTransferMultiple21TrialTransferMultipleE7argtype">
-<span class="target" id="classfeasst_1_1TrialTransferMultiple_1aa3a6973be834d2efa9056497e73475fe"></span><span class="sig-name descname"><span class="n"><span class="pre">TrialTransferMultiple</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
+<p><ul class="simple">
 <li><p>particle_type[i]: the i-th type of particle to add. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
 <li><p><a class="reference internal" href="../../monte_carlo/doc/TrialStage_arguments.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> arguments. </p></li>
 </ul>
 </p>
-</dd></dl>
-
 </div>
 </dd></dl>
 

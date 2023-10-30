@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NeighborCriteria &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>NeighborCriteria &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="ModelEmpty" href="../../system/doc/ModelEmpty_arguments.html" />
-    <link rel="prev" title="PhysicalConstants" href="PhysicalConstants.html" />
+    <link rel="next" title="VisitModelInner" href="../../system/doc/VisitModelInner_arguments.html" />
+    <link rel="prev" title="SlabCorrection" href="../../charge/doc/SlabCorrection_arguments.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -61,28 +61,33 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../text_interface.html">Text Interface</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/doc/Checkpoint_arguments.html">Checkpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="Configuration_arguments.html">Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Domain_arguments.html">Domain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">NeighborCriteria</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">NeighborCriteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../system/doc/VisitModelInner_arguments.html">VisitModelInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../system/doc/EnergyMap_arguments.html">EnergyMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/EnergyMapAll_arguments.html">EnergyMapAll</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/EnergyMapAllCriteria_arguments.html">EnergyMapAllCriteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/EnergyMapNeighbor_arguments.html">EnergyMapNeighbor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/EnergyMapNeighborCriteria_arguments.html">EnergyMapNeighborCriteria</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#constraints">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#monte-carlo-trials">Monte Carlo Trials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze-and-modify">Analyze and Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -198,13 +203,10 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16NeighborCriteriaE">
 <span class="target" id="classfeasst_1_1NeighborCriteria"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NeighborCriteria</span></span></span><br /></dt>
-<dd><p><a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> for determining neighbors. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> for defining neighbors. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst16NeighborCriteria16NeighborCriteriaE7argtype">
-<span class="target" id="classfeasst_1_1NeighborCriteria_1a0e16deed91bf1bc282daa4fe0a5b3be3"></span><span class="sig-name descname"><span class="n"><span class="pre">NeighborCriteria</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
+<p><ul class="simple">
 <li><p>reference_potential: index of reference potentials (default: -1). If -1, use full potentials.</p></li>
 <li><p>potential_index: index of potential for pair interaction (default: 0).</p></li>
 <li><p>energy_maximum: maximum energy to be in cluster (default: largest double precision).</p></li>
@@ -214,8 +216,6 @@
 <li><p>site_type1: consider only interactions between a specific site type. If -1, consider all sites (default: -1). </p></li>
 </ul>
 </p>
-</dd></dl>
-
 </div>
 </dd></dl>
 
@@ -225,8 +225,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="PhysicalConstants.html" class="btn btn-neutral float-left" title="PhysicalConstants" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../system/doc/ModelEmpty_arguments.html" class="btn btn-neutral float-right" title="ModelEmpty" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../charge/doc/SlabCorrection_arguments.html" class="btn btn-neutral float-left" title="SlabCorrection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../system/doc/VisitModelInner_arguments.html" class="btn btn-neutral float-right" title="VisitModelInner" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

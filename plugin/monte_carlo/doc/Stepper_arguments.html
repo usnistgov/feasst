@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stepper &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Stepper &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -50,7 +50,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -178,12 +178,12 @@
 <dd><p>args:<ul class="simple">
 <li><p>trials_per_write: Set the number of trials per write (default: 1). Disabled if negative value is provided.</p></li>
 <li><p>trials_per_update: Set the number of trials per update (default: 1). Disabled if negative value is provided.</p></li>
-<li><p>file_name: Set the file name to write output (default: empty). If empty, write to screen.</p></li>
+<li><p>output_file: Set the file name to write output (default: empty). If empty, write to screen.</p></li>
 <li><p>append: append file output if set to true. Do not append if false (default: “false”).</p></li>
-<li><p>clear_file: set true to clear contents of file_name, if exists. (default: false).</p></li>
+<li><p>clear_file: set true to clear contents of output_file, if exists. (default: false).</p></li>
 <li><p>stop_after_phase: stop when simulation reaches this phase index. If -1, never stop (default: -1).</p></li>
 <li><p>start_after_phase: start when simulation reaches this phase index. If -1, start at beginning (default: -1).</p></li>
-<li><p>file_name_append_phase: append phase to file name (default: false)</p></li>
+<li><p>output_file_append_phase: append phase to file name (default: false)</p></li>
 <li><p>multistate: set “true” to copy for each state (default: false)</p></li>
 <li><p>multistate_aggregate: aggregate the writing of all states, only when multistate is enabled (default: true). Thus, trials_per_write refers now to the writing of all states. Individual states no longer write.</p></li>
 <li><p>stop_after_iteration: stop when <a class="reference internal" href="Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> reaches this iteration. If -1, never stop (default: -1).</p></li>

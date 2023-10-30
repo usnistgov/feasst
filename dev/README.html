@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer guidelines &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Developer guidelines &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -66,48 +66,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../py/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Developer guidelines</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#branch-policies">Branch policies</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#main-branch">Main branch</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#develop-branch">Develop branch</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#hotfix-branch">Hotfix branch</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#feature-branches">Feature branches</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dead-dead-branches">Dead (dead_*) branches</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pull-requests">Pull requests</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../CONTRIBUTING.html#for-contributing-code">For contributing code</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Developer guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#branch-policies">Branch policies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tools">Tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#document">Document</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#style">Style</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#for-quick-reference">For quick reference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#to-do-list">To Do List</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#tools">Tools</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#gtest-unittest-c">GTEST: Unittest C++</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#gdb-or-lldb-debugging">GDB or LLDB: Debugging</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#valgrind-find-memory-leaks">Valgrind: Find memory leaks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#gcov-and-lcov-test-coverage">GCOV and LCOV: Test coverage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ccache-speed-up-compilation-time">CCACHE: Speed up compilation time</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cpplint-and-pylint-clean-up-styling">cpplint and pylint: Clean up styling</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#document">Document</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#setup">Setup</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sphinx-breathe-doxygen-notes">Sphinx/Breathe/Doxygen notes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pip-notes">Pip notes</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#style">Style</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#reference-guides-for-c">Reference guides for C++</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#naming">Naming</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#functions">Functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#classes">Classes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#loops-and-if">Loops and if</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#auto">Auto</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#arguments">Arguments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#serialization">Serialization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#file-output">File output</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#for-quick-reference">For quick reference</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#to-do-list">To Do List</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../CONTRIBUTING.html#guidelines-for-collaboration-with-feasst-developers">Guidelines for collaboration with FEASST developers</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -504,7 +476,8 @@ compatibility.</p></li>
 <li><p>clear tutorial errors [ for fl in <cite>find . -name ‘tutorial_failures.txt’</cite>; do echo $fl; rm $fl; done ]</p></li>
 <li><p>clean docs before running depend.py again [ for dir in <cite>ls –color=never -d *</cite>; do rm $dir/doc/<a href="#id1"><span class="problematic" id="id2">*</span></a>rst; done ]</p></li>
 <li><p>screen html errors [ make html &gt; tt 2&amp;&gt;1; grep -v “WARNING: document i” tt | grep -v “WARNING: Duplicate” | grep -v “Declaration is” &gt; ttt ]</p></li>
-<li><p>find difference in serialization string: [ diff -u f1 f2 <a href="#id3"><span class="problematic" id="id4">|</span></a>colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]</p></li>
+<li><p>find all headers in the public interface [ find . -name ‘<a href="#id3"><span class="problematic" id="id4">*</span></a>.h’ | xargs grep “^  /** &#64;name Arguments$” ]</p></li>
+<li><p>find difference in serialization string: [ diff -u f1 f2 <a href="#id5"><span class="problematic" id="id6">|</span></a>colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]</p></li>
 </ul>
 </section>
 <section id="to-do-list">
@@ -569,6 +542,9 @@ compatibility.</p></li>
 <li><p>tutorials which segfault on restart dont report errors in automated tests</p></li>
 <li><p>remove prefix from argparse in tutorials: prefix can’t change in slurm runs</p></li>
 <li><p>Add Stepper arguments to text interface documentation</p></li>
+<li><p>Move Trial checks so that they can be applied to GhostTrialGrow</p></li>
+<li><p>Define the public text interface. Add an automated check to see if any of the public interface classes or arguments change. Enforce argument uniqueness (derived classes exception?).</p></li>
+<li><p>ReadConfigFromFile argument is an input_file, not an output_file</p></li>
 </ul>
 </section>
 </section>

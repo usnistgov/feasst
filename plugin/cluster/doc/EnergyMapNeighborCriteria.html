@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EnergyMapNeighborCriteria &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>EnergyMapNeighborCriteria &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -61,41 +61,72 @@
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../math/README.html">Math</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../system/README.html">System</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../models/README.html">Models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Cluster</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../README.html#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Cluster</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="EnergyMapAll.html">EnergyMapAll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="EnergyMapNeighbor.html">EnergyMapNeighbor</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">EnergyMapNeighborCriteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectCluster.html">SelectCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectParticleAVBDivalent.html">SelectParticleAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectParticleAVB.html">SelectParticleAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbPointReflect.html">PerturbPointReflect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotateCOM.html">PerturbRotateCOM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMoveAVB.html">PerturbMoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAddAVB.html">PerturbAddAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAVB4.html">ComputeAVB4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAVB2.html">ComputeAVB2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAVB4.html">TrialAVB4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslateCluster.html">TrialTranslateCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransferAVB.html">TrialTransferAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemoveAVBDivalent.html">TrialRemoveAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemoveAVB.html">TrialRemoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddAVBDivalent.html">TrialAddAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotateCluster.html">TrialRotateCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransferAVBDivalent.html">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRigidCluster.html">TrialRigidCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAVB2.html">TrialAVB2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddAVB.html">TrialAddAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AnalyzeCluster.html">AnalyzeCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CalculateCluster.html">CalculateCluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveAVBDivalent.html">ComputeRemoveAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeGCA.html">ComputeGCA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAddAVBDivalent.html">ComputeAddAVBDivalent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAddAVB.html">ComputeAddAVB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeMoveCluster.html">ComputeMoveCluster</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
@@ -231,15 +262,10 @@
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst25EnergyMapNeighborCriteria25EnergyMapNeighborCriteriaE7argtype">
-<span class="target" id="classfeasst_1_1EnergyMapNeighborCriteria_1af1cf85c7e2b7005cf19c70dda776b3b1"></span><span class="sig-name descname"><span class="n"><span class="pre">EnergyMapNeighborCriteria</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst25EnergyMapNeighborCriteria25EnergyMapNeighborCriteriaE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
+<p><ul class="simple">
 <li><p>neighbor_index: <a class="reference internal" href="../../configuration/doc/NeighborCriteria_arguments.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a> index contained in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (default: 0). </p></li>
 </ul>
 </p>
-</dd></dl>
-
 </div>
 </dd></dl>
 

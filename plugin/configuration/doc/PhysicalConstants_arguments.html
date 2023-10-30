@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PhysicalConstants &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>PhysicalConstants &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -50,7 +50,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -168,32 +168,42 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst17PhysicalConstantsE">
 <span class="target" id="classfeasst_1_1PhysicalConstants"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PhysicalConstants</span></span></span><br /></dt>
-<dd><p>This class provides physical constants and conversions for convenience. The main purpose is to facilitate comparison of FEASST results to machine percision. For example, the molar gas constant is derived from the Boltzmann and Avogadro constants. Please do not use this as a primary source for NIST physical constants. Instead, verify them with CODATA sources. </p>
+<dd><p>This class provides physical constants and conversions for convenience. The main purpose is to facilitate comparison to machine percision. For example, the molar gas constant is derived from the Boltzmann and Avogadro constants. Do not use this as a primary source for NIST physical constants. Instead, refer to the primary publications CODATA sources. </p>
 <p>Subclassed by <a class="reference internal" href="#classfeasst_1_1CODATA2010"><span class="std std-ref">feasst::CODATA2010</span></a>, <a class="reference internal" href="#classfeasst_1_1CODATA2014"><span class="std std-ref">feasst::CODATA2014</span></a>, <a class="reference internal" href="#classfeasst_1_1CODATA2018"><span class="std std-ref">feasst::CODATA2018</span></a>, <a class="reference internal" href="#classfeasst_1_1PhysicalConstantsCustom"><span class="std std-ref">feasst::PhysicalConstantsCustom</span></a></p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10CODATA2018E">
 <span class="target" id="classfeasst_1_1CODATA2018"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CODATA2018</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants"><span class="n"><span class="pre">PhysicalConstants</span></span></a><br /></dt>
-<dd><p>Physical constants from CODATA 2018 </p>
+<dd><p>Physical constants from CODATA 2018. See <a class="reference external" href="https://doi.org/10.1103/RevModPhys.93.025010">https://doi.org/10.1103/RevModPhys.93.025010</a>. </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10CODATA2014E">
 <span class="target" id="classfeasst_1_1CODATA2014"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CODATA2014</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants"><span class="n"><span class="pre">PhysicalConstants</span></span></a><br /></dt>
-<dd><p>Physical constants from CODATA 2014 <a class="reference external" href="http://dx.doi.org/10.1103/RevModPhys.88.035009">http://dx.doi.org/10.1103/RevModPhys.88.035009</a> <a class="reference external" href="http://dx.doi.org/10.1063/1.4954402">http://dx.doi.org/10.1063/1.4954402</a></p>
+<dd><p>Physical constants from CODATA 2014. See <a class="reference external" href="http://dx.doi.org/10.1103/RevModPhys.88.035009">http://dx.doi.org/10.1103/RevModPhys.88.035009</a> and <a class="reference external" href="http://dx.doi.org/10.1063/1.4954402">http://dx.doi.org/10.1063/1.4954402</a> . </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10CODATA2010E">
 <span class="target" id="classfeasst_1_1CODATA2010"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CODATA2010</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants"><span class="n"><span class="pre">PhysicalConstants</span></span></a><br /></dt>
-<dd><p>Physical constants from CODATA 2010 <a class="reference external" href="http://dx.doi.org/10.1103/RevModPhys.84.1527">http://dx.doi.org/10.1103/RevModPhys.84.1527</a> <a class="reference external" href="http://dx.doi.org/10.1063/1.4724320">http://dx.doi.org/10.1063/1.4724320</a></p>
+<dd><p>Physical constants from CODATA 2010. See <a class="reference external" href="http://dx.doi.org/10.1103/RevModPhys.84.1527">http://dx.doi.org/10.1103/RevModPhys.84.1527</a> and <a class="reference external" href="http://dx.doi.org/10.1063/1.4724320">http://dx.doi.org/10.1063/1.4724320</a> . </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst23PhysicalConstantsCustomE">
 <span class="target" id="classfeasst_1_1PhysicalConstantsCustom"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PhysicalConstantsCustom</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants"><span class="n"><span class="pre">PhysicalConstants</span></span></a><br /></dt>
 <dd><p>Define custom physical constants. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>boltzmann_constant</p></li>
+<li><p>avogadro_constant</p></li>
+<li><p>permitivity_vacuum</p></li>
+<li><p>elementary_charge </p></li>
+</ul>
+</p>
+</div>
 </dd></dl>
 
 </section>

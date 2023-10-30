@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Potential &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Potential &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="VisitModel" href="VisitModel_arguments.html" />
-    <link rel="prev" title="ModelTableCart1DHard" href="../../confinement/doc/ModelTableCart1DHard_arguments.html" />
+    <link rel="prev" title="ModelExample" href="../../example/doc/ModelExample_arguments.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -63,10 +63,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Potential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitModel_arguments.html">VisitModel</a></li>
@@ -78,15 +74,21 @@
 <li class="toctree-l3"><a class="reference internal" href="LongRangeCorrections_arguments.html">LongRangeCorrections</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#constraints">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#monte-carlo-trials">Monte Carlo Trials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze-and-modify">Analyze and Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -205,20 +207,15 @@
 <dd><p>A potential represents both the model and the method used to compute the model (e.g., <a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>) for a given <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. A potential also allows customization of the model parameters templated but separate from those in the <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst9Potential9PotentialEP7argtype">
-<span class="target" id="classfeasst_1_1Potential_1a7ca84211f96da8a5c3762148a60075d6"></span><span class="sig-name descname"><span class="n"><span class="pre">Potential</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
+<p><ul class="simple">
 <li><p>group_index: set the index of the group in the configuration which contributes to this potential (default: 0, representing entire config).</p></li>
 <li><p>group: name of group defined within system (default: “”). Cannot be used with group_index.</p></li>
 <li><p>cell_index: set the index of the cell, only used with <a class="reference internal" href="VisitModelCell_arguments.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">VisitModelCell</span></a>. This also overrides group_index.</p></li>
 <li><p>prevent_cache: set this to true in order to prevent the use of cache (default: False)</p></li>
 <li><p>table_size: set size of tabular potential (default: 0). Do not use table if size &lt;= 0.</p></li>
-<li><p>set model parameters [parameter]/[i]/[j] as described in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. </p></li>
+<li><p>[parameter]/[i]/[j]: as described in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> arguments. </p></li>
 </ul>
 </p>
-</dd></dl>
-
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst9Potential9PotentialE7argtype">
 <span class="target" id="classfeasst_1_1Potential_1a7b558333b70dc9b84088ef2ecd12e6c3"></span><span class="sig-name descname"><span class="n"><span class="pre">Potential</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
@@ -239,7 +236,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../../confinement/doc/ModelTableCart1DHard_arguments.html" class="btn btn-neutral float-left" title="ModelTableCart1DHard" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../example/doc/ModelExample_arguments.html" class="btn btn-neutral float-left" title="ModelExample" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="VisitModel_arguments.html" class="btn btn-neutral float-right" title="VisitModel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

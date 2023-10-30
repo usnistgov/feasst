@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flat histogram &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Flat histogram &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -61,41 +61,71 @@
 <li class="toctree-l1"><a class="reference internal" href="../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../README.html">C++ Interface</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html#list-of-plugins">List of plugins</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../threads/README.html">Threads</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../utils/README.html">Utilities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../math/README.html">Math</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../configuration/README.html">Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../system/README.html">System</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../models/README.html">Models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../steppers/README.html">Steppers</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Flat histogram</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#tutorial">Tutorial</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../threads/README.html">Threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Flat histogram</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tutorial">Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_00_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_01_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_02_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_03_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_04_lj_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_05_spce_tm_parallel.html">Grand Canonical Flat Histogram Simulation of SPC/E</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_06_rpm_tm_parallel.html">Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_07_hs_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Hard Spheres.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_10_wltm_lowt.html">Grand Canonical Flat Histogram Simulation at low temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_11_trappe_alkane.html">Grand Canonical Flat Histogram Simulation of TraPPE alkanes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_12_1bin_vs_2bin.html">Efficiency of 1 or 2 bin Grand Canonical Flat Histogram Simulations</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../patch/README.html">Patch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../mayer/README.html">Mayer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../xtc/README.html">XTC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../chain/README.html">Chain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../shape/README.html">Shape</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../charge/README.html">Charge</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../cluster/README.html">Cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../morph/README.html">Morph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../aniso/README.html">Aniso</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../example/README.html">Modify FEASST</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../gibbs/README.html">Gibbs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../fftw/README.html">FFTW</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../netcdf/README.html">NetCDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="doc/LnProbability.html">LnProbability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/WindowExponential.html">WindowExponential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/WindowCustom.html">WindowCustom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/CollectionMatrix.html">CollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Bias.html">Bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TransitionMatrix.html">TransitionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/WangLandau.html">WangLandau</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/WLTM.html">WLTM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Macrostate.html">Macrostate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/MacrostateEnergy.html">MacrostateEnergy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Ensemble.html">Ensemble</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Clones.html">Clones</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../shape/README.html">Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../charge/README.html">Charge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aniso/README.html">Aniso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gibbs/README.html">Gibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fftw/README.html">FFTW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netcdf/README.html">NetCDF</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../example/README.html">Modify FEASST</a></li>

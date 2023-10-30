@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prefetch example &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Prefetch example &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -518,7 +518,7 @@ div.rendered_html tbody tr:hover {
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRemoveTrial</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TrialAdd&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span>
-        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;movie&quot;</span><span class="o">+</span><span class="n">file_app</span><span class="p">,</span>
+        <span class="s2">&quot;output_file&quot;</span><span class="p">:</span> <span class="s2">&quot;movie&quot;</span><span class="o">+</span><span class="n">file_app</span><span class="p">,</span>
         <span class="s2">&quot;clear_file&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergy</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;trials_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">)})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTune</span><span class="p">())</span>
@@ -527,12 +527,12 @@ div.rendered_html tbody tr:hover {
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMeanSquaredDisplacement</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;trials_per_update&quot;</span><span class="p">:</span> <span class="s2">&quot;10000&quot;</span><span class="p">,</span>
         <span class="s2">&quot;updates_per_origin&quot;</span><span class="p">:</span> <span class="s2">&quot;1000&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;msd&quot;</span> <span class="o">+</span> <span class="n">file_app</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;output_file&quot;</span><span class="p">:</span> <span class="s2">&quot;msd&quot;</span> <span class="o">+</span> <span class="n">file_app</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
         <span class="s2">&quot;trials_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCPUTime</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;trials_per_update&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span>
         <span class="s2">&quot;trials_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">trials_per</span><span class="p">),</span>
-        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span> <span class="o">+</span> <span class="n">file_app</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">})))</span>
+        <span class="s2">&quot;output_file&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span> <span class="o">+</span> <span class="n">file_app</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">})))</span>
     <span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">))</span>
 
 <span class="n">mc</span><span class="p">()</span>

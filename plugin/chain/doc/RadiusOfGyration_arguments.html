@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RadiusOfGyration &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>RadiusOfGyration &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="CheckNetCharge" href="../../charge/doc/CheckNetCharge_arguments.html" />
-    <link rel="prev" title="GhostTrialGrow" href="GhostTrialGrow_arguments.html" />
+    <link rel="prev" title="EndToEndDistance" href="EndToEndDistance_arguments.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -63,22 +63,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#constraints">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#monte-carlo-trials">Monte Carlo Trials</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#analyze-and-modify">Analyze and Modify</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/Check_arguments.html">Check</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/CheckEnergy_arguments.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/Chirality2D_arguments.html">Chirality2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/CPUTime_arguments.html">CPUTime</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/CriteriaUpdater_arguments.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/CriteriaWriter_arguments.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/Density_arguments.html">Density</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/DensityProfile_arguments.html">DensityProfile</a></li>
@@ -88,26 +86,23 @@
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/MeanSquaredDisplacement_arguments.html">MeanSquaredDisplacement</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/Movie_arguments.html">Movie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/NumParticles_arguments.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/PairDistributionInner_arguments.html">PairDistributionInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/ProfileTrials_arguments.html">ProfileTrials</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/ReadConfigFromFile_arguments.html">ReadConfigFromFile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/Scattering_arguments.html">Scattering</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/Tune_arguments.html">Tune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/Volume_arguments.html">Volume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/WallClockLimit_arguments.html">WallClockLimit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../steppers/doc/WrapParticles_arguments.html">WrapParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds_arguments.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="EndToEndDistance_arguments.html">EndToEndDistance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="GhostTrialGrow_arguments.html">GhostTrialGrow</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">RadiusOfGyration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../charge/doc/CheckNetCharge_arguments.html">CheckNetCharge</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/AnalyzeCluster_arguments.html">AnalyzeCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../example/doc/AnalyzeExample_arguments.html">AnalyzeExample</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -226,16 +221,11 @@
 <dd><p>Accumulate average radius of gyration. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst16RadiusOfGyration16RadiusOfGyrationE7argtype">
-<span class="target" id="classfeasst_1_1RadiusOfGyration_1a4f21e2401a7e296f457ce2ee8bad8430"></span><span class="sig-name descname"><span class="n"><span class="pre">RadiusOfGyration</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
+<p><ul class="simple">
 <li><p>group_index: index of the Configuration::group (default: 0).</p></li>
 <li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
 </ul>
 </p>
-</dd></dl>
-
 </div>
 </dd></dl>
 
@@ -245,7 +235,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="GhostTrialGrow_arguments.html" class="btn btn-neutral float-left" title="GhostTrialGrow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="EndToEndDistance_arguments.html" class="btn btn-neutral float-left" title="EndToEndDistance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../../charge/doc/CheckNetCharge_arguments.html" class="btn btn-neutral float-right" title="CheckNetCharge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

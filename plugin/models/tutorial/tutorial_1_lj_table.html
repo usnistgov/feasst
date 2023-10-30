@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User defined tabular potentials &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>User defined tabular potentials &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -329,7 +329,7 @@
 <span class="s2">Potential VisitModel LongRangeCorrections</span>
 <span class="s2">ThermoParams beta 1000000</span>
 <span class="s2">Metropolis</span>
-<span class="s2">Log file_name lj.csv max_precision true clear_file true</span>
+<span class="s2">Log output_file lj.csv max_precision true clear_file true</span>
 <span class="s2">Run num_trials 1</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
     <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;feasst_install&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;bin/fst &lt; launch.txt &gt; launch.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
@@ -353,9 +353,9 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="c1"># write fst script to run a simulation</span>
-<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Write fst script for a single simulation with keys of params {} enclosed. &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
         <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">MonteCarlo</span>
 <span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
@@ -365,7 +365,7 @@
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential -1</span>
 <span class="s2">Metropolis</span>
 <span class="s2">TrialTranslate tunable_param 2 tunable_target_acceptance 0.2</span>
-<span class="s2">Checkpoint file_name </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
+<span class="s2">Checkpoint checkpoint_file </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
 
 <span class="s2"># grand canonical ensemble initalization</span>
 <span class="s2">TrialAdd particle_type 0</span>
@@ -376,17 +376,17 @@
 <span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
 <span class="s2">Tune</span>
 <span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> tolerance 1e-8</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}{sim}</span><span class="s2">_eq.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_eq.txt</span>
 <span class="s2">Run until_criteria_complete true</span>
 <span class="s2">RemoveModify name Tune</span>
 <span class="s2">RemoveAnalyze name Log</span>
 
 <span class="s2"># canonical ensemble production</span>
 <span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{production_iterations}</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}{sim}</span><span class="s2">.txt</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}{sim}</span><span class="s2">.xyz</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}{sim}</span><span class="s2">_en.txt</span>
-<span class="s2">CPUTime trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}{sim}</span><span class="s2">_cpu.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">.txt</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">.xyz</span>
+<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_en.txt</span>
+<span class="s2">CPUTime trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_cpu.txt</span>
 <span class="s2">Run until_criteria_complete true</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 

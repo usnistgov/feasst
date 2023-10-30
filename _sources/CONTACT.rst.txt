@@ -10,6 +10,16 @@ https://www.nist.gov/people/harold-wickes-hatch
 
 harold.hatch@nist.gov
 
+Email list
+--------------------------------------------------------------------------------
+
+http://list.nist.gov/feasst
+
+Issue tracker
+--------------------------------------------------------------------------------
+
+https://github.com/usnistgov/feasst/issues
+
 Bug reporting
 --------------------------------------------------------------------------------
 
@@ -21,17 +31,5 @@ The following checklist is recommended to improve reproducibility so that I can 
 * Provide all output.
 * Provide the version (for a git install, bash command "git describe --abbrev=10 --dirty --always --tags" and commit from git log).
 * Provide the user code (e.g., input text file, C++ with int main() or .py file).
+* For installation errors, include the output of the "cmake .." command on an empty build directory.
 
-Optionally, the following information may also be useful:
-
-* the output of the "cmake .." command on an empty build directory in order to see which compilers and libraries are used when encountering installation errors.
-
-Email list
---------------------------------------------------------------------------------
-
-http://list.nist.gov/feasst
-
-Github issue tracker
---------------------------------------------------------------------------------
-
-https://github.com/usnistgov/feasst/issues

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simulation of a single freely-jointed chain &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Simulation of a single freely-jointed chain &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -497,12 +497,12 @@ div.rendered_html tbody tr:hover {
 <span class="s2">TrialAdd particle_type 0</span>
 <span class="s2">Run until_num_particles 1</span>
 <span class="s2">RemoveTrial name TrialAdd</span>
-<span class="s2">TrialGrowFile file_name grow_chain.fstprt.swp</span>
+<span class="s2">TrialGrowFile grow_file grow_chain.fstprt.swp</span>
 <span class="s2">set_variable trials_per 1</span>
-<span class="s2">Log trials_per_write trials_per file_name chain.txt</span>
-<span class="s2">Movie trials_per_write trials_per file_name chain.xyz</span>
-<span class="s2">EndToEndDistance file_name end_to_end.txt</span>
-<span class="s2">RadiusOfGyration file_name rg.txt</span>
+<span class="s2">Log trials_per_write trials_per output_file chain.txt</span>
+<span class="s2">Movie trials_per_write trials_per output_file chain.xyz</span>
+<span class="s2">EndToEndDistance output_file end_to_end.txt</span>
+<span class="s2">RadiusOfGyration output_file rg.txt</span>
 <span class="s2">Run num_trials 1e2</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
@@ -566,11 +566,11 @@ TrialAdd particle_type 0
 Run until_num_particles 1
 # initializing random number generator with seed: 1697650376
 RemoveTrial name TrialAdd
-TrialGrowFile file_name grow_chain.fstprt.swp
-Log file_name chain.txt trials_per_write 1
-Movie file_name chain.xyz trials_per_write 1
-EndToEndDistance file_name end_to_end.txt
-RadiusOfGyration file_name rg.txt
+TrialGrowFile grow_file grow_chain.fstprt.swp
+Log output_file chain.txt trials_per_write 1
+Movie output_file chain.xyz trials_per_write 1
+EndToEndDistance output_file end_to_end.txt
+RadiusOfGyration output_file rg.txt
 Run num_trials 1e2
 
  exit: 0

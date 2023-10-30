@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FileVMD &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>FileVMD &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="System" href="../../system/README.html" />
+    <link rel="next" title="PrinterXYZ" href="PrinterXYZ.html" />
     <link rel="prev" title="VisitConfiguration" href="VisitConfiguration.html" />
 
 	<!-- frame blocking -->
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -61,56 +61,54 @@
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../../README.html#list-of-plugins">List of plugins</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../math/README.html">Math</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Properties.html">Properties</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Bond.html">Bond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Domain.html">Domain</a></li>
-<li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Site.html">Site</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Particle.html">Particle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Group.html">Group</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FileParticle.html">FileParticle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Select.html">Select</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Configuration.html">Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">FileVMD</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Properties.html">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileParticle.html">FileParticle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">FileVMD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PrinterXYZ.html">PrinterXYZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../system/README.html">System</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../models/README.html">Models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../charge/README.html">Charge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster/README.html">Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../morph/README.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/README.html">Beta expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
@@ -245,59 +243,6 @@
 </div>
 </dd></dl>
 
-<dl class="cpp class">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst10PrinterXYZE">
-<span class="target" id="classfeasst_1_1PrinterXYZ"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrinterXYZ</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="VisitConfiguration.html#_CPPv4N6feasst17LoopConfigOneBodyE" title="feasst::LoopConfigOneBody"><span class="n"><span class="pre">LoopConfigOneBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst10PrinterXYZE" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp class">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst7FileXYZE">
-<span class="target" id="classfeasst_1_1FileXYZ"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FileXYZ</span></span></span><a class="headerlink" href="#_CPPv4N6feasst7FileXYZE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>The XYZ file format has no formal standard: <a class="reference external" href="https://en.wikipedia.org/wiki/XYZ_file_format">https://en.wikipedia.org/wiki/XYZ_file_format</a> It is important to remember that FEASST has its own variant.</p>
-<p>The first line is the number of sites, n. The second line is of the format [id lx ly lz xy xz yz], where id is a placeholder for order parameters or macrostates, lx is the box length in the x direction, ly is the box length in the y direction, lz is the box length in the z direction, xy is the xy domain tilt (see <a class="reference internal" href="Domain_arguments.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a>), xz is the xz domain tilt, and yz is the yz domain tilt. If lz == 0, then the domain is set to two dimensions. The following n lines are in the format [id x y z], where id is the unique site type and x, y, z are the Cartesian coordinates. </p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst7FileXYZ4loadEKNSt6stringEP13Configuration">
-<span class="target" id="classfeasst_1_1FileXYZ_1a562170c34ad189dd96eb8f1b3171dcc3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span>, <a class="reference internal" href="Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst7FileXYZ4loadEKNSt6stringEP13Configuration" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Load the xyz file with file_name into the configuration. Note that this function does not read the domain tilts xy, xz and yz. This function also does not read the site types. Thus, particles should be added to the system in the desired order. If no particles in the configuration, use the first particle type. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst7FileXYZ10load_frameERNSt8ifstreamEP13Configuration">
-<span class="target" id="classfeasst_1_1FileXYZ_1a1c3989998439c666919e557ed9a9da9c"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load_frame</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ifstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">xyz</span></span>, <a class="reference internal" href="Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst7FileXYZ10load_frameERNSt8ifstreamEP13Configuration" title="Permalink to this definition"></a><br /></dt>
-<dd><p>As above, but can load frame by frame. Return false if the file as at the end. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst7FileXYZ5writeEKNSt6stringERK13ConfigurationKi">
-<span class="target" id="classfeasst_1_1FileXYZ_1a8b02f5d5106d0c93d55bdbd8c884edb5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_decimal_places</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">8</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst7FileXYZ5writeEKNSt6stringERK13ConfigurationKi" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Write the configuration to file_name in xyz format. If the simulation is 2D, simply writes z as 0. </p>
-<dl class="field-list simple">
-<dt class="field-odd">param num_decimal_places<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Number of decimal places </p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst7FileXYZ7FileXYZE7argtype">
-<span class="target" id="classfeasst_1_1FileXYZ_1afb674ee0645c99d13209bb95a30e658c"></span><span class="sig-name descname"><span class="n"><span class="pre">FileXYZ</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7FileXYZ7FileXYZE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>group_index: print the coordinates of this group index only (default: 0).</p></li>
-<li><p>group: name of group defined within system (default: “”).</p></li>
-<li><p>append: append file output if set to true. Do not append if false (default: “false”).</p></li>
-<li><p>euler: if true, print <a class="reference internal" href="../../math/doc/Euler_arguments.html#classfeasst_1_1Euler"><span class="std std-ref">Euler</span></a> angles (default: “false”). </p></li>
-</ul>
-</p>
-</dd></dl>
-
-</div>
-</dd></dl>
-
 </section>
 
 
@@ -305,7 +250,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="VisitConfiguration.html" class="btn btn-neutral float-left" title="VisitConfiguration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../system/README.html" class="btn btn-neutral float-right" title="System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="PrinterXYZ.html" class="btn btn-neutral float-right" title="PrinterXYZ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

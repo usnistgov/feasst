@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ExtensiveMoments &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>ExtensiveMoments &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -65,22 +65,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#constraints">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#monte-carlo-trials">Monte Carlo Trials</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#analyze-and-modify">Analyze and Modify</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Check_arguments.html">Check</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CheckEnergy_arguments.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D_arguments.html">Chirality2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CPUTime_arguments.html">CPUTime</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater_arguments.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter_arguments.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Density_arguments.html">Density</a></li>
 <li class="toctree-l3"><a class="reference internal" href="DensityProfile_arguments.html">DensityProfile</a></li>
@@ -90,26 +88,23 @@
 <li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement_arguments.html">MeanSquaredDisplacement</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Movie_arguments.html">Movie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="NumParticles_arguments.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PairDistributionInner_arguments.html">PairDistributionInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProfileTrials_arguments.html">ProfileTrials</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile_arguments.html">ReadConfigFromFile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Scattering_arguments.html">Scattering</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Tune_arguments.html">Tune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Volume_arguments.html">Volume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="WallClockLimit_arguments.html">WallClockLimit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="WrapParticles_arguments.html">WrapParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../chain/doc/AnalyzeBonds_arguments.html">AnalyzeBonds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../chain/doc/EndToEndDistance_arguments.html">EndToEndDistance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../chain/doc/GhostTrialGrow_arguments.html">GhostTrialGrow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../chain/doc/RadiusOfGyration_arguments.html">RadiusOfGyration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../charge/doc/CheckNetCharge_arguments.html">CheckNetCharge</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/AnalyzeCluster_arguments.html">AnalyzeCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../example/doc/AnalyzeExample_arguments.html">AnalyzeExample</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -230,16 +225,11 @@
 <p>where <span class="math notranslate nohighlight">\(i,k\)</span> are particle types, and the powers <span class="math notranslate nohighlight">\(j,m,p\)</span> are collected from 0 to a maximum order cutoff. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst16ExtensiveMoments16ExtensiveMomentsE7argtype">
-<span class="target" id="classfeasst_1_1ExtensiveMoments_1a6605f98285c80046c7203f8abd92c2ab"></span><span class="sig-name descname"><span class="n"><span class="pre">ExtensiveMoments</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
+<p><ul class="simple">
 <li><p>max_order: maximum order cutoff for the powers (default: 3).</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> args. </p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
 </ul>
 </p>
-</dd></dl>
-
 </div>
 </dd></dl>
 

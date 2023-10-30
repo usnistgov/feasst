@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Semi-Grand Canonical Flat Histogram Simulation of CO2 and N2 &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Semi-Grand Canonical Flat Histogram Simulation of CO2 and N2 &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -286,14 +286,14 @@
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ewald_alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.6</span><span class="o">/</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;cubic_side_length&#39;</span><span class="p">]</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">physical_constants</span><span class="o">.</span><span class="n">MolarGasConstant</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">/</span><span class="mf">1e3</span><span class="p">)</span> <span class="c1"># mol/kJ</span>
 
-<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Write fst script for a single simulation with keys of params {} enclosed. &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
         <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2"># first, initialize multiple clones into windows</span>
 <span class="s2">CollectionMatrixSplice hours_per </span><span class="si">{hours_checkpoint}</span><span class="s2"> ln_prob_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">_lnpi.txt min_window_size -1</span>
 <span class="s2">WindowExponential maximum </span><span class="si">{num_particles}</span><span class="s2"> minimum </span><span class="si">{min_particles}</span><span class="s2"> num </span><span class="si">{procs_per_node}</span><span class="s2"> overlap 0 alpha 1.1 min_size 5</span>
-<span class="s2">Checkpoint file_name </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
+<span class="s2">Checkpoint checkpoint_file </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
 
 <span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
 <span class="s2">Configuration cubic_side_length </span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt0}</span><span class="s2"> particle_type1 </span><span class="si">{fstprt1}</span>
@@ -310,7 +310,7 @@
 
 <span class="s2"># gcmc initialization and nvt equilibration</span>
 <span class="s2">TrialAdd particle_type 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.txt</span>
 <span class="s2">Tune</span>
 <span class="s2">Run until_num_particles [soft_macro_min]</span>
 <span class="s2">RemoveTrial name TrialAdd</span>
@@ -328,13 +328,13 @@
 <span class="s2">Bias WLTM min_sweeps </span><span class="si">{min_sweeps}</span><span class="s2"> min_flatness 25 collect_flatness 20 min_collect_sweeps 1</span>
 <span class="s2">TrialMorph particle_type0 0 particle_type_morph0 1</span>
 <span class="s2">TrialMorph particle_type0 1 particle_type_morph0 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].txt</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_iteration 1</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].xyz start_after_iteration 1</span>
-<span class="s2">Tune trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_iteration 1</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_iteration 1</span>
+<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].txt</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_iteration 1</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].xyz start_after_iteration 1</span>
+<span class="s2">Tune trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_iteration 1</span>
+<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_iteration 1</span>
 <span class="s2">CriteriaUpdater trials_per_update 1e5</span>
-<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> file_name </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_crit.txt</span>
+<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_crit.txt</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>

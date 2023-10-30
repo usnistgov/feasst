@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkpoint &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>Checkpoint &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Random" href="../../math/doc/Random_arguments.html" />
+    <link rel="next" title="RandomMT19937" href="../../math/doc/RandomMT19937_arguments.html" />
     <link rel="prev" title="Text Interface" href="../../text_interface.html" />
 
 	<!-- frame blocking -->
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -63,20 +63,22 @@
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#zero-or-one-body-potentials">Zero- or One-Body Potentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#constraints">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#monte-carlo-trials">Monte Carlo Trials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze-and-modify">Analyze and Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -192,21 +194,16 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10CheckpointE">
 <span class="target" id="classfeasst_1_1Checkpoint"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Checkpoint</span></span></span><br /></dt>
-<dd><p>Save the state of a class in memory by writing to disk, such that the checkpoint file can be read again later to restart the simulation. <a class="reference internal" href="#classfeasst_1_1Checkpoint"><span class="std std-ref">Checkpoint</span></a> after user defined number of hours. Note that for OMP or parallel simulations, the number of hours is multiplied by the number of cores. </p>
+<dd><p>Save the state of a class in memory by writing to disk, such that the checkpoint file can be later read to restart the simulation. Note that for OMP or parallel simulations, the number of hours is multiplied by the number of threads. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst10Checkpoint10CheckpointE7argtype">
-<span class="target" id="classfeasst_1_1Checkpoint_1a6abc40e503f50e3350aa52171df3b9ca"></span><span class="sig-name descname"><span class="n"><span class="pre">Checkpoint</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>args:<ul class="simple">
+<p><ul class="simple">
 <li><p>num_hours: Number of hours between printing of checkpoint file (default: 1).</p></li>
 <li><p>num_hours_terminate: Terminate after this many hours. If -1, do not terminate (default: -1). Termination may be detected in Bash shell using “$? != 0”.</p></li>
-<li><p>file_name: The default is one space (e.g., ” “). Do not checkpoint if file_name is empty or is one space.</p></li>
-<li><p>writes_per_backup: Create a unique checkpoint file name every this many times that a checkpoint is written (default: -1). If -1, only backup the previous file by appending its name with “.bak”. Otherwise, if &gt; 0, append each backup with an integer count beginning 0. </p></li>
+<li><p>checkpoint_file: The default is one space (e.g., ” “). Do not checkpoint if checkpoint_file is empty or is one space.</p></li>
+<li><p>writes_per_backup: Create a unique checkpoint file name every this many times that a checkpoint is written (default: -1). If -1, only backup the previous file by appending its name with “.bak”. Otherwise, if &gt; 0, append each backup with an integer count beginning with 0. </p></li>
 </ul>
 </p>
-</dd></dl>
-
 </div>
 </dd></dl>
 
@@ -217,7 +214,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../../text_interface.html" class="btn btn-neutral float-left" title="Text Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../math/doc/Random_arguments.html" class="btn btn-neutral float-right" title="Random" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../math/doc/RandomMT19937_arguments.html" class="btn btn-neutral float-right" title="RandomMT19937" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>README &mdash; FEASST v0.23.1-1-gb004405c22 documentation</title>
+  <title>README &mdash; FEASST v0.24.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.23.1-1-gb004405c22
+                v0.24.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -75,9 +75,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#documentation-for-a-specific-version-of-feasst">Documentation for a specific version of FEASST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contact">Contact</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#project-lead">Project lead</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bug-reporting">Bug reporting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#email-list">Email list</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#github-issue-tracker">Github issue tracker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#issue-tracker">Issue tracker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bug-reporting">Bug reporting</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
@@ -224,16 +224,6 @@ simulations with Monte Carlo methods.</p>
 <li><p>Temperature and growth expanded ensembles</p></li>
 <li><p>Gibbs ensemble</p></li>
 </ul>
-<p>Monte Carlo trials</p>
-<ul class="simple">
-<li><p>Translation, rotation, crankshaft, pivot</p></li>
-<li><p>Rigid cluster rotation and translation</p></li>
-<li><p>Configurational bias transfers and partial regrowth</p></li>
-<li><p>Dual-cut configurational bias</p></li>
-<li><p>Aggregation volume bias</p></li>
-<li><p>Reptation</p></li>
-<li><p>Branches</p></li>
-</ul>
 <p>Interaction potentials</p>
 <ul class="simple">
 <li><p>Hard spheres</p></li>
@@ -245,6 +235,16 @@ simulations with Monte Carlo methods.</p>
 <li><p>TraPPE small molecules and n-alkanes</p></li>
 <li><p>Slab, cylindrical and spherical confinement</p></li>
 <li><p>Cell list and neighbor list</p></li>
+</ul>
+<p>Monte Carlo trials</p>
+<ul class="simple">
+<li><p>Translation, rotation, crankshaft, pivot</p></li>
+<li><p>Rigid cluster rotation and translation</p></li>
+<li><p>Configurational bias transfers and partial regrowth</p></li>
+<li><p>Dual-cut configurational bias</p></li>
+<li><p>Aggregation volume bias</p></li>
+<li><p>Reptation</p></li>
+<li><p>Branches</p></li>
 </ul>
 <p>Modern software</p>
 <ul class="simple">
@@ -273,7 +273,8 @@ make<span class="w"> </span>install<span class="w"> </span>-j4
 pip<span class="w"> </span>install<span class="w"> </span>../pyfeasst<span class="w"> </span>jupyter<span class="w"> </span>matplotlib<span class="w"> </span>pandas<span class="w"> </span>scipy
 </pre></div>
 </div>
-<p>The executables <cite>fst</cite>, which is used to start a simulation, and <cite>rst</cite>, which is used to restart a simulation, should now be located in <cite>/path/to/feasst/build/bin/</cite>.</p>
+<p>The executables <cite>fst</cite> and <cite>rst</cite> should appear in <cite>/path/to/feasst/build/bin/</cite>.
+Text input files are run using <cite>fst &lt; input.txt</cite> while simulations are restarted using <cite>rst checkpoint.txt</cite>.</p>
 <section id="troubleshooting-install">
 <h3>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Permalink to this heading"></a></h3>
 <p>Please <a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us if you run into an issue not listed below.</p>
@@ -343,6 +344,14 @@ google-chrome<span class="w"> </span>index.html
 <p><a class="reference external" href="https://www.nist.gov/people/harold-wickes-hatch">https://www.nist.gov/people/harold-wickes-hatch</a></p>
 <p><a class="reference external" href="mailto:harold&#46;hatch&#37;&#52;&#48;nist&#46;gov">harold<span>&#46;</span>hatch<span>&#64;</span>nist<span>&#46;</span>gov</a></p>
 </section>
+<section id="email-list">
+<h3>Email list<a class="headerlink" href="#email-list" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="http://list.nist.gov/feasst">http://list.nist.gov/feasst</a></p>
+</section>
+<section id="issue-tracker">
+<h3>Issue tracker<a class="headerlink" href="#issue-tracker" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/usnistgov/feasst/issues">https://github.com/usnistgov/feasst/issues</a></p>
+</section>
 <section id="bug-reporting">
 <h3>Bug reporting<a class="headerlink" href="#bug-reporting" title="Permalink to this heading"></a></h3>
 <p>Any and all bug reports are greatly appreciated in order to improve FEASST.</p>
@@ -352,19 +361,8 @@ google-chrome<span class="w"> </span>index.html
 <li><p>Provide all output.</p></li>
 <li><p>Provide the version (for a git install, bash command “git describe –abbrev=10 –dirty –always –tags” and commit from git log).</p></li>
 <li><p>Provide the user code (e.g., input text file, C++ with int main() or .py file).</p></li>
+<li><p>For installation errors, include the output of the “cmake ..” command on an empty build directory.</p></li>
 </ul>
-<p>Optionally, the following information may also be useful:</p>
-<ul class="simple">
-<li><p>the output of the “cmake ..” command on an empty build directory in order to see which compilers and libraries are used when encountering installation errors.</p></li>
-</ul>
-</section>
-<section id="email-list">
-<h3>Email list<a class="headerlink" href="#email-list" title="Permalink to this heading"></a></h3>
-<p><a class="reference external" href="http://list.nist.gov/feasst">http://list.nist.gov/feasst</a></p>
-</section>
-<section id="github-issue-tracker">
-<h3>Github issue tracker<a class="headerlink" href="#github-issue-tracker" title="Permalink to this heading"></a></h3>
-<p><a class="reference external" href="https://github.com/usnistgov/feasst/issues">https://github.com/usnistgov/feasst/issues</a></p>
 </section>
 </section>
 <section id="disclaimer">

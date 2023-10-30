@@ -7,11 +7,10 @@
    SelectEndSegment
    SelectReptate
    SelectCrankshaftSmall
-   PerturbToAnchor
    PerturbDistanceAngleConnector
    PerturbBranch
    PerturbReptate
-   PerturbPositionSwap
+   PerturbToAnchor
    PerturbConnector
    PerturbParticlePivot
    PerturbCrankshaftSmall
@@ -19,6 +18,7 @@
    PerturbCrankshaft
    PerturbLibrary
    PerturbSiteType
+   PerturbPositionSwap
    SelectTwoSites
    SelectBranch
    TrialSwapSites
