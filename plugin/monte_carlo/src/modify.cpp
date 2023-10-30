@@ -61,7 +61,7 @@ void Modify::write_to_file(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
   if (trials_per_write() != -1) {
-    printer(write(criteria, system, trial_factory), file_name(*criteria));
+    printer(write(criteria, system, trial_factory), output_file(*criteria));
   }
 }
 
@@ -101,6 +101,8 @@ ModifyUpdateOnly::ModifyUpdateOnly(argtype * args) : Modify(args) {
     WARN("ModifyUpdateOnly::trials_per is deprecated. Use trials_per_update.");
     set_trials_per(integer("trials_per", args));
   }
+  ASSERT(output_file().empty(),
+    "ModifyUpdateOnly does not use the argument output_file.");
 }
 
 void ModifyUpdateOnly::set_trials_per_write(const int trials) {

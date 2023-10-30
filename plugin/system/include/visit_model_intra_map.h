@@ -23,16 +23,12 @@ class VisitModelIntraMap : public VisitModel {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    By default, all interactions are included except with self.
-
-    args:
     - exclude_bonds: if true, exclude intra interactions between bonded sites
       (default: false).
     - exclude_angles: if true, exclude intra interactions between the two
       extremes of the angle sites (e.g, exclude AC of <ABC) (default: false).
+
+    By default, all interactions are included except with self.
    */
   explicit VisitModelIntraMap(argtype args = argtype());
   explicit VisitModelIntraMap(argtype * args);

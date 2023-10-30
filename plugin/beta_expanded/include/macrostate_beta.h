@@ -13,10 +13,6 @@ class MacrostateBeta : public Macrostate {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Macrostate arguments.
    */
   explicit MacrostateBeta(argtype args = argtype());

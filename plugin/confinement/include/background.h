@@ -15,10 +15,6 @@ class Background : public VisitModel {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - constant: return this energy.
    */
   explicit Background(argtype args = argtype());

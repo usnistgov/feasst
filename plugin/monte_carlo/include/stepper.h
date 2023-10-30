@@ -31,17 +31,17 @@ class Stepper {
       Disabled if negative value is provided.
     - trials_per_update: Set the number of trials per update (default: 1).
       Disabled if negative value is provided.
-    - file_name: Set the file name to write output (default: empty).
+    - output_file: Set the file name to write output (default: empty).
       If empty, write to screen.
     - append: append file output if set to true.
       Do not append if false (default: "false").
-    - clear_file: set true to clear contents of file_name, if exists.
+    - clear_file: set true to clear contents of output_file, if exists.
       (default: false).
     - stop_after_phase: stop when simulation reaches this phase index.
       If -1, never stop (default: -1).
     - start_after_phase: start when simulation reaches this phase index.
       If -1, start at beginning (default: -1).
-    - file_name_append_phase: append phase to file name (default: false)
+    - output_file_append_phase: append phase to file name (default: false)
     - multistate: set "true" to copy for each state (default: false)
     - multistate_aggregate: aggregate the writing of all states, only when
       multistate is enabled (default: true).
@@ -71,16 +71,16 @@ class Stepper {
   int trials_per_write() const { return trials_per_write_; }
 
   /// Return the file name.
-  const std::string file_name() const { return file_name_; }
+  const std::string output_file() const { return output_file_; }
 
   /// Return the file name with optionally appended phase.
-  std::string file_name(const Criteria& criteria) const;
+  std::string output_file(const Criteria& criteria) const;
 
   /// Return true if phase is to be appended to file name.
-  bool file_name_append_phase() const { return file_name_append_phase_; }
+  bool output_file_append_phase() const { return output_file_append_phase_; }
 
   /// Empty the file name.
-  void empty_file_name() { file_name_ = ""; }
+  void empty_output_file() { output_file_ = ""; }
 
   /// Return true if appending.
   bool append() const { return append_; }
@@ -134,7 +134,7 @@ class Stepper {
     const TrialFactory& trials) const { return std::string(""); }
 
   /// Write to standard output if file name is not set. Otherwise, output file.
-  void printer(const std::string output, const std::string& file_name);
+  void printer(const std::string output, const std::string& output_file);
 
   virtual std::string class_name() const { return std::string("Stepper"); }
 
@@ -149,7 +149,8 @@ class Stepper {
   Accumulator accumulator_;
 
   /// Note that this should not be called after set_state, which appends name.
-  void set_file_name(const std::string file_name) { file_name_ = file_name; }
+  void set_output_file(const std::string& output_file) {
+    output_file_ = output_file; }
 
   virtual void set_trials_per_update(const int trials = 1) {
     trials_per_update_ = trials; }
@@ -173,13 +174,13 @@ class Stepper {
  private:
   int trials_per_update_;
   int trials_per_write_;
-  std::string file_name_;
+  std::string output_file_;
   bool append_;
   int stop_after_phase_;
   int start_after_phase_;
   int stop_after_iteration_;
   int start_after_iteration_;
-  bool file_name_append_phase_;
+  bool output_file_append_phase_;
   bool is_multistate_;
   bool is_multistate_aggregate_;
   int state_ = 0;

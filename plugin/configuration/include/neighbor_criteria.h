@@ -13,16 +13,12 @@ class Domain;
 // HWH consider applying Shapes from confinement into NeighborCriteria
 // For now, it assumes spheres/circles
 /**
-  Criteria for determining neighbors.
+  Criteria for defining neighbors.
  */
 class NeighborCriteria {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - reference_potential: index of reference potentials (default: -1).
       If -1, use full potentials.
     - potential_index: index of potential for pair interaction (default: 0).

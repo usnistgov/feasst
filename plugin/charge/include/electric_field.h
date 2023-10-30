@@ -19,10 +19,6 @@ class ElectricField : public ModelOneBody {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - dimension: direction of the electric field (default: 0).
     - field_strength: external electric field strength in force per charge.
       The units are assumed to be Volts/Angstrom, where charge is electron

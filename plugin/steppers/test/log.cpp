@@ -10,7 +10,7 @@ TEST(Log, serialize) {
   file << "testing";
   file.close();
 
-  auto log = MakeLog({{"file_name", "templog"},
+  auto log = MakeLog({{"output_file", "templog"},
                       {"clear_file", "true"}});
   auto log2 = test_serialize<Log, Analyze>(*log);
 }

@@ -12,14 +12,10 @@ class TrialCrankshaft : public TrialMove {
  public:
   //@{
   /** @name Arguments
-   */
-  
-  /**
-    args:
     - Trial arguments.
     - TrialStage arguments.
     - SelectSegment arguments.
-    - Tunable arguments
+    - Tunable arguments.
    */
   explicit TrialCrankshaft(argtype args = argtype());
   explicit TrialCrankshaft(argtype * args);

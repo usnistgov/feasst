@@ -22,7 +22,7 @@ void CalculateCluster::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
   printer(header(*criteria, *system, *trial_factory),
-          file_name(*criteria));
+          output_file(*criteria));
 }
 
 std::string CalculateCluster::header(const Criteria& criteria,

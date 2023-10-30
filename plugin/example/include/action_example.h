@@ -26,10 +26,6 @@ class ActionExample : public Action {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - analyze_name: The Analyze::class_name() to print to file.
       If empty, do nothing (default: empty).
     - modify_name: The Modify::class_name() to print to file (default: empty).

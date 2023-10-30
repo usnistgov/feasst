@@ -12,10 +12,6 @@ class TrialTransfer : public TrialFactoryNamed {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Trial arguments.
     - TrialSelectParticle arguments.
     - TrialStage arguments.

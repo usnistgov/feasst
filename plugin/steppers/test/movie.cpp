@@ -4,7 +4,7 @@
 namespace feasst {
 
 TEST(Movie, serialize) {
-  auto movie = MakeMovie({{"file_name", "tmp"}});
+  auto movie = MakeMovie({{"output_file", "tmp"}});
   auto movie2 = test_serialize<Movie, Analyze>(*movie);
 }
 

@@ -16,8 +16,8 @@ class Random;
  */
 class Cuboid : public Shape {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - cubic_side_length: side length of cube.
     - side_length: set the unique key for the side_length positions.
       Thus, arguments of "key[i]" are expected to follow.
@@ -32,6 +32,11 @@ class Cuboid : public Shape {
   explicit Cuboid(argtype args);
   explicit Cuboid(argtype * args);
 
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   double nearest_distance(const Position& point) const override;
   double surface_area() const override;
   double volume() const override;
@@ -45,6 +50,7 @@ class Cuboid : public Shape {
   explicit Cuboid(std::istream& istr);
   virtual ~Cuboid() {}
 
+  //@}
  private:
   Position side_lengths_, center_;
 };

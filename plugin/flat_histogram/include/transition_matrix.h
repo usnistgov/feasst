@@ -41,10 +41,6 @@ class TransitionMatrix : public Bias {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - CollectionMatrix arguments.
     - min_visits: A sweep is performed when all macrostates are visited by
       another macrostate this number of times (default: 100).
@@ -55,6 +51,9 @@ class TransitionMatrix : public Bias {
       reset_sweeps are completed (default: -1 [counter will never increment])
     - new_sweep: if set to 1, use new sweep definition of "the minimum number
       of accepted transitions for each possible" (default: 0).
+    - widom: if true, also store a CollectionMatrix without the minimum(1,P)
+      term typical of Metropolis acceptance (default: false).
+      This allows direct calculation of the chemical potential
    */
   explicit TransitionMatrix(argtype args = argtype());
   explicit TransitionMatrix(argtype * args);
@@ -118,6 +117,7 @@ class TransitionMatrix : public Bias {
   //@}
  private:
   CollectionMatrix collection_;
+  CollectionMatrix collection_widom_;
   LnProbability ln_prob_;
   std::vector<std::vector<int> > visits_;
   int min_visits_ = 0;
@@ -126,6 +126,7 @@ class TransitionMatrix : public Bias {
   int reset_sweeps_ = -1;
   int average_visits_ = 0;
   int new_sweep_ = 0;
+  bool widom_;
 
   // find minimum visits in soft range
   int min_vis_calc_(const Macrostate& macro) const;

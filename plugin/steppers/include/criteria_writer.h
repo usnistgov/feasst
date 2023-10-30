@@ -13,11 +13,7 @@ class CriteriaWriter : public AnalyzeWriteOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
-    - Stepper args.
+    - Stepper arguments.
    */
   explicit CriteriaWriter(argtype args = argtype());
   explicit CriteriaWriter(argtype * args);

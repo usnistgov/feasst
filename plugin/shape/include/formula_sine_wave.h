@@ -14,8 +14,8 @@ namespace feasst {
  */
 class FormulaSineWave : public Formula {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - amplitude: the amplitude (deviation from "average") of the wave
       (default: 1).
     - width: the width of the periodicity, w, in x units (default: 2\f$\pi\f$).
@@ -24,6 +24,11 @@ class FormulaSineWave : public Formula {
    */
   explicit FormulaSineWave(argtype args = argtype());
   explicit FormulaSineWave(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the amplitude.
   double amplitude() const { return amplitude_; }
@@ -65,6 +70,7 @@ class FormulaSineWave : public Formula {
   explicit FormulaSineWave(std::istream& istr);
   virtual ~FormulaSineWave() {}
 
+  //@}
  private:
   double amplitude_, width_, phase_, shift_;
 };

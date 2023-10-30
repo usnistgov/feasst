@@ -6,7 +6,7 @@
 namespace feasst {
 
 TEST(AnalyzeExample, serialize) {
-  auto movie = MakeAnalyzeExample({{"file_name", "tmp"}});
+  auto movie = MakeAnalyzeExample({{"output_file", "tmp"}});
   auto movie2 = test_serialize<AnalyzeExample, Analyze>(*movie);
 }
 
@@ -20,7 +20,7 @@ TEST(AnalyzeExample, ideal_gas_fluid_geometric_center_LONG) {
     {"Metropolis", {{"num_trials_per_iteration", "1e2"}}},
     {"TrialTranslate", {{"tunable_param", "4."}}},
     {"AnalyzeExample", {{"trials_per_write", str(1e3)},
-                        {"file_name", "tmp/ig_center.csv"},
+                        {"output_file", "tmp/ig_center.csv"},
                         {"start_after_iteration", "1"}}},
     {"Run", {{"num_trials", "1e5"}}},
   }});

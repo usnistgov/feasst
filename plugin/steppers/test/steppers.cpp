@@ -18,10 +18,10 @@ TEST(Steppers, CheckForSameFileName) {
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeMovie({{"trials_per_write", str(1e4)}, {"file_name", "tmp/lj.xyz"}}));
+  mc.add(MakeMovie({{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj.xyz"}}));
   try {
-    mc.add(MakeLog({{"trials_per_write", str(1e4)}, {"file_name", "tmp/lj.xyz"}}));
-    CATCH_PHRASE("should not have the same file_name");
+    mc.add(MakeLog({{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj.xyz"}}));
+    CATCH_PHRASE("should not have the same output_file");
   }
 }
 

@@ -53,9 +53,9 @@ PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate 
 PARAMS['procs_per_sim'] = 1
 PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
 
-def write_feasst_script(params, file_name):
+def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
-    with open(file_name, 'w', encoding='utf-8') as myfile:
+    with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
@@ -68,12 +68,12 @@ ThermoParams beta 1
 MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialTranslate new_only true reference_index 0 tunable_param 1 group first
 TrialRotate new_only true reference_index 0 tunable_param 40
-Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # tune trial parameters
-CriteriaWriter trials_per_write {trials_per_iteration} file_name {prefix}{sim}_b2_eq.txt
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.txt
-Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.xyz
+CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}{sim}_b2_eq.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
+Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
 Tune
 Run until_criteria_complete true
 RemoveModify name Tune
@@ -82,9 +82,9 @@ RemoveAnalyze name Log
 RemoveAnalyze name Movie
 
 # production
-CriteriaWriter trials_per_write {trials_per_iteration} file_name {prefix}{sim}_b2.txt
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}.txt
-Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}.xyz
+CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}{sim}_b2.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.txt
+Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz
 MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
 Run until_criteria_complete true
 """.format(**params))

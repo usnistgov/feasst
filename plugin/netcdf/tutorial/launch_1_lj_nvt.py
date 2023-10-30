@@ -17,10 +17,10 @@ params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]
 
 # write fst script to run a single simulation
-def mc_lj(params=params, file_name="launch.txt"):
-    with open(file_name, "w") as myfile: myfile.write("""
+def mc_lj(params=params, script_file="launch.txt"):
+    with open(script_file, "w") as myfile: myfile.write("""
 MonteCarlo
-Checkpoint file_name checkpoint.fst
+Checkpoint checkpoint_file checkpoint.fst
 RandomMT19937 seed time
 Configuration cubic_side_length {box_length} particle_type0 {fstprt}
 Potential Model LennardJones VisitModel VisitModelCell min_length 3
@@ -40,10 +40,10 @@ Run num_trials {equilibration}
 RemoveModify name Tune
 
 # production analysis and output
-Log trials_per_write {trials_per} file_name lj.txt
-Movie trials_per_write {trials_per} file_name lj.xyz
-MovieNETCDF trials_per_write {trials_per} file_name lj.nc float_precision true
-Energy trials_per_write {trials_per} file_name en.txt
+Log trials_per_write {trials_per} output_file lj.txt
+Movie trials_per_write {trials_per} output_file lj.xyz
+MovieNETCDF trials_per_write {trials_per} output_file lj.nc float_precision true
+Energy trials_per_write {trials_per} output_file en.txt
 Run num_trials {production}
 """.format(**params))
 

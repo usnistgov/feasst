@@ -18,10 +18,6 @@ class AnalyzeBonds : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - bond_bin_width: bin width for bond histogram (default: 1).
     - bond_bin_center: center of first bin in bond histogram (default: 0).
     - angle_bin_width: bin width for angle histogram in units of degrees.

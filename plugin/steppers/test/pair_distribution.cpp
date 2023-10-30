@@ -39,15 +39,15 @@ TEST(PairDistribution, gr_LONG) {
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string trials_per = str(1e5);
   mc.attempt(1e6); // equilibrate
-//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/lj"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/lj"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}, {"tolerance", str(1e-9)}}));
   mc.add(MakeTune());
-  mc.add(MakeEnergy({{"trials_per_write", trials_per}, {"file_name", "tmp/ljen.txt"}}));
+  mc.add(MakeEnergy({{"trials_per_write", trials_per}, {"output_file", "tmp/ljen.txt"}}));
   mc.add(MakePairDistribution({
     {"trials_per_update", "100"},
     {"trials_per_write", "10000"},
     {"dr", "0.025"},
-    {"file_name", "tmp/gr.txt"},
+    {"output_file", "tmp/gr.txt"},
     {"multistate", "true"},
     {"multistate_aggregate", "false"},
   }));

@@ -14,10 +14,6 @@ class EndToEndDistance : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - group_index: index of the Configuration::group (default: 0).
     - Stepper arguments.
    */

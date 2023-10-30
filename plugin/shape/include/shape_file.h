@@ -11,19 +11,24 @@ namespace feasst {
 /**
   Build a Shape using a file with the following syntax.
   The first line describes a Shape by first listing its class_name,
-  then its arguements, space-separated.
+  then its arguments, space-separated.
   The following lines then begin with either "union" or "intersect" and then
   another shape description as described for the first line.
  */
 class ShapeFile : public Shape {
  public:
   ShapeFile() : Shape() {} // only use for deserialize_map.
-  /**
-    args:
-    - file_name: name of the file which describes the shape.
+  //@{
+  /** @name Arguments
+    - shape_file: name of the file which describes the shape.
    */
   explicit ShapeFile(argtype args);
   explicit ShapeFile(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   bool is_inside(const Position& point) const override {
     return shape_->is_inside(point); }
@@ -37,6 +42,7 @@ class ShapeFile : public Shape {
   explicit ShapeFile(std::istream& istr);
   virtual ~ShapeFile() {}
 
+  //@}
  private:
   std::shared_ptr<Shape> shape_;
 };

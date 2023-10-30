@@ -49,10 +49,6 @@ class LennardJonesAlpha : public LennardJones {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - alpha: set the value of \f$\alpha\f$ (default: 6).
     - lambda: enable "lambda" potentials (default: false)
    */

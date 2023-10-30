@@ -17,10 +17,6 @@ class WLTM : public Bias {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - WangLandau arguments.
     - TransitionMatrix arguments.
     - collect_flatness: Begin populating the collection matrix when Wang-Landau

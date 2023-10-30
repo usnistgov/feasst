@@ -12,12 +12,11 @@ namespace feasst {
 
 /**
   This class provides physical constants and conversions for convenience.
-  The main purpose is to facilitate comparison of FEASST results to machine
-  percision.
+  The main purpose is to facilitate comparison to machine percision.
   For example, the molar gas constant is derived from the Boltzmann and
   Avogadro constants.
-  Please do not use this as a primary source for NIST physical constants.
-  Instead, verify them with CODATA sources.
+  Do not use this as a primary source for NIST physical constants.
+  Instead, refer to the primary publications CODATA sources.
  */
 class PhysicalConstants {
  public:
@@ -89,7 +88,8 @@ class PhysicalConstants {
 };
 
 /**
- * Physical constants from CODATA 2018
+  Physical constants from CODATA 2018.
+  See https://doi.org/10.1103/RevModPhys.93.025010.
  */
 class CODATA2018 : public PhysicalConstants {
  public:
@@ -122,9 +122,9 @@ inline std::shared_ptr<CODATA2018> MakeCODATA2018() {
 }
 
 /**
- * Physical constants from CODATA 2014
- * http://dx.doi.org/10.1103/RevModPhys.88.035009
- * http://dx.doi.org/10.1063/1.4954402
+  Physical constants from CODATA 2014.
+  See http://dx.doi.org/10.1103/RevModPhys.88.035009 and
+  http://dx.doi.org/10.1063/1.4954402 .
  */
 class CODATA2014 : public PhysicalConstants {
  public:
@@ -157,9 +157,9 @@ inline std::shared_ptr<CODATA2014> MakeCODATA2014() {
 }
 
 /**
- * Physical constants from CODATA 2010
- * http://dx.doi.org/10.1103/RevModPhys.84.1527
- * http://dx.doi.org/10.1063/1.4724320
+  Physical constants from CODATA 2010.
+  See http://dx.doi.org/10.1103/RevModPhys.84.1527 and
+  http://dx.doi.org/10.1063/1.4724320 .
  */
 class CODATA2010 : public PhysicalConstants {
  public:
@@ -192,18 +192,23 @@ inline std::shared_ptr<CODATA2010> MakeCODATA2010() {
 }
 
 /**
- * Define custom physical constants.
+  Define custom physical constants.
  */
 class PhysicalConstantsCustom : public PhysicalConstants {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - boltzmann_constant
     - avogadro_constant
     - permitivity_vacuum
     - elementary_charge
    */
   explicit PhysicalConstantsCustom(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   const double boltzmann_constant() const override {
     return boltzmann_constant_; }
@@ -218,6 +223,7 @@ class PhysicalConstantsCustom : public PhysicalConstants {
   explicit PhysicalConstantsCustom(std::istream& istr);
   virtual ~PhysicalConstantsCustom() {}
 
+  //@}
  private:
   double boltzmann_constant_;
   double avogadro_constant_;

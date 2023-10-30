@@ -57,7 +57,7 @@ TEST(MonteCarlo, ShapeUnion) {
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
 //  const int trials_per = 1e0;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-//                          {"file_name", "tmp/confine"}}));
+//                          {"output_file", "tmp/confine"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e3);
 }
@@ -67,7 +67,7 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
   mc.add(MakeConfiguration({{"cubic_side_length", "20"},
     {"particle_type", "../particle/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
-  mc.add(MakePotential(MakeModelHardShape({{"file_name", "../plugin/shape/test/data/network.txt"}})));
+  mc.add(MakePotential(MakeModelHardShape({{"shape_file", "../plugin/shape/test/data/network.txt"}})));
   mc.set(MakeThermoParams({{"beta", "1.5"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
@@ -76,7 +76,7 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
 //  const int trials_per = 1e3;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-//                          {"file_name", "tmp/confine"}}));
+//                          {"output_file", "tmp/confine"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e4);
 }
@@ -85,14 +85,14 @@ TEST(MonteCarlo, ShapeTable_LONG) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_side_length", "20"}, {"particle_type", "../particle/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
-  auto pore = MakeShapeFile({{"file_name", "../plugin/shape/test/data/network.txt"}});
+  auto pore = MakeShapeFile({{"shape_file", "../plugin/shape/test/data/network.txt"}});
   mc.add(MakePotential(MakeModelHardShape(pore)));
   const bool read_table = false;
   //const bool read_table = true;
   std::shared_ptr<ModelTableCart3DIntegr> hamaker;
   if (read_table) {
     auto table = MakeTable3D();
-    MakeCheckpoint({{"file_name", "tmp/table"}})->read(table.get());
+    MakeCheckpoint({{"checkpoint_file", "tmp/table"}})->read(table.get());
     hamaker = MakeModelTableCart3DIntegr(table);
   } else {
     hamaker = MakeModelTableCart3DIntegr(MakeTable3D({
@@ -111,7 +111,7 @@ TEST(MonteCarlo, ShapeTable_LONG) {
       {"max_radius", "10"},
       {"num_shells", "10"},
       {"points_per_shell", "1"}});
-    MakeCheckpoint({{"file_name", "tmp/table"}})->write(hamaker->table());
+    MakeCheckpoint({{"checkpoint_file", "tmp/table"}})->write(hamaker->table());
   }
   mc.add(MakePotential(hamaker));
 
@@ -123,11 +123,11 @@ TEST(MonteCarlo, ShapeTable_LONG) {
 //  SeeeekNumParticles(500).with_trial_add().run(&mc);
 //  const int trials_per = 1e4;
 //  mc.add(MakeLogAndMovie({{"trials_per", str(trials_per)},
-//                          {"file_name", "tmp/confine"}}));
+//                          {"output_file", "tmp/confine"}}));
 //  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)},
 //                          {"tolerance", str(1e-4)}}));
 //  FileXYZ().write("hi.xyz", mc.configuration());
-//  MakeCheckpoint({{"file_name", "tmp/mc_table"}})->write(mc);
+//  MakeCheckpoint({{"checkpoint_file", "tmp/mc_table"}})->write(mc);
 //  MonteCarlo mc2 = test_serialize(mc);
 //  mc2.attempt(1e5);
 }
@@ -162,7 +162,7 @@ Accumulator henry(System system) {
   mc.set(MakeThermoParams({{"beta", "1.0"}, {"chemical_potential0", "1"}}));
   mc.set(MakeAlwaysReject());
   mc.add(MakeTrialAdd({{"particle_type", "0"}, {"new_only", "true"}}));
-  //mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/henry"}}));
+  //mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"output_file", "tmp/henry"}}));
   const int henry_index = mc.num_analyzers();
   mc.add(MakeHenryCoefficient());
   mc.attempt(1e6);
@@ -213,7 +213,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "25."}}));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", "1e4"}, {"file_name", "tutorial_0"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", "1e4"}, {"output_file", "tutorial_0"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", "1e4"}, {"tolerance", str(1e-9)}}));
   mc.add(MakeTune());
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
@@ -240,7 +240,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
 //  #else // _OPENMP
 //    model_table->compute_table(&system, &select);
 //  #endif // _OPENMP
-//  MakeCheckpoint({{"file_name", "tmp/table2"}})->write(model_table->table());
+//  MakeCheckpoint({{"checkpoint_file", "tmp/table2"}})->write(model_table->table());
 //  system.add(MakePotential(model_table));
 //  // With tabular potential, no longer need data.slab
 //  system.get_configuration()->remove_particles(system.configuration().selection_of_all());
@@ -249,7 +249,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
 //  mc.set(system);
 //  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
 //  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-//  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"file_name", "tmp/slabtab"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"output_file", "tmp/slabtab"}}));
 //  mc.add(MakeCheckEnergyAndTune({{"trials_per", str(1e4)}, {"tolerance", str(1e-9)}}));
 //  SeeeekNumParticles(15).with_trial_add().run(&mc);
 //  mc.attempt(1e6);
@@ -354,10 +354,10 @@ TEST(DensityProfile, ig_hard_slab) {
 //  mc.add(MakeTrialAdd({{"particle_type", "1"}}));
 //  mc.run(MakeRun({{"until_num_particles", "20"}}));
 //  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-//  mc.add(MakeLogAndMovie({{"trials_per", "100"}, {"file_name", "tmp/prof_traj"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per", "100"}, {"output_file", "tmp/prof_traj"}}));
 //  EXPECT_EQ(mc.configuration().num_particles(), 20);
 //  auto profile = MakeDensityProfile({{"trials_per_update", "100"},
-//    {"trials_per_write", "1000"}, {"dimension", "2"}, {"file_name", "tmp/prof.txt"}});
+//    {"trials_per_write", "1000"}, {"dimension", "2"}, {"output_file", "tmp/prof.txt"}});
 //  mc.add(profile);
 //  mc.attempt(1e4);
 //  auto profile2 = test_serialize(*profile);
@@ -385,7 +385,7 @@ TEST(MonteCarlo, SineSlab) {
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
 //  const int trials_per = 1e2;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-//                          {"file_name", "tmp/sine"}}));
+//                          {"output_file", "tmp/sine"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e3);
 }
@@ -416,9 +416,9 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
   #else // _OPENMP
     model->compute_table(pore.get(), *domain, random.get(), table_args);
   #endif // _OPENMP
-  MakeCheckpoint({{"file_name", "tmp/sinetab"}})->write(*table);
+  MakeCheckpoint({{"checkpoint_file", "tmp/sinetab"}})->write(*table);
   auto table2 = std::make_shared<Table3D>();
-  MakeCheckpoint({{"file_name", "tmp/sinetab"}})->read(table2.get());
+  MakeCheckpoint({{"checkpoint_file", "tmp/sinetab"}})->read(table2.get());
 
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "123"}}));
@@ -435,7 +435,7 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
 //  const int trials_per = 1e2;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-//                          {"file_name", "tmp/sine"}}));
+//                          {"output_file", "tmp/sine"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e3);
 }

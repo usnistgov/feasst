@@ -44,15 +44,15 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
   mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeTune());
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-//    {"file_name", "tmp/clones" + str(thread)}}));
+//    {"output_file", "tmp/clones" + str(thread)}}));
   mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per_write", str(trials_per)},
-    {"file_name", "tmp/clones" + str(thread) + "_crit.txt"}}));
+    {"output_file", "tmp/clones" + str(thread) + "_crit.txt"}}));
   mc.set(MakeCheckpoint({{"num_hours", "0.0001"},
-    {"file_name", "tmp/clone" + str(thread) + ".fst"}}));
+    {"checkpoint_file", "tmp/clone" + str(thread) + ".fst"}}));
   mc.add(MakeEnergy({
-    {"file_name", "tmp/clone_energy" + str(thread)},
+    {"output_file", "tmp/clone_energy" + str(thread)},
     {"trials_per_update", "1"},
     {"trials_per_write", str(trials_per)},
     {"multistate", "true"}}));
@@ -102,9 +102,9 @@ TEST(Clones, lj_fh) {
   DEBUG("0: " << feasst_str(clones2.flat_histogram(0).bias().ln_prob().values()));
   DEBUG("1: " << feasst_str(clones2.flat_histogram(1).bias().ln_prob().values()));
   EXPECT_NEAR(clones2.ln_prob().value(0), -36.9, 0.7);
-  MakeCheckpoint({{"file_name", "tmp/rstclone"}})->write(clones2);
+  MakeCheckpoint({{"checkpoint_file", "tmp/rstclone"}})->write(clones2);
   Clones clones3;
-  MakeCheckpoint({{"file_name", "tmp/rstclone"}})->read(&clones3);
+  MakeCheckpoint({{"checkpoint_file", "tmp/rstclone"}})->read(&clones3);
   EXPECT_TRUE(clones3.ln_prob().is_equal(clones2.ln_prob(), 1e-8));
 
   Histogram macrostates;

@@ -12,7 +12,7 @@
 namespace feasst {
 
 TEST(MoviePatch, serialize) {
-  auto patch = MakeMoviePatch({{"file_name", "hi"}});
+  auto patch = MakeMoviePatch({{"output_file", "hi"}});
   MoviePatch patch2 = test_serialize(*patch);
 }
 

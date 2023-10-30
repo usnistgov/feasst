@@ -6,7 +6,7 @@ namespace feasst {
 class MapMovie {
  public:
   MapMovie() {
-    auto obj = MakeMovie({{"file_name", "place_holder"}});
+    auto obj = MakeMovie({{"output_file", "place_holder"}});
     obj->deserialize_map()["Movie"] = obj;
   }
 };
@@ -15,7 +15,7 @@ static MapMovie mapper_ = MapMovie();
 
 Movie::Movie(argtype * args) : AnalyzeWriteOnly(args) {
   set_append();
-  ASSERT(!file_name().empty(), "file name is required");
+  ASSERT(!output_file().empty(), "file name is required");
   args->insert({"append", "true"}); // always append
   xyz_ = FileXYZ(args);
   vmd_ = FileVMD(args);
@@ -25,9 +25,9 @@ Movie::Movie(argtype args) : Movie(&args) { FEASST_CHECK_ALL_USED(args); }
 void Movie::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  const std::string name = file_name(*criteria);
+  const std::string name = output_file(*criteria);
   ASSERT(!name.empty(), "file name required. Did you forget to " <<
-    "Analyze::set_file_name()?");
+    "Analyze::set_output_file()?");
 
   // write xyz
   if (state() == criteria->state()) {
@@ -44,7 +44,7 @@ std::string Movie::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   // ensure the following order matches the header from initialization.
-  xyz_.write(file_name(criteria), configuration(system));
+  xyz_.write(output_file(criteria), configuration(system));
   return std::string("");
 }
 

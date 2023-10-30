@@ -44,10 +44,6 @@ class ModelExample : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - num_discretized_steps: convert the continuous ramp potential into a number
       of dicontinuous, discretized steps.
       See Fig. 1(d) of https://doi.org/10.1103/PhysRevE.98.012138 .

@@ -2,6 +2,7 @@
 #ifndef FEASST_STEPPERS_MOVIE_H_
 #define FEASST_STEPPERS_MOVIE_H_
 
+#include "configuration/include/file_vmd.h"
 #include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/analyze.h"
 
@@ -11,20 +12,16 @@ namespace feasst {
 // HWH for example, incorportate FileXYZPatch
 /**
   Write a trajectory of the site positions using FileXYZ format.
-  Does not overwrite existing file by default.
+  Appends to existing file by default.
  */
 class Movie : public AnalyzeWriteOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
-    - append is always set to true via Stepper:set_append().
     - FileXYZ arguments (e.g., group_index).
     - FileVMD arguments (e.g., min_sigma).
     - Stepper arguments.
+    - append is always set to true via Stepper:set_append().
    */
   explicit Movie(argtype args = argtype());
   explicit Movie(argtype * args);

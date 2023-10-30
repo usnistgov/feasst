@@ -16,10 +16,6 @@ class ProfileTrials : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Stepper arguments.
    */
   explicit ProfileTrials(argtype args = argtype());

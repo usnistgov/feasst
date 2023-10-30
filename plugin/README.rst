@@ -32,9 +32,6 @@ And find that the class is part of the `Math <plugin/math/README.html>`_ plugin.
 
 See the example plugin as a template for creating your own class or plugin.
 
-List of plugins
---------------------------------
-
 The plugins and classes listed below represent all the publicly available capabilities of FEASST.
 
 .. toctree::

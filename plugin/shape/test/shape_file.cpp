@@ -5,7 +5,7 @@
 namespace feasst {
 
 TEST(ShapeFile, shape) {
-  auto shape = MakeShapeFile({{"file_name", "../plugin/shape/test/data/shape.txt"}});
+  auto shape = MakeShapeFile({{"shape_file", "../plugin/shape/test/data/shape.txt"}});
   ShapeFile shape2 = test_serialize(*shape);
 //  EXPECT_NEAR(cuboid2.volume(), 6, NEAR_ZERO);
 //  EXPECT_NEAR(cuboid2.surface_area(), 22, NEAR_ZERO);

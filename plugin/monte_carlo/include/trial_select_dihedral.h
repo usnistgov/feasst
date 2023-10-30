@@ -23,10 +23,6 @@ class TrialSelectDihedral : public TrialSelectAngle {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - anchor_site3 : index of third anchor site.
    */
   explicit TrialSelectDihedral(argtype args = argtype());

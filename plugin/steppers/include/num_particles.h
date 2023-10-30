@@ -13,10 +13,6 @@ class NumParticles : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - particle_type: index of particle type from configuration.
       If -1, sum all particles (default: -1).
     - group: index of group from configuration.

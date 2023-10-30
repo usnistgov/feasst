@@ -16,10 +16,6 @@ class RemoveAnalyze : public Action {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - index: index of analyze to remove, in the order added.
       If -1, do nothing. (default: -1).
     - name: remove first analyze with this class name, if not empty.

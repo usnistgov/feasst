@@ -77,7 +77,7 @@ void ModifyFactory::trial(Criteria * criteria,
           ss << modifiers_[state]->write(criteria, system, trial_factory);
 //          ss << std::endl;
         }
-        printer(ss.str(), file_name(*criteria));
+        printer(ss.str(), output_file(*criteria));
       }
     } else {
       trial_(criteria, system, random, trial_factory, criteria->state());
@@ -105,7 +105,7 @@ void ModifyFactory::write_to_file(Criteria * criteria,
         ss << state << ",";
         ss << modifiers_[state]->write(criteria, system, trial_factory);
       }
-      printer(ss.str(), file_name(*criteria));
+      printer(ss.str(), output_file(*criteria));
     } else {
       modifiers_[criteria->state()]->write_to_file(criteria, system, trial_factory);
     }

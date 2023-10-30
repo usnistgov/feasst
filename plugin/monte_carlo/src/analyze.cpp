@@ -58,7 +58,7 @@ void Analyze::write_to_file(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   if (trials_per_write() != -1) {
-    printer(write(criteria, system, trial_factory), file_name(criteria));
+    printer(write(criteria, system, trial_factory), output_file(criteria));
   }
 }
 
@@ -103,10 +103,10 @@ void AnalyzeWriteOnly::set_trials_per_update(const int trials) {
 }
 
 AnalyzeUpdateOnly::AnalyzeUpdateOnly(argtype * args) : Analyze(args) {
-  ASSERT(trials_per_write() == 1, "AnalyzeUpdateOnly doesn't the argument " <<
-    "trials_per_write");
-  ASSERT(file_name().empty(), "AnalyzeUpdateOnly doesn't the argument " <<
-    "file_name");
+  ASSERT(trials_per_write() == 1,
+    "AnalyzeUpdateOnly does not use the argument trials_per_write.");
+  ASSERT(output_file().empty(),
+    "AnalyzeUpdateOnly does not use the argument output_file.");
 
   // disable write
   Analyze::set_trials_per_write(-1);

@@ -49,7 +49,7 @@ void Tune::initialize(Criteria * criteria,
     }
   }
   printer(header(*criteria, *system, *trial_factory),
-          file_name(*criteria));
+          output_file(*criteria));
 }
 
 void Tune::update(Criteria * criteria,

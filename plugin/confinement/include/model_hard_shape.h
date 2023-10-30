@@ -20,10 +20,6 @@ class ModelHardShape : public ModelOneBody,
 
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Same arguments as ShapeFile.
     - cavity: if true, the potential outside the shape is infinite.
       if false, the potential inside the shape is infinite (default: true).

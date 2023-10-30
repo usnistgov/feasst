@@ -18,10 +18,6 @@ class ModelTwoBodyFactory : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - model[i]: add the i-th model.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
    */

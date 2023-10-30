@@ -71,14 +71,14 @@ PARAMS['place_h'] = 'angle true mobile_site 2 anchor_site 0 anchor_site2 1 refer
 if 'tip4p' in PARAMS['fstprt']:
     PARAMS['place_h'] = 'branch true mobile_site 2 mobile_site2 3 anchor_site 0 anchor_site2 1 reference_index 0'
 
-def write_feasst_script(params, file_name):
+def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
-    with open(file_name, 'w', encoding='utf-8') as myfile:
+    with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 # first, initialize multiple clones into windows
 CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}n{node}_lnpi.txt min_window_size -1
 WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 1.5 min_size 5
-Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} group0 oxygen oxygen_site_type 0
@@ -96,7 +96,7 @@ CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.txt
 Tune
 Run until_num_particles [soft_macro_min]
 RemoveTrial name TrialAdd
@@ -110,13 +110,13 @@ RemoveAnalyze name Log
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
 Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialTransfer weight 2 particle_type 0
-Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].txt
-Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
-Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].xyz start_after_iteration 1
-Tune trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
+Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].txt
+Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
+Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].xyz start_after_iteration 1
+Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
+Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_crit.txt
+CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
 """.format(**params))
 
 def post_process(params):

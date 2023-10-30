@@ -16,10 +16,6 @@ class Yukawa : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - kappa: set the value of the kappa parameter (default: 1).
    */
   explicit Yukawa(argtype args = argtype());

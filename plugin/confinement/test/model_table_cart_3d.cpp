@@ -35,16 +35,16 @@ TEST(ModelTableCart3DIntegr, SineSlabTable_LONG) {
       {"max_radius", "10"},
       {"num_shells", "10"},
       {"points_per_shell", "10"}});
-  MakeCheckpoint({{"file_name", "tmp/sine_slab_table"}})->write(hamaker->table());
+  MakeCheckpoint({{"checkpoint_file", "tmp/sine_slab_table"}})->write(hamaker->table());
   ModelTableCart3DIntegr hamaker2 = test_serialize(*hamaker);
   hamaker2.write("tmp/table3d_out.txt");
-  auto hamaker3 = MakeModelTableCart3DIntegr({{"file_name", "tmp/table3d_out.txt"}});
+  auto hamaker3 = MakeModelTableCart3DIntegr({{"table_file", "tmp/table3d_out.txt"}});
 }
 
 TEST(ModelTableCart3DIntegr, SineSlabTable_TXT_LONG) {
 //  MakeDomain({{"cubic_side_length", "20"}}).get(),
   auto hamaker = MakeModelTableCart3DIntegr({
-    {"file_name", "tmp/table3d_out.txt"},
+    {"table_file", "tmp/table3d_out.txt"},
     {"cubic_side_length", "20"},
     {"num0", "11"},
     {"num1", "11"},
@@ -55,7 +55,7 @@ TEST(ModelTableCart3DIntegr, SineSlabTable_TXT_LONG) {
   #else // _OPENMP
     {"use_omp", "false"},
   #endif // _OPENMP
-    {"shape_file_name", "../plugin/confinement/test/data/shape.txt"},
+    {"shape_file", "../plugin/confinement/test/data/shape.txt"},
     {"random", "RandomMT19937"},
     {"alpha0", "6"},
     {"epsilon0", "-1"},
@@ -66,10 +66,10 @@ TEST(ModelTableCart3DIntegr, SineSlabTable_TXT_LONG) {
     {"points_per_shell", "10"}});
   auto config = MakeConfiguration({{"cubic_side_length", "20"}});
   hamaker->precompute(config->model_params());
-  MakeCheckpoint({{"file_name", "tmp/sine_slab_table"}})->write(hamaker->table());
+  MakeCheckpoint({{"checkpoint_file", "tmp/sine_slab_table"}})->write(hamaker->table());
   ModelTableCart3DIntegr hamaker2 = test_serialize(*hamaker);
   hamaker2.write("tmp/table3d_out.txt");
-  auto hamaker3 = MakeModelTableCart3DIntegr({{"file_name", "tmp/table3d_out.txt"}});
+  auto hamaker3 = MakeModelTableCart3DIntegr({{"table_file", "tmp/table3d_out.txt"}});
 }
 
 TEST(ModelTableCard1DHard, compute_table) {

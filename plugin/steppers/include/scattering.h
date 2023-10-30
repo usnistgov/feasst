@@ -30,10 +30,6 @@ class Scattering : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - num_frequency: the number of linearly spaced frequencies between the
       largest and the smallest, 2*pi/minimum_domain_length (default: 100).
     - Stepper arguments.

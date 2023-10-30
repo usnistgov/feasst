@@ -16,10 +16,6 @@ class RemoveModify : public Action {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - index: index of modify to remove, in the order added.
       If -1, do nothing. (default: -1).
     - name: remove first modify with this class name, if not empty.

@@ -16,10 +16,6 @@ class RemoveTrial : public Action {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - index: index of trial to remove, in order of trials added.
       If -1, do nothing. (default: -1).
     - name: remove first trial with this class name, if not empty.

@@ -16,11 +16,6 @@ class Run : public Action {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    The following arguments are completed in the order listed.
-
     args:
     - num_trials: run this many trials (default: -1. e.g., None)
     - until_num_particles: run until this many particles (default: -1. e.g., None)
@@ -28,6 +23,8 @@ class Run : public Action {
     - particle_type: type of particle to count. If -1, all particles (default: -1).
     - for_hours: run for this many CPU hours (default: -1 e.g., None).
     - until_criteria_complete: run until Criteria is complete (default: false)
+
+    Arguments are completed in the order listed.
    */
   explicit Run(argtype args = argtype());
   explicit Run(argtype * args);

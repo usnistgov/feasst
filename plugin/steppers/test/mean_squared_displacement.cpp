@@ -26,14 +26,14 @@ TEST(MeanSquaredDisplacement, msd) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "50"}}));
   mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e4)}, {"file_name", "tmp/lj"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.add(MakeTune());
   mc.add(MakeMeanSquaredDisplacement({
     {"trials_per_update", "10"},
     {"trials_per_write", "100"},
     {"updates_per_origin", "10"},
-    {"file_name", "tmp/msd.txt"},
+    {"output_file", "tmp/msd.txt"},
   }));
   mc.attempt(1e3);
   MonteCarlo mc2 = test_serialize(mc);

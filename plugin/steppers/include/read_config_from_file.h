@@ -2,6 +2,7 @@
 #ifndef FEASST_STEPPERS_READ_CONFIG_FROM_FILE_H_
 #define FEASST_STEPPERS_READ_CONFIG_FROM_FILE_H_
 
+#include <string>
 #include <fstream>
 #include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/modify.h"
@@ -20,10 +21,7 @@ class ReadConfigFromFile : public ModifyUpdateOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
+    - input_file: name of FileXYZ to input Configuration.
     - Stepper arguments.
    */
   explicit ReadConfigFromFile(argtype args = argtype());
@@ -53,6 +51,7 @@ class ReadConfigFromFile : public ModifyUpdateOnly {
   //@}
  private:
   FileXYZ xyz_;
+  std::string input_file_;
   std::ifstream file_;
 };
 

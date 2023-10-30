@@ -18,10 +18,6 @@ class WangLandau : public Bias {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - min_flatness : Number of flatness checks required for completion.
     - add_to_ln_probability : The initial amount to add to the natural log of
       the macrostate probability upon visiting that state (default: 1.0).
@@ -36,7 +32,7 @@ class WangLandau : public Bias {
    */
   explicit WangLandau(argtype args = argtype());
   explicit WangLandau(argtype * args);
-  
+
   //@}
   /** @name Public Functions
    */

@@ -11,12 +11,22 @@ namespace feasst {
 
 /**
   Mersenne Twister 19937 generator.
-  http://www.cplusplus.com/reference/random/mt19937/
+  See http://www.cplusplus.com/reference/random/mt19937/
+  for more information.
  */
 class RandomMT19937 : public Random {
  public:
+  //@{
+  /** @name Arguments
+    - Random arguments.
+   */
   explicit RandomMT19937(argtype args = argtype());
   explicit RandomMT19937(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Use http://www.cplusplus.com/reference/random/normal_distribution/
   double standard_normal() override { return std_normal_(generator_); }
@@ -30,6 +40,7 @@ class RandomMT19937 : public Random {
   explicit RandomMT19937(std::istream& istr);
   virtual ~RandomMT19937() {}
 
+  //@}
  private:
   std::uniform_real_distribution<double> dis_double_;
   std::normal_distribution<double> std_normal_;

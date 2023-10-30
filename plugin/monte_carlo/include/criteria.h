@@ -20,16 +20,11 @@ class Bias;
 /**
   Determine whether to accept or reject a trial.
   Stores the total energy based on energy changes from each trial.
-  probability of acceptance.
  */
 class Criteria {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - num_iterations_to_complete: set the number of iterations for a simulation
       to be considered complete (default: 20).
     - Constraint: ConstrainNumParticles, AHalfB, etc.

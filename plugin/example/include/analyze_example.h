@@ -24,10 +24,6 @@ class AnalyzeExample : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - group_index: index of group defined in Configuration
       (default: 0, which is all existing sites).
     - Stepper arguments.

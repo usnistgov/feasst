@@ -15,10 +15,6 @@ class WallClockLimit : public AnalyzeUpdateOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - max_hours: maximum number of wall clock hours until job termination.
     - Stepper arguments.
    */

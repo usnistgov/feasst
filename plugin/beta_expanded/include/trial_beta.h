@@ -15,10 +15,6 @@ class TrialBeta : public Trial {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Trial arguments.
     - PerturbBeta arguments.
     - Tunable arguments.

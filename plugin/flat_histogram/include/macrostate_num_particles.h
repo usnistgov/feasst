@@ -14,10 +14,6 @@ class MacrostateNumParticles : public Macrostate {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - particle_type: number of particles of type. If -1 (default), count all
       types.
     - Macrostate arguments.

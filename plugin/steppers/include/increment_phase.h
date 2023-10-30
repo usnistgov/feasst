@@ -11,13 +11,18 @@ namespace feasst {
  */
 class IncrementPhase : public ModifyUpdateOnly {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - num_trials: increment the simulation phase when this many trials have
       been attempted. Do nothing if -1 (default: -1).
   */
   explicit IncrementPhase(argtype args = argtype());
   explicit IncrementPhase(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void update(Criteria * criteria,
     System * system,

@@ -4,6 +4,8 @@
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/metropolis.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
+#include "cluster/include/trial_add_avb_divalent.h"
+#include "cluster/include/trial_remove_avb_divalent.h"
 #include "cluster/include/energy_map_all.h"
 
 namespace feasst {

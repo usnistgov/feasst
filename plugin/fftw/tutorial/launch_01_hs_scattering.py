@@ -18,8 +18,8 @@ params["num_minutes"] = round(params["num_hours"]*60)
 params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_node"]
 
 # write fst script to run a single simulation
-def mc_hs(params=params, file_name="launch.txt"):
-    with open(file_name, "w") as myfile: myfile.write("""
+def mc_hs(params=params, script_file="launch.txt"):
+    with open(script_file, "w") as myfile: myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
@@ -27,10 +27,10 @@ Potential Model HardSphere VisitModel VisitModelCell min_length 1
 ThermoParams beta 1 chemical_potential 1
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-Log trials_per_write {trials_per} file_name hs.csv
+Log trials_per_write {trials_per} output_file hs.csv
 Tune
 CheckEnergy trials_per_update {trials_per} tolerance 1e-8
-Checkpoint file_name hs.fst num_hours_terminate {num_hours_terminate}
+Checkpoint checkpoint_file hs.fst num_hours_terminate {num_hours_terminate}
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
@@ -39,10 +39,10 @@ RemoveTrial name TrialAdd
 Run num_trials {equilibration}
 
 # nvt production
-Movie trials_per_write {trials_per} file_name hs.xyz
-PairDistribution trials_per_update 1000 trials_per_write {trials_per} dr 0.025 file_name hs_gr.csv
-Scattering trials_per_update 100 trials_per_write {trials_per} num_frequency 10 file_name hs_iq.csv
-ScatteringFFTW trials_per_update 100 trials_per_write {trials_per} bin_spacing 0.1 delta_rho 1 file_name hs_iq_fftw.csv
+Movie trials_per_write {trials_per} output_file hs.xyz
+PairDistribution trials_per_update 1000 trials_per_write {trials_per} dr 0.025 output_file hs_gr.csv
+Scattering trials_per_update 100 trials_per_write {trials_per} num_frequency 10 output_file hs_iq.csv
+ScatteringFFTW trials_per_update 100 trials_per_write {trials_per} bin_spacing 0.1 delta_rho 1 output_file hs_iq_fftw.csv
 Run num_trials {production}
 """.format(**params))
 

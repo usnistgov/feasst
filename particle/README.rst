@@ -2,36 +2,32 @@
 Particle files and units
 *************************
 
-The particle directory is a place for files which describe a single particle, which could represent an atom, molecule or coarse-grained model.
-These files are LAMMPS-inspired (https://lammps.sandia.gov/doc/read_data.html), but deviate significantly from LAMMPS as described in detail below.
+The particle directory is a place for files which describe a single particle.
+Particles could represent an atom, molecule, colloid or coarse-grained model.
+These files are LAMMPS-inspired (https://docs.lammps.org/read_data.html), but deviate significantly from LAMMPS as described in detail below.
 Each file represents only a single particle (or molecule), and these files are used to define the types of particles (or molecules) that can exist in the simulation.
 Each plugin many also contain a particle directory as additional examples and for use in tutorials.
 The units used in these files (length, energy, etc) are not assumed (with one exception) and must be consistent with the units to initialize your simulations.
 
-======
 Units
 ======
 
 The :doc:`charge plugin </plugin/charge/README>` is the only plugin that assumes units.
-Otherwise, any other use of FEASST assumes that the user takes care to input values with a consistent set of units.
+Otherwise, any other use of FEASST assumes that the user takes care to input values with a consistent set of units of their choosing.
 For example, the units of length for positions in the data file should match whatever is used for defining the Domain, and the :cpp:class:`FileXYZ <feasst::FileXYZ>` positions will also be consistent with that user choice.
 The energy scale is given by epsilon-like parameters, as should be consistent with the beta given to :cpp:class:`ThermoParams <feasst::ThermoParams>`.
 That is, beta has units of inverse energy.
 Similarly, chemical_potential has units of energy.
 Because pressure times volume is in units of energy, pressure is in units of energy per volume.
 
-The :doc:`charge plugin </plugin/charge/README>` is an exception because the unit of charge is assumed to be elementary charge.
+The :cpp:class:`Potentials <feasst::Potential>` in :doc:`charge plugin </plugin/charge/README>` are exceptions because the unit of charge is assumed to be elementary charge.
 Because of an assumed conversion factor, the units of energy must be in kJ/mol, and therefore, beta must be given in units of mol/kJ.
 Finally, the units of length must be in Angstroms.
-
-===========
-Data files
-===========
 
 Differences from LAMMPS
 ========================
 
-LAMMPS data files are defined here: https://lammps.sandia.gov/doc/read_data.html
+LAMMPS data files are defined here: https://docs.lammps.org/read_data.html
 
 The data files used by FEASST have the following major differences:
 

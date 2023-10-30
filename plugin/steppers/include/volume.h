@@ -14,10 +14,6 @@ class Volume : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Stepper arguments.
    */
   explicit Volume(argtype args = argtype());

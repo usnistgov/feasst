@@ -14,10 +14,6 @@ class AnalyzeCluster : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Stepper arguments.
    */
   explicit AnalyzeCluster(argtype args = argtype());

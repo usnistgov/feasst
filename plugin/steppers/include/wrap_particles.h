@@ -14,10 +14,6 @@ class WrapParticles : public ModifyUpdateOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Stepper arguments.
    */
   explicit WrapParticles(argtype args = argtype());

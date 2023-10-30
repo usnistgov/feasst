@@ -13,10 +13,6 @@ class TrialTranslate : public TrialMove {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Trial arguments.
     - TrialStage arguments.
     - TrialSelectParticle arguments.

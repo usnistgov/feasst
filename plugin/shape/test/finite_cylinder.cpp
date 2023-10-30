@@ -8,8 +8,8 @@ namespace feasst {
 
 TEST(FiniteCylinder, serialize) {
   auto finite_cylinder = MakeFiniteCylinder({{"radius", "5"},
-    {"first_point", "f"}, {"f0", "0"}, {"f1", "0"}, {"f2", "0"}, 
-    {"second_point", "s"}, {"s0", "0"}, {"s1", "0"}, {"s2", "2"}}); 
+    {"first_point", "f"}, {"f0", "0"}, {"f1", "0"}, {"f2", "0"},
+    {"second_point", "s"}, {"s0", "0"}, {"s1", "0"}, {"s2", "2"}});
   std::shared_ptr<Shape> finite_cylinder2 = test_serialize<FiniteCylinder, Shape>(*finite_cylinder);
 
   EXPECT_TRUE (finite_cylinder2->is_inside(Position({0, 0, 1.49999}), 1.));

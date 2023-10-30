@@ -81,10 +81,6 @@ class VisitModelInnerTable : public VisitModelInner {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - table_file: table file with format described above.
     - ignore_energy: do not read the energy table (default: false).
    */

@@ -14,10 +14,6 @@ class Check : public AnalyzeUpdateOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Stepper arguments.
    */
   explicit Check(argtype args = argtype()) : AnalyzeUpdateOnly(&args) {}

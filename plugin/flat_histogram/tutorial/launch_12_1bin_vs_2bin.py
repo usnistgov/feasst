@@ -29,12 +29,12 @@ params["num_hours_terminate"] = 0.95*params["num_hours"]*params["procs_per_sim"]
 params["mu_init"] = params["mu"] + 1
 
 # write fst script to run a single simulation
-def mc_lj(params=params, file_name="launch.txt"):
-    with open(file_name, "w") as myfile: myfile.write("""
+def mc_lj(params=params, script_file="launch.txt"):
+    with open(script_file, "w") as myfile: myfile.write("""
 # first, initialize multiple clones into windows
 CollectionMatrixSplice hours_per {hours_per_adjust} ln_prob_file lj_lnpin{min_particles}s{sim}.txt ln_prob_file_append true bounds_file lj_boundsn{min_particles}s{sim}.txt num_adjust_per_write 1 min_window_size 1
 {window_custom}
-Checkpoint file_name lj_checkpointn{min_particles}s{sim}.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
+Checkpoint checkpoint_file lj_checkpointn{min_particles}s{sim}.fst num_hours {hours_per_checkpoint} num_hours_terminate {num_hours_terminate}
 
 # begin description of each MC clone
 RandomMT19937 seed {seed}
@@ -45,7 +45,7 @@ Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-Log trials_per_write {trials_per} file_name ljn{min_particles}s{sim}_[sim_index].txt
+Log trials_per_write {trials_per} output_file ljn{min_particles}s{sim}_[sim_index].txt
 Tune
 CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 
@@ -63,12 +63,12 @@ Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
 #Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
 TrialTransfer weight 2 particle_type 0
 #TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 4
-Movie trials_per_write {trials_per} file_name ljn{min_particles}s{sim}_[sim_index].xyz
-Tune trials_per_write {trials_per} file_name lj_tunen{min_particles}s{sim}_[sim_index].txt multistate true
-Energy trials_per_write {trials_per} file_name lj_enn{min_particles}s{sim}_[sim_index].txt multistate true append true
-CPUTime trials_per_write {trials_per} file_name lj_cpun{min_particles}s{sim}_[sim_index].txt append true
+Movie trials_per_write {trials_per} output_file ljn{min_particles}s{sim}_[sim_index].xyz
+Tune trials_per_write {trials_per} output_file lj_tunen{min_particles}s{sim}_[sim_index].txt multistate true
+Energy trials_per_write {trials_per} output_file lj_enn{min_particles}s{sim}_[sim_index].txt multistate true append true
+CPUTime trials_per_write {trials_per} output_file lj_cpun{min_particles}s{sim}_[sim_index].txt append true
 CriteriaUpdater trials_per_update {trials_per}
-CriteriaWriter trials_per_write {trials_per} file_name lj_critn{min_particles}s{sim}_[sim_index].txt
+CriteriaWriter trials_per_write {trials_per} output_file lj_critn{min_particles}s{sim}_[sim_index].txt
 #Run until_criteria_complete true
 """.format(**params))
 

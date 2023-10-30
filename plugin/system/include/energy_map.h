@@ -24,11 +24,7 @@ class EnergyMap {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
-    - default_value: set initial or cleared values to this.
+    - default_value: set initial or cleared values to this (default: 0).
    */
   explicit EnergyMap(argtype args = argtype());
   explicit EnergyMap(argtype * args);

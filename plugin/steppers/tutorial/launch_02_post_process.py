@@ -47,18 +47,18 @@ PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate 
 PARAMS['procs_per_sim'] = 1
 PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
 
-def write_feasst_script(params, file_name):
+def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
-    with open(file_name, 'w', encoding='utf-8') as myfile:
+    with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
 Configuration particle_type0 {fstprt} xyz_file {xyz_file}
 Potential Model HardSphere VisitModel VisitModelCell min_length 1
 ThermoParams beta 1 chemical_potential 1
 Metropolis
-Scattering trials_per_update 1 trials_per_write 1 num_frequency 10 file_name {prefix}{sim}_iq.csv
-ReadConfigFromFile file_name {xyz_file}
-Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+Scattering trials_per_update 1 trials_per_write 1 num_frequency 10 output_file {prefix}{sim}_iq.csv
+ReadConfigFromFile input_file {xyz_file}
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 Run until_criteria_complete true
 """.format(**params))
 

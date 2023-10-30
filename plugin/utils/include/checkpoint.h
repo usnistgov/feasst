@@ -16,30 +16,26 @@ namespace feasst {
 
 /**
   Save the state of a class in memory by writing to disk, such that the
-  checkpoint file can be read again later to restart the simulation.
-  Checkpoint after user defined number of hours.
+  checkpoint file can be later read to restart the simulation.
   Note that for OMP or parallel simulations, the number of hours is multiplied
-  by the number of cores.
+  by the number of threads.
  */
 class Checkpoint {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - num_hours: Number of hours between printing of checkpoint file
       (default: 1).
     - num_hours_terminate: Terminate after this many hours. If -1, do not
       terminate (default: -1).
       Termination may be detected in Bash shell using "$? != 0".
-    - file_name: The default is one space (e.g., " ").
-      Do not checkpoint if file_name is empty or is one space.
+    - checkpoint_file: The default is one space (e.g., " ").
+      Do not checkpoint if checkpoint_file is empty or is one space.
     - writes_per_backup: Create a unique checkpoint file name every this many
       times that a checkpoint is written (default: -1).
       If -1, only backup the previous file by appending its name with ".bak".
-      Otherwise, if > 0, append each backup with an integer count beginning 0.
+      Otherwise, if > 0, append each backup with an integer count beginning
+      with 0.
    */
   explicit Checkpoint(argtype args = argtype());
 
@@ -54,9 +50,9 @@ class Checkpoint {
   /// Write the checkpoint to file. If the file exists, create backup.
   template <typename T>
   void write(const T& obj, const std::string append_backup = ".bak") const {
-    if (file_name_.empty() || file_name_ == " ") return;
-    file_backup(file_name_, append_backup);
-    std::ofstream file(file_name_.c_str(),
+    if (checkpoint_file_.empty() || checkpoint_file_ == " ") return;
+    file_backup(checkpoint_file_, append_backup);
+    std::ofstream file(checkpoint_file_.c_str(),
       std::ofstream::out | std::ofstream::trunc);
     std::stringstream ss;
     obj.serialize(ss);
@@ -64,7 +60,7 @@ class Checkpoint {
     file.close();
   }
 
-  /// Write object to file_name if num_hours has passed since previous.
+  /// Write object to checkpoint_file if num_hours has passed since previous.
   template <typename T>
   void check(const T& obj) {
     const double hours = cpu_hours();
@@ -76,7 +72,7 @@ class Checkpoint {
       std::string append_backup = ".bak";
       if (writes_per_backup_ > 0) {
         ++previous_backup_;
-        file_backup(file_name_, feasst::str(previous_backup_));
+        file_backup(checkpoint_file_, feasst::str(previous_backup_));
       }
       write(obj, append_backup);
     }
@@ -90,8 +86,8 @@ class Checkpoint {
   /// Initialize object by reading from file.
   template <typename T>
   void read(T * obj) {
-    std::ifstream file(file_name_.c_str());
-    ASSERT(file.good(), "cannot find " << file_name_);
+    std::ifstream file(checkpoint_file_.c_str());
+    ASSERT(file.good(), "cannot find " << checkpoint_file_);
     std::string line;
     std::getline(file, line);
     std::stringstream ss(line);
@@ -106,7 +102,7 @@ class Checkpoint {
 
   //@}
  private:
-  std::string file_name_;
+  std::string checkpoint_file_;
   double num_hours_ = 0;
   double num_hours_terminate_ = 0;
   int writes_per_backup_;

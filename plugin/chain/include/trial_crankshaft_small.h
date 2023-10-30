@@ -15,10 +15,6 @@ class TrialCrankshaftSmall : public TrialMove {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Trial arguments.
     - TrialStage arguments.
     - SelectCrankshaftSmall arguments.

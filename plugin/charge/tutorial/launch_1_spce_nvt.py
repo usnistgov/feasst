@@ -58,9 +58,9 @@ PARAMS['cutoff'] = 0.5*PARAMS['cubic_side_length']
 PARAMS['alpha'] = 5.6/PARAMS['cubic_side_length']
 PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 
-def write_feasst_script(params, file_name):
+def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
-    with open(file_name, 'w', encoding='utf-8') as myfile:
+    with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
@@ -74,7 +74,7 @@ ThermoParams beta {beta} chemical_potential 1
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
 TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
-Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # grand canonical ensemble initalization
 TrialAdd particle_type 0
@@ -85,17 +85,17 @@ RemoveTrial name TrialAdd
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Tune
 CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
 Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name Log
 
 # canonical ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}.txt
-Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}.xyz
-Energy trials_per_write {trials_per_iteration} file_name {prefix}{sim}_en.txt
-CPUTime trials_per_write {trials_per_iteration} file_name {prefix}{sim}_cpu.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.txt
+Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz
+Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.txt
+CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.txt
 Run until_criteria_complete true
 """.format(**params))
 

@@ -19,10 +19,6 @@ class TrialMorph : public Trial {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - particle_type[i]: type of particle that will be morphed.
       The [i] is to be substituted for an integer 0, 1, 2, ...
     - particle_type_morph[i]: type of particle to morph into.

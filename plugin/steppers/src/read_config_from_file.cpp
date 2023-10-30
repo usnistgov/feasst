@@ -3,7 +3,9 @@
 
 namespace feasst {
 
-ReadConfigFromFile::ReadConfigFromFile(argtype * args) : ModifyUpdateOnly(args) {}
+ReadConfigFromFile::ReadConfigFromFile(argtype * args) : ModifyUpdateOnly(args) {
+  input_file_ = str("input_file", args);
+}
 ReadConfigFromFile::ReadConfigFromFile(argtype args) : ReadConfigFromFile(&args) {
   FEASST_CHECK_ALL_USED(args);
 }
@@ -11,7 +13,8 @@ ReadConfigFromFile::ReadConfigFromFile(argtype args) : ReadConfigFromFile(&args)
 class MapReadConfigFromFile {
  public:
   MapReadConfigFromFile() {
-    ReadConfigFromFile().deserialize_map()["ReadConfigFromFile"] = MakeReadConfigFromFile();
+    auto obj = MakeReadConfigFromFile({{"input_file", "placeholder"}});
+    obj->deserialize_map()["ReadConfigFromFile"] = obj;
   }
 };
 
@@ -20,8 +23,8 @@ static MapReadConfigFromFile mapper_ = MapReadConfigFromFile();
 void ReadConfigFromFile::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  file_.open(file_name());
-  ASSERT(file_.good(), "cannot open " << file_name());
+  file_.open(input_file_);
+  ASSERT(file_.good(), "cannot open " << input_file_);
 }
 
 void ReadConfigFromFile::update(Criteria * criteria,
@@ -44,11 +47,13 @@ void ReadConfigFromFile::update(Criteria * criteria,
 void ReadConfigFromFile::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(6782, ostr);
+  feasst_serialize(input_file_, ostr);
 }
 
 ReadConfigFromFile::ReadConfigFromFile(std::istream& istr) : ModifyUpdateOnly(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 6782, "version mismatch:" << version);
+  feasst_deserialize(&input_file_, istr);
 }
 
 }  // namespace feasst

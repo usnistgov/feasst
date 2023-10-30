@@ -23,9 +23,17 @@ static MapShapeFile mapper_shape_union_ = MapShapeFile();
 ShapeFile::ShapeFile(argtype * args) : Shape() {
   class_name_ = "ShapeFile";
   DEBUG("args " << str(*args));
-  const std::string file_name = str("file_name", args);
-  std::ifstream file(file_name);
-  ASSERT(file.good(), "cannot find " << file_name);
+  std::string shape_file = str("shape_file", args, "");
+  if (shape_file.empty()) {
+    if (used("file_name", *args)) {
+      WARN("ShapeFile::file_name was renamed to shape_file.");
+      shape_file = str("file_name", args);
+    } else {
+      FATAL("ShapeFile::shape_file is a required argument.");
+    }
+  }
+  std::ifstream file(shape_file);
+  ASSERT(file.good(), "cannot find " << shape_file);
   std::string line;
   std::getline(file, line);
   DEBUG(line);

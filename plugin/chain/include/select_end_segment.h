@@ -13,10 +13,6 @@ class SelectEndSegment : public SelectSegment {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - SelectSegment arguments.
    */
   explicit SelectEndSegment(argtype args = argtype());

@@ -42,14 +42,11 @@ class WindowExponential : public Window {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - alpha: exponential factor (default: 1.5).
     - min[i]: minimum macrostate value of the i-th window (default: None),
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       This allows the user to override alpha at the smaller windows.
+    - Window arguments.
    */
   explicit WindowExponential(argtype args = argtype());
 

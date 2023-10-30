@@ -16,20 +16,12 @@ namespace feasst {
 class Domain;
 
 /**
-  A configuration contains both the particles and the spatial domain/boundaries.
+  A Configuration contains both the particles and the spatial Domain/boundaries.
 
   For the particles, this includes both the pool of particles which may
   exist (referred to as particle types) in addition to the particles which
   physically exist (referred to as particles).
-
-  Before particles are physically added to the system, all particle types which
-  may exist must be defined.
-  Once particles are added to the system, new particle types cannot be added.
-  Similarly, site and bond types are also defined at the same time as particle
-  types and are referred to as unique types.
-  Unique types are stored in essentially the same fashion as particle types,
-  except they have been stripped of their non-unique sites and bonds.
-  Two different particles cannot share a site type.
+  The same is true for site types and sites.
 
   Groups of different particle/site types and other metrics may be defined.
   These groups then define a selection which can be used to distinguish subsets
@@ -39,23 +31,11 @@ class Domain;
   removal and displacement) of a selection of particles/sites.
 
   The spatial domain contains periodic boundaries and cells.
-
-  Finally, note that an optimization for grand canonical ensemble simulations
-  allows for the possibility of ghost particles.
-  Ghost particles do not interact and serve as a pool for adding/removing
-  particles in an optimized fashion without having to resize the particle
-  arrays.
-  Thus, one must use caution when accessing particles and sites by indices,
-  because these indices may include ghost particles.
  */
 class Configuration {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Domain arguments may be parsed here.
     - particle_type[i]: add the i-th type of particle.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
@@ -92,6 +72,27 @@ class Configuration {
     Types of sites and particles.
    */
   //@{
+
+  /*
+    Additional class notes for developers:
+
+    Before particles are physically added to the system, all particle types
+    which may exist must be defined.
+    Once particles are added to the system, new particle types cannot be added.
+    Similarly, site and bond types are also defined at the same time as particle
+    types and are referred to as unique types.
+    Unique types are stored in essentially the same fashion as particle types,
+    except they have been stripped of their non-unique sites and bonds.
+    Two different particles cannot share a site type.
+
+    Finally, note that an optimization for grand canonical ensemble simulations
+    allows for the possibility of ghost particles.
+    Ghost particles do not interact and serve as a pool for adding/removing
+    particles in an optimized fashion without having to resize the particle
+    arrays.
+    Thus, one must use caution when accessing particles and sites by indices,
+    because these indices may include ghost particles.
+   */
 
   /// Add a particle type that may exist in the simulation.
   /// See FileParticle.

@@ -135,7 +135,7 @@ def run_single(sim, params, args, sim_node_dependent_params, write_feasst_script
         if sim_node_dependent_params:
             sim_node_dependent_params(params)
         file_name = params['prefix']+str(sim)+'_run'
-        write_feasst_script(params, file_name=file_name+'.txt')
+        write_feasst_script(params, script_file=file_name+'.txt')
         syscode = subprocess.call(
             args.feasst_install+'bin/fst < '+file_name+'.txt  > '+file_name+'.log',
             shell=True, executable='/bin/bash')

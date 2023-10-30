@@ -16,10 +16,6 @@ class TrialGibbsParticleTransfer : public TrialFactoryNamed {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - configuration_index0: index of one of the configurations (default: 0).
     - configuration_index1: index of the other configuration (default: 1).
     - TrialSelectParticle arguments.

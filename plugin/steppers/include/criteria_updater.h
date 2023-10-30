@@ -13,11 +13,7 @@ class CriteriaUpdater : public ModifyUpdateOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
-    - Stepper args.
+    - Stepper arguments.
    */
   explicit CriteriaUpdater(argtype args = argtype());
   explicit CriteriaUpdater(argtype * args);

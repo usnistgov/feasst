@@ -340,7 +340,7 @@ class MonteCarlo {
   bool system_set_ = false;
   bool criteria_set_ = false;
 
-  bool duplicate_stepper_file_name_(const std::string file_name);
+  bool duplicate_stepper_output_file_(const std::string output_file);
   void parse_(arglist * args);
 };
 

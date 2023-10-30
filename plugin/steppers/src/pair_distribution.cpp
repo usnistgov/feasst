@@ -68,7 +68,7 @@ PairDistribution::PairDistribution(argtype * args) : Modify(args) {
   print_intra_ = boolean("print_intra", args, false);
   DEBUG("is multistate? " << is_multistate());
   DEBUG("is multistate agg? " << is_multistate_aggregate());
-  DEBUG("file name " << file_name());
+  DEBUG("output_file " << output_file());
 }
 PairDistribution::PairDistribution(argtype args) : PairDistribution(&args) {
   FEASST_CHECK_ALL_USED(args);

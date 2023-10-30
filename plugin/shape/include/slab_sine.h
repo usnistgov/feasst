@@ -25,8 +25,8 @@ namespace feasst {
  */
 class SlabSine : public ShapeIntersect {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - dimension: The slab surface is perpendicular to this dimensional axis.
     - wave_dimension : the wave travels along this dimension.
     - average_bound0: Set an average lower or upper value of the slab.
@@ -36,6 +36,11 @@ class SlabSine : public ShapeIntersect {
   explicit SlabSine(argtype args = argtype());
   explicit SlabSine(argtype * args);
 
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<SlabSine>(istr); }
@@ -43,6 +48,7 @@ class SlabSine : public ShapeIntersect {
     return std::make_shared<SlabSine>(args); }
   explicit SlabSine(std::istream& istr);
   virtual ~SlabSine() {}
+  //@}
 };
 
 inline std::shared_ptr<SlabSine> MakeSlabSine(argtype args = argtype()) {

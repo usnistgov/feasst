@@ -37,8 +37,8 @@ GhostTrialGrow::GhostTrialGrow(std::istream& istr) : Modify(istr) {
 }
 
 GhostTrialGrow::GhostTrialGrow(argtype * args) : Modify(args) {
-  const std::string trial_grow_file = str("trial_grow_file", args);
-  auto grow = MakeTrialGrowFile({{"file_name", trial_grow_file}});
+  const std::string grow_file = str("grow_file", args);
+  auto grow = MakeTrialGrowFile({{"grow_file", grow_file}});
   const int num_trials = static_cast<int>(grow->trials().size());
   ASSERT(num_trials == 1, "GhostTrialGrow needs just one trial, but there are "
     << num_trials << " trials.");
@@ -52,7 +52,8 @@ void GhostTrialGrow::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
   printer(header(*criteria, *system, *trial_factory),
-          file_name(*criteria));
+          output_file(*criteria));
+  // HWH double check this initialization
   const int conf = configuration_index();
   criteria_.set_current_energy(criteria->current_energy(), conf);
   criteria_.set_current_energy_profile(system->stored_energy_profile(conf), conf);
@@ -73,7 +74,11 @@ void GhostTrialGrow::update(Criteria * criteria,
   //  << acc.energy_new(conf) << " "
   //  << acc.energy_old(conf));
   //const double delta_energy = acc.energy_new(conf) - acc.energy_old(conf);
-  metropolis_prob_.accumulate(std::exp(acc.ln_metropolis_prob()));
+  if (acc.reject()) {
+    metropolis_prob_.accumulate(0.);
+  } else {
+    metropolis_prob_.accumulate(std::exp(acc.ln_metropolis_prob()));
+  }
   grow_.revert(trial_index, false, acc.reject(), system, &criteria_);
 }
 

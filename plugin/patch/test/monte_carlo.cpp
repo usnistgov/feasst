@@ -63,12 +63,12 @@ MonteCarlo patchmc(const int min, const int max) {
 //  mc.run(MakeRun({{"until_num_particles", "10"}}));
 //  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string trials_per = "1e5";
-  mc.add(MakeLog({{"trials_per_write", trials_per}, {"file_name", "tmp/patch_nvt.txt"}}));
-  mc.add(MakeMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/patch_nvt.xyz"}}));
+  mc.add(MakeLog({{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt.txt"}}));
+  mc.add(MakeMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt.xyz"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
-  mc.add(MakeMoviePatch({{"trials_per_write", trials_per}, {"file_name", "tmp/patch_nvt_vis.xyz"}}));
+  mc.add(MakeMoviePatch({{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt_vis.xyz"}}));
   mc.add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));
-  mc.add(MakeCriteriaWriter({{"trials_per_write", trials_per}, {"file_name", "tmp/patch_fh.txt"}}));
+  mc.add(MakeCriteriaWriter({{"trials_per_write", trials_per}, {"output_file", "tmp/patch_fh.txt"}}));
   MonteCarlo mc2 = test_serialize(mc);
   //mc2.run_until_complete();
   return mc2;

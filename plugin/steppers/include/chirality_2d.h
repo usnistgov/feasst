@@ -15,10 +15,6 @@ class Chirality2D : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - group: group index in Configuration (default: 0).
     - bond1: index of the first bond (default: 0).
     - bond2: index of the second bond (default: 1).

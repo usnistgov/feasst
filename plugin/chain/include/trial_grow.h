@@ -149,18 +149,20 @@ class TrialGrowFile : public TrialGrow {
   TrialGrowFile() : TrialGrow() {} // only use for deserialize_map.
   //@{
   /** @name Arguments
-   */
+    - grow_file: name of TrialGrowFile file with the following format:
 
-
-  /**
-    args:
-    - file_name: name of TrialGrowFile file with the following format:
       line1: TrialGrowFile
+
       line2: optional space
+
       line3: stage with key pair separated by space (e.g., "transfer true site 0")
+
       lineX: additional stages until end of file or empty line.
-      lineZ: additional trials with additional stages as described above,
+
+      lineY: additional trials with additional stages as described above,
              separated by empty lines.
+
+      See the tutorials for examples.
    */
   explicit TrialGrowFile(argtype args);
   explicit TrialGrowFile(argtype * args);

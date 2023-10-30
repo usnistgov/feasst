@@ -24,6 +24,10 @@ TransitionMatrix::TransitionMatrix(argtype * args) {
   collection_ = CollectionMatrix(args);
   average_visits_ = integer("average_visits", args, 0);
   new_sweep_ = integer("new_sweep", args, 0);
+  widom_ = boolean("widom", args, false);
+  if (widom_) {
+    collection_widom_ = deep_copy(collection_);
+  }
 }
 
 void TransitionMatrix::update(
@@ -53,17 +57,30 @@ void TransitionMatrix::update(
     }
   }
   double metropolis_prob = std::min(1., std::exp(ln_metropolis_prob));
+  double metropolis_prob_widom = std::exp(ln_metropolis_prob);
   DEBUG("macrostate_old " << macrostate_old << " index " << index);
   DEBUG("metropolis_prob " << metropolis_prob);
   if (index == 0) {
     collection_.increment(macrostate_old, 0, metropolis_prob);
     collection_.increment(macrostate_old, 1, 0.);
+    if (widom_) {
+      collection_widom_.increment(macrostate_old, 0, metropolis_prob_widom);
+      collection_widom_.increment(macrostate_old, 1, 0.);
+    }
   } else if (index == 1) {
     collection_.increment(macrostate_old, 0, 0.);
     collection_.increment(macrostate_old, 1, 0.);
+    if (widom_) {
+      collection_widom_.increment(macrostate_old, 0, 0.);
+      collection_widom_.increment(macrostate_old, 1, 0.);
+    }
   } else if (index == 2) {
     collection_.increment(macrostate_old, 0, 0.);
     collection_.increment(macrostate_old, 1, metropolis_prob);
+    if (widom_) {
+      collection_widom_.increment(macrostate_old, 0, 0.);
+      collection_widom_.increment(macrostate_old, 1, metropolis_prob_widom);
+    }
   } else {
     FATAL("unrecognized index: " << index);
   }
@@ -73,6 +90,9 @@ void TransitionMatrix::resize(const int size) {
   ln_prob_.resize(size);
   feasst::resize(size, 2, &visits_);
   collection_.resize(size);
+  if (widom_) {
+    collection_widom_.resize(size);
+  }
 }
 
 std::string TransitionMatrix::write() const {
@@ -88,6 +108,9 @@ std::string TransitionMatrix::write_per_bin_header() const {
   ss << Bias::write_per_bin_header() << ",";
   ss << "visits0,visits1,";
   ss << collection_.write_per_bin_header();
+  if (widom_) {
+    ss << collection_widom_.write_per_bin_header(true);
+  }
   return ss.str();
 }
 
@@ -96,6 +119,9 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
   ss << Bias::write_per_bin(bin) << ",";
   ss << MAX_PRECISION << visits_[bin][0] << "," << visits_[bin][1] << ",";
   ss << collection_.write_per_bin(bin);
+  if (widom_) {
+    ss << collection_widom_.write_per_bin(bin, true);
+  }
   return ss.str();
 }
 
@@ -168,8 +194,7 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
   : Bias(istr) {
   ASSERT(class_name_ == "TransitionMatrix", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(667 == version || version == 668 || version == 669,
-    "mismatch version: " << version);
+  ASSERT(version >= 667 && version <= 670, "mismatch version: " << version);
   feasst_deserialize_fstobj(&ln_prob_, istr);
   feasst_deserialize_fstobj(&collection_, istr);
   feasst_deserialize(&visits_, istr);
@@ -180,6 +205,10 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
   if (version > 668) {
     feasst_deserialize(&average_visits_, istr);
     feasst_deserialize(&new_sweep_, istr);
+  }
+  if (version > 669) {
+    feasst_deserialize(&widom_, istr);
+    feasst_deserialize_fstobj(&collection_widom_, istr);
   }
 //  if (version == 667) {  // HWH backwards compatability
 //    int num_blocks, iter_block;
@@ -195,7 +224,7 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
 void TransitionMatrix::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_bias_(ostr);
-  feasst_serialize_version(669, ostr);
+  feasst_serialize_version(670, ostr);
   feasst_serialize_fstobj(ln_prob_, ostr);
   feasst_serialize_fstobj(collection_, ostr);
   feasst_serialize(visits_, ostr);
@@ -205,12 +234,20 @@ void TransitionMatrix::serialize(std::ostream& ostr) const {
   feasst_serialize(reset_sweeps_, ostr);
   feasst_serialize(average_visits_, ostr);
   feasst_serialize(new_sweep_, ostr);
+  feasst_serialize(widom_, ostr);
+  feasst_serialize_fstobj(collection_widom_, ostr);
 }
 
 bool TransitionMatrix::is_equal(const TransitionMatrix& transition_matrix,
     const double tolerance) const {
   if (!collection_.is_equal(transition_matrix.collection_, tolerance)) {
     return false;
+  }
+  if (widom_) {
+    if (!collection_widom_.is_equal(transition_matrix.collection_widom_,
+                                    tolerance)) {
+      return false;
+    }
   }
   if (!ln_prob_.is_equal(transition_matrix.ln_prob_, tolerance)) {
     return false;
@@ -241,12 +278,14 @@ TransitionMatrix::TransitionMatrix(const Bias& bias) {
 }
 
 void TransitionMatrix::set_cm(const int macro, const Bias& bias) {
+  ASSERT(!widom_, "not implemented with widom argument.");
   collection_.set(macro, bias.cm().matrix()[macro]);
   visits_[macro][0] = bias.visits(macro, 0);
   visits_[macro][1] = bias.visits(macro, 1);
 }
 
 void TransitionMatrix::set_cm(const CollectionMatrix& cm) {
+  ASSERT(!widom_, "not implemented with widom argument.");
   collection_ = cm;
   const int size = collection_.matrix().size();
   ln_prob_.resize(size);

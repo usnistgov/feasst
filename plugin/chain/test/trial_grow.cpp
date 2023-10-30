@@ -32,7 +32,7 @@ TEST(TrialGrow, angle_distribution_LONG) {
     {{"default_reference_index", "0"}, {"default_num_steps", "4"},
      {"bond", "true"}, {"particle_type", "0"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
     {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}}));
-  mc.add(MakeMovie({{"file_name", "tmp/ang"}}));
+  mc.add(MakeMovie({{"output_file", "tmp/ang"}}));
   mc.add(MakeEnergy());
   mc.attempt(1e5);
   EXPECT_NEAR(mc.analyze(mc.num_analyzers()-1).accumulator().average(), -0.087910, 0.00001);
@@ -50,7 +50,7 @@ TEST(TrialGrow, bond_harmonic) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialGrow({
     {{"bond", "true"}, {"particle_type", "0"}, {"mobile_site", "1"}, {"anchor_site", "0"}}}));
-  mc.add(MakeMovie({{"file_name", "tmp/bond"}}));
+  mc.add(MakeMovie({{"output_file", "tmp/bond"}}));
   while (mc.trial(0).num_success() < 2) {
     mc.attempt(1);
   }
@@ -58,7 +58,7 @@ TEST(TrialGrow, bond_harmonic) {
 
 TEST(TrialGrow, file) {
   auto trial = MakeTrialGrowFile({
-    {"file_name", "../plugin/chain/test/data/dimer_grow_file.txt"}});
+    {"grow_file", "../plugin/chain/test/data/dimer_grow_file.txt"}});
   EXPECT_EQ(static_cast<int>(trial->trials().size()), 5);
   EXPECT_EQ(trial->trials()[0]->weight(), 50);
   EXPECT_EQ(trial->trials()[1]->weight(), 50);

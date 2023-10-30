@@ -118,9 +118,9 @@ TEST(MayerSampling, square_well_LONG) {
   mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"},
     {"tunable_param", "1"}, {"particle_type", "1"}}));
   std::string trials_per = "1e4";
-  mc.add(MakeLog({{"trials_per_write", trials_per}, {"file_name", "tmp/sqw.txt"}}));
-  mc.add(MakeMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/sqw.xyz"}}));
-  mc.add(MakeTune({{"trials_per_write", trials_per}, {"file_name", "tmp/tune.txt"}}));
+  mc.add(MakeLog({{"trials_per_write", trials_per}, {"output_file", "tmp/sqw.txt"}}));
+  mc.add(MakeMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/sqw.xyz"}}));
+  mc.add(MakeTune({{"trials_per_write", trials_per}, {"output_file", "tmp/tune.txt"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e6);
   std::stringstream ss;
@@ -152,8 +152,8 @@ TEST(MayerSampling, cg4_rigid_LONG) {
   mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
     {"tunable_param", "40"}}));
   std::string trials_per = "1e4";
-  mc.add(MakeLog({{"trials_per_write", trials_per}, {"file_name", "tmp/cg4.txt"}}));
-  mc.add(MakeMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/cg4.xyz"}}));
+  mc.add(MakeLog({{"trials_per_write", trials_per}, {"output_file", "tmp/cg4.txt"}}));
+  mc.add(MakeMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/cg4.xyz"}}));
   mc.add(MakeTune());
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e6);
@@ -204,8 +204,8 @@ TEST(MayerSampling, cg4_rigid_LONG) {
 //  mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
 //    {"tunable_param", "40"}}));
 //  std::string trials_per = "1e5";
-//  mc.add(MakeLog({{"trials_per", trials_per}, {"file_name", "tmp/spce.txt"}}));
-//  mc.add(MakeMovie({{"trials_per", trials_per}, {"file_name", "tmp/spce.xyz"}}));
+//  mc.add(MakeLog({{"trials_per", trials_per}, {"output_file", "tmp/spce.txt"}}));
+//  mc.add(MakeMovie({{"trials_per", trials_per}, {"output_file", "tmp/spce.xyz"}}));
 //  mc.add(MakeTune({{"trials_per", trials_per}}));
 //  mc.attempt(1e6);
 //  mc.run(MakeRemoveModify({{"name", "Tune"}}));
@@ -274,7 +274,7 @@ TEST(MayerSampling, trimer_LONG) {
   mc.add(MakeTrialRotate({{"new_only", "true"}, {"reference_index", "0"},
     {"tunable_param", "40"}}));
   const std::string trials_per = "1e4";
-//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/trib"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/trib"}}));
   mc.attempt(1e6);
   double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().select("sigma").value(0), 3); // A^3
   INFO(mayer->second_virial_ratio());

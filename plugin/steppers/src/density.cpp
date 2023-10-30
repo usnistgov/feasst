@@ -23,7 +23,7 @@ void Density::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
   printer(header(*criteria, *system, *trial_factory),
-          file_name(*criteria));
+          output_file(*criteria));
 }
 
 std::string Density::header(const Criteria& criteria,

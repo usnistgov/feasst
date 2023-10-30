@@ -17,10 +17,6 @@ class TrialSelectBond : public TrialSelect {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - mobile_site: index of the mobile site.
     - anchor_site: index of the anchor site.
     - ignore_bond: if true, do not try to find a bond between mobile and anchor.

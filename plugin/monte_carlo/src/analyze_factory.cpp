@@ -115,7 +115,7 @@ void AnalyzeFactory::trial(const Criteria& criteria,
           ss << write_blocks_(min_block, analyzers_[state]->accumulator());
           ss << std::endl;
         }
-        printer(ss.str(), file_name(criteria));
+        printer(ss.str(), output_file(criteria));
       }
     } else {
       trial_(criteria, system, trial_factory, criteria.state());
@@ -153,7 +153,7 @@ void AnalyzeFactory::write_to_file(const Criteria& criteria,
         ss << write_blocks_(min_block, analyzers_[state]->accumulator());
         ss << std::endl;
       }
-      printer(ss.str(), file_name(criteria));
+      printer(ss.str(), output_file(criteria));
     } else {
       analyzers_[criteria.state()]->write_to_file(criteria, system, trial_factory);
     }

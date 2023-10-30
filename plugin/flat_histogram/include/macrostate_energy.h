@@ -15,10 +15,6 @@ class MacrostateEnergy : public Macrostate {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - particle_type: number of particles of type. If -1 (default), count all
       types.
     - Macrostate arguments.
@@ -26,7 +22,7 @@ class MacrostateEnergy : public Macrostate {
   explicit MacrostateEnergy(argtype args = argtype());
   explicit MacrostateEnergy(argtype * args) :
     MacrostateEnergy(Histogram(args), args) {}
-  
+
   //@}
   /** @name Public Functions
    */
@@ -35,7 +31,7 @@ class MacrostateEnergy : public Macrostate {
   /// Arguments as described above, but with explicit histogram object.
   MacrostateEnergy(const Histogram& histogram, argtype args = argtype());
   MacrostateEnergy(const Histogram& histogram, argtype * args);
-  
+
   double value(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) const override;

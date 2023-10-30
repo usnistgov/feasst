@@ -50,17 +50,17 @@ MonteCarlo monte_carlo2(const int thread, const int min, const int max,
     //MakeWLTM({{"min_sweeps", "100000"}, {"new_sweep", "1"}, {"min_flatness", "25"}, {"collect_flatness", "20"}})));//, {"max_block_operations", "6"}})));
     MakeTransitionMatrix({{"min_sweeps", "100000"}, {"new_sweep", "1"}})));//, {"max_block_operations", "6"}})));
   mc.add(MakeCheckEnergy({{"trials_per_write", str(trials_per)}}));
-  mc.add(MakeTune({{"trials_per_write", str(trials_per)}, {"multistate", "true"}, {"file_name", "tune" + str(thread)}}));
+  mc.add(MakeTune({{"trials_per_write", str(trials_per)}, {"multistate", "true"}, {"output_file", "tune" + str(thread)}}));
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
-//    {"file_name", "tmp/clones" + str(thread)}}));
+//    {"output_file", "tmp/clones" + str(thread)}}));
   mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per_write", str(trials_per)},
-    {"file_name", "tmp/clones" + str(thread) + "_crit.txt"}}));
+    {"output_file", "tmp/clones" + str(thread) + "_crit.txt"}}));
   mc.set(MakeCheckpoint({{"num_hours", "0.0001"},
-    {"file_name", "tmp/clone" + str(thread) + ".fst"}}));
+    {"checkpoint_file", "tmp/clone" + str(thread) + ".fst"}}));
   mc.add(MakeEnergy({
-    {"file_name", "tmp/clone_energy" + str(thread)},
+    {"output_file", "tmp/clone_energy" + str(thread)},
     {"trials_per_update", "1"},
     {"trials_per_write", str(trials_per)},
     {"multistate", "true"}}));
@@ -154,7 +154,7 @@ TEST(CollectionMatrixSplice, lj_fh_LONG) {
   EXPECT_NEAR(clones2.clone(1).analyze(en_index[0]).analyze(4).accumulator().average(), -0.29619201333333334, 0.006*3);
 //  INFO(SeekAnalyze().reference("Energy", clones2.clone(1)).accumulator().average());
 
-  MakeCheckpoint({{"file_name", "tmp/clones.fst"}})->write(clones2);
+  MakeCheckpoint({{"checkpoint_file", "tmp/clones.fst"}})->write(clones2);
   auto clones3 = MakeCollectionMatrixSplice("tmp/clones.fst");
 }
 

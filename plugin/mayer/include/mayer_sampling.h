@@ -17,10 +17,6 @@ class MayerSampling : public Criteria {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - num_trials_per_iteration: define an iteration as a number of trials
       (as measured by number of calls to is_accepted) default: 1e9.
     - intra_potential: index of intramolecular potential that will be used

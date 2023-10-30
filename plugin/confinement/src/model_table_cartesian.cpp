@@ -288,11 +288,11 @@ ModelTableCart3DIntegr::ModelTableCart3DIntegr(
 
 ModelTableCart3DIntegr::ModelTableCart3DIntegr(argtype *args) {
   class_name_ = "ModelTableCart3DIntegr";
-  const std::string file_name = str("file_name", args);
-  // if file_name is the only argument, then read from file
+  const std::string table_file = str("table_file", args);
+  // if table_file is the only argument, then read from file
   INFO(args->size());
   if (static_cast<int>(args->size()) == 0) {
-    read(file_name);
+    read(table_file);
     return;
   }
   // otherwise, generate the table and write
@@ -301,7 +301,7 @@ ModelTableCart3DIntegr::ModelTableCart3DIntegr(argtype *args) {
   auto domain = std::make_shared<Domain>(args);
   ASSERT(domain->dimension() != 0, "Domain arguments are required.");
   INFO("args " << str(*args));
-  auto shape = MakeShapeFile({{"file_name", str("shape_file_name", args)}});
+  auto shape = MakeShapeFile({{"shape_file", str("shape_file", args)}});
   INFO(shape->class_name());
   //ASSERT(config.num_site_types() <= 1, "only implemented for single site");
   const int site_type = 0;
@@ -316,7 +316,7 @@ ModelTableCart3DIntegr::ModelTableCart3DIntegr(argtype *args) {
   } else {
     compute_table(shape.get(), *domain, random.get(), args, site_type);
   }
-  write(file_name);
+  write(table_file);
 }
 ModelTableCart3DIntegr::ModelTableCart3DIntegr(argtype args) : ModelTableCart3DIntegr(&args) {
   FEASST_CHECK_ALL_USED(args);

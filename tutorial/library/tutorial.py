@@ -33,10 +33,11 @@ mc.run(fst.MakeRun(fst.args({"until_num_particles": "50"})))
 # nvt equilibration
 mc.run(fst.MakeRemoveTrial(fst.args({"name": "TrialAdd"})))
 mc.set(fst.MakeThermoParams(fst.args({"beta": str(args.beta)})))
-mc.add(fst.MakeCheckEnergy(fst.args({"trials_per" : "1e5", "tolerance" : "1e-8"})))
+mc.add(fst.MakeCheckEnergy(fst.args({"trials_per_update" : "1e5", "tolerance" : "1e-8"})))
 mc.add(fst.MakeTune())
 mc.run(fst.MakeRun(fst.args({"num_trials": "1e5"})))
 
 # nvt production
-mc.add(fst.MakeLogAndMovie(fst.args({"trials_per" : "1e5", "file_name" : "lj"})))
+mc.add(fst.MakeLog(fst.args({"trials_per_write" : "1e5", "output_file" : "lj.csv"})))
+mc.add(fst.MakeMovie(fst.args({"trials_per_write" : "1e5", "output_file" : "lj.xyz"})))
 mc.run(fst.MakeRun(fst.args({"num_trials": args.trials})))

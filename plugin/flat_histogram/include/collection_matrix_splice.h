@@ -36,10 +36,6 @@ class CollectionMatrixSplice {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - min_window_size: minimum size of window boundaries during adjustment.
       If -1, do not adjust window boundaries (default: 5).
     - hours_per: hours per bounds adjustment, checkpoint and writing the

@@ -17,10 +17,6 @@ class SelectParticlePivot : public TrialSelect {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - pivot_site: set the site index in selection with which to use as the
       pivot for rotation (default: 0).
    */

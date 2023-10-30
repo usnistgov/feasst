@@ -18,10 +18,6 @@ class Mie : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - n: set the value of \f$n\f$ (default: 12).
     - m: set the value of \f$m\f$ (default: 6).
    */

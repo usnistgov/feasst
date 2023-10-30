@@ -15,10 +15,6 @@ class SelectCrankshaftSmall : public TrialSelectParticle {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - site[i]: add the (i+1)-th mobile site, beginning with i=1,
       where "site" is the first mobile site.
       The "[i]" is to be substituted for an integer 1, 2, 3 ...

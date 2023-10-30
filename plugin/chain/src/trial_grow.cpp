@@ -425,16 +425,24 @@ void TrialGrowFile::add_(const argtype add_args, std::vector<argtype> * args) {
 // Convert file contents to a list of argtypes to use in the above constructor
 TrialGrowFile::TrialGrowFile(argtype * args) : TrialGrow() {
   class_name_ = "TrialGrowFile";
-  const std::string file_name = str("file_name", args);
+  std::string grow_file = str("grow_file", args, "");
+  if (grow_file.empty()) {
+    if (used("file_name", *args)) {
+      WARN("TrialGrowFile::file_name renamed to grow_file.");
+      grow_file = str("file_name", args);
+    } else {
+      FATAL("TrialGrowFile::grow_file is a required argument.");
+    }
+  }
   std::vector<argtype> reformated;
-  std::ifstream file(file_name);
-  ASSERT(file.good(), "cannot find " << file_name);
+  std::ifstream file(grow_file);
+  ASSERT(file.good(), "cannot find " << grow_file);
   // until end of file, find TrialGrowFile
   // check for optional empty line
   // read each line as all arguments in one stage
   // when empty line or end of file is reached, add Trial and repeat
   const bool is_found = find("TrialGrowFile", file);
-  ASSERT(is_found, "TrialGrowFile not found in " << file_name);
+  ASSERT(is_found, "TrialGrowFile not found in " << grow_file);
   std::string line;
   while (std::getline(file, line)) {
     if (line.empty()) {

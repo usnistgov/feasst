@@ -32,10 +32,6 @@ class PressureFromTestVolume : public Modify {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - delta_volume: test volume change (default: 1e-4).
    */
   explicit PressureFromTestVolume(argtype args = argtype());

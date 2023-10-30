@@ -12,10 +12,6 @@ class TrialParticlePivot : public TrialMove {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Trial arguments.
     - TrialStage arguments.
     - SelectParticlePivot arguments.

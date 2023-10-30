@@ -16,10 +16,6 @@ class VisitModelCell : public VisitModel {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - min_length: build cell list with given minimum distance between cells
       as a floating point number.
       If "max_sigma" then use the largest mixed sigma value.

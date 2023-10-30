@@ -18,13 +18,9 @@ class RefPotential : public Action {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
-    - Same arguments as Potential.
     - reference_index: index of reference potential (default: 0).
     - configuration_index: index of configuration potential (default: 0).
+    - Potential arguments.
    */
   explicit RefPotential(argtype args = argtype());
   explicit RefPotential(argtype * args);

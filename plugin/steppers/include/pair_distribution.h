@@ -37,18 +37,17 @@ class PairDistributionInner : public ModelTwoBody {
 typedef std::pair<double, std::vector<std::vector<double> > > grbintype;
 typedef std::vector<grbintype> grtype;
 
-// HWH should be Analyze, but Potential.energy requires Configuration *
 /**
-  Pair distributions
+  Compute pair distributions.
+  This class effectively functions as an Analyze because it does not change the
+  System.
+  However, the pair distance calculation utilizes Potential::energy, which
+  requires a pointer to Configuration.
  */
 class PairDistribution : public Modify {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - dr: radial distribution bin size (default: 0.1).
     - print_intra: print the intramolecular distributions (default: false).
    */

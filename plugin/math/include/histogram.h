@@ -20,10 +20,6 @@ class Histogram {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - width: constant bin width (optional)
     - max: maximum value (required)
     - min: minimum value (default: 0)

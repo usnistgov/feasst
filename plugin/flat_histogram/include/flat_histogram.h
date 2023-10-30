@@ -26,16 +26,9 @@ class FlatHistogram : public Criteria {
 
   //@{
   /** @name Arguments
-   */
-
-  /**
-    This is a flattened constructor which takes arguments for Macrostate,
-    Bias and Criteria arguments (e.g., Constraints).
-
-    args:
     - Macrostate: MacrostateNumParticles, MacrostateEnergy, etc
     - Bias: WangLandau, TransitionMatrix, WLTM, etc.
-    - Criteria args.
+    - Criteria arguments.
    */
   explicit FlatHistogram(argtype args);
   explicit FlatHistogram(argtype * args);

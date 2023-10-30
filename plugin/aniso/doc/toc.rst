@@ -4,3 +4,4 @@
    Anisotropic
    VisitModelInnerTable
    ContactObjective
+   TabulateTwoRigidBody3D

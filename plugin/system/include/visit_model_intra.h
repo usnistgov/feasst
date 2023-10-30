@@ -18,16 +18,12 @@ class VisitModelIntra : public VisitModel {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - intra_cut: ignore the interaction between a pair of sites when the difference
       between their indices, |i-j| <= intra_cut (integer, default: -1).
    */
   explicit VisitModelIntra(argtype args = argtype());
   explicit VisitModelIntra(argtype * args);
-  
+
   //@}
   /** @name Public Functions
    */

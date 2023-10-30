@@ -12,10 +12,6 @@ class TrialRemove : public Trial {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Trial arguments.
     - TrialSelectParticle arguments.
     - TrialStage arguments.

@@ -21,10 +21,6 @@ class Macrostate {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - soft_macro_max : optionally, set a soft maximum (default: last histogram bin).
       These soft limits may be changed during a simulation.
       Note that this max is a macrostate value, not an integer bin index.

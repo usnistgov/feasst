@@ -16,10 +16,6 @@ class TrialVolume : public Trial {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - Trial arguments.
     - PerturbVolume arguments.
     - Tunable arguments.

@@ -15,10 +15,6 @@ class Tune : public Modify {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - trials_per_tune: number of attempted trials per tune (default: 1e3).
     - Stepper arguments.
    */

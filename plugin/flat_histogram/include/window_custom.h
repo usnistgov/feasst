@@ -16,12 +16,9 @@ class WindowCustom : public Window {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - min[i]: minimum macrostate value of the i-th window.
     - max: maximum of the largest window.
+    - Window arguments.
    */
   explicit WindowCustom(argtype args = argtype());
 

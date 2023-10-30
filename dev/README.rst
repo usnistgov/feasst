@@ -309,6 +309,7 @@ For quick reference
 * clear tutorial errors [ for fl in `find . -name 'tutorial_failures.txt'`; do echo $fl; rm $fl; done ]
 * clean docs before running depend.py again [ for dir in `ls --color=never -d *`; do rm $dir/doc/*rst; done ]
 * screen html errors [ make html > tt 2&>1; grep -v "WARNING: document i" tt | grep -v "WARNING: Duplicate" | grep -v "Declaration is" > ttt ]
+* find all headers in the public interface [ find . -name '*.h' | xargs grep "^  \/\*\* \@name Arguments$" ]
 * find difference in serialization string: [ diff -u f1 f2 |colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]
 
 To Do List
@@ -373,3 +374,6 @@ To Do List
 * tutorials which segfault on restart dont report errors in automated tests
 * remove prefix from argparse in tutorials: prefix can't change in slurm runs
 * Add Stepper arguments to text interface documentation
+* Move Trial checks so that they can be applied to GhostTrialGrow
+* Define the public text interface. Add an automated check to see if any of the public interface classes or arguments change. Enforce argument uniqueness (derived classes exception?).
+* ReadConfigFromFile argument is an input_file, not an output_file

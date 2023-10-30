@@ -31,10 +31,6 @@ class SlabCorrection : public VisitModel {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - dimension: dimension of periodically replicated slab.
    */
   explicit SlabCorrection(argtype args);

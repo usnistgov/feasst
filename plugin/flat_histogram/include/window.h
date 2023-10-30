@@ -42,10 +42,6 @@ class Window {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - minimum: minimum in macrostate range (default: 0).
     - maximum: maximum in macrostate range (default: -1).
     - num: number of windows (default: -1).

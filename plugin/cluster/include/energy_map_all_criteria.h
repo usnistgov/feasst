@@ -15,10 +15,6 @@ class EnergyMapAllCriteria : public EnergyMapAll {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - neighbor_index: NeighborCriteria index contained in Configuration (default: 0).
    */
   explicit EnergyMapAllCriteria(argtype args = argtype());

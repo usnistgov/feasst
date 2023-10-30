@@ -13,8 +13,8 @@ namespace feasst {
  */
 class Cylinder : public Shape {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - radius: radius of the cylinder.
     - first_point: set the unique key for the first_point positions.
       Thus, arguments of "key[i]" are expected to follow.
@@ -24,6 +24,11 @@ class Cylinder : public Shape {
    */
   explicit Cylinder(argtype args);
   explicit Cylinder(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   const Position& first_point() const { return point0_; }
   const Position& second_point() const { return point1_; }
@@ -38,6 +43,7 @@ class Cylinder : public Shape {
   explicit Cylinder(std::istream& istr);
   virtual ~Cylinder() {}
 
+  //@}
  private:
   double radius_;
   Position point0_, point1_;

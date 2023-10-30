@@ -16,11 +16,7 @@ class WriteModelParams : public Action {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
-    - file_name: name of file to write.
+    - output_file: name of file to write.
     - potential_index: index of potential.
       If -1, use Configuration (default: -1)
     - reference_index: index of reference potential (default: -1).
@@ -46,7 +42,7 @@ class WriteModelParams : public Action {
  private:
   int potential_index_;
   int reference_index_;
-  std::string file_name_;
+  std::string output_file_;
 };
 
 inline std::shared_ptr<WriteModelParams> MakeWriteModelParams(

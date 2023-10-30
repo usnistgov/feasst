@@ -20,10 +20,6 @@ class TrialSelect {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - group_index: index of group defined within system (default: 0).
     - group: name of group defined within system (default: "").
     - particle_type: type of particle in configuration (default: -1)

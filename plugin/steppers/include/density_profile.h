@@ -14,10 +14,6 @@ class DensityProfile : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - dimension: profile runs along this dimension (default: 0).
     - dr: profile bin size (default: 0.1).
     - center: specify the center of a single bin (default: 0.).

@@ -42,16 +42,6 @@ Thermodynamic ensembles
 * Temperature and growth expanded ensembles
 * Gibbs ensemble
 
-Monte Carlo trials
-
-* Translation, rotation, crankshaft, pivot
-* Rigid cluster rotation and translation
-* Configurational bias transfers and partial regrowth
-* Dual-cut configurational bias
-* Aggregation volume bias
-* Reptation
-* Branches
-
 Interaction potentials
 
 * Hard spheres
@@ -63,6 +53,16 @@ Interaction potentials
 * TraPPE small molecules and n-alkanes
 * Slab, cylindrical and spherical confinement
 * Cell list and neighbor list
+
+Monte Carlo trials
+
+* Translation, rotation, crankshaft, pivot
+* Rigid cluster rotation and translation
+* Configurational bias transfers and partial regrowth
+* Dual-cut configurational bias
+* Aggregation volume bias
+* Reptation
+* Branches
 
 Modern software
 
@@ -93,7 +93,8 @@ How to install (e.g., compile the executables)
     # optional python packages for feasst tutorials
     pip install ../pyfeasst jupyter matplotlib pandas scipy
 
-The executables `fst`, which is used to start a simulation, and `rst`, which is used to restart a simulation, should now be located in `/path/to/feasst/build/bin/`.
+The executables `fst` and `rst` should appear in `/path/to/feasst/build/bin/`.
+Text input files are run using `fst < input.txt` while simulations are restarted using `rst checkpoint.txt`.
 
 Troubleshooting install
 ------------------------

@@ -30,15 +30,16 @@ namespace feasst {
   For example, if the system undergoes a random walk deviation of size delta,
   it may deviate by the square root of the number of trials, where the size
   delta may be related to the number of interaction sites.
+
+  This class effectively functions as an Analyze because it does not change the
+  System within the specified tolerance.
+  However, the energy is recomputed and therefore the System is technically
+  modified.
  */
 class CheckEnergy : public ModifyUpdateOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - tolerance: relative absolute difference between running energy
       and recomputed energy (default: 1e-10).
     - Stepper arguments.

@@ -47,10 +47,6 @@ class TablePotential : public VisitModelInner {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - table_file: table file with format described above.
    */
   explicit TablePotential(argtype args = argtype());

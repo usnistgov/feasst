@@ -20,9 +20,9 @@ int main(int argc, char ** argv) {
   feasst::CollectionMatrixSplice cms;
   bool is_mc = false;
   try {
-    feasst::MakeCheckpoint({{"file_name", std::string(argv[1])}})->read(&cms);
+    feasst::MakeCheckpoint({{"checkpoint_file", std::string(argv[1])}})->read(&cms);
   } catch (const feasst::CustomException& e) {
-    feasst::MakeCheckpoint({{"file_name", std::string(argv[1])}})->read(&mc);
+    feasst::MakeCheckpoint({{"checkpoint_file", std::string(argv[1])}})->read(&mc);
     is_mc = true;
   }
   if (is_mc) {

@@ -15,10 +15,6 @@ class ConstrainNumParticles : public Constraint {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - maximum: maximum number of particles. If -1, no limit (default: -1).
     - minimum: minimum number of particles (default: 0).
     - type: particle type. If -1, all types (default: -1).

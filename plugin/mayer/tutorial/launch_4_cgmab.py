@@ -164,9 +164,9 @@ for index, x in enumerate(hinge['x_coord']):
 rg2 /= len(hinge['x_coord'])
 print('2rg=sigma_hinge', 2*np.sqrt(rg2)/10, 'nm vs 1.52')
 
-def write_feasst_script(params, file_name):
+def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
-    with open(file_name, 'w', encoding='utf-8') as myfile:
+    with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
@@ -180,21 +180,21 @@ ThermoParams beta 1
 MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialTranslate new_only true reference_index 0 tunable_param 1 group first
 TrialRotate new_only true reference_index 0 tunable_param 40
-Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 set_variable trials_per 1e4
 
 # tune trial parameters
-CriteriaWriter trials_per_write trials_per file_name {prefix}_{domain}_b2_eq.txt
-#Log trials_per_write trials_per file_name {prefix}_{domain}_eq.txt
-#Movie trials_per_write trials_per file_name {prefix}_{domain}_eq.xyz
+CriteriaWriter trials_per_write trials_per output_file {prefix}_{domain}_b2_eq.txt
+#Log trials_per_write trials_per output_file {prefix}_{domain}_eq.txt
+#Movie trials_per_write trials_per output_file {prefix}_{domain}_eq.xyz
 Tune
 Run until_criteria_complete true
 RemoveModify name Tune
 
 # production
-CriteriaWriter trials_per_write trials_per file_name {prefix}_{domain}_b2.txt
-#Log trials_per_write trials_per file_name {prefix}_{domain}.txt
-#Movie trials_per_write trials_per file_name {prefix}_{domain}.xyz
+CriteriaWriter trials_per_write trials_per output_file {prefix}_{domain}_b2.txt
+#Log trials_per_write trials_per output_file {prefix}_{domain}.txt
+#Movie trials_per_write trials_per output_file {prefix}_{domain}.xyz
 MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
 Run until_criteria_complete true
 """.format(**params))

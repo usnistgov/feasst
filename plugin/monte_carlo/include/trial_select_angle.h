@@ -25,10 +25,6 @@ class TrialSelectAngle : public TrialSelectBond {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - anchor_site2 : index of second anchor site.
     - TrialSelectBond arguments.
    */

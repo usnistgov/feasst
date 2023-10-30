@@ -14,8 +14,8 @@ class Random;
  */
 class Sphere : public Shape {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - radius: Set the radius of the sphere (default: 1).
     - center: set the unique key for the center positions.
       Thus, arguments of "key[i]" are expected to follow.
@@ -25,6 +25,10 @@ class Sphere : public Shape {
    */
   explicit Sphere(argtype args = argtype());
   explicit Sphere(argtype * args);
+  //@}
+  /** @name Public Functions
+   */
+  //@{
   const Position& center() const { return center_; }
   double nearest_distance(const Position& point) const override;
   double surface_area() const override;
@@ -50,6 +54,7 @@ class Sphere : public Shape {
   explicit Sphere(std::istream& istr);
   virtual ~Sphere() {}
 
+  //@}
  private:
   double radius_;
   Position center_;

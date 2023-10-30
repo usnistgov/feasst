@@ -14,11 +14,7 @@ class CPUTime : public AnalyzeWriteOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
-    - Stepper args.
+    - Stepper arguments.
    */
   explicit CPUTime(argtype args = argtype());
   explicit CPUTime(argtype * args);

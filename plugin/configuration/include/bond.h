@@ -62,7 +62,9 @@ class Angle : public Bond {
 };
 
 /**
-  This a place holder. Dihedrals are not fully implemented.
+  A Dihedral has four site indicies, listed in order of the angle.
+  For example, dihedral ABCD has a vertex along the BC vector.
+  The 0 index is A, 1 is B, 2 is C and 3 is D.
  */
 class Dihedral : public Bond {
  public:
@@ -71,7 +73,7 @@ class Dihedral : public Bond {
 };
 
 /**
-  This a place holder. Impropers are not fully implemented.
+  Impropers are not fully implemented.
  */
 class Improper : public Bond {
  public:

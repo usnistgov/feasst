@@ -69,14 +69,14 @@ PARAMS['charge_plus'] = 1./np.sqrt(1.602176634E-19**2/(4*np.pi*8.8541878128E-12*
 PARAMS['charge_minus'] = -PARAMS['charge_plus']
 PARAMS['dccb_cut'] = PARAMS['cubic_side_length']/int(PARAMS['cubic_side_length']/PARAMS['dccb_cut']) # maximize inside box
 
-def write_feasst_script(params, file_name):
+def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
-    with open(file_name, 'w', encoding='utf-8') as myfile:
+    with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 # first, initialize multiple clones into windows
 CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}n{node}_lnpi.txt min_window_size -1
 WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 2.5 min_size 2
-Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {plus} particle_type1 {minus} cutoff 4.891304347826090 charge0 {charge_plus} charge1 {charge_minus}
@@ -92,7 +92,7 @@ CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 # gcmc initialization and nvt equilibration
 TrialAdd weight 1 particle_type 0 reference_index 0 num_steps 8
 TrialAdd weight 1 particle_type 1 reference_index 0 num_steps 8
-Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.txt
 Tune
 Run until_num_particles [soft_macro_min]
 RemoveTrial name TrialAdd
@@ -108,13 +108,13 @@ FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min 
   Constraint AEqualB extra_A 1
 TrialTransfer weight 1 particle_type 0 reference_index 0 num_steps 8
 TrialTransfer weight 1 particle_type 1 reference_index 0 num_steps 8
-Log trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].txt
-Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
-Movie trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index].xyz start_after_iteration 1
-Tune trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
+Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].txt
+Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
+Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].xyz start_after_iteration 1
+Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
+Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {trials_per_iteration} file_name {prefix}n{node}s[sim_index]_crit.txt
+CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
 """.format(**params))
 
 def post_process(params):

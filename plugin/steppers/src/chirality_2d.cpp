@@ -38,7 +38,7 @@ void Chirality2D::initialize(Criteria * criteria,
   ASSERT(system->configuration().dimension() == 2,
     "dim: " << system->configuration().dimension() << " != 2");
   printer(header(*criteria, *system, *trial_factory),
-    file_name(*criteria));
+    output_file(*criteria));
 }
 
 void Chirality2D::update(const Criteria& criteria,

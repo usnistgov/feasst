@@ -19,10 +19,6 @@ class ThermoParams {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - beta: inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$.
     - pH: negative of the log-base-10 of the proton concentration.
     - chemical_potential[i]: chemical potential of the i-th particle type.

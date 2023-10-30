@@ -32,7 +32,7 @@ void HenryCoefficient::initialize(Criteria * criteria,
   ASSERT(trial_factory->trial(0).stage(0).is_new_only(),
     "HenryCoefficient requires new_only.");
   printer(header(*criteria, *system, *trial_factory),
-          file_name(*criteria));
+          output_file(*criteria));
 }
 
 std::string HenryCoefficient::header(const Criteria& criteria,

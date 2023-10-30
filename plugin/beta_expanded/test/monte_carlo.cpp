@@ -44,17 +44,17 @@ TEST(MonteCarlo, beta_expanded) {
     {"Bias", "WLTM"}, {"collect_flatness", "18"}, {"min_flatness", "22"}, {"min_sweeps", "10"}}));
   mc.add(MakeTrialBeta({{"fixed_beta_change", delta_beta}}));
   const std::string trials_per(str(1e4));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/lj_beta"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/lj_beta"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
   mc.add(MakeTune());
   mc.add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));
   mc.add(MakeCriteriaWriter({
     {"trials_per_write", trials_per},
-    {"file_name", "tmp/lj_beta_crit.txt"},
-    {"file_name_append_phase", "true"}}));
+    {"output_file", "tmp/lj_beta_crit.txt"},
+    {"output_file_append_phase", "true"}}));
   mc.add(MakeEnergy({
-    {"file_name", "tmp/lj_beta_energy"},
-    {"file_name_append_phase", "true"},
+    {"output_file", "tmp/lj_beta_energy"},
+    {"output_file_append_phase", "true"},
     {"trials_per_update", "1"},
     {"trials_per_write", trials_per},
     {"multistate", "true"}}));
@@ -75,17 +75,17 @@ TEST(MonteCarlo, beta_expanded) {
 //    {"Bias", "TransitionMatrix"}, {"min_sweeps", str(min_sweeps)}, {"min_visits", "1"}, {"average_visits", "1000"}, {"new_sweep", "1"}}));
 //  mc.add(MakeTrialBeta({{"fixed_beta_change", delta_beta}}));
 //  const std::string trials_per(str(1e6));
-//  mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"file_name", "tmp/lj_beta"}}));
+//  mc.add(MakeLogAndMovie({{"trials_per", trials_per}, {"output_file", "tmp/lj_beta"}}));
 //  mc.add(MakeCheckEnergyAndTune({{"trials_per", trials_per}}));
 //  mc.add(MakeCriteriaUpdater({{"trials_per", "1"}}));
 //  //mc.add(MakeCriteriaUpdater({{"trials_per", trials_per}}));
 //  mc.add(MakeCriteriaWriter({
 //    {"trials_per", trials_per},
-//    {"file_name", "tmp/lj_beta_crit.txt"},
-//    {"file_name_append_phase", "true"}}));
+//    {"output_file", "tmp/lj_beta_crit.txt"},
+//    {"output_file_append_phase", "true"}}));
 //  mc.add(MakeEnergy({
-//    {"file_name", "tmp/lj_beta_energy"},
-//    {"file_name_append_phase", "true"},
+//    {"output_file", "tmp/lj_beta_energy"},
+//    {"output_file_append_phase", "true"},
 //    {"trials_per_update", "1"},
 //    {"trials_per_write", trials_per},
 //    {"multistate", "true"}}));

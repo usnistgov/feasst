@@ -102,10 +102,10 @@ void append(const std::string& key, argtype * args, const std::string& append);
   if (args.size() != 0) { \
     ASSERT(args.size() == 1 && args.begin()->first.empty() && \
       args.begin()->second.empty(), \
-      "unused argument(s): " << feasst::str(args) << ". If the arguments are unused " << \
-      "then that means the objects did not expect the first keyword " << \
-      "supplied in the above argument pair(s). Thus, there was likely a " << \
-      "typo or the keyword is intended for a different class."); \
+      "unused argument(s): " << feasst::str(args) << ". If the arguments " << \
+      "are unused, the argument parser did not expect the first keyword " << \
+      "in each of the above argument pair(s). There may be a typo, a " << \
+      "keyword intended for a different class, or a deprecated keyword."); \
   } \
 }
 

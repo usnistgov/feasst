@@ -15,9 +15,13 @@ namespace feasst {
  */
 class FiniteCylinder : public ShapeIntersect {
  public:
-  /// See Cylinder for arguments.
+  //@{
+  /** @name Arguments
+    - Cylinder arguments.
+   */
   explicit FiniteCylinder(argtype args);
   explicit FiniteCylinder(argtype * args);
+  //@}
 };
 
 inline std::shared_ptr<FiniteCylinder> MakeFiniteCylinder(argtype args) {

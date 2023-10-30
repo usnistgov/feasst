@@ -30,10 +30,6 @@ class SelectBranch : public TrialSelectAngle {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - mobile_site2 : index of second mobile site.
     - TrialSelectAngle arguments.
    */

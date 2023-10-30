@@ -21,10 +21,6 @@ class LennardJones : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - hard_sphere_threshold: when r < threshold*sigma, return NEAR_INFINITY
       (default: 0.2).
    */

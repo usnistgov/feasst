@@ -15,7 +15,13 @@ Stepper::Stepper(argtype args) : Stepper(&args) {
 Stepper::Stepper(argtype * args) {
   set_trials_per_write(integer("trials_per_write", args, 1));
   set_trials_per_update(integer("trials_per_update", args, 1));
-  if (used("file_name", *args)) set_file_name(str("file_name", args));
+  if (used("output_file", *args)) {
+    set_output_file(str("output_file", args));
+  }
+  if (used("file_name", *args)) {
+    WARN("Stepper argument file_name was renamed to output_file.");
+    set_output_file(str("file_name", args));
+  }
 
   if (boolean("append", args, false)) {
     set_append();
@@ -24,9 +30,9 @@ Stepper::Stepper(argtype * args) {
   }
 
   if (boolean("clear_file", args, false)) {
-    ASSERT(!file_name_.empty(), "file_name is a required argument with clear.");
+    ASSERT(!output_file_.empty(), "output_file is a required argument with clear.");
     std::ofstream file;
-    file.open(file_name_, std::ofstream::out);
+    file.open(output_file_, std::ofstream::out);
     file.close();
   }
   rewrite_header_ = boolean("rewrite_header", args, true);
@@ -34,8 +40,12 @@ Stepper::Stepper(argtype * args) {
   start_after_phase_ = integer("start_after_phase", args, -1);
   stop_after_iteration_ = integer("stop_after_iteration", args, -1);
   start_after_iteration_ = integer("start_after_iteration", args, -1);
-  file_name_append_phase_ =
-    boolean("file_name_append_phase", args, false);
+  output_file_append_phase_ =
+    boolean("output_file_append_phase", args, false);
+  if (used("file_name_append_phase", *args)) {
+    WARN("Stepper::file_name_append_phase was renamed to output_file_append_phase.");
+    output_file_append_phase_ = boolean("file_name_append_phase", args);
+  }
   set_multistate(boolean("multistate", args, false));
   is_multistate_aggregate_ =
     boolean("multistate_aggregate", args, true);
@@ -63,23 +73,23 @@ bool Stepper::is_time(const int trials_per, int * trials_since) {
   return false;
 }
 
-std::string Stepper::file_name(const Criteria& criteria) const {
-  if (file_name_.empty() || !file_name_append_phase_) {
-    return file_name_;
+std::string Stepper::output_file(const Criteria& criteria) const {
+  if (output_file_.empty() || !output_file_append_phase_) {
+    return output_file_;
   }
-  return file_name_ + "_phase" + str(criteria.phase());
+  return output_file_ + "_phase" + str(criteria.phase());
 }
 
-void Stepper::printer(const std::string output, const std::string& file_name) {
-  DEBUG("filename? " << file_name);
-  if (file_name.empty() && !is_multistate_aggregate()) {
+void Stepper::printer(const std::string output, const std::string& output_file) {
+  DEBUG("filename? " << output_file);
+  if (output_file.empty() && !is_multistate_aggregate()) {
     std::cout << output;
   } else {
     std::ofstream file;
     if (append_) {
-      file.open(file_name, std::ofstream::out | std::ofstream::app);
+      file.open(output_file, std::ofstream::out | std::ofstream::app);
     } else {
-      file.open(file_name, std::ofstream::out);
+      file.open(output_file, std::ofstream::out);
     }
     file << output;
     file.close();
@@ -88,10 +98,10 @@ void Stepper::printer(const std::string output, const std::string& file_name) {
 
 void Stepper::set_state(const int state) {
   state_ = state;
-  if (!file_name_.empty()) {
+  if (!output_file_.empty()) {
     std::stringstream ss;
-    ss << file_name_ << "_state" << state;
-    file_name_ = ss.str();
+    ss << output_file_ << "_state" << state;
+    output_file_ = ss.str();
   }
 }
 
@@ -102,13 +112,13 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(trials_since_write_, ostr);
   feasst_serialize(trials_per_update_, ostr);
   feasst_serialize(trials_per_write_, ostr);
-  feasst_serialize(file_name_, ostr);
+  feasst_serialize(output_file_, ostr);
   feasst_serialize(append_, ostr);
   feasst_serialize(stop_after_phase_, ostr);
   feasst_serialize(start_after_phase_, ostr);
   feasst_serialize(stop_after_iteration_, ostr);
   feasst_serialize(start_after_iteration_, ostr);
-  feasst_serialize(file_name_append_phase_, ostr);
+  feasst_serialize(output_file_append_phase_, ostr);
   feasst_serialize(is_multistate_, ostr);
   feasst_serialize(is_multistate_aggregate_, ostr);
   feasst_serialize(state_, ostr);
@@ -127,13 +137,13 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&trials_since_write_, istr);
   feasst_deserialize(&trials_per_update_, istr);
   feasst_deserialize(&trials_per_write_, istr);
-  feasst_deserialize(&file_name_, istr);
+  feasst_deserialize(&output_file_, istr);
   feasst_deserialize(&append_, istr);
   feasst_deserialize(&stop_after_phase_, istr);
   feasst_deserialize(&start_after_phase_, istr);
   feasst_deserialize(&stop_after_iteration_, istr);
   feasst_deserialize(&start_after_iteration_, istr);
-  feasst_deserialize(&file_name_append_phase_, istr);
+  feasst_deserialize(&output_file_append_phase_, istr);
   feasst_deserialize(&is_multistate_, istr);
   feasst_deserialize(&is_multistate_aggregate_, istr);
   feasst_deserialize(&state_, istr);

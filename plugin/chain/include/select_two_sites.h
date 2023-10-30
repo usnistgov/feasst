@@ -17,10 +17,6 @@ class SelectTwoSites : public TrialSelect {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - mobile_site: index of the mobile site.
     - mobile_site2: index of the second mobile site.
     - particle_type2: type of particle for second site. If -1, use the same

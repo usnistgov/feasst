@@ -11,11 +11,27 @@ There are many ways to contribute:
 
 Thank you for taking the time to contribute to FEASST!
 
-For contributing code:
+------------------------
+For contributing code
+------------------------
 
 .. toctree::
    :maxdepth: 1
 
    plugin/example/README
    dev/README
+
+-------------------------------------------------------
+Guidelines for collaboration with FEASST developers
+-------------------------------------------------------
+
+FEASST developers appreciate collaboration with other scientists.
+Some general collaboration guidelines are listed below.
+These may be further refined on a case-by-case basis.
+
+* Collaborators intend to publish with developers while users do not.
+* Collaborators may have extensive private conversations with developers.
+* User questions are preferred in public mail lists or GitHub issues (see `Contact <CONTACT.html>`_).
+* Feature requests involving collaboration implicitly have priority due to common interest.
+* Former collaborators may become users and *vice versa*. Future private FEASST-related communication with developers should indicate this change of role.
 

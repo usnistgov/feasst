@@ -29,10 +29,6 @@ class DebyeHuckel : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - kappa: as described above.
     - dielectric: as described above.
     - smoothing_distance: as described above.

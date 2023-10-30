@@ -15,10 +15,6 @@ class CheckConstantVolume : public ModifyUpdateOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - tolerance: relative absolute difference between current total volume
       and last recorded total volume (default: 1e-4).
     - Stepper arguments.

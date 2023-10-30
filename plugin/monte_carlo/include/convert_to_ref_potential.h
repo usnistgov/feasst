@@ -16,10 +16,6 @@ class ConvertToRefPotential : public Action {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - potential_index: index of the full potential to copy as a template
       (default: 0).
     - cutoff: set cutoff of all site_types to this value.

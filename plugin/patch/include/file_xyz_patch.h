@@ -9,6 +9,7 @@
 #include "configuration/include/configuration.h"
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/file_xyz.h"
+#include "configuration/include/file_vmd.h"
 
 namespace feasst {
 
@@ -53,14 +54,19 @@ class PrinterXYZPatch : public LoopConfigOneBody {
  */
 class FileXYZPatch {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - group_index: print the coordinates of this group index only (default: 0).
     - append: append file output if set to true.
       Do not append if false (default: "false").
    */
   explicit FileXYZPatch(argtype args = argtype());
   explicit FileXYZPatch(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /**
     Load the xyz file with file_name into the configuration.
@@ -84,6 +90,7 @@ class FileXYZPatch {
   void serialize(std::ostream& ostr) const;
   explicit FileXYZPatch(std::istream& istr);
 
+  //@}
  private:
   int group_index_;
   bool append_;

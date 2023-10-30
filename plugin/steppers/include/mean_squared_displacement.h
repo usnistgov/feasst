@@ -18,10 +18,6 @@ class MeanSquaredDisplacement : public Analyze {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - updates_per_origin: set the number of updates until creation of a new
       origin (default: 1000).
     - group_index: group_index associated with configuration (default: 0).

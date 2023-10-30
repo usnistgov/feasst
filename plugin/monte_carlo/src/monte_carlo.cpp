@@ -332,13 +332,13 @@ void MonteCarlo::add(std::shared_ptr<TrialFactoryNamed> trials) {
   }
 }
 
-bool MonteCarlo::duplicate_stepper_file_name_(const std::string file_name) {
-  if (!file_name.empty()) {
+bool MonteCarlo::duplicate_stepper_output_file_(const std::string output_file) {
+  if (!output_file.empty()) {
     for (const std::shared_ptr<Analyze>& an : analyze_factory_.analyzers()) {
-      if (an->file_name() == file_name) return true;
+      if (an->output_file() == output_file) return true;
     }
     for (const std::shared_ptr<Modify>& mod : modify_factory_.modifiers()) {
-      if (mod->file_name() == file_name) return true;
+      if (mod->output_file() == output_file) return true;
     }
   }
   return false;
@@ -346,31 +346,31 @@ bool MonteCarlo::duplicate_stepper_file_name_(const std::string file_name) {
 
 void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
   ASSERT(criteria_set_, "set Criteria before Analyze");
-  ASSERT(!duplicate_stepper_file_name_(analyze->file_name()),
+  ASSERT(!duplicate_stepper_output_file_(analyze->output_file()),
     "Analyze " << analyze->class_name() << " should not have the same " <<
-    "file_name as an already existing Stepper file name");
+    "output_file as an already existing Stepper file name");
 
   // process multistate
   DEBUG("class name? " << analyze->class_name());
   if (analyze->is_multistate() && analyze->class_name() != "AnalyzeFactory") {
     int trials_per_write = 1;
-    std::string file_name;
+    std::string output_file;
     if (analyze->is_multistate_aggregate()) {
       trials_per_write = analyze->trials_per_write();
-      file_name = analyze->file_name();
+      output_file = analyze->output_file();
       analyze->initialize(criteria_.get(), &system_, &trial_factory_);
     }
     auto multi = MakeAnalyzeFactory({
       {"multistate", "true"},
       {"trials_per_write", str(trials_per_write)},
-      {"file_name", file_name},
+      {"output_file", output_file},
       {"append", str(analyze->append())},
       {"trials_per_update", "1"},
       {"stop_after_phase", str(analyze->stop_after_phase())},
       {"start_after_phase", str(analyze->start_after_phase())},
       {"stop_after_iteration", str(analyze->stop_after_iteration())},
       {"start_after_iteration", str(analyze->start_after_iteration())},
-      {"file_name_append_phase", str(analyze->file_name_append_phase())},
+      {"output_file_append_phase", str(analyze->output_file_append_phase())},
       {"multistate_aggregate", str(analyze->is_multistate_aggregate())}});
     DEBUG("making multi " << multi->is_multistate());
     for (int state = 0; state < criteria_->num_states(); ++state) {
@@ -381,7 +381,7 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
         DEBUG(ss.str());
       }
       if (analyze->is_multistate_aggregate()) {
-        an->empty_file_name();
+        an->empty_output_file();
       }
       an->set_state(state);
       // an->initialize(criteria_, system_, trial_factory_);
@@ -397,29 +397,29 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
 // copied from above
 void MonteCarlo::add(std::shared_ptr<Modify> modify) {
   ASSERT(criteria_set_, "set Criteria before Modify");
-  ASSERT(!duplicate_stepper_file_name_(modify->file_name()),
+  ASSERT(!duplicate_stepper_output_file_(modify->output_file()),
     "Modify " << modify->class_name() << " should not have the same " <<
-    "file_name as an already existing Stepper file name");
+    "output_file as an already existing Stepper file name");
   DEBUG("class name? " << modify->class_name());
   if (modify->is_multistate() && modify->class_name() != "ModifyFactory") {
     int trials_per_write = 1;
-    std::string file_name;
+    std::string output_file;
     DEBUG("aggregate? " << modify->is_multistate_aggregate());
     if (modify->is_multistate_aggregate()) {
       trials_per_write = modify->trials_per_write();
-      file_name = modify->file_name();
+      output_file = modify->output_file();
       modify->initialize(criteria_.get(), &system_, &trial_factory_);
     }
     auto multi = MakeModifyFactory({
       {"multistate", "true"},
       {"trials_per_write", str(trials_per_write)},
-      {"file_name", file_name},
+      {"output_file", output_file},
       {"trials_per_update", "1"},
       {"stop_after_phase", str(modify->stop_after_phase())},
       {"start_after_phase", str(modify->start_after_phase())},
       {"stop_after_iteration", str(modify->stop_after_iteration())},
       {"start_after_iteration", str(modify->start_after_iteration())},
-      {"file_name_append_phase", str(modify->file_name_append_phase())},
+      {"output_file_append_phase", str(modify->output_file_append_phase())},
       {"multistate_aggregate", str(modify->is_multistate_aggregate())}});
     DEBUG("making multi " << multi->is_multistate());
     for (int state = 0; state < criteria_->num_states(); ++state) {
@@ -430,7 +430,7 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
         DEBUG(ss.str());
       }
       if (modify->is_multistate_aggregate()) {
-        mod->empty_file_name();
+        mod->empty_output_file();
       }
       mod->set_state(state);
       // mod->initialize(criteria_.get(), &system_, &trial_factory_);

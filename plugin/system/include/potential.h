@@ -23,10 +23,6 @@ class Potential {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - group_index: set the index of the group in the configuration which
       contributes to this potential (default: 0, representing entire config).
     - group: name of group defined within system (default: "").
@@ -37,7 +33,7 @@ class Potential {
       (default: False)
     - table_size: set size of tabular potential (default: 0).
       Do not use table if size <= 0.
-    - set model parameters [parameter]/[i]/[j] as described in Configuration.
+    - [parameter]/[i]/[j]: as described in Configuration arguments.
    */
   explicit Potential(argtype * args);
 

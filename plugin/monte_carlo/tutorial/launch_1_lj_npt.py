@@ -55,9 +55,9 @@ def sim_node_dependent_params(params):
     """ Set parameters that depent upon the sim or node here. """
     params['pressure'] = params['pressures']['pressure'][params['sim']]
 
-def write_feasst_script(params, file_name):
+def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
-    with open(file_name, 'w', encoding='utf-8') as myfile:
+    with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
@@ -67,12 +67,12 @@ Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential -1
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
-Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 
 # gcmc initialization
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_init.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_init.txt
 Tune
 Run until_num_particles {num_particles}
 RemoveTrial name TrialAdd
@@ -82,9 +82,9 @@ RemoveAnalyze name Log
 ThermoParams beta {beta} pressure {pressure}
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialVolume weight 0.1 tunable_param 0.2 tunable_target_acceptance 0.5
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.txt
-Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.xyz
-Density trials_per_write {trials_per_iteration} file_name {prefix}{sim}_density_eq.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
+Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
+Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density_eq.txt
 Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name Log
@@ -93,11 +93,11 @@ RemoveAnalyze name Density
 
 # npt production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}.txt
-Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}.xyz start_after_iteration 1
-Energy trials_per_write {trials_per_iteration} file_name {prefix}{sim}_en.txt
-Density trials_per_write {trials_per_iteration} file_name {prefix}{sim}_density.txt
-Volume trials_per_write {trials_per_iteration} file_name {prefix}{sim}_volume.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.txt
+Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz start_after_iteration 1
+Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.txt
+Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density.txt
+Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_volume.txt
 Run until_criteria_complete true
 """.format(**params))
 

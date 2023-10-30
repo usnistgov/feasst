@@ -35,7 +35,7 @@ void ExtensiveMoments::initialize(Criteria * criteria,
   u_p_.resize(max_order_ + 1);
   resize(num_ptypes, max_order_ + 1, &n_i_j_);
   printer(header(*criteria, *system, *trial_factory),
-          file_name(*criteria));
+          output_file(*criteria));
 }
 
 std::string ExtensiveMoments::header(const Criteria& criteria,

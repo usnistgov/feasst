@@ -27,10 +27,6 @@ class Log : public AnalyzeWriteOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - max_precision: use maximum precision if true (default: false).
     - include_bonds: if true, print bond energies (default:false).
     - Stepper arguments.

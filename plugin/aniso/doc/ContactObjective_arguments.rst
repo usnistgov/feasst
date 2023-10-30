@@ -10,8 +10,3 @@ ContactObjective
    :project: FEASST
    :members:
    :membergroups: Arguments
-
-.. doxygenclass:: feasst::TabulateTwoRigidBody3D
-   :project: FEASST
-   :members:
-   :membergroups: Arguments

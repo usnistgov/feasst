@@ -138,10 +138,14 @@ class ModelTableCart3DIntegr : public ModelOneBody {
 
   //@{
   /** @name Arguments
-   */
-
-  /**
-    Constructor for text interface.
+    - table_file: file name for the table.
+    - shape_file: ShapeFile that describes the shape.
+    - ModelTableCart3DIntegr::compute_table::integration_args.
+    - use_omp: use OpenMP to compute the table (default: false).
+    - node: for parallelization, see compute_table_omp (default: 0).
+    - num_node: for parallelization, see compute_table_omp (default: 1).
+    - Table3D arguments.
+    - Domain arguments.
 
     The format for the table file is as follows.
 
@@ -151,16 +155,6 @@ class ModelTableCart3DIntegr : public ModelOneBody {
     each following number is the type of each anisotropic site.)
 
     The remaining lines are the individual tables for each of the site types.
-
-    args:
-    - file_name: file name for the table.
-    - shape_file_name: ShapeFile that describes the shape.
-    - ModelTableCart3DIntegr::compute_table::integration_args.
-    - use_omp: use OpenMP to compute the table (default: false).
-    - node: for parallelization, see compute_table_omp (default: 0).
-    - num_node: for parallelization, see compute_table_omp (default: 1).
-    - Table3D arguments.
-    - Domain arguments.
    */
   explicit ModelTableCart3DIntegr(argtype args = argtype());
   explicit ModelTableCart3DIntegr(argtype * args);

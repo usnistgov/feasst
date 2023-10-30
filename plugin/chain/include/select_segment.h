@@ -11,10 +11,6 @@ class SelectSegment : public TrialSelectParticle {
  public:
   //@{
   /** @name Arguments
-   */
-  
-  /**
-    args:
     - max_length : maximum length of selected segment. If -1 (default), then
       randomly select all possible lengths.
     - TrialSelectParticle arguments.
@@ -26,7 +22,7 @@ class SelectSegment : public TrialSelectParticle {
   /** @name Public Functions
    */
   //@{
-  
+
   /// Return the maximum length.
   int max_length() const { return max_length_; }
 

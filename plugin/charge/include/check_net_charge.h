@@ -14,10 +14,6 @@ class CheckNetCharge : public AnalyzeUpdateOnly {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - minimum: minimum acceptable charge (default: 0).
     - maximum: maximum acceptable charge (default: 0).
     - Stepper arguments.

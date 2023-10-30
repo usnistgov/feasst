@@ -49,17 +49,13 @@ class Random;
   For more information, see LAMMPS:
   https://docs.lammps.org/Howto_triclinic.html
 
-  On the inner workings of Monte Carlo codes
+  Another good resource is the inner workings of Monte Carlo codes
   https://doi.org/10.1080/08927022.2013.819102
 */
 class Domain {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - side_length[i]: set the side length of the i-th dimension.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
     - cubic_side_length: side length of cubic perioidic boundary conditions.

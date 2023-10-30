@@ -2,9 +2,12 @@
 Text Interface
 ***************************
 
-The first word in each line of a FEASST input text file is the name of a class, followed by pairs of class arguments.
-The following related lists of classes and their arguments aid in understanding or modifying :doc:`../tutorial/README`.
-The text interface is backwards compatible within major version (e.g., text files using version v0.23.0 should also work with v0.23.1).
+The syntax of a FEASST text input file is follows.
+Each line begins with the name of a class in FEASST, listed below.
+The class name is then proceeded by space-separated pairs of argument names and values.
+Minor version changes support the same text files, but major version changes do not.
+For example, all text files for version v0.23.0 should also work with v0.23.1, but may not work with v0.24.0.
+For updating to a newer version, see the change log below.
 
 .. toctree::
 
@@ -13,9 +16,10 @@ The text interface is backwards compatible within major version (e.g., text file
 Random Number Generators
 =========================
 
+These are the number generators available for use.
+
 .. toctree::
 
-   math/doc/Random_arguments
    math/doc/RandomMT19937_arguments
    math/doc/RandomModulo_arguments
 
@@ -29,12 +33,11 @@ These classes describe the identity of the particles, their positions and the sp
    configuration/doc/Configuration_arguments
    configuration/doc/Domain_arguments
    configuration/doc/PhysicalConstants
-   configuration/doc/NeighborCriteria_arguments
 
 Nonbonded Isotropic Models
 ======================================
 
-These classes include pair-wise (two-body) isotropic interactions.
+These classes include pair-wise (two-body) isotropic interactions models.
 
 .. toctree::
 
@@ -56,56 +59,6 @@ These classes include pair-wise (two-body) isotropic interactions.
    confinement/doc/HenryCoefficient_arguments
    example/doc/ModelExample_arguments
 
-Nonbonded Anisotropic Models
-=====================================
-
-These classes include anisotropic interactions.
-
-.. toctree::
-
-   patch/doc/VisitModelInnerPatch_arguments
-   patch/doc/MoviePatch_arguments
-   aniso/doc/VisitModelInnerTable_arguments
-   aniso/doc/ContactObjective_arguments
-
-Long-Range Electrostatics
-======================================
-
-These classes include Ewald and long-range electrostatics.
-
-.. toctree::
-
-   charge/doc/Ewald_arguments
-   charge/doc/ChargeScreened_arguments
-   charge/doc/ChargeScreenedIntra_arguments
-   charge/doc/ChargeSelf_arguments
-   charge/doc/SlabCorrection_arguments
-
-Neighbor lists
-===========================
-
-These classes store neighbors and their interaction energies.
-
-.. toctree::
-
-   system/doc/VisitModelInner_arguments
-   system/doc/EnergyMap_arguments
-   cluster/doc/EnergyMapAll_arguments
-   cluster/doc/EnergyMapAllCriteria_arguments
-   cluster/doc/EnergyMapNeighbor_arguments
-   cluster/doc/EnergyMapNeighborCriteria_arguments
-
-Zero- or One-Body Potentials
-==============================
-
-These classes include zero- or one-body interactions.
-
-.. toctree::
-
-   confinement/doc/Background_arguments
-   confinement/doc/ModelHardShape_arguments
-   confinement/doc/ModelTableCart1DHard_arguments
-
 Nonbonded Potentials
 ==============================
 
@@ -121,6 +74,66 @@ These classes include various ways that interactions may be computed over a :cpp
    system/doc/VisitModelIntra_arguments
    system/doc/VisitModelIntraMap_arguments
    system/doc/LongRangeCorrections_arguments
+
+Nonbonded Anisotropic Models
+=====================================
+
+These classes include anisotropic interactions.
+
+.. toctree::
+
+   patch/doc/VisitModelInnerPatch_arguments
+   patch/doc/MoviePatch_arguments
+   aniso/doc/VisitModelInnerTable_arguments
+   aniso/doc/TabulateTwoRigidBody3D_arguments
+
+Long-Range Electrostatics
+======================================
+
+These classes include Ewald and long-range electrostatics.
+
+.. toctree::
+
+   charge/doc/Ewald_arguments
+   charge/doc/ChargeScreened_arguments
+   charge/doc/ChargeScreenedIntra_arguments
+   charge/doc/ChargeSelf_arguments
+   charge/doc/SlabCorrection_arguments
+
+Neighbor Lists
+===========================
+
+These classes store neighbors and their interaction energies.
+
+.. toctree::
+
+   configuration/doc/NeighborCriteria_arguments
+   system/doc/VisitModelInner_arguments
+   system/doc/EnergyMap_arguments
+   cluster/doc/EnergyMapAll_arguments
+   cluster/doc/EnergyMapAllCriteria_arguments
+   cluster/doc/EnergyMapNeighbor_arguments
+   cluster/doc/EnergyMapNeighborCriteria_arguments
+
+One-Body Potentials
+==============================
+
+These classes include zero- and one-body interactions.
+
+.. toctree::
+
+   confinement/doc/Background_arguments
+   confinement/doc/ModelHardShape_arguments
+   confinement/doc/ModelTableCart1DHard_arguments
+   shape/doc/ShapeFile_arguments
+   shape/doc/Cuboid_arguments
+   shape/doc/Cylinder_arguments
+   shape/doc/FiniteCylinder_arguments
+   shape/doc/FormulaSineWave_arguments
+   shape/doc/HalfSpace_arguments
+   shape/doc/Slab_arguments
+   shape/doc/SlabSine_arguments
+   shape/doc/Sphere_arguments
 
 Bonded Interactions
 =======================
@@ -174,7 +187,6 @@ Monte Carlo Trials
 ==========================
 
 These classes add :cpp:class:`Trials <feasst::Trial>`.
-:cpp:class:`TrialGrow <feasst::TrialGrow>` has the most features.
 
 .. toctree::
 
@@ -196,23 +208,26 @@ These classes add :cpp:class:`Trials <feasst::Trial>`.
    cluster/doc/TrialAVB2_arguments
    cluster/doc/TrialAVB4_arguments
    cluster/doc/TrialRigidCluster_arguments
+   cluster/doc/TrialTranslateCluster_arguments
+   cluster/doc/TrialRotateCluster_arguments
    cluster/doc/TrialTransferAVB_arguments
+   cluster/doc/TrialAddAVB_arguments
+   cluster/doc/TrialRemoveAVB_arguments
    cluster/doc/TrialTransferAVBDivalent_arguments
+   cluster/doc/TrialAddAVBDivalent_arguments
+   cluster/doc/TrialRemoveAVBDivalent_arguments
    morph/doc/TrialMorph_arguments
 
-Analyze and Modify
+Analyze
 ==========================
 
-Analyze happen every so many steps, and do not change the simulation.
-Modify happen every so many steps, and may change the simulation.
+:cpp:class:`Analyze <feasst::Analyze>` update/write every fixed number of trials, and do not change the simulation.
 
 .. toctree::
 
    steppers/doc/Check_arguments
-   steppers/doc/CheckEnergy_arguments
    steppers/doc/Chirality2D_arguments
    steppers/doc/CPUTime_arguments
-   steppers/doc/CriteriaUpdater_arguments
    steppers/doc/CriteriaWriter_arguments
    steppers/doc/Density_arguments
    steppers/doc/DensityProfile_arguments
@@ -222,26 +237,36 @@ Modify happen every so many steps, and may change the simulation.
    steppers/doc/MeanSquaredDisplacement_arguments
    steppers/doc/Movie_arguments
    steppers/doc/NumParticles_arguments
-   steppers/doc/PairDistributionInner_arguments
    steppers/doc/ProfileTrials_arguments
-   steppers/doc/ReadConfigFromFile_arguments
    steppers/doc/Scattering_arguments
-   steppers/doc/Tune_arguments
    steppers/doc/Volume_arguments
    steppers/doc/WallClockLimit_arguments
-   steppers/doc/WrapParticles_arguments
    chain/doc/AnalyzeBonds_arguments
    chain/doc/EndToEndDistance_arguments
-   chain/doc/GhostTrialGrow_arguments
    chain/doc/RadiusOfGyration_arguments
    charge/doc/CheckNetCharge_arguments
    cluster/doc/AnalyzeCluster_arguments
    example/doc/AnalyzeExample_arguments
 
+Modify
+============================
+
+:cpp:class:`Modify <feasst::Modify>` update/write every fixed number of trials, but may change the simulation.
+
+.. toctree::
+
+   steppers/doc/CheckEnergy_arguments
+   steppers/doc/CriteriaUpdater_arguments
+   steppers/doc/PairDistributionInner_arguments
+   steppers/doc/ReadConfigFromFile_arguments
+   steppers/doc/Tune_arguments
+   steppers/doc/WrapParticles_arguments
+   chain/doc/GhostTrialGrow_arguments
+
 Actions
 ==========================
 
-Actions happen one time.
+Actions happen once.
 
 .. toctree::
 
@@ -278,7 +303,7 @@ Flat-histogram simulations bias along a 1-dimensional macrostate.
 Gibbs Ensemble
 ===================
 
-Simultaneous simulate multiple configurations and transfer particles and/or volume between them.
+Simulate multiple configurations and transfer particles and/or volume between them.
 
 .. toctree::
 
@@ -287,7 +312,25 @@ Simultaneous simulate multiple configurations and transfer particles and/or volu
    gibbs/doc/PressureFromTestVolume_arguments
    gibbs/doc/CheckConstantVolume_arguments
 
-The information available here is identical to the :doc:`README` documentation, but with only the class arguments and no member functions.
-The list above is pruned manually from the :doc:`README` documentation.
-Therefore the :doc:`README` documentation represents all capabilities of FEASST, some of which are hidden from text users for various reasons (e.g., because the classes may be used internally, still in development, buggy, depreciated, debugging tools or simply forgotten).
+Change Log
+================
+
+Below is a list of all notable changes made to the text interface which will likely lead to the errors if older text interface scripts use the newer version.
+Renamed arguments are shown as Class::old_argument->new_argument.
+
+v0.23.1 to v0.24.0
+----------------------
+
+* Stepper::file_name->output_file
+* WriteModelParams::file_name->output_file
+* Checkpoint::file_name->checkpoint_file
+* GhostTrialGrow::trial_grow_file->grow_file
+* TrialGrowFile::file_name->grow_file
+* ReadConfigFromFile::file_name->input_file
+* ShapeFile::file_name->shape_file
+* ModelTableCart3DIntegr::file_name->table_file
+* ModelTableCart3DIntegr::shape_file_name->shape_file
+
+The information available above is pruned from the :doc:`README` documentation, with only the class arguments and no member functions.
+Therefore the :doc:`README` documentation represents all capabilities of FEASST, many of which are hidden from text users for various reasons (e.g., because the classes may be used only internally, still in development, buggy, depreciated, debugging tools or simply forgotten).
 

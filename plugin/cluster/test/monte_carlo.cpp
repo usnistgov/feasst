@@ -63,9 +63,9 @@ TEST(MonteCarlo, cluster_LONG) {
       {"rotate_param", "50"},
       {"translate_param", "1"}}));
     const int trials_per = 1e2;
-//    mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/lj"}}));
+//    mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/lj"}}));
     mc.add(MakeCheckEnergy({{"trials_per_update", "1"}}));
-    mc.add(MakeTune({{"trials_per_write", str(trials_per)}, {"file_name", "tmp/tune.txt"}}));
+    mc.add(MakeTune({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/tune.txt"}}));
     // conduct the trials
     const VisitModelInner& inner = mc.system().potential(0).visit_model().inner();
     for (int trial = 0; trial < 1e5; ++trial) {
@@ -112,7 +112,7 @@ TEST(MonteCarlo, GCMCmap) {
     mc.set(MakeMetropolis());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     const std::string trials_per = str(1e4);
-//    mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"file_name", "tmp/lj"}}));
+//    mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/lj"}}));
     mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
     mc.add(MakeTune());
     std::shared_ptr<EnergyMap> map;
@@ -129,7 +129,7 @@ TEST(MonteCarlo, GCMCmap) {
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-4"}}));
     mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
     mc.add(MakeNumParticles({{"trials_per_write", trials_per},
-                             {"file_name", "tmp/ljnum.txt"}}));
+                             {"output_file", "tmp/ljnum.txt"}}));
     for (int i = 0; i < 1e4; ++i) {
       mc.attempt(1);
       const double en = mc.criteria().current_energy();
@@ -188,18 +188,18 @@ MonteCarlo mc_avb_test(
   }
   const int trials_per = 1e4;
   monte_carlo.add(MakeMovie({{"trials_per_write", str(trials_per)},
-                             {"file_name", "tmp/ljavb.xyz"},
+                             {"output_file", "tmp/ljavb.xyz"},
                              {"clear_file", "true"}}));
   monte_carlo.add(MakeLog({{"trials_per_write", str(trials_per)},
-                           {"file_name", "tmp/ljavb_log.txt"},
+                           {"output_file", "tmp/ljavb_log.txt"},
                            {"clear_file", "true"}}));
   monte_carlo.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)},
                                    {"tolerance", str(1e-8)}}));
   monte_carlo.attempt(1e6);
   monte_carlo.add(MakeNumParticles({{"trials_per_write", str(trials_per)},
-                                    {"file_name", "tmp/ljavbnum.txt"}}));
+                                    {"output_file", "tmp/ljavbnum.txt"}}));
   monte_carlo.add(MakeEnergy({{"trials_per_write", str(trials_per)},
-                              {"file_name", "tmp/ljavbe.txt"}}));
+                              {"output_file", "tmp/ljavbe.txt"}}));
   monte_carlo.attempt(1e6);
   return test_serialize(monte_carlo);
 }

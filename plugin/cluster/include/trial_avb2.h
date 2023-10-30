@@ -17,10 +17,6 @@ class TrialAVB2 : public TrialFactoryNamed {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
     - Trial arguments.
     - TrialStage arguments.

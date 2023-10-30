@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "cluster/include/trial_transfer_avb.h"
+#include "cluster/include/trial_add_avb.h"
 
 namespace feasst {
 

@@ -27,8 +27,8 @@ namespace feasst {
  */
 class HalfSpace : public Shape {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - dimension: Set the dimension of the axis which is perpendicular to the
       divider.
     - intersection: Set the value where this axis intersects the dividing
@@ -38,6 +38,11 @@ class HalfSpace : public Shape {
    */
   explicit HalfSpace(argtype args = argtype());
   explicit HalfSpace(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return dimension argument.
   int dimension() const { return dimension_; }
@@ -56,6 +61,7 @@ class HalfSpace : public Shape {
   explicit HalfSpace(std::istream& istr);
   virtual ~HalfSpace() {}
 
+  //@}
  protected:
   void serialize_half_space_(std::ostream& ostr) const;
 

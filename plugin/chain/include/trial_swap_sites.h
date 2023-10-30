@@ -14,10 +14,6 @@ class TrialSwapSites : public Trial {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - site_type1: type of site to swap.
     - site_type2: type of other site to swap.
     - Trial arguments.

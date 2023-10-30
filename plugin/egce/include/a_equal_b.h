@@ -15,10 +15,6 @@ class AEqualB : public Constraint {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - particle_type_A: particle type for A (default: 0).
     - particle_type_B: particle type for B (default: 1).
     - extra_A: allow this many extra A particles (default: 0).

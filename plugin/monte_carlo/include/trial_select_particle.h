@@ -14,10 +14,6 @@ class TrialSelectParticle : public TrialSelect {
  public:
   //@{
   /** @name Arguments
-   */
-
-  /**
-    args:
     - load_coordinates: load the coordinates into the selection (default: true)
     - site: site index to select. If all sites, set to -1 (default).
     - ghost: select ghost particles (default: false).

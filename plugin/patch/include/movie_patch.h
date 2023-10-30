@@ -8,13 +8,24 @@
 namespace feasst {
 
 /**
-  Write a trajectory of the site positions using FileXYZ format.
-  Does not overwrite existing file by default.
+  Write a trajectory of the site positions using FileXYZPatch format.
+  Appends to existing file by default.
  */
 class MoviePatch : public AnalyzeWriteOnly {
  public:
+  //@{
+  /** @name Arguments
+    - FileXYZPatch arguments.
+    - Stepper arguments.
+    - append is always set to true via Stepper:set_append().
+   */
   explicit MoviePatch(argtype args = argtype());
   explicit MoviePatch(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Write the sample VMD files and the initial configuration.
   void initialize(Criteria * criteria,
@@ -35,6 +46,7 @@ class MoviePatch : public AnalyzeWriteOnly {
     return std::make_shared<MoviePatch>(args); }
   MoviePatch(std::istream& istr);
 
+  //@}
  private:
   FileXYZPatch xyz_;
   FileVMDPatch vmd_;
