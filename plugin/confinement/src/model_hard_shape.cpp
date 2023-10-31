@@ -50,15 +50,14 @@ double ModelHardShape::energy(
   TRACE("type " << type);
   const double sigma = model_params.select(sigma_index()).value(type);
   TRACE("sigma " << sigma);
-  const bool is_inside = shape()->is_inside(wrapped_site, sigma);
   if (cavity_) {
-    if (is_inside) {
+    if (shape()->is_inside(wrapped_site, sigma)) {
       TRACE("inside cavity");
       return 0.;
     }
     TRACE("outside cavity");
   } else {
-    if (!is_inside) {
+    if (!shape()->is_inside(wrapped_site, -sigma)) {
       TRACE("outside shape");
       return 0.;
     }
