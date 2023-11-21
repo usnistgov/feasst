@@ -57,6 +57,7 @@ void Tune::update(Criteria * criteria,
     Random * random,
     TrialFactory * trial_factory) {
   const int trial = trial_factory->last_index();
+  DEBUG("last trial attempted: " << trial);
   if (trial < min_num(*trial_factory)) {
     if (!trial_factory->trial(trial).accept().reject()) {
       // update acceptance statistics

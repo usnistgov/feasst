@@ -65,6 +65,7 @@ class Criteria {
 
   /// Return whether or not the last trial attempt was accepted.
   bool was_accepted() const { return was_accepted_; }
+  void set_was_accepted(const bool acc) { was_accepted_ = acc; }
 
   /// Set the current total energy based on energy changes per trial in order
   /// to avoid recomputation of the energy of the entire configuration.

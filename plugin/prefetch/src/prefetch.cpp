@@ -384,10 +384,22 @@ void Prefetch::attempt_(
       // disable cache
       mc->load_cache_(false);
 
+      // update last trial for tuning
+      int last_thread = first_thread_accepted;
+      if (last_thread >= num_threads_) {
+        last_thread = num_threads_ - 1;
+      }
+      if (proc_id != last_thread) {
+        const MonteCarlo& cln = *clone_(last_thread);
+        mc->get_trial_factory()->set_last_index(cln.trials().last_index());
+        mc->get_criteria()->set_was_accepted(cln.criteria().was_accepted());
+      }
+
       // perform after trial on all clones/main after multiple trials performed
       // do this in serial so that files are not written to by multiple threads
       // simultaneously
       #ifdef DEBUG_SERIAL_MODE_5324634
+      }
       #pragma omp critical
       {
       #else
@@ -414,9 +426,9 @@ void Prefetch::attempt_(
         trials_since_check_ += increment;
       }
 
-      #ifdef DEBUG_SERIAL_MODE_5324634
-      }
-      #endif
+//      #ifdef DEBUG_SERIAL_MODE_5324634
+//      }
+//      #endif
 
       #ifdef _OPENMP
       #pragma omp barrier
@@ -469,6 +481,16 @@ void Prefetch::attempt_(
       #pragma omp barrier
       #endif // _OPENMP
     }
+  }
+}
+
+void Prefetch::run(std::shared_ptr<Action> action) {
+  if (is_activated_) {
+    for (Pool& pool : pool_) {
+      pool.mc.run(action);
+    }
+  } else {
+    MonteCarlo::run(action);
   }
 }
 

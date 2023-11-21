@@ -1,0 +1,54 @@
+# LAMMPS-inspired data file
+# EPM2 CO2 https://doi.org/10.1021/j100031a034
+#
+# Oxygen(index 1, type 1) - Carbon(index 0, type 0) - Oxygen (index 2, type 1)
+#
+# Harmonic angle potential is k(theta_0 - theta)^2, without the 1/2 factor (see AngleHarmonic).
+
+3 sites
+2 bonds
+1 angles
+
+2 site types
+1 bond types
+1 angle types
+
+Units
+
+length Angstrom
+energy kJ/mol
+charge elementary
+
+Site Labels
+
+0 C
+1 O
+
+Site Properties
+i
+0 sigma 2.757 epsilon 0.2338775189860325 cutoff 14.0 charge  0.6512 cutoff_outer 1.149
+1 sigma 3.033 epsilon 0.669372441999663 cutoff 14.0 charge -0.3256 cutoff_outer 1.149
+
+Sites
+
+0 0  0     0 0
+1 1 -1.149 0 0
+2 1  1.149 0 0
+
+Bond Properties
+
+0 RigidBond length 1.149 delta 0.000001
+
+Bonds
+
+0 0 0 1
+1 0 0 2
+
+Angle Properties
+
+0 AngleHarmonic equilibrium_degrees 180.0 k_energy_per_radian_sq 618
+
+Angles
+
+0 0 1 0 2
+

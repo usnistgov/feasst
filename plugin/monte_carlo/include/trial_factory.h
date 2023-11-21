@@ -52,6 +52,7 @@ class TrialFactory : public Trial {
 
   /// Return the index of the last trial attempted.
   int last_index() const { return last_index_; }
+  void set_last_index(const int index) { last_index_ = index; }
 
   /// Return the cumulative probability of each trial.
   const std::vector<double>& cumulative_probability() const {

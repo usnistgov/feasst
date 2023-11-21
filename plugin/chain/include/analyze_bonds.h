@@ -20,10 +20,10 @@ class AnalyzeBonds : public Analyze {
   /** @name Arguments
     - bond_bin_width: bin width for bond histogram (default: 1).
     - bond_bin_center: center of first bin in bond histogram (default: 0).
-    - angle_bin_width: bin width for angle histogram in units of degrees.
+    - angle_bin_width: bin width for angle histogram in units of radians.
       (default: 1).
     - angle_bin_center: center of first bin in angle histogram (default: 0).
-    - dihedral_bin_width: bin width for dihedral histogram in units of degrees.
+    - dihedral_bin_width: bin width for dihedral histogram in units of radians.
       (default: 1).
     - dihedral_bin_center: center of first bin in dihedral histogram (default: 0).
     - Stepper arguments.
@@ -43,23 +43,23 @@ class AnalyzeBonds : public Analyze {
     System * system,
     TrialFactory * trial_factory) override;
 
-  /// Return the average bond in degrees.
+  /// Return the average bond length.
   const Accumulator& bond(const int type) const { return bond_[type]; }
 
-  /// Return the average angle in degrees.
+  /// Return the average angle in radians.
   const Accumulator& angle(const int type) const { return angle_[type]; }
 
-  /// Return the average dihedral in degrees.
+  /// Return the average dihedral in radians.
   const Accumulator& dihedral(const int type) const { return dihedral_[type]; }
 
-  /// Return the histogram of bond in degrees.
+  /// Return the histogram of bond length.
   const Histogram& bond_hist(const int type) const { return bond_hist_[type]; }
 
-  /// Return the histogram of angle in degrees.
+  /// Return the histogram of angle in radians.
   const Histogram& angle_hist(const int type) const {
     return angle_hist_[type]; }
 
-  /// Return the histogram of dihedral in degrees.
+  /// Return the histogram of dihedral in radians.
   const Histogram& dihedral_hist(const int type) const {
     return dihedral_hist_[type]; }
 

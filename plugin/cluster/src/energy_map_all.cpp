@@ -282,6 +282,11 @@ void EnergyMapAll::synchronize_(const EnergyMap& emap, const Select& perturbed) 
     for (const int s1 : perturbed.site_indices(sel_index)) {
       for (int p2 = 0; p2 < static_cast<int>(map()[p1].size()); ++p2) {
         for (int s2 = 0; s2 < static_cast<int>(map()[p1][p2][s1].size()); ++s2) {
+//          ASSERT(emap.data().dble_6D().size() > 0, "err");
+//          ASSERT(emap.data().dble_6D()[0].size() > p1, "err");
+//          ASSERT(emap.data().dble_6D()[0][p1].size() > p2, "err");
+//          ASSERT(emap.data().dble_6D()[0][p1][p2].size() > s1, "err");
+//          ASSERT(emap.data().dble_6D()[0][p1][p2][s1].size() > s2, "err");
           (*map_())[p1][p2][s1][s2] = emap.data().dble_6D()[0][p1][p2][s1][s2];
           (*map_())[p2][p1][s2][s1] = emap.data().dble_6D()[0][p2][p1][s2][s1];
           (*map_new_())[p1][p2][s1][s2] = emap.data().dble_6D()[1][p1][p2][s1][s2];

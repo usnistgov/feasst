@@ -44,8 +44,8 @@ Thermodynamic ensembles
 
 Interaction potentials
 
-* Hard spheres
-* Lennard-Jones with LRC, cut and force shift
+* Lennard-Jones and Mie with cut/force shift and corrections
+* Hard spheres and square wells
 * Patchy and anisotropic particles
 * Yukawa and charged interactions
 * Ewald summation and 2D slab correction
@@ -56,7 +56,7 @@ Interaction potentials
 
 Monte Carlo trials
 
-* Translation, rotation, crankshaft, pivot
+* Translation, rotation, crankshaft and pivot
 * Rigid cluster rotation and translation
 * Configurational bias transfers and partial regrowth
 * Dual-cut configurational bias
@@ -66,7 +66,7 @@ Monte Carlo trials
 
 Modern software
 
-* Interface with C++ or as a Python module
+* Interface as text input, C++ or Python module
 * OpenMP parallelization and prefetching
 * Checkpoint files to save, restart and analyze simulations
 

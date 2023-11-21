@@ -11,6 +11,8 @@ namespace feasst {
   Create a cavity of a given shape, where the potential energy outside of the
   shape is infinite.
   Optionally set the cavity to false (default: true) to model a hard shape.
+  Shapes are not subject to periodic boundaries, but interact with wrapped site
+  positions.
  */
 class ModelHardShape : public ModelOneBody,
                        public ShapedEntity {

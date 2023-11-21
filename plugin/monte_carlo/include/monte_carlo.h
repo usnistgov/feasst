@@ -232,7 +232,7 @@ class MonteCarlo {
   // void attempt() { attempt_(1, &trial_factory_, random_.get()); }
 
   /// Perform an Action
-  void run(std::shared_ptr<Action> action);
+  virtual void run(std::shared_ptr<Action> action);
 
   /// Attempt a number of Monte Carlo trials.
   void attempt(const int num_trials = 1) {

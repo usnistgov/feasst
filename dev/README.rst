@@ -315,36 +315,22 @@ For quick reference
 To Do List
 ================================================================================
 
-* implement gibbs ensemble
-* Make utils:lj,spce,etc derived classes of System ?
-* Create benchmarking profile to compare among versions
-* fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
-* consider optimization of Ewald: init ewald storage on particle types, precompute property index.
-* when selecting from cpdf, use lnp instead of p?
-* Python debug script: easy for user to run gdb/valgrind
-* Toggle more debug levels, and localized to certain files/plugins, etc
+* profile: Create benchmarking profile to compare among versions
+* profile: implement timer for profiles (with hierarchies by class... tried this, but its too slow. Time only infrequently?)
+* profile: implement a timer to auto-balance trial weights based on cpu time.
+* debug: Toggle more debug levels, and localized to certain files/plugins, etc
+* debug: Implement a class-specific debug output setting
+* compile: fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
+* opt: when selecting from cpdf, use lnp instead of p?
 * force precompute when reinitializing system, criteria, etc in MonteCarlo
 * MonteCarlo subclass Simulation
-* swig python wrap arguments std::istream and std::ostream for serialization
 * add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects
 * VisitModels may prefer to update select properties (e.g., cell, eik)
-* Jupyter notebook output should go to cells, not terminal that runs jupyter.
-* lint file_[xyz,lmp]
-* put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list
-* config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
 * Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
 * Speed up RNG by maintaining int_distribution like dis_double
-* Document utils lj, spce, rpm in tutorials
-* Add a FAQ for common compile errors: "no known conversion from brace-enclosed initializer list to argtype" often means that a parameter was not converted to a string.
 * Make a CachedRandom and CachedPotential for prefetch and avoid if statements that could slow down serial simulations.
-* Analyze/ModifyFactory optimization: use steps_per in factory to limit number of checks
-* implement timer for profiles (with hierarchies by class... tried this, but its too slow. Time only infrequently?)
-* implement a timer to auto-balance trial weights based on cpu time.
-* More documentation/tutorial on how to create your own plugins, classes, etc
 * add orientation argument to shapes with internal coordinate transformation
-* System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).
-* Consider using new state instead of old state in acceptance derivations
 * Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.
 * Rename xyz files, and/or document more cleary (second line in xyz).
 * Rename plugin chain->config_bias ?
@@ -352,10 +338,8 @@ To Do List
 * Optimize TrialRemove for new_only by not computing interactions with neighbors
 * Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.
 * (repeat) regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
-* Add more documentation for Trials (TrialStage: Perturb/Select, TrialCompute. When finialize? reference?)
-* When swig4 finally works, can use multimap for dictionaries with more than one of same first key
 * Rename Movie->XYZ
-* Rename Stepper.
+* Rename Stepper?
 * Patch custom model params not present in mc.configuration().model_params (affects FileXYZPatch).
 * early rejection scheme: https://doi.org/10.1080/00268976.2014.897392
 * get rid of 'time' and 'default' values for Random seed argument.
@@ -364,16 +348,10 @@ To Do List
 * Add TrialParticlePivot to TrialGrow (randomly orients particle about site). Or, more generally, say num_steps=-1 combines stages into one.
 * better support compressed trajectory formats: xtc, dcd, etc
 * Wrap triclinic particles for Movie. See: https://github.com/lammps/lammps/blob/develop/src/domain.cpp#L1232-L1322
-* Clean up the To Do list
-* add netcdf support http://unidata.github.io/netcdf-cxx4/index.html , https://gerasimosmichalitsianos.wordpress.com/2017/12/13/usingcppwithnetcdf/ https://support.scinet.utoronto.ca/education/staticpublic/course177content327.html
-* Add a logger, to output model params, ewald params, etc, to help users catch mistakes. Or maybe, output these parameters as the commented header in Log, maybe in json format.
 * Implement Jeff's parallel method via CollectionMatrixSplice that allows exchange of window ranges with overlapping simulations
 * Similarly, implement a non-OMP fh parallelization. Maybe that should be the first example before OMP communication? Only problem, keep windows running until last one converges?
-* Implement a class-specific debug output setting
 * Update Translate tunable maximum when volume changes..?
 * tutorials which segfault on restart dont report errors in automated tests
 * remove prefix from argparse in tutorials: prefix can't change in slurm runs
-* Add Stepper arguments to text interface documentation
 * Move Trial checks so that they can be applied to GhostTrialGrow
-* Define the public text interface. Add an automated check to see if any of the public interface classes or arguments change. Enforce argument uniqueness (derived classes exception?).
-* ReadConfigFromFile argument is an input_file, not an output_file
+* Make Criteria[Updater,Writer] part of FlatHistogram keywords?

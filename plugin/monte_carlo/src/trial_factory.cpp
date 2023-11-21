@@ -141,11 +141,12 @@ bool TrialFactory::is_equal(const TrialFactory& factory) const {
     return false;
   }
   if (!Trial::is_equal(factory)) {
+    DEBUG("unequal trial in factory");
     return false;
   }
   for (int it = 0; it < num(); ++it) {
     if (!trials_[it]->is_equal(*(factory.trials_[it]))) {
-      INFO("unequal trial" << it);
+      DEBUG("unequal trial" << it);
       return false;
     }
   }

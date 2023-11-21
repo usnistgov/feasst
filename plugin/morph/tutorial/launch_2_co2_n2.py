@@ -35,7 +35,6 @@ PARSER.add_argument('--equilibration_iterations', type=int, default=0,
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=2, help='number of processors')
-PARSER.add_argument('--prefix', type=str, default='co2n2_', help='prefix for all output file names')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
                     help='0: run, 1: submit to queue, 2: post-process')
 PARSER.add_argument('--seed', type=int, default=-1,
@@ -54,6 +53,7 @@ ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
 assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
 PARAMS = vars(ARGS)
 PARAMS['script'] = __file__
+PARAMS['prefix'] = 'co2n2_'
 PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
 PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
 PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate FEASST before SLURM

@@ -109,6 +109,9 @@ class Prefetch : public MonteCarlo {
   // If ithread == 0, return self. Otherwise, return pool_.
   MonteCarlo * clone_(const int ithread);
 
+  /// Perform an Action on all processors.
+  void run(std::shared_ptr<Action> action) override;
+
   void serialize(std::ostream& ostr) const override;
   explicit Prefetch(std::istream& istr);
   virtual ~Prefetch() {}

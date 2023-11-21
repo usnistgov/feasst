@@ -148,7 +148,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
     //DEBUG("existing: " << config.group_select(0).str());
     DEBUG("num of type 0: " << config.num_particles_of_type(0));
     DEBUG("current_energy: " << criteria->current_energy(iconf));
-    //INFO("all: " << system->configuration(iconf).selection_of_all().str());
+    //DEBUG("all: " << system->configuration(iconf).selection_of_all().str());
   }
   increment_num_attempts();
   acceptance_.reset();
@@ -251,6 +251,7 @@ bool Trial::is_equal(const Trial& trial) const {
   if (num_stages() > 0) {
     if (!stages_[0]->perturb().tunable().is_equal(
         trial.stages_[0]->perturb().tunable())) {
+      DEBUG("unequal tunable");
       return false;
     }
   }

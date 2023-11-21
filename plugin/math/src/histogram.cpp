@@ -94,6 +94,9 @@ int Histogram::bin(const double value) const {
 
 double Histogram::center_of_bin(const int bin) const {
   ASSERT(bin < size(), "bin: " << bin << " >= size: " << size());
+  ASSERT(bin < static_cast<int>(edges_.size()),
+    "bin: " << bin << " >= size: " << edges_.size());
+  ASSERT(bin >= 0, "bin: " << bin << " < 0");
   return 0.5*(edges_[bin] + edges_[bin + 1]);
 }
 

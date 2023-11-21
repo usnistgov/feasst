@@ -37,6 +37,7 @@ namespace feasst {
 
 void run_prefetch(const int trials, const int trials_per) {
   auto mc = MakePrefetch();
+  //auto mc = MakePrefetch({{"trials_per_check", "1"}});
 //  mc->set(MakeRandomMT19937({{"seed", "1592943710"}}));
   mc->set(MakeRandomMT19937({{"seed", "1596650884"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
@@ -49,7 +50,8 @@ void run_prefetch(const int trials, const int trials_per) {
 //  mc->add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/lj"}}));
   mc->add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
   mc->add(MakeTune());
-  mc->activate_prefetch(false);
+  //mc->add(MakeTune({{"trials_per_tune", "1"}}));
+  //mc->activate_prefetch(false);
   mc->add(MakeTrialAdd({{"particle_type", "0"}}));
   mc->run(MakeRun({{"until_num_particles", "50"}}));
   mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));

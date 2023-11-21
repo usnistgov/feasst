@@ -37,7 +37,6 @@ PARSER.add_argument('--equilibration_iterations', type=int, default=0,
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=5*24, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
-PARSER.add_argument('--prefix', type=str, default='spce_lowt', help='prefix for output file names')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
                     help='0: run, 1: submit to queue, 2: post-process')
 PARSER.add_argument('--seed', type=int, default=-1,
@@ -55,6 +54,7 @@ ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
 assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
 PARAMS = vars(ARGS)
 PARAMS['script'] = __file__
+PARAMS['prefix'] = 'spce_lowt'
 PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
 PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
 PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate FEASST before SLURM
@@ -169,19 +169,22 @@ def post_process(params):
                                                        suffix='_en.txt',
                                                        num_nodes=params['num_nodes'])
         lnpi.concat_dataframe(dataframe=energy, add_prefix='e_')
-        delta_beta_mu = lnpi.equilibrium()
-        beta_mu_eq.append(params['beta']*params['mu'] + delta_beta_mu)
-        for index, phase in enumerate(lnpi.split()):
-            n_gce = phase.average_macrostate()
-            rho = rho_conv*n_gce/params['cubic_side_length']**3
-            energy = phase.ensemble_average(energy_header)/n_gce
-            if index == 0:
-                pressure.append(-pressure_conv*phase.ln_prob()[0]/params['beta']/params['cubic_side_length']**3)
-                rho_vapor.append(rho)
-                en_vapor.append(energy)
-            else:
-                rho_liquid.append(rho)
-                en_liquid.append(energy)
+        try: # if multiple minima found, then skip the block
+            delta_beta_mu = lnpi.equilibrium()
+            beta_mu_eq.append(params['beta']*params['mu'] + delta_beta_mu)
+            for index, phase in enumerate(lnpi.split()):
+                n_gce = phase.average_macrostate()
+                rho = rho_conv*n_gce/params['cubic_side_length']**3
+                energy = phase.ensemble_average(energy_header)/n_gce
+                if index == 0:
+                    pressure.append(-pressure_conv*phase.ln_prob()[0]/params['beta']/params['cubic_side_length']**3)
+                    rho_vapor.append(rho)
+                    en_vapor.append(energy)
+                else:
+                    rho_liquid.append(rho)
+                    en_liquid.append(energy)
+        except:
+            assert block != -1
     data = pd.DataFrame(data={'rho_vapor': rho_vapor, 'rho_liquid': rho_liquid,
                               'pressure': pressure, 'en_vapor': en_vapor, 'en_liquid': en_liquid,
                               'beta_mu_eq': beta_mu_eq})

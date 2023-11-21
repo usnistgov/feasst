@@ -28,7 +28,6 @@ PARSER.add_argument('--production_iterations', type=int, default=int(1e3),
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
-PARSER.add_argument('--prefix', type=str, default='fh', help='prefix for all output file names')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
     help='0: run, 1: submit to queue, 2: post-process')
 PARSER.add_argument('--seed', type=int, default=-1,
@@ -51,6 +50,7 @@ PARAMS['s_14'] = 132*epsilon
 PARAMS['s_8'] = -30*epsilon
 PARAMS['cubic_side_length'] = (PARAMS['num_particles']/PARAMS['density'])**(1./3.)
 PARAMS['script'] = __file__
+PARAMS['prefix'] = 'fh'
 PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
 PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
 PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate before queue
