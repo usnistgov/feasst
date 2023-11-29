@@ -30,7 +30,7 @@ class Action;
 class MonteCarlo {
  public:
   /// Construct with Random number generator.
-  MonteCarlo(std::shared_ptr<Random> random);
+  explicit MonteCarlo(std::shared_ptr<Random> random);
 
   /// Construct with RandomMT19937.
   MonteCarlo();
@@ -65,6 +65,9 @@ class MonteCarlo {
 
    */
   explicit MonteCarlo(arglist args);
+
+  /// Begin processing the arguments.
+  void begin(arglist args);
 
   /// Resume processing the above arguments after Checkpointing.
   void resume();
@@ -240,6 +243,17 @@ class MonteCarlo {
 
   /// Reset trial statistics
   virtual void reset_trial_stats() { trial_factory_.reset_stats(); }
+
+  /// Run a number of trials.
+  virtual void run_num_trials(int num_trials);
+
+  /// Run until a number of particles is reached.
+  virtual void run_until_num_particles(const int num_particles,
+                                       const int particle_type,
+                                       const int configuration_index);
+
+  /// Run trials for a number of hours.
+  virtual void run_for_hours(const double hours);
 
   /// Attempt Monte Carlo trials until Criteria returns completion.
   /// If available, automatically write checkpoint when complete.

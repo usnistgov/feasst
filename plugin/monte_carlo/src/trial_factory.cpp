@@ -65,6 +65,8 @@ bool TrialFactory::attempt(
   }
   last_index_ = trial_index;
   //timer_.start(index + 1);  // +1 for "other"
+  DEBUG("trial_index " << trial_index);
+  DEBUG("num trials " << num());
   const bool accepted = trials_[trial_index]->attempt(criteria, system, random);
   //timer_.end();
   if (accepted) increment_num_success_();

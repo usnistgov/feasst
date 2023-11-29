@@ -5,8 +5,9 @@
 #include <limits>
 #include <random>
 #include "utils/include/serialize.h"
-#include "prefetch/include/prefetch.h"
 #include "threads/include/thread_omp.h"
+#include "monte_carlo/include/action.h"
+#include "prefetch/include/prefetch.h"
 
 // use this to make prefetch serial and simply debugging
 // #define DEBUG_SERIAL_MODE_5324634
@@ -83,6 +84,7 @@ void Prefetch::run_until_complete_(TrialFactory * trial_factory,
     MonteCarlo::run_until_complete_(trial_factory, random);
     return;
   }
+  pool_.clear();
   attempt_(-1, trial_factory, random);
   write_checkpoint();
 }
@@ -91,11 +93,12 @@ void Prefetch::attempt_(
     int num_trials,
     TrialFactory * trial_factory,
     Random * random) {
+  DEBUG("Prefetch attempting");
   if (!is_activated_) {
     MonteCarlo::attempt_(num_trials, trial_factory, random);
     return;
   }
-  if (num_trials < 10) {
+  if (num_trials < 10 && num_trials > 0) {
     WARN("inefficient use of prefetching with num_trials: " << num_trials
      << ". Consider using mc.attempt() instead of mc.run(MakeRun())");
 
@@ -485,13 +488,41 @@ void Prefetch::attempt_(
 }
 
 void Prefetch::run(std::shared_ptr<Action> action) {
-  if (is_activated_) {
-    for (Pool& pool : pool_) {
-      pool.mc.run(action);
+  DEBUG("is_activated_ " << is_activated_);
+  DEBUG("action class name: " << action->class_name());
+  if (is_activated_ && static_cast<int>(pool_.size()) > 0) {
+    DEBUG("here");
+    if (action->class_name() == "Run") {
+      action->run(this);
+    } else {
+      DEBUG("here " << pool_.size());
+      for (int thread = 0; thread < num_threads_; ++thread) {
+        MonteCarlo * mc = clone_(thread);
+        mc->MonteCarlo::run(action);
+      }
     }
   } else {
     MonteCarlo::run(action);
   }
+}
+
+void Prefetch::run_num_trials(int num_trials) {
+  if (num_trials < 10) {
+    WARN("num_trials:" << num_trials << " is inefficient.");
+  }
+  pool_.clear();
+  while (num_trials > 0) {
+    attempt(num_trials);
+  }
+}
+
+void Prefetch::run_until_num_particles(const int num_particles,
+                                       const int particle_type,
+                                       const int configuration_index) {
+  activate_prefetch(false);
+  MonteCarlo::run_until_num_particles(num_particles, particle_type,
+                                      configuration_index);
+  activate_prefetch(true);
 }
 
 void Prefetch::serialize(std::ostream& ostr) const {

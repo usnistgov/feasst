@@ -134,12 +134,13 @@ CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{nod
 
 def post_process(params):
     lnp = macrostate_distribution.splice_collection_matrix(prefix=params['prefix']+'n0s', suffix='_crit.txt', use_soft=True)
-    #lnp.reweight(-0.5, inplace=True)
-    #print(lnp.dataframe())
-    lnp.equilibrium()
+    lnp.reweight(-0.7, inplace=True)
+    print(lnp.dataframe())
+    lnp.plot()
+    plt.savefig(params['prefix']+'.png')
+    #lnp.equilibrium(delta_beta_mu_guess=-0.65)
+    print(lnp.minimums())
     vapor, liquid = lnp.split()
-    #lnp.plot()
-    #plt.savefig(params['prefix']+'.png')
     volume = params['cubic_side_length']**3
     na = physical_constants.AvogadroConstant().value()
     dens_conv = 1./volume/na*44.01/1e3*1e30 # convert from N/V units of molecules/A^3 to kg/m

@@ -34,16 +34,11 @@ class Potential {
     - table_size: set size of tabular potential (default: 0).
       Do not use table if size <= 0.
     - [parameter]/[i]/[j]: as described in Configuration arguments.
-   */
-  explicit Potential(argtype * args);
-
-  /**
-    args:
     - Model: derived class Model name (default: ModelEmpty).
     - VisitModel: derived class VisitModel name (default: VisitModel).
-    - All arguments described in the first constructor.
    */
   explicit Potential(argtype args = argtype());
+  explicit Potential(argtype * args);
 
   //@}
   /** @name Public Functions

@@ -79,6 +79,8 @@ class Pool {
   In the most complex cases, the data is separated between ones that are
   automatically copied every time, or ones manually choosen based on which
   sites were perturbed.
+
+  Prefetch is not used for the until_num_particles argument in Run.
  */
 class Prefetch : public MonteCarlo {
  public:
@@ -111,6 +113,12 @@ class Prefetch : public MonteCarlo {
 
   /// Perform an Action on all processors.
   void run(std::shared_ptr<Action> action) override;
+
+  /// Run a number of trials.
+  void run_num_trials(int num_trials) override;
+  void run_until_num_particles(const int num_particles,
+                               const int particle_type,
+                               const int configuration_index) override;
 
   void serialize(std::ostream& ostr) const override;
   explicit Prefetch(std::istream& istr);

@@ -146,7 +146,11 @@ void MonteCarlo::parse_(arglist * args) {
     run(act);
     return;
   }
+}
 
+void MonteCarlo::begin(arglist args) {
+  args_ = args;
+  resume();
 }
 
 void MonteCarlo::resume() {
@@ -167,8 +171,7 @@ void MonteCarlo::resume() {
 }
 
 MonteCarlo::MonteCarlo(arglist args) : MonteCarlo() {
-  args_ = args;
-  resume();
+  begin(args);
 }
 
 void MonteCarlo::run(std::shared_ptr<Action> action) {
@@ -323,11 +326,11 @@ void MonteCarlo::add(std::shared_ptr<TrialFactoryNamed> trials) {
 //  for (std::shared_ptr<Trial> itrl : trials->trials()) {
 //    total_weight += itrl->weight();
 //  }
-//  INFO("total weight " << total_weight);
+//  DEBUG("total weight " << total_weight);
   for (std::shared_ptr<Trial> itrl : trials->trials()) {
-//    INFO("itrl weight " << itrl->weight());
+//    DEBUG("itrl weight " << itrl->weight());
 //    itrl->set_weight(itrl->weight()*itrl->weight()/total_weight);
-//    INFO(itrl->weight() << " " << total_weight);
+//    DEBUG(itrl->weight() << " " << total_weight);
     add(itrl);
   }
 }
@@ -636,6 +639,7 @@ void MonteCarlo::write_checkpoint() const {
 void MonteCarlo::run_until_complete_(TrialFactory * trial_factory,
                                      Random * random) {
   while (!criteria_->is_complete()) {
+    DEBUG("here");
     attempt_(1, trial_factory, random);
   }
   write_checkpoint();
@@ -693,6 +697,34 @@ void MonteCarlo::ghost_trial_(
 void MonteCarlo::write_to_file() {
   analyze_factory_.write_to_file(*criteria_, system_, trial_factory_);
   modify_factory_.write_to_file(criteria_.get(), &system_, &trial_factory_);
+}
+
+void MonteCarlo::run_num_trials(int num_trials) {
+  while (num_trials > 0) {
+    attempt(1);
+    --num_trials;
+    DEBUG("num_trials " << num_trials);
+  }
+}
+
+void MonteCarlo::run_until_num_particles(const int until_num_particles,
+    const int particle_type, const int configuration_index) {
+  const Configuration& conf = configuration(configuration_index);
+  while ((until_num_particles > 0) &&
+         ((particle_type == -1 && (conf.num_particles() != until_num_particles)) ||
+          (particle_type != -1 && (conf.num_particles_of_type(particle_type) != until_num_particles)))) {
+    attempt(1);
+    DEBUG("num_particles " << conf.num_particles());
+  }
+}
+
+void MonteCarlo::run_for_hours(const double hours) {
+  if (hours > 0) {
+    const double begin = cpu_hours();
+    while (hours > cpu_hours() - begin) {
+      attempt(10);
+    }
+  }
 }
 
 }  // namespace feasst

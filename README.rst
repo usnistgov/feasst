@@ -79,7 +79,7 @@ Third, reproduce the expected result of those tutorials.
 Fourth, use the :doc:`../plugin/text_interface` documentation to better understand and modify the tutorial to accomplish your goals.
 When you :doc:`../CONTACT` us with issues, include the text input file instead of the python script that generates that text file.
 
-How to install (e.g., compile the executables)
+How to install (i.e., compile the executables)
 ===============================================
 
 .. code-block:: bash
@@ -95,6 +95,7 @@ How to install (e.g., compile the executables)
 
 The executables `fst` and `rst` should appear in `/path/to/feasst/build/bin/`.
 Text input files are run using `fst < input.txt` while simulations are restarted using `rst checkpoint.txt`.
+It is important to provide pip a path to the specific pyfeasst directory in feasst to ensure the versions match (e.g., do not leave out the "../" above).
 
 Troubleshooting install
 ------------------------

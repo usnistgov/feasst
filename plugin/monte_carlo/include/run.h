@@ -16,7 +16,6 @@ class Run : public Action {
  public:
   //@{
   /** @name Arguments
-    args:
     - num_trials: run this many trials (default: -1. e.g., None)
     - until_num_particles: run until this many particles (default: -1. e.g., None)
     - configuration_index: configuration for until_num_particles (default: 0).

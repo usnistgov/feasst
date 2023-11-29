@@ -60,32 +60,13 @@ void Run::serialize(std::ostream& ostr) const {
 }
 
 void Run::run(MonteCarlo * mc) {
-  while (num_trials_ > 0) {
-    mc->attempt(1);
-    --num_trials_;
-    DEBUG("num_trials " << num_trials_);
-  }
-  const Configuration& conf = mc->configuration(configuration_index_);
-  while ((until_num_particles_ > 0) &&
-         ((particle_type_ == -1 && (conf.num_particles() != until_num_particles_)) ||
-          (particle_type_ != -1 && (conf.num_particles_of_type(particle_type_) != until_num_particles_)))) {
-    mc->attempt(1);
-    DEBUG("num_particles " << conf.num_particles());
-  }
-  if (for_hours_ > 0) {
-    const double begin = cpu_hours();
-    while (for_hours_ > cpu_hours() - begin) {
-      mc->attempt(10);
-    }
-  }
+  mc->run_num_trials(num_trials_);
+  mc->run_until_num_particles(until_num_particles_,
+                              particle_type_,
+                              configuration_index_);
+  mc->run_for_hours(for_hours_);
   if (until_criteria_complete_) {
-    DEBUG("num iterations " << mc->criteria().num_iterations());
-    DEBUG("num iterations to complete " << mc->criteria().num_iterations_to_complete());
-    DEBUG("mc->criteria().is_complete() " << mc->criteria().is_complete());
-    while (!mc->criteria().is_complete()) {
-      DEBUG("mc->criteria().is_complete() " << mc->criteria().is_complete());
-      mc->attempt(1);
-    }
+    mc->run_until_complete();
   }
 }
 

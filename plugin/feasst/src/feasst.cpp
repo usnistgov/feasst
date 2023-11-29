@@ -91,6 +91,16 @@ void parse_cm(std::string line) {
   cm.run_until_all_are_complete();
 }
 
+// Parse the line containing Prefetch
+void parse_prefetch(std::string line) {
+  argtype variables;
+  bool assign_to_list;
+  std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
+  Prefetch prefetch(line_pair.second);
+  arglist list = parse_mc();
+  prefetch.begin(list);
+}
+
 /**
   Usage: ./fst < file.txt
 
@@ -118,12 +128,15 @@ int main() {
     std::cout << "MonteCarlo" << std::endl;
     arglist list = parse_mc();
     auto mc = std::make_shared<MonteCarlo>(list);
+  } else if (line.substr(0, 8) == "Prefetch") {
+    std::cout << "Prefetch" << std::endl;
+    parse_prefetch(line);
   } else if (line.substr(0, 22) == "CollectionMatrixSplice") {
     parse_cm(line);
   } else {
     FATAL("As currently implemented, all FEASST input text files must begin "
-      << "with \"MonteCarlo\" or \"CollectionMatrixSplice\", but the first "
-      << "readable line in this file is: " << line);
+      << "with \"MonteCarlo,\" \"CollectionMatrixSplice\" or \"Prefetch.\" "
+      << "The first readable line in this file is: " << line);
   }
   return 0;
 }

@@ -15,3 +15,4 @@ echo "Press [Enter] to commit with message: $version?"
 read -rs
 git commit -a -m "$version"
 #git checkout $branch
+# also dont forget to upload to pypi https://packaging.python.org/en/latest/tutorials/packaging-projects/
