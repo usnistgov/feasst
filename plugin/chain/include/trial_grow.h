@@ -29,7 +29,7 @@ namespace feasst {
     for TrialSelectParticle).
     In addition, must have number of stages equal to number of sites.
   - add: if true, create an add trial (default: false).
-  - remove: if true, create an add trial (default: false).
+  - remove: if true, create a remove trial (default: false).
   - add_avb: if true, create an avb add trial (default: false).
   - remove_avb: if true, create an avb remove trial (default: false).
   - default_num_steps: optional default number of steps for all stages.
