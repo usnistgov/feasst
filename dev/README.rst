@@ -64,10 +64,12 @@ Pull requests
 
 To create a pull request, fork the usnistgov repo, create a new branch with your changes, and add the pull request.
 
+Try to copy the style of existing commits in the main branch. This means reducing the number of commits in a pull request (e.g., consider a git merge), and to keep the commit descriptions in a similar style as existing commits. For example, the description should be a single sentence that is general and not redundant information from what you see when you click on the details of the commit.
+
 To incorporate the pull request into feasst
 - git fetch usnistgov pull/ID/head:BRANCHNAME
 - git checkout BRANCHNAME
-- [make local changes]
+- [make local changes. Can "git commit --amend"]
 - git push usnistgov BRANCHNAME
 
 Tools
@@ -352,6 +354,7 @@ To Do List
 * Similarly, implement a non-OMP fh parallelization. Maybe that should be the first example before OMP communication? Only problem, keep windows running until last one converges?
 * Update Translate tunable maximum when volume changes..?
 * tutorials which segfault on restart dont report errors in automated tests
-* remove prefix from argparse in tutorials: prefix can't change in slurm runs
 * Move Trial checks so that they can be applied to GhostTrialGrow
 * Make Criteria[Updater,Writer] part of FlatHistogram keywords?
+* Restart Prefetch. Does Run::num_trials work properly?
+* ActionExample->WriteStepper. Add name/descript to Steppers to reference (if more than one of same class)

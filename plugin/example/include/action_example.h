@@ -21,6 +21,7 @@ namespace feasst {
 
   In this example, an Analyze/Modify of given name is forced to write to file.
   This is convenient for example printing the very last update to FlatHistogram.
+  This is a duplicate of WriteStepper class.
  */
 class ActionExample : public Action {
  public:

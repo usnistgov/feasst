@@ -22,6 +22,8 @@ class Run : public Action {
     - particle_type: type of particle to count. If -1, all particles (default: -1).
     - for_hours: run for this many CPU hours (default: -1 e.g., None).
     - until_criteria_complete: run until Criteria is complete (default: false)
+    - until_file_exists: run until input file name exists.
+      If empty, skip (default: empty).
 
     Arguments are completed in the order listed.
    */
@@ -50,6 +52,7 @@ class Run : public Action {
   int particle_type_;
   double for_hours_;
   bool until_criteria_complete_;
+  std::string until_file_exists_;
 };
 
 inline std::shared_ptr<Run> MakeRun(argtype args = argtype()) {

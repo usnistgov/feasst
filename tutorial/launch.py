@@ -86,16 +86,16 @@ RemoveTrial name TrialAdd
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Tune
 CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name Log
 
 # canonical ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.txt
+Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.csv
 CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.txt
 Run until_criteria_complete true
 """.format(**params))
@@ -104,9 +104,9 @@ def post_process(params):
     """ Plot energy and compare with https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm """
     ens = np.zeros(shape=(params['num_sims'], 2))
     for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.txt')
+        log = pd.read_csv(params['prefix']+str(sim)+'.csv')
         assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+str(sim)+'_en.txt')
+        energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
         ens[sim] = np.array([energy['average'][0],
                              energy['block_stdev'][0]])/params['num_particles']
     # data from https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm

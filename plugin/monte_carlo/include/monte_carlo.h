@@ -260,6 +260,9 @@ class MonteCarlo {
   void run_until_complete() {
     run_until_complete_(&trial_factory_, random_.get()); }
 
+  /// Attempt Monte Carlo trials until the given file name exists.
+  virtual void run_until_file_exists(const std::string& file_name);
+
   // HWH hackish interface for prefetch
   void before_attempts_();
   void delay_finalize_() {

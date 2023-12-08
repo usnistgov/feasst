@@ -525,6 +525,13 @@ void Prefetch::run_until_num_particles(const int num_particles,
   activate_prefetch(true);
 }
 
+void Prefetch::run_until_file_exists(const std::string& file_name) {
+  if (!file_name.empty()) {
+    WARN("run_until_file is not implemented efficiently.");
+  }
+  MonteCarlo::run_until_file_exists(file_name);
+}
+
 void Prefetch::serialize(std::ostream& ostr) const {
   MonteCarlo::serialize(ostr);
   feasst_serialize_version(5686, ostr);

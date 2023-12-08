@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "utils/include/serialize.h"
+#include "utils/include/file.h"
 #include "utils/include/checkpoint.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/action.h"
@@ -643,6 +644,16 @@ void MonteCarlo::run_until_complete_(TrialFactory * trial_factory,
     attempt_(1, trial_factory, random);
   }
   write_checkpoint();
+}
+
+void MonteCarlo::run_until_file_exists(const std::string& file_name) {
+  if (!file_name.empty()) {
+    while (!file_exists(file_name)) {
+      DEBUG("here");
+      attempt_(1e2, &trial_factory_, random_.get());
+    }
+    write_checkpoint();
+  }
 }
 
 void MonteCarlo::synchronize_(const MonteCarlo& mc, const Select& perturbed) {
