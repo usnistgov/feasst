@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MonteCarlo &mdash; FEASST v0.24.0 documentation</title>
+  <title>MonteCarlo &mdash; FEASST v0.24.2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.0
+                v0.24.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -283,6 +283,12 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10MonteCarlo10MonteCarloEv">
 <span class="target" id="classfeasst_1_1MonteCarlo_1a981d861b4fc223b52b6cb8ca13e7a223"></span><span class="sig-name descname"><span class="n"><span class="pre">MonteCarlo</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo10MonteCarloEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Construct with <a class="reference internal" href="../../math/doc/RandomMT19937_arguments.html#classfeasst_1_1RandomMT19937"><span class="std std-ref">RandomMT19937</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst10MonteCarlo5beginE7arglist">
+<span class="target" id="classfeasst_1_1MonteCarlo_1a4711692456994f23117d98006b50a436"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">begin</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7arglistE" title="feasst::arglist"><span class="n"><span class="pre">arglist</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo5beginE7arglist" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Begin processing the arguments. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -520,7 +526,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10MonteCarlo3runENSt10shared_ptrI6ActionEE">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a16db0f82263d80d62d916ffea83f1f67"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Action.html#_CPPv4N6feasst6ActionE" title="feasst::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">action</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo3runENSt10shared_ptrI6ActionEE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a97c304dc32301d206d31600c2a614b13"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Action.html#_CPPv4N6feasst6ActionE" title="feasst::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">action</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo3runENSt10shared_ptrI6ActionEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Attempt one trial, with subsequent analysers and modifiers. </p>
 <p>Perform an <a class="reference internal" href="Action_arguments.html#classfeasst_1_1Action"><span class="std std-ref">Action</span></a></p>
 </dd></dl>
@@ -538,9 +544,33 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst10MonteCarlo14run_num_trialsEi">
+<span class="target" id="classfeasst_1_1MonteCarlo_1a184a6e2cbfe583eaecfe2d567e428e15"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_num_trials</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_trials</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo14run_num_trialsEi" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="Run_arguments.html#classfeasst_1_1Run"><span class="std std-ref">Run</span></a> a number of trials. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst10MonteCarlo23run_until_num_particlesEKiKiKi">
+<span class="target" id="classfeasst_1_1MonteCarlo_1a1aaee0429cace8ab91d4fdd430d64901"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_until_num_particles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_particles</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">configuration_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo23run_until_num_particlesEKiKiKi" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="Run_arguments.html#classfeasst_1_1Run"><span class="std std-ref">Run</span></a> until a number of particles is reached. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst10MonteCarlo13run_for_hoursEKd">
+<span class="target" id="classfeasst_1_1MonteCarlo_1a29d22f3afb355fee3a9297f17cba61a7"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_for_hours</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">hours</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo13run_for_hoursEKd" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="Run_arguments.html#classfeasst_1_1Run"><span class="std std-ref">Run</span></a> trials for a number of hours. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10MonteCarlo18run_until_completeEv">
 <span class="target" id="classfeasst_1_1MonteCarlo_1a11ebfabff85acc31239ce261ffcdd132"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_until_complete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo18run_until_completeEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Attempt Monte Carlo trials until <a class="reference internal" href="Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> returns completion. If available, automatically write checkpoint when complete. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst10MonteCarlo21run_until_file_existsERKNSt6stringE">
+<span class="target" id="classfeasst_1_1MonteCarlo_1a4aae34dca86dfbcc0bda7c56a64e9f3c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_until_file_exists</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">file_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10MonteCarlo21run_until_file_existsERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Attempt Monte Carlo trials until the given file name exists. </p>
 </dd></dl>
 
 <dl class="cpp function">

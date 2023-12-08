@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User defined tabular potentials &mdash; FEASST v0.24.0 documentation</title>
+  <title>User defined tabular potentials &mdash; FEASST v0.24.2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.0
+                v0.24.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -80,6 +80,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_08_trimer_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Patchy Trimers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_09_kf_tm_parallel.html">Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_10_wltm_lowt.html">Grand Canonical Flat Histogram Simulation at low temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_11_co2_epm2.html">Grand Canonical Flat Histogram Simulation of EMP2 CO2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_11_trappe_alkane.html">Grand Canonical Flat Histogram Simulation of TraPPE alkanes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/tutorial/tutorial_12_1bin_vs_2bin.html">Efficiency of 1 or 2 bin Grand Canonical Flat Histogram Simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
@@ -254,7 +255,6 @@
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_checkpoint&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours per checkpoint&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_terminate&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours until termination&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--procs_per_node&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of processors&#39;</span><span class="p">)</span>
-<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--prefix&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;lj&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;prefix for all output file names&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--table_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;lj_table.txt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;table file name&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--plot_table&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;0: no plot, 1: plot&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--num_z&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of table elements&#39;</span><span class="p">)</span>
@@ -278,6 +278,7 @@
 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">UNKNOWN_ARGS</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;An unknown argument was included: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">UNKNOWN_ARGS</span><span class="p">)</span>
 <span class="n">PARAMS</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">ARGS</span><span class="p">)</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;script&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="vm">__file__</span>
+<span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;lj&#39;</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span> <span class="s1">&#39;_sim_ids.txt&#39;</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;minutes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span> <span class="c1"># minutes allocated on queue</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.99</span><span class="o">*</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.0333</span> <span class="c1"># terminate before queue</span>

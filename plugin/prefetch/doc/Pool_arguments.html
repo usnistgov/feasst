@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pool &mdash; FEASST v0.24.0 documentation</title>
+  <title>Pool &mdash; FEASST v0.24.2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -50,7 +50,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.0
+                v0.24.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -178,9 +178,10 @@
 <p>Although its quite a simple strategy, the trickiest part is efficiently reproducing the accepted perturbation on all threads (e.g., the synchronizing step) in a way that’s general to all MC trials (and potential functions/ optimizations). This can get really complicated by cell lists, neighbor lists and k-space. For the synchronize step, I’ve used two different strategies, sometimes both at the same time, which span the range of ease of implementation vs efficiency.</p>
 <p><ol class="arabic simple">
 <li><p><a class="reference internal" href="../../utils/doc/Cache_arguments.html#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a> every random number and energy term generated during the trial, and if that trial is the accepted one, revert the others, then feed those cached RNG/energies back to the other threads to reproduce the same perturbations. There are some issues with FEASST here because the energy calcs are also part of the neighbor/cell/kvector updates. Also, this means going through each config bias step, etc, so its not the most efficient synchronization possible.</p></li>
-<li><p>A more efficient synchronization method is to give objects a synchronize method which takes as input a reference to the base class its trying to copy and the list of particles/sites that were changed in the trial. For example, in <a class="reference internal" href="../../charge/doc/Ewald_arguments.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a>, <a class="reference internal" href="../../system/doc/VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a> is the base class of <a class="reference internal" href="../../charge/doc/Ewald_arguments.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a>, and <a class="reference internal" href="../../configuration/doc/Select_arguments.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> has the list of particles/sites that were perturbed. The base class also needs a data structure (<a class="reference internal" href="../../system/doc/SynchronizeData_arguments.html#classfeasst_1_1SynchronizeData"><span class="std std-ref">SynchronizeData</span></a>) that all the derived classes use. In the most complex cases, the data is separated between ones that are automatically copied every time, or ones manually choosen based on which sites were perturbed. </p></li>
+<li><p>A more efficient synchronization method is to give objects a synchronize method which takes as input a reference to the base class its trying to copy and the list of particles/sites that were changed in the trial. For example, in <a class="reference internal" href="../../charge/doc/Ewald_arguments.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a>, <a class="reference internal" href="../../system/doc/VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a> is the base class of <a class="reference internal" href="../../charge/doc/Ewald_arguments.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a>, and <a class="reference internal" href="../../configuration/doc/Select_arguments.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> has the list of particles/sites that were perturbed. The base class also needs a data structure (<a class="reference internal" href="../../system/doc/SynchronizeData_arguments.html#classfeasst_1_1SynchronizeData"><span class="std std-ref">SynchronizeData</span></a>) that all the derived classes use. In the most complex cases, the data is separated between ones that are automatically copied every time, or ones manually choosen based on which sites were perturbed.</p></li>
 </ol>
 </p>
+<p><a class="reference internal" href="#classfeasst_1_1Prefetch"><span class="std std-ref">Prefetch</span></a> is not used for the until_num_particles argument in <a class="reference internal" href="../../monte_carlo/doc/Run_arguments.html#classfeasst_1_1Run"><span class="std std-ref">Run</span></a>. </p>
 </dd></dl>
 
 </section>

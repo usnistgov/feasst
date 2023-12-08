@@ -30,6 +30,7 @@ For help in discussion or testing (alphabetical)
 * Dr. Vincent K. Shen
 * Dr. Daniel W. Siderius
 * Dr. Yingnan Wang
+* Jilong Xu
 * Dr. Hasan Zerze
 
 Publications

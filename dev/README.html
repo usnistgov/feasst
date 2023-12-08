@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer guidelines &mdash; FEASST v0.24.0 documentation</title>
+  <title>Developer guidelines &mdash; FEASST v0.24.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.0
+                v0.24.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -238,10 +238,11 @@ HINT: rename branches with “git branch -m &lt;newname&gt;”</p></li>
 <section id="pull-requests">
 <h3>Pull requests<a class="headerlink" href="#pull-requests" title="Permalink to this heading"></a></h3>
 <p>To create a pull request, fork the usnistgov repo, create a new branch with your changes, and add the pull request.</p>
+<p>Try to copy the style of existing commits in the main branch. This means reducing the number of commits in a pull request (e.g., consider a git merge), and to keep the commit descriptions in a similar style as existing commits. For example, the description should be a single sentence that is general and not redundant information from what you see when you click on the details of the commit.</p>
 <p>To incorporate the pull request into feasst
 - git fetch usnistgov pull/ID/head:BRANCHNAME
 - git checkout BRANCHNAME
-- [make local changes]
+- [make local changes. Can “git commit –amend”]
 - git push usnistgov BRANCHNAME</p>
 </section>
 </section>
@@ -483,36 +484,22 @@ compatibility.</p></li>
 <section id="to-do-list">
 <h2>To Do List<a class="headerlink" href="#to-do-list" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>implement gibbs ensemble</p></li>
-<li><p>Make utils:lj,spce,etc derived classes of System ?</p></li>
-<li><p>Create benchmarking profile to compare among versions</p></li>
-<li><p>fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu</p></li>
-<li><p>consider optimization of Ewald: init ewald storage on particle types, precompute property index.</p></li>
-<li><p>when selecting from cpdf, use lnp instead of p?</p></li>
-<li><p>Python debug script: easy for user to run gdb/valgrind</p></li>
-<li><p>Toggle more debug levels, and localized to certain files/plugins, etc</p></li>
+<li><p>profile: Create benchmarking profile to compare among versions</p></li>
+<li><p>profile: implement timer for profiles (with hierarchies by class… tried this, but its too slow. Time only infrequently?)</p></li>
+<li><p>profile: implement a timer to auto-balance trial weights based on cpu time.</p></li>
+<li><p>debug: Toggle more debug levels, and localized to certain files/plugins, etc</p></li>
+<li><p>debug: Implement a class-specific debug output setting</p></li>
+<li><p>compile: fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu</p></li>
+<li><p>opt: when selecting from cpdf, use lnp instead of p?</p></li>
 <li><p>force precompute when reinitializing system, criteria, etc in MonteCarlo</p></li>
 <li><p>MonteCarlo subclass Simulation</p></li>
-<li><p>swig python wrap arguments std::istream and std::ostream for serialization</p></li>
 <li><p>add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects</p></li>
 <li><p>VisitModels may prefer to update select properties (e.g., cell, eik)</p></li>
-<li><p>Jupyter notebook output should go to cells, not terminal that runs jupyter.</p></li>
-<li><p>lint file_[xyz,lmp]</p></li>
-<li><p>put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list</p></li>
-<li><p>config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald</p></li>
 <li><p>Rename TrialSelect-&gt;SelectTrial, TrialCompute-&gt;ComputeTrial. Rename Compute-&gt;Decide?.</p></li>
 <li><p>Somehow, trial_growth_expanded.h doesn’t include debug.h but can compile with ASSERT</p></li>
 <li><p>Speed up RNG by maintaining int_distribution like dis_double</p></li>
-<li><p>Document utils lj, spce, rpm in tutorials</p></li>
-<li><p>Add a FAQ for common compile errors: “no known conversion from brace-enclosed initializer list to argtype” often means that a parameter was not converted to a string.</p></li>
 <li><p>Make a CachedRandom and CachedPotential for prefetch and avoid if statements that could slow down serial simulations.</p></li>
-<li><p>Analyze/ModifyFactory optimization: use steps_per in factory to limit number of checks</p></li>
-<li><p>implement timer for profiles (with hierarchies by class… tried this, but its too slow. Time only infrequently?)</p></li>
-<li><p>implement a timer to auto-balance trial weights based on cpu time.</p></li>
-<li><p>More documentation/tutorial on how to create your own plugins, classes, etc</p></li>
 <li><p>add orientation argument to shapes with internal coordinate transformation</p></li>
-<li><p>System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).</p></li>
-<li><p>Consider using new state instead of old state in acceptance derivations</p></li>
 <li><p>Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.</p></li>
 <li><p>Rename xyz files, and/or document more cleary (second line in xyz).</p></li>
 <li><p>Rename plugin chain-&gt;config_bias ?</p></li>
@@ -520,10 +507,8 @@ compatibility.</p></li>
 <li><p>Optimize TrialRemove for new_only by not computing interactions with neighbors</p></li>
 <li><p>Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.</p></li>
 <li><p>(repeat) regrow but within near existing, for ‘free dof, e.g. azimuthal in  angle, sphere in bond, etc’</p></li>
-<li><p>Add more documentation for Trials (TrialStage: Perturb/Select, TrialCompute. When finialize? reference?)</p></li>
-<li><p>When swig4 finally works, can use multimap for dictionaries with more than one of same first key</p></li>
 <li><p>Rename Movie-&gt;XYZ</p></li>
-<li><p>Rename Stepper.</p></li>
+<li><p>Rename Stepper?</p></li>
 <li><p>Patch custom model params not present in mc.configuration().model_params (affects FileXYZPatch).</p></li>
 <li><p>early rejection scheme: <a class="reference external" href="https://doi.org/10.1080/00268976.2014.897392">https://doi.org/10.1080/00268976.2014.897392</a></p></li>
 <li><p>get rid of ‘time’ and ‘default’ values for Random seed argument.</p></li>
@@ -532,19 +517,14 @@ compatibility.</p></li>
 <li><p>Add TrialParticlePivot to TrialGrow (randomly orients particle about site). Or, more generally, say num_steps=-1 combines stages into one.</p></li>
 <li><p>better support compressed trajectory formats: xtc, dcd, etc</p></li>
 <li><p>Wrap triclinic particles for Movie. See: <a class="reference external" href="https://github.com/lammps/lammps/blob/develop/src/domain.cpp#L1232-L1322">https://github.com/lammps/lammps/blob/develop/src/domain.cpp#L1232-L1322</a></p></li>
-<li><p>Clean up the To Do list</p></li>
-<li><p>add netcdf support <a class="reference external" href="http://unidata.github.io/netcdf-cxx4/index.html">http://unidata.github.io/netcdf-cxx4/index.html</a> , <a class="reference external" href="https://gerasimosmichalitsianos.wordpress.com/2017/12/13/usingcppwithnetcdf/">https://gerasimosmichalitsianos.wordpress.com/2017/12/13/usingcppwithnetcdf/</a> <a class="reference external" href="https://support.scinet.utoronto.ca/education/staticpublic/course177content327.html">https://support.scinet.utoronto.ca/education/staticpublic/course177content327.html</a></p></li>
-<li><p>Add a logger, to output model params, ewald params, etc, to help users catch mistakes. Or maybe, output these parameters as the commented header in Log, maybe in json format.</p></li>
 <li><p>Implement Jeff’s parallel method via CollectionMatrixSplice that allows exchange of window ranges with overlapping simulations</p></li>
 <li><p>Similarly, implement a non-OMP fh parallelization. Maybe that should be the first example before OMP communication? Only problem, keep windows running until last one converges?</p></li>
-<li><p>Implement a class-specific debug output setting</p></li>
 <li><p>Update Translate tunable maximum when volume changes..?</p></li>
 <li><p>tutorials which segfault on restart dont report errors in automated tests</p></li>
-<li><p>remove prefix from argparse in tutorials: prefix can’t change in slurm runs</p></li>
-<li><p>Add Stepper arguments to text interface documentation</p></li>
 <li><p>Move Trial checks so that they can be applied to GhostTrialGrow</p></li>
-<li><p>Define the public text interface. Add an automated check to see if any of the public interface classes or arguments change. Enforce argument uniqueness (derived classes exception?).</p></li>
-<li><p>ReadConfigFromFile argument is an input_file, not an output_file</p></li>
+<li><p>Make Criteria[Updater,Writer] part of FlatHistogram keywords?</p></li>
+<li><p>Restart Prefetch. Does Run::num_trials work properly?</p></li>
+<li><p>ActionExample-&gt;WriteStepper. Add name/descript to Steppers to reference (if more than one of same class)</p></li>
 </ul>
 </section>
 </section>

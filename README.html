@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>README &mdash; FEASST v0.24.0 documentation</title>
+  <title>README &mdash; FEASST v0.24.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,14 +52,14 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.0
+                v0.24.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-get-started">How to get started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-install-e-g-compile-the-executables">How to install (e.g., compile the executables)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-install-i-e-compile-the-executables">How to install (i.e., compile the executables)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#troubleshooting-install">Troubleshooting install</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#centos-7">CentOS 7</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#rocky-8">Rocky 8</a></li>
@@ -226,8 +226,8 @@ simulations with Monte Carlo methods.</p>
 </ul>
 <p>Interaction potentials</p>
 <ul class="simple">
-<li><p>Hard spheres</p></li>
-<li><p>Lennard-Jones with LRC, cut and force shift</p></li>
+<li><p>Lennard-Jones and Mie with cut/force shift and corrections</p></li>
+<li><p>Hard spheres and square wells</p></li>
 <li><p>Patchy and anisotropic particles</p></li>
 <li><p>Yukawa and charged interactions</p></li>
 <li><p>Ewald summation and 2D slab correction</p></li>
@@ -238,7 +238,7 @@ simulations with Monte Carlo methods.</p>
 </ul>
 <p>Monte Carlo trials</p>
 <ul class="simple">
-<li><p>Translation, rotation, crankshaft, pivot</p></li>
+<li><p>Translation, rotation, crankshaft and pivot</p></li>
 <li><p>Rigid cluster rotation and translation</p></li>
 <li><p>Configurational bias transfers and partial regrowth</p></li>
 <li><p>Dual-cut configurational bias</p></li>
@@ -248,7 +248,7 @@ simulations with Monte Carlo methods.</p>
 </ul>
 <p>Modern software</p>
 <ul class="simple">
-<li><p>Interface with C++ or as a Python module</p></li>
+<li><p>Interface as text input, C++ or Python module</p></li>
 <li><p>OpenMP parallelization and prefetching</p></li>
 <li><p>Checkpoint files to save, restart and analyze simulations</p></li>
 </ul>
@@ -261,8 +261,8 @@ Third, reproduce the expected result of those tutorials.
 Fourth, use the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> documentation to better understand and modify the tutorial to accomplish your goals.
 When you <a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us with issues, include the text input file instead of the python script that generates that text file.</p>
 </section>
-<section id="how-to-install-e-g-compile-the-executables">
-<h2>How to install (e.g., compile the executables)<a class="headerlink" href="#how-to-install-e-g-compile-the-executables" title="Permalink to this heading"></a></h2>
+<section id="how-to-install-i-e-compile-the-executables">
+<h2>How to install (i.e., compile the executables)<a class="headerlink" href="#how-to-install-i-e-compile-the-executables" title="Permalink to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>apt/yum/brew<span class="o">]</span><span class="w"> </span>install<span class="w"> </span>g++<span class="w"> </span>cmake<span class="w"> </span>git<span class="w"> </span>python3
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/usnistgov/feasst.git
 mkdir<span class="w"> </span>feasst/build
@@ -274,7 +274,8 @@ pip<span class="w"> </span>install<span class="w"> </span>../pyfeasst<span class
 </pre></div>
 </div>
 <p>The executables <cite>fst</cite> and <cite>rst</cite> should appear in <cite>/path/to/feasst/build/bin/</cite>.
-Text input files are run using <cite>fst &lt; input.txt</cite> while simulations are restarted using <cite>rst checkpoint.txt</cite>.</p>
+Text input files are run using <cite>fst &lt; input.txt</cite> while simulations are restarted using <cite>rst checkpoint.txt</cite>.
+It is important to provide pip a path to the specific pyfeasst directory in feasst to ensure the versions match (e.g., do not leave out the “../” above).</p>
 <section id="troubleshooting-install">
 <h3>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Permalink to this heading"></a></h3>
 <p>Please <a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us if you run into an issue not listed below.</p>
