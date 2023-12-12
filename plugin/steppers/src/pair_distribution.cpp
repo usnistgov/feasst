@@ -177,6 +177,8 @@ const grtype& PairDistribution::radial(const Configuration& config) {
   ASSERT(num_updates_ > 0, "cannot obtain radial with no updates");
   const int num_site_types = config.num_site_types();
   const std::vector<int> num_sites_of_type = config.num_sites_of_type();
+  std::vector<std::vector<int> > num_sites_of_type_in_particle =
+    config.num_site_types_per_particle_type();
   const int max_bin = static_cast<int>(0.5*config.domain().inscribed_sphere_diameter()/dr_);
   for (int bin = 0; bin < max_bin && bin < inter_.radial_[0][0].size(); ++bin) {
     DEBUG("bin: " << bin << " of " << max_bin);
@@ -192,9 +194,13 @@ const grtype& PairDistribution::radial(const Configuration& config) {
     radial_[bin].first = distance;
     for (int itype = 0; itype < num_site_types; ++itype) {
       const double num_itype = num_sites_of_type[itype];
+      const int ipart_type = config.site_type_to_particle_type(itype);
       for (int jtype = 0; jtype < num_site_types; ++jtype) {
+        const int jpart_type = config.site_type_to_particle_type(jtype);
         double norm_fac = 0.;
-        if (itype == jtype) norm_fac = 1.;
+        if (ipart_type == jpart_type) {
+          norm_fac = num_sites_of_type_in_particle[ipart_type][itype];
+        }
         const double num_jtype = num_sites_of_type[jtype];
         const Histogram& hist = inter_.radial_[itype][jtype];
         double grbin = 0;

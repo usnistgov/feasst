@@ -32,6 +32,42 @@ def structure_factor(distances, radial_distribution, frequency, number_density):
         struct_fac += bin_width*distance*distance*math.sin(qr)*(radial_distribution[index] - 1)/qr
     return 1 + 4*math.pi*number_density*struct_fac
 
+def gen_ff_file(qs, sigmas, output_file):
+    """
+    Generate a file with the form factors of spheres with the given sigma(diameter) values.
+
+    >>> from pyfeasst import scattering
+    >>> qs = [0.447022, 0.48368, 0.0698132]
+    >>> scattering.gen_ff_file(qs=qs,
+    ...                        sigmas=[1.5200, 5.3283, 4.5405, 4.4130, 4.6319],
+    ...                        output_file='ff.csv')
+    >>> import pandas as pd
+    >>> df = pd.read_csv('ff.csv')
+    >>> round(df['q'][0], 6) == qs[0]
+    True
+    >>> round(df['p0'][0], 4) == 14.0422
+    True
+    >>> round(df['p0'][1], 4) == 13.9303
+    True
+    >>> round(df['p4'][0], 3) == 263.059
+    True
+    >>> round(df['p4'][1], 3) == 241.494
+    True
+    >>> round(df['p0'][2], 4) == 14.6937
+    True
+    >>> round(df['p4'][2], 3) == 411.925
+    True
+    """
+
+    df = pd.DataFrame(qs, columns=['q'])
+    for isigma, sigma in enumerate(sigmas):
+        ff = np.zeros(len(qs))
+        for iq, q in enumerate(qs):
+            volume = 4*np.pi*np.power(sigma, 3)/3.
+            ff[iq] = volume*3*(np.sin(q*sigma)-q*sigma*np.cos(q*sigma))/np.power(q*sigma, 3)
+        df['p'+str(isigma)] = ff
+    df.to_csv(output_file)
+
 def intensity(gr_file, iq_file, num_density, skip=1, rdf_shift=0.05):
     """
     Return the scattering intensity given a radial distribution function file with all rdfs

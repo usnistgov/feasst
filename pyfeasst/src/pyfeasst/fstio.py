@@ -83,6 +83,9 @@ def slurm_single_node(params):
         sim_id_file: filename to write simulation id's for later checking of status,
         max_restarts: maximum number of restarts,
         node: node index.
+        Optional keys:
+        scratch: location of local scratch space on HPC node (disabled by default),
+        scratch_hours_per_sync: hours between synching scratch to destination (default: 5).
 
     This function also adds the key 'queue_command' to the params dictionary,
     which is assumed to output the job id.
@@ -95,9 +98,16 @@ def slurm_single_node(params):
         params['scratch_slurm_preamble'] = ''
         params['scratch_slurm_postamble'] = ''
     else:
+        if params['scratch_hours_per_sync'] == None:
+            params['scratch_seconds_per_sync'] = 5*60*60
+        else:
+            params['scratch_seconds_per_sync'] = 60*60*params['scratch_hours_per_sync']
         params['scratch_slurm_preamble'] = """original_dir=$PWD; echo $original_dir
 scratch={scratch}/$LOGNAME/${{SLURM_ARRAY_JOB_ID}}_${{SLURM_ARRAY_TASK_ID}}/; mkdir -p $scratch; cd $scratch; echo "scratch:$scratch"
 rsync -au $original_dir/* .
+echo "while [ 1 -le 2 ]; do sleep {scratch_seconds_per_sync}; rsync -au * $original_dir/; done" > {prefix}_sync.sh
+chmod a+x {prefix}_sync.sh
+./{prefix}_sync.sh &
 ls""".format(**params)
         params['scratch_slurm_postamble'] = 'rsync -au . $original_dir/'
     if not 'queue_flags' in params:

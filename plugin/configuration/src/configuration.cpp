@@ -934,4 +934,33 @@ void Configuration::check_dimensions() const {
     << domain_->dimension());
 }
 
+int Configuration::site_type_to_particle_type(const int site_type) const {
+  int particle_type = 0;
+  int prev = 0;
+  for (int site = 0; site <= site_type; ++site) {
+    const int num_sites = unique_types().particle(particle_type).num_sites();
+    if (site >= num_sites + prev) {
+      prev += num_sites;
+      ++particle_type;
+    }
+  }
+  return particle_type;
+}
+
+std::vector<std::vector<int> > Configuration::num_site_types_per_particle_type() const {
+  int prev = 0;
+  std::vector<std::vector<int> > nstppt(num_particle_types());
+  for (int ptype = 0; ptype < num_particle_types(); ++ptype) {
+    const Particle& part = particle_types().particle(ptype);
+    const int num_site_types = unique_types().particle(ptype).num_sites();
+    std::vector<int> st(num_site_types+prev);
+    for (int stype = 0; stype < num_site_types; ++stype) {
+      st[stype + prev] += part.num_sites_of_type(stype + prev);
+    }
+    prev += num_site_types;
+    nstppt[ptype] = st;
+  }
+  return nstppt;
+}
+
 }  // namespace feasst

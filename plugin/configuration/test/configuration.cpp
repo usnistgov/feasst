@@ -33,6 +33,26 @@ TEST(Configuration, type_to_file_name) {
   config.add_particle_type("../particle/lj.fstprt", "2");
   EXPECT_EQ(5, config.num_particle_types());
   EXPECT_EQ("../particle/lj.fstprt2", config.type_to_file_name(4));
+
+  EXPECT_EQ(6, config.num_site_types());
+  EXPECT_EQ(0, config.site_type_to_particle_type(0));
+  EXPECT_EQ(1, config.site_type_to_particle_type(1));
+  EXPECT_EQ(2, config.site_type_to_particle_type(2));
+  EXPECT_EQ(2, config.site_type_to_particle_type(3));
+  EXPECT_EQ(3, config.site_type_to_particle_type(4));
+  EXPECT_EQ(4, config.site_type_to_particle_type(5));
+  const std::vector<std::vector<int> > nstppt =
+    config.num_site_types_per_particle_type();
+  EXPECT_EQ(5, static_cast<int>(nstppt.size()));
+  EXPECT_EQ(1, nstppt[0][0]);
+  EXPECT_EQ(0, nstppt[1][0]);
+  EXPECT_EQ(1, nstppt[1][1]);
+  EXPECT_EQ(0, nstppt[2][0]);
+  EXPECT_EQ(0, nstppt[2][1]);
+  EXPECT_EQ(1, nstppt[2][2]);
+  EXPECT_EQ(2, nstppt[2][3]);
+  EXPECT_EQ(1, nstppt[3][4]);
+  EXPECT_EQ(1, nstppt[4][5]);
 }
 
 TEST(Configuration, coordinates_and_wrapping) {

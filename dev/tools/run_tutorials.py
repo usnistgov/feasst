@@ -1,8 +1,14 @@
 from pathlib import Path
 import multiprocessing
 import subprocess
-import feasst
+import argparse
 from pyfeasst import cd
+
+# Parse arguments from command line or change their default values.
+PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+PARSER.add_argument('--feasst_install', type=str, help='FEASST directory')
+ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
+assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
 
 def run_file(filename):
     if 'checkpoint' not in filename.name:
@@ -21,4 +27,4 @@ def run_file(filename):
 
 #for filename in Path(feasst.install_dir()).rglob('*.ipynb'): run_file(filename)
 pool = multiprocessing.Pool(4)
-zip(pool.map(run_file, Path(feasst.install_dir()).rglob('*.ipynb')))
+zip(pool.map(run_file, Path(ARGS.feasst_install).rglob('*.ipynb')))

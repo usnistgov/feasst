@@ -2,9 +2,9 @@
 .. toctree::
 
    EnergyMapAll
-   EnergyMapAllCriteria
    EnergyMapNeighbor
    EnergyMapNeighborCriteria
+   EnergyMapAllCriteria
    SelectCluster
    SelectParticleAVBDivalent
    SelectParticleAVB

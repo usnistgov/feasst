@@ -358,3 +358,4 @@ To Do List
 * Make Criteria[Updater,Writer] part of FlatHistogram keywords?
 * Restart Prefetch. Does Run::num_trials work properly?
 * ActionExample->WriteStepper. Add name/descript to Steppers to reference (if more than one of same class)
+* Add fstio.scratch_hours_per_sync option
