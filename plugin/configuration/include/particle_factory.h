@@ -110,8 +110,7 @@ class ParticleFactory {
   /// Replace properties of the site by index.
   void replace_properties(const int particle_index,
                           const int site_index,
-                          const Properties& replacement) {
-    particles_[particle_index].replace_properties(site_index, replacement); }
+                          const Properties& replacement);
 
   /// Scale particle positions by a constant factor in the given dimension.
   void scale_particle_positions(

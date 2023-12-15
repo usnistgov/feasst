@@ -64,6 +64,13 @@ double BondThreeBody::random_angle_radians(const Angle& angle,
   FATAL("max attempts reached");
 }
 
+/*
+  HWH: proposed changes in collaboration with Dan
+  - AngleHarmonic::random_angle_radians() override to draw from a Gaussian
+  - random_branch() to use the method of https://doi.org/10.1021/acs.jctc.7b00173
+  - How to user input number of jacobian trials?
+  - How to test thoroughly?
+ */
 void BondThreeBody::random_branch(
     const Angle& a2a1m1,
     const Angle& a2a1m2,

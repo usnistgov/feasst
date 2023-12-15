@@ -273,4 +273,12 @@ void ParticleFactory::set_site_physical(const int particle, const int site,
   particles_[particle].set_site_physical(site, phys);
 }
 
+void ParticleFactory::replace_properties(const int particle_index,
+    const int site_index,
+    const Properties& replacement) {
+  ASSERT(particle_index < num(), "particle_index:" << particle_index <<
+    " is >= number of particles:" << num());
+  particles_[particle_index].replace_properties(site_index, replacement);
+}
+
 }  // namespace feasst

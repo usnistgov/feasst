@@ -1,4 +1,5 @@
 #include "utils/include/serialize.h"
+#include "math/include/histogram.h"
 #include "chain/include/radius_of_gyration.h"
 
 namespace feasst {
@@ -15,6 +16,9 @@ static MapRadiusOfGyration mapper_ = MapRadiusOfGyration();
 
 RadiusOfGyration::RadiusOfGyration(argtype * args) : Analyze(args) {
   group_index_ = integer("group_index", args, 0);
+  if (boolean("print_histogram", args, false)) {
+    hist_ = std::make_shared<Histogram>(args);
+  }
 }
 RadiusOfGyration::RadiusOfGyration(argtype args) : RadiusOfGyration(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -55,8 +59,11 @@ void RadiusOfGyration::update(const Criteria& criteria,
       const Site& site = part.site(site_index);
       rg += site.position().squared_distance(r_cm);
     }
-    const double rgn = rg/selection.num_sites();
+    const double rgn = std::sqrt(rg/selection.num_sites());
     accumulator_.accumulate(rgn);
+    if (hist_) {
+      hist_->add(rgn);
+    }
     const double en = criteria.current_energy();
     rg_e_.accumulate(rgn*en);
     rg_e2_.accumulate(rgn*en*en);
@@ -74,6 +81,10 @@ std::string RadiusOfGyration::write(const Criteria& criteria,
   ss << "," << rg_e2_.average();
   ss << std::endl;
   DEBUG(ss.str());
+  if (hist_) {
+    ss << hist_->str();
+    ss << std::endl;
+  }
   return ss.str();
 }
 
@@ -83,6 +94,7 @@ void RadiusOfGyration::serialize(std::ostream& ostr) const {
   feasst_serialize(group_index_, ostr);
   feasst_serialize_fstobj(rg_e_, ostr);
   feasst_serialize_fstobj(rg_e2_, ostr);
+  feasst_serialize(hist_, ostr);
 }
 
 RadiusOfGyration::RadiusOfGyration(std::istream& istr) : Analyze(istr) {
@@ -91,6 +103,7 @@ RadiusOfGyration::RadiusOfGyration(std::istream& istr) : Analyze(istr) {
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize_fstobj(&rg_e_, istr);
   feasst_deserialize_fstobj(&rg_e2_, istr);
+  feasst_deserialize(hist_, istr);
 }
 
 RadiusOfGyration::RadiusOfGyration(const Analyze& energy) {

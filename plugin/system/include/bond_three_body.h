@@ -55,6 +55,8 @@ Return three random angles to form a branch.
                        t243(branch_angle)
 
 \endrst
+     Note: this algorithm may be more efficient and may be implemented in the
+     future: https://doi.org/10.1021/acs.jctc.7b00173 .
    */
   virtual void random_branch(
     const Angle& a2a1m1,

@@ -568,7 +568,7 @@ void MonteCarlo::attempt_(int num_trials,
     TrialFactory * trial_factory,
     Random * random) {
   //ASSERT(trial_factory->num() > 0, "no Trials to attempt.");
-  if (trial_factory->num() == 0) {
+  if (trial_factory->num() == 0 && trial_factory->num_attempts() == 0) {
     WARN("No Trials to attempt.");
   }
   before_attempts_();

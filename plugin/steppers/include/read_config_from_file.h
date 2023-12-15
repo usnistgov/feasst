@@ -50,9 +50,14 @@ class ReadConfigFromFile : public ModifyUpdateOnly {
 
   //@}
  private:
-  FileXYZ xyz_;
   std::string input_file_;
+  bool set_complete_next_update_ = false;
+  FileXYZ xyz_;
+
+  // not serialized
   std::ifstream file_;
+
+  void load_(Criteria * criteria, System * system);
 };
 
 inline std::shared_ptr<ReadConfigFromFile> MakeReadConfigFromFile(

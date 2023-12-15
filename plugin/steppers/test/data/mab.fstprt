@@ -1,0 +1,67 @@
+# LAMMPS-inspired data file
+#
+#             0 fc
+#             | bfc
+#             1 dfc
+#             | bfch
+#             2 h
+#    bfab1h /   \ bfab2h
+#         3 dfab1 5 dfab2
+#       / bfab1     \ bfab2
+#     4 fab1          6 fab2
+#
+# Requires TrialGrow with flexibility.
+# Site positions are completely arbitrary,
+# except the relative position of the connector with its associated rigid site.
+# e.g., dfc - df vector is used to orient the rigid body.
+
+7 sites
+6 bonds
+3 angles
+
+4 site types
+4 bond types
+1 angle type
+
+Site Properties
+
+0 sigma 1.0 epsilon 1.0 cutoff 3.0 anisotropic 1
+1 sigma 0.0 epsilon 0.0 cutoff 0.0 anisotropic 0
+2 sigma 1.0 epsilon 1.0 cutoff 3.0 anisotropic 0
+3 sigma 1.0 epsilon 1.0 cutoff 3.0 anisotropic 1
+
+Sites
+
+0 0 0 0 0
+1 1 -0.4652155563235283 0.022326648235321045 26.1039816737175
+2 2 0 0 0
+3 1 14.308734893798828 -34.39504623413086 -3.3625025749206543
+4 3 0 0 0
+5 1 14.308734893798828 -34.39504623413086 -3.3625025749206543
+6 3 0 0 0
+
+Bond Properties
+
+0 RigidBond length 26.108136341279625 delta 0.0001
+1 BondSquareWell minimum 12 maximum 26 delta 0.0001
+2 BondSquareWell minimum 8 maximum 25 delta 0.0001
+3 RigidBond length 37.404084312750705 delta 0.0001
+
+Bonds
+
+0 0 0 1
+1 1 1 2
+2 2 2 3
+3 3 3 4
+4 2 2 5
+5 3 5 6
+
+Angle Properties
+
+0 AngleSquareWell minimum 70 maximum 180
+
+Angles
+
+0 0 0 1 2
+1 0 4 3 2
+2 0 6 5 2

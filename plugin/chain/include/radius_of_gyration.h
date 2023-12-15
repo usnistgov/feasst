@@ -3,18 +3,21 @@
 #define FEASST_CHAIN_RADIUS_OF_GYRATION
 
 #include "math/include/accumulator.h"
+#include "math/include/histogram.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
 
 /**
-  Accumulate average radius of gyration.
+  Accumulate average radius of gyration assuming unit mass for all sites.
  */
 class RadiusOfGyration : public Analyze {
  public:
   //@{
   /** @name Arguments
     - group_index: index of the Configuration::group (default: 0).
+    - print_histogram: if true, print histogram (default: false).
+    - Histogram arguments.
     - Stepper arguments.
    */
   explicit RadiusOfGyration(argtype args = argtype());
@@ -41,8 +44,11 @@ class RadiusOfGyration : public Analyze {
       const System& system,
       const TrialFactory& trial_factory) override;
 
-  /// Return the squared radius of gyration
+  /// Return the radius of gyration
   const Accumulator& radius_of_gyration() const { return accumulator(); }
+
+  /// Return the histogram of the radius of gyration
+  const std::shared_ptr<Histogram> histogram() const { return hist_; }
 
   /// Return the accumulator for radius of gyration times the energy for extrapolation
   const Accumulator& rg_e() const { return rg_e_; }
@@ -62,6 +68,7 @@ class RadiusOfGyration : public Analyze {
  private:
   int group_index_;
   Accumulator rg_e_, rg_e2_;
+  std::shared_ptr<Histogram> hist_;
 };
 
 inline std::shared_ptr<RadiusOfGyration> MakeRadiusOfGyration(argtype args = argtype()) {

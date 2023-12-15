@@ -51,7 +51,7 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const 
   }
   Position position;
   position.set_vector(coord);
-  INFO("coord " << feasst::feasst_str(coord) << " pos " << position.str());
+  DEBUG("coord " << feasst::feasst_str(coord) << " pos " << position.str());
   config->set_side_lengths(position);
   // ASSERT(config->num_sites() == num_sites, "site mismatch");
   if (config->num_sites() == 0) {

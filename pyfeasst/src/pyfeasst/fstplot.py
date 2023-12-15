@@ -9,7 +9,15 @@ import matplotlib.colors as colors
 import matplotlib.cm as cmx
 
 def val2map(values, cmname="viridis"):
-    """ Given list of values, return scalar_map for colors """
+    """
+    Given list of values, return scalar_map for colors.
+
+    Usage:
+    color=fstplot.val2map(range)
+    for i in range:
+        plt.plot(..., color=color.to_rgba(range[i]))
+    fstplot.display(range, label='label')
+    """
     jet = plt.get_cmap(cmname)
     c_norm = colors.Normalize(vmin=values[0], vmax=values[-1])
     return cmx.ScalarMappable(norm=c_norm, cmap=jet)
