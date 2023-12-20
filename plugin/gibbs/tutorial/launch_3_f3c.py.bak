@@ -1,6 +1,7 @@
 """
-Example Gibbs ensemble Monte Carlo simulation of TraPPE alkanes using FEASST.
-"""
+Example Gibbs ensemble Monte Carlo simulation of F3C water.
+In this case, LongRangeCorrections are used instead of force shift.
+There is also an issue with volume changes while using Ewald."""
 
 import argparse
 import numpy as np
@@ -14,17 +15,16 @@ from pyfeasst import macrostate_distribution
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/n-butane.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/plugin/charge/particle/f3c.fstprt',
                     help='FEASST particle definition')
-PARSER.add_argument('--temperature', type=float, default=350, help='temperature in Kelvin')
-PARSER.add_argument('--cutoff', type=float, default=12, help='real space cutoff distance')
-PARSER.add_argument('--cubic_side_length_vapor', type=float, default=63,
+PARSER.add_argument('--temperature', type=float, default=298, help='temperature in Kelvin')
+PARSER.add_argument('--cubic_side_length_vapor', type=float, default=30,
                     help='initial PBC of vapor')
-PARSER.add_argument('--cubic_side_length_liquid', type=float, default=44.9,
+PARSER.add_argument('--cubic_side_length_liquid', type=float, default=20,
                     help='initial PBC of liquid')
-PARSER.add_argument('--num_particles_vapor', type=int, default=61,
+PARSER.add_argument('--num_particles_vapor', type=int, default=30,
                     help='initial number of particles in the vapor')
-PARSER.add_argument('--num_particles_liquid', type=int, default=451,
+PARSER.add_argument('--num_particles_liquid', type=int, default=195,
                     help='initial number of particles in the liquid')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
@@ -52,7 +52,7 @@ ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
 assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
 PARAMS = vars(ARGS)
 PARAMS['script'] = __file__
-PARAMS['prefix'] = 'trappe'
+PARAMS['prefix'] = 'f3c'
 PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
 PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
 PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate FEASST before SLURM
@@ -61,24 +61,9 @@ PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
 PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
 PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
+PARAMS['ewald_alpha'] = 5.6/PARAMS['cubic_side_length_liquid']
 PARAMS['mu_init']=10
-if 'n-butane' in PARAMS['fstprt']:
-    PARAMS['num_sites'] = 4
-    PARAMS['molecular_weight'] = 58.12
-else:
-    assert False, "input new num_sites and molecular_weight into PARAMS"
-PARAMS['last_site'] = PARAMS['num_sites'] - 1
 
-def write_partial(f, bond, angle, dihedral, params):
-    if params['num_sites'] == 2:
-        f.write(bond)
-    elif params['num_sites'] == 3:
-        f.write(angle)
-    elif params['num_sites'] > 3:
-        f.write(dihedral)
-    else:
-        print('unrecognized num_sites', params['num_sites'])
-        assert False
 
 # write TrialGrowFile to include grand canonical ensemble growth and canonica ensemble reptations
 def write_grow_file(filename, params,
@@ -88,50 +73,18 @@ def write_grow_file(filename, params,
     params['conf2'] = conf2
     with open(filename, 'w') as f:
         f.write("TrialGrowFile\n\n")
-        for inv in [True, False]:
-            for trial_type in [0, 1, 2]: # 0: reptate, 1: full regrow, 2: partial regrow
-                for site in range(params['num_sites']):
-                    for i in range(4):
-                        sign = -1
-                        if (trial_type == 0 or trial_type == 2) and site != params['num_sites'] - 1:
-                            sign = 1
-                        params['site'+str(i)] = site + sign*i
-                        if inv:
-                            params['site'+str(i)] = params['num_sites'] - site - 1 - sign*i
-                    bond = """bond true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index 0\n""".format(**params)
-                    angle = """angle true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} num_steps 1 reference_index 0\n""".format(**params)
-                    dihedral = """dihedral true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} anchor_site3 {site3} num_steps 1 reference_index 0\n""".format(**params)
+        if gce == 0:
+            f.write("""particle_type 0 angle true weight 0.1 mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0 configuration_index {conf}
 
-                    # full regrowth insertion/deletion
-                    if trial_type == 1 and (gce == 1 or gce == 2):
-                        if site == 0:
-                            if gce == 2:
-                                f.write("""particle_type 0 configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps 1 reference_index 0\n""".format(**params))
-                            elif gce == 1:
-                                f.write("""particle_type 0 configuration_index {conf} weight 1 add true site {site0} num_steps 1 reference_index 0\n""".format(**params))
-                        elif site == 1:
-                            f.write(bond)
-                        elif site == 2:
-                            f.write(angle)
-                        else:
-                            f.write(dihedral)
-
-                    # reptation
-                    elif trial_type == 0 and gce == 0:
-                        if site == params['num_sites'] - 1:
-                            write_partial(f, bond, angle, dihedral, params)
-                        else:
-                            if site == 0:
-                                f.write("""particle_type 0 configuration_index {conf} weight 0.25 """.format(**params))
-                            f.write("""reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index 0\n""".format(**params))
-
-                    # partial regrow of the last site
-                    if trial_type == 2 and gce == 0:
-                        if site == 0:
-                            f.write("""particle_type 0 configuration_index {conf} weight 0.25 """.format(**params))
-                            write_partial(f, bond, angle, dihedral, params)
-
-                f.write("\n")
+particle_type 0 angle true weight 0.1 mobile_site 1 anchor_site 0 anchor_site2 2 reference_index 0 configuration_index {conf}""".format(**PARAMS))
+        elif gce == 1:
+            f.write("""particle_type 0 weight 2 add true site 0 reference_index 0 configuration_index {conf}
+bond true mobile_site 1 anchor_site 0 reference_index 0
+angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0""".format(**PARAMS))
+        elif gce == 2:
+            f.write("""particle_type 0 weight 2 gibbs_transfer true site 0 reference_index 0 configuration_index {conf} configuration_index2 {conf2}
+bond true mobile_site 1 anchor_site 0 reference_index 0
+angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0""".format(**PARAMS))
 
 write_grow_file(filename=PARAMS['prefix']+"_c0_grow_canonical.txt", params=PARAMS, gce=0, conf=0)
 write_grow_file(filename=PARAMS['prefix']+"_c0_grow_add.txt", params=PARAMS, gce=1, conf=0)
@@ -146,31 +99,29 @@ def write_feasst_script(params, script_file):
 # first, initialize multiple clones into windows
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length_vapor} particle_type0 {fstprt} cutoff {cutoff}
-Configuration cubic_side_length {cubic_side_length_liquid} particle_type0 {fstprt} cutoff {cutoff}
-Potential Model LennardJones configuration_index 0
-Potential Model LennardJones configuration_index 1
-Potential Model LennardJones VisitModel VisitModelIntra intra_cut 4 configuration_index 0
-Potential Model LennardJones VisitModel VisitModelIntra intra_cut 4 configuration_index 1
+Configuration cubic_side_length {cubic_side_length_vapor} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length_liquid} particle_type0 {fstprt}
+Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38 configuration_index 0
+Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38 configuration_index 1
+Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter configuration_index 0
+Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter configuration_index 1
+Potential Model ChargeScreenedIntra VisitModel VisitModelBond configuration_index 0
+Potential Model ChargeScreenedIntra VisitModel VisitModelBond configuration_index 1
+Potential Model ChargeSelf configuration_index 0
+Potential Model ChargeSelf configuration_index 1
 Potential VisitModel LongRangeCorrections configuration_index 0
 Potential VisitModel LongRangeCorrections configuration_index 1
 RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 0
 RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 1
-#RefPotential Model LennardJones reference_index 0 configuration_index 0
-#RefPotential Model LennardJones reference_index 0 configuration_index 1
-#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 4 reference_index 0 configuration_index 0
-#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 4 reference_index 0 configuration_index 1
 ThermoParams beta {beta} chemical_potential 10
 Metropolis
 TrialTranslate weight 0.5 tunable_param 30 configuration_index 0
 TrialTranslate weight 0.5 tunable_param 1 configuration_index 1
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 pivot_site 0 configuration_index 0
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site 0 configuration_index 1
-TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 pivot_site {last_site} configuration_index 0
-TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site {last_site} configuration_index 1
 TrialGrowFile grow_file {prefix}_c0_grow_canonical.txt
 TrialGrowFile grow_file {prefix}_c1_grow_canonical.txt
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-2
 
 # gcmc initialization and nvt equilibration
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_fill.xyz configuration_index 0

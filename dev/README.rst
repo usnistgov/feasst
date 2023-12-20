@@ -47,7 +47,7 @@ Feature branches
 --------------------------------------------------------------------------------
 
 These branches are for the development of new features.
-These branch names must begin with characters which identify the main developer of the feature (e..g, hwh/feature)
+These branch names must begin with characters which identify the main developer of the feature (e..g, username/feature)
 The main developer sets the branch policy.
 
 Dead (dead_*) branches

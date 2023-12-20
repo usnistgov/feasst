@@ -66,7 +66,7 @@ MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} physical_constants CODATA2010 cutoff {cutoff}
 Potential VisitModel Ewald alpha {alpha} kmax_squared 38
-Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened VisitModel VisitModelCutoffOuter table_size 1e6
+Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened VisitModel VisitModelCutoffOuter erfc_table_size 2e4
 Potential Model ChargeScreenedIntra VisitModel VisitModelBond
 Potential Model ChargeSelf
 Potential VisitModel LongRangeCorrections
