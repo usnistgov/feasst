@@ -235,6 +235,7 @@ class Select {
   /// 1 -> move -> moved selected particles but total numbers unchanged
   /// 2 -> remove -> remove existing particles/sites listed in selection
   /// 3 -> add -> added new particles/sites listed in selection
+  /// 4 -> volume -> change volume and scale all particles. New only.
   int trial_state() const { return trial_state_; }
 
   /// Set the trial state.

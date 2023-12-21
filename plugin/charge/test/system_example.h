@@ -55,7 +55,6 @@ inline System chain(const double alpha,
 //  DEBUG("kxmax " << ewald->kxmax());
 //  DEBUG("kymax " << ewald->kymax());
 //  DEBUG("kzmax " << ewald->kzmax());
-  DEBUG("num_vectors " << ewald->num_vectors());
   return system;
 }
 

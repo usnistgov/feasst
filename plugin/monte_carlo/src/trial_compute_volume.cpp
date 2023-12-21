@@ -33,6 +33,7 @@ void TrialComputeVolume::perturb_and_acceptance(
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
   acceptance->set_energy_new(acceptance->energy_new());
   acceptance->set_energy_profile_new(acceptance->energy_profile_new());
+  DEBUG("acceptance en prof " << feasst_str(acceptance->energy_profile_new()));
   const double volume_new = config.domain().volume();
   if (volume_old == volume_new) acceptance->set_reject(true);
   const ThermoParams& thermo = system->thermo_params();

@@ -110,14 +110,6 @@ TEST(Ewald, revert) {
   EXPECT_NEAR(en, system.energy(), 1e-10);
 }
 
-TEST(Ewald, change_volume) {
-  System system = spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}});
-  try {
-    system.change_volume(1);
-    CATCH_PHRASE("not implemented");
-  }
-}
-
 TEST(Ewald, synchronize) {
   System s1 = spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"table_size", str(1e3)}});
   s1.get_configuration()->add_particle_of_type(0);
@@ -161,7 +153,6 @@ TEST(Ewald, triclinic) {
   system.potential(0).visit_model().serialize(ss);
   Ewald ewald(ss);
   INFO("alpha " << system.configuration().model_params().property("alpha"));
-  INFO("num_vectors " << ewald.num_vectors());
   INFO("num_kx " << ewald.num_kx());
   INFO("num_ky " << ewald.num_ky());
   INFO("num_kz " << ewald.num_kz());

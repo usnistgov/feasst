@@ -48,6 +48,16 @@ class VisitModelCutoffOuter : public VisitModel {
       Configuration * config,
       const int group_index) override;
 
+  // compute interactions between particles in the selection
+  void compute_between_selection(
+    ModelTwoBody * model,
+    const ModelParams& model_params,
+    const Select& selection,
+    Configuration * config,
+    const bool is_old_config,
+    Position * relative,
+    Position * pbc);
+
   std::shared_ptr<VisitModel> create(std::istream& istr) const override {
     return std::make_shared<VisitModelCutoffOuter>(istr); }
   std::shared_ptr<VisitModel> create(argtype * args) const override {

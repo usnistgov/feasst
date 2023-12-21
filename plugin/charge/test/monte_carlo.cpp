@@ -224,4 +224,38 @@ TEST(MonteCarlo, spcearglist) {
   EXPECT_EQ("ModelTwoBodyTable", mc->system().potential(1).model().class_name());
 }
 
+TEST(MonteCarlo, spce_npt) {
+  auto mc = MakeMonteCarlo({{
+    //{"RandomMT19937", {{"seed", "123"}}},
+    {"Configuration", {{"cubic_side_length", "20"},
+                       {"particle_type0", "../particle/spce.fstprt"}}},
+    {"Potential", {{"VisitModel", "Ewald"}, {"alpha", str(5.6/20)}, {"kmax_squared", "38"}}},
+    //{"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"erfc_table_size", "2e4"}}},
+    {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"VisitModel", "VisitModelCutoffOuter"}, {"erfc_table_size", "2e4"}}},
+    {"Potential", {{"Model", "ChargeScreenedIntra"}, {"VisitModel", "VisitModelBond"}}},
+    {"Potential", {{"Model", "ChargeSelf"}}},
+    {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
+//    {"ConvertToRefPotential", {{"potential_index", "2"}, {"cutoff", "1"}}},
+    {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential0", "10"}, {"pressure", "1"}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"tunable_param", "0.2"},
+                        {"tunable_target_acceptance", "0.2"}}},
+    {"TrialParticlePivot", {{"particle_type", "0"}}},
+    {"TrialAdd", {{"particle_type", "0"}}},
+    //{"Log", {{"trials_per_write", "1"}, {"output_file", "tmp/spce_npt.txt"}}},
+    //{"Movie", {{"trials_per_write", "1"}, {"output_file", "tmp/spce_npt.xyz"}}},
+    {"CheckEnergy", {{"trials_per_update", "1e2"}, {"tolerance", "1e-8"}}},
+    {"Tune", {{}}},
+    {"Run", {{"until_num_particles", "10"}}},
+    {"ThermoParams", {{"beta", "1.2"}, {"pressure", "1"}}},
+    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"TrialVolume", {{"tunable_target_acceptance", "0.5"}}},
+    {"Run", {{"num_trials", str(1e3)}}},
+    {"RemoveModify", {{"name", "Tune"}}},
+    {"Run", {{"num_trials", str(1e3)}}},
+    {"WriteCheckpoint", {{}}},
+  }});
+  //EXPECT_EQ("ModelTwoBodyTable", mc->system().potential(1).model().class_name());
+}
+
 }  // namespace feasst

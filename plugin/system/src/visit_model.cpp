@@ -177,6 +177,7 @@ void VisitModel::compute(
     }
   } else if (selection.is_equal(config->selection_of_all())) {
   //} else if (selection.num_particles() == config->num_particles()) {
+    DEBUG("computing entire select");
     compute_between_selection(model, model_params, selection,
       config, is_old_config, &relative_, &pbc_);
 

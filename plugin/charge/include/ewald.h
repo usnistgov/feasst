@@ -84,11 +84,22 @@ class Ewald : public VisitModel {
   // HWH move this to private? (or separate from box changes?)
   /// Precompute the wave vectors within cutoff, coefficients, and also resize
   /// the structure factors.
-  void update_wave_vectors(const Configuration& config);
+  void update_wave_vectors(const Configuration& config,
+    const double kmax_squared,
+    std::vector<double> * wave_prefactor,
+    std::vector<int> * wave_num,
+    double* ux, double* uy, double* uz, double* vy, double* vz, double* wz) const;
+
+  void update_kmax_squared_(const Configuration& config, double * kmax_squared) const;
+  void resize_struct_fact_new_(const int num_vectors);
 
   /// Compute new eiks and update the given structure factor.
   void update_struct_fact_eik(const Select& selection,
     const Configuration& config,
+    const std::vector<double>& wave_prefactor,
+    const std::vector<int>& wave_num,
+    const double ux, const double uy, const double uz,
+    const double vy, const double vz, const double wz,
     std::vector<double> * struct_fact_real,
     std::vector<double> * struct_fact_imag,
     std::vector<std::vector<std::vector<double> > > * eik_new) const;
@@ -133,6 +144,8 @@ class Ewald : public VisitModel {
     For 3, "add", eik are updated and their contributions are added to the
     structure factor.
     Return the new minus old energy.
+
+    For 4, "volume", use the compute without selection.
    */
   void compute(
       ModelOneBody * model,
@@ -146,9 +159,6 @@ class Ewald : public VisitModel {
 
   // update structure factors and eiks based on new calculations.
   void finalize(const Select& select, Configuration * config) override;
-
-  /// Return the number of fourier-space vectors
-  int num_vectors() const { return static_cast<int>(wave_prefactor_.size()); }
 
   /// Return the wave vector number for a given dimension.
   int wave_num(const int vector_index, const int dim) const;
@@ -177,9 +187,9 @@ class Ewald : public VisitModel {
   /// Return the spherical cutoff of the wave vectors.
   double kmax_squared() const { return kmax_squared_; }
 
-  /// Return the eik vectors directly.
-  double eik(const int part_index, const int site_index,
-    const int vector_index, const int dim, const bool real = true) const;
+//  /// Return the eik vectors directly.
+//  double eik(const int part_index, const int site_index,
+//    const int vector_index, const int dim, const bool real = true) const;
 
   /// Same as above, but for all particles, sites and wave vectors.
   const std::vector<std::vector<std::vector<double> > >& eik() const {
@@ -202,8 +212,6 @@ class Ewald : public VisitModel {
   const std::vector<double>& struct_fact_imag() const {
     return data_.dble_2D()[1]; }
 
-  void check_size() const;
-
   /// Return the net charge of the configuration.
   double net_charge(const Configuration& config) const;
 
@@ -225,14 +233,18 @@ class Ewald : public VisitModel {
   std::shared_ptr<int> tolerance_num_sites_, kxmax_arg_, kymax_arg_, kzmax_arg_, kmax_sq_arg_;
   int kxmax_, kymax_, kzmax_;
   double kmax_squared_;
+  double kmax_squared_new_;
   int num_kx_;
   int num_ky_;
   int num_kz_;
   std::vector<double> wave_prefactor_;
+  std::vector<double> wave_prefactor_new_;
   std::vector<int> wave_num_;
+  std::vector<int> wave_num_new_;
   const int dimension_ = 3;
   //double stored_energy_ = 0.;
   double ux_, uy_, uz_, vy_, vz_, wz_;
+  double ux_new_, uy_new_, uz_new_, vy_new_, vz_new_, wz_new_;
 
   // synchronization data
   double stored_energy() const { return data_.dble_1D()[0]; }
@@ -284,7 +296,8 @@ class Ewald : public VisitModel {
       const int num_sites);
 
   double fourier_energy_(const std::vector<double>& struct_fact_real,
-                         const std::vector<double>& struct_fact_imag);
+                         const std::vector<double>& struct_fact_imag,
+                         const std::vector<double>& wave_prefactor);
 
   double sign_(const Select& select, const int pindex) const;
 

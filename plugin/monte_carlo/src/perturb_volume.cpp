@@ -62,9 +62,10 @@ void PerturbVolume::perturb(
   } else {
     volume_change_ = 0.;
   }
+  DEBUG("volume_change_ " << volume_change_);
   set_revert_possible(true, select);
   set_finalize_possible(true, select);
-  select->set_trial_state(1);
+  select->set_trial_state(4);
 }
 
 void PerturbVolume::revert(System * system) {

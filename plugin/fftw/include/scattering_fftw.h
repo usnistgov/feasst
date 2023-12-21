@@ -1,6 +1,6 @@
 
-#ifndef FEASST_STEPPERS_SCATTERING_H_
-#define FEASST_STEPPERS_SCATTERING_H_
+#ifndef FEASST_FFTW_SCATTERING_FFTW_H_
+#define FEASST_FFTW_SCATTERING_FFTW_H_
 
 #include <vector>
 #include "math/include/position.h"
@@ -89,4 +89,4 @@ inline std::shared_ptr<ScatteringFFTW> MakeScatteringFFTW(
 
 }  // namespace feasst
 
-#endif  // FEASST_STEPPERS_SCATTERING_H_
+#endif  // FEASST_FFTW_SCATTERING_FFTW_H_

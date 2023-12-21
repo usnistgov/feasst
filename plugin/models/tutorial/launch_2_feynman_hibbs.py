@@ -23,7 +23,7 @@ PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
     help='number of iterations for equilibration')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e3),
+PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
     help='number of iterations for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
