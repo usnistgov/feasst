@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   WriteStepper
    Volume
    CheckPhysicality
    ProfileTrials

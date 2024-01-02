@@ -360,3 +360,5 @@ To Do List
 * ActionExample->WriteStepper. Add name/descript to Steppers to reference (if more than one of same class)
 * Add fstio.scratch_hours_per_sync option
 * optimize Ewald::update_wave_vector for NPT (less clear,push_back).
+* move patch to ansio, then implement spherocylinders
+* Reduce size of Checkpoint files for cell/neighbor lists (re-compute instead of checkpointing them). Also large tables.

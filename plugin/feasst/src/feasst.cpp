@@ -6,19 +6,26 @@
 
 using namespace feasst;
 
-arglist parse_mc(argtype variables = argtype()) {
-  std::string line;
+std::vector<arglist> parse_mcs(argtype variables = argtype()) {
+  std::vector<arglist> lists;
   arglist list;
+  std::string line;
   while (std::getline(std::cin, line)) {
     if (!line.empty() && line[0] != '#') {
-      bool assign_to_list = true;
-      std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
-      if (assign_to_list) {
-        list.push_back(line_pair);
+      if (line == "MonteCarlo") {
+        lists.push_back(list);
+        list = arglist();
+      } else {
+        bool assign_to_list = true;
+        std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
+        if (assign_to_list) {
+          list.push_back(line_pair);
+        }
       }
     }
   }
-  return list;
+  lists.push_back(list);
+  return lists;
 }
 
 // Parse the line containing CollectionMatrixSplice and the following line
@@ -61,7 +68,9 @@ void parse_cm(std::string line) {
   line_pair = parse_line(line, &variables, &assign_to_list);
   cm.set(MakeCheckpoint(line_pair.second));
 
-  arglist list = parse_mc();
+  std::vector<arglist> list = parse_mcs();
+  ASSERT(static_cast<int>(list.size()) == 1, "CollectionMatrixSplice should "
+    << "have no lines beginning as \"MonteCarlo\"");
   std::vector<int> complete(window->num(), 0);
   cm.set_size(window->num());
   #ifdef _OPENMP
@@ -73,7 +82,7 @@ void parse_cm(std::string line) {
       << num_threads << " OMP threads");
     const int thread = omp_get_thread_num();
     if (thread < window->num()) {
-      arglist list2 = list;
+      arglist list2 = list[0];
       replace_value("[soft_macro_min]", str(window->boundaries()[thread][0]), &list2);
       replace_value("[soft_macro_max]", str(window->boundaries()[thread][1]), &list2);
       replace_in_value("[sim_index]", sized_int_to_str(thread, num_threads), &list2);
@@ -96,9 +105,11 @@ void parse_prefetch(std::string line) {
   argtype variables;
   bool assign_to_list;
   std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
-  Prefetch prefetch(line_pair.second);
-  arglist list = parse_mc();
-  prefetch.begin(list);
+  std::vector<arglist> lists = parse_mcs();
+  for (auto list : lists) {
+    Prefetch prefetch(line_pair.second);
+    prefetch.begin(list);
+  }
 }
 
 /**
@@ -126,8 +137,10 @@ int main() {
 
   if (line == "MonteCarlo") {
     std::cout << "MonteCarlo" << std::endl;
-    arglist list = parse_mc();
-    auto mc = std::make_shared<MonteCarlo>(list);
+    std::vector<arglist> lists = parse_mcs();
+    for (auto list : lists) {
+      auto mc = std::make_shared<MonteCarlo>(list);
+    }
   } else if (line.substr(0, 8) == "Prefetch") {
     std::cout << "Prefetch" << std::endl;
     parse_prefetch(line);

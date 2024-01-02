@@ -12,17 +12,25 @@ namespace feasst {
 
 /**
   Compute the scattering intensity using FFTW (fftw.org) by gridding the system.
-  Enabled for anisotropic interactions using VisitModelInnerTable.
+  Each site fills a grid of size bin_spacing, but not neighbors, regardless of size.
  */
 class ScatteringFFTW : public Analyze {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - bin_spacing: maximum bin spacing in each dimension (default: 0.1).
+    - bin_per_side: if != -1, ignore bin spacing. (default: -1).
+      Instead, set the number of bins per side.
+      Powers of two are faster for FFTW (assumes cubic Domain).
     - delta_rho: determines spacing of q values in 3D->1D integeration (default: 1).
   */
   explicit ScatteringFFTW(argtype args = argtype());
   explicit ScatteringFFTW(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void initialize(Criteria * criteria,
       System * system,
@@ -46,9 +54,11 @@ class ScatteringFFTW : public Analyze {
   explicit ScatteringFFTW(std::istream& istr);
   ~ScatteringFFTW();
 
+  //@}
  private:
   bool fftw_initialized_ = false;
   double bin_spacing_;
+  int bins_per_side_;
   double delta_rho_;
   int updates_;
   std::vector<int> num_bin_;  // number of bins in each dimension

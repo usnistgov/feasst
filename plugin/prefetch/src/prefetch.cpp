@@ -87,6 +87,7 @@ void Prefetch::run_until_complete_(TrialFactory * trial_factory,
   pool_.clear();
   attempt_(-1, trial_factory, random);
   write_checkpoint();
+  write_to_file();
 }
 
 void Prefetch::attempt_(
@@ -527,7 +528,7 @@ void Prefetch::run_until_num_particles(const int num_particles,
 
 void Prefetch::run_until_file_exists(const std::string& file_name) {
   if (!file_name.empty()) {
-    WARN("run_until_file is not implemented efficiently.");
+    WARN("run_until_file is not implemented efficiently with Prefetch.");
   }
   MonteCarlo::run_until_file_exists(file_name);
 }

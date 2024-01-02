@@ -114,7 +114,7 @@ std::string Backmap::write(const Criteria& criteria,
         const Position& center = site.position();
         const Euler& euler = site.euler();
         new_config->add_particle_of_type(findex);
-        INFO("euler: " << euler.str());
+        //INFO("euler: " << euler.str());
         euler.compute_rotation_matrix(&rot_mat);
         sel->select_particle(new_config->num_particles()-1, *new_config);
         DEBUG("size pos:" << site.position().str());

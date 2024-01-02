@@ -98,7 +98,7 @@ def slurm_single_node(params):
         params['scratch_slurm_preamble'] = ''
         params['scratch_slurm_postamble'] = ''
     else:
-        if params['scratch_hours_per_sync'] == None:
+        if 'scratch_hours_per_sync' not in params:
             params['scratch_seconds_per_sync'] = 5*60*60
         else:
             params['scratch_seconds_per_sync'] = 60*60*params['scratch_hours_per_sync']

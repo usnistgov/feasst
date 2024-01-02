@@ -19,6 +19,7 @@ static MapScatteringFFTW mapper_energy_check_ = MapScatteringFFTW();
 
 ScatteringFFTW::ScatteringFFTW(argtype * args) : Analyze(args) {
   bin_spacing_ = dble("bin_spacing", args, 0.1);
+  bins_per_side_ = integer("bins_per_side", args, -1);
   delta_rho_ = dble("delta_rho", args, 1);
 }
 ScatteringFFTW::ScatteringFFTW(argtype args) : ScatteringFFTW(&args) {
@@ -48,8 +49,13 @@ void ScatteringFFTW::initialize(Criteria * criteria,
   for (int dim = 0; dim < config.dimension(); ++dim) {
     const double side_length = config.domain().side_length(dim);
     DEBUG("side_length " << side_length);
-    num_bin_[dim] = static_cast<int>(side_length/bin_spacing_);
-    if (num_bin_[dim] % 2 != 0) ++num_bin_[dim];
+    if (bins_per_side_ > 0) {
+      ASSERT(config.domain().is_cubic(), "bins_per_side assumes cubic Domain.");
+      num_bin_[dim] = bins_per_side_;
+    } else {
+      num_bin_[dim] = static_cast<int>(side_length/bin_spacing_);
+      if (num_bin_[dim] % 2 != 0) ++num_bin_[dim];
+    }
     bin_dist_[dim] = side_length/static_cast<double>(num_bin_[dim]);
     lower_bound_[dim] = -side_length/2.;
   }
@@ -182,11 +188,11 @@ std::string ScatteringFFTW::write(const Criteria& criteria,
   }
 
   // compute invariants to normalize intensity
-  double vp = 1;
-  const double num_sites = static_cast<double>(config.num_sites());
+//  double vp = 1;
+//  const double num_sites = static_cast<double>(config.num_sites());
   const double volume = config.domain().volume();
-  const double phi = num_sites*vp/volume;
-  const double invariant = 2*PI*PI*phi*(1-phi);
+//  const double phi = num_sites*vp/volume;
+//  const double invariant = 2*PI*PI*phi*(1-phi);
   const double fk1dmin = *std::min_element(fk1d.begin()+min_index, fk1d.end());
   std::vector<double> integrand;
   for (int iq = min_index; iq < static_cast<int>(fk1d.size()); ++iq) {
@@ -196,13 +202,14 @@ std::string ScatteringFFTW::write(const Criteria& criteria,
 
   std::stringstream ss;
 //  ss << "#\"num_site_types\":" << num_site_types << "," << std::endl;
-  ss << "q,i,in,s,count,index" << std::endl;
+  ss << "q,i,count,index" << std::endl;
+  //ss << "q,i,in,s,count,index" << std::endl;
   for (int iq = min_index; iq < static_cast<int>(sq1d.size()); ++iq) {
     const double q = delta_rho_*static_cast<double>(iq)*2.*PI/std::pow(volume, 1./3.);
     ss << q << ","
-       << fk1d[iq]/num_sites << ",";
-    fk1d[iq] *= invariant * 1e8;
-    ss << fk1d[iq] << ","
+//       << fk1d[iq]/num_sites << ",";
+//    fk1d[iq] *= invariant * 1e8;
+//    ss << fk1d[iq] << ","
        << sq1d[iq] << ","
        << count[iq] << ","
        << iq << std::endl;
@@ -223,6 +230,7 @@ void ScatteringFFTW::serialize(std::ostream& ostr) const {
   feasst_serialize_version(3689, ostr);
   feasst_serialize(fftw_initialized_, ostr);
   feasst_serialize(bin_spacing_, ostr);
+  feasst_serialize(bins_per_side_, ostr);
   feasst_serialize(delta_rho_, ostr);
   feasst_serialize(updates_, ostr);
   feasst_serialize(num_bin_, ostr);
@@ -238,6 +246,7 @@ ScatteringFFTW::ScatteringFFTW(std::istream& istr)
   ASSERT(3689 == version, "version mismatch:" << version);
   feasst_deserialize(&fftw_initialized_, istr);
   feasst_deserialize(&bin_spacing_, istr);
+  feasst_deserialize(&bins_per_side_, istr);
   feasst_deserialize(&delta_rho_, istr);
   feasst_deserialize(&updates_, istr);
   feasst_deserialize(&num_bin_, istr);

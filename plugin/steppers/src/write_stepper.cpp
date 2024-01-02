@@ -2,10 +2,10 @@
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "utils/include/timer.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/seek_analyze.h"
 #include "steppers/include/seek_modify.h"
-#include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/write_stepper.h"
+#include "steppers/include/write_stepper.h"
 
 namespace feasst {
 

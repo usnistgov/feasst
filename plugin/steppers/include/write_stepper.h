@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_WRITE_STEPPER_H_
-#define FEASST_MONTE_CARLO_WRITE_STEPPER_H_
+#ifndef FEASST_STEPPERS_WRITE_STEPPER_H_
+#define FEASST_STEPPERS_WRITE_STEPPER_H_
 
 #include <string>
 #include <memory>
@@ -51,4 +51,4 @@ inline std::shared_ptr<WriteStepper> MakeWriteStepper(argtype args = argtype()) 
 
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_WRITE_STEPPER_H_
+#endif  // FEASST_STEPPERS_WRITE_STEPPER_H_

@@ -21,7 +21,9 @@ void ParticleFactory::add(const Particle& particle) {
     particle_copy.set_type(num_particle_type);
   }
   particles_.push_back(particle_copy);
-  check_site_types();
+  if (unique_types_ || unique_particles_) {
+    check_site_types();
+  }
 }
 
 void ParticleFactory::check(const int dimension) const {
@@ -46,6 +48,9 @@ void ParticleFactory::check_types(int * num_site_types,
     *num_bond_types = 0;
     *num_angle_types = 0;
     *num_dihedral_types = 0;
+    return;
+  }
+  if (!unique_types_ && !unique_particles_) {
     return;
   }
 

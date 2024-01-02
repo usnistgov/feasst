@@ -644,6 +644,7 @@ void MonteCarlo::run_until_complete_(TrialFactory * trial_factory,
     attempt_(1, trial_factory, random);
   }
   write_checkpoint();
+  write_to_file();
 }
 
 void MonteCarlo::run_until_file_exists(const std::string& file_name) {
@@ -653,6 +654,7 @@ void MonteCarlo::run_until_file_exists(const std::string& file_name) {
       attempt_(1e2, &trial_factory_, random_.get());
     }
     write_checkpoint();
+    write_to_file();
   }
 }
 

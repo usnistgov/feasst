@@ -5,8 +5,8 @@
    RefPotential
    WriteModelParams
    Run
-   RemoveAnalyze
    RemoveTrial
+   RemoveAnalyze
    Rosenbluth
    Acceptance
    Stepper
@@ -18,7 +18,6 @@
    TrialSelect
    TrialSelectParticle
    RemoveModify
-   WriteStepper
    Tunable
    Perturb
    PerturbMove
