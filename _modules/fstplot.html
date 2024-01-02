@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstplot &mdash; FEASST v0.24.2 documentation</title>
+  <title>fstplot &mdash; FEASST v0.24.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -49,7 +49,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.2
+                v0.24.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -150,7 +150,15 @@
 <span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cmx</span>
 
 <div class="viewcode-block" id="val2map"><a class="viewcode-back" href="../pyfeasst/docs/source/fstplot.html#fstplot.val2map">[docs]</a><span class="k">def</span> <span class="nf">val2map</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">cmname</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Given list of values, return scalar_map for colors &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given list of values, return scalar_map for colors.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">    color=fstplot.val2map(range)</span>
+<span class="sd">    for i in range:</span>
+<span class="sd">        plt.plot(..., color=color.to_rgba(range[i]))</span>
+<span class="sd">    fstplot.display(range, label=&#39;label&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">jet</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmname</span><span class="p">)</span>
     <span class="n">c_norm</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vmax</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">cmx</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="n">c_norm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">jet</span><span class="p">)</span></div>

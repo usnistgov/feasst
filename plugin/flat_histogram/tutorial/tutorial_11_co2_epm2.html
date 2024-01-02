@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand Canonical Flat Histogram Simulation of EMP2 CO2 &mdash; FEASST v0.24.2 documentation</title>
+  <title>Grand Canonical Flat Histogram Simulation of EMP2 CO2 &mdash; FEASST v0.24.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.2
+                v0.24.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -222,7 +222,7 @@
 <section id="grand-canonical-flat-histogram-simulation-of-emp2-co2">
 <h1>Grand Canonical Flat Histogram Simulation of EMP2 CO2<a class="headerlink" href="#grand-canonical-flat-histogram-simulation-of-emp2-co2" title="Permalink to this heading"></a></h1>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Flat-histogram simulation of EMP2 CO2 (https://doi.org/10.1021/j100031a034)  in the grand canonical ensemble.</span>
+<span class="sd">Flat-histogram simulation of EMP2 CO2 (https://doi.org/10.1021/j100031a034) in the grand canonical ensemble.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">argparse</span>
@@ -239,7 +239,7 @@
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;FEASST install directory (e.g., the path to build)&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fstprt&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;/feasst/particle/co2_epm2.fstprt&#39;</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;FEASST particle definition&#39;</span><span class="p">)</span>
-<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--temperature&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">270</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;temperature in Kelvin&#39;</span><span class="p">)</span>
+<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--temperature&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">298</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;temperature in Kelvin&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--beta_mu&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mi">6</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;beta time chemical potential&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--cutoff&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;real space cutoff distance&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--max_particles&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;maximum number of particles&#39;</span><span class="p">)</span>
@@ -249,7 +249,7 @@
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--cubic_side_length&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;cubic periodic boundary length&#39;</span><span class="p">)</span>
-<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--trials_per_iteration&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">),</span>
+<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--trials_per_iteration&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;like cycles, but not necessary num_particles&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--equilibration_iterations&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of iterations for equilibration&#39;</span><span class="p">)</span>
@@ -285,6 +285,7 @@
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;beta_mu&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;dccb_cut&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;dccb_cut&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;cubic_side_length&#39;</span><span class="p">]</span><span class="o">/</span><span class="nb">int</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;cubic_side_length&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;dccb_cut&#39;</span><span class="p">])</span> <span class="c1"># maximize inside box</span>
+<span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ewald_alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.6</span><span class="o">/</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;cubic_side_length&#39;</span><span class="p">]</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;mu_init&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">10</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;angle_width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;angle_center&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;angle_width&#39;</span><span class="p">]</span>
@@ -293,8 +294,8 @@
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;_grow_grand_canonical.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;TrialGrowFile</span>
 
-<span class="s2">particle_type 0 weight 2 transfer true site 0 num_steps 4 reference_index 0</span>
-<span class="s2">bond true mobile_site 1 anchor_site 0 num_steps 4 reference_index 0</span>
+<span class="s2">particle_type 0 weight 2 transfer true site 0 num_steps 1 reference_index 0</span>
+<span class="s2">bond true mobile_site 1 anchor_site 0 num_steps 1 reference_index 0</span>
 <span class="s2">angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;_grow_canonical.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -315,10 +316,14 @@
 <span class="s2">Checkpoint checkpoint_file </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
 
 <span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
-<span class="s2">Configuration cubic_side_length </span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span>
-<span class="s2">Potential Model LennardJones</span>
+<span class="s2">Configuration cubic_side_length </span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span><span class="s2"> group0 oxygen oxygen_site_type 0</span>
+<span class="s2">Potential VisitModel Ewald alpha </span><span class="si">{ewald_alpha}</span><span class="s2"> kmax_squared 38</span>
+<span class="s2">Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter</span>
+<span class="s2">RefPotential VisitModel DontVisitModel</span>
+<span class="s2">#RefPotential Model HardSphere group oxygen cutoff </span><span class="si">{dccb_cut}</span><span class="s2"> VisitModel VisitModelCell min_length </span><span class="si">{dccb_cut}</span><span class="s2"> cell_group oxygen</span>
+<span class="s2">Potential Model ChargeScreenedIntra VisitModel VisitModelBond</span>
+<span class="s2">Potential Model ChargeSelf</span>
 <span class="s2">Potential VisitModel LongRangeCorrections</span>
-<span class="s2">RefPotential Model LennardJones VisitModel VisitModelCell min_length </span><span class="si">{dccb_cut}</span><span class="s2"> reference_index 0</span>
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu_init}</span>
 <span class="s2">Metropolis</span>
 <span class="s2">TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25</span>
@@ -348,8 +353,8 @@
 <span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].xyz start_after_iteration 1</span>
 <span class="s2">Tune trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_iteration 1</span>
 <span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_iteration 1</span>
-<span class="s2">AnalyzeBonds trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_bonds.txt start_after_iteration 1 angle_bin_center </span><span class="si">{angle_center}</span><span class="s2"> angle_bin_width </span><span class="si">{angle_width}</span><span class="s2"> bond_bin_center 1.149 bond_bin_width 0.00001</span>
-<span class="s2">PairDistribution trials_per_update 1000 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> start_after_iteration 1 </span><span class="se">\</span>
+<span class="s2">#AnalyzeBonds trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_bonds.txt start_after_iteration 1 angle_bin_center </span><span class="si">{angle_center}</span><span class="s2"> angle_bin_width </span><span class="si">{angle_width}</span><span class="s2"> bond_bin_center 1.149 bond_bin_width 0.00001</span>
+<span class="s2">#PairDistribution trials_per_update 1000 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> start_after_iteration 1 </span><span class="se">\</span>
 <span class="s2">  dr 0.025 output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_gr.txt multistate true multistate_aggregate false</span>
 <span class="s2">CriteriaUpdater trials_per_update 1e5</span>
 <span class="s2">CriteriaWriter trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_crit.txt</span>
@@ -357,20 +362,21 @@
 
 <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="n">lnp</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">splice_collection_matrix</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;n0s&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_crit.txt&#39;</span><span class="p">,</span> <span class="n">use_soft</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">lnp</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="o">-</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">lnp</span><span class="o">.</span><span class="n">dataframe</span><span class="p">())</span>
-    <span class="n">lnp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;.png&#39;</span><span class="p">)</span>
-    <span class="c1">#lnp.equilibrium(delta_beta_mu_guess=-0.65)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">lnp</span><span class="o">.</span><span class="n">minimums</span><span class="p">())</span>
+    <span class="n">lnp</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">delta_beta_mu</span> <span class="o">=</span> <span class="n">lnp</span><span class="o">.</span><span class="n">equilibrium</span><span class="p">(</span><span class="n">delta_beta_mu_guess</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="c1">#print(delta_beta_mu)</span>
+    <span class="c1">#print(lnp.dataframe())</span>
+    <span class="c1">#lnp.plot()</span>
+    <span class="c1">#plt.savefig(params[&#39;prefix&#39;]+&#39;.png&#39;)</span>
+    <span class="c1">#print(lnp.minimums())</span>
     <span class="n">vapor</span><span class="p">,</span> <span class="n">liquid</span> <span class="o">=</span> <span class="n">lnp</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="n">volume</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cubic_side_length&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span>
     <span class="n">na</span> <span class="o">=</span> <span class="n">physical_constants</span><span class="o">.</span><span class="n">AvogadroConstant</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-    <span class="n">dens_conv</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">volume</span><span class="o">/</span><span class="n">na</span><span class="o">*</span><span class="mf">44.01</span><span class="o">/</span><span class="mf">1e3</span><span class="o">*</span><span class="mf">1e30</span> <span class="c1"># convert from N/V units of molecules/A^3 to kg/m</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;vapor density(kg/m)&#39;</span><span class="p">,</span> <span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">*</span><span class="n">dens_conv</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liquid density(kg/m)&#39;</span><span class="p">,</span> <span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">*</span><span class="n">dens_conv</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">295</span> <span class="o">-</span> <span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">*</span><span class="n">dens_conv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span>
-    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">621</span> <span class="o">-</span> <span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">*</span><span class="n">dens_conv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">50</span>
+    <span class="n">dens_conv</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">volume</span><span class="o">/</span><span class="n">na</span><span class="o">*</span><span class="mf">44.01</span><span class="o">/</span><span class="mf">1e3</span><span class="o">*</span><span class="mf">1e30</span> <span class="c1"># convert from N/V units of molecules/A^3 to kg/m^3</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;vapor density(kg/m^3)&#39;</span><span class="p">,</span> <span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">*</span><span class="n">dens_conv</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liquid density(kg/m^3)&#39;</span><span class="p">,</span> <span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">*</span><span class="n">dens_conv</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">256</span> <span class="o">-</span> <span class="n">vapor</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">*</span><span class="n">dens_conv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">712</span> <span class="o">-</span> <span class="n">liquid</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span><span class="o">*</span><span class="n">dens_conv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">50</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">fstio</span><span class="o">.</span><span class="n">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span>

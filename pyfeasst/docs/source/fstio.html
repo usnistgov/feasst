@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstio &mdash; FEASST v0.24.2 documentation</title>
+  <title>fstio &mdash; FEASST v0.24.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.2
+                v0.24.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -241,7 +241,10 @@ prefix: prefix for all output file names,
 script: script file name,
 sim_id_file: filename to write simulation id’s for later checking of status,
 max_restarts: maximum number of restarts,
-node: node index.</p>
+node: node index.
+Optional keys:
+scratch: location of local scratch space on HPC node (disabled by default),
+scratch_hours_per_sync: hours between synching scratch to destination (default: 5).</p>
 </dd>
 </dl>
 <p>This function also adds the key ‘queue_command’ to the params dictionary,

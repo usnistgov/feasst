@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstplot &mdash; FEASST v0.24.2 documentation</title>
+  <title>fstplot &mdash; FEASST v0.24.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.2
+                v0.24.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -186,7 +186,14 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="fstplot.val2map">
 <span class="sig-prename descclassname"><span class="pre">fstplot.</span></span><span class="sig-name descname"><span class="pre">val2map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'viridis'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstplot.html#val2map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstplot.val2map" title="Permalink to this definition"></a></dt>
-<dd><p>Given list of values, return scalar_map for colors</p>
+<dd><p>Given list of values, return scalar_map for colors.</p>
+<p>Usage:
+color=fstplot.val2map(range)
+for i in range:</p>
+<blockquote>
+<div><p>plt.plot(…, color=color.to_rgba(range[i]))</p>
+</div></blockquote>
+<p>fstplot.display(range, label=’label’)</p>
 </dd></dl>
 
 <dl class="py function">

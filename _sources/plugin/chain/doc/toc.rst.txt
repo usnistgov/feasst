@@ -1,8 +1,8 @@
 
 .. toctree::
 
-   SelectSiteOfType
    SelectPerturbed
+   SelectSiteOfType
    SelectSegment
    SelectEndSegment
    SelectReptate
