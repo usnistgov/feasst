@@ -16,6 +16,7 @@ class TrialTranslate : public TrialMove {
     - Trial arguments.
     - TrialStage arguments.
     - TrialSelectParticle arguments.
+    - PerturbTranslate arguments.
     - Tunable arguments.
    */
   explicit TrialTranslate(argtype args = argtype());

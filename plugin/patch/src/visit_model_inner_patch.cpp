@@ -26,10 +26,6 @@ void VisitModelInnerPatch::compute(
     const bool is_old_config,
     Position * relative,
     Position * pbc) {
-//  std::cout << " Info 1 part1_index " << part1_index << std::endl;
-//  std::cout << " Info 1 site1_index " << site1_index << std::endl;
-//  std::cout << " Info 2 part2_index " << part2_index << std::endl;
-//  std::cout << " Info 2 site2_index " << site2_index << std::endl;
   TRACE("part1_index " << part1_index);
   TRACE("part2_index " << part2_index);
   TRACE("site1_index " << site1_index);
@@ -73,19 +69,19 @@ void VisitModelInnerPatch::compute(
                 const double dircut = model_params.select(cutoff_index()).mixed_values()[dir1_type][dir2_type];
                 TRACE("dircut " << dircut);
                 if (squared_distance <= dircut*dircut) {
-                  Position dir1_pos = dir1.position();
-                  dir1_pos.subtract(site1.position());
-                  dir1_pos.multiply(-1.);
-                  const double dir1_sq_length = dir1_pos.squared_distance();
+                  dir1_pos_.set_vector(dir1.position().coord());
+                  dir1_pos_.subtract(site1.position());
+                  dir1_pos_.multiply(-1.);
+                  const double dir1_sq_length = dir1_pos_.squared_distance();
                   TRACE("dir1_sq_length " << dir1_sq_length);
                   TRACE("sqdist " << squared_distance);
-                  const double cosp1 = dir1_pos.dot_product(*relative)/std::sqrt(squared_distance*dir1_sq_length);
+                  const double cosp1 = dir1_pos_.dot_product(*relative)/std::sqrt(squared_distance*dir1_sq_length);
                   TRACE("cosp1 " << cosp1 << " cosacut " << cos_patch_angle_.value(dir1_type));
                   if (cosp1 >= cos_patch_angle_.value(dir1_type)) {
-                    Position dir2_pos = dir2.position();
-                    dir2_pos.subtract(site2.position());
-                    const double dir2_sq_length = dir2_pos.squared_distance();
-                    const double cosp2 = dir2_pos.dot_product(*relative)/std::sqrt(squared_distance*dir2_sq_length);
+                    dir2_pos_.set_vector(dir2.position().coord());
+                    dir2_pos_.subtract(site2.position());
+                    const double dir2_sq_length = dir2_pos_.squared_distance();
+                    const double cosp2 = dir2_pos_.dot_product(*relative)/std::sqrt(squared_distance*dir2_sq_length);
                     TRACE("cosp2 " << cosp2 << " cosacut " << cos_patch_angle_.value(dir2_type));
                     if (cosp2 >= cos_patch_angle_.value(dir2_type)) {
                       const double en = model->energy(squared_distance, dir1_type, dir2_type, model_params);
@@ -119,6 +115,8 @@ VisitModelInnerPatch::VisitModelInnerPatch(std::istream& istr) : VisitModelInner
   ASSERT(version == 255, "unrecognized version: " << version);
   feasst_deserialize_fstobj(&cos_patch_angle_, istr);
   feasst_deserialize(&director_index_, istr);
+  feasst_deserialize_fstobj(&dir1_pos_, istr);
+  feasst_deserialize_fstobj(&dir2_pos_, istr);
 }
 
 void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
@@ -127,6 +125,8 @@ void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
   feasst_serialize_version(255, ostr);
   feasst_serialize_fstobj(cos_patch_angle_, ostr);
   feasst_serialize(director_index_, ostr);
+  feasst_serialize_fstobj(dir1_pos_, ostr);
+  feasst_serialize_fstobj(dir2_pos_, ostr);
 }
 
 void VisitModelInnerPatch::precompute(Configuration * config) {
@@ -139,6 +139,8 @@ void VisitModelInnerPatch::precompute(Configuration * config) {
   }
   //cos_patch_angle_index_ = config->model_params().index("cos_patch_angle");
   //INFO("cos_patch_angle_index_ " << cos_patch_angle_index_);
+  dir1_pos_.set_to_origin(config->domain().dimension());
+  dir2_pos_.set_to_origin(config->domain().dimension());
 }
 
 }  // namespace feasst

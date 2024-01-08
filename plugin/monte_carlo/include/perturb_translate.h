@@ -14,8 +14,19 @@ namespace feasst {
  */
 class PerturbTranslate : public PerturbMove {
  public:
+  //@{
+  /** @name Arguments
+    - dimension: if == -1, uniform translation in all dimensions (default: -1).
+      Otherwise, translate only specifically +/- value (without tuning) in
+      specific dimension.
+   */
   explicit PerturbTranslate(argtype args = argtype());
   explicit PerturbTranslate(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Initialize minimum and maximum tunable parameter based on domain.
   void precompute(TrialSelect * select, System * system) override;
@@ -45,10 +56,12 @@ class PerturbTranslate : public PerturbMove {
   explicit PerturbTranslate(std::istream& istr);
   virtual ~PerturbTranslate() {}
 
+  //@}
  private:
   // temporary objects
   Position trajectory_, anchor_, new_pos_;
   bool anchor_set_ = false;
+  int dimension_;
 };
 
 inline std::shared_ptr<PerturbTranslate> MakePerturbTranslate(

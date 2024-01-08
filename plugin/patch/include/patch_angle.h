@@ -44,6 +44,19 @@ class Director : public ModelParam {
   virtual ~Director() {}
 };
 
+class SpherocylinderLength : public ModelParam {
+ public:
+  SpherocylinderLength() : ModelParam() { class_name_ = "spherocylinder_length"; }
+  double compute(const int type, const ModelParams& model_params) override;
+  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+    return std::make_shared<SpherocylinderLength>(istr); }
+//  std::shared_ptr<ModelParam> create(argtype * args) const override {
+//    return std::make_shared<SpherocylinderLength>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit SpherocylinderLength(std::istream& istr);
+  virtual ~SpherocylinderLength() {}
+};
+
 }  // namespace feasst
 
 #endif  // FEASST_PATCH_PATCH_ANGLE_H_

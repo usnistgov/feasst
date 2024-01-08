@@ -28,6 +28,7 @@ ScatteringFFTW::ScatteringFFTW(argtype args) : ScatteringFFTW(&args) {
 
 void ScatteringFFTW::resize_fftw_variables_() {
   in_  = reinterpret_cast<double*>(fftw_malloc(sizeof(double) * feasst::product(num_bin_)));
+  DEBUG("size of in: " << feasst::product(num_bin_));
   out_ = reinterpret_cast<fftw_complex*>(fftw_malloc(sizeof(fftw_complex) * num_q_()));
   plan_ = fftw_plan_dft_r2c_3d(num_bin_[0], num_bin_[1], num_bin_[2], in_, out_, FFTW_MEASURE);
   fftw_initialized_ = true;
@@ -88,12 +89,25 @@ void ScatteringFFTW::fill_grid_(const Configuration& config, const bool centers)
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
         for (int dim = 0; dim < config.dimension(); ++dim) {
-          center[dim] = static_cast<int>((site.position().coord(dim) - lower_bound_[dim])/bin_dist_[dim]);
+          const int num_bin = num_bin_[dim];
+          int * cen = &center[dim];
+          *cen = static_cast<int>((site.position().coord(dim) - lower_bound_[dim])/bin_dist_[dim]);
+          // wrap positions in grid
+          if (*cen >= num_bin) {
+            *cen -= num_bin;
+          } else if (*cen < 0) {
+            *cen += num_bin;
+          }
+          ASSERT((*cen < num_bin) && (*cen >= 0),
+            "Not wrapped: " << *cen << " num_bin:" << num_bin);
         }
+        DEBUG("pos " << site.position().str());
         DEBUG("center " << feasst_str(center));
         if (centers) {
           const int bin = center[2] + nz*(center[1] + ny*center[0]);
           DEBUG("bin " << bin);
+          ASSERT(bin < feasst::product(num_bin_), "Err. bin:" << bin <<
+            " num:" << feasst::product(num_bin_));
           in_[bin] = std::pow(-1, center[0] + center[1] + center[2]);
         } else {
           FATAL("not implemented");

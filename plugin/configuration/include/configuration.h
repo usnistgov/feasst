@@ -529,10 +529,14 @@ class Configuration {
    */
   //@{
 
-  const std::vector<std::vector<Table6D> >& table6d() const { return table6d_; }
+  const std::vector<std::vector<Table3D> >& table3d() const { return table3d_; }
+  const std::vector<std::vector<Table4D> >& table4d() const { return table4d_; }
   const std::vector<std::vector<Table5D> >& table5d() const { return table5d_; }
-  std::vector<std::vector<Table6D> > * get_table6d() { return &table6d_; }
+  const std::vector<std::vector<Table6D> >& table6d() const { return table6d_; }
+  std::vector<std::vector<Table3D> > * get_table3d() { return &table3d_; }
+  std::vector<std::vector<Table4D> > * get_table4d() { return &table4d_; }
   std::vector<std::vector<Table5D> > * get_table5d() { return &table5d_; }
+  std::vector<std::vector<Table6D> > * get_table6d() { return &table6d_; }
 
   //@}
 
@@ -640,8 +644,11 @@ class Configuration {
   std::vector<int> num_particles_of_type_;
   std::vector<NeighborCriteria> neighbor_criteria_;
 
-  std::vector<std::vector<Table6D> > table6d_;
+  // Do not serialize possibly huge tables.
+  std::vector<std::vector<Table3D> > table3d_;
+  std::vector<std::vector<Table4D> > table4d_;
   std::vector<std::vector<Table5D> > table5d_;
+  std::vector<std::vector<Table6D> > table6d_;
 };
 
 inline std::shared_ptr<Configuration> MakeConfiguration(

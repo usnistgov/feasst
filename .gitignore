@@ -31,3 +31,6 @@ pyfeasst/docs/build
 # automatically generated files from py/depende.py
 py/feasst.i
 plugin/feasst/include/feasst.h
+
+# interface files
+dev/v0*

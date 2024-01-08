@@ -777,7 +777,7 @@ TEST(MonteCarlo, single_butane) {
     {"add_particles_of_type0", "1"},
     {"cubic_side_length", "100"}}));
   mc.add(MakePotential(MakeLennardJones(),
-                       MakeVisitModelIntra({{"intra_cut",  "4"}})));
+                       MakeVisitModelIntra({{"intra_cut",  "3"}})));
   mc.set(MakeThermoParams({{"beta", "1"}}));
   mc.set(MakeMetropolis());
   DEBUG("initial energy " << mc.criteria().current_energy());

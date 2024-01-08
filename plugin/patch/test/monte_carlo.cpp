@@ -150,4 +150,48 @@ TEST(MonteCarlo, patch_arglist) {
   EXPECT_NEAR(-3., mc->criteria().current_energy(), NEAR_ZERO);
 }
 
+TEST(MonteCarlo, spherocylinder) {
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"particle_type0", install_dir()+"/plugin/patch/particle/spherocylinder.fstprt"},
+      {"cubic_side_length", "8"}, {"group0", "centers"}, {"centers_site_type0", "0"}}},
+    {"Potential", {{"Model", "SquareWell"}, {"VisitModelInner", "Spherocylinder"}, {"group", "centers"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "-1"}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
+    {"TrialRotate", {{"weight", "1."}, {"tunable_param", "1."}}},
+    {"TrialAdd", {{"particle_type", "0"}}},
+    {"Run", {{"until_num_particles", "20"}}},
+    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Checkpoint", {{"num_hours", "0.0001"}, {"checkpoint_file", "tmp/sphrst"}}},
+    {"Log", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/sph.txt"}}},
+    {"Movie", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/sph.xyz"}}},
+    {"MovieSpherocylinder", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/sphc.xyz"}}},
+    {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
+    {"Tune", {{}}},
+    {"Run", {{"num_trials", "1e2"}}},
+  }});
+}
+
+TEST(MonteCarlo, SolidOfRevolution) {
+  auto mc = MakeMonteCarlo({{
+    //{"RandomMT19937", {{"seed", "123"}}},
+    {"Configuration", {{"particle_type0", "../plugin/patch/particle/one_patch.fstprt"},
+      {"cubic_side_length", "8"}, {"group0", "centers"}, {"centers_site_type0", "0"}, {"cutoff", "4"}}},
+    {"Potential", {{"Model", "HardSphere"}, {"VisitModelInner", "SolidOfRevolutionTable"}, {"group", "centers"}, {"table_file", "../plugin/patch/test/data/tablek5l1.0d1.txt"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "-1"}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
+    {"TrialRotate", {{"weight", "1."}, {"tunable_param", "1."}}},
+    {"TrialAdd", {{"particle_type", "0"}}},
+    {"Run", {{"until_num_particles", "20"}}},
+    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Checkpoint", {{"num_hours", "0.0001"}, {"checkpoint_file", "tmp/sphrst"}}},
+    {"Log", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/sph.txt"}}},
+    {"Movie", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/sph.xyz"}}},
+    {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
+    {"Tune", {{}}},
+    {"Run", {{"num_trials", "1e2"}}},
+  }});
+}
+
 }  // namespace feasst

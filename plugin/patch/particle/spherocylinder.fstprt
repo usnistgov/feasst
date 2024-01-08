@@ -1,0 +1,26 @@
+# LAMMPS-inspired data file
+
+2 sites
+1 bonds
+
+2 site types
+1 bond types
+
+Site Properties
+
+0 sigma 1.0 epsilon 1.0 cutoff 3.5
+1 sigma 1.0 epsilon 1.0 cutoff 1.5 director 1 spherocylinder_length 2
+
+Bond Properties
+
+0 RigidBond length 1.0 delta 0.000001
+
+Sites
+
+0 0 0.0 0.0 0.0
+1 1 1.0 0.0 0.0
+
+Bonds
+
+0 0 0 1
+

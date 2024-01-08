@@ -150,16 +150,16 @@ Configuration cubic_side_length {cubic_side_length_vapor} particle_type0 {fstprt
 Configuration cubic_side_length {cubic_side_length_liquid} particle_type0 {fstprt} cutoff {cutoff}
 Potential Model LennardJones configuration_index 0
 Potential Model LennardJones configuration_index 1
-Potential Model LennardJones VisitModel VisitModelIntra intra_cut 4 configuration_index 0
-Potential Model LennardJones VisitModel VisitModelIntra intra_cut 4 configuration_index 1
+Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3 configuration_index 0
+Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3 configuration_index 1
 Potential VisitModel LongRangeCorrections configuration_index 0
 Potential VisitModel LongRangeCorrections configuration_index 1
 RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 0
 RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 1
 #RefPotential Model LennardJones reference_index 0 configuration_index 0
 #RefPotential Model LennardJones reference_index 0 configuration_index 1
-#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 4 reference_index 0 configuration_index 0
-#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 4 reference_index 0 configuration_index 1
+#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 3 reference_index 0 configuration_index 0
+#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 3 reference_index 0 configuration_index 1
 ThermoParams beta {beta} chemical_potential 10
 Metropolis
 TrialTranslate weight 0.5 tunable_param 30 configuration_index 0

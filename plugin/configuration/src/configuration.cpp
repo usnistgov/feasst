@@ -737,7 +737,7 @@ std::string Configuration::status() const {
 }
 
 void Configuration::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(7200, ostr);
+  feasst_serialize_version(7199, ostr);
   feasst_serialize(version(), ostr);
   particle_types_.serialize(ostr);
   unique_types_.serialize(ostr);
@@ -752,15 +752,13 @@ void Configuration::serialize(std::ostream& ostr) const {
   feasst_serialize(wrap_, ostr);
   feasst_serialize(num_cell_lists_, ostr);
   feasst_serialize_fstobj(neighbor_criteria_, ostr);
-  feasst_serialize_fstobj(table6d_, ostr);
-  feasst_serialize_fstobj(table5d_, ostr);
   feasst_serialize_endcap("Configuration", ostr);
   DEBUG("size: " << ostr.tellp());
 }
 
 Configuration::Configuration(std::istream& istr) {
   const int config_version = feasst_deserialize_version(istr);
-  ASSERT(config_version >= 7199 && config_version <= 7200,
+  ASSERT(config_version >= 7199 && config_version <= 7199,
     "unrecognized config_version: " << config_version);
   std::string checkpoint_version;
   feasst_deserialize(&checkpoint_version, istr);
@@ -786,10 +784,6 @@ Configuration::Configuration(std::istream& istr) {
   feasst_deserialize(&wrap_, istr);
   feasst_deserialize(&num_cell_lists_, istr);
   feasst_deserialize_fstobj(&neighbor_criteria_, istr);
-  if (config_version >= 7200) {
-    feasst_deserialize_fstobj(&table6d_, istr);
-    feasst_deserialize_fstobj(&table5d_, istr);
-  }
   feasst_deserialize_endcap("Configuration", istr);
 }
 

@@ -5,15 +5,6 @@
 
 namespace feasst {
 
-double CosPatchAngle::compute(const int type, const ModelParams& model_params) {
-  const double angle = model_params.select("patch_angle").value(type);
-  return std::cos(degrees_to_radians(angle));
-}
-
-double Director::compute(const int type, const ModelParams& model_params) {
-  return model_params.select("director").value(type);
-}
-
 class MapPatchAngle {
  public:
   MapPatchAngle() {
@@ -56,6 +47,10 @@ Director::Director(std::istream& istr) : ModelParam(istr) {
   ASSERT(version == 1948, "mismatch version: " << version);
 }
 
+double Director::compute(const int type, const ModelParams& model_params) {
+  return model_params.select("director").value(type);
+}
+
 class MapCosPatchAngle {
  public:
   MapCosPatchAngle() {
@@ -76,5 +71,36 @@ CosPatchAngle::CosPatchAngle(std::istream& istr) : ModelParam(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 3967, "mismatch version: " << version);
 }
+
+double CosPatchAngle::compute(const int type, const ModelParams& model_params) {
+  const double angle = model_params.select("patch_angle").value(type);
+  return std::cos(degrees_to_radians(angle));
+}
+
+class MapSpherocylinderLength {
+ public:
+  MapSpherocylinderLength() {
+    auto obj = std::make_shared<SpherocylinderLength>();
+    obj->deserialize_map()["spherocylinder_length"] = obj;
+  }
+};
+
+static MapSpherocylinderLength mapper_length_ = MapSpherocylinderLength();
+
+void SpherocylinderLength::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_model_param_(ostr);
+  feasst_serialize_version(2073, ostr);
+}
+
+SpherocylinderLength::SpherocylinderLength(std::istream& istr) : ModelParam(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 2073, "mismatch version: " << version);
+}
+
+double SpherocylinderLength::compute(const int type, const ModelParams& model_params) {
+  return model_params.select("spherocylinder_length").value(type);
+}
+
 
 }  // namespace feasst

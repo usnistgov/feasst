@@ -143,10 +143,10 @@ Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpo
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff {cutoff}
 Potential Model LennardJones
-Potential Model LennardJones VisitModel VisitModelIntra intra_cut 4
+Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3
 Potential VisitModel LongRangeCorrections
 RefPotential Model LennardJones VisitModel VisitModelCell min_length {dccb_cut} reference_index 0
-RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 4 reference_index 0
+RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 3 reference_index 0
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25

@@ -66,6 +66,7 @@ class VisitModelInnerPatch : public VisitModelInner {
   //int cos_patch_angle_index_;
   CosPatchAngle cos_patch_angle_;
   int director_index_ = -1;
+  Position dir1_pos_, dir2_pos_;
 };
 
 inline std::shared_ptr<VisitModelInnerPatch> MakeVisitModelInnerPatch(

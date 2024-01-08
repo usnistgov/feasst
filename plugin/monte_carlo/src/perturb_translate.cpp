@@ -6,11 +6,15 @@
 
 namespace feasst {
 
-PerturbTranslate::PerturbTranslate(argtype args) : PerturbTranslate(&args) {
-  FEASST_CHECK_ALL_USED(args);
-}
 PerturbTranslate::PerturbTranslate(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbTranslate";
+  dimension_ = integer("dimension", args, -1);
+  if (dimension_ != -1) {
+    disable_tunable_();
+  }
+}
+PerturbTranslate::PerturbTranslate(argtype args) : PerturbTranslate(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapPerturbTranslate {
@@ -69,11 +73,24 @@ void PerturbTranslate::move(const bool is_position_held,
                             TrialSelect * select,
                             Random * random) {
   if (is_position_held) return;
-  random->position_in_cube(
-    system->dimension(),
-    2.*tunable().value(), // 2 factor accounts for +/- delta
-    &trajectory_
-  );
+  const int dim = system->dimension();
+  if (dimension_ == -1) {
+    random->position_in_cube(
+      dim,
+      2.*tunable().value(), // 2 factor accounts for +/- delta
+      &trajectory_
+    );
+  } else {
+    ASSERT(dimension_ < dim, "dimension_: " << dimension_ << " < " << dim);
+    ASSERT(!tunable().is_enabled(),
+      "PeturbTranslate assumes tunable is disabled.");
+    trajectory_.set_to_origin(dim);
+    int sign = 1.;
+    if (random->coin_flip()) {
+      sign = -1;
+    }
+    trajectory_.set_coord(dimension_, sign*tunable().value());
+  }
   DEBUG("max move " << tunable().value());
   move(trajectory_, system, select);
 }
@@ -105,15 +122,19 @@ PerturbTranslate::PerturbTranslate(std::istream& istr)
   : PerturbMove(istr) {
   ASSERT(class_name_ == "PerturbTranslate", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(564 == version, "mismatch version: " << version);
+  ASSERT(version >= 564 && version <= 565, "mismatch version: " << version);
   feasst_deserialize(&anchor_set_, istr);
+  if (version >= 565) {
+    feasst_deserialize(&dimension_, istr);
+  }
 }
 
 void PerturbTranslate::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_(ostr);
-  feasst_serialize_version(564, ostr);
+  feasst_serialize_version(565, ostr);
   feasst_serialize(anchor_set_, ostr);
+  feasst_serialize(dimension_, ostr);
 }
 
 }  // namespace feasst

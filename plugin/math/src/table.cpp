@@ -217,11 +217,14 @@ double Table3D::linear_interpolation(const double value0,
   TRACE("value0 " << value0);
   TRACE("value1 " << value1);
   TRACE("value2 " << value2);
-  ASSERT(value0 >= 0 && value0 <= 1, "value: " << value0 << " out of bounds."
+  ASSERT(value0 >= 0 && value0 <= 1,
+    "value: " << MAX_PRECISION << value0 << " out of bounds."
     << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value1 >= 0 && value1 <= 1, "value: " << value1 << " out of bounds. "
+  ASSERT(value1 >= 0 && value1 <= 1,
+    "value: " << MAX_PRECISION << value1 << " out of bounds. "
     << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value2 >= 0 && value2 <= 1, "value: " << value2 << " out of bounds. "
+  ASSERT(value2 >= 0 && value2 <= 1,
+    "value: " << MAX_PRECISION << value2 << " out of bounds. "
     << " If periodicity is disabled, place a hard wall at the boundaries.");
   TRACE("i0 " << i0 << " i1 " << i1 << " i2 " << i2);
   int i02 = i0 + 1, i12 = i1 + 1, i22 = i2 + 1;
