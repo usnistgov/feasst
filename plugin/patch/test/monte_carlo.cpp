@@ -24,6 +24,7 @@
 #include "patch/include/visit_model_inner_patch.h"
 #include "patch/include/file_xyz_patch.h"
 #include "patch/include/movie_patch.h"
+#include "patch/include/solid_of_revolution_table.h"
 
 namespace feasst {
 

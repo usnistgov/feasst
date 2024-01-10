@@ -1,22 +1,17 @@
-PatchAngle
+FileVMDSpherocylinder
 =====================================================
 
-.. doxygenclass:: feasst::PatchAngle
+.. doxygenclass:: feasst::FileVMDSpherocylinder
    :project: FEASST
    :members:
    :membergroups: Arguments
 
-.. doxygenclass:: feasst::CosPatchAngle
+.. doxygenclass:: feasst::PrinterXYZSpherocylinder
    :project: FEASST
    :members:
    :membergroups: Arguments
 
-.. doxygenclass:: feasst::Director
-   :project: FEASST
-   :members:
-   :membergroups: Arguments
-
-.. doxygenclass:: feasst::SpherocylinderLength
+.. doxygenclass:: feasst::FileXYZSpherocylinder
    :project: FEASST
    :members:
    :membergroups: Arguments

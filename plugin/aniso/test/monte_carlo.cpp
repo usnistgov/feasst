@@ -73,4 +73,57 @@ TEST(MonteCarlo, rigid_body_connector) {
   MonteCarlo mc2 = test_serialize(*mc);
 }
 
+TEST(MonteCarlo, 4lyt_smoothing) {
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {
+      {"particle_type0", "../plugin/aniso/particle/aniso_tabular.fstprt"},
+      {"xyz_euler_file", "../plugin/aniso/test/data/two.xyze"}}},
+    {"Potential", {{"Model", "TwoBodyTable"}, {"VisitModelInner", "VisitModelInnerTable"}, {"table_file", "../plugin/aniso/test/data/table.txt"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1."}}},
+    {"Metropolis", {{}}},
+//    {"Log", {{"trials_per_write", "1"}, {"output_file", "tmp/4lyt.txt"}}},
+//    {"Run", {{"num_trials", "4"}}},
+  }});
+//  mc->attempt(1);
+  // HWH add serialization test here as well
+//  MonteCarlo mc2 = test_serialize(*mc);
+//  //mc2.initialize_criteria();
+//  EXPECT_NEAR(mc->get_system()->energy(),
+//              mc2.get_system()->energy(), NEAR_ZERO);
+  EXPECT_NEAR(0.0003444443315056451, mc->get_system()->energy(), NEAR_ZERO);
+
+//  const double temperature = 298.15;
+//  const double temp_cel = temperature - 273.15;
+//  const double dielectric_water = 87.74 - 0.40008*temp_cel + 9.398e-4*std::pow(temp_cel, 2) - 1.4e-6*std::pow(temp_cel, 3);
+//  const double eps_0 = CODATA2018().permitivity_vacuum();
+//  const double elem_q = CODATA2018().elementary_charge();
+//  const double na = CODATA2018().avogadro_constant();
+//  const double kb = CODATA2018().boltzmann_constant();
+//  const double ionic_strength = 0.15;
+//  const double kappa = std::sqrt(2*std::pow(elem_q,2)*ionic_strength*(1e3)*na/(dielectric_water*eps_0*kb*temperature*1e20));
+//  const double cutoff = 5./kappa;
+//  auto all_atom = MakeMonteCarlo({{
+//    {"Configuration", {
+//      {"cubic_side_length", "500"},
+//      {"cutoff", str(cutoff)},
+//      {"particle_type0", "../../open_mab_cg/4lyt_ph6/4lyt.fstprt"},
+//      {"add_particles_of_type0", "2"}}},
+//    {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "HardSphere"}, {"model1", "LennardJones"}, {"model2", "DebyeHuckel"}, {"kappa", str(kappa)}, {"dielectric", str(dielectric_water)}, {"smoothing_distance", "2"}, {"energy_cutoff", "1e100"}}},
+//    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1."}}},
+//    {"Metropolis", {{}}},
+////    {"Log", {{"trials_per_write", "1"}, {"output_file", "tmp/4lyt.txt"}}},
+////    {"Run", {{"num_trials", "4"}}},
+//  }});
+//  Select sel;
+//  sel.add_particle(mc->configuration().particle(1), 1);
+//  Position disp;
+//  //disp.set_vector({30, 0, 0});
+//  //disp.set_vector({2.870980e+01, 0, 0});
+//  disp.set_vector({65.933407323399, 0, 0});
+//  //disp.set_vector({67.933407323399, 0, 0});
+//  all_atom->get_system()->get_configuration()->displace_particles(sel, disp);
+//  all_atom->initialize_criteria();
+//  EXPECT_NEAR(0, all_atom->criteria().current_energy(), NEAR_ZERO);
+}
+
 }  // namespace feasst

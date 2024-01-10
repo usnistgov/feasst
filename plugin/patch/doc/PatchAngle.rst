@@ -15,3 +15,8 @@ PatchAngle
    :project: FEASST
    :members:
    
+
+.. doxygenclass:: feasst::SpherocylinderLength
+   :project: FEASST
+   :members:
+   

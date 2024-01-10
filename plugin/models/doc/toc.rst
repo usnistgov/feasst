@@ -10,8 +10,8 @@
    TwoBodyTable
    SquareWell
    TwoBodyAlpha
-   Mie
    TablePotential
+   Mie
    LennardJonesAlpha
    LennardJonesCutShift
    LennardJonesForceShift

@@ -1,18 +1,18 @@
 
 .. toctree::
 
-   ElectricField
-   ChargeSelf
-   SlabCorrection
-   Coulomb
-   ChargeScreenedIntra
    ChargeScreened
-   DebyeHuckel
-   Ewald
-   ComputeRemoveMultiple
-   TrialRemoveMultiple
-   TrialAddMultiple
-   TrialTransferMultiple
-   CheckNetCharge
-   utils
+   ChargeScreenedIntra
+   ChargeSelf
    ComputeAddMultiple
+   ComputeRemoveMultiple
+   Coulomb
+   DebyeHuckel
+   ElectricField
+   SlabCorrection
+   TrialAddMultiple
+   TrialRemoveMultiple
+   TrialTransferMultiple
+   utils
+   Ewald
+   CheckNetCharge

@@ -4,15 +4,12 @@ Compare with https://doi.org/10.1063/1.5004687
 For L=1, D=1, B2 = 6.02138591938044
 """
 
-import sys
 import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
 from pyfeasst import accumulator
-sys.path.insert(0, '../../patch/tutorial/')
-from make_spherocylinder import hard_spherocylinder
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)

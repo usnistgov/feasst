@@ -3,15 +3,15 @@
 
    FormulaSineWave
    Shape
-   ShapeUnion
-   ShapeIntersect
-   SlabSine
-   FiniteCylinder
-   Slab
    HalfSpaceTilted
-   Cylinder
-   ShapeFile
-   Cuboid
-   Sphere
    HalfSpace
    HalfSpaceSine
+   Cylinder
+   Cuboid
+   ShapeFile
+   ShapeIntersect
+   FiniteCylinder
+   ShapeUnion
+   Slab
+   SlabSine
+   Sphere

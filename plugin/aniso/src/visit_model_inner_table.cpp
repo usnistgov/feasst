@@ -109,7 +109,7 @@ void VisitModelInnerTable::read_table_(const std::string file_name,
       for (int e3 = 0; e3 < ne3; ++e3) {
         ++num_orientations;
       }}}}}
-      INFO("num_orientations " << num_orientations);
+      TRACE("num_orientations " << num_orientations);
       // temporarily store values to recall for redundant orientations
       std::vector<std::vector<double> > tmp_store;
       resize(num_orientations, num_z + 2, &tmp_store);
@@ -218,21 +218,21 @@ void VisitModelInnerTable::compute(
     const bool is_old_config,
     Position * relative,
     Position * pbc) {
-  DEBUG("*** VisitModelInnerTable ***");
+  TRACE("*** VisitModelInnerTable ***");
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
   const Particle& part2 = config->select_particle(part2_index);
   const Site& site2 = part2.site(site2_index);
   clear_ixn(part1_index, site1_index, part2_index, site2_index);
-  DEBUG("aniso_index_ " << aniso_index_);
+  TRACE("aniso_index_ " << aniso_index_);
   const ModelParam& aniso = model_params.select(aniso_index_);
   int type1 = site1.type();
   int type2 = site2.type();
 
   // check if sites are anisotropic
-  DEBUG("type1 " << type1)
-  DEBUG("type2 " << type2);
-  DEBUG("aniso " << aniso.value(type1) << " " << aniso.value(type2));
+  TRACE("type1 " << type1)
+  TRACE("type2 " << type2);
+  TRACE("aniso " << aniso.value(type1) << " " << aniso.value(type2));
   if (aniso.value(type1) < 0.5 || aniso.value(type2) < 0.5) {
     return;
   }
@@ -241,13 +241,13 @@ void VisitModelInnerTable::compute(
   const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
   double squared_distance;
   config->domain().wrap_opt(site1.position(), site2.position(), relative, pbc, &squared_distance);
-  DEBUG("squared_distance " << squared_distance);
-  DEBUG("relative " << relative->str());
-  DEBUG("cutoff " << cutoff);
+  TRACE("squared_distance " << squared_distance);
+  TRACE("relative " << relative->str());
+  TRACE("cutoff " << cutoff);
   if (squared_distance > cutoff*cutoff) {
     return;
   }
-  DEBUG("inside global cut");
+  TRACE("inside global cut");
 
   bool flip = false;
   // enforce type1 <= type2 to avoid redundant tables and keep the reference
@@ -267,7 +267,7 @@ void VisitModelInnerTable::compute(
   if (flip) {
     swap(&type1, &type2);
   }
-  DEBUG("flip " << flip);
+  TRACE("flip " << flip);
 
   // obtain the inverse rotation matrix that sets the reference frame on site 1
   if (flip) {
@@ -276,7 +276,7 @@ void VisitModelInnerTable::compute(
     site1.euler().compute_rotation_matrix(&rot1_);
   }
   rot1_.transpose();
-  DEBUG("rot1 " << rot1_.str());
+  TRACE("rot1 " << rot1_.str());
 
   // obtain the relative orientation of the centers in spherical coordinates
   if (!flip) {
@@ -289,9 +289,9 @@ void VisitModelInnerTable::compute(
   }
   pos1_ = *relative;
   rot1_.multiply(*relative, &pos1_);
-  DEBUG("pos1 " << pos1_.str());
+  TRACE("pos1 " << pos1_.str());
   pos1_.spherical(&sph_);
-  DEBUG("sph " << sph_.str());
+  TRACE("sph " << sph_.str());
 
   // obtain the relative orientation of site 2 in frame of site 1.
   if (flip) {
@@ -301,7 +301,7 @@ void VisitModelInnerTable::compute(
   }
   rot1_.multiply(rot2_, &rot3_, &pos1_, &pos2_);
   euler_.set(rot3_);
-  DEBUG("euler " << euler_.str());
+  TRACE("euler " << euler_.str());
 
   // obtain the scaled orientational coordinates
   double s1 = 0;
@@ -318,7 +318,7 @@ void VisitModelInnerTable::compute(
   const double e1 = euler_.phi()/2/PI + 0.5;
   const double e2 = euler_.theta()/PI;
   const double e3 = euler_.psi()/2/PI + 0.5;
-  DEBUG("s1 " << s1 << " s2 " << s2 << " e1 " << e1 << " e2 " << e2 << " e3 " << e3);
+  TRACE("s1 " << s1 << " s2 " << s2 << " e1 " << e1 << " e2 " << e2 << " e3 " << e3);
   ASSERT(s1 >= 0 && s1 <= 1, "s1: " << s1);
   ASSERT(s2 >= 0 && s2 <= 1, "s2: " << s2);
   ASSERT(e1 >= 0 && e1 <= 1, "e1: " << e1);
@@ -330,7 +330,7 @@ void VisitModelInnerTable::compute(
 //  const bool global_outer = !is_outer();
 //  if (!global_outer) {
 //    outer = outer_[type1][type2].linear_interpolation(s1, s2, e1, e2, e3);
-//    DEBUG("outer " << outer);
+//    TRACE("outer " << outer);
 //    if (squared_distance > outer*outer) {
 //      return;
 //    }
@@ -342,40 +342,45 @@ void VisitModelInnerTable::compute(
 
   // check the inner cutoff.
   const std::vector<std::vector<Table5D> >& innert = config->table5d();
-  DEBUG("size1 " << innert.size());
-  DEBUG("size2 " << innert[0].size());
+  TRACE("size1 " << innert.size());
+  TRACE("size2 " << innert[0].size());
   const float inner = innert[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
-  DEBUG("inner " << inner);
+  TRACE("inner " << inner);
   double en = 0.;
   if (squared_distance < inner*inner) {
     en = NEAR_INFINITY;
-    DEBUG("hard overlap");
+    TRACE("hard overlap");
   } else {
     const double delta = delta_[tabtype1][tabtype2];
     const double outer = inner + delta;
-    DEBUG("delta " << delta);
-    DEBUG("outer " << outer);
+    TRACE("delta " << delta);
+    TRACE("outer " << outer);
     if (squared_distance < outer*outer) {
       const double gamma = gamma_[tabtype1][tabtype2];
-      DEBUG("gamma " << gamma);
+      TRACE("gamma " << gamma);
       const std::vector<std::vector<Table6D> >& energyt = config->table6d();
       if ((std::abs(gamma) < NEAR_ZERO)) {
         en = -1;
       } else if (is_energy_table(energyt)) {
+        const double smooth = smoothing_distance_[tabtype1][tabtype2];
         const double rhg = std::pow(inner, gamma);
-        const double rcg = std::pow(outer, gamma);
+        const double rcg = std::pow(outer - smooth, gamma);
         const double rg = std::pow(squared_distance, 0.5*gamma);
         double z = (rg - rhg)/(rcg - rhg);
         if (z < 0 && z > -1e-6) {
           z = 0.;
         }
-        DEBUG("z " << z);
+        TRACE("z " << z);
         if (z > 1.) {
-          const double smooth = smoothing_distance_[tabtype1][tabtype2];
           en = energyt[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, 1.);
-          const double dx = std::sqrt(squared_distance) - inner - delta + smooth;
-          ASSERT(dx >= 0 && dx <= 1, "dx: " << MAX_PRECISION << dx);
-          en *= dx/smooth;
+          const double dx = outer - std::sqrt(squared_distance);
+          TRACE("dx " << dx);
+          if (dx > smooth && dx < smooth + 1e-5) {
+            en = 0.;
+          } else {
+            ASSERT(dx >= 0 && dx <= smooth, "dx: " << MAX_PRECISION << dx);
+            en *= dx/smooth;
+          }
         } else {
           ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
           en = energyt[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, z);
@@ -385,7 +390,7 @@ void VisitModelInnerTable::compute(
       }
     }
   }
-  DEBUG("en " << en);
+  TRACE("en " << en);
   update_ixn(en, part1_index, site1_index, type1, part2_index,
              site2_index, type2, squared_distance, pbc, is_old_config, *config);
 }
@@ -516,8 +521,8 @@ double VisitModelInnerTable::second_virial_coefficient(const Configuration& conf
   b2_h *= 1./3.; // rh integral prefactor
   b2_a *= dz/2.; // dz norm and extra trapezoid
 
-  INFO("b2_h b4 factor " << b2_h);
-  INFO("b2_a b4 factor " << b2_a);
+  TRACE("b2_h b4 factor " << b2_h);
+  TRACE("b2_a b4 factor " << b2_a);
 
   // shared symmetry and normalization factors
   double factor = ds1*ds2*de1*de2*de3;
@@ -526,13 +531,13 @@ double VisitModelInnerTable::second_virial_coefficient(const Configuration& conf
   factor /= 2;     // b2 prefactor
   factor *= PI*PI; // normalization for ds1*ds2
   factor *= PI/2;  // normalization for de1*de2*de3 e.g. 4pi^3/8pi^2
-  INFO("factor " << factor);
+  TRACE("factor " << factor);
 
   b2_h *= factor;
   b2_a *= factor;
 
-  INFO("b2_h after factor " << b2_h);
-  INFO("b2_a after factor " << b2_a);
+  TRACE("b2_h after factor " << b2_h);
+  TRACE("b2_a after factor " << b2_a);
 
   return b2_h + b2_a;
 }

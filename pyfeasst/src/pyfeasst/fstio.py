@@ -162,6 +162,17 @@ def run_single(sim, params, args, sim_node_dependent_params, write_feasst_script
             post_process(params)
     return syscode
 
+def split(a, n):
+    """
+    From https://stackoverflow.com/questions/2130016/splitting-a-list-into-n-parts-of-approximately-equal-length
+
+    >>> from pyfeasst import fstio
+    >>> list(fstio.split(range(11), 3))
+    [range(0, 4), range(4, 8), range(8, 11)]
+    """
+    k, m = divmod(len(a), n)
+    return (a[i*k+min(i, m):(i+1)*k+min(i+1, m)] for i in range(n))
+
 def run_simulations(params, sim_node_dependent_params, write_feasst_script, post_process, queue_function, args):
     """
     Run a simulation either locally in the shell or queue on HPC nodes
@@ -199,9 +210,8 @@ def run_simulations(params, sim_node_dependent_params, write_feasst_script, post
         else:
             with open(params['prefix']+'_params.json', 'w') as file1:
                 file1.write(json.dumps(params, indent=2))
-        sims_per_node = int(params['procs_per_node']/params['procs_per_sim'])
-        with Pool(sims_per_node) as pool:
-            sims = range(params['node']*sims_per_node, (params['node']+1)*sims_per_node)
+        with Pool(params['procs_per_node']) as pool:
+            sims = list(split(range(params['num_sims']), params['num_nodes']))[params['node']]
             codes = pool.starmap(run_single, zip(sims, repeat(params), repeat(args),
                                                  repeat(sim_node_dependent_params),
                                                  repeat(write_feasst_script),

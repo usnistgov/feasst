@@ -172,10 +172,15 @@ void SolidOfRevolutionTable::precompute(Configuration * config) {
       ASSERT(type2 < config->num_site_types(),"site type: " << type2 <<
         " in table > number of site types:" << config->num_site_types());
       const double cutoff = inner[t1][t2].maximum() + delta_[t1][t2];
+      // HWH this assumes director types are always following a center type
+      config->set_model_param("cutoff", type1-1, type2-1, cutoff);
+      config->set_model_param("cutoff", type2-1, type1-1, cutoff);
       config->set_model_param("cutoff", type1, type2, cutoff);
       config->set_model_param("cutoff", type2, type1, cutoff);
-      TRACE("cutoff for " << type1 << "-" << type2 << " site types: " << cutoff);
-      TRACE("cutoff for " << type2 << "-" << type1 << " site types: " << cutoff);
+      INFO("cutoff for " << type1-1 << "-" << type2-1 << " site types: " << cutoff);
+      INFO("cutoff for " << type2-1 << "-" << type1-1 << " site types: " << cutoff);
+      INFO("cutoff for " << type1 << "-" << type2 << " site types: " << cutoff);
+      INFO("cutoff for " << type2 << "-" << type1 << " site types: " << cutoff);
     }
   }
   dir1_pos_.set_to_origin(config->domain().dimension());

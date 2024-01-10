@@ -59,7 +59,8 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const 
       "before loading the configuration");
     const int site_per_part = config->particle_types().particle(0).num_sites();
     ASSERT(num_sites % site_per_part == 0, "assumed particle type to load " <<
-      "xyz file is incompatible with number of sites");
+      "xyz file is incompatible with number of sites:" << num_sites <<
+      ". site_per_part:" << site_per_part);
     for (int index = 0; index < num_sites/site_per_part; ++index) {
       config->add_particle_of_type(0);
     }
