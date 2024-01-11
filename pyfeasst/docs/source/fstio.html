@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstio &mdash; FEASST v0.24.3 documentation</title>
+  <title>fstio &mdash; FEASST v0.24.4 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.3
+                v0.24.4
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -71,6 +71,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#fstio.all_sims_complete"><code class="docutils literal notranslate"><span class="pre">all_sims_complete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fstio.slurm_single_node"><code class="docutils literal notranslate"><span class="pre">slurm_single_node()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fstio.run_single"><code class="docutils literal notranslate"><span class="pre">run_single()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fstio.split"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fstio.run_simulations"><code class="docutils literal notranslate"><span class="pre">run_simulations()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fstio.combine_tables_two_rigid_body"><code class="docutils literal notranslate"><span class="pre">combine_tables_two_rigid_body()</span></code></a></li>
 </ul>
@@ -255,6 +256,17 @@ which is assumed to output the job id.</p>
 <dt class="sig sig-object py" id="fstio.run_single">
 <span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">run_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_node_dependent_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_feasst_script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_process</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#run_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.run_single" title="Permalink to this definition"></a></dt>
 <dd><p>Run a single simulation. If all simulations are complete, run PostProcess.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fstio.split">
+<span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.split" title="Permalink to this definition"></a></dt>
+<dd><p>From <a class="reference external" href="https://stackoverflow.com/questions/2130016/splitting-a-list-into-n-parts-of-approximately-equal-length">https://stackoverflow.com/questions/2130016/splitting-a-list-into-n-parts-of-approximately-equal-length</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">fstio</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">[range(0, 4), range(4, 8), range(8, 11)]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Efficiency of 1 or 2 bin Grand Canonical Flat Histogram Simulations &mdash; FEASST v0.24.3 documentation</title>
+  <title>Efficiency of 1 or 2 bin Grand Canonical Flat Histogram Simulations &mdash; FEASST v0.24.4 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.3
+                v0.24.4
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -391,7 +391,7 @@
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;window_custom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;WindowCustom min0 </span><span class="si">{min_particles}</span><span class="s2"> min1 </span><span class="si">{max_particles}</span><span class="s2"> max </span><span class="si">{max_particles}</span><span class="s2"> overlap 0&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;lj_launchn&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;min_particles&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;s&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span>
-    <span class="n">mc_lj</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">mc_lj</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
     <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;~/binning_efficiency/feasst/build/bin/fst &lt; &quot;</span> <span class="o">+</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot; &gt; lj_launchn&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;min_particles&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;s&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
 <span class="c1">#    else:</span>
 <span class="c1">#        syscode = subprocess.call(&quot;~/binning_efficiency/feasst/build/bin/rst lj_checkpointn&quot;+str(params[&#39;min_particles&#39;])+&quot;s&quot;+str(sim)+&quot;.fst&quot;, shell=True, executable=&#39;/bin/bash&#39;)</span>

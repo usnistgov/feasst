@@ -12,8 +12,9 @@
    WLTM
    Macrostate
    MacrostateEnergy
+   Ensemble
    FlatHistogram
    MacrostateNumParticles
-   Ensemble
+   MacrostatePosition
    CollectionMatrixSplice
    Clones

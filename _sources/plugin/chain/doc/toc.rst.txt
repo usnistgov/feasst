@@ -1,16 +1,16 @@
 
 .. toctree::
 
-   SelectPerturbed
    SelectSiteOfType
+   SelectPerturbed
    SelectSegment
    SelectEndSegment
    SelectReptate
    SelectCrankshaftSmall
+   PerturbToAnchor
    PerturbDistanceAngleConnector
    PerturbBranch
    PerturbReptate
-   PerturbToAnchor
    PerturbConnector
    PerturbParticlePivot
    PerturbCrankshaftSmall
