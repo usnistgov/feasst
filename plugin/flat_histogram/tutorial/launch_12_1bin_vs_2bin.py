@@ -168,7 +168,7 @@ def run(sim):
         params['window_custom'] = """WindowCustom min0 {min_particles} min1 {max_particles} max {max_particles} overlap 0""".format(**params)
         params['procs_per_sim'] = 1
     file_name = "lj_launchn"+str(params['min_particles'])+"s"+str(sim)+".txt"
-    mc_lj(params, file_name=file_name)
+    mc_lj(params, script_file=file_name)
     syscode = subprocess.call("~/binning_efficiency/feasst/build/bin/fst < " + file_name + " > lj_launchn"+str(params['min_particles'])+"s"+str(sim)+".log", shell=True, executable='/bin/bash')
 #    else:
 #        syscode = subprocess.call("~/binning_efficiency/feasst/build/bin/rst lj_checkpointn"+str(params['min_particles'])+"s"+str(sim)+".fst", shell=True, executable='/bin/bash')

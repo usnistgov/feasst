@@ -3,18 +3,18 @@
 
    LnProbability
    Window
-   WindowCustom
    WindowExponential
+   WindowCustom
    CollectionMatrix
    Bias
    TransitionMatrix
    WangLandau
    WLTM
    Macrostate
-   MacrostateNumParticles
    MacrostateEnergy
-   MacrostatePosition
-   FlatHistogram
    Ensemble
+   FlatHistogram
+   MacrostateNumParticles
+   MacrostatePosition
    CollectionMatrixSplice
    Clones

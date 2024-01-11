@@ -81,7 +81,9 @@ void PerturbBranch::precompute(TrialSelect * select, System * system) {
  * [1+C^2+A^2] x^2 + [2CD+2AB] x + [D^2+B^2-L^2] = 0
  *
  * this solution is plagued by numerical stability, if y1 ~ 0 or |H|<1e-8
- *   modified to do alternative solves for more stable H  */
+ *   modified to do alternative solves for more stable H
+ * Added a third alternative (thanks Bartosz Mazur).
+ */
 void PerturbBranch::place_in_branch(const double L,
     const double t143,
     const double t243,
@@ -94,8 +96,14 @@ void PerturbBranch::place_in_branch(const double L,
 
   // check for a planar branch to avoid quadratic equation
   bool planar = false;
+  DEBUG("std::abs(t143 + t142 + t243 - 2*PI) " <<
+        std::abs(t143 + t142 + t243 - 2*PI) <<
+      " std::abs(t143 + t142 - t243) " <<
+        std::abs(t143 + t142 - t243));
   if ( (std::abs(t143 + t142 + t243 - 2*PI) < 100*NEAR_ZERO) ||
-       (std::abs(t143 + t142 - t243) < 100*NEAR_ZERO) ) {
+       (std::abs(t143 + t142 - t243) < 100*NEAR_ZERO) ||
+       (std::abs(t243 + t142 - t143) < 100*NEAR_ZERO) ||
+       (std::abs(t143 + t243 - t142) < 100*NEAR_ZERO) ) {
     planar = true;
   }
 
@@ -124,27 +132,68 @@ void PerturbBranch::place_in_branch(const double L,
   const double c143 = std::cos(t143),
                c243 = std::cos(t243);
   double x3, y3, z3;
-//  INFO("y1 " << y1);
-//  INFO("x1 " << x1);
-//  INFO("H " << z2 - y2*z1/y1);
-//  INFO("H " << z2 - x2*z1/x1);
-  const double H = z2 - y2*z1/y1;
-  const double H_alt = z2 - x2*z1/x1;
-//  INFO("H " << H);
-//  INFO("H " << H_alt);
-  if ( std::abs(H) > std::abs(H_alt) ) {
-  //if ( std::abs(y1) > std::abs(x1) ) {
-//  if ( (abs(x1) < DTOL) || (abs(Cyz) > abs(Cxz)) ) {
-    // cout << "test1 " << abs(x1) << " t2 " << abs(Cyz) << " > "
-    //      << abs(Cxz) << endl;
-    solve_branch_(x1, y1, z1, x2, y2, z2, &x3, &y3, &z3, c143, c243, planar, random);
-  } else {
-  // } else if ( (abs(y1) < DTOL) || (abs(Cyz) < abs(Cxz)) ) {
-    // cout << "test2 " << abs(y1) << " t2 " << abs(Cyz) << " > "
-    //      << abs(Cxz) << endl;
-    solve_branch_(y1, x1, z1, y2, x2, z2, &y3, &x3, &z3, c143, c243, planar, random);
+  DEBUG("x1 " << x1);
+  DEBUG("y1 " << y1);
+  DEBUG("z1 " << z1);
+  DEBUG("H_x " << z2 - x2*z1/x1);
+  DEBUG("H_y " << z2 - y2*z1/y1);
+  DEBUG("H_z " << x2 - z2*x1/z1);
+  const double H_x = z2 - x2*z1/x1;
+  const double H_y = z2 - y2*z1/y1;
+  const double H_z = x2 - z2*x1/z1;
+  bool solved = false;
+  double tolerance = 1e-1;
+  while (!solved) {
+    bool use_h_x = true, use_h_y = true, use_h_z = true;
+    if (std::abs(x1) < tolerance) {
+      use_h_x = false;
+    }
+    if (std::abs(y1) < tolerance) {
+      use_h_y = false;
+    }
+    if (std::abs(z1) < tolerance) {
+      use_h_z = false;
+    }
+    if (std::abs(H_x) < tolerance) {
+      use_h_x = false;
+    }
+    if (std::abs(H_y) < tolerance) {
+      use_h_y = false;
+    }
+    if (std::abs(H_z) < tolerance) {
+      use_h_z = false;
+    }
+    if (use_h_y) {
+    //if ( std::abs(H_y) >= std::abs(H_x) && std::abs(H_y) >= std::abs(H_z) ) {
+      DEBUG("use H_y");
+    //if ( std::abs(y1) > std::abs(x1) ) {
+  //  if ( (abs(x1) < DTOL) || (abs(Cyz) > abs(Cxz)) ) {
+      // cout << "test1 " << abs(x1) << " t2 " << abs(Cyz) << " > "
+      //      << abs(Cxz) << endl;
+      solve_branch_(x1, y1, z1, x2, y2, z2, &x3, &y3, &z3, c143, c243, planar, random);
+      solved = true;
+    } else if (use_h_x) {
+    //} else if (std::abs(H_x) >= std::abs(H_z)) {
+      DEBUG("use H_x");
+    // } else if ( (abs(y1) < DTOL) || (abs(Cyz) < abs(Cxz)) ) {
+      // cout << "test2 " << abs(y1) << " t2 " << abs(Cyz) << " > "
+      //      << abs(Cxz) << endl;
+      solve_branch_(y1, x1, z1, y2, x2, z2, &y3, &x3, &z3, c143, c243, planar, random);
+      solved = true;
+    } else if (use_h_z) {
+    //} else {
+      DEBUG("use H_z");
+      solve_branch_(y1, z1, x1, y2, z2, x2, &y3, &z3, &x3, c143, c243, planar, random);
+      solved = true;
+    }
+    tolerance /= 10.;
+    if (tolerance < 1e-15) {
+      FATAL("PerturbBranch error. " << x1 << " " << y1 << " " << z1 << " " <<
+        x2 << " " << y2 << " " << z2 << " " << c143 << " " << c243 << " " <<
+        planar);
+    }
   }
-  //INFO("L: " << L << " dist " << std::sqrt(x3*x3+y3*y3+z3*z3));
+  //DEBUG("L: " << L << " dist " << std::sqrt(x3*x3+y3*y3+z3*z3));
 //  const double dist = std::sqrt(x3*x3+y3*y3+z3*z3);
 //  x3 /= dist;
 //  y3 /= dist;
@@ -163,7 +212,7 @@ void PerturbBranch::solve_branch_(
   ASSERT(y1 != 0, "y1==0");
   const long double H = z2 - y2*z1/y1;
   ASSERT(H != 0, "H==0");
-//  INFO("H " << H);
+//  DEBUG("H " << H);
   const long double A = (x1*y2/y1 - x2)/H,
                B = (c243 - c143*y2/y1)/H,
                C = -x1/y1 - A*z1/y1,
@@ -172,20 +221,20 @@ void PerturbBranch::solve_branch_(
                b = 2*(A*B+C*D),
                c = (B*B+D*D-1);
   long double ans1 = NEAR_INFINITY;
-//  INFO("a " << a);
-//  INFO("b " << b);
-//  INFO("c " << c);
+//  DEBUG("a " << a);
+//  DEBUG("b " << b);
+//  DEBUG("c " << c);
   if (planar) {
     ans1 = -b/2/a;
   } else {
     long double ans2 = NEAR_INFINITY;
     long double discrim = -1;
     quadratic_equation(a, b, c, &discrim, &ans1, &ans2);
-  //  INFO("discrim " << discrim);
-  //  INFO("ans1 " << ans1);
-  //  INFO("ans2 " << ans2);
+  //  DEBUG("discrim " << discrim);
+  //  DEBUG("ans1 " << ans1);
+  //  DEBUG("ans2 " << ans2);
     if (discrim < 0) {
-  //    INFO("discrim " << discrim);
+  //    DEBUG("discrim " << discrim);
       if ( (std::sqrt(fabsl(discrim))/2/fabsl(a) < 1000*std::sqrt(NEAR_ZERO)) ||
            fabsl(discrim) < 10000*NEAR_ZERO) {
         // within double preicison, the discriminant is zero
@@ -253,20 +302,20 @@ void PerturbBranch::move(const bool is_position_held,
     bond_energy += model->energy(radians_a2a1m2, a2a1m2);
     bond_energy += model->energy(radians_m1a1m2, m1a1m2);
     const double la1m1 = a2a1m1_.random_distance(*system, select, random, &bond_energy);
-//    INFO("la1m1 " << la1m1);
+//    DEBUG("la1m1 " << la1m1);
     const double la1m2 = a2a1m2_.random_distance(*system, select, random, &bond_energy);
-//    INFO("la1m2 " << la1m2);
+//    DEBUG("la1m2 " << la1m2);
     a2a1m1_.place_in_circle(la1m1, radians_a2a1m1, system, select, random);
     place_in_branch(la1m2, radians_a2a1m2, radians_m1a1m2, radians_a2a1m1, system, select, random);
-//    INFO("here");
+//    DEBUG("here");
 //    for (const std::vector<Position>& poss : select->anchor().site_positions()) {
 //      for (const Position& pos : poss) {
-//        INFO(pos.str());
+//        DEBUG(pos.str());
 //      }
 //    }
 //    for (const std::vector<Position>& poss : select->mobile().site_positions()) {
 //      for (const Position& pos : poss) {
-//        INFO(pos.str());
+//        DEBUG(pos.str());
 //      }
 //    }
   }

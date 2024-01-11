@@ -1,5 +1,5 @@
 
 .. toctree::
 
-   VisitModelOptLJ
    VisitModelOptRPM
+   VisitModelOptLJ

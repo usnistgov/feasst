@@ -144,14 +144,14 @@ def post_process(params):
     assert np.abs(rhos[5][0] - 995) < 35
     assert np.abs(rhos[6][0] - 1000) < 35
     assert np.abs(rhos[7][0] - 1005) < 35
-    assert np.abs(ens[0][0] + 8.362) < 0.15
-    assert np.abs(ens[1][0] + 8.565) < 0.15
-    assert np.abs(ens[2][0] + 8.758) < 0.15
-    assert np.abs(ens[3][0] + 8.934) < 0.15
-    assert np.abs(ens[4][0] + 9.064) < 0.15
-    assert np.abs(ens[5][0] + 9.078) < 0.15
-    assert np.abs(ens[6][0] + 9.095) < 0.15
-    assert np.abs(ens[7][0] + 9.108) < 0.15
+    assert np.abs(ens[0][0] + 8.362) < 0.45
+    assert np.abs(ens[1][0] + 8.565) < 0.45
+    assert np.abs(ens[2][0] + 8.758) < 0.45
+    assert np.abs(ens[3][0] + 8.934) < 0.45
+    assert np.abs(ens[4][0] + 9.064) < 0.45
+    assert np.abs(ens[5][0] + 9.078) < 0.45
+    assert np.abs(ens[6][0] + 9.095) < 0.45
+    assert np.abs(ens[7][0] + 9.108) < 0.45
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,

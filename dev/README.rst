@@ -359,3 +359,4 @@ To Do List
 * Restart Prefetch. Does Run::num_trials work properly?
 * optimize Ewald::update_wave_vector for NPT (less clear,push_back).
 * Reduce size of Checkpoint files for cell/neighbor lists (re-compute instead of checkpointing them). Also large tables.
+* Represent relative rigid bodies as screw motion: https://en.wikipedia.org/wiki/Screw_theory

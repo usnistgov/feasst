@@ -2,13 +2,13 @@
 .. toctree::
 
    Cache
-   CustomException
    ArgumentParse
-   debug
    file
    io
-   Timer
    utils
+   CustomException
+   debug
+   Timer
    arguments
    serialize
    ProgressReport

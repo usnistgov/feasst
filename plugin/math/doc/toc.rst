@@ -1,24 +1,24 @@
 
 .. toctree::
 
-   constants
    utils_math
+   constants
    quadratic_equation
-   Position
-   Matrix
-   Euler
-   Table
-   Accumulator
    Minimize
    GoldenSearch
-   Formula
-   FormulaExponential
-   FormulaPolynomial
-   Histogram
    Solver
    SolverBisection
    SolverBrentDekker
    SolverNewtonRaphson
+   Formula
+   FormulaPolynomial
+   FormulaExponential
+   Accumulator
+   Position
+   Matrix
+   Euler
    Random
-   RandomModulo
    RandomMT19937
+   RandomModulo
+   Table
+   Histogram
