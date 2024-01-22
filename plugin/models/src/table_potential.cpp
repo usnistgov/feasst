@@ -139,7 +139,6 @@ double TablePotential:: energy(
 
   // check the inner cutoff.
   const double inner = inner_[tabtype1][tabtype2];
-  double en;
   if (squared_distance < inner*inner) {
     TRACE("hard overlap");
     return NEAR_INFINITY;
