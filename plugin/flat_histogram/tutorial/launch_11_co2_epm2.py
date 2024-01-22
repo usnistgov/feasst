@@ -93,7 +93,7 @@ WindowExponential maximum {max_particles} min0 {min_particles} min1 {min_particl
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff {cutoff} group0 oxygen oxygen_site_type 0
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff {cutoff} sigma0_1 2.89170901025674 group0 oxygen oxygen_site_type 0
 Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
 RefPotential VisitModel DontVisitModel

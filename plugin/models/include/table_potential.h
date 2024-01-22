@@ -85,6 +85,7 @@ class TablePotential : public VisitModelInner {
   std::vector<std::vector<double> > inner_, inner_g_;
   std::vector<std::vector<double> > cutoff_g_;
   std::vector<int> site_types_;
+  std::vector<int> t2index_;
   //std::vector<std::vector<double> > gamma_;
   std::vector<std::vector<Table1D> > energy_table_;
   const double gamma_ = -2;

@@ -19,7 +19,9 @@ class ProgressReport {
     args:
     - num: number of iterations (default: 1).
     - percent_per_write: report every this many percent progress made.
-      (default: 0.1 e.g., 10%)
+      (default: 1e-4 e.g., 0.001%)
+    - double_percent_per_write: if 1, double the percent per write each write.
+      Else if not 1, do not double (default: 1).
     - file_name: append report to this file. If empty, cout (default: empty).
    */
   explicit ProgressReport(argtype args = argtype());
@@ -52,6 +54,8 @@ class ProgressReport {
   double last_percent_ = 0.;
   std::string file_name_;
   double starting_hours_;
+  int factor_ = 1;
+  int double_percent_per_write_;
 };
 
 inline std::shared_ptr<ProgressReport> MakeProgressReport(

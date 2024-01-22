@@ -7,7 +7,8 @@
 namespace feasst {
 
 /**
-  Change the inverse temperature, \f$\beta\f$, of the system by a fixed amount.
+  Change the inverse temperature, \f$\beta\f$, of the system by a fixed amount,
+  randomly up or down.
  */
 class PerturbBeta : public Perturb {
  public:

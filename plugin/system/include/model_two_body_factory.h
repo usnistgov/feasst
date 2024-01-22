@@ -59,7 +59,8 @@ class ModelTwoBodyFactory : public ModelTwoBody {
   explicit ModelTwoBodyFactory(std::istream& istr);
 
   //@}
- private:
+ protected:
+  void serialize_model_two_body_factory_(std::ostream& ostr) const;
   std::vector<std::shared_ptr<Model> > models_;
 };
 

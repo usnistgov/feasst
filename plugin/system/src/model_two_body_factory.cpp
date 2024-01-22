@@ -68,6 +68,10 @@ double ModelTwoBodyFactory::energy(
 
 void ModelTwoBodyFactory::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_model_two_body_factory_(ostr);
+}
+
+void ModelTwoBodyFactory::serialize_model_two_body_factory_(std::ostream& ostr) const {
   serialize_model_(ostr);
   feasst_serialize_version(573, ostr);
   feasst_serialize_fstdr(models_, ostr);

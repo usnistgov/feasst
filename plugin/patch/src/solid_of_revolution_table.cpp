@@ -383,8 +383,9 @@ void SolidOfRevolutionTable::compute(
                       if ((std::abs(gamma) < NEAR_ZERO)) {
                         en = -1;
                       } else if (is_energy_table(energyt)) {
+                        const double smooth = smoothing_distance_[tabtype1][tabtype2];
                         const double rhg = std::pow(inner, gamma);
-                        const double rcg = std::pow(outer, gamma);
+                        const double rcg = std::pow(outer - smooth, gamma);
                         const double rg = std::pow(squared_distance, 0.5*gamma);
                         double z = (rg - rhg)/(rcg - rhg);
                         if (z < 0 && z > -1e-6) {
@@ -392,11 +393,15 @@ void SolidOfRevolutionTable::compute(
                         }
                         TRACE("z " << z);
                         if (z > 1.) {
-                          const double smooth = smoothing_distance_[tabtype1][tabtype2];
                           en = energyt[tabtype1][tabtype2].linear_interpolation(cosi, cosj, half_cospsi_p_one, 1.);
-                          const double dx = std::sqrt(squared_distance) - inner - delta + smooth;
-                          ASSERT(dx >= 0 && dx <= 1, "dx: " << MAX_PRECISION << dx);
-                          en *= dx/smooth;
+                          const double dx = outer - std::sqrt(squared_distance);
+                          TRACE("dx " << dx);
+                          if (dx > smooth && dx < smooth + 1e-5) {
+                            en = 0.;
+                          } else {
+                            ASSERT(dx >= 0 && dx <= smooth, "dx: " << MAX_PRECISION << dx);
+                            en *= dx/smooth;
+                          }
                         } else {
                           ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
                           en = energyt[tabtype1][tabtype2].linear_interpolation(cosi, cosj, half_cospsi_p_one, z);

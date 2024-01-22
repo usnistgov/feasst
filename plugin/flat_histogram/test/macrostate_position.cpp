@@ -4,7 +4,6 @@
 
 namespace feasst {
 
-// attempt to swap soft bounds
 TEST(MacrostatePosition, serialize) {
   auto macro = MakeMacrostatePosition(Histogram({{"width", "1"}, {"max", "2"}}));
   test_serialize<MacrostatePosition, Macrostate>(*macro);

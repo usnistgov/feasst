@@ -44,6 +44,14 @@ std::shared_ptr<Model> Model::create(argtype * args) const {
   FATAL("not implemented");
 }
 
+int Model::model_index() const {
+  FATAL("not implemented");
+}
+
+void Model::set_model_index(const int index) {
+  FATAL("not implemented");
+}
+
 Model::Model(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);

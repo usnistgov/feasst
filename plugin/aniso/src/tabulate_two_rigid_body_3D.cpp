@@ -32,6 +32,7 @@ TabulateTwoRigidBody3D::TabulateTwoRigidBody3D(argtype * args) {
   input_table_file_ = str("input_table_file", args, "");
   xyz_file_ = str("xyz_file", args, "");
   contact_xyz_file_ = str("contact_xyz_file", args, "");
+  contact_xyz_index_ = integer("contact_xyz_index", args, -1);
 }
 TabulateTwoRigidBody3D::TabulateTwoRigidBody3D(argtype args) : TabulateTwoRigidBody3D(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -49,7 +50,7 @@ static MapTabulateTwoRigidBody3D mapper_TabulateTwoRigidBody3D = MapTabulateTwoR
 
 TabulateTwoRigidBody3D::TabulateTwoRigidBody3D(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 8054 && version <= 8054, "mismatch version: " << version);
+  ASSERT(version >= 8054 && version <= 8055, "mismatch version: " << version);
   feasst_deserialize(&num_orientations_per_pi_, istr);
   feasst_deserialize(&num_z_, istr);
   feasst_deserialize(&gamma_, istr);
@@ -62,6 +63,9 @@ TabulateTwoRigidBody3D::TabulateTwoRigidBody3D(std::istream& istr) : Action(istr
   feasst_deserialize(&input_table_file_, istr);
   feasst_deserialize(&xyz_file_, istr);
   feasst_deserialize(&contact_xyz_file_, istr);
+  if (version >= 8055) {
+    feasst_deserialize(&contact_xyz_index_, istr);
+  }
 //  feasst_deserialize(&num_proc_, istr);
 //  feasst_deserialize(&proc_, istr);
 }
@@ -69,7 +73,7 @@ TabulateTwoRigidBody3D::TabulateTwoRigidBody3D(std::istream& istr) : Action(istr
 void TabulateTwoRigidBody3D::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_action_(ostr);
-  feasst_serialize_version(8054, ostr);
+  feasst_serialize_version(8055, ostr);
   feasst_serialize(num_orientations_per_pi_, ostr);
   feasst_serialize(num_z_, ostr);
   feasst_serialize(gamma_, ostr);
@@ -82,6 +86,7 @@ void TabulateTwoRigidBody3D::serialize(std::ostream& ostr) const {
   feasst_serialize(input_table_file_, ostr);
   feasst_serialize(xyz_file_, ostr);
   feasst_serialize(contact_xyz_file_, ostr);
+  feasst_serialize(contact_xyz_index_, ostr);
 //  feasst_serialize(num_proc_, ostr);
 //  feasst_serialize(proc_, ostr);
 }
@@ -183,7 +188,13 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
     }
 
     DEBUG("Obtaining contact distances.");
-    for (int ior = 0; ior < rotator_.num_orientations(); ++ior) {
+    int ior_first = 0;
+    int ior_less_than = rotator_.num_orientations();
+    if (contact_xyz_index_ != -1) {
+      ior_first = contact_xyz_index_;
+      ior_less_than = ior_first + 1;
+    }
+    for (int ior = ior_first; ior < ior_less_than; ++ior) {
       rotator_.contact_distance(ior, system);
       //const double dist = rotator_.contact_distance(ior, system);
       //DEBUG("ior " << ior << " dist " << MAX_PRECISION << dist);

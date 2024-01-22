@@ -93,8 +93,10 @@ void TablePotential::read_table_(const std::string file_name) {
 void TablePotential::precompute(Configuration * config) {
   VisitModelInner::precompute(config);
   const ModelParam& cutoff = config->model_params().select("cutoff");
+  t2index_.resize(config->num_site_types(), -1);
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
+    t2index_[type1] = t1;
     for (int t2 = 0; t2 < static_cast<int>(site_types_.size()); ++t2) {
       const int type2 = site_types_[t2];
       const double rc = cutoff.mixed_value(type1, type2);
@@ -122,6 +124,18 @@ void TablePotential::compute(
   clear_ixn(part1_index, site1_index, part2_index, site2_index);
   int type1 = site1.type();
   int type2 = site2.type();
+  DEBUG("type1 " << type1 << " type2 " << type2);
+
+  // convert site type to table type
+  DEBUG("t2size " << t2index_.size());
+  int tabtype1 = t2index_[type1];
+  int tabtype2 = t2index_[type2];
+  DEBUG("tabtype1 " << tabtype1 << " tabtype2 " << tabtype2);
+
+  // Do not compute energy if both sites are not represented.
+  if (tabtype1 == -1 || tabtype2 == -1) {
+    return;
+  }
 
   // check if sites are within the global cutoff
   const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
@@ -141,31 +155,31 @@ void TablePotential::compute(
   }
   if (flip) {
     swap(&type1, &type2);
+    swap(&tabtype1, &tabtype2);
   }
   DEBUG("flip " << flip);
 
   // check the inner cutoff.
-  const double inner = inner_[type1][type2];
+  const double inner = inner_[tabtype1][tabtype2];
   double en;
   if (squared_distance < inner*inner) {
     en = NEAR_INFINITY;
     DEBUG("hard overlap");
   } else {
-    // const double gamma = gamma_[type1][type2];
+    // const double gamma = gamma_[tabtype1][tabtype2];
     // DEBUG("gamma " << gamma);
-    const double rhg = inner_g_[type1][type2];
+    const double rhg = inner_g_[tabtype1][tabtype2];
     DEBUG("rhg " << rhg);
-    const double rcg = cutoff_g_[type1][type2];
+    const double rcg = cutoff_g_[tabtype1][tabtype2];
     DEBUG("rcg " << rcg);
     const double rg = 1./squared_distance;
     DEBUG("rg " << rg);
     const double z = (rg - rhg)/(rcg - rhg);
     DEBUG("z " << z);
     ASSERT(z >= 0 && z <= 1, "z: " << z);
-    DEBUG("type1 " << type1 << " type2 " << type2);
     DEBUG("tab size " << energy_table_.size());
     DEBUG("tab size " << energy_table_[0].size());
-    en = energy_table_[type1][type2].forward_difference_interpolation(z);
+    en = energy_table_[tabtype1][tabtype2].forward_difference_interpolation(z);
   }
   DEBUG("en " << en);
   update_ixn(en, part1_index, site1_index, type1, part2_index,
@@ -189,6 +203,7 @@ TablePotential::TablePotential(std::istream& istr) : VisitModelInner(istr) {
   feasst_deserialize(&inner_g_, istr);
   feasst_deserialize(&cutoff_g_, istr);
   feasst_deserialize(&site_types_, istr);
+  feasst_deserialize(&t2index_, istr);
   feasst_deserialize_fstobj(&energy_table_, istr);
 }
 
@@ -200,6 +215,7 @@ void TablePotential::serialize(std::ostream& ostr) const {
   feasst_serialize(inner_g_, ostr);
   feasst_serialize(cutoff_g_, ostr);
   feasst_serialize(site_types_, ostr);
+  feasst_serialize(t2index_, ostr);
   feasst_serialize_fstobj(energy_table_, ostr);
 }
 

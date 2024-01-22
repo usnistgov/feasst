@@ -149,6 +149,8 @@ class Potential {
   void set_visit_model_(std::shared_ptr<VisitModel> visit) {
     visit_model_ = visit; }
 
+  void set_model_index(const int index) { model_->set_model_index(index); }
+
   /// Serialize.
   void serialize(std::ostream& ostr) const;
 

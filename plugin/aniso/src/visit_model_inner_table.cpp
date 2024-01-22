@@ -187,7 +187,7 @@ void VisitModelInnerTable::precompute(Configuration * config) {
   read_table_(table_file_, ignore_energy_, config);
   aniso_index_ = config->model_params().index("anisotropic");
   DEBUG("aniso_index_ " << aniso_index_);
-  t2index_.resize(config->num_site_types(), 0);
+  t2index_.resize(config->num_site_types(), -1);
   const std::vector<std::vector<Table5D> >& inner = config->table5d();
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
@@ -339,6 +339,10 @@ void VisitModelInnerTable::compute(
   // convert site type to table type
   const int tabtype1 = t2index_[type1];
   const int tabtype2 = t2index_[type2];
+  ASSERT(tabtype1 != -1, "site " << type1 << " is anisotropic but not "
+    << "included in VisitModelInnerTable.");
+  ASSERT(tabtype2 != -1, "site " << type2 << " is anisotropic but not "
+    << "included in VisitModelInnerTable.");
 
   // check the inner cutoff.
   const std::vector<std::vector<Table5D> >& innert = config->table5d();
@@ -350,6 +354,8 @@ void VisitModelInnerTable::compute(
   if (squared_distance < inner*inner) {
     en = NEAR_INFINITY;
     TRACE("hard overlap");
+  } else if (ignore_energy_) {
+    return;
   } else {
     const double delta = delta_[tabtype1][tabtype2];
     const double outer = inner + delta;

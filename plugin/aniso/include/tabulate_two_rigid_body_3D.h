@@ -46,6 +46,7 @@ class TabulateTwoRigidBody3D : public Action {
     - input_table_file: name of file to input computed table.
     - xyz_file: if not empty, visualize (default: empty).
     - contact_xyz_file: if not empty, visualize (default: empty).
+    - contact_xyz_index: if not -1, only consider this index (default: -1).
     - Rotator arguments.
    */
   explicit TabulateTwoRigidBody3D(argtype args = argtype());
@@ -110,6 +111,7 @@ class TabulateTwoRigidBody3D : public Action {
   std::string input_table_file_;
   std::string xyz_file_;
   std::string contact_xyz_file_;
+  int contact_xyz_index_;
   Rotator rotator_;
   void ouput_orientations_();
 };

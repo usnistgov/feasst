@@ -1,9 +1,13 @@
 # LAMMPS-inspired data file
 # EPM2 CO2 https://doi.org/10.1021/j100031a034
 #
+# Note that the sigma_C-O mixing rule is not the default LB but instead geometric sqrt(sigma_C sigma_O).
+# This must be input manually into FEASST the Configuration argument "sigma0_1 2.89170901025674"
+#
 # Oxygen(index 1, type 1) - Carbon(index 0, type 0) - Oxygen (index 2, type 1)
 #
 # Harmonic angle potential is k(theta_0 - theta)^2, without the 1/2 factor (see AngleHarmonic).
+#
 
 3 sites
 2 bonds
@@ -25,7 +29,7 @@ Site Labels
 1 O
 
 Site Properties
-i
+
 0 sigma 2.757 epsilon 0.2338775189860325 cutoff 14.0 charge  0.6512 cutoff_outer 1.149
 1 sigma 3.033 epsilon 0.669372441999663 cutoff 14.0 charge -0.3256 cutoff_outer 1.149
 
