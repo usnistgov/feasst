@@ -102,7 +102,7 @@ def run_en():
 MonteCarlo
 RandomMT19937 seed time
 Configuration xyz_file lj_two.xyz particle_type0 {fstprt} cutoff {cutoff}
-Potential Model TwoBodyTable VisitModelInner TablePotential table_file {table_file}
+Potential Model TablePotential table_file {table_file}
 Potential VisitModel LongRangeCorrections
 ThermoParams beta 1000000
 Metropolis
@@ -137,7 +137,7 @@ def write_feasst_script(params, script_file):
 MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model TwoBodyTable VisitModel VisitModelCell min_length max_cutoff VisitModelInner TablePotential table_file {table_file}
+Potential Model TablePotential table_file {table_file} VisitModel VisitModelCell min_length max_cutoff
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential -1
 Metropolis
