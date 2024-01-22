@@ -26,8 +26,8 @@ double ModelExpanded::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  //INFO("model_index " << model_index_);
-  //INFO("num models " << num());
+  DEBUG("model_index " << model_index_);
+  DEBUG("num models " << num());
   ASSERT(model_index_ >= 0, "model_index:" << model_index_ << " < 0");
   ASSERT(model_index_ < num(),
     "model_index:" << model_index_ << " >= number of models:" << num());
