@@ -9,6 +9,7 @@
    Movie
    CPUTime
    MeanSquaredDisplacement
+   HeatCapacity
    NumParticles
    Check
    AnalyzeData

@@ -51,7 +51,7 @@ ModelTwoBodyFactory::ModelTwoBodyFactory(argtype * args) {
       key << "model" << model_index;
     }
   }
-  INFO("num " << num());
+  DEBUG("num " << num());
 }
 ModelTwoBodyFactory::ModelTwoBodyFactory(argtype args) : ModelTwoBodyFactory(&args) {
   FEASST_CHECK_ALL_USED(args);

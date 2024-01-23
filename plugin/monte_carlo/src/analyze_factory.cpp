@@ -97,23 +97,29 @@ void AnalyzeFactory::trial(const Criteria& criteria,
         const int min_block = min_block_(criteria);
         std::stringstream ss;
         for (int state = 0; state < num(); ++state) {
+          const Accumulator acc = analyzers_[state]->accumulator();
+          const bool acc_used = acc.num_values() != 0;
           if (state == 0) {
             ss << "state,";
             ss << analyzers_[state]->header(criteria, system, trial_factory);
-            ss.seekp(-1, ss.cur); // remove endl
-            for (int block = 0; block < min_block; ++block) {
-              ss << "block" << block << ",";
+            if (acc_used) {
+              ss.seekp(-1, ss.cur); // remove endl
+              for (int block = 0; block < min_block; ++block) {
+                ss << "block" << block << ",";
+              }
+              ss << std::endl;
             }
-            ss << std::endl;
           }
           DEBUG("state " << state);
           DEBUG("crit " << criteria.state());
           DEBUG("crit " << criteria.num_states());
           ss << state << ",";
           ss << analyzers_[state]->write(criteria, system, trial_factory);
-          ss.seekp(-1, ss.cur); // remove endl
-          ss << write_blocks_(min_block, analyzers_[state]->accumulator());
-          ss << std::endl;
+          if (acc_used) {
+            ss.seekp(-1, ss.cur); // remove endl
+            ss << write_blocks_(min_block, analyzers_[state]->accumulator());
+            ss << std::endl;
+          }
         }
         printer(ss.str(), output_file(criteria));
       }
