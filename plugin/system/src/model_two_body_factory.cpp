@@ -1,6 +1,8 @@
 #include <memory>
-#include "system/include/model_two_body_factory.h"
+#include "utils/include/arguments.h"
+#include "utils/include/file.h"
 #include "utils/include/serialize.h"
+#include "system/include/model_two_body_factory.h"
 
 namespace feasst {
 
@@ -16,17 +18,40 @@ static MapModelTwoBodyFactory mapper_ = MapModelTwoBodyFactory();
 
 ModelTwoBodyFactory::ModelTwoBodyFactory(argtype * args) {
   class_name_ = "ModelTwoBodyFactory";
-  int model_index = 0;
-  std::stringstream key;
-  key << "model" << model_index;
-  while (used(key.str(), *args)) {
-    const std::string model_name = str(key.str(), args);
-    auto model = ModelTwoBody().factory(model_name, args);
-    models_.push_back(model);
-    ++model_index;
-    key.str("");
+  std::string model_file = str("model_file", args, "");
+  if (!model_file.empty()) {
+    ASSERT(!used("model0", *args),
+      "ModelTwoBodyFactory should not be given both model_file and model0");
+    ASSERT(file_exists(model_file),
+      "model_file: " << model_file << "not found");
+    std::ifstream file(model_file);
+    ASSERT(file.good(), "error");
+    const bool is_found = find("ModelTwoBodyFactory", file);
+    ASSERT(is_found, "ModelTwoBodyFactory not found in " << model_file);
+    std::string line;
+    std::getline(file, line);
+    ASSERT(line.empty(), "error");
+    while (std::getline(file, line)) {
+      DEBUG(line);
+      std::pair<std::string, argtype> margs = parse_line(line, NULL, NULL);
+      auto model = ModelTwoBody().factory(margs.first, &margs.second);
+      FEASST_CHECK_ALL_USED(margs.second);
+      models_.push_back(model);
+    }
+  } else {
+    int model_index = 0;
+    std::stringstream key;
     key << "model" << model_index;
+    while (used(key.str(), *args)) {
+      const std::string model_name = str(key.str(), args);
+      auto model = ModelTwoBody().factory(model_name, args);
+      models_.push_back(model);
+      ++model_index;
+      key.str("");
+      key << "model" << model_index;
+    }
   }
+  DEBUG("num " << num());
 }
 ModelTwoBodyFactory::ModelTwoBodyFactory(argtype args) : ModelTwoBodyFactory(&args) {
   FEASST_CHECK_ALL_USED(args);

@@ -9,7 +9,7 @@ TEST(MonteCarlo, TrialModel) {
     //{"RandomMT19937", {{"seed", "123"}}},
     {"Configuration", {{"particle_type0", "../particle/lj.fstprt"},
       {"cubic_side_length", "8"}}},
-    {"Potential", {{"Model", "ModelExpanded"}, {"model0", "LennardJones"}, {"model1", "HardSphere"}}},
+    {"Potential", {{"Model", "ModelExpanded"}, {"model_file", "../plugin/model_expanded/test/data/models.txt"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "-1"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},

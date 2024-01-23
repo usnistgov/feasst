@@ -20,6 +20,11 @@ class ModelTwoBodyFactory : public ModelTwoBody {
   /** @name Arguments
     - model[i]: add the i-th model.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - model_file: if not empty, file name that lists the ModelTwoBody
+      (default: empty).
+      The first line is simply ModelTwoBodyFactory.
+      The second line is empty.
+      The remaining lines are for creating each ModelTwoBody.
    */
   explicit ModelTwoBodyFactory(argtype args = argtype());
   explicit ModelTwoBodyFactory(argtype * args);

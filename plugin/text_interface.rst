@@ -233,6 +233,7 @@ Analyze
    steppers/doc/DensityProfile_arguments
    steppers/doc/Energy_arguments
    steppers/doc/ExtensiveMoments_arguments
+   steppers/doc/HeatCapacity_arguments
    steppers/doc/Log_arguments
    steppers/doc/MeanSquaredDisplacement_arguments
    steppers/doc/Movie_arguments

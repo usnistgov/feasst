@@ -106,6 +106,7 @@ Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_i
 Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].xyz start_after_iteration 1
 Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
 Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
+HeatCapacity trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_cv.txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per_update 1e5
 CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
 """.format(**params))
