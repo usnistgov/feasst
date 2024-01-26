@@ -57,6 +57,7 @@ These classes include pair-wise (two-body) isotropic interactions models.
    charge/doc/DebyeHuckel_arguments
    charge/doc/ElectricField_arguments
    confinement/doc/HenryCoefficient_arguments
+   server/doc/ModelServer_arguments
    example/doc/ModelExample_arguments
 
 Nonbonded Potentials

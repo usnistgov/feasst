@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <memory>
+#include <string.h>
 #ifdef _OPENMP
   #include <omp.h>
 #endif // _OPENMP
@@ -112,6 +113,49 @@ void parse_prefetch(std::string line) {
   }
 }
 
+void parse_server(std::string line) {
+  argtype variables;
+  bool assign_to_list;
+  std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
+  ASSERT(line_pair.first == "Server", "error");
+  auto server = MakeServer(line_pair.second);
+  server->bind_listen_accept();
+  bool finished = false;
+  std::string sim_type;
+  std::shared_ptr<MonteCarlo> mc;
+  while (!finished) {
+    const int size = server->receive();
+    ASSERT(size >= 0, "error");
+    if (strcmp(server->buffer(), "EndListen") == 0) {
+      DEBUG(server->buffer());
+      finished = true;
+    } else {
+      if (size > 0) {
+        std::string line(server->buffer());
+        std::pair<std::string, argtype> marg = parse_line(line, NULL, NULL);
+        DEBUG(marg.first);
+        DEBUG(str(marg.second));
+        if (marg.first == "MonteCarlo") {
+          // std::cout << "MonteCarlo" << std::endl;
+          sim_type = marg.first;
+          mc = std::make_shared<MonteCarlo>();
+        } else {
+          arglist list(1);
+          list[0] = marg;
+          if (sim_type.empty()) {
+            FATAL(marg.first << " not yet implemented in server-client mode.");
+          } else if (sim_type == "MonteCarlo") {
+            mc->parse_args(&list, true); // silence std::cout
+          }
+          ASSERT(list.size() == 0, "Unrecognized argument: " << list.begin()->first);
+        }
+      }
+      server->send("received");
+    }
+    ASSERT(size >= 0, "error");
+  }
+}
+
 /**
   Usage: ./fst < file.txt
 
@@ -146,10 +190,12 @@ int main() {
     parse_prefetch(line);
   } else if (line.substr(0, 22) == "CollectionMatrixSplice") {
     parse_cm(line);
+  } else if (line.substr(0, 6) == "Server") {
+    parse_server(line);
   } else {
     FATAL("As currently implemented, all FEASST input text files must begin "
-      << "with \"MonteCarlo,\" \"CollectionMatrixSplice\" or \"Prefetch.\" "
-      << "The first readable line in this file is: " << line);
+      << "with \"MonteCarlo,\" \"CollectionMatrixSplice,\" \"Prefetch\" "
+      << "or \"Server.\" The first readable line in this file is: " << line);
   }
   return 0;
 }
