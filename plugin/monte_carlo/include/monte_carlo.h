@@ -69,6 +69,9 @@ class MonteCarlo {
   /// Begin processing the arguments.
   void begin(arglist args);
 
+  /// Process arguments.
+  void parse_args(arglist * args, const bool silent = false);
+
   /// Resume processing the above arguments after Checkpointing.
   void resume();
 
@@ -358,7 +361,6 @@ class MonteCarlo {
   bool criteria_set_ = false;
 
   bool duplicate_stepper_output_file_(const std::string output_file);
-  void parse_(arglist * args);
 };
 
 inline std::shared_ptr<MonteCarlo> MakeMonteCarlo() {
