@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ModelTwoBodyFactory &mdash; FEASST v0.24.4 documentation</title>
+  <title>ModelTwoBodyFactory &mdash; FEASST v0.24.5 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.4
+                v0.24.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -127,6 +127,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../server/README.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_expanded/README.html">Model Expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
@@ -247,6 +249,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst19ModelTwoBodyFactoryE">
 <span class="target" id="classfeasst_1_1ModelTwoBodyFactory"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelTwoBodyFactory</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody"><span class="n"><span class="pre">ModelTwoBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst19ModelTwoBodyFactoryE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Contains a collection of two body models. This allows the visitor to consider multiple two body models for each pairwise interaction. </p>
+<p>Subclassed by <a class="reference internal" href="../../model_expanded/doc/ModelExpanded_arguments.html#classfeasst_1_1ModelExpanded"><span class="std std-ref">feasst::ModelExpanded</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -289,7 +292,8 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">
-<li><p>model[i]: add the i-th model. The “[i]” is to be substituted for an integer 0, 1, 2, … </p></li>
+<li><p>model[i]: add the i-th model. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
+<li><p>model_file: if not empty, file name that lists the <a class="reference internal" href="ModelTwoBody_arguments.html#classfeasst_1_1ModelTwoBody"><span class="std std-ref">ModelTwoBody</span></a> (default: empty). The first line is simply <a class="reference internal" href="ModelTwoBodyFactory_arguments.html#classfeasst_1_1ModelTwoBodyFactory"><span class="std std-ref">ModelTwoBodyFactory</span></a>. The second line is empty. The remaining lines are for creating each <a class="reference internal" href="ModelTwoBody_arguments.html#classfeasst_1_1ModelTwoBody"><span class="std std-ref">ModelTwoBody</span></a>. </p></li>
 </ul>
 </p>
 </div>

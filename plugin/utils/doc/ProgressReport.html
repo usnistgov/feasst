@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProgressReport &mdash; FEASST v0.24.4 documentation</title>
+  <title>ProgressReport &mdash; FEASST v0.24.5 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.4
+                v0.24.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -101,6 +101,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../gibbs/README.html">Gibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../server/README.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_expanded/README.html">Model Expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
 </ul>
@@ -228,7 +230,8 @@
 <span class="target" id="classfeasst_1_1ProgressReport_1a8d40f1bc95acc288954ebe467a130499"></span><span class="sig-name descname"><span class="n"><span class="pre">ProgressReport</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14ProgressReport14ProgressReportE7argtype" title="Permalink to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>num: number of iterations (default: 1).</p></li>
-<li><p>percent_per_write: report every this many percent progress made. (default: 0.1 e.g., 10%)</p></li>
+<li><p>percent_per_write: report every this many percent progress made. (default: 1e-4 e.g., 0.001%)</p></li>
+<li><p>double_percent_per_write: if 1, double the percent per write each write. Else if not 1, do not double (default: 1).</p></li>
 <li><p>file_name: append report to this file. If empty, cout (default: empty). </p></li>
 </ul>
 </p>

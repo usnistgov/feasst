@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstio &mdash; FEASST v0.24.4 documentation</title>
+  <title>fstio &mdash; FEASST v0.24.5 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.4
+                v0.24.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -271,7 +271,7 @@ which is assumed to output the job id.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="fstio.run_simulations">
-<span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">run_simulations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_node_dependent_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_feasst_script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_process</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#run_simulations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.run_simulations" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">fstio.</span></span><span class="sig-name descname"><span class="pre">run_simulations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_feasst_script</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_node_dependent_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_process</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fstio.html#run_simulations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fstio.run_simulations" title="Permalink to this definition"></a></dt>
 <dd><p>Run a simulation either locally in the shell or queue on HPC nodes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -288,6 +288,7 @@ node: node index.</p></li>
 The only argument is the parameters.</p></li>
 <li><p><strong>write_feasst_script</strong> (<em>function</em>) – The name of the function to write the feasst text interface file,
 which has the first argment as the parameters and the second argument as the filename.</p></li>
+<li><p><strong>client</strong> (<em>function</em>) – If write_feasst_script is None, instead run in server mode with default port 54321 and default buffer_size 1000.</p></li>
 <li><p><strong>post_process</strong> (<em>function</em>) – The name of the function to post process all simulations once complete,
 and has the only argument as the params.</p></li>
 <li><p><strong>queue_function</strong> (<em>function</em>) – The name of the function to queue one node and has the only argument as the params.</p></li>

@@ -67,6 +67,7 @@ Monte Carlo trials
 Modern software
 
 * Interface as text input, C++ or Python module
+* Server interface to C++ or Python clients
 * OpenMP parallelization and prefetching
 * Checkpoint files to save, restart and analyze simulations
 

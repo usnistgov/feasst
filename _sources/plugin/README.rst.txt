@@ -61,6 +61,8 @@ The plugins and classes listed below represent all the publicly available capabi
    aniso/README
    example/README
    gibbs/README
+   server/README
+   model_expanded/README
    fftw/README
    netcdf/README
 
