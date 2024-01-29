@@ -218,6 +218,7 @@ with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:
   if 'gibbs' in include_plugin: select_classes.append("ComputeGibbsParticleTransfer")
   if 'model_expanded' in include_plugin: select_classes.append("MacrostateModel")
   if 'server' in include_plugin: select_classes.append("Listen")
+  if 'mpi' in include_plugin: select_classes.append("MPIPlaceHolder")
   #if 'prefetch' in include_plugin: select_classes.append("")
   #if '' in include_plugin: select_classes.append("")
   #if '' in include_plugin: select_classes.append("")

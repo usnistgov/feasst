@@ -23,7 +23,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded;chain;morph")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;flat_histogram;charge;cluster;prefetch;egce;aniso")
 set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server;fftw")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server;mpi")
+#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server;mpi;fftw")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;netcdf")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;fftw")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;xtc")
@@ -40,9 +41,15 @@ option(USE_SPHINX "Use SPHINX for documentation" OFF)
 option(USE_SWIG "Use SWIG for python interface" OFF)
 option(USE_GCOV "Use Coverage" OFF)
 option(USE_FFTW "Use FFTW" OFF)
+option(USE_MPI "Use MPI" OFF)
 set(FFTW_DIR "$ENV{HOME}/software/fftw-3.3.10/build/")
 option(USE_NETCDF "Use NetCDF" OFF)
 set(NETCDF_DIR "$ENV{HOME}/local")
+
+# MPI
+if (USE_MPI)
+  set(FEASST_PLUGINS "${FEASST_PLUGINS};mpi")
+endif (USE_MPI)
 
 # If you would like to use the python interface, you may need to specify the
 # python library and include path variables below. If not specified then
@@ -344,6 +351,13 @@ if (${_index} GREATER -1)
   target_link_libraries(feasstserver feasstmonte_carlo)
 endif()
 
+# mpi
+list (FIND FEASST_PLUGINS "mpi" _index)
+if (${_index} GREATER -1)
+  find_package(MPI REQUIRED)
+  target_link_libraries(feasstmpi feasstmonte_carlo MPI::MPI_CXX)
+endif()
+
 # fftw
 list (FIND FEASST_PLUGINS "fftw" _index)
 if (${_index} GREATER -1)
@@ -534,6 +548,11 @@ foreach (PLUGIN ${FEASST_PLUGINS})
   target_link_libraries(feasstlib INTERFACE feasst${PLUGIN})
 endforeach (PLUGIN)
 target_link_libraries(feasstlib INTERFACE ${EXTRA_LIBS})
+#list (FIND FEASST_PLUGINS "mpi" _index)
+#if (${_index} GREATER -1)
+#  message("linking mpi")
+#  target_link_libraries(feasstlib INTERFACE MPI::MPI_CXX)
+#endif()
 
 # install library inside the binary "build" directory
 #file (WRITE ${CMAKE_BINARY_DIR}/feasst.h "")

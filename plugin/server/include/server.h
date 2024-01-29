@@ -5,13 +5,12 @@
 #include <vector>
 #include <memory>
 #include "utils/include/arguments.h"
-#include "monte_carlo/include/action.h"
 
 namespace feasst {
 
 /**
  */
-class Server : public Action {
+class Server {
  public:
   //@{
   /** @name Arguments
@@ -38,13 +37,9 @@ class Server : public Action {
   //char * get_buffer() { return buffer_; }
   //void send_buffer();
 
-  std::shared_ptr<Action> create(std::istream& istr) const override {
-    return std::make_shared<Server>(istr); }
-  std::shared_ptr<Action> create(argtype * args) const override {
-    return std::make_shared<Server>(args); }
-  void serialize(std::ostream& ostr) const override;
+  void serialize(std::ostream& ostr) const;
   explicit Server(std::istream& istr);
-  virtual ~Server();
+  ~Server();
 
   //@}
  private:
@@ -57,10 +52,6 @@ class Server : public Action {
   bool bound_ = false;
   void disconnect_();
 };
-
-inline std::shared_ptr<Server> MakeServer(argtype args = argtype()) {
-  return std::make_shared<Server>(args);
-}
 
 }  // namespace feasst
 

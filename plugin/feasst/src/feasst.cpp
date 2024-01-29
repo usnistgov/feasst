@@ -118,7 +118,7 @@ void parse_server(std::string line) {
   bool assign_to_list;
   std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
   ASSERT(line_pair.first == "Server", "error");
-  auto server = MakeServer(line_pair.second);
+  auto server = std::make_shared<Server>(line_pair.second);
   server->bind_listen_accept();
   bool finished = false;
   std::string sim_type;
