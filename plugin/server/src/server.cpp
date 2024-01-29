@@ -11,7 +11,6 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
-#include "monte_carlo/include/monte_carlo.h"
 #include "server/include/server.h"
 
 //using namespace std;
@@ -19,7 +18,6 @@
 namespace feasst {
 
 Server::Server(argtype * args) {
-  class_name_ = "Server";
   port_ = integer("port", args, 54321);
   buffer_size_ = integer("buffer_size", args, 1000);
   ASSERT(buffer_size_ % 2 == 0, "buffer_size must be even.");
@@ -34,17 +32,7 @@ Server::~Server() {
   }
 }
 
-class MapServer {
- public:
-  MapServer() {
-    auto obj = MakeServer();
-    obj->deserialize_map()["Server"] = obj;
-  }
-};
-
-static MapServer mapper_Server = MapServer();
-
-Server::Server(std::istream& istr) : Action(istr) {
+Server::Server(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version >= 6579 && version <= 6579, "mismatch version: " << version);
   feasst_deserialize(&port_, istr);
@@ -52,8 +40,6 @@ Server::Server(std::istream& istr) : Action(istr) {
 }
 
 void Server::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
-  serialize_action_(ostr);
   feasst_serialize_version(6579, ostr);
   feasst_serialize(port_, ostr);
   feasst_serialize(buffer_size_, ostr);
@@ -105,6 +91,8 @@ void Server::send(const char* message) {
 
 void Server::send(const std::string message) {
   strcpy(buffer_, message.c_str());
+  const size_t len = strlen(buffer_);
+  ASSERT(len <= message.length(), "message is larger than buffer");
   const int size = write(client_socket_, buffer_, strlen(buffer_));
   DEBUG("sent: " << buffer_);
   DEBUG("send size: " << size);
