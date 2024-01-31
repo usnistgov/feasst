@@ -21,10 +21,10 @@ class AnalyzeBonds : public Analyze {
     - bond_bin_width: bin width for bond histogram (default: 1).
     - bond_bin_center: center of first bin in bond histogram (default: 0).
     - angle_bin_width: bin width for angle histogram in units of radians.
-      (default: 1).
+      (default: 0.05).
     - angle_bin_center: center of first bin in angle histogram (default: 0).
     - dihedral_bin_width: bin width for dihedral histogram in units of radians.
-      (default: 1).
+      (default: 0.05).
     - dihedral_bin_center: center of first bin in dihedral histogram (default: 0).
     - Stepper arguments.
    */
