@@ -21,10 +21,10 @@ namespace feasst {
   - gibbs_transfer: if true, create two trials which transfer particles between
     configuration_index and configuration_index2 (default: false).
   - regrow: if true, place anywhere in the domain (default: false).
-  - transfer_avb: if true, same as transfer but with AVB Add/Remove for the
-    first stage (default: false).
-  - regrow_avb2: if true, regrow using AVB2 in the first stage (default: false).
-  - regrow_avb4: if true, regrow using AVB4 in the first stage (default: false).
+  - transfer_avb: if true, same as transfer but with TrialAddAVB/TrialRemoveAVB
+    for the first stage (default: false).
+  - regrow_avb2: if true, regrow using TrialAVB2 in the first stage (default: false).
+  - regrow_avb4: if true, regrow using TrialAVB4 in the first stage (default: false).
   - translate: if true (default: false), translate site (which is required arg
     for TrialSelectParticle).
     In addition, must have number of stages equal to number of sites.

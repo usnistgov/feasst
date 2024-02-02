@@ -14,7 +14,7 @@ from pyfeasst import macrostate_distribution
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/co2_epm2.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/co2_epm2_rigid.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--temperature', type=float, default=298, help='temperature in Kelvin')
 PARSER.add_argument('--beta_mu', type=float, default=-6, help='beta time chemical potential')
@@ -50,7 +50,7 @@ ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
 assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
 PARAMS = vars(ARGS)
 PARAMS['script'] = __file__
-PARAMS['prefix'] = 'co2_epm2'
+PARAMS['prefix'] = 'co2'
 PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
 PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
 PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate FEASST before SLURM

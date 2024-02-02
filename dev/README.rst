@@ -361,3 +361,4 @@ To Do List
 * Reduce size of Checkpoint files for cell/neighbor lists (re-compute instead of checkpointing them). Also large tables.
 * Represent relative rigid bodies as screw motion: https://en.wikipedia.org/wiki/Screw_theory
 * Allow mixing rules input in fstprt files (either as manual input i-j or selection of mixing rules from list, or both).
+* Add LJ/SQ b2 calculation examples

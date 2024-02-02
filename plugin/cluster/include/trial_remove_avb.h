@@ -8,7 +8,22 @@
 
 namespace feasst {
 
-/// Attempt to remove a particle with AVB as described in ComputeRemoveAVB.
+/**
+  Attempt to remove a particle of type "a" with a bias for site_index_a
+  to be in the aggrevation volume (AV) of site_index_t ("t" for target) of
+  particle of type "t".
+
+  See TrialAddAVB for derivation of the acceptance probability that is
+  the reverse of this Trial.
+
+  There are modifications to make for this reverse move considering that the
+  acceptance probability is computed before the removal takes place.
+
+  The number of sites to select in the AV already contains the site added from
+  the old state,
+
+  \f$ N^{s,AV}_a + 1 \rightarrow N^{s,AV}_a \f$.
+ */
 class TrialRemoveAVB : public Trial {
  public:
   explicit TrialRemoveAVB(argtype args = argtype());

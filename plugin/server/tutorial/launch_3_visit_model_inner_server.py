@@ -20,7 +20,7 @@ PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
 PARSER.add_argument('--fstprt', type=str, default='/feasst/plugin/aniso/particle/aniso_tabular.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--beta', type=float, default=1/0.9, help='1 / kB / T')
-PARSER.add_argument('--port', type=int, default=55555, help='server client interface port')
+PARSER.add_argument('--port', type=int, default=50005, help='server client interface port')
 PARSER.add_argument('--density', type=float, default=1e-3, help='number density')
 PARSER.add_argument('--num_particles', type=int, default=256, help='number of particles')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
