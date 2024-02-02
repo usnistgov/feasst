@@ -18,6 +18,9 @@ class AngleHarmonic : public BondThreeBody {
  public:
   AngleHarmonic() {}
   double energy(const double radians, const Bond& angle) const override;
+// HWH tests on propane revealed this to slow down the simulation.
+//  double random_angle_radians(const Angle& angle, const double beta,
+//    const int dimension, Random * random) const override;
   std::shared_ptr<BondThreeBody> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit AngleHarmonic(std::istream& istr);

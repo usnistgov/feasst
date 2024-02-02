@@ -90,6 +90,7 @@ void BondThreeBody::random_branch(
   while (!accept) {
     random->unit_sphere_surface(&unit_m1);
     random->unit_sphere_surface(&unit_m2);
+    // assumes anchor 1 is origin and anchor 2 is unit vector along x-axis
     const double tm1 = std::acos(unit_m1.coord(0));
     const double tm2 = std::acos(unit_m2.coord(0));
     const double tm12 = std::acos(unit_m1.dot_product(unit_m2));

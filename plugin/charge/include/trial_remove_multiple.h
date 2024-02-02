@@ -11,6 +11,8 @@ namespace feasst {
 /**
   Attempt to remove multiple particles.
   Typically requires the use of a reference index.
+  For a derivation of the acceptance criteria, see TrialAddMultiple that is
+  the reverse of this trial.
  */
 class TrialRemoveMultiple : public Trial {
  public:

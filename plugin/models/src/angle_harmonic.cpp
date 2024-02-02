@@ -47,4 +47,33 @@ double AngleHarmonic::energy(const double radians, const Bond& angle) const {
   return k*delta_rad*delta_rad;
 }
 
+//double AngleHarmonic::random_angle_radians(const Angle& angle, const double beta,
+//    const int dimension, Random * random) const {
+//  if (dimension == 2) {
+//    return BondThreeBody::random_angle_radians(angle, beta, dimension, random);
+//  }
+//  ASSERT(dimension == 3, "unrecognized dimension: " << dimension);
+//  double min_rad = 0.;
+//  if (angle.has_property("minimum_degrees")) {
+//    min_rad = degrees_to_radians(angle.property("minimum_degrees"));
+//  }
+//  const double equil_radians =
+//    degrees_to_radians(angle.property("equilibrium_degrees"));
+//  const double k = angle.property("k_energy_per_radian_sq");
+//  int attempt = 0;
+//  while (attempt < 1e6) {
+//    const double radians = random->normal(equil_radians,
+//      std::sqrt(beta*k*0.5));
+//    if (radians >= min_rad && radians <= PI) {
+//      const double en = energy(radians, angle);
+//      const double jacobian = std::sin(radians);
+//      if (random->uniform() < jacobian*std::exp(-beta*en)) {
+//        return radians;
+//      }
+//    }
+//    ++attempt;
+//  }
+//  FATAL("max attempts reached");
+//}
+
 }  // namespace feasst
