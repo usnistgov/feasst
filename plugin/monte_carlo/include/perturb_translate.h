@@ -58,10 +58,11 @@ class PerturbTranslate : public PerturbMove {
 
   //@}
  private:
-  // temporary objects
+  int dimension_;
+
+  // temporary objects not serialized.
   Position trajectory_, anchor_, new_pos_;
   bool anchor_set_ = false;
-  int dimension_;
 };
 
 inline std::shared_ptr<PerturbTranslate> MakePerturbTranslate(

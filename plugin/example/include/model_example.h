@@ -62,7 +62,6 @@ class ModelExample : public ModelTwoBody {
    */
   //@{
 
-
   /// Return the argument num_discretized_steps in read-only fashion.
   double num_discretized_steps() const { return num_discretized_steps_; }
 

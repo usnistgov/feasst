@@ -12,6 +12,12 @@ class Random;
 /**
   Mayer-sampling Monte Carlo acceptance criteria (see
   https://doi.org/10.1103/PhysRevLett.92.220601).
+
+  Extrapolation in temperature is performed as descirbed in:
+  https://doi.org/10.1063/1.5016165 .
+
+  The coefficients for the Taylor series extrapolation are written to file
+  and include the division by factorial.
  */
 class MayerSampling : public Criteria {
  public:
@@ -21,6 +27,8 @@ class MayerSampling : public Criteria {
       (as measured by number of calls to is_accepted) default: 1e9.
     - intra_potential: index of intramolecular potential that will be used
       to select the move. Ignore if -1 (default: -1).
+    - num_beta_taylor: number of derivatives of second virial ratio with respect to beta.
+      (default: 0).
     - Criteria arguments.
    */
   explicit MayerSampling(argtype args = argtype());
@@ -59,6 +67,16 @@ class MayerSampling : public Criteria {
    */
   double second_virial_ratio_block_stdev() const;
 
+  /// Return the number of beta derivatives, starting with 1.
+  int num_beta_taylor() const { return static_cast<int>(beta_taylor_.size()); }
+
+  /// Return the beta derivatives in the mayer function f12
+  const std::vector<Accumulator>& beta_taylor() const {
+    return beta_taylor_; }
+
+  /// Return the beta derivative in the second virial ratio by n factorial
+  double beta_taylor(const int deriv) const;
+
   std::string write() const override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
@@ -78,6 +96,7 @@ class MayerSampling : public Criteria {
   Accumulator mayer_;
   Accumulator mayer_ref_;
   int intra_pot_;
+  std::vector<Accumulator> beta_taylor_;
 };
 
 inline std::shared_ptr<MayerSampling> MakeMayerSampling(

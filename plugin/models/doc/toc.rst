@@ -11,6 +11,7 @@
    SquareWell
    TwoBodyAlpha
    Mie
+   Jagla
    TablePotential
    LennardJonesAlpha
    LennardJonesCutShift

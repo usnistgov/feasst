@@ -1,5 +1,6 @@
 
 .. toctree::
 
+   MPIPlaceHolder
    ModelMPI
    ThreadMPI

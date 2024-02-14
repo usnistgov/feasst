@@ -246,7 +246,7 @@ endif()
 # models
 list (FIND FEASST_PLUGINS "models" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstmodels feasstsystem)
+  target_link_libraries(feasstmodels feasstsystem feasstexample)
 endif()
 
 # mayer

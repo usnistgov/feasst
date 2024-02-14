@@ -1,16 +1,9 @@
 """
-Example Mayer-sampling (https://doi.org/10.1103/PhysRevLett.92.220601) simulation of a square well with a hard sphere reference.
-Compare with Eq. 6 of https://doi.org/10.1063/1.1569473
-
-Note that the post_process compares the simulated with the expected result using reduced which is the B2 divided by the B2 of the hard sphere of unit diameter.
-
-As an excercise, consider modifying this tutorial to compute the B2 of LennardJones with the following steps:
-- Compare with a known result, such as temperature at which the B2 is zero: T_Boyle=3.417928023 from https://doi.org/10.1016/S0378-4371(00)00362-9
-- Set beta = 1/T_Boyle
-- Set cutoff to 1/2 the Domain side length (e.g., 5e9 for 1e10 box)
-- Replace the line "Potential Model SquareWell" with "Potential Model LennardJones"
-- Set b2reduced_analytical to zero.
-- Compare with the lj tutorial.
+Example Mayer-sampling (https://doi.org/10.1103/PhysRevLett.92.220601)
+simulation of a Lennard-Jones particle while extrapolating in inverse
+temperature, as described in https://doi.org/10.1063/1.5016165.
+The reference potential is a hard sphere.
+This reproduces Figure 2 of https://doi.org/10.1063/1.5016165.
 """
 
 import argparse
@@ -18,6 +11,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
+from pyfeasst import fstplot
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -27,14 +21,14 @@ PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/atom.fstprt'
                     help='FEASST particle definition')
 PARSER.add_argument('--reference_sigma', type=float, default=1,
                     help='reference potential is a hard sphere unit diameter which is also the size of the inner hard sphere in the square well.')
-PARSER.add_argument('--cutoff', type=float, default=3,
-                    help='the square well attractive interaction cutoff distance between centers')
-PARSER.add_argument('--beta', type=float, default=1./2., help='the inverse temperature')
+PARSER.add_argument('--beta', type=float, default=1., help='the inverse temperature')
+PARSER.add_argument('--num_beta_taylor', type=int, default=10, help='number of Taylor series coefficients')
+PARSER.add_argument('--show_plot', type=int, default=0, help='If != 0, show plot')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
                     help='number of iterations for equilibration')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
+PARSER.add_argument('--production_iterations', type=int, default=int(1e3),
                     help='number of iterations for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
@@ -57,7 +51,7 @@ ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
 assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
 PARAMS = vars(ARGS)
 PARAMS['script'] = __file__
-PARAMS['prefix'] = 'sqw'
+PARAMS['prefix'] = 'lj'
 PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
 PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
 PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
@@ -73,11 +67,11 @@ RandomMT19937 seed {seed}
 Configuration cubic_side_length 1e10 periodic0 false periodic1 false periodic2 false \
   particle_type0 {fstprt} add_particles_of_type0 2 \
   group0 first first_particle_index 0 \
-  cutoff {cutoff}
-Potential Model SquareWell
+  cutoff 5e9
+Potential Model LennardJones
 RefPotential Model HardSphere sigma 0 sigma0 {reference_sigma} cutoff 0 cutoff0 {reference_sigma}
 ThermoParams beta {beta}
-MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+MayerSampling num_beta_taylor {num_beta_taylor} num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialTranslate new_only true reference_index 0 tunable_param 1 group first
 #TrialRotate new_only true reference_index 0 tunable_param 40
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
@@ -97,7 +91,7 @@ RemoveAnalyze name Movie
 CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}{sim}_b2.txt
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.txt
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz
-MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
+MayerSampling num_beta_taylor {num_beta_taylor} num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
 Run until_criteria_complete true
 """.format(**params))
 
@@ -109,11 +103,33 @@ def post_process(params):
             b2=eval(firstline)
             #print(b2)
             b2s.append(b2['second_virial_ratio'])
-    b2reduced_analytical = 1-(np.power(params['cutoff'], 3)-1)*(np.exp(params['beta'])-1)
-    #b2hs = 2./3.*np.pi*params['reference_sigma']**3
-    print('simulated', np.mean(b2s), 'std', np.std(b2s))
-    print('expected', b2reduced_analytical)
-    assert np.abs(np.mean(b2s) - b2reduced_analytical) < 5*np.std(b2s)
+            if sim == 0:
+                df = pd.DataFrame(data={sim: b2['beta_taylor']})
+            else:
+                df[sim] = b2['beta_taylor']
+    b2hs = 2./3.*np.pi*params['reference_sigma']**3
+    coeffs = b2hs*df.mean(axis=1)
+    print('Taylor series coefficients:', coeffs)
+    coeffs_expected = [-5.322731267117734, -9.281005175555862, -2.810611771043566, -0.649558510117600]
+    for index, co_exp in enumerate(coeffs_expected):
+        if np.abs(coeffs[index] - co_exp) > 0.2:
+            print(coeffs[index], co_exp)
+            assert False
+    if params['show_plot']:
+        from scipy.interpolate import pade
+        xrng = np.arange(0.01, 3.5, 0.1)
+        beta0 = 1.
+        orders = range(1, params['num_beta_taylor']+1)
+        colors = fstplot.val2map(orders)
+        for order, co in enumerate(coeffs):
+            if order > 0:
+                p_pade, q_pade = pade(list(coeffs[:(order+1)]), 1)
+                deta = xrng - beta0
+                plt.plot(xrng, p_pade(deta)/q_pade(deta), color=colors.to_rgba(order), marker='o')
+        plt.xlim([0, 3.0])
+        plt.ylim([-50, 10])
+        fstplot.display(orders, label='order')
+        plt.show()
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,

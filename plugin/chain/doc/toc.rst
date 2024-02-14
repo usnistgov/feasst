@@ -8,10 +8,10 @@
    SelectReptate
    SelectCrankshaftSmall
    PerturbToAnchor
+   PerturbConnector
    PerturbDistanceAngleConnector
    PerturbBranch
    PerturbReptate
-   PerturbConnector
    PerturbParticlePivot
    PerturbCrankshaftSmall
    PerturbPivot

@@ -1,5 +1,6 @@
 #include <cmath>
 #include "utils/test/utils.h"
+#include "math/include/utils_math.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
 #include "system/test/sys_utils.h"
@@ -60,7 +61,7 @@ TEST(MayerSampling, ljb2) {
   EXPECT_EQ(system.thermo_params().beta(), 1.);
 }
 
-MayerSampling ljb2(const int trials) {
+MayerSampling ljb2(const int trials, const int num_beta_taylor = 0) {
   MonteCarlo mc;
   { // initialize system
     auto config = MakeConfiguration({{"cubic_side_length", "1000"},
@@ -72,7 +73,8 @@ MayerSampling ljb2(const int trials) {
   }
   mc.add_to_reference(MakePotential(MakeHardSphere()));
   mc.set(MakeThermoParams({{"beta", "1."}, {"chemical_potential", "-2.775"}}));
-  mc.set(MakeMayerSampling());
+  mc.set(MakeMayerSampling({{"num_beta_taylor",
+                          str(num_beta_taylor)}}));
   mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"}, {"weight", "0.75"}}));
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(trials);
@@ -96,6 +98,26 @@ TEST(MonteCarlo, ljb2_LONG) {
   INFO("b2 " << b2);
   EXPECT_NEAR(-5.3, b2, 0.3);
   EXPECT_GT(std::abs(2.0944 - b2), 0.0001); // HS value
+}
+
+TEST(MonteCarlo, ljb2_beta_deriv_LONG) {
+  MayerSampling mayer = ljb2(1e7, 3);
+  const double b2 = 2./3.*PI*mayer.second_virial_ratio();
+  INFO("b2 " << b2);
+  EXPECT_NEAR(-5.3, b2, 0.3);
+  EXPECT_GT(std::abs(2.0944 - b2), 0.0001); // HS value
+  const double reffac = 2.*PI/3./mayer.mayer_ref().average();
+  int index = 0;
+  INFO(index << "," << reffac*mayer.mayer().average());
+  for (const Accumulator& acc : mayer.beta_taylor()) {
+    ++index;
+    INFO(index << "," << reffac*acc.average());///factorial(index));
+  }
+  // from https://github.com/usnistgov/mayer-extrapolation
+  EXPECT_NEAR(-5.322731267117734, 2.*PI/3.*mayer.beta_taylor(0), 0.2);
+  EXPECT_NEAR(-9.281005175555862, 2.*PI/3.*mayer.beta_taylor(1), 0.2);
+  EXPECT_NEAR(-2.810611771043566, 2.*PI/3.*mayer.beta_taylor(2), 0.2);
+  EXPECT_NEAR(-0.649558510117600, 2.*PI/3.*mayer.beta_taylor(3), 0.2);
 }
 
 // Check SPCE

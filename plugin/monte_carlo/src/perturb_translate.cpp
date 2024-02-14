@@ -122,8 +122,12 @@ PerturbTranslate::PerturbTranslate(std::istream& istr)
   : PerturbMove(istr) {
   ASSERT(class_name_ == "PerturbTranslate", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 564 && version <= 565, "mismatch version: " << version);
-  feasst_deserialize(&anchor_set_, istr);
+  ASSERT(version >= 564 && version <= 566, "mismatch version: " << version);
+  if (version <= 565) {
+    // In previous version, erroneously serialized anchor_set_
+    bool temporary;
+    feasst_deserialize(&temporary, istr);
+  }
   if (version >= 565) {
     feasst_deserialize(&dimension_, istr);
   }
@@ -132,8 +136,7 @@ PerturbTranslate::PerturbTranslate(std::istream& istr)
 void PerturbTranslate::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_(ostr);
-  feasst_serialize_version(565, ostr);
-  feasst_serialize(anchor_set_, ostr);
+  feasst_serialize_version(566, ostr);
   feasst_serialize(dimension_, ostr);
 }
 
