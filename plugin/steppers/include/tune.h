@@ -7,7 +7,7 @@
 namespace feasst {
 
 /**
-  Each state and trial has a tunable value stored in this object.
+  Each trial has a tunable value stored in this object.
   Every update, check if state has changed and replace with stored values.
   Also, Tune the stored values.
  */

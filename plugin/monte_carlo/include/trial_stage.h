@@ -61,8 +61,7 @@ class TrialStage {
     return const_cast<TrialSelect&>(*select_); }
 
   // HWH depreciate
-  const TrialSelect& trial_select() const {
-    return const_cast<TrialSelect&>(*select_); }
+  const TrialSelect& trial_select() const { return select(); }
 
   /// Initialization before any stage attempt.
   void precompute(System * system);

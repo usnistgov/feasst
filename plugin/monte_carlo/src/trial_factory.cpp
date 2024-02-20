@@ -5,11 +5,12 @@
 
 namespace feasst {
 
-TrialFactory::TrialFactory(argtype args) : TrialFactory(&args) {
-  FEASST_CHECK_ALL_USED(args);
-}
 TrialFactory::TrialFactory(argtype * args) : Trial(args) {
   class_name_ = "TrialFactory";
+  data_.get_dble_2D()->resize(1);
+}
+TrialFactory::TrialFactory(argtype args) : TrialFactory(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapTrialFactory {
@@ -31,9 +32,14 @@ void TrialFactory::update_cumul_prob_() {
   std::vector<double> weights;
   for (std::shared_ptr<Trial> trial : trials_) {
     weights.push_back(trial->weight());
+    if (trial->weight_per_number() > 0) {
+      adjustable_weights_ = true;
+    }
   }
+  DEBUG("adjustable_weights_ " << adjustable_weights_);
+  DEBUG("weights " << feasst_str(weights));
   if (weights.size() > 0) {
-    cumulative_probability_ = feasst::cumulative_probability(weights);
+    *get_cumulative_probability_() = feasst::cumulative_probability(weights);
   }
   //std::stringstream ss;
   //ss << trials_.back()->class_name()"trial" << num() - 1;
@@ -49,7 +55,7 @@ void TrialFactory::remove(const int index) {
 
 int TrialFactory::random_index(Random * random) {
   ASSERT(num() > 0, "no trials to select");
-  return random->index_from_cumulative_probability(cumulative_probability_);
+  return random->index_from_cumulative_probability(cumulative_probability());
 }
 
 bool TrialFactory::attempt(
@@ -69,7 +75,35 @@ bool TrialFactory::attempt(
   DEBUG("num trials " << num());
   const bool accepted = trials_[trial_index]->attempt(criteria, system, random);
   //timer_.end();
-  if (accepted) increment_num_success_();
+  if (accepted) {
+    increment_num_success_();
+    // update trial probabilities only if adjustment occurs.
+    DEBUG("adjustable? " << adjustable_weights_);
+    if (adjustable_weights_) {
+      bool adjusted = false;
+      for (std::shared_ptr<Trial> trial : trials_) {
+        if (trial->weight_per_number() > 0) {
+          const TrialSelect& tsel = trial->stage(0).select();
+          int ptype;
+          try {
+            ptype = tsel.particle_type();
+          } catch (const feasst::CustomException& e) {
+            FATAL("Trial::weight_per_number requires Trial::particle_type");
+          }
+          const Configuration& config = tsel.configuration(*system);
+          const int number = config.num_particles_of_type(ptype);
+          const double new_weight = trial->weight_per_number()*number;
+          if (std::abs(trial->weight() - new_weight) > 1e-8) {
+            trial->set_weight(new_weight);
+            adjusted = true;
+          }
+        }
+      }
+      if (adjusted) {
+        update_cumul_prob_();
+      }
+    }
+  }
   return accepted;
 }
 
@@ -162,7 +196,7 @@ std::shared_ptr<Trial> TrialFactory::create(std::istream& istr) const {
 TrialFactory::TrialFactory(std::istream& istr) : Trial(istr) {
   // ASSERT(class_name_ == "TrialFactory", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(189 == version, "mismatch version: " << version);
+  ASSERT(version >= 189 && version <= 190, "mismatch version: " << version);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize(&trials_, istr);
   { int dim1;
@@ -177,14 +211,21 @@ TrialFactory::TrialFactory(std::istream& istr) : Trial(istr) {
       }
     }
   }
-  feasst_deserialize(&cumulative_probability_, istr);
+  if (version <= 189) {
+    FATAL("Cannot read version 189.");
+    //feasst_deserialize(&cumulative_probability_, istr);
+  }
+  if (version >= 190) {
+    feasst_deserialize(&adjustable_weights_, istr);
+  }
 }
 
 void TrialFactory::serialize_trial_factory_(std::ostream& ostr) const {
   serialize_trial_(ostr);
-  feasst_serialize_version(189, ostr);
+  feasst_serialize_version(190, ostr);
   feasst_serialize(trials_, ostr);
-  feasst_serialize(cumulative_probability_, ostr);
+  //feasst_serialize(cumulative_probability_, ostr);
+  feasst_serialize(adjustable_weights_, ostr);
 }
 
 void TrialFactory::serialize(std::ostream& ostr) const {
