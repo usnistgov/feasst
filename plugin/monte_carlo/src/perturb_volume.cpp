@@ -38,7 +38,8 @@ void PerturbVolume::perturb(
     System * system,
     TrialSelect * select,
     Random * random,
-    const bool is_position_held) {
+    const bool is_position_held,
+    Acceptance * acceptance) {
   ASSERT(!is_position_held, "not implemeted");
   DEBUG("config " << select->configuration_index());
   const double volume = select->configuration(*system).domain().volume();

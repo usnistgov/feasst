@@ -31,7 +31,8 @@ class PerturbAdd : public Perturb {
       System * system,
       TrialSelect * select,
       Random * random,
-      const bool is_position_held = false) override {
+      const bool is_position_held = false,
+      Acceptance * acceptance = NULL) override {
     add(system, select, random, empty_, is_position_held); }
 
   /// Add select to the system.

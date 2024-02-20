@@ -18,7 +18,8 @@ class PerturbCrankshaftSmall : public PerturbRotate {
 
   /// Set the pivot and axis of rotation by the anchors.
   /// Select rotation angle randomly, bounded by tunable parameter.
-  void move(const bool is_position_held, System * system, TrialSelect * select, Random * random) override;
+  void move(const bool is_position_held, System * system, TrialSelect * select,
+    Random * random, Acceptance * acceptance) override;
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit PerturbCrankshaftSmall(std::istream& istr);

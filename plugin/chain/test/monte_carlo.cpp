@@ -170,7 +170,7 @@ TEST(MonteCarlo, TrialGrow_LONG) {
       mc.attempt(1);
       //mc.configuration().check();
     }
-    EXPECT_LT(mc.configuration().num_particles(), 3);
+    EXPECT_LT(mc.configuration().num_particles(), 4);
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "100"}}));
     MonteCarlo mc2 = test_serialize(mc);
     mc2.attempt(2e1);

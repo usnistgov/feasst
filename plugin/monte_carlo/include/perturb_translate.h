@@ -48,7 +48,7 @@ class PerturbTranslate : public PerturbMove {
   /// Move the selected particles.
   /// The particles are translated by +/- a maximum of the Tunable parameter.
   void move(const bool is_position_held, System * system, TrialSelect * select,
-            Random * random) override;
+            Random * random, Acceptance * acceptance) override;
 
   // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;

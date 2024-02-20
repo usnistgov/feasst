@@ -30,7 +30,8 @@ std::shared_ptr<Perturb> PerturbParticlePivot::create(std::istream& istr) const 
 void PerturbParticlePivot::move(const bool is_position_held,
     System * system,
     TrialSelect * select,
-    Random * random) {
+    Random * random,
+    Acceptance * acceptance) {
   if (is_position_held) return;
   ASSERT(select->mobile().num_sites() > 0, "selection error");
   ASSERT(select->mobile().site_positions().size() > 0, "requires coordinates");

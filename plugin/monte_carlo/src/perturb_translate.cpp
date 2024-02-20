@@ -71,7 +71,8 @@ void PerturbTranslate::move(
 void PerturbTranslate::move(const bool is_position_held,
                             System * system,
                             TrialSelect * select,
-                            Random * random) {
+                            Random * random,
+                            Acceptance * acceptance) {
   if (is_position_held) return;
   const int dim = system->dimension();
   if (dimension_ == -1) {

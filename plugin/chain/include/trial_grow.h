@@ -48,6 +48,10 @@ namespace feasst {
   - branch: if true, adds SelectBranch and PerturbBranch.
     Requires arguments described in SelectBranch, TrialSelectAngle and
     TrialSelectBond.
+    Note, only the "2-branch" case, where two sites are placed simultaneous, as
+    described in
+    https://doi.org/10.1021/acs.jctc.7b00173
+    is implemented here.
   - reptate: if true, add TrialSelectBond and PerturbToAnchor.
     Requires arguments described in TrialSelectBond.
   - position_swap: if true, add SelectTwoSites and PerturbPositionSwap.

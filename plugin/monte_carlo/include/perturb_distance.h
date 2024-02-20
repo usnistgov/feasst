@@ -67,7 +67,8 @@ class PerturbDistance : public PerturbMove {
   void move(const bool is_position_held,
       System * system,
       TrialSelect * select,
-      Random * random) override;
+      Random * random,
+      Acceptance * acceptance) override;
 
   // move only once, regardless of potential_acceptance
   virtual void move_once(const bool is_position_held,

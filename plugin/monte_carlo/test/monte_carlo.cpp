@@ -739,7 +739,7 @@ TEST(MonteCarlo, two_configs) {
   EXPECT_GT(std::abs(mc->system().potential(0, 1).stored_energy() + 16.7903), 0.0001);
 }
 
-TEST(MonteCarlo, weight_per_number) {
+TEST(MonteCarlo, weight_per_number_no_particle_type) {
   TRY(
     auto mc = MakeMonteCarlo({{
       {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"},
@@ -758,6 +758,31 @@ TEST(MonteCarlo, weight_per_number) {
     }});
     CATCH_PHRASE("Trial::weight_per_number requires Trial::particle_type");
   );
+}
+
+TEST(MonteCarlo, weight_per_number_on_add) {
+  TRY(
+    auto mc = MakeMonteCarlo({{
+      {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"},
+                                                     {"particle_type1", "../particle/lj.fstprt"}}},
+      {"Potential", {{"Model", "LennardJones"}}},
+      {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1."}, {"chemical_potential1", "1."}}},
+      {"Metropolis", {{}}},
+      {"TrialTranslate", {{"weight_per_number", "1."}, {"particle_type", "0"}}},
+      {"TrialTranslate", {{"weight_per_number", "1."}, {"particle_type", "1"}}},
+      {"TrialTransfer", {{"weight_per_number", "1."}, {"particle_type", "0"}}},
+      {"TrialTransfer", {{"weight_per_number", "1."}, {"particle_type", "1"}}},
+      {"Log", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/lj.txt"}}},
+      {"Movie", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/lj.xyz"}}},
+      {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
+      {"Tune", {{}}},
+      {"Run", {{"num_trials", "1e2"}}},
+    }});
+    CATCH_PHRASE("weight_per_number is not implemented for PerturbAdd");
+  );
+}
+
+TEST(MonteCarlo, weight_per_number) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"},
                                                    {"particle_type1", "../particle/lj.fstprt"}}},

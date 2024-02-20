@@ -35,7 +35,8 @@ void PerturbBeta::perturb(
     System * system,
     TrialSelect * select,
     Random * random,
-    const bool is_position_held) {
+    const bool is_position_held,
+    Acceptance * acceptance) {
   previous_beta_ = system->thermo_params().beta();
   double delta_beta = fixed_beta_change_;
   if (random->coin_flip()) delta_beta *= -1;

@@ -362,3 +362,6 @@ To Do List
 * Represent relative rigid bodies as screw motion: https://en.wikipedia.org/wiki/Screw_theory
 * Allow mixing rules input in fstprt files (either as manual input i-j or selection of mixing rules from list, or both).
 * Add LJ/SQ b2 calculation examples
+* Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees
+* Ewald mod k2max like LAMMPS
+* Add 1/2 factor in AngleHarmonic

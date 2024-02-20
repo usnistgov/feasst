@@ -23,10 +23,16 @@ class RigidAngle : public BondThreeBody {
     const Angle& a2a1m2,
     const Angle& m1a1m2,
     const double beta,
+    const bool is_position_held,
     double * radians_a2a1m1,
     double * radians_a2a1m2,
     double * radians_m1a1m2,
-    Random * random) const override;
+    Random * random,
+    double * ln_met,
+    const Position * const a1,
+    const Position * const a2,
+    const Position * const m1,
+    const Position * const m2) const override;
   std::shared_ptr<BondThreeBody> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit RigidAngle(std::istream& istr);

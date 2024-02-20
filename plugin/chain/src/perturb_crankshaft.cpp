@@ -37,8 +37,10 @@ void PerturbCrankshaft::serialize(std::ostream& ostr) const {
 }
 
 void PerturbCrankshaft::move(const bool is_position_held,
-    System * system, TrialSelect * select,
-    Random * random) {
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    Acceptance * acceptance) {
   if (is_position_held) return;
   const Position& pivot = select->mobile().site_positions()[0].front();
   axis_ = select->mobile().site_positions()[0].back();

@@ -45,7 +45,7 @@ class PerturbRotate : public PerturbMove {
   /// Set the pivot using the first particle position, and also
   /// rotate the particle positions.
   void move(const bool is_position_held, System * system, TrialSelect * select,
-            Random * random) override;
+            Random * random, Acceptance * acceptance) override;
 
   /// Rotate the selected particles using the tuning parameter.
   void move(System * system,

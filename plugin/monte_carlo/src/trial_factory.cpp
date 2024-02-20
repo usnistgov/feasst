@@ -96,6 +96,11 @@ bool TrialFactory::attempt(
           if (std::abs(trial->weight() - new_weight) > 1e-8) {
             trial->set_weight(new_weight);
             adjusted = true;
+            const std::string perturb = trial->stage(0).perturb().class_name();
+            ASSERT(perturb != "PerturbAdd" &&
+                   perturb != "PerturbRemove" &&
+                   perturb != "PerturbParticleType",
+                   "weight_per_number is not implemented for " << perturb);
           }
         }
       }

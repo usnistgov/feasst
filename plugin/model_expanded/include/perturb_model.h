@@ -28,10 +28,11 @@ class PerturbModel : public Perturb {
   //@{
 
   void perturb(
-      System * system,
-      TrialSelect * select,
-      Random * random,
-      const bool is_position_held = false) override;
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    const bool is_position_held = false,
+    Acceptance * acceptance = NULL) override;
 
   /// Change Model::model_index.
   void change_model_index(const int delta_model_index, System * system);

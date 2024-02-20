@@ -10,11 +10,11 @@
 
 namespace feasst {
 
-PerturbBranch::PerturbBranch(argtype args) : PerturbBranch(&args) {
-  FEASST_CHECK_ALL_USED(args);
-}
 PerturbBranch::PerturbBranch(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbBranch";
+}
+PerturbBranch::PerturbBranch(argtype args) : PerturbBranch(&args) {
+  FEASST_CHECK_ALL_USED(args);
 }
 
 class MapPerturbBranch {
@@ -272,7 +272,8 @@ void PerturbBranch::solve_branch_(
 void PerturbBranch::move(const bool is_position_held,
                          System * system,
                          TrialSelect * select,
-                         Random * random) {
+                         Random * random,
+                         Acceptance * acceptance) {
   const Angle& a2a1m1 = select->configuration(*system).unique_type(
     select->particle_type()).angle(a2a1m1_.angle_type());
   const Angle& a2a1m2 = select->configuration(*system).unique_type(
@@ -292,12 +293,22 @@ void PerturbBranch::move(const bool is_position_held,
     bond_energy += model->energy(a2, a1, m1, a2a1m1);
     bond_energy += model->energy(a2, a1, m2, a2a1m2);
     bond_energy += model->energy(m1, a1, m2, m1a1m2);
-  } else {
+    double ln_met = 0.;
     model->random_branch(
       a2a1m1, a2a1m2, m1a1m2,
-      system->thermo_params().beta(),
+      system->thermo_params().beta(), is_position_held,
       &radians_a2a1m1, &radians_a2a1m2, &radians_m1a1m2,
-      random);
+      random, &ln_met, &a1, &a2, &m1, &m2);
+    acceptance->add_to_ln_metropolis_prob(ln_met);
+  } else {
+    double ln_met = 0.;
+    model->random_branch(
+      a2a1m1, a2a1m2, m1a1m2,
+      system->thermo_params().beta(), is_position_held,
+      &radians_a2a1m1, &radians_a2a1m2, &radians_m1a1m2,
+      random, &ln_met, NULL, NULL, NULL, NULL);
+      // 4x NULL is because new configs dont need old ones
+    acceptance->add_to_ln_metropolis_prob(ln_met);
     bond_energy += model->energy(radians_a2a1m1, a2a1m1);
     bond_energy += model->energy(radians_a2a1m2, a2a1m2);
     bond_energy += model->energy(radians_m1a1m2, m1a1m2);
@@ -326,7 +337,7 @@ PerturbBranch::PerturbBranch(std::istream& istr)
   : PerturbMove(istr) {
   ASSERT(class_name_ == "PerturbBranch", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(3905 == version, "mismatch version: " << version);
+  ASSERT(version >= 3905 && version <= 3906, "mismatch version: " << version);
   feasst_deserialize_fstobj(&a2a1m1_, istr);
   feasst_deserialize_fstobj(&a2a1m2_, istr);
   feasst_deserialize_fstobj(&m1a1m2_, istr);
@@ -335,7 +346,7 @@ PerturbBranch::PerturbBranch(std::istream& istr)
 void PerturbBranch::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_(ostr);
-  feasst_serialize_version(3905, ostr);
+  feasst_serialize_version(3906, ostr);
   feasst_serialize_fstobj(a2a1m1_, ostr);
   feasst_serialize_fstobj(a2a1m2_, ostr);
   feasst_serialize_fstobj(m1a1m2_, ostr);

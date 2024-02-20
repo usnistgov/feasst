@@ -35,7 +35,8 @@ std::shared_ptr<Perturb> PerturbMoveAVB::create(std::istream& istr) const {
 void PerturbMoveAVB::move(const bool is_position_held,
     System * system,
     TrialSelect * select,
-    Random * random) {
+    Random * random,
+    Acceptance * acceptance) {
   if (is_position_held) return;
   DEBUG("mobile " << select->mobile().str());
   DEBUG("anchor " << select->anchor().str());
@@ -43,7 +44,7 @@ void PerturbMoveAVB::move(const bool is_position_held,
 
   // give particle random orientation
   if (select->mobile().num_sites() > 1) {
-    rotate_.move(is_position_held, system, select, random);
+    rotate_.move(is_position_held, system, select, random, acceptance);
   }
 
   if (displace_.dimension() == 0) {

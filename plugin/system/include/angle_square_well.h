@@ -10,6 +10,7 @@ namespace feasst {
 /**
   U(angle) = 0 when the angle is between the minimum and maximum specified in
   AngleProperties, otherwise infinity.
+  The minimum and maximum parameters are in units of degrees.
  */
 class AngleSquareWell : public BondThreeBody {
  public:

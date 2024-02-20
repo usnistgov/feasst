@@ -30,10 +30,11 @@ class PerturbBeta : public Perturb {
   //@{
 
   void perturb(
-      System * system,
-      TrialSelect * select,
-      Random * random,
-      const bool is_position_held = false) override;
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    const bool is_position_held = false,
+    Acceptance * acceptance = NULL) override;
 
   /// Change inverse temperature, \f$\beta\f$.
   void change_beta(const double delta_beta, System * system);

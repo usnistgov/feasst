@@ -68,7 +68,8 @@ void PerturbLibrary::precompute(TrialSelect * select, System * system) {
 void PerturbLibrary::move(const bool is_position_held,
                         System * system,
                         TrialSelect * select,
-                        Random * random) {
+                        Random * random,
+                        Acceptance * acceptance) {
   FATAL("not implemented");
 //  if (is_position_held) return;
   //const Configuration& config = system->configuration();

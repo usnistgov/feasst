@@ -42,7 +42,8 @@ void PerturbDistance::precompute(TrialSelect * select, System * system) {
 void PerturbDistance::move(const bool is_position_held,
                            System * system,
                            TrialSelect * select,
-                           Random * random) {
+                           Random * random,
+                           Acceptance * acceptance) {
   double bond_energy = 0.;
   DEBUG("potential_acceptance_ " << potential_acceptance_);
   if (potential_acceptance_ == -1) {
