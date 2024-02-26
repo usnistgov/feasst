@@ -15,7 +15,8 @@ from pyfeasst import macrostate_distribution
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/n-butane.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/n-octane.fstprt',
+#PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/n-butane.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--temperature', type=float, default=350, help='temperature in Kelvin')
 PARSER.add_argument('--beta_mu', type=float, default=-6, help='beta time chemical potential')
@@ -67,6 +68,9 @@ PARAMS['mu_init']=10
 if 'n-butane' in PARAMS['fstprt']:
     PARAMS['num_sites'] = 4
     PARAMS['molecular_weight'] = 58.12
+elif 'n-octane' in PARAMS['fstprt']:
+    PARAMS['num_sites'] = 8
+    PARAMS['molecular_weight'] = 114.23
 else:
     assert False, "input new num_sites and molecular_weight into PARMS"
 PARAMS['last_site'] = PARAMS['num_sites'] - 1
@@ -87,11 +91,13 @@ def write_grow_file(filename, params, gce):
     with open(filename, 'w') as f:
         f.write("TrialGrowFile\n\n")
         for inv in [True, False]:
-            for trial_type in [0, 1, 2]: # 0: reptate, 1: full regrow, 2: partial regrow
+            for trial_type in range(3+int(params['num_sites']/2)): # 0: reptate, 1: full regrow, 2+: partial regrow
+            #for trial_type in [0, 1, 2]: # 0: reptate, 1: full regrow, 2: partial regrow
                 for site in range(params['num_sites']):
                     for i in range(4):
                         sign = -1
-                        if (trial_type == 0 or trial_type == 2) and site != params['num_sites'] - 1:
+                        #if (trial_type == 0 or trial_type == 2) and site != params['num_sites'] - 1:
+                        if trial_type == 0 and site != params['num_sites'] - 1:
                             sign = 1
                         params['site'+str(i)] = site + sign*i
                         if inv:
@@ -111,20 +117,33 @@ def write_grow_file(filename, params, gce):
                         else:
                             f.write(dihedral)
 
-                    # reptation
-                    elif trial_type == 0 and not gce:
-                        if site == params['num_sites'] - 1:
-                            write_partial(f, bond, angle, dihedral, params)
-                        else:
-                            if site == 0:
-                                f.write("""particle_type 0 weight 2 """)
-                            f.write("""reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index 0\n""".format(**params))
+#                    # reptation. There seems to be a problem with reptation.
+#                    elif trial_type == 0 and not gce:
+#                        if site == params['num_sites'] - 1:
+#                            write_partial(f, bond, angle, dihedral, params)
+#                        else:
+#                            if site == 0:
+#                                f.write("""particle_type 0 weight 2 """)
+#                            f.write("""reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index 0\n""".format(**params))
 
-                    # partial regrow of the last site
-                    if not gce and trial_type == 2:
-                        if site == 0:
-                            f.write("""particle_type 0 weight 2 """)
-                            write_partial(f, bond, angle, dihedral, params)
+#                    # partial regrow of the last site
+#                    if not gce and trial_type == 2:
+#                        if site == 0:
+#                            f.write("""particle_type 0 weight 2 """)
+#                            write_partial(f, bond, angle, dihedral, params)
+
+                    # partial regrow
+                    if not gce and trial_type > 1:
+                        num_grow = trial_type - 1
+                        if params['num_sites'] - site < num_grow:
+                            if params['num_sites'] - site == num_grow - 1:
+                                f.write('particle_type 0 weight '+str(2/(trial_type-2))+' ')
+                            if site == 1:
+                                f.write(bond)
+                            elif site == 2:
+                                f.write(angle)
+                            elif site != 0:
+                                f.write(dihedral)
 
                 f.write("\n")
 

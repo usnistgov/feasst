@@ -20,10 +20,10 @@ AnalyzeBonds::AnalyzeBonds(argtype * args) : Analyze(args) {
   bhist.set_width_center(dble("bond_bin_width", args, 1),
                          dble("bond_bin_center", args, 0.));
   bond_hist_.push_back(bhist);
-  ahist.set_width_center(dble("angle_bin_width", args, 1),
+  ahist.set_width_center(dble("angle_bin_width", args, 0.01),
                          dble("angle_bin_center", args, 0.));
   angle_hist_.push_back(ahist);
-  dhist.set_width_center(dble("dihedral_bin_width", args, 1),
+  dhist.set_width_center(dble("dihedral_bin_width", args, 0.01),
                          dble("dihedral_bin_center", args, 0.));
   dihedral_hist_.push_back(dhist);
 }

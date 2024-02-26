@@ -14,7 +14,7 @@ from pyfeasst import macrostate_distribution
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/co2_epm2_rigid.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/co2_epm2.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--temperature', type=float, default=298, help='temperature in Kelvin')
 PARSER.add_argument('--beta_mu', type=float, default=-6, help='beta time chemical potential')

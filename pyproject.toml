@@ -1,0 +1,16 @@
+[build-system]
+requires = ["scikit-build-core>=0.3.3", "pybind11"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "feasst"
+version = "0.0.1"
+description="https://pages.nist.gov/feasst"
+readme = "README.rst"
+authors = [
+  { name = "Harold Hatch", email = "harold.hatch@nist.gov" },
+]
+requires-python = ">=3.7"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+]

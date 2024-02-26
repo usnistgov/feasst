@@ -11,7 +11,7 @@ namespace feasst {
   This class uses the following Angle Properties
   - k_energy_per_radian_sq
   - equilibrium_degrees
-  - num_jacobian_gaussian (default: 1)
+  - num_jacobian_gaussian (default: 0)
   which are described as follows.
 
   U(angle) = k_energy_per_radian_sq*(angle - equilibrium_degrees)^2
@@ -33,6 +33,9 @@ namespace feasst {
   both sites that are placed by the branch in the vertices.
   To use the default BondThreeBody::random_branch,
   set num_jacobian_gaussian to 0.
+
+  The Jacobian-Gaussian method should not currently be used for GCE as it
+  seems to shift the chemical potential by a spurious constant factor.
  */
 class AngleHarmonic : public BondThreeBody {
  public:

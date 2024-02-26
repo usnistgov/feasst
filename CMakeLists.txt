@@ -41,6 +41,7 @@ option(USE_SPHINX "Use SPHINX for documentation" OFF)
 option(USE_SWIG "Use SWIG for python interface" OFF)
 option(USE_GCOV "Use Coverage" OFF)
 option(USE_FFTW "Use FFTW" OFF)
+option(USE_PYBIND11 "Use PYBIND11" OFF)
 option(USE_MPI "Use MPI" OFF)
 set(FFTW_DIR "$ENV{HOME}/software/fftw-3.3.10/build/")
 option(USE_NETCDF "Use NetCDF" OFF)
@@ -530,7 +531,7 @@ endif(USE_GTEST)
 
 # prep feasst.(i/h) (as well as documentation)
 execute_process(
-  COMMAND python3 ../py/depend.py -s ../ --update_doc 0
+  COMMAND python3 ${CMAKE_SOURCE_DIR}/py/depend.py -s ${CMAKE_SOURCE_DIR} --update_doc 0
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
   RESULT_VARIABLE EXIT_CODE
 )
@@ -670,3 +671,15 @@ if (USE_SWIG)
     message("SWIG NOT FOUND")
   endif (SWIG_FOUND)
 endif(USE_SWIG)
+
+
+# PYBIND11
+if (USE_PYBIND11)
+  find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+  find_package(pybind11 CONFIG REQUIRED)
+  python_add_library(_core MODULE ${CMAKE_SOURCE_DIR}/python/feasst.cpp WITH_SOABI)
+  target_link_libraries(_core PRIVATE pybind11::headers)
+  target_link_libraries (_core LINK_PUBLIC feasstlib)
+  target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
+  install(TARGETS _core DESTINATION feasst)
+endif (USE_PYBIND11)

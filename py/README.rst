@@ -1,10 +1,10 @@
 ***************************
-Python interface
+Python interface with SWIG
 ***************************
 
-Installation is described in :doc:`/../tutorial/library/tutorial`
+The Python interface for FEASST is currently depreciated and may no longer be supported in its current form.
 
-The Python interface for FEASST is currently depreciated and may no longer be supported in its current form (using SWIG).
+Installation is described in :doc:`/../tutorial/library/tutorial`
 
 Python interface for FEASST includes the following:
 

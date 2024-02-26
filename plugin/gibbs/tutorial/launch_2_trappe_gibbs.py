@@ -89,11 +89,11 @@ def write_grow_file(filename, params,
     with open(filename, 'w') as f:
         f.write("TrialGrowFile\n\n")
         for inv in [True, False]:
-            for trial_type in [0, 1, 2]: # 0: reptate, 1: full regrow, 2: partial regrow
+            for trial_type in range(3+int(params['num_sites']/2)): # 0: reptate, 1: full regrow, 2+: partial regrow
                 for site in range(params['num_sites']):
                     for i in range(4):
                         sign = -1
-                        if (trial_type == 0 or trial_type == 2) and site != params['num_sites'] - 1:
+                        if trial_type == 0 and site != params['num_sites'] - 1:
                             sign = 1
                         params['site'+str(i)] = site + sign*i
                         if inv:
@@ -116,20 +116,33 @@ def write_grow_file(filename, params,
                         else:
                             f.write(dihedral)
 
-                    # reptation
-                    elif trial_type == 0 and gce == 0:
-                        if site == params['num_sites'] - 1:
-                            write_partial(f, bond, angle, dihedral, params)
-                        else:
-                            if site == 0:
-                                f.write("""particle_type 0 configuration_index {conf} weight 0.25 """.format(**params))
-                            f.write("""reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index 0\n""".format(**params))
+#                    # reptation. There seems to be a problem with reptation.
+#                    elif trial_type == 0 and gce == 0:
+#                        if site == params['num_sites'] - 1:
+#                            write_partial(f, bond, angle, dihedral, params)
+#                        else:
+#                            if site == 0:
+#                                f.write("""particle_type 0 configuration_index {conf} weight 0.25 """.format(**params))
+#                            f.write("""reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index 0\n""".format(**params))
+#
+#                    # partial regrow of the last site
+#                    if trial_type == 2 and gce == 0:
+#                        if site == 0:
+#                            f.write("""particle_type 0 configuration_index {conf} weight 0.25 """.format(**params))
+#                            write_partial(f, bond, angle, dihedral, params)
 
-                    # partial regrow of the last site
-                    if trial_type == 2 and gce == 0:
-                        if site == 0:
-                            f.write("""particle_type 0 configuration_index {conf} weight 0.25 """.format(**params))
-                            write_partial(f, bond, angle, dihedral, params)
+                    # partial regrow
+                    if not gce and trial_type > 1:
+                        num_grow = trial_type - 1
+                        if params['num_sites'] - site < num_grow:
+                            if params['num_sites'] - site == num_grow - 1:
+                                f.write('particle_type 0 weight '+str(2/(trial_type-2))+' ')
+                            if site == 1:
+                                f.write(bond)
+                            elif site == 2:
+                                f.write(angle)
+                            elif site != 0:
+                                f.write(dihedral)
 
                 f.write("\n")
 

@@ -583,32 +583,6 @@ TEST(MayerSampling, trimer_grow_LONG) {
   EXPECT_NEAR(0, mayer->mayer().average(), 4*mayer->mayer().block_stdev());
 }
 
-TEST(TrialGrow, reptate) {
-  MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type0", "../plugin/chain/particle/chain5.fstprt"},
-    {"add_particles_of_type0", "1"}}));
-  mc.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"intra_cut", "1"}})));
-  mc.set(MakeThermoParams({{"beta", "1"}}));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialGrow({
-    {{"reptate", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}, {"particle_type", "0"}},
-    {{"reptate", "true"}, {"mobile_site", "1"}, {"anchor_site", "2"}},
-    {{"reptate", "true"}, {"mobile_site", "2"}, {"anchor_site", "3"}},
-    {{"reptate", "true"}, {"mobile_site", "3"}, {"anchor_site", "4"}},
-    {{"bond", "true"}, {"mobile_site", "4"}, {"anchor_site", "3"}}}));
-  Particle chain = mc.configuration().particle(0);
-  mc.add(MakeMovie({{"output_file", "tmp/reptate.xyz"}}));
-  mc.add(MakeCheckEnergy());
-  while (mc.trial(0).acceptance() <= 0) {
-    mc.attempt(1);
-  }
-  for (int site = 0; site < 4; ++site) {
-    EXPECT_TRUE(chain.site(site+1).position().is_equal(mc.configuration().particle(0).site(site).position(), NEAR_ZERO));
-  }
-  mc.attempt(10);
-}
-
 TEST(MonteCarlo, RigidBondAngleDihedral) {
   for (const std::string data : {
     "../particle/dimer.fstprt",
@@ -985,5 +959,31 @@ TEST(MonteCarlo, lj_position_swap) {
   mc->add(MakeTune());
   mc->attempt(1e1);
 }
+
+//TEST(TrialGrow, reptate) {
+//  MonteCarlo mc;
+//  mc.add(MakeConfiguration({{"cubic_side_length", "20"},
+//    {"particle_type0", "../plugin/chain/particle/chain5.fstprt"},
+//    {"add_particles_of_type0", "1"}}));
+//  mc.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"intra_cut", "1"}})));
+//  mc.set(MakeThermoParams({{"beta", "1"}}));
+//  mc.set(MakeMetropolis());
+//  mc.add(MakeTrialGrow({
+//    {{"reptate", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}, {"particle_type", "0"}},
+//    {{"reptate", "true"}, {"mobile_site", "1"}, {"anchor_site", "2"}},
+//    {{"reptate", "true"}, {"mobile_site", "2"}, {"anchor_site", "3"}},
+//    {{"reptate", "true"}, {"mobile_site", "3"}, {"anchor_site", "4"}},
+//    {{"bond", "true"}, {"mobile_site", "4"}, {"anchor_site", "3"}}}));
+//  Particle chain = mc.configuration().particle(0);
+//  mc.add(MakeMovie({{"output_file", "tmp/reptate.xyz"}}));
+//  mc.add(MakeCheckEnergy());
+//  while (mc.trial(0).acceptance() <= 0) {
+//    mc.attempt(1);
+//  }
+//  for (int site = 0; site < 4; ++site) {
+//    EXPECT_TRUE(chain.site(site+1).position().is_equal(mc.configuration().particle(0).site(site).position(), NEAR_ZERO));
+//  }
+//  mc.attempt(10);
+//}
 
 }  // namespace feasst

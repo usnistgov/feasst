@@ -365,3 +365,4 @@ To Do List
 * Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees
 * Ewald mod k2max like LAMMPS
 * Add 1/2 factor in AngleHarmonic
+* Add flexible co2 epm2

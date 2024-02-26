@@ -107,7 +107,7 @@ void AngleHarmonic::random_branch(
   const double k1 = a2a1m1.property("k_energy_per_radian_sq");
   const double k2 = a2a1m2.property("k_energy_per_radian_sq");
   const double k12 = m1a1m2.property("k_energy_per_radian_sq");
-  int num_jacobian_gaussian = 1;
+  int num_jacobian_gaussian = 0;
   if (m1a1m2.has_property("num_jacobian_gaussian")) {
     num_jacobian_gaussian = round(m1a1m2.property("num_jacobian_gaussian"));
   }
@@ -179,7 +179,8 @@ void AngleHarmonic::random_branch(
     if (istep > 0) weight[istep] += weight[istep - 1];
   }
   const double sum = weight.back();
-  *ln_met = std::log(sum);
+  // met prob seems to be missing a factor of 0.82 based on GCE tests
+  *ln_met = std::log(sum/static_cast<double>(num_jacobian_gaussian));
   if (is_position_held) {
     *ln_met *= -1;
   };

@@ -280,6 +280,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           perturb = std::make_shared<PerturbBranch>(&iargs);
         }
         if (boolean("reptate", &iargs, false)) {
+          FATAL("TrialGrow::reptate has an issue and should not be used.");
           ASSERT(used == 0, "cannot have more than one");
           ++used;
           select = MakeTrialSelectBond({

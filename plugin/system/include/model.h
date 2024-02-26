@@ -88,7 +88,7 @@ class Model {
   // Implementation for ModelExpanded.
   virtual int model_index() const;
   virtual void set_model_index(const int index);
-  
+
   // Moved from ModelTwoBody to Model for ease of serialization of
   // ModelTwoBodyFactory
   virtual double energy(
