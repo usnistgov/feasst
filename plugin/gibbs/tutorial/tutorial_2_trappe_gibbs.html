@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gibbs Ensemble Simulation of TraPPE alkanes &mdash; FEASST v0.24.5 documentation</title>
+  <title>Gibbs Ensemble Simulation of TraPPE alkanes &mdash; FEASST 0.24.6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.5
+                0.24.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -108,7 +108,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -307,11 +307,11 @@
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;TrialGrowFile</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">inv</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
-            <span class="k">for</span> <span class="n">trial_type</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span> <span class="c1"># 0: reptate, 1: full regrow, 2: partial regrow</span>
+            <span class="k">for</span> <span class="n">trial_type</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)):</span> <span class="c1"># 0: reptate, 1: full regrow, 2+: partial regrow</span>
                 <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]):</span>
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
                         <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="n">trial_type</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">trial_type</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">site</span> <span class="o">!=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">trial_type</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">site</span> <span class="o">!=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                             <span class="n">sign</span> <span class="o">=</span> <span class="mi">1</span>
                         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;site&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">site</span> <span class="o">+</span> <span class="n">sign</span><span class="o">*</span><span class="n">i</span>
                         <span class="k">if</span> <span class="n">inv</span><span class="p">:</span>
@@ -334,20 +334,33 @@
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dihedral</span><span class="p">)</span>
 
-                    <span class="c1"># reptation</span>
-                    <span class="k">elif</span> <span class="n">trial_type</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">gce</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">site</span> <span class="o">==</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                            <span class="n">write_partial</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bond</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">dihedral</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="k">if</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;particle_type 0 configuration_index </span><span class="si">{conf}</span><span class="s2"> weight 0.25 &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
-                            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;reptate true mobile_site </span><span class="si">{site0}</span><span class="s2"> anchor_site </span><span class="si">{site1}</span><span class="s2"> num_steps 1 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+<span class="c1">#                    # reptation. There seems to be a problem with reptation.</span>
+<span class="c1">#                    elif trial_type == 0 and gce == 0:</span>
+<span class="c1">#                        if site == params[&#39;num_sites&#39;] - 1:</span>
+<span class="c1">#                            write_partial(f, bond, angle, dihedral, params)</span>
+<span class="c1">#                        else:</span>
+<span class="c1">#                            if site == 0:</span>
+<span class="c1">#                                f.write(&quot;&quot;&quot;particle_type 0 configuration_index {conf} weight 0.25 &quot;&quot;&quot;.format(**params))</span>
+<span class="c1">#                            f.write(&quot;&quot;&quot;reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index 0\n&quot;&quot;&quot;.format(**params))</span>
+<span class="c1">#</span>
+<span class="c1">#                    # partial regrow of the last site</span>
+<span class="c1">#                    if trial_type == 2 and gce == 0:</span>
+<span class="c1">#                        if site == 0:</span>
+<span class="c1">#                            f.write(&quot;&quot;&quot;particle_type 0 configuration_index {conf} weight 0.25 &quot;&quot;&quot;.format(**params))</span>
+<span class="c1">#                            write_partial(f, bond, angle, dihedral, params)</span>
 
-                    <span class="c1"># partial regrow of the last site</span>
-                    <span class="k">if</span> <span class="n">trial_type</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">gce</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;particle_type 0 configuration_index </span><span class="si">{conf}</span><span class="s2"> weight 0.25 &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
-                            <span class="n">write_partial</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bond</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">dihedral</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+                    <span class="c1"># partial regrow</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">gce</span> <span class="ow">and</span> <span class="n">trial_type</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">num_grow</span> <span class="o">=</span> <span class="n">trial_type</span> <span class="o">-</span> <span class="mi">1</span>
+                        <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">site</span> <span class="o">&lt;</span> <span class="n">num_grow</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">site</span> <span class="o">==</span> <span class="n">num_grow</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;particle_type 0 weight &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">trial_type</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span>
+                            <span class="k">elif</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+                            <span class="k">elif</span> <span class="n">site</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dihedral</span><span class="p">)</span>
 
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 

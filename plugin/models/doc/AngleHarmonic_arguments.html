@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AngleHarmonic &mdash; FEASST v0.24.5 documentation</title>
+  <title>AngleHarmonic &mdash; FEASST 0.24.6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.5
+                0.24.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -97,7 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -206,8 +206,19 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13AngleHarmonicE">
 <span class="target" id="classfeasst_1_1AngleHarmonic"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AngleHarmonic</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/BondThreeBody.html#_CPPv4N6feasst13BondThreeBodyE" title="feasst::BondThreeBody"><span class="n"><span class="pre">BondThreeBody</span></span></a><br /></dt>
-<dd><p>U(angle) = k_energy_per_radian_sq*(angle - equilibrium_degrees)^2 with parameters given in <a class="reference internal" href="../../configuration/doc/Bond_arguments.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> <a class="reference internal" href="../../configuration/doc/Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>.</p>
-<p>The usual 1/2 factor is not included, but can be incorporated into the k parameter manually by the user input to the particle file. </p>
+<dd><p>This class uses the following <a class="reference internal" href="../../configuration/doc/Bond_arguments.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> <a class="reference internal" href="../../configuration/doc/Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a><ul class="simple">
+<li><p>k_energy_per_radian_sq</p></li>
+<li><p>equilibrium_degrees</p></li>
+<li><p>num_jacobian_gaussian (default: 0) which are described as follows.</p></li>
+</ul>
+</p>
+<p>U(angle) = k_energy_per_radian_sq*(angle - equilibrium_degrees)^2 with parameters given in <a class="reference internal" href="../../configuration/doc/Bond_arguments.html#classfeasst_1_1Angle"><span class="std std-ref">Angle</span></a> <a class="reference internal" href="../../configuration/doc/Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>.</p>
+<p>The usual 1/2 factor is not included, but can be incorporated into the k parameter manually by the user input to the particle file.</p>
+<p>The Jacobian-Gaussian algorithm described in:</p>
+<p><a class="reference external" href="https://doi.org/10.1021/acs.jctc.7b00173">https://doi.org/10.1021/acs.jctc.7b00173</a></p>
+<p>is implemented here for the “2-branch” case, while “3-branch” is not currently implemented. Thank you to Dr Daniel Siderius and Professor Bin Chen for providing example implementation code and discussion.</p>
+<p>The num_jacobian_gaussian parameter is only read by the one angle that has both sites that are placed by the branch in the vertices. To use the default <a class="reference internal" href="../../system/doc/BondThreeBody.html#classfeasst_1_1BondThreeBody_1ac8e5cbb4987dd16b6aede24753eef65a"><span class="std std-ref">BondThreeBody::random_branch</span></a>, set num_jacobian_gaussian to 0.</p>
+<p>The Jacobian-Gaussian method should not currently be used for GCE as it seems to shift the chemical potential by a spurious constant factor. </p>
 </dd></dl>
 
 </section>

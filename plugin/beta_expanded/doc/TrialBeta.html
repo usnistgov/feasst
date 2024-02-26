@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialBeta &mdash; FEASST v0.24.5 documentation</title>
+  <title>TrialBeta &mdash; FEASST 0.24.6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.5
+                0.24.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -105,7 +105,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -218,7 +218,43 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst9TrialBetaE">
 <span class="target" id="classfeasst_1_1TrialBeta"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialBeta</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><a class="headerlink" href="#_CPPv4N6feasst9TrialBetaE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Attempt to change the inverse temperature, <span class="math notranslate nohighlight">\(\beta=\frac{1}{k_B T}\)</span> by a fixed amount. </p>
+<dd><p>Attempt to change the inverse temperature, <span class="math notranslate nohighlight">\(\beta=\frac{1}{k_B T}\)</span> by a fixed amount. <p><p>The derivation of the acceptance criteria follows a similar procedure as
+descibed in TrialComputeMove, except with the following differences.</p>
+<p>The limiting distribution in the canonical canonical ensemble is</p>
+<p><span class="math notranslate nohighlight">\(\pi_i \propto e^{-\beta U_i}\)</span></p>
+<p>The transition probabilities are as follows.</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>Forward event</p>
+<p>[reverse event]</p>
+</td>
+<td><p>Probability, <span class="math notranslate nohighlight">\(\pi_{on}\)</span></p>
+<p>[reverse probability, <span class="math notranslate nohighlight">\(\pi_{no}\)</span>]</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Select increase of decrease</p>
+<p>[Select increase of decrease]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/2\)</span></p>
+<p><span class="math notranslate nohighlight">\([1/2]\)</span></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Accept</p>
+<p>[Accept]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(min(1, \chi)\)</span></p>
+<p><span class="math notranslate nohighlight">\([min(1, 1/\chi)]\)</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Application of local detailed balance yields the acceptance probability,
+<span class="math notranslate nohighlight">\(\chi\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\frac{e^{-\beta_o U}}{2}min(1, \chi) =
+\frac{e^{-\beta_n U}}{2} min(1, 1/\chi)\)</span></p>
+<p><span class="math notranslate nohighlight">\(\chi = e^{-(\beta_n - \beta_o) U}\)</span></p>
+</p>
+</p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialAddAVBDivalent &mdash; FEASST v0.24.5 documentation</title>
+  <title>TrialAddAVBDivalent &mdash; FEASST 0.24.6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -21,6 +21,8 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -52,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.5
+                0.24.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -133,7 +135,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -246,7 +248,74 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst19TrialAddAVBDivalentE">
 <span class="target" id="classfeasst_1_1TrialAddAVBDivalent"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialAddAVBDivalent</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><a class="headerlink" href="#_CPPv4N6feasst19TrialAddAVBDivalentE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Attempt to add a particle with AVB as described in <a class="reference internal" href="ComputeAddAVBDivalent_arguments.html#classfeasst_1_1ComputeAddAVBDivalent"><span class="std std-ref">ComputeAddAVBDivalent</span></a>. </p>
+<dd><p>Attempt to add a particle of type “t” with site_index_t anywhere in the <a class="reference internal" href="../../configuration/doc/Domain_arguments.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a>. Then add a second particle of type “a” with site_index_a in the AV of site_index_t. Finally, add a third particle of type “b” with site_index_a in the AV of site_index_t.</p>
+<p>The derivation of the acceptance criteria follows a similar procedure as described in <a class="reference internal" href="TrialAddAVB_arguments.html#classfeasst_1_1TrialAddAVB"><span class="std std-ref">TrialAddAVB</span></a>.</p>
+<p><table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>Forward event</p>
+<p>[reverse event]</p>
+</td>
+<td><p>Probability, <span class="math notranslate nohighlight">\(\pi_{on}\)</span></p>
+<p>[reverse probability, <span class="math notranslate nohighlight">\(\pi_{no}\)</span>]</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Select insert trial</p>
+<p>[Select remove trial]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/w\)</span></p>
+<p><span class="math notranslate nohighlight">\([1/w]\)</span></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Insert site_index_t in box</p>
+<p>[Remove site_index_t]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/V\)</span></p>
+<p><span class="math notranslate nohighlight">\(1/(N_t + 1 + \delta_{ta} +
+\delta_{tb})\)</span></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Insert site_index_a in AV of
+site_index_t</p>
+<p>[Remove site_index_a in AV of
+site_index_t</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/v_{AV}\)</span></p>
+<p><span class="math notranslate nohighlight">\(1/(N^{s,AV}_a + 1 + \delta_{ab})\)</span></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Insert site_index_b in AV of
+site_index_t</p>
+<p>[Remove site_index_b in the AV of
+site_index_t]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/v_{AV}\)</span></p>
+<p><span class="math notranslate nohighlight">\(1/(N^{s,AV}_b + 1)\)</span></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Accept</p>
+<p>[Accept]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(min(1, \chi)\)</span></p>
+<p><span class="math notranslate nohighlight">\([min(1, 1/\chi)]\)</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>where <span class="math notranslate nohighlight">\(N_t\)</span> is the number of particles of type t,
+<span class="math notranslate nohighlight">\(v_{AV}\)</span> is the aggregation volume,
+<span class="math notranslate nohighlight">\(N^{s,AV}_a\)</span> is the number of sites with site_index_a, in particles of
+type a, that are in the AV of site_index_t and
+<span class="math notranslate nohighlight">\(\delta_{ta}\)</span> is the Kronecker delta as a function of the type index
+of the target and added particles (i.e., if add and target are of same type,
+then <span class="math notranslate nohighlight">\(\delta_{ta} = 1\)</span>, otherwise <span class="math notranslate nohighlight">\(\delta_{ta} = 0\)</span>).</p>
+<p>Application of local detailed balance yields the acceptance probability</p>
+<p><span class="math notranslate nohighlight">\(\chi =
+\frac{V}{N_t + 1 + \delta_{ta} + \delta_{tb}}
+\frac{v_{AV}}{N^{s,AV}_a + 1 + \delta_{ab}}
+\frac{v_{AV}}{N^{s,AV}_a + 1}
+\frac{1}{\Lambda^{3d}}
+e^{-\beta\Delta U + \beta\mu_a + \beta\mu_b + \beta\mu_t}\)</span></p>
+</p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">

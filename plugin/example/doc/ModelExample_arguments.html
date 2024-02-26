@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ModelExample &mdash; FEASST v0.24.5 documentation</title>
+  <title>ModelExample &mdash; FEASST 0.24.6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.5
+                0.24.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -77,6 +77,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../models/doc/TablePotential_arguments.html">TablePotential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../models/doc/Mie_arguments.html">Mie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../models/doc/Yukawa_arguments.html">Yukawa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../models/doc/Jagla_arguments.html">Jagla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../charge/doc/Coulomb_arguments.html">Coulomb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../charge/doc/DebyeHuckel_arguments.html">DebyeHuckel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../charge/doc/ElectricField_arguments.html">ElectricField</a></li>
@@ -107,7 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -218,7 +219,7 @@
 <span class="target" id="classfeasst_1_1ModelExample"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelExample</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody"><span class="n"><span class="pre">ModelTwoBody</span></span></a><br /></dt>
 <dd><p>Add a model to FEASST by using this file as a template and instruction set. Follow the same steps detailed in /feasst/plugin/example/README.rst. In summary, copy model_example.[h/cpp] to new_name.[h/cpp], replace <a class="reference internal" href="#classfeasst_1_1ModelExample"><span class="std std-ref">ModelExample</span></a> with NewName, then replace MODEL_EXAMPLE with NEW_NAME.</p>
 <p>In some cases, <a class="reference internal" href="../../models/doc/TablePotential_arguments.html#classfeasst_1_1TablePotential"><span class="std std-ref">TablePotential</span></a> may be a more convenient and efficient approach to implementing a custom potential in FEASST.</p>
-<p>As an example, consider the Jagla model as described in <a class="reference external" href="https://doi.org/10.1103/PhysRevE.98.012138">https://doi.org/10.1103/PhysRevE.98.012138</a> but with the variables renamed as follows: <span class="math notranslate nohighlight">\(\epsilon_1 \rightarrow \gamma\)</span>, <span class="math notranslate nohighlight">\(\epsilon_2 \rightarrow \epsilon\)</span>, <span class="math notranslate nohighlight">\(\lambda_1 \rightarrow \lambda\)</span>, <span class="math notranslate nohighlight">\(\lambda_2 \rightarrow r_c\)</span>.</p>
+<p>As an example, consider the <a class="reference internal" href="../../models/doc/Jagla_arguments.html#classfeasst_1_1Jagla"><span class="std std-ref">Jagla</span></a> model as described in <a class="reference external" href="https://doi.org/10.1103/PhysRevE.98.012138">https://doi.org/10.1103/PhysRevE.98.012138</a> but with the variables renamed as follows: <span class="math notranslate nohighlight">\(\epsilon_1 \rightarrow \gamma\)</span>, <span class="math notranslate nohighlight">\(\epsilon_2 \rightarrow \epsilon\)</span>, <span class="math notranslate nohighlight">\(\lambda_1 \rightarrow \lambda\)</span>, <span class="math notranslate nohighlight">\(\lambda_2 \rightarrow r_c\)</span>.</p>
 <p><span class="math notranslate nohighlight">\( U(r) = \left\{ \begin{array}{ll} \infty &amp; : r &lt; \sigma, \\ \frac{\gamma(\lambda - r)-\epsilon(r-\sigma)}{\lambda-\sigma} &amp; : \sigma \le r \le \lambda, \\ -\frac{\epsilon(r_c - r)}{r_c-\lambda} &amp; : \lambda \le r \le r_c, \\ 0 &amp; : r \ge r_c. \end{array} \right. \)</span></p>
 <p>For more inspiration, take a look at other existing <a class="reference internal" href="../../system/doc/ModelTwoBody_arguments.html#classfeasst_1_1ModelTwoBody"><span class="std std-ref">ModelTwoBody</span></a>, such as <a class="reference internal" href="../../system/doc/LennardJones_arguments.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a> or <a class="reference internal" href="../../models/doc/LennardJonesCutShift_arguments.html#classfeasst_1_1LennardJonesCutShift"><span class="std std-ref">LennardJonesCutShift</span></a>, or the models plugin. Sometimes it is easiest to find an existing model that is the more similar to what you need, and copy/rename those files instead. </p>
 <div class="breathe-sectiondef docutils container">
