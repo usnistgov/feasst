@@ -57,10 +57,17 @@ void RigidAngle::random_branch(
     const Angle& a2a1m2,
     const Angle& m1a1m2,
     const double beta,
+    const bool is_position_held,
     double * radians_a2a1m1,
     double * radians_a2a1m2,
     double * radians_m1a1m2,
-    Random * random) const {
+    Random * random,
+    double * ln_met,
+    const Position * const a1,
+    const Position * const a2,
+    const Position * const m1,
+    const Position * const m2) const {
+  if (is_position_held) return;
   ASSERT(a2a1m1.model() == "RigidAngle" &&
          a2a1m2.model() == "RigidAngle" &&
          m1a1m2.model() == "RigidAngle", "Branch model mismatch");

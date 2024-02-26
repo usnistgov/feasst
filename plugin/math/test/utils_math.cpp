@@ -45,4 +45,21 @@ TEST(UtilsMath, is_in_interval) {
   EXPECT_FALSE(is_in_interval(5, 6.1, 7.1));
 }
 
+TEST(UtilsMath, factorial) {
+  EXPECT_EQ(1, factorial(0));
+  EXPECT_EQ(1, factorial(1));
+  EXPECT_EQ(2, factorial(2));
+  EXPECT_EQ(6, factorial(3));
+  EXPECT_EQ(24, factorial(4));
+  EXPECT_EQ(3628800, factorial(10));
+  TRY(
+    factorial(-1);
+    CATCH_PHRASE("not implemented");
+  );
+  TRY(
+    factorial(200);
+    CATCH_PHRASE("too big");
+  );
+}
+
 }  // namespace feasst

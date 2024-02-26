@@ -29,10 +29,11 @@ class PerturbSiteType : public Perturb {
     const int type);
 
   void perturb(
-      System * system,
-      TrialSelect * select,
-      Random * random,
-      const bool is_position_held = false) override;
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    const bool is_position_held = false,
+    Acceptance * acceptance = NULL) override;
 
   void revert(System * system) override;
   void finalize(System * system) override;

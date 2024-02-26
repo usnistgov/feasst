@@ -37,7 +37,8 @@ void PerturbCrankshaftSmall::serialize(std::ostream& ostr) const {
 
 void PerturbCrankshaftSmall::move(const bool is_position_held,
     System * system, TrialSelect * select,
-    Random * random) {
+    Random * random,
+    Acceptance * acceptance) {
   if (is_position_held) return;
   DEBUG("anchor " << select->anchor().str());
   const Position& pivot = select->anchor_position(0, 0, *system);

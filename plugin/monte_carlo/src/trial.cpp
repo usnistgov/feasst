@@ -19,8 +19,10 @@ static MapTrial mapper_ = MapTrial();
 
 Trial::Trial(argtype * args) {
   set_finalize_delayed();
-  weight_ = dble("weight", args, 1);
+  data_.get_dble_1D()->resize(1);
   data_.get_int64_1D()->resize(3);
+  *get_weight_() = dble("weight", args, 1);
+  weight_per_number_ = dble("weight_per_number", args, -1);
   reset_stats();
 }
 Trial::Trial(argtype args) : Trial(&args) {
@@ -244,8 +246,9 @@ bool Trial::is_equal(const Trial& trial) const {
       << trial.num_success());
     return false;
   }
-  if (weight_ != trial.weight_) {
-    DEBUG("unequal weight:" << weight_ << " " << trial.weight_);
+  if (weight_per_number_ != trial.weight_per_number_) {
+    DEBUG("unequal weight_per_number:" << weight_per_number_ << " " <<
+          trial.weight_per_number_);
     return false;
   }
   if (num_stages() > 0) {
@@ -259,11 +262,12 @@ bool Trial::is_equal(const Trial& trial) const {
 }
 
 void Trial::serialize_trial_(std::ostream& ostr) const {
-  feasst_serialize_version(570, ostr);
+  feasst_serialize_version(571, ostr);
   feasst_serialize(stages_, ostr);
   // desererialize: refresh stages_ptr_
   feasst_serialize_fstdr(compute_, ostr);
-  feasst_serialize(weight_, ostr);
+  //feasst_serialize(weight_, ostr);
+  feasst_serialize(weight_per_number_, ostr);
   feasst_serialize(description_, ostr);
   //feasst_serialize(num_attempts_, ostr);
   //feasst_serialize(num_success_, ostr);
@@ -274,7 +278,7 @@ void Trial::serialize_trial_(std::ostream& ostr) const {
 Trial::Trial(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(570 == version, "mismatch version: " << version);
+  ASSERT(version >= 570 && version <= 571, "mismatch version: " << version);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize(&stages_, istr);
   { int dim1;
@@ -299,7 +303,13 @@ Trial::Trial(std::istream& istr) {
       compute_ = compute_->deserialize(istr);
     }
   }
-  feasst_deserialize(&weight_, istr);
+  if (version <= 570) {
+    FATAL("cannot read version 570.");
+    //feasst_deserialize(&weight_, istr);
+  }
+  if (version >= 571) {
+    feasst_deserialize(&weight_per_number_, istr);
+  }
   feasst_deserialize(&description_, istr);
   //feasst_deserialize(&num_attempts_, istr);
   //feasst_deserialize(&num_success_, istr);

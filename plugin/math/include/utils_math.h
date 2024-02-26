@@ -304,6 +304,9 @@ inline void add(const std::vector<std::vector<std::vector<std::vector<T> > > >& 
   }
 }
 
+/// Return the factorial of an integer.
+int factorial(const int num);
+
 }  // namespace feasst
 
 #endif  // FEASST_MATH_UTILS_MATH_H_

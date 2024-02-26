@@ -11,13 +11,22 @@
 namespace feasst {
 
 /**
- * Similar to PerturbDistanceAngle, except that it is performed twice to
- * form a branch, with topology as described in SelectBranch.
+  Branching is a complex operation because of the correlation between
+  multiple angles.
+  See BondThreeBody for more information.
  */
 class PerturbBranch : public PerturbMove {
  public:
+  //@{
+  /** @name Arguments
+   */
   explicit PerturbBranch(argtype args = argtype());
   explicit PerturbBranch(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Same as PerturbDistanceAngle, but for two sets of angles/bonds.
   /// Also, obtain the angle parameters between the two mobile branch sites.
@@ -37,7 +46,8 @@ class PerturbBranch : public PerturbMove {
   void move(const bool is_position_held,
     System * system,
     TrialSelect * select,
-    Random * random) override;
+    Random * random,
+    Acceptance * acceptance) override;
 
   // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
@@ -45,6 +55,7 @@ class PerturbBranch : public PerturbMove {
   explicit PerturbBranch(std::istream& istr);
   virtual ~PerturbBranch() {}
 
+  //@}
  private:
   PerturbDistanceAngle a2a1m1_, a2a1m2_, m1a1m2_;
 

@@ -30,7 +30,8 @@ class PerturbAddAVB : public Perturb {
       System * system,
       TrialSelect * select,
       Random * random,
-      const bool is_position_held = false) override;
+      const bool is_position_held = false,
+      Acceptance * acceptance = NULL) override;
 
   void revert(System * system) override;
   void finalize(System * system) override;

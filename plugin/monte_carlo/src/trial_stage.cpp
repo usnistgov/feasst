@@ -83,7 +83,7 @@ void TrialStage::attempt(System * system,
 
   if (rosenbluth_.num() == 1) {
     select_->zero_exclude_energy();
-    perturb_->perturb(system, select_.get(), random, old);
+    perturb_->perturb(system, select_.get(), random, old, acceptance);
     set_rosenbluth_energy_(0, system);
     rosenbluth_.compute(system->thermo_params().beta(), random, old);
   } else {
@@ -92,7 +92,7 @@ void TrialStage::attempt(System * system,
       bool is_position_held = false;
       if (step == 0 && old == 1) is_position_held = true;
       select_->zero_exclude_energy();
-      perturb_->perturb(system, select_.get(), random, is_position_held);
+      perturb_->perturb(system, select_.get(), random, is_position_held, acceptance);
       DEBUG("updating state " << select_->mobile().trial_state());
       rosenbluth_.store(step, select_->mobile());
       DEBUG("ref " << reference_);

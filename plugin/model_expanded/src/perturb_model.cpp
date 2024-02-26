@@ -36,7 +36,8 @@ void PerturbModel::perturb(
     System * system,
     TrialSelect * select,
     Random * random,
-    const bool is_position_held) {
+    const bool is_position_held,
+    Acceptance * acceptance) {
   previous_model_ = system->potential(potential_index_).model().model_index();
   int delta_model = 1;
   if (random->coin_flip()) {

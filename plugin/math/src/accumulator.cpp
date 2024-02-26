@@ -84,6 +84,8 @@ void Accumulator::reset() {
 }
 
 double Accumulator::average() const {
+  ASSERT(num_moments() > 1, "num_moments:" << num_moments() <<
+    " should be greater than 1 to obtain an average value.");
   double av = 0;
   if (num_values() > 0) {
     av = static_cast<double>(sum()/num_values());
@@ -92,6 +94,8 @@ double Accumulator::average() const {
 }
 
 double Accumulator::stdev() const {
+  ASSERT(num_moments() > 2, "num_moments:" << num_moments() <<
+    " should be greater than 2 to obtain a standard deviation.");
   double stdev = 0;
   if (num_values() > 1) {
     const double fluct = sum_of_squared()/num_values()

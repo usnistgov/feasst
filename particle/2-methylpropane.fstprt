@@ -51,7 +51,7 @@ Bonds
 
 Angle Properties
 
-0 AngleHarmonic equilibrium_degrees 112 k_energy_per_radian_sq 259.82695681728876
+0 AngleHarmonic equilibrium_degrees 112 k_energy_per_radian_sq 259.82695681728876 num_jacobian_gaussian 1
 
 Angles
 

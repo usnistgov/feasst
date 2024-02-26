@@ -33,10 +33,11 @@ class PerturbVolume : public Perturb {
   //@{
 
   void perturb(
-      System * system,
-      TrialSelect * select,
-      Random * random,
-      const bool is_position_held = false) override;
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    const bool is_position_held = false,
+    Acceptance * acceptance = NULL) override;
 
   /// Change volume
   void change_volume(const double delta_volume,

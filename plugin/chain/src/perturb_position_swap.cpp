@@ -32,7 +32,8 @@ std::shared_ptr<Perturb> PerturbPositionSwap::create(std::istream& istr) const {
 void PerturbPositionSwap::move(const bool is_position_held,
                            System * system,
                            TrialSelect * select,
-                           Random * random) {
+                           Random * random,
+                           Acceptance * acceptance) {
   if (is_position_held) return;
   Select * mobile = select->get_mobile();
   Position * site0 = mobile->get_site_position(0, 0);

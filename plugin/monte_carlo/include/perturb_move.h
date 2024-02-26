@@ -21,7 +21,8 @@ class PerturbMove : public Perturb {
     const bool is_position_held,
     System * system,
     TrialSelect * select,
-    Random * random) = 0;
+    Random * random,
+    Acceptance * acceptance) = 0;
 
   // The perturbation move is simplified such that the move of the selection of
   // the system is all that remains to be implemented.
@@ -29,7 +30,8 @@ class PerturbMove : public Perturb {
       System * system,
       TrialSelect * select,
       Random * random,
-      const bool is_position_held = false) override;
+      const bool is_position_held = false,
+      Acceptance * acceptance = NULL) override;
 
   /// For perturbations that only move particles and/or sites, the revert step
   /// is the same for all. Simply put the original positions back.

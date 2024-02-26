@@ -30,7 +30,8 @@ void PerturbSiteType::perturb(
     System * system,
     TrialSelect * select,
     Random * random,
-    const bool is_position_held) {
+    const bool is_position_held,
+    Acceptance * acceptance) {
   if (is_position_held) {
     select->set_trial_state(0);
     return;

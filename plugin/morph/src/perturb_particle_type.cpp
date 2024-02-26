@@ -34,7 +34,8 @@ void PerturbParticleType::perturb(
     System * system,
     TrialSelect * select,
     Random * random,
-    const bool is_position_held) {
+    const bool is_position_held,
+    Acceptance * acceptance) {
   if (is_position_held) {
     select->set_trial_state(0);
     return;
@@ -61,7 +62,7 @@ void PerturbParticleType::perturb(
       tmp_pos_.add(ref_site_pos_old);
       select->get_mobile()->set_site_position(0, site, tmp_pos_);
     }
-    rotate_.move(is_position_held, system, select, random);
+    rotate_.move(is_position_held, system, select, random, acceptance);
   }
   set_revert_possible(true, select);
   set_finalize_possible(true, select);

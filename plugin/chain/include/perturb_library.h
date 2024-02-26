@@ -30,7 +30,7 @@ class PerturbLibrary : public PerturbRotate {
   /// Randomly select a configuration from a library,
   /// then rotate about TrialSelectParticle::site.
   void move(const bool is_position_held, System * system, TrialSelect * select,
-    Random * random) override;
+    Random * random, Acceptance * acceptance) override;
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit PerturbLibrary(std::istream& istr);

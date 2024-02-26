@@ -15,10 +15,11 @@ class PerturbRemove : public Perturb {
     std::shared_ptr<Perturb> perturb = MakePerturbAnywhere());
 
   void perturb(
-      System * system,
-      TrialSelect * select,
-      Random * random,
-      const bool is_position_held = true) override;
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    const bool is_position_held = true,
+    Acceptance * acceptance = NULL) override;
   void before_select() override;
   void finalize(System * system) override;
   void revert(System * system) override;

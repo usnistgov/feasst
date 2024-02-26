@@ -56,7 +56,7 @@ class TrialFactory : public Trial {
 
   /// Return the cumulative probability of each trial.
   const std::vector<double>& cumulative_probability() const {
-    return cumulative_probability_; }
+    return data_.dble_2D()[0]; }
 
   /// Revert changes to system by trial index.
   void revert(const int index, const bool accepted, const bool auto_rejected,
@@ -101,7 +101,9 @@ class TrialFactory : public Trial {
 
  private:
   std::vector<std::shared_ptr<Trial> > trials_;
-  std::vector<double> cumulative_probability_;
+  std::vector<double> * get_cumulative_probability_() { return &((*data_.get_dble_2D())[0]); }
+  //std::vector<double> cumulative_probability_;
+  bool adjustable_weights_ = false;
 
   // not to be serialized
   int last_index_ = -1;

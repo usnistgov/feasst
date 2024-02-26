@@ -7,8 +7,9 @@ void PerturbMove::perturb(
     System * system,
     TrialSelect * select,
     Random * random,
-    const bool is_position_held) {
-  move(is_position_held, system, select, random);
+    const bool is_position_held,
+    Acceptance * acceptance) {
+  move(is_position_held, system, select, random, acceptance);
   if (is_position_held) {
     select->set_trial_state(0);
   } else {

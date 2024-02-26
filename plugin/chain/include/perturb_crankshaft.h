@@ -18,7 +18,8 @@ class PerturbCrankshaft : public PerturbRotate {
   /// Set the pivot and axis of rotation by the ends of the selection.
   /// Select rotation angle randomly, bounded by tunable parameter.
   /// Dont rotate the particle positions.
-  void move(const bool is_position_held, System * system, TrialSelect * select, Random * random) override;
+  void move(const bool is_position_held, System * system, TrialSelect * select,
+    Random * random, Acceptance * acceptance) override;
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit PerturbCrankshaft(std::istream& istr);

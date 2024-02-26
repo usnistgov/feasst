@@ -21,7 +21,7 @@ PARSER.add_argument('--pore', type=str, default='/feasst/plugin/confinement/part
 PARSER.add_argument('--beta', type=float, default=1./0.8, help='inverse temperature')
 PARSER.add_argument('--mu', type=float, default=-1, help='chemical potential')
 PARSER.add_argument('--mu_init', type=float, default=10, help='initial chemical potential')
-PARSER.add_argument('--max_particles', type=int, default=128, help='maximum number of particles')
+PARSER.add_argument('--max_particles', type=int, default=64, help='maximum number of particles')
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
 PARSER.add_argument('--min_sweeps', type=int, default=2,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
@@ -61,7 +61,7 @@ PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
 PARAMS['wca'] = 2**(1./6.)
 PARAMS['dccb_cut'] = PARAMS['cubic_side_length']/int(PARAMS['cubic_side_length']/PARAMS['wca']) # maximize inside box
-PARAMS['min1'] = PARAMS['min_particles'] + 5
+PARAMS['min1'] = PARAMS['min_particles'] + 2
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -69,7 +69,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 # first, initialize multiple clones into windows
 CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}{node}_lnpi.txt min_window_size -1
-WindowExponential maximum {max_particles} min0 {min_particles} min1 {min1} num {procs_per_node} overlap 0 alpha 2.0 min_size 2
+WindowExponential maximum {max_particles} min0 {min_particles} min1 {min1} num {procs_per_node} overlap 0 alpha 1.0 min_size 2
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}

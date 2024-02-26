@@ -1,7 +1,7 @@
 pyfeasst
 ===========================================================
 
-Python package to analyze FEASST simulations.
+Python package to run and analyze FEASST simulations.
 Install pyfeasst locally to match your local FEASST version:
 
 .. code-block:: bash

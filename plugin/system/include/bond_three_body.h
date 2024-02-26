@@ -19,6 +19,32 @@ class Random;
 
   Angle Property minimum_degrees sets the energy to NEAR_INFINITY at smaller
   angles.
+
+  For random bond angles:
+
+  In three dimensions, \f$P(\theta) \propto \sin\theta\exp[-\beta U(\theta)]\f$
+
+  In two dimensions, \f$P(\theta) \propto \theta\exp[-\beta U(\theta)]\f$
+
+  For branches involving the placement of two sites with three angles:
+
+\rst
+
+::
+
+    anchor2 -> 1         1(a2)
+    mobile1 -> 2         |
+    mobile2 -> 3         4(a1)  t143(angle)
+    anchor1 -> 4       /   \L34(distance)
+                  2(m1)     3(m2, the site to be placed in this function)
+                       t243(branch_angle)
+
+This generic branch algorithm picks two points randomly on the surface of a unit
+sphere and accepts or rejects based on the bond energies of all three angles.
+If the bonds are relatively stiff, then this method is inefficient,
+and is overridden by special cases such as RigidAngle and AngleHarmonic.
+For AngleHarmonic, the Jacobian-Gaussian algorithm is used.
+\endrst
  */
 class BondThreeBody {
  public:
@@ -31,42 +57,26 @@ class BondThreeBody {
   /// Return the energy of interaction given an angle in radians.
   virtual double energy(const double radians, const Bond& angle) const = 0;
 
-  /**
-    Return a randomly selected bond angle.
-
-    In three dimensions, \f$P(\theta) \propto \sin\theta\exp[-\beta U(\theta)]\f$
-
-    In two dimensions, \f$P(\theta) \propto \theta\exp[-\beta U(\theta)]\f$
-   */
+  /// Return one angle to form an angle bond.
   virtual double random_angle_radians(const Angle& angle, const double beta,
     const int dimension, Random * random) const;
 
-  /**
-\rst
-Return three random angles to form a branch.
-
-::
-
-    anchor2 -> 1         1(a2)
-    mobile1 -> 2         |
-    mobile2 -> 3         4(a1)  t143(angle)
-    anchor1 -> 4       /   \L34(distance)
-                  2(m1)     3(m2, the site to be placed in this function)
-                       t243(branch_angle)
-
-\endrst
-     Note: this algorithm may be more efficient and may be implemented in the
-     future: https://doi.org/10.1021/acs.jctc.7b00173 .
-   */
+  /// Return three random angles to form a branch.
   virtual void random_branch(
     const Angle& a2a1m1,
     const Angle& a2a1m2,
     const Angle& m1a1m2,
     const double beta,
+    const bool is_position_held,
     double * radians_a2a1m1,
     double * radians_a2a1m2,
     double * radians_m1a1m2,
-    Random * random) const;
+    Random * random,
+    double * ln_met,
+    const Position * const a1,
+    const Position * const a2,
+    const Position * const m1,
+    const Position * const m2) const;
 
   // serialize
   std::string class_name() const { return class_name_; }

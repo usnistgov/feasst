@@ -51,7 +51,8 @@ void PerturbPointReflect::move(
 void PerturbPointReflect::move(const bool is_position_held,
     System * system,
     TrialSelect * select,
-    Random * random) {
+    Random * random,
+    Acceptance * acceptance) {
   if (is_position_held) return;
   random->position_in_cube(
     system->dimension(),

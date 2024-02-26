@@ -343,7 +343,9 @@ double Position::torsion_angle_radians(const Position& rj, const Position& rk,
   rkl.subtract(rl);
   Position n1 = rkl.cross_product(rjk);
   const double n1_mag = n1.distance();
-  ASSERT(std::abs(n1_mag) > NEAR_ZERO, "n1 is too small");
+  ASSERT(std::abs(n1_mag) > NEAR_ZERO,
+    "n1: " << n1.str() << " is too small. " << str() << " " << rj.str() <<
+    " " << rk.str() << " " << rl.str());
   DEBUG("n1 " << n1.str());
   Position n2 = rjk.cross_product(rij);
   const double n2_mag = n2.distance();

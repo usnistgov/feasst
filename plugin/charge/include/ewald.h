@@ -22,7 +22,6 @@ namespace feasst {
 
   Ewald is not supported for use as a reference state for dual-cut.
 
-
   Following the description in the classic DL-POLY user manual (version 1.9),
   if the real space basis vectors are given by \f$\vec{a}, \vec{b}, \vec{c}\f$,
   then reciprocal space basis vectors are
@@ -42,6 +41,10 @@ class Ewald : public VisitModel {
     - tolerance: determine the alpha parameter and number of wave vectors by
       specifying the accuracy relative to the energy of two unit charges
       separated by a distance of one unit.
+      As described and implemented in LAMMPS, see:
+      https://docs.lammps.org/kspace_style.html,
+      https://doi.org/10.1080/08927029208049126,
+      https://doi.org/10.1063/1.470043.
     - tolerance_num_sites: for setting parameters with the tolerance,
       optionally set the number of sites to be used for the parameter
       calculation rather than the currently existing number of sites (default).

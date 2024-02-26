@@ -30,7 +30,8 @@ std::shared_ptr<Perturb> PerturbConnector::create(std::istream& istr) const {
 void PerturbConnector::move(const bool is_position_held,
     System * system,
     TrialSelect * select,
-    Random * random) {
+    Random * random,
+    Acceptance * acceptance) {
   if (is_position_held) return;
   ASSERT(select->mobile().num_sites() == 1,
     "selection num_sites: " << select->mobile().num_sites());

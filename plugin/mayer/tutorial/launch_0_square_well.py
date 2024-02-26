@@ -10,6 +10,7 @@ As an excercise, consider modifying this tutorial to compute the B2 of LennardJo
 - Set cutoff to 1/2 the Domain side length (e.g., 5e9 for 1e10 box)
 - Replace the line "Potential Model SquareWell" with "Potential Model LennardJones"
 - Set b2reduced_analytical to zero.
+- Compare with the lj tutorial.
 """
 
 import argparse
@@ -56,7 +57,7 @@ ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
 assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
 PARAMS = vars(ARGS)
 PARAMS['script'] = __file__
-PARAMS['prefix'] = 'cg7mab2_'
+PARAMS['prefix'] = 'sqw'
 PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
 PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
 PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue

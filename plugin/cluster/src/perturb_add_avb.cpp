@@ -32,13 +32,14 @@ void PerturbAddAVB::perturb(
     System * system,
     TrialSelect * select,
     Random * random,
-    const bool is_position_held) {
+    const bool is_position_held,
+    Acceptance * acceptance) {
   DEBUG("is_position_held " << is_position_held);
   DEBUG(select->mobile().str());
   if (!delay_add_) {
     system->get_configuration()->revive(select->mobile());
   }
-  move_->move(is_position_held, system, select, random);
+  move_->move(is_position_held, system, select, random, acceptance);
   move_->set_revert_possible(true, select);
   set_revert_possible(true, select);
   set_finalize_possible(true, select);

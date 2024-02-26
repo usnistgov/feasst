@@ -36,11 +36,12 @@ void PerturbAnywhere::set_position(const Position& center,
 void PerturbAnywhere::move(const bool is_position_held,
                            System * system,
                            TrialSelect * select,
-                           Random * random) {
+                           Random * random,
+                           Acceptance * acceptance) {
   if (is_position_held) return;
 //  ASSERT(std::abs(rotate_.tunable().value() - 180.) < NEAR_ZERO,
 //    "rotation tunable: " << rotate_.tunable().value() << " should be 180");
-  rotate_.move(is_position_held, system, select, random);
+  rotate_.move(is_position_held, system, select, random, acceptance);
   select->configuration(*system).domain().random_position(&random_in_box_, random);
   set_position(random_in_box_, system, select);
   DEBUG("anywhere: " << random_in_box_.str());

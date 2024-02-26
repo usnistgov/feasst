@@ -91,7 +91,8 @@ void Perturb::perturb(
   System * system,
   TrialSelect * select,
   Random * random,
-  const bool is_position_held) {
+  const bool is_position_held,
+  Acceptance * acceptance) {
   FATAL("not implemented");
 }
 

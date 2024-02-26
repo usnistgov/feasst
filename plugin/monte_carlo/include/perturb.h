@@ -5,6 +5,7 @@
 #include <string>
 #include "utils/include/arguments.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/tunable.h"
 #include "monte_carlo/include/trial_select.h"
 
@@ -64,7 +65,8 @@ class Perturb {
     Random * random,
     /// If position is held, all but perform the actual perturbation, as
     /// typically required for calculations of old configurations and Rosenbluth
-    const bool is_position_held = false);
+    const bool is_position_held = false,
+    Acceptance * acceptance = NULL);
 
   /// Return whether it is possible to revert.
   bool revert_possible() const { return revert_possible_; }

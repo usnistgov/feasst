@@ -20,7 +20,7 @@ Contents:
    plugin/README
    plugin/example/README
    pyfeasst/README
-   py/README
+   python/README
    CONTACT
    CONTRIBUTING
    ACKNOWLEDGEMENT
