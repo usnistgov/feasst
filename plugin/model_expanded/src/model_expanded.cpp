@@ -38,12 +38,14 @@ void ModelExpanded::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_model_two_body_factory_(ostr);
   feasst_serialize_version(7168, ostr);
+  feasst_serialize(model_index_, ostr);
 }
 
 ModelExpanded::ModelExpanded(std::istream& istr)
   : ModelTwoBodyFactory(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(7168 == version, version);
+  feasst_deserialize(&model_index_, istr);
 }
 
 void ModelExpanded::set_model_index(const int index) {
