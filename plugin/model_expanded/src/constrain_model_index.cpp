@@ -18,6 +18,7 @@ int ConstrainModelIndex::model_index(const System& system,
     const Acceptance& acceptance) const {
   const int shift = acceptance.macrostate_shift();
   DEBUG("shift " << shift);
+  DEBUG("potential_index_ " << potential_index_);
   return system.potential(potential_index_).model().model_index() + shift;
 }
 
