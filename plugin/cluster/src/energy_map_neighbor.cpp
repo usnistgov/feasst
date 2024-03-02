@@ -539,7 +539,7 @@ bool EnergyMapNeighbor::is_cluster_changed(
       const map3type * newmap = find_map3_(p1, s1, false);
       const map3type * oldmap = find_map3_(p1, s1, true);
       //if (!newmap && oldmap) {
-      //  INFO("cluster is changed");
+      //  DEBUG("cluster is changed");
       //  return true;
       //} else if (newmap && oldmap) {
       if (newmap && oldmap) {
@@ -598,7 +598,9 @@ void EnergyMapNeighbor::check(const Configuration& config) const {
       const map3type& m3 = m4[site1];
       if (part1 < static_cast<int>(energy_.size())) {
         const double en = energy(part1, site1);
-        ASSERT(std::abs(energy_[part1][site1] - en) < 1e-10, "er");
+        if (site1 < static_cast<int>(energy_[part1].size())) {
+          ASSERT(std::abs(energy_[part1][site1] - en) < 1e-10, "er");
+        }
       }
       for (int pneigh = 0; pneigh < static_cast<int>(m3.size()); ++pneigh) {
         const int part2 = m3[pneigh].first;
@@ -724,8 +726,11 @@ const std::vector<std::pair<int, mn4type> >& EnergyMapNeighbor::const_map_new_()
 
 double EnergyMapNeighbor::energy(const int part1_index, const int site1_index) const {
   DEBUG("energy of part " << part1_index << " site " << site1_index);
+  DEBUG("energy size " << energy_.size());
   if (part1_index < static_cast<int>(energy_.size())) {
+    DEBUG("energy part1 size " << energy_[part1_index].size());
     if (site1_index < static_cast<int>(energy_[part1_index].size())) {
+      DEBUG("energy of part " << part1_index << " site " << site1_index);
       return energy_[part1_index][site1_index];
     }
   }
