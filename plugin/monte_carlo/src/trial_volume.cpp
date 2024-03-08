@@ -20,9 +20,13 @@ static MapTrialVolume mapper_ = MapTrialVolume();
 TrialVolume::TrialVolume(argtype * args) : Trial(args) {
   class_name_ = "TrialVolume";
   set_description("TrialVolume");
+  auto perturb = std::make_shared<PerturbVolume>(args);
+  ASSERT(!perturb->uniform_volume(),
+    "TrialVolume is hard coded for lnV changes in TrialComputeVolume. "
+    << "Set PerturbVolume::uniform_volume to false");
   add_stage(
     std::make_shared<TrialSelectAll>(args),
-    std::make_shared<PerturbVolume>(args),
+    perturb,
     args);
   set(MakeTrialComputeVolume());
 }

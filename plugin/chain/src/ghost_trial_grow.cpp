@@ -25,15 +25,17 @@ static MapGhostTrialGrow mapper_inner_ = MapGhostTrialGrow();
 void GhostTrialGrow::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(2948, ostr);
-  feasst_serialize_fstobj(metropolis_prob_, ostr);
   feasst_serialize_fstobj(grow_, ostr);
+  feasst_serialize_fstobj(criteria_, ostr);
+  feasst_serialize_fstobj(metropolis_prob_, ostr);
 }
 
 GhostTrialGrow::GhostTrialGrow(std::istream& istr) : Modify(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(2948 == version, version);
-  feasst_deserialize_fstobj(&metropolis_prob_, istr);
   feasst_deserialize_fstobj(&grow_, istr);
+  feasst_deserialize_fstobj(&criteria_, istr);
+  feasst_deserialize_fstobj(&metropolis_prob_, istr);
 }
 
 GhostTrialGrow::GhostTrialGrow(argtype * args) : Modify(args) {

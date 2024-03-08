@@ -68,7 +68,7 @@ def gen_ff_file(qs, sigmas, output_file):
         df['p'+str(isigma)] = ff
     df.to_csv(output_file)
 
-def intensity(gr_file, iq_file, num_density, skip=1, rdf_shift=0.05):
+def intensity(gr_file, num_density, iq_file=None, pqs=None, skip=1, rdf_shift=0.05):
     """
     Return the scattering intensity given a radial distribution function file with all rdfs
     between all site types, as well as intramolecular histograms.
@@ -76,11 +76,12 @@ def intensity(gr_file, iq_file, num_density, skip=1, rdf_shift=0.05):
     Use an iq_file output by feasst::Scattering to obtain the frequencies and scattering lengths.
     Fourier transform the grs to obtain the intensity.
 
+    :param Pandas DataFrame pqs: instead of iq_file, provide pq directly as dataframe.
     :param int skip: compute this many less frequencies than are present in iq_file.
     :param float rdf_shift: this percent of the highest distance are shifted to one.
 
     >>> from pyfeasst import scattering
-    >>> df = intensity('../../tests/grn30.csv', '../../tests/iq.csv', num_density=3/90**3, skip=100)
+    >>> df = intensity('../../tests/grn30.csv', iq_file='../../tests/iq.csv', num_density=3/90**3, skip=100)
     >>> round(df['q'][0], 5)
     0.06981
     >>> round(df['iq'][0], 8)
@@ -104,9 +105,14 @@ def intensity(gr_file, iq_file, num_density, skip=1, rdf_shift=0.05):
           cut = int((1-rdf_shift)*len(rdf[gij]))
           rdf[gij] /= np.average(rdf[gij][cut:])
 
-    iq = pd.read_csv(iq_file, comment="#")
-    iqgrp = iq.groupby('q', as_index=False)
-    iq = iqgrp.mean()
+    if pqs is None:
+        assert iq_file is not None
+        iq = pd.read_csv(iq_file, comment="#")
+        iqgrp = iq.groupby('q', as_index=False)
+        iq = iqgrp.mean()
+    else:
+        assert iq_file is None
+        iq = pqs
 
     iq_intra = np.zeros(1+int((len(iq['q'])-1)/skip))
     iq_inter = np.zeros(len(iq_intra))

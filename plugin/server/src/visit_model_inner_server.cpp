@@ -53,7 +53,8 @@ void VisitModelInnerServer::compute(
     ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
-    Position * pbc) {
+    Position * pbc,
+    const double weight) {
   TRACE("*** VisitModelInnerServer ***");
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
@@ -180,7 +181,7 @@ void VisitModelInnerServer::compute(
   const int size = server_->receive();
   TRACE(server_->buffer());
   ASSERT(size > 0, "error");
-  const double en = std::stod(server_->buffer());
+  const double en = weight*std::stod(server_->buffer());
   TRACE("en " << en);
   update_ixn(en, part1_index, site1_index, type1, part2_index,
              site2_index, type2, squared_distance, pbc, is_old_config, *config);

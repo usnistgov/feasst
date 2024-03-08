@@ -197,7 +197,8 @@ void SolidOfRevolutionTable::compute(
     ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
-    Position * pbc) {
+    Position * pbc,
+    const double weight) {
   TRACE("*** SolidOfRevolutionTable ***");
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
@@ -411,6 +412,7 @@ void SolidOfRevolutionTable::compute(
                       }
                     }
                   }
+                  en *= weight;
                   TRACE("en " << en);
                   update_ixn(en, part1_indextmp, site1_indextmp, type1tmp, part2_indextmp,
                              site2_indextmp, type2tmp, squared_distance, pbc, is_old_config, *config);

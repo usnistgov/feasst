@@ -23,8 +23,12 @@
 # bias toward the poles makes the bond more stiff than if the sin(theta) term was included.
 
 3 sites
+2 bonds
+1 angles
 
 2 site types
+1 bond types
+1 angle types
 
 Units
 
@@ -47,12 +51,6 @@ Sites
 0 0  0     0 0
 1 1 -1.149 0 0
 2 1  1.149 0 0
-
-2 bonds
-1 angles
-
-1 bond types
-1 angle types
 
 Bond Properties
 

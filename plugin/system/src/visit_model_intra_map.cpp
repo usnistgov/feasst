@@ -11,6 +11,8 @@ VisitModelIntraMap::VisitModelIntraMap(argtype * args) : VisitModel() {
   class_name_ = "VisitModelIntraMap";
   exclude_bonds_ = boolean("exclude_bonds", args, false);
   exclude_angles_ = boolean("exclude_angles", args, false);
+  exclude_dihedrals_ = boolean("exclude_dihedrals", args, false);
+  dihedral_weight_ = dble("dihedral_weight", args, -1);
 }
 VisitModelIntraMap::VisitModelIntraMap(argtype args) : VisitModelIntraMap(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -49,6 +51,21 @@ void VisitModelIntraMap::precompute(Configuration * config) {
       }
     }
   }
+
+  if (exclude_dihedrals_ || dihedral_weight_ > 0) {
+    int map_value = 0;
+    if (dihedral_weight_ > 0) {
+      map_value = 2;
+      ASSERT(!exclude_dihedrals_,
+        "Cannot use both exclude_dihedrals and dihedral_weight.");
+    }
+    for (int ptype = 0; ptype < config->num_particle_types(); ++ptype) {
+      for (const Dihedral& dihedral : config->particle_type(ptype).dihedrals()) {
+        include_map_[ptype][dihedral.site(0)][dihedral.site(3)] = map_value;
+        include_map_[ptype][dihedral.site(3)][dihedral.site(0)] = map_value;
+      }
+    }
+  }
 }
 
 void VisitModelIntraMap::compute(
@@ -79,11 +96,16 @@ void VisitModelIntraMap::compute(
       for (int s2_index = s1_index;
            s2_index < static_cast<int>(select_sites.size()); ++s2_index) {
         const int site2_index = select_sites[s2_index];
-        if (include_map_[part_type][site1_index][site2_index] == 1) {
+        const int map = include_map_[part_type][site1_index][site2_index];
+        if (map > 0) {
+          double weight = 1.;
+          if (map == 2) {
+            weight = dihedral_weight_;
+          }
           TRACE("sites: " << site1_index << " " << site2_index);
           get_inner_()->compute(part1_index, site1_index, part1_index,
             site2_index, config, model_params, model, false, &relative_,
-            &pbc_);
+            &pbc_, weight);
         }
       }
     }
@@ -94,11 +116,16 @@ void VisitModelIntraMap::compute(
       for (int site1_index = 0; site1_index < part1.num_sites(); ++site1_index) {
         if (!find_in_list(site1_index, select_sites)) {
           for (const int site2_index : select_sites) {
-            if (include_map_[part_type][site1_index][site2_index] == 1) {
+            const int map = include_map_[part_type][site1_index][site2_index];
+            if (map > 0) {
+              double weight = 1.;
+              if (map == 2) {
+                weight = dihedral_weight_;
+              }
               TRACE("sites: " << site1_index << " " << site2_index);
               get_inner_()->compute(part1_index, site1_index, part1_index,
                 site2_index, config, model_params, model, false, &relative_,
-                &pbc_);
+                &pbc_, weight);
             }
           }
         }
@@ -120,18 +147,24 @@ static MapVisitModelIntraMap mapper_ = MapVisitModelIntraMap();
 
 VisitModelIntraMap::VisitModelIntraMap(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(2958 == version, version);
+  ASSERT(version >= 2958 && version <= 2959, version);
   feasst_deserialize(&exclude_bonds_, istr);
   feasst_deserialize(&exclude_angles_, istr);
+  if (version >= 2959) {
+    feasst_deserialize(&exclude_dihedrals_, istr);
+    feasst_deserialize(&dihedral_weight_, istr);
+  }
   feasst_deserialize(&include_map_, istr);
 }
 
 void VisitModelIntraMap::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
-  feasst_serialize_version(2958, ostr);
+  feasst_serialize_version(2959, ostr);
   feasst_serialize(exclude_bonds_, ostr);
   feasst_serialize(exclude_angles_, ostr);
+  feasst_serialize(exclude_dihedrals_, ostr);
+  feasst_serialize(dihedral_weight_, ostr);
   feasst_serialize(include_map_, ostr);
 }
 

@@ -10,6 +10,7 @@
 namespace feasst {
 
 /**
+ See Numerical Recipes 3rd Edition: The Art of Scientific Computing.
  */
 class GoldenSearch : public Minimize {
  public:

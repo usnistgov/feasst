@@ -27,8 +27,15 @@ class VisitModelIntraMap : public VisitModel {
       (default: false).
     - exclude_angles: if true, exclude intra interactions between the two
       extremes of the angle sites (e.g, exclude AC of <ABC) (default: false).
+    - exclude_dihedrals: if true, exclude intra interactions between the two
+      extremes of the dihedral sites (e.g, exclude AD of <ABCD) (default: false).
+    - dihedral_weight: if > 0, multiply intramolecular interactions for the
+      1-4 dihedral sites by this weight (default: -1).
+      For example, CHARMM and OPLS may set this weight to 1/2.
+      If exclude_dihedral is true, this weight cannot be > 0.
 
-    By default, all interactions are included except with self.
+    By default, all interactions are included except with self and there is no
+    dihedral weight.
    */
   explicit VisitModelIntraMap(argtype args = argtype());
   explicit VisitModelIntraMap(argtype * args);
@@ -69,6 +76,8 @@ class VisitModelIntraMap : public VisitModel {
  private:
   bool exclude_bonds_;
   bool exclude_angles_;
+  bool exclude_dihedrals_;
+  double dihedral_weight_;
   std::vector<std::vector<std::vector<int> > > include_map_;
 };
 

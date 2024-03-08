@@ -50,7 +50,8 @@ class VisitModelInnerPatch : public VisitModelInner {
     ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
-    Position * pbc) override;
+    Position * pbc,
+    const double weight = 1.) override;
 
   const CosPatchAngle& cos_patch_angle() const { return cos_patch_angle_; }
 

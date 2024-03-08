@@ -70,7 +70,8 @@ class TablePotential : public VisitModelInner {
     ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
-    Position * pbc) override;
+    Position * pbc,
+    const double weight = 1.) override;
 
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<TablePotential>(istr); }

@@ -220,7 +220,8 @@ void Ewald::update_struct_fact_eik(const Select& selection,
     std::vector<double> * sf_real,
     std::vector<double> * sf_imag,
     std::vector<std::vector<std::vector<double> > > * eik_new) const {
-  ASSERT(charge_index() != -1, "error");
+  ASSERT(charge_index() != -1,
+    "The particle does not have charge as a Site Property");
   DEBUG("select " << selection.str());
 //  ASSERT(sf_real->size() == struct_fact_real().size(),
 //    "While struct_fact_real_ is of size: " << struct_fact_real().size() <<

@@ -32,6 +32,9 @@ class PerturbVolume : public Perturb {
    */
   //@{
 
+  /// Return true if the volume is changed uniformly.
+  const bool uniform_volume() const { return uniform_volume_; }
+
   void perturb(
     System * system,
     TrialSelect * select,

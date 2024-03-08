@@ -153,6 +153,7 @@ The following bonded interactions are typically specified in fstprt files (see :
    models/doc/AngleHarmonic_arguments
    models/doc/DihedralHarmonic_arguments
    models/doc/DihedralTraPPE_arguments
+   models/doc/DihedralRyckaertBellemans_arguments
    models/doc/FENE_arguments
 
 Thermodynamic Parameters

@@ -14,7 +14,8 @@ For help in discussion or testing (alphabetical)
 * Dr. Jingxiang Guo
 * Steven W. Hall
 * Dr. Steven Howell
-* Sally Jiao
+* Dr. Sally Jiao
+* Prof. Zhehui (Charlie) Jin
 * Dr. William P. Krekelberg
 * Dr. Nathan Mahynski
 * Dr. Tiara Ann Maula
@@ -31,6 +32,7 @@ For help in discussion or testing (alphabetical)
 * Dr. Daniel W. Siderius
 * Dr. Yingnan Wang
 * Jilong Xu
+* Chieh-Chih (George) Yeh
 * Dr. Hasan Zerze
 
 Publications

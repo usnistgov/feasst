@@ -25,7 +25,8 @@ void VisitModelInnerPatch::compute(
     ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
-    Position * pbc) {
+    Position * pbc,
+    const double weight) {
   TRACE("part1_index " << part1_index);
   TRACE("part2_index " << part2_index);
   TRACE("site1_index " << site1_index);
@@ -84,7 +85,7 @@ void VisitModelInnerPatch::compute(
                     const double cosp2 = dir2_pos_.dot_product(*relative)/std::sqrt(squared_distance*dir2_sq_length);
                     TRACE("cosp2 " << cosp2 << " cosacut " << cos_patch_angle_.value(dir2_type));
                     if (cosp2 >= cos_patch_angle_.value(dir2_type)) {
-                      const double en = model->energy(squared_distance, dir1_type, dir2_type, model_params);
+                      const double en = weight*model->energy(squared_distance, dir1_type, dir2_type, model_params);
                       TRACE("en " << en);
                       update_ixn(en, part1_index, site1_index, type1, part2_index,
                                  site2_index, type2, squared_distance, pbc, is_old_config, *config);

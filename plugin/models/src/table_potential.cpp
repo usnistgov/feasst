@@ -115,7 +115,8 @@ void TablePotential::compute(
     ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
-    Position * pbc) {
+    Position * pbc,
+    const double weight) {
   DEBUG("*** TablePotential ***");
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
@@ -181,6 +182,7 @@ void TablePotential::compute(
     DEBUG("tab size " << energy_table_[0].size());
     en = energy_table_[tabtype1][tabtype2].forward_difference_interpolation(z);
   }
+  en *= weight;
   DEBUG("en " << en);
   update_ixn(en, part1_index, site1_index, type1, part2_index,
              site2_index, type2, squared_distance, pbc, is_old_config, *config);

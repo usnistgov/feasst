@@ -33,7 +33,8 @@ class VisitModelInner {
     ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
-    Position * pbc);
+    Position * pbc,
+    const double weight = 1.);
 
   virtual void precompute(Configuration * config);
   void set_energy(const double energy) { energy_ = energy; }

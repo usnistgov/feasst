@@ -365,4 +365,4 @@ To Do List
 * Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees
 * Ewald mod k2max like LAMMPS
 * Add 1/2 factor in AngleHarmonic
-* Add flexible co2 epm2
+* Add precompute for BondFourBody, ThreeBody, etc, to speed up? But different dihedrals have different coefficients.

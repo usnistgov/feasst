@@ -61,7 +61,8 @@ void Spherocylinder::compute(
     ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
-    Position * pbc) {
+    Position * pbc,
+    const double weight) {
   TRACE("part1_index " << part1_index);
   TRACE("part2_index " << part2_index);
   TRACE("site1_index " << site1_index);
@@ -129,7 +130,7 @@ void Spherocylinder::compute(
                 const double dircut = model_params.select(cutoff_index()).mixed_values()[dir1_type][dir2_type];
                 TRACE("dircut " << dircut);
                 if (sph_sq_dist <= dircut*dircut) {
-                  const double en = model->energy(sph_sq_dist, dir1_type, dir2_type, model_params);
+                  const double en = weight*model->energy(sph_sq_dist, dir1_type, dir2_type, model_params);
                   TRACE("en " << en);
                   update_ixn(en, part1_index, site1_index, type1, part2_index,
                              site2_index, type2, squared_distance, pbc, is_old_config, *config);
