@@ -27,8 +27,11 @@ class MayerSampling : public Criteria {
       (as measured by number of calls to is_accepted) default: 1e9.
     - intra_potential: index of intramolecular potential that will be used
       to select the move. Ignore if -1 (default: -1).
-    - num_beta_taylor: number of derivatives of second virial ratio with respect to beta.
-      (default: 0).
+    - num_beta_taylor: number of derivatives of second virial ratio with
+      respect to beta. (default: 0).
+    - training_file: if not empty, file name to write training data
+      (default: empty).
+    - training_per_write: write every this many sets of data (default: 1e4).
     - Criteria arguments.
    */
   explicit MayerSampling(argtype args = argtype());
@@ -86,7 +89,7 @@ class MayerSampling : public Criteria {
   void serialize(std::ostream& ostr) const override;
   explicit MayerSampling(std::istream& istr);
 //  explicit MayerSampling(const Criteria& criteria);
-  ~MayerSampling() {}
+  virtual ~MayerSampling() {}
 
   //@}
  private:
@@ -97,6 +100,11 @@ class MayerSampling : public Criteria {
   Accumulator mayer_ref_;
   int intra_pot_;
   std::vector<Accumulator> beta_taylor_;
+
+  // for training output
+  std::string training_file_;
+  std::vector<std::vector<double> > data_;
+  int training_per_write_;
 };
 
 inline std::shared_ptr<MayerSampling> MakeMayerSampling(

@@ -1,13 +1,13 @@
 
 .. toctree::
 
-   ElectricField
-   ChargeSelf
    SlabCorrection
    Coulomb
    ChargeScreenedIntra
    ChargeScreened
    DebyeHuckel
+   ElectricField
+   ChargeSelf
    Ewald
    ComputeRemoveMultiple
    TrialRemoveMultiple

@@ -40,10 +40,12 @@ Publications
 
 Some publications which use FEASST include:
 
+#. https://doi.org/10.1021/acs.jpcb.4c00753
 #. https://doi.org/10.1063/5.0148488
 #. https://doi.org/10.1021/acs.jpcb.3c00613
 #. https://doi.org/10.1021/acs.jpcb.2c04583
 #. https://doi.org/10.1002/aic.17686
+#. https://doi.org/10.1080/08927022.2020.1747617
 #. https://doi.org/10.1021/acs.jpca.0c05242
 #. https://doi.org/10.1021/acs.jpcc.0c02671
 #. https://doi.org/10.1039/C9SM01877H

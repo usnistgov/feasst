@@ -1,9 +1,9 @@
 
 .. toctree::
 
-   ModelHardShape
-   ModelSquareWellShape
    Background
+   ModelSquareWellShape
+   ModelHardShape
    ModelLJShape
    ModelTableCart1DHard
    trial_anywhere

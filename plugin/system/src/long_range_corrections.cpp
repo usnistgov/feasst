@@ -20,18 +20,26 @@ static MapLongRangeCorrections mapper_ = MapLongRangeCorrections();
 void LongRangeCorrections::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
-  feasst_serialize_version(874, ostr);
+  feasst_serialize_version(875, ostr);
+  feasst_serialize(mie_lambda_r_index_, ostr);
+  feasst_serialize(mie_lambda_a_index_, ostr);
 }
 
 LongRangeCorrections::LongRangeCorrections(std::istream& istr)
   : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(874 == version, version);
+  ASSERT(version >= 874 && version <= 875, "version mismatch:" << version);
+  if (version >= 875) {
+    feasst_deserialize(&mie_lambda_r_index_, istr);
+    feasst_deserialize(&mie_lambda_a_index_, istr);
+  }
 }
 
 void LongRangeCorrections::precompute(Configuration * config) {
   VisitModel::precompute(config);
   ASSERT(config->domain().dimension() == 3, "LongRangeCorrections assumes 3D");
+  mie_lambda_r_index_ = config->model_params().index("mie_lambda_r");
+  mie_lambda_a_index_ = config->model_params().index("mie_lambda_a");
 }
 
 void LongRangeCorrections::compute(
@@ -86,6 +94,7 @@ void LongRangeCorrections::compute(
         energy_(type1, type2, config, model_params);
     }
   }
+  TRACE("en " << en);
   set_energy(en);
 }
 
@@ -102,11 +111,22 @@ double LongRangeCorrections::energy_(
   DEBUG("sigma: " << sigma);
   const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
   DEBUG("cutoff: " << cutoff);
-  const double prefactor = epsilon*(8./3.)*PI*std::pow(sigma, 3)*
-    ((1./3.)*std::pow(sigma/cutoff, 9) - std::pow(sigma/cutoff, 3));
-  DEBUG("prefactor: " << prefactor);
+  if (mie_lambda_r_index_ == -1 || mie_lambda_a_index_ == -1) {
+    const double prefactor = epsilon*(8./3.)*PI*std::pow(sigma, 3)*
+      ((1./3.)*std::pow(sigma/cutoff, 9) - std::pow(sigma/cutoff, 3));
+    DEBUG("prefactor: " << prefactor);
+    const double en = prefactor/config->domain().volume();
+    DEBUG("en: " << en);
+    return en;
+  }
+  const double n = model_params.select(mie_lambda_r_index_).mixed_values()[type1][type2];
+  const double m = model_params.select(mie_lambda_a_index_).mixed_values()[type1][type2];
+  double prefactor = n/(n-m)*std::pow(n/m, m/(n-m));
+  prefactor *= 2.*epsilon*PI*std::pow(sigma, 3)/(m-3)*
+    (((m-3.)/(n-3.))*std::pow(sigma/cutoff, n-3) - std::pow(sigma/cutoff, m-3));
+  TRACE("prefactor: " << prefactor);
   const double en = prefactor/config->domain().volume();
-  DEBUG("en: " << en);
+  TRACE("en: " << en);
   return en;
 }
 

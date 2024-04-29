@@ -15,7 +15,6 @@ void FileParticle::read_num_and_types_(const std::string file_name) {
   // skip all lines beginning with the character "#"
   skip_characters('#', file);
 
-
   // read number of sites
   // optionally, read number of dimentions
   std::string line, descript, descript2;

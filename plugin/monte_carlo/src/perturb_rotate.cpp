@@ -67,16 +67,21 @@ void PerturbRotate::update_eulers(const RotationMatrix& rotation,
          select_site < static_cast<int>(rotated->site_indices(select_index).size());
          ++select_site) {
       const int site_index = rotated->site_index(select_index, select_site);
+//      DEBUG("part_index " << part_index);
       const Particle& part = config.select_particle(part_index);
+//      DEBUG("site_index " << site_index);
       const Site& site = part.site(site_index);
       const int type = site.type();
-      if (config.unique_type(part.type()).site(type).is_anisotropic()) {
+//      DEBUG("type " << type);
+      if (config.unique_type(part.type(), type).is_anisotropic()) {
         site.euler().compute_rotation_matrix(&rot_mat3_);
         DEBUG("rotation " << rotation.str());
         rotation.multiply(rot_mat3_, &rot_mat2_, &axis_tmp_, &vec1_);
         DEBUG("rot_mat3_ " << rot_mat3_.str());
         DEBUG("rot_mat2_ " << rot_mat2_.str());
         euler_.set(rot_mat2_);
+        DEBUG("select_index " << select_index);
+        DEBUG("select_site " << select_site);
         rotated->set_euler(select_index, select_site, euler_);
         DEBUG("new Euler(" << part_index << "," << site_index << ") " << euler_.str());
       }

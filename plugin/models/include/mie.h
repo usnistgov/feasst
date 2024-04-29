@@ -13,14 +13,13 @@ namespace feasst {
   http://www.sklogwiki.org/SklogWiki/index.php/Mie_potential.
 
   \f$U=\epsilon\left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)}\left[\left(\frac{\sigma}{r}\right)^n-\left(\frac{\sigma}{r}\right)^m\right]\f$
+ 
+  Set n and m as the parameters mie_lambda_r and mie_lambda_a, respectively,
+  in "Site Properties" particle files, Configuration or Potential arguments.
  */
 class Mie : public ModelTwoBody {
  public:
   //@{
-  /** @name Arguments
-    - n: set the value of \f$n\f$ (default: 12).
-    - m: set the value of \f$m\f$ (default: 6).
-   */
   explicit Mie(argtype args = argtype());
   explicit Mie(argtype * args);
 
@@ -29,12 +28,8 @@ class Mie : public ModelTwoBody {
    */
   //@{
 
-  /// Return the value of n.
-  const double& n() const { return n_; }
-
-  /// Return the value of m.
-  const double& m() const { return m_; }
-
+  void precompute(const ModelParams& existing) override;
+  
   double energy(
       const double squared_distance,
       const int type1,
@@ -54,9 +49,8 @@ class Mie : public ModelTwoBody {
   void serialize_mie_(std::ostream& ostr) const;
 
  private:
-  double n_;
-  double m_;
-  double prefactor_;
+  int mie_lambda_r_index_ = -1;
+  int mie_lambda_a_index_ = -1;
 };
 
 inline std::shared_ptr<Mie> MakeMie(argtype args = argtype()) {

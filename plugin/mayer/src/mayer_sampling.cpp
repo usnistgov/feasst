@@ -1,4 +1,5 @@
 #include <cmath>
+#include <fstream>
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h" // factorial
 #include "math/include/constants.h"
@@ -29,6 +30,8 @@ MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
     beta_taylor_[ibt] = *MakeAccumulator({{"num_moments", "2"},
                                           {"max_block_operations", "0"}});
   }
+  training_file_ = str("training_file", args, "");
+  training_per_write_ = integer("training_per_write", args, 1e4);
 }
 MayerSampling::MayerSampling(argtype args) : MayerSampling(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -36,6 +39,8 @@ MayerSampling::MayerSampling(argtype args) : MayerSampling(&args) {
 
 void MayerSampling::precompute(System * system) {
   system->remove_opt_overlap();
+//  const int aniso_index_ = system->configuration().model_params().index("anisotropic");
+//  DEBUG("aniso_index " << aniso_index_);
 }
 
 bool MayerSampling::is_accepted(
@@ -45,6 +50,29 @@ bool MayerSampling::is_accepted(
   check_num_iterations_(num_trials_per_iteration_);
   ASSERT(system.num_configurations() == 1, "assumes 1 config");
   double energy_new = acceptance->energy_new();
+  if (!training_file_.empty()) {
+    const Site& mobile = system.configuration().particle(1).site(0);
+    Position spherical = mobile.position().spherical();
+    DEBUG(mobile.euler().str());
+    data_.push_back(std::vector<double>({
+      spherical.coord(0), spherical.coord(1), spherical.coord(2),
+      mobile.euler().phi(), mobile.euler().theta(), mobile.euler().psi(),
+      energy_new}));
+    //DEBUG(feasst_str(data_.back()));
+    if (static_cast<int>(data_.size()) >= training_per_write_) {
+      std::ofstream file;
+      file.open(training_file_, std::ofstream::out | std::ofstream::app);
+      for (const std::vector<double>& dat : data_) {
+        for (const double d : dat) {
+          file << d << ",";
+          //file << MAX_PRECISION << d << ",";
+        }
+        file << std::endl;
+      }
+      file.close();
+      data_.clear();
+    }
+  }
   const double beta = system.thermo_params().beta();
   TRACE("*** MayerSampling ***");
   if (intra_pot_ != -1) {
@@ -94,7 +122,7 @@ bool MayerSampling::is_accepted(
     unebu *= -energy_old;
     beta_taylor_[ibd].accumulate(unebu/factorial(ibd+1));
   }
-  TRACE("is accepted? " << was_accepted_);
+  DEBUG("is accepted? " << was_accepted_);
   return was_accepted_;
 }
 
@@ -110,7 +138,7 @@ static MapMayerSampling mapper_ = MapMayerSampling();
 void MayerSampling::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_criteria_(ostr);
-  feasst_serialize_version(3252, ostr);
+  feasst_serialize_version(3253, ostr);
   feasst_serialize(f12old_, ostr);
   feasst_serialize(f12ref_, ostr);
   feasst_serialize(num_trials_per_iteration_, ostr);
@@ -118,11 +146,13 @@ void MayerSampling::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(mayer_ref_, ostr);
   feasst_serialize(intra_pot_, ostr);
   feasst_serialize_fstobj(beta_taylor_, ostr);
+  feasst_serialize(training_file_, ostr);
+  feasst_serialize(training_per_write_, ostr);
 }
 
 MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 3251 && version <= 3252, "unrecognized verison: " << version);
+  ASSERT(version >= 3251 && version <= 3253, "unrecognized verison: " << version);
   feasst_deserialize(&f12old_, istr);
   feasst_deserialize(&f12ref_, istr);
   feasst_deserialize(&num_trials_per_iteration_, istr);
@@ -131,6 +161,10 @@ MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
   feasst_deserialize(&intra_pot_, istr);
   if (version >= 3252) {
     feasst_deserialize_fstobj(&beta_taylor_, istr);
+  }
+  if (version >= 3253) {
+    feasst_deserialize(&training_file_, istr);
+    feasst_deserialize(&training_per_write_, istr);
   }
 }
 

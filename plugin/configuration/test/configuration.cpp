@@ -53,6 +53,8 @@ TEST(Configuration, type_to_file_name) {
   EXPECT_EQ(2, nstppt[2][3]);
   EXPECT_EQ(1, nstppt[3][4]);
   EXPECT_EQ(1, nstppt[4][5]);
+
+  EXPECT_NEAR(config.unique_type(2, 3).position().coord(0), 1., NEAR_ZERO);
 }
 
 TEST(Configuration, coordinates_and_wrapping) {
@@ -394,6 +396,15 @@ TEST(Configuration, 2dfstprt_with_xyz) {
     {"xyz_file", "../plugin/configuration/test/data/2d.xyz"}});
 //  EXPECT_EQ(2, config->domain().dimension());
 //  EXPECT_EQ(2, config->particle_type(0).site(0).position().dimension());
+}
+
+TEST(Configuration, param_mixing_file) {
+  auto config = MakeConfiguration({
+    {"particle_type0", "../particle/spce.fstprt"},
+    {"cubic_side_length", "8"},
+    {"epsilon_mixing_file", "../plugin/configuration/test/data/eps_mix.txt"}});
+  EXPECT_NEAR(1.51, config->model_params().select("epsilon").mixed_value(0, 0), NEAR_ZERO);
+  EXPECT_NEAR(6.8, config->model_params().select("epsilon").mixed_value(0, 1), NEAR_ZERO);
 }
 
 }  // namespace feasst

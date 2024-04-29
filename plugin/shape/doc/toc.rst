@@ -10,6 +10,7 @@
    Slab
    HalfSpaceTilted
    Cylinder
+   Supertoroid
    ShapeFile
    Cuboid
    Sphere

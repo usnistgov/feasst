@@ -118,6 +118,13 @@ Configuration::Configuration(argtype * args) {
           }
         }
       }
+      if (args->size() != 0) {
+        std::string param_arg = param + "_mixing_file";
+        if (used(param_arg, *args)) {
+          DEBUG("param " << param << " param_arg " << param_arg);
+          set_model_param(param, feasst::str(param_arg, args));
+        }
+      }
     }
   }
 }
@@ -477,8 +484,21 @@ void Configuration::update_positions(const Select& select,
     for (int particle_index : select.particle_indices()) {
       int sindex = 0;
       for (int site_index : select.site_indices(pindex)) {
-        particles_.get_particle(particle_index)->get_site(site_index)->
-          set_euler(select.site_eulers()[pindex][sindex]);
+        DEBUG("particle_index " << particle_index);
+        DEBUG("site_index " << site_index);
+        Particle * part = particles_.get_particle(particle_index);
+        Site * site = part->get_site(site_index);
+        const int site_type = site->type();
+        const int particle_type = part->type();
+        if (unique_type(particle_type, site_type).is_anisotropic()) {
+          DEBUG(select.site_eulers().size());
+          DEBUG(select.site_eulers()[pindex].size());
+          DEBUG("pindex " << pindex);
+          DEBUG("sindex " << sindex);
+          ASSERT(sindex < static_cast<int>(select.site_eulers()[pindex].size()),
+            "error");
+          site->set_euler(select.site_eulers()[pindex][sindex]);
+        }
         ++sindex;
       }
       ++pindex;
@@ -939,6 +959,16 @@ int Configuration::site_type_to_particle_type(const int site_type) const {
     }
   }
   return particle_type;
+}
+
+const Site& Configuration::unique_type(const int ptype, const int stype) const {
+  int prev_site_types = 0;
+  for (int pt = 0; pt < ptype; ++pt) {
+    prev_site_types += unique_type(pt).num_sites();
+  }
+  const int index = stype - prev_site_types;
+  ASSERT(index >= 0, "error");
+  return unique_type(ptype).site(index);
 }
 
 std::vector<std::vector<int> > Configuration::num_site_types_per_particle_type() const {

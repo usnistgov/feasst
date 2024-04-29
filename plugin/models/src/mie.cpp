@@ -7,9 +7,6 @@ namespace feasst {
 
 Mie::Mie(argtype * args) {
   class_name_ = "Mie";
-  n_ = dble("n", args, 12);
-  m_ = dble("m", args, 6);
-  prefactor_ = (n_/(n_ - m_))*std::pow(n_/m_, m_/(n_ - m_));
 }
 Mie::Mie(argtype args) : Mie(&args) {
   FEASST_CHECK_ALL_USED(args);
@@ -32,17 +29,23 @@ void Mie::serialize(std::ostream& ostr) const {
 void Mie::serialize_mie_(std::ostream& ostr) const {
   serialize_model_(ostr);
   feasst_serialize_version(2905, ostr);
-  feasst_serialize(n_, ostr);
-  feasst_serialize(m_, ostr);
-  feasst_serialize(prefactor_, ostr);
+  feasst_serialize(mie_lambda_r_index_, ostr);
+  feasst_serialize(mie_lambda_a_index_, ostr);
 }
 
 Mie::Mie(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(2905 == version, version);
-  feasst_deserialize(&n_, istr);
-  feasst_deserialize(&m_, istr);
-  feasst_deserialize(&prefactor_, istr);
+  feasst_deserialize(&mie_lambda_r_index_, istr);
+  feasst_deserialize(&mie_lambda_a_index_, istr);
+}
+
+void Mie::precompute(const ModelParams& existing) {
+  Model::precompute(existing);
+  mie_lambda_r_index_ = existing.index("mie_lambda_r");
+  mie_lambda_a_index_ = existing.index("mie_lambda_a");
+  ASSERT(mie_lambda_r_index_ != -1 && mie_lambda_a_index_ != -1,
+    "Mie potential requires Site Properties mie_lambda_r and mie_lambda_a");
 }
 
 double Mie::energy(
@@ -53,7 +56,13 @@ double Mie::energy(
   const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
   const double epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
   const double s_r = sigma/std::sqrt(squared_distance);
-  return prefactor_*epsilon*(std::pow(s_r, n_) - std::pow(s_r, m_));
+  const double n = model_params.select(mie_lambda_r_index_).mixed_values()[type1][type2];
+  const double m = model_params.select(mie_lambda_a_index_).mixed_values()[type1][type2];
+  TRACE("n " << n);
+  TRACE("m " << m);
+  const double prefactor = n/(n-m)*std::pow(n/m, m/(n-m));
+  const double en = prefactor*epsilon*(std::pow(s_r, n) - std::pow(s_r, m));
+  return en;
 }
 
 }  // namespace feasst

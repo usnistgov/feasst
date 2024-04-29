@@ -230,6 +230,9 @@ class ModelParams : public PropertiedEntity {
   void set(const std::string name, const int site_type1, const int site_type2,
     const double value);
 
+  /// Set mixed model parameters by file.
+  void set(const std::string name, const std::string filename);
+
   /// Add a custom model parameter
   void add(std::shared_ptr<ModelParam> param) {
     params_.push_back(param); }

@@ -4,6 +4,13 @@ Compare with Eq. 6 of https://doi.org/10.1063/1.1569473
 
 Note that the post_process compares the simulated with the expected result using reduced which is the B2 divided by the B2 of the hard sphere of unit diameter.
 
+An important aspect of computing second osmotic virial coefficients using Mayer-sampling is that you are calculating the ratio of the second virial of the full potential to the reference.
+Thus, the reference potential needs to be something that you know already.
+Typically, a hard sphere is a good choice.
+In order to ensure that your reference potential is a single hard sphere, especially if your full potential has multiple sites, you will want to set model parameters in reference potential (sigma, cutoff) to zero.
+Then you can set the sigma and cutoff of one particle site to the hard sphere size of interest.
+Configuration sets parameters in a specific order, so that the setting of all parameters happens first, followed by the setting of particular parameters (see Configuration).
+
 As an excercise, consider modifying this tutorial to compute the B2 of LennardJones with the following steps:
 - Compare with a known result, such as temperature at which the B2 is zero: T_Boyle=3.417928023 from https://doi.org/10.1016/S0378-4371(00)00362-9
 - Set beta = 1/T_Boyle

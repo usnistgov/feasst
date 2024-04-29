@@ -5,6 +5,7 @@
    BondHarmonic
    AngleHarmonic
    DihedralTraPPE
+   DihedralRyckaertBellemans
    DihedralHarmonic
    Yukawa
    TwoBodyTable

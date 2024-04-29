@@ -59,6 +59,8 @@ class Configuration {
     - [parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type.
       The "[i]/[j]" is to be substituted for an integer 0, 1, 2, ...
       These are applied after (overriding) the above argument for single types.
+    - [parameter]_mixing_file: override default mixing parameters with this
+      file in the three-column space-separated format of "i j [param]_ij".
     - group[i]: set the name of the "i"-th group.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       All following arguments of the group are then expected to have the name
@@ -150,6 +152,10 @@ class Configuration {
                        const double value) {
     unique_types_.set_model_param(name, site_type1, site_type2, value); }
 
+  /// Set mixed model parameters using a file.
+  void set_model_param(const std::string name, const std::string filename) {
+    unique_types_.set_model_param(name, filename); }
+
   /// Add model parameter of a given name to value.
   void add_model_param(const std::string name,
                        const double value) {
@@ -177,6 +183,9 @@ class Configuration {
   /// Return the unique type by individual particle.
   const Particle& unique_type(const int type) const {
     return unique_types_.particle(type); }
+
+  /// Return the site of unique type by individual particle and site type.
+  const Site& unique_type(const int ptype, const int stype) const;
 
   /// Return the maximum number of sites in any particle type.
   int max_sites_in_any_particle() const;

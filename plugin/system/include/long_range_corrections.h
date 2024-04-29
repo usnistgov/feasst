@@ -46,11 +46,19 @@ class Configuration;
   \f$U_{with} - U_{without} \propto (n_i+n_i^s)(n_j+n_j^s) - n_i n_j\f$
 
   \f$U_{with} - U_{without} \propto n_i^s n_j + n_i n_j^s + n_i^s n_j^s\f$
+
+  For the Mie potential,
+
+  \f$C_{ij} = \left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)} \frac{2\epsilon_{ij}\pi\sigma_{ij}^3}{(\lambda_a-3)V}\left[\frac{\lambda_a-3}{\lambda_r-3}\left(\frac{\sigma_{ij}}{r^c_{ij}}\right)^{\lambda_r-3} - \left(\frac{\sigma_{ij}}{r^c_{ij}}\right)^{\lambda_a-3}\right]\f$
  */
 class LongRangeCorrections : public VisitModel {
  public:
   LongRangeCorrections() { class_name_ = "LongRangeCorrections"; }
+
+  /// Determinte if the Mie potential is used based on presence of ModelParam
+  /// mie_lambda_a and mie_lambda_r.
   void precompute(Configuration * config) override;
+
   void compute(
       ModelOneBody * model,
       const ModelParams& model_params,
@@ -72,6 +80,9 @@ class LongRangeCorrections : public VisitModel {
   explicit LongRangeCorrections(std::istream& istr);
 
  private:
+  int mie_lambda_r_index_ = -1;
+  int mie_lambda_a_index_ = -1;
+
   // temporary, and not serialized
   std::vector<int> num_of_site_type_;
   std::vector<int> select_types_;

@@ -366,3 +366,4 @@ To Do List
 * Ewald mod k2max like LAMMPS
 * Add 1/2 factor in AngleHarmonic
 * Add precompute for BondFourBody, ThreeBody, etc, to speed up? But different dihedrals have different coefficients.
+* Add option to not serialize neighbor lists to reduce checkpoint size.

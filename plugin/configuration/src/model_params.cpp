@@ -1,6 +1,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include "utils/include/file.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 #include "utils/include/utils.h"  // resize
@@ -310,6 +311,31 @@ void ModelParams::set(const std::string name,
     const int site_type2,
     const double value) {
   select_(name)->set_mixed(site_type1, site_type2, value);
+}
+
+void ModelParams::set(const std::string name, const std::string filename) {
+  std::ifstream file(filename.c_str());
+  ASSERT(file.good(), "cannot find mixing file " << filename.c_str());
+  std::shared_ptr<ModelParam> param = select_(name);
+  const int size = param->size();
+  int site_type1, site_type2;
+  double value;
+  std::string line;
+  bool read = true;
+  while (read) {
+    file >> site_type1 >> site_type2 >> value;
+    DEBUG("site_type1 " << site_type1 << " site_type2 " << site_type2 <<
+      " value " << value << " size " << size);
+    ASSERT(site_type1 < size && site_type2 < size,
+      "given site_type1:" << site_type1 << " or site_type2: " << site_type2
+      << " >= size:" << size << ". The mixing file seems to have more sites"
+      << " than the current configuration.");
+    param->set_mixed(site_type1, site_type2, value);
+    std::getline(file, line);
+    if (file.peek() == EOF) {
+      read = false;
+    }
+  }
 }
 
 void ModelParams::set_physical_constants(

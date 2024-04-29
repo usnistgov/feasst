@@ -110,7 +110,7 @@ void Ewald::update_wave_vectors(const Configuration& config,
       wave_num->push_back(kz);
     }
   }}}
-  INFO("num vectors " << wave_prefactor->size());
+  DEBUG("num vectors " << wave_prefactor->size());
   ASSERT(wave_prefactor->size() > 0, "num_vectors: " << wave_prefactor->size());
 }
 
