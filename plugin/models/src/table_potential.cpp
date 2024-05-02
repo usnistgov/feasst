@@ -10,7 +10,7 @@
 
 namespace feasst {
 
-TablePotential::TablePotential(argtype * args) : VisitModelInner(args) {
+TablePotential::TablePotential(argtype * args) {
   class_name_ = "TablePotential";
   const std::string table_file = str("table_file", args, "-1");
   if (table_file != "-1") {
@@ -90,10 +90,10 @@ void TablePotential::read_table_(const std::string file_name) {
   ASSERT(file.eof(), "improper table file: " << file_name);
 }
 
-void TablePotential::precompute(Configuration * config) {
-  VisitModelInner::precompute(config);
-  const ModelParam& cutoff = config->model_params().select("cutoff");
-  t2index_.resize(config->num_site_types(), -1);
+void TablePotential::precompute(const ModelParams& existing) {
+  Model::precompute(existing);
+  const ModelParam& cutoff = existing.select("cutoff");
+  t2index_.resize(existing.size());
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
     t2index_[type1] = t1;
@@ -105,67 +105,43 @@ void TablePotential::precompute(Configuration * config) {
   }
 }
 
-void TablePotential::compute(
-    const int part1_index,
-    const int site1_index,
-    const int part2_index,
-    const int site2_index,
-    const Configuration * config,
-    const ModelParams& model_params,
-    ModelTwoBody * model,
-    const bool is_old_config,
-    Position * relative,
-    Position * pbc,
-    const double weight) {
+double TablePotential:: energy(
+    const double squared_distance,
+    const int type1,
+    const int type2,
+    const ModelParams& model_params) {
   DEBUG("*** TablePotential ***");
-  const Particle& part1 = config->select_particle(part1_index);
-  const Site& site1 = part1.site(site1_index);
-  const Particle& part2 = config->select_particle(part2_index);
-  const Site& site2 = part2.site(site2_index);
-  clear_ixn(part1_index, site1_index, part2_index, site2_index);
-  int type1 = site1.type();
-  int type2 = site2.type();
   DEBUG("type1 " << type1 << " type2 " << type2);
+  int ttype1 = type1;
+  int ttype2 = type2;
+  DEBUG("ttype1 " << ttype1 << " ttype2 " << ttype2);
+
+  // enforce type1 <= type2 to avoid redundant tables.
+  bool flip = false;
+  if (ttype1 > ttype2) {
+    flip = true;
+  }
+  if (flip) {
+    swap(&ttype1, &ttype2);
+  }
+  DEBUG("flip " << flip);
 
   // convert site type to table type
   DEBUG("t2size " << t2index_.size());
-  int tabtype1 = t2index_[type1];
-  int tabtype2 = t2index_[type2];
+  int tabtype1 = t2index_[ttype1];
+  int tabtype2 = t2index_[ttype2];
   DEBUG("tabtype1 " << tabtype1 << " tabtype2 " << tabtype2);
 
   // Do not compute energy if both sites are not represented.
   if (tabtype1 == -1 || tabtype2 == -1) {
-    return;
+    return 0.;
   }
-
-  // check if sites are within the global cutoff
-  const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
-  double squared_distance;
-  config->domain().wrap_opt(site1.position(), site2.position(), relative, pbc, &squared_distance);
-  DEBUG("squared_distance " << squared_distance);
-  DEBUG("relative " << relative->str());
-  if (squared_distance > cutoff*cutoff) {
-    return;
-  }
-  DEBUG("inside global cut");
-
-  // enforce type1 <= type2 to avoid redundant tables.
-  bool flip = false;
-  if (type1 > type2) {
-    flip = true;
-  }
-  if (flip) {
-    swap(&type1, &type2);
-    swap(&tabtype1, &tabtype2);
-  }
-  DEBUG("flip " << flip);
 
   // check the inner cutoff.
   const double inner = inner_[tabtype1][tabtype2];
-  double en;
   if (squared_distance < inner*inner) {
-    en = NEAR_INFINITY;
-    DEBUG("hard overlap");
+    TRACE("hard overlap");
+    return NEAR_INFINITY;
   } else {
     // const double gamma = gamma_[tabtype1][tabtype2];
     // DEBUG("gamma " << gamma);
@@ -180,12 +156,10 @@ void TablePotential::compute(
     ASSERT(z >= 0 && z <= 1, "z: " << z);
     DEBUG("tab size " << energy_table_.size());
     DEBUG("tab size " << energy_table_[0].size());
-    en = energy_table_[tabtype1][tabtype2].forward_difference_interpolation(z);
+    const double en = energy_table_[tabtype1][tabtype2].forward_difference_interpolation(z);
+    DEBUG("en " << en);
+    return en;
   }
-  en *= weight;
-  DEBUG("en " << en);
-  update_ixn(en, part1_index, site1_index, type1, part2_index,
-             site2_index, type2, squared_distance, pbc, is_old_config, *config);
 }
 
 class MapTablePotential {
@@ -198,7 +172,7 @@ class MapTablePotential {
 
 static MapTablePotential mapper_ = MapTablePotential();
 
-TablePotential::TablePotential(std::istream& istr) : VisitModelInner(istr) {
+TablePotential::TablePotential(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 8965, "unrecognized version: " << version);
   feasst_deserialize(&inner_, istr);
@@ -211,7 +185,7 @@ TablePotential::TablePotential(std::istream& istr) : VisitModelInner(istr) {
 
 void TablePotential::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
-  serialize_visit_model_inner_(ostr);
+  serialize_model_(ostr);
   feasst_serialize_version(8965, ostr);
   feasst_serialize(inner_, ostr);
   feasst_serialize(inner_g_, ostr);

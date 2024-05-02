@@ -1,5 +1,5 @@
 ***************************************
-MPI - Message Passing Interface support
+MPI
 ***************************************
 
 Use MPI with FEASST.

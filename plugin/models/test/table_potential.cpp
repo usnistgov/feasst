@@ -12,16 +12,11 @@ TEST(TablePotential, serialize) {
     {"add_particles_of_type0", "2"}});
   config->update_positions({{0, 0, 0}, {2, 0, 0}});
   auto table = MakeTablePotential({{"table_file", "../plugin/models/test/data/lj_table.txt"}});
-  table->precompute(config.get());
-  EXPECT_EQ(1, table->energy_table().size());
-  EXPECT_EQ(1, table->energy_table()[0].size());
-  auto table2 = test_serialize(*table);
-  auto model = MakeTwoBodyTable();
-  Position rel, pbc;
-  rel.set_to_origin(3);
-  pbc = rel;
-  table2.compute(0, 0, 1, 0, config.get(), config->model_params(), model.get(), 1, &rel, &pbc);
-  EXPECT_NEAR(-0.0615234375, table2.energy(), 1e-8);
+  table->precompute(config->model_params());
+  TablePotential table2 = test_serialize(*table);
+  EXPECT_EQ(1, table2.energy_table().size());
+  EXPECT_EQ(1, table2.energy_table()[0].size());
+  EXPECT_NEAR(-0.0615234375, table2.energy(4, 0, 0, config->model_params()), 1e-8);
 }
 
 }  // namespace feasst

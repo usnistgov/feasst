@@ -5,7 +5,7 @@
 #include <memory>
 #include "utils/include/arguments.h"
 #include "math/include/table.h"
-#include "system/include/visit_model.h"
+#include "system/include/model_two_body.h"
 
 namespace feasst {
 
@@ -43,7 +43,7 @@ namespace feasst {
   3. The last line is num_z space-separated values of the potential
      energy uniformly in the z range of [0, 1].
  */
-class TablePotential : public VisitModelInner {
+class TablePotential : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
@@ -59,23 +59,16 @@ class TablePotential : public VisitModelInner {
 
   const std::vector<std::vector<Table1D> >& energy_table() const { return energy_table_; }
 
-  void precompute(Configuration * config) override;
-  void compute(
-    const int part1_index,
-    const int site1_index,
-    const int part2_index,
-    const int site2_index,
-    const Configuration * config,
-    const ModelParams& model_params,
-    ModelTwoBody * model,
-    const bool is_old_config,
-    Position * relative,
-    Position * pbc,
-    const double weight = 1.) override;
+  void precompute(const ModelParams& existing) override;
+  double energy(
+    const double squared_distance,
+    const int type1,
+    const int type2,
+    const ModelParams& model_params) override;
 
-  std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
+  std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<TablePotential>(istr); }
-  std::shared_ptr<VisitModelInner> create(argtype * args) const override {
+  std::shared_ptr<Model> create(argtype * args) const override {
     return std::make_shared<TablePotential>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit TablePotential(std::istream& istr);

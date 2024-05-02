@@ -13,9 +13,9 @@ namespace feasst {
   http://www.sklogwiki.org/SklogWiki/index.php/Mie_potential.
 
   \f$U=\epsilon\left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)}\left[\left(\frac{\sigma}{r}\right)^n-\left(\frac{\sigma}{r}\right)^m\right]\f$
- 
+
   Set n and m as the parameters mie_lambda_r and mie_lambda_a, respectively,
-  in "Site Properties" particle files, Configuration or Potential arguments.
+  in "Site Properties" fst particle files, Configuration or Potential arguments.
  */
 class Mie : public ModelTwoBody {
  public:
@@ -29,7 +29,7 @@ class Mie : public ModelTwoBody {
   //@{
 
   void precompute(const ModelParams& existing) override;
-  
+
   double energy(
       const double squared_distance,
       const int type1,

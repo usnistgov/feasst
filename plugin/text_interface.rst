@@ -323,6 +323,12 @@ Change Log
 Below is a list of all notable changes made to the text interface which will likely lead to the errors if older text interface scripts use the newer version.
 Renamed arguments are shown as Class::old_argument->new_argument.
 
+v0.24.6 to v0.25.0
+----------------------
+
+* Mie::n,m arguments replaced with mie_lambda_r,mie_lambda_a "Site Properties"
+* TablePotential base class VisitModel->Model
+
 v0.23.1 to v0.24.0
 ----------------------
 
@@ -337,5 +343,5 @@ v0.23.1 to v0.24.0
 * ModelTableCart3DIntegr::shape_file_name->shape_file
 
 The information available above is pruned from the :doc:`README` documentation, with only the class arguments and no member functions.
-Therefore the :doc:`README` documentation represents all capabilities of FEASST, many of which are hidden from text users for various reasons (e.g., because the classes may be used only internally, still in development, buggy, depreciated, debugging tools or simply forgotten).
+Therefore the :doc:`README` documentation represents all capabilities of FEASST, many of which are hidden from text users for various reasons (e.g., because the classes may be used only internally, in development, buggy, depreciated or debugging tools).
 
