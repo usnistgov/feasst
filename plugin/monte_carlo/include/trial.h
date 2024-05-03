@@ -30,11 +30,11 @@ class Trial {
     args:
     - weight: unnormalized relative probability of selection of this trial
       with respect to all trials (default: 1).
-    - weight_per_number: if > 0, the weight is continuously updated to be
-      (weight_per_number * number of TrialSelect::particle_type in first
-      TrialStage).
+    - weight_per_number_fraction: if > 0, the weight is continuously updated to
+      (weight_per_number_fraction * number of TrialSelect::particle_type in
+       first TrialStage / total number of particles).
       If <= 0, the given weight above is fixed to that value (default: -1).
-      For a binary simulation, weight_per_number = 1/(N_0+N_1) with a separate
+      For a binary simulation, weight_per_number_fraction with a separate
       trial for particle_type 0 and 1 ensures equal probability of selecting
       either particle type regardless of the number of particles, while still
       allowing for different tunable parameters for each particle_type.
@@ -55,7 +55,12 @@ class Trial {
   void set_weight(const double weight) { *get_weight_() = weight; }
 
   /// Return the weight per number of particles of given type.
-  double weight_per_number() const { return weight_per_number_; }
+  double weight_per_number_fraction() const {
+    return weight_per_number_fraction_; }
+
+  // Set the weight per number.
+  void set_weight_per_number_fraction(const double wpn) {
+    weight_per_number_fraction_ = wpn; }
 
   /// Add a stage which includes selection and perturbation with arguments.
   void add_stage(std::shared_ptr<TrialSelect> select,
@@ -193,7 +198,7 @@ class Trial {
   std::shared_ptr<TrialCompute> compute_;
   //double weight_;
   double * get_weight_() { return &((*data_.get_dble_1D())[0]); }
-  double weight_per_number_;
+  double weight_per_number_fraction_;
   std::string description_ = "Trial";
   int64_t * num_attempts_() { return &((*data_.get_int64_1D())[0]); }
   int64_t * num_success_() { return &((*data_.get_int64_1D())[1]); }

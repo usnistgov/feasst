@@ -32,7 +32,7 @@ void TrialFactory::update_cumul_prob_() {
   std::vector<double> weights;
   for (std::shared_ptr<Trial> trial : trials_) {
     weights.push_back(trial->weight());
-    if (trial->weight_per_number() > 0) {
+    if (trial->weight_per_number_fraction() > 0) {
       adjustable_weights_ = true;
     }
   }
@@ -82,17 +82,18 @@ bool TrialFactory::attempt(
     if (adjustable_weights_) {
       bool adjusted = false;
       for (std::shared_ptr<Trial> trial : trials_) {
-        if (trial->weight_per_number() > 0) {
+        if (trial->weight_per_number_fraction() > 0) {
           const TrialSelect& tsel = trial->stage(0).select();
           int ptype;
           try {
             ptype = tsel.particle_type();
           } catch (const feasst::CustomException& e) {
-            FATAL("Trial::weight_per_number requires Trial::particle_type");
+            FATAL("Trial::weight_per_number_fraction requires Trial::particle_type");
           }
           const Configuration& config = tsel.configuration(*system);
           const int number = config.num_particles_of_type(ptype);
-          const double new_weight = trial->weight_per_number()*number;
+          const int total = config.num_particles();
+          const double new_weight = trial->weight_per_number_fraction()*number/total;
           if (std::abs(trial->weight() - new_weight) > 1e-8) {
             trial->set_weight(new_weight);
             adjusted = true;
@@ -100,7 +101,8 @@ bool TrialFactory::attempt(
             ASSERT(perturb != "PerturbAdd" &&
                    perturb != "PerturbRemove" &&
                    perturb != "PerturbParticleType",
-                   "weight_per_number is not implemented for " << perturb);
+                   "weight_per_number_fraction is not implemented for " <<
+                   perturb << " due to the changing number of particles.");
           }
         }
       }

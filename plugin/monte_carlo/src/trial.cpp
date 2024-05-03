@@ -22,7 +22,7 @@ Trial::Trial(argtype * args) {
   data_.get_dble_1D()->resize(1);
   data_.get_int64_1D()->resize(3);
   *get_weight_() = dble("weight", args, 1);
-  weight_per_number_ = dble("weight_per_number", args, -1);
+  weight_per_number_fraction_ = dble("weight_per_number_fraction", args, -1);
   reset_stats();
 }
 Trial::Trial(argtype args) : Trial(&args) {
@@ -246,9 +246,9 @@ bool Trial::is_equal(const Trial& trial) const {
       << trial.num_success());
     return false;
   }
-  if (weight_per_number_ != trial.weight_per_number_) {
-    DEBUG("unequal weight_per_number:" << weight_per_number_ << " " <<
-          trial.weight_per_number_);
+  if (weight_per_number_fraction_ != trial.weight_per_number_fraction_) {
+    DEBUG("unequal weight_per_number_fraction:" << weight_per_number_fraction_ << " " <<
+          trial.weight_per_number_fraction_);
     return false;
   }
   if (num_stages() > 0) {
@@ -267,7 +267,7 @@ void Trial::serialize_trial_(std::ostream& ostr) const {
   // desererialize: refresh stages_ptr_
   feasst_serialize_fstdr(compute_, ostr);
   //feasst_serialize(weight_, ostr);
-  feasst_serialize(weight_per_number_, ostr);
+  feasst_serialize(weight_per_number_fraction_, ostr);
   feasst_serialize(description_, ostr);
   //feasst_serialize(num_attempts_, ostr);
   //feasst_serialize(num_success_, ostr);
@@ -308,7 +308,7 @@ Trial::Trial(std::istream& istr) {
     //feasst_deserialize(&weight_, istr);
   }
   if (version >= 571) {
-    feasst_deserialize(&weight_per_number_, istr);
+    feasst_deserialize(&weight_per_number_fraction_, istr);
   }
   feasst_deserialize(&description_, istr);
   //feasst_deserialize(&num_attempts_, istr);

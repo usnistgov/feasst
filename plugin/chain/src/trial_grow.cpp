@@ -60,6 +60,9 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   const int num_args = static_cast<int>(args->size());
   ASSERT(num_args > 0, "TrialGrow requires args.size: " << num_args << " > 0");
   double weight = dble("weight", &(*args)[0], -1.);
+  double weight_per_number_fraction = dble("weight_per_number_fraction", &(*args)[0], -1.);
+  ASSERT(weight < 0 || weight_per_number_fraction < 0,
+    "TrialGrow cannot have both weight and weight_per_number_fraction arguments.");
   const std::string default_num_steps = str("default_num_steps", &(*args)[0], "1");
   const std::string default_reference_index = str("default_reference_index", &(*args)[0], "-1");
   const std::string default_new_only = str("default_new_only", &(*args)[0], "false");
@@ -149,10 +152,16 @@ void TrialGrow::build_(std::vector<argtype> * args) {
     trial->set_description("TrialGrow" + trial_type);
     if (weight > 0) {
       trial->set_weight(weight);
-      //trial->set_weight(weight/static_cast<int>(trial_types.size()));
+    }
+    if (weight_per_number_fraction > 0) {
+      trial->set_weight_per_number_fraction(weight_per_number_fraction);
     }
     if (trial_half_weight[itr]) {
-      trial->set_weight(trial->weight()/2.);
+      if (weight_per_number_fraction > 0) {
+        trial->set_weight_per_number_fraction(trial->weight_per_number_fraction()/2.);
+      } else {
+        trial->set_weight(trial->weight()/2.);
+      }
     }
     std::shared_ptr<TrialCompute> compute;
     for (int iarg = 0; iarg < num_args; ++iarg) {

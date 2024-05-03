@@ -328,6 +328,7 @@ v0.24.6 to v0.25.0
 
 * Mie::n,m arguments replaced with mie_lambda_r,mie_lambda_a "Site Properties"
 * TablePotential base class VisitModel->Model
+* Trial::weight_per_number->weight_per_number_fraction
 
 v0.23.1 to v0.24.0
 ----------------------

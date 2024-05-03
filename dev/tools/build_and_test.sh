@@ -1,5 +1,6 @@
 #!/bin/bash
 export OMP_NUM_THREADS=4
+feasst_dir=`pwd`
 mkdir -p build
 cd build
 python3 -m venv feasst_test_env
@@ -38,7 +39,7 @@ tail -1 ../pyfeasst/src/pyfeasst/summary_pyfeasst.log >> summary.log
 #tail -1 summary_long.log >> summary.log
 
 echo "********** pytutorial **********" >> summary.log
-python ../dev/tools/run_tutorials.py --feasst_install `pwd` >> summary_long.log 2>&1
+python ../dev/tools/run_tutorials.py --feasst_install $feasst_dir >> summary_long.log 2>&1
 for fl in `find ../ -name 'tutorial_failures.txt'`; do
   cat $fl >> summary.log
 done
