@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>multistate_accumulator &mdash; FEASST v0.24.6 documentation</title>
+  <title>multistate_accumulator &mdash; FEASST v0.25.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.6
+                v0.25.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -186,7 +186,7 @@
 For example, the canonical ensemble average energy for a given number of particles.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="multistate_accumulator.splice_by_max_column">
-<span class="sig-prename descclassname"><span class="pre">multistate_accumulator.</span></span><span class="sig-name descname"><span class="pre">splice_by_max_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'moment0'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/multistate_accumulator.html#splice_by_max_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#multistate_accumulator.splice_by_max_column" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">multistate_accumulator.</span></span><span class="sig-name descname"><span class="pre">splice_by_max_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'moment0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crit_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crit_suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/multistate_accumulator.html#splice_by_max_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#multistate_accumulator.splice_by_max_column" title="Permalink to this definition"></a></dt>
 <dd><p>Combine all files with matching prefix and suffix, each with the same number of states,
 by assigning rows based on the maximum in the given column.</p>
 <dl class="field-list simple">
@@ -195,6 +195,8 @@ by assigning rows based on the maximum in the given column.</p>
 <li><p><strong>prefix</strong> (<em>str</em>) – Find all files beginning with this prefix.</p></li>
 <li><p><strong>suffix</strong> (<em>str</em>) – Find all files endding with this suffix.</p></li>
 <li><p><strong>column</strong> (<em>str</em>) – Use the row with the maximum column. For example, moment0 is the highest number of samples.</p></li>
+<li><p><strong>crit_prefix</strong> (<em>str</em>) – Use criteria to read only specific macrostates, if given.</p></li>
+<li><p><strong>crit_suffix</strong> (<em>str</em>) – Use criteria to read only specific macrostates, if given.</p></li>
 </ul>
 </dd>
 </dl>

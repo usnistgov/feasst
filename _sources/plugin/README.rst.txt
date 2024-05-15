@@ -65,4 +65,5 @@ The plugins and classes listed below represent all the publicly available capabi
    model_expanded/README
    fftw/README
    netcdf/README
+   mpi/README
 

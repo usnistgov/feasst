@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modify FEASST &mdash; FEASST v0.24.6 documentation</title>
+  <title>Modify FEASST &mdash; FEASST v0.25.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.6
+                v0.25.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../model_expanded/README.html">Model Expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../fftw/README.html">FFTW</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../netcdf/README.html">NetCDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mpi/README.html">MPI</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Modify FEASST</a><ul>
@@ -235,14 +236,9 @@ If it turns out to be useful, you can become a developer/contributor by submitti
 <li><p>Copy and paste this h file, and its corresponding cpp file with a new name. Replace ModelExample with NewName in the cpp and h files, and MODEL_EXAMPLE with NEW_NAME in the h file.</p></li>
 </ol>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/feasst/plugin/example
-
-cp<span class="w"> </span>include/model_example.h<span class="w"> </span>include/new_name.h
-sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/ModelExample/NewName/g&#39;</span><span class="w"> </span>include/new_name.h
-sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/MODEL_EXAMPLE/NEW_NAME/g&#39;</span><span class="w"> </span>include/new_name.h
-
-cp<span class="w"> </span>src/model_example.cpp<span class="w"> </span>src/new_name.cpp
-sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/ModelExample/NewName/g&#39;</span><span class="w"> </span>src/new_name.cpp
-sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/model_example\.h/new_name.h/g&#39;</span><span class="w"> </span>src/new_name.cpp
+sed<span class="w"> </span><span class="s2">&quot;s/MODEL_EXAMPLE/NEW_NAME/g&quot;</span><span class="w"> </span>include/model_example.h<span class="w"> </span>&gt;<span class="w"> </span>include/new_name.h
+sed<span class="w"> </span><span class="s2">&quot;s/model_example\.h/new_name.h/g&quot;</span><span class="w"> </span>src/model_example.cpp<span class="w"> </span>&gt;<span class="w"> </span>src/new_name.cpp
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/ModelExample/NewName/g&quot;</span><span class="w"> </span>include/new_name.h<span class="w"> </span>src/new_name.cpp
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">

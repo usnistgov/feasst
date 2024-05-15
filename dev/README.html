@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer guidelines &mdash; FEASST v0.24.6 documentation</title>
+  <title>Developer guidelines &mdash; FEASST v0.25.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.6
+                v0.25.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -373,7 +373,7 @@ breathe_domain_by_extension = {“h” : “cc”}</p>
 <p>For Ubuntu 22, I had to comment out lines 713-714 of ~/.pyenv/feasst/lib/python3.10/site-packages/breathe/renderer/sphinxrenderer.py</p>
 <blockquote>
 <div><p>#assert isinstance(n, addnodes.desc_annotation)
-#assert n.astext()[-1] == ” “</p>
+#assert n.astext()[-1] == “ “</p>
 </div></blockquote>
 </section>
 <section id="pip-notes">
@@ -532,7 +532,9 @@ compatibility.</p></li>
 <li><p>Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees</p></li>
 <li><p>Ewald mod k2max like LAMMPS</p></li>
 <li><p>Add 1/2 factor in AngleHarmonic</p></li>
-<li><p>Add flexible co2 epm2</p></li>
+<li><p>Add precompute for BondFourBody, ThreeBody, etc, to speed up? But different dihedrals have different coefficients.</p></li>
+<li><p>Add option to not serialize neighbor lists to reduce checkpoint size.</p></li>
+<li><p>Allow one script to contain multiple MonteCarlo, CollectionMatrixSplice, Prefetch in any order? (checkpointing is difficult)</p></li>
 </ul>
 </section>
 </section>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mie &mdash; FEASST v0.24.6 documentation</title>
+  <title>Mie &mdash; FEASST v0.25.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.6
+                v0.25.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -219,14 +219,7 @@
 <span class="target" id="classfeasst_1_1Mie"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Mie</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody"><span class="n"><span class="pre">ModelTwoBody</span></span></a><br /></dt>
 <dd><p>The <a class="reference internal" href="#classfeasst_1_1Mie"><span class="std std-ref">Mie</span></a> potential, <span class="math notranslate nohighlight">\(U\)</span> is described in <a class="reference external" href="http://www.sklogwiki.org/SklogWiki/index.php/Mie_potential">http://www.sklogwiki.org/SklogWiki/index.php/Mie_potential</a>.</p>
 <p><span class="math notranslate nohighlight">\(U=\epsilon\left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)}\left[\left(\frac{\sigma}{r}\right)^n-\left(\frac{\sigma}{r}\right)^m\right]\)</span></p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>n: set the value of <span class="math notranslate nohighlight">\(n\)</span> (default: 12).</p></li>
-<li><p>m: set the value of <span class="math notranslate nohighlight">\(m\)</span> (default: 6). </p></li>
-</ul>
-</p>
-</div>
+<p>Set n and m as the parameters mie_lambda_r and mie_lambda_a, respectively, in “Site Properties” fst particle files, <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> or <a class="reference internal" href="../../system/doc/Potential_arguments.html#classfeasst_1_1Potential"><span class="std std-ref">Potential</span></a> arguments. </p>
 </dd></dl>
 
 </section>

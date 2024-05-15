@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TablePotential &mdash; FEASST v0.24.6 documentation</title>
+  <title>TablePotential &mdash; FEASST v0.25.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -54,7 +54,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.6
+                v0.25.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -74,6 +74,7 @@
 <li class="toctree-l3"><a class="reference internal" href="BondHarmonic.html">BondHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AngleHarmonic.html">AngleHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="DihedralTraPPE.html">DihedralTraPPE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DihedralRyckaertBellemans.html">DihedralRyckaertBellemans</a></li>
 <li class="toctree-l3"><a class="reference internal" href="DihedralHarmonic.html">DihedralHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Yukawa.html">Yukawa</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TwoBodyTable.html">TwoBodyTable</a></li>
@@ -111,6 +112,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../model_expanded/README.html">Model Expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mpi/README.html">MPI</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
@@ -227,7 +229,7 @@
 <h1>TablePotential<a class="headerlink" href="#tablepotential" title="Permalink to this heading"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst14TablePotentialE">
-<span class="target" id="classfeasst_1_1TablePotential"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TablePotential</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/VisitModelInner.html#_CPPv4N6feasst15VisitModelInnerE" title="feasst::VisitModelInner"><span class="n"><span class="pre">VisitModelInner</span></span></a><a class="headerlink" href="#_CPPv4N6feasst14TablePotentialE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1TablePotential"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TablePotential</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody"><span class="n"><span class="pre">ModelTwoBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst14TablePotentialE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Represent isotropic interactions using a tabular potential that is precomputed and read from a file.</p>
 <p>For an isotropic site, the radial distance, r, between the centers is scaled as <span class="math notranslate nohighlight">\(z=[(r^\gamma - r_h^\gamma)/(r_c^\gamma - r_h^\gamma)]\)</span> which varies from z=0 at the hard contact distance, r_h, to z=1 at the cutoff, r_c. A stretching parameter, <span class="math notranslate nohighlight">\(\gamma\)</span>, increases the resolution at shorter distances when negative. This implementation is currently hard coded for <span class="math notranslate nohighlight">\(\gamma=-2\)</span> which avoids sqrt.</p>
 <p>Interpolation uses <a class="reference internal" href="../../math/doc/Table.html#classfeasst_1_1Table1D_1af2cfa0e8c192b8c82897935170ceafbc"><span class="std std-ref">Table1D::forward_difference_interpolation</span></a>.</p>
@@ -241,6 +243,21 @@
 <li><p>The last line is num_z space-separated values of the potential energy uniformly in the z range of [0, 1]. </p></li>
 </ol>
 </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14TablePotential10precomputeERK11ModelParams">
+<span class="target" id="classfeasst_1_1TablePotential_1a5d95192a3cbe32d160c5afe6a782c039"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">existing</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14TablePotential10precomputeERK11ModelParams" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Precompute model parameters based on existing model parameters. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst14TablePotential9serializeERNSt7ostreamE">
+<span class="target" id="classfeasst_1_1TablePotential_1a148df81618086d49ffc9ef1c394218cd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst14TablePotential9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Output a serialized version of the existing model. </p>
+</dd></dl>
+
+</div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">

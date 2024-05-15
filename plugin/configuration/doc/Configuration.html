@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configuration &mdash; FEASST v0.24.6 documentation</title>
+  <title>Configuration &mdash; FEASST v0.25.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.6
+                v0.25.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -111,6 +111,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../model_expanded/README.html">Model Expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../fftw/README.html">FFTW</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../netcdf/README.html">NetCDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mpi/README.html">MPI</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
@@ -262,6 +263,7 @@
 <li><p>[parameter]: optionally set the [parameter] of all types to this value. The “[parameter]” is to be substituted for epsilon, sigma, cutoff, etc.</p></li>
 <li><p>[parameter][i]: optionally set the [parameter] of the i-th site type. The “[i]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for all types.</p></li>
 <li><p>[parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type. The “[i]/[j]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for single types.</p></li>
+<li><p>[parameter]_mixing_file: override default mixing parameters with this file in the three-column space-separated format of “i j [param]_ij”.</p></li>
 <li><p>group[i]: set the name of the “i”-th group. The “[i]” is to be substituted for an integer 0, 1, 2, … All following arguments of the group are then expected to have the name prepended (e.g., “group0 water water_particle_type 0”). </p></li>
 </ul>
 </p>
@@ -356,6 +358,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Configuration_1ab79b333951b3a9f86000b74aad203ee6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_model_param</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15set_model_paramEKNSt6stringEKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Set mixed model parameters using a file. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13Configuration15add_model_paramEKNSt6stringEKd">
 <span class="target" id="classfeasst_1_1Configuration_1ab6d87f104ab73b231bc687e6a438a74c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_model_param</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15add_model_paramEKNSt6stringEKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add model parameter of a given name to value. </p>
@@ -389,6 +397,12 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration11unique_typeEKi">
 <span class="target" id="classfeasst_1_1Configuration_1aaedabe021b43987e76c77519dcc7eda0"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">unique_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration11unique_typeEKi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return the unique type by individual particle. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst13Configuration11unique_typeEKiKi">
+<span class="target" id="classfeasst_1_1Configuration_1afe203b7ceb02e3cf06d0fbb08120c044"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><span class="n"><span class="pre">Site</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">unique_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ptype</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stype</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst13Configuration11unique_typeEKiKi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Return the site of unique type by individual particle and site type. </p>
 </dd></dl>
 
 <dl class="cpp function">

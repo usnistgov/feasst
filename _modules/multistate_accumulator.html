@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>multistate_accumulator &mdash; FEASST v0.24.6 documentation</title>
+  <title>multistate_accumulator &mdash; FEASST v0.25.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -49,7 +49,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.6
+                v0.25.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -147,7 +147,7 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<div class="viewcode-block" id="splice_by_max_column"><a class="viewcode-back" href="../pyfeasst/docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_max_column">[docs]</a><span class="k">def</span> <span class="nf">splice_by_max_column</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s1">&#39;moment0&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="splice_by_max_column"><a class="viewcode-back" href="../pyfeasst/docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_max_column">[docs]</a><span class="k">def</span> <span class="nf">splice_by_max_column</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s1">&#39;moment0&#39;</span><span class="p">,</span> <span class="n">crit_prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crit_suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Combine all files with matching prefix and suffix, each with the same number of states,</span>
 <span class="sd">    by assigning rows based on the maximum in the given column.</span>
@@ -156,6 +156,8 @@
 <span class="sd">    :param str suffix: Find all files endding with this suffix.</span>
 <span class="sd">    :param str column:</span>
 <span class="sd">        Use the row with the maximum column. For example, moment0 is the highest number of samples.</span>
+<span class="sd">    :param str crit_prefix: Use criteria to read only specific macrostates, if given.</span>
+<span class="sd">    :param str crit_suffix: Use criteria to read only specific macrostates, if given.</span>
 
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
 <span class="sd">    &gt;&gt;&gt; from pyfeasst import multistate_accumulator</span>
@@ -171,14 +173,37 @@
 <span class="sd">    &gt;&gt;&gt; assert spliced[&#39;average&#39;][138] == en1[&#39;average&#39;][138]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">spliced</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;*&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">spliced</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">spliced</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">addition</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-            <span class="n">newer</span> <span class="o">=</span> <span class="n">addition</span><span class="p">[</span><span class="n">addition</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">spliced</span><span class="p">[</span><span class="n">column</span><span class="p">]]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">newer</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">spliced</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">newer</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">newer</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">newer</span>
+    <span class="k">if</span> <span class="n">crit_prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;*&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">spliced</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">spliced</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">addition</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="n">newer</span> <span class="o">=</span> <span class="n">addition</span><span class="p">[</span><span class="n">addition</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">spliced</span><span class="p">[</span><span class="n">column</span><span class="p">]]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">newer</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">spliced</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">newer</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">newer</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">newer</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">crit_prefix</span><span class="o">+</span><span class="s1">&#39;*&#39;</span><span class="o">+</span><span class="n">crit_suffix</span><span class="p">)):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+            <span class="n">exec</span><span class="p">(</span><span class="s1">&#39;iprm={&#39;</span> <span class="o">+</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">iprm</span><span class="p">[</span><span class="s1">&#39;soft_min&#39;</span><span class="p">],</span> <span class="n">iprm</span><span class="p">[</span><span class="s1">&#39;soft_max&#39;</span><span class="p">]])</span>
+        <span class="c1">#print(&#39;rows&#39;, rows)</span>
+        <span class="n">ifile</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">lines</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;*&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="p">)):</span>
+            <span class="c1">#print(&#39;filename&#39;, filename, &#39;ifile&#39;, ifile)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+                <span class="n">tlines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">ifile</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">lines</span> <span class="o">+=</span> <span class="n">tlines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">lines</span> <span class="o">+=</span> <span class="n">tlines</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="n">ifile</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">rows</span><span class="p">[</span><span class="n">ifile</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">ifile</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1">#print(lines)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="n">suffix</span><span class="o">+</span><span class="s1">&#39;_agg.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span> <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">spliced</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="n">suffix</span><span class="o">+</span><span class="s1">&#39;_agg.csv&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">spliced</span></div>
 
 <div class="viewcode-block" id="splice_by_node"><a class="viewcode-back" href="../pyfeasst/docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_node">[docs]</a><span class="k">def</span> <span class="nf">splice_by_node</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">extra_overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>

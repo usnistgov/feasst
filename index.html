@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.24.6 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.25.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -51,7 +51,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.6
+                v0.25.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -238,7 +238,7 @@ When you <a class="reference internal" href="CONTACT.html"><span class="doc">Con
 </section>
 <section id="how-to-install-i-e-compile-the-executables">
 <h3>How to install (i.e., compile the executables)<a class="headerlink" href="#how-to-install-i-e-compile-the-executables" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>apt/yum/brew<span class="o">]</span><span class="w"> </span>install<span class="w"> </span>g++<span class="w"> </span>cmake<span class="w"> </span>git<span class="w"> </span>python3
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>apt/yum/dnf/brew<span class="o">]</span><span class="w"> </span>install<span class="w"> </span>g++<span class="w"> </span>cmake<span class="w"> </span>git<span class="w"> </span>python3
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/usnistgov/feasst.git
 mkdir<span class="w"> </span>feasst/build
 <span class="nb">cd</span><span class="w"> </span>feasst/build
@@ -322,7 +322,7 @@ google-chrome<span class="w"> </span>index.html
 </section>
 <section id="email-list">
 <h4>Email list<a class="headerlink" href="#email-list" title="Permalink to this heading"></a></h4>
-<p><a class="reference external" href="http://list.nist.gov/feasst">http://list.nist.gov/feasst</a></p>
+<p><a class="reference external" href="https://list.nist.gov/feasst">https://list.nist.gov/feasst</a></p>
 </section>
 <section id="issue-tracker">
 <h4>Issue tracker<a class="headerlink" href="#issue-tracker" title="Permalink to this heading"></a></h4>
@@ -416,6 +416,9 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l2"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_11_trappe_alkane.html">Grand Canonical Flat Histogram Simulation of TraPPE alkanes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_12_1bin_vs_2bin.html">Efficiency of 1 or 2 bin Grand Canonical Flat Histogram Simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/confinement/tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/confinement/tutorial/tutorial_1_wca_pore.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones in a simple WCA porous network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/confinement/tutorial/tutorial_2_co2_zif8.html">Grand Canonical Flat Histogram Simulation of TraPPE CO2 in ZIF8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/confinement/tutorial/tutorial_3_co2.html">Grand Canonical Flat Histogram Simulation of Bulk CO2 to analyze pressure in ZIF8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/chain/tutorial/tutorial_0_freely_jointed.html">Simulation of a single freely-jointed chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/chain/tutorial/tutorial_1_ideal_ua_chain.html">Simulation of a single chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/chain/tutorial/tutorial_2_ideal_ua_chain20.html">Simulation of a single 20-bead linear chain</a></li>
@@ -432,8 +435,10 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_4_cgmab.html">Virial coefficients of all-atom mAb domains.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_5_cgmab.html">Virial coefficients of 7-bead coarse-grained mAb model.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plugin/math/tutorial/tutorial_1_block_average.html">Block average analysis for correlated data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plugin/prefetch/tutorial/tutorial_1_prefetch.html">Prefetch example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_6_spherocylinder.html">Virial coefficients of spherocylinders.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_7_solid_of_revolution.html">Virial coefficients of solids of revolusion.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_8_b2_pdb.html">Virial coefficients of atomistic proteins in implicit solvent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/prefetch/tutorial/tutorial_2_lj_nvt_prefetch.html">Canonical ensemble Lennard-Jones with Prefetching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/fftw/tutorial/tutorial_01_hs_scattering.html">Compare standard vs FFTW scattering calculations for hard spheres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/morph/tutorial/tutorial_1_binary_lj.html">Semi-Grand Canonical Flat Histogram Simulation of a binary LJ mixture</a></li>
@@ -539,6 +544,7 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/AngleHarmonic_arguments.html">AngleHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/DihedralHarmonic_arguments.html">DihedralHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/DihedralTraPPE_arguments.html">DihedralTraPPE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/DihedralRyckaertBellemans_arguments.html">DihedralRyckaertBellemans</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/FENE_arguments.html">FENE</a></li>
 </ul>
 </li>
@@ -661,6 +667,7 @@ google-chrome<span class="w"> </span>index.html
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#change-log">Change Log</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/text_interface.html#v0-24-6-to-v0-25-0">v0.24.6 to v0.25.0</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/text_interface.html#v0-23-1-to-v0-24-0">v0.23.1 to v0.24.0</a></li>
 </ul>
 </li>
@@ -727,8 +734,7 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/RandomModulo.html">RandomModulo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/Table.html">Table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/doc/Histogram.html">Histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/math/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/math/tutorial/tutorial_1_block_average.html">Block average analysis for correlated data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/math/README.html#tutorial">Tutorial</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/math/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -774,14 +780,14 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModel.html">VisitModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelOneBody.html">ModelOneBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBody.html">ModelTwoBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/HardSphere.html">HardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelOneBody.html">ModelOneBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Cells.html">Cells</a></li>
@@ -871,6 +877,7 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/BondHarmonic.html">BondHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/AngleHarmonic.html">AngleHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/DihedralTraPPE.html">DihedralTraPPE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/DihedralRyckaertBellemans.html">DihedralRyckaertBellemans</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/DihedralHarmonic.html">DihedralHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/Yukawa.html">Yukawa</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/TwoBodyTable.html">TwoBodyTable</a></li>
@@ -999,6 +1006,9 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_4_cgmab.html">Virial coefficients of all-atom mAb domains.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_5_cgmab.html">Virial coefficients of 7-bead coarse-grained mAb model.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_6_spherocylinder.html">Virial coefficients of spherocylinders.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_7_solid_of_revolution.html">Virial coefficients of solids of revolusion.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_8_b2_pdb.html">Virial coefficients of atomistic proteins in implicit solvent</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/mayer/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -1067,6 +1077,7 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/Slab.html">Slab</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/HalfSpaceTilted.html">HalfSpaceTilted</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/Cylinder.html">Cylinder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/Supertoroid.html">Supertoroid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/ShapeFile.html">ShapeFile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/Cuboid.html">Cuboid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/Sphere.html">Sphere</a></li>
@@ -1078,11 +1089,14 @@ google-chrome<span class="w"> </span>index.html
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/confinement/README.html">Confinement</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/confinement/tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/tutorial/tutorial_1_wca_pore.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones in a simple WCA porous network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/tutorial/tutorial_2_co2_zif8.html">Grand Canonical Flat Histogram Simulation of TraPPE CO2 in ZIF8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/tutorial/tutorial_3_co2.html">Grand Canonical Flat Histogram Simulation of Bulk CO2 to analyze pressure in ZIF8</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/confinement/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/confinement/README.html#api">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelHardShape.html">ModelHardShape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelSquareWellShape.html">ModelSquareWellShape</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Background.html">Background</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelSquareWellShape.html">ModelSquareWellShape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelHardShape.html">ModelHardShape</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelLJShape.html">ModelLJShape</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1DHard.html">ModelTableCart1DHard</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/trial_anywhere.html">confinement/include/trial_anywhere</a></li>
@@ -1099,13 +1113,13 @@ google-chrome<span class="w"> </span>index.html
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/charge/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/charge/README.html#api">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/ElectricField.html">ElectricField</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/ChargeSelf.html">ChargeSelf</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html">SlabCorrection</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/Coulomb.html">Coulomb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/ChargeScreened.html">ChargeScreened</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/DebyeHuckel.html">DebyeHuckel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/ElectricField.html">ElectricField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/ChargeSelf.html">ChargeSelf</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/Ewald.html">Ewald</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
@@ -1207,7 +1221,7 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l2"><a class="reference internal" href="plugin/prefetch/README.html">Prefetch</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/prefetch/doc/Pool.html">Pool</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/prefetch/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/prefetch/tutorial/tutorial_1_prefetch.html">Prefetch example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/prefetch/tutorial/tutorial_2_lj_nvt_prefetch.html">Canonical ensemble Lennard-Jones with Prefetching</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/prefetch/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -1297,6 +1311,16 @@ google-chrome<span class="w"> </span>index.html
 <li class="toctree-l3"><a class="reference internal" href="plugin/netcdf/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/netcdf/doc/FileNETCDF.html">FileNETCDF</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/netcdf/doc/MovieNETCDF.html">MovieNETCDF</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/mpi/README.html">MPI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/mpi/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/mpi/README.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/mpi/doc/MPIPlaceHolder.html">MPIPlaceHolder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/mpi/doc/ModelMPI.html">ModelMPI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/mpi/doc/ThreadMPI.html">ThreadMPI</a></li>
 </ul>
 </li>
 </ul>

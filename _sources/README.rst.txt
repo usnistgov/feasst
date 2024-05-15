@@ -85,7 +85,7 @@ How to install (i.e., compile the executables)
 
 .. code-block:: bash
 
-    [apt/yum/brew] install g++ cmake git python3
+    [apt/yum/dnf/brew] install g++ cmake git python3
     git clone https://github.com/usnistgov/feasst.git
     mkdir feasst/build
     cd feasst/build

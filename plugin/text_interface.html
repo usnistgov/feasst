@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Text Interface &mdash; FEASST v0.24.6 documentation</title>
+  <title>Text Interface &mdash; FEASST v0.25.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.24.6
+                v0.25.0
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -154,6 +154,7 @@
 <li class="toctree-l3"><a class="reference internal" href="models/doc/AngleHarmonic_arguments.html">AngleHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="models/doc/DihedralHarmonic_arguments.html">DihedralHarmonic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="models/doc/DihedralTraPPE_arguments.html">DihedralTraPPE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/doc/DihedralRyckaertBellemans_arguments.html">DihedralRyckaertBellemans</a></li>
 <li class="toctree-l3"><a class="reference internal" href="models/doc/FENE_arguments.html">FENE</a></li>
 </ul>
 </li>
@@ -276,6 +277,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#change-log">Change Log</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#v0-24-6-to-v0-25-0">v0.24.6 to v0.25.0</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#v0-23-1-to-v0-24-0">v0.23.1 to v0.24.0</a></li>
 </ul>
 </li>
@@ -538,6 +540,7 @@ For updating to a newer version, see the change log below.</p>
 <li class="toctree-l1"><a class="reference internal" href="models/doc/AngleHarmonic_arguments.html">AngleHarmonic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/doc/DihedralHarmonic_arguments.html">DihedralHarmonic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/doc/DihedralTraPPE_arguments.html">DihedralTraPPE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/doc/DihedralRyckaertBellemans_arguments.html">DihedralRyckaertBellemans</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/doc/FENE_arguments.html">FENE</a></li>
 </ul>
 </div>
@@ -708,6 +711,14 @@ For updating to a newer version, see the change log below.</p>
 <h2>Change Log<a class="headerlink" href="#change-log" title="Permalink to this heading"></a></h2>
 <p>Below is a list of all notable changes made to the text interface which will likely lead to the errors if older text interface scripts use the newer version.
 Renamed arguments are shown as Class::old_argument-&gt;new_argument.</p>
+<section id="v0-24-6-to-v0-25-0">
+<h3>v0.24.6 to v0.25.0<a class="headerlink" href="#v0-24-6-to-v0-25-0" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Mie::n,m arguments replaced with mie_lambda_r,mie_lambda_a “Site Properties”</p></li>
+<li><p>TablePotential base class VisitModel-&gt;Model</p></li>
+<li><p>Trial::weight_per_number-&gt;weight_per_number_fraction</p></li>
+</ul>
+</section>
 <section id="v0-23-1-to-v0-24-0">
 <h3>v0.23.1 to v0.24.0<a class="headerlink" href="#v0-23-1-to-v0-24-0" title="Permalink to this heading"></a></h3>
 <ul class="simple">
@@ -722,7 +733,7 @@ Renamed arguments are shown as Class::old_argument-&gt;new_argument.</p>
 <li><p>ModelTableCart3DIntegr::shape_file_name-&gt;shape_file</p></li>
 </ul>
 <p>The information available above is pruned from the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation, with only the class arguments and no member functions.
-Therefore the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation represents all capabilities of FEASST, many of which are hidden from text users for various reasons (e.g., because the classes may be used only internally, still in development, buggy, depreciated, debugging tools or simply forgotten).</p>
+Therefore the <a class="reference internal" href="README.html"><span class="doc">C++ Interface</span></a> documentation represents all capabilities of FEASST, many of which are hidden from text users for various reasons (e.g., because the classes may be used only internally, in development, buggy, depreciated or debugging tools).</p>
 </section>
 </section>
 </section>

@@ -16,14 +16,14 @@
    RigidDihedral
    BondVisitor
    VisitModel
-   ModelOneBody
-   ModelEmpty
    DontVisitModel
    LongRangeCorrections
    ModelTwoBody
    IdealGas
    ModelTwoBodyFactory
    HardSphere
+   ModelOneBody
+   ModelEmpty
    ModelThreeBody
    ModelTwoBodyTable
    Cells
