@@ -6,7 +6,7 @@ For example, the canonical ensemble average energy for a given number of particl
 from pathlib import Path
 import pandas as pd
 
-def splice_by_max_column(prefix, suffix, column='moment0'):
+def splice_by_max_column(prefix, suffix, column='moment0', crit_prefix=None, crit_suffix=None):
     """
     Combine all files with matching prefix and suffix, each with the same number of states,
     by assigning rows based on the maximum in the given column.
@@ -15,6 +15,8 @@ def splice_by_max_column(prefix, suffix, column='moment0'):
     :param str suffix: Find all files endding with this suffix.
     :param str column:
         Use the row with the maximum column. For example, moment0 is the highest number of samples.
+    :param str crit_prefix: Use criteria to read only specific macrostates, if given.
+    :param str crit_suffix: Use criteria to read only specific macrostates, if given.
 
     >>> import pandas as pd
     >>> from pyfeasst import multistate_accumulator
@@ -30,14 +32,37 @@ def splice_by_max_column(prefix, suffix, column='moment0'):
     >>> assert spliced['average'][138] == en1['average'][138]
     """
     spliced = None
-    for filename in Path('.').rglob(prefix+'*'+suffix):
-        if spliced is None:
-            spliced = pd.read_csv(filename)
-        else:
-            addition = pd.read_csv(filename)
-            newer = addition[addition[column] > spliced[column]]
-            if len(newer) > 0:
-                spliced.loc[newer['state'].values[0]: newer['state'].values[-1]] = newer
+    if crit_prefix is None:
+        for filename in Path('.').rglob(prefix+'*'+suffix):
+            if spliced is None:
+                spliced = pd.read_csv(filename)
+            else:
+                addition = pd.read_csv(filename)
+                newer = addition[addition[column] > spliced[column]]
+                if len(newer) > 0:
+                    spliced.loc[newer['state'].values[0]: newer['state'].values[-1]] = newer
+    else:
+        rows = list()
+        for filename in sorted(Path('.').rglob(crit_prefix+'*'+crit_suffix)):
+            print('filename', filename)
+            with open(filename, 'r') as file1:
+                lines = file1.readlines()
+            exec('iprm={' + lines[0][1:] + '}', globals())
+            rows.append([iprm['soft_min'], iprm['soft_max']])
+        #print('rows', rows)
+        ifile = 0
+        lines=list()
+        for filename in sorted(Path('.').rglob(prefix+'*'+suffix)):
+            #print('filename', filename, 'ifile', ifile)
+            with open(filename, 'r') as file1:
+                tlines = file1.readlines()
+                if ifile == 0: lines += tlines[0]
+                lines += tlines[rows[ifile][0]+1:rows[ifile][1]+2]
+            ifile += 1
+        #print(lines)
+        with open(prefix+suffix+'_agg.csv', 'w') as file1:
+            for line in lines: file1.write(line)
+        spliced = pd.read_csv(prefix+suffix+'_agg.csv', usecols=range(0, 5))
     return spliced
 
 def splice_by_node(prefix, suffix, num_nodes, extra_overlap=0):

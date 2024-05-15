@@ -1,5 +1,8 @@
 # LAMMPS-inspired data file
 # TRAPPE CO2 http://trappe.oit.umn.edu/
+#
+#   O(1) - C(0) - O(2)
+#
 
 3 sites
 2 bonds

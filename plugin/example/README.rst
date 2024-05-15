@@ -14,14 +14,9 @@ Specifically, these are the steps required to copy and rename an existing class 
 .. code-block:: bash
 
     cd /path/to/feasst/plugin/example
-
-    cp include/model_example.h include/new_name.h
-    sed -i 's/ModelExample/NewName/g' include/new_name.h
-    sed -i 's/MODEL_EXAMPLE/NEW_NAME/g' include/new_name.h
-
-    cp src/model_example.cpp src/new_name.cpp
-    sed -i 's/ModelExample/NewName/g' src/new_name.cpp
-    sed -i 's/model_example\.h/new_name.h/g' src/new_name.cpp
+    sed "s/MODEL_EXAMPLE/NEW_NAME/g" include/model_example.h > include/new_name.h
+    sed "s/model_example\.h/new_name.h/g" src/model_example.cpp > src/new_name.cpp
+    sed -i "s/ModelExample/NewName/g" include/new_name.h src/new_name.cpp
 
 2. Reinstall FEASST, starting with the cmake command.
 

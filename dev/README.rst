@@ -367,3 +367,4 @@ To Do List
 * Add 1/2 factor in AngleHarmonic
 * Add precompute for BondFourBody, ThreeBody, etc, to speed up? But different dihedrals have different coefficients.
 * Add option to not serialize neighbor lists to reduce checkpoint size.
+* Allow one script to contain multiple MonteCarlo, CollectionMatrixSplice, Prefetch in any order? (checkpointing is difficult)

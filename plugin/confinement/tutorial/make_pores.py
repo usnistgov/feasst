@@ -47,6 +47,12 @@ for xshift in [0, PARAMS['size']*PARAMS['spacing']]:
       ysa = np.concatenate((ysa, ys + yshift))
       zsa = np.concatenate((zsa, zs + zshift))
 
+# shift to center in box
+half_pbc = PARAMS['size']*PARAMS['spacing']
+xsa -= half_pbc
+ysa -= half_pbc
+zsa -= half_pbc
+
 f = open(PARAMS['file_name'], 'w')
 f.write('# 2x2x2 pores\n\
 \n\

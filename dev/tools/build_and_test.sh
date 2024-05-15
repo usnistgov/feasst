@@ -5,7 +5,7 @@ mkdir -p build
 cd build
 python3 -m venv feasst_test_env
 source feasst_test_env/bin/activate
-pip install --upgrade pip
+python3 -m pip install --upgrade pip
 pip install ../pyfeasst numpy jupyter matplotlib pandas scipy wheel biopandas
 module load mpi/openmpi-x86_64 # sudo dnf install openmpi-devel
 cmake -DUSE_GTEST=ON -DUSE_MPI=ON .. #-DUSE_SWIG=ON

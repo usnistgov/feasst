@@ -1,6 +1,7 @@
 from pyfeasst import physical_constants
-epsilon_in_Kelvin = 98 # CH3 2-methylpropane
+#epsilon_in_Kelvin = 98 # CH3 2-methylpropane
 #epsilon_in_Kelvin = 10 # CH 2-methylpropane
+epsilon_in_Kelvin = 27.0 # TraPPE co2 C-C
 #epsilon_in_Kelvin = 28.129 # emp2 co2 C-C
 #epsilon_in_Kelvin = 47.588 # emp2 co2 C-O
 #epsilon_in_Kelvin = 80.507 # emp2 co2 O-O
