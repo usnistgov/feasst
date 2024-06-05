@@ -3,7 +3,7 @@
 #
 # n-hexane
 #
-#       type2  type3
+#        type2  type3  type4
 #         7      9      11     13     15     17
 #        HCH3   HCH2   HCH2   HCH2   HCH2   HCH3
 #         |      |      |      |      |      |
@@ -16,8 +16,14 @@
 #        HCH3   HCH2   HCH2   HCH2   HCH2   HCH3
 
 20 sites
+19 bonds
+36 angles
+45 dihedrals
 
-4 site types
+5 site types
+2 bond types
+3 angle types
+2 dihedral types
 
 Units
 

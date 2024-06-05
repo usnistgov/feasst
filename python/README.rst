@@ -1,5 +1,5 @@
 ******************************
-Python interface
+Python Interface
 ******************************
 
 The pybind11 interface is in recent active development.

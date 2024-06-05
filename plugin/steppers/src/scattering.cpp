@@ -43,9 +43,9 @@ void Scattering::initialize(Criteria * criteria,
           const double k = kvec.distance();
           std::vector<double> ff;
           for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
-            const double sigma = config.model_params().select("sigma").value(site_type);
-            const double volume = 4*PI*std::pow(sigma, 3)/3.;
-            ff.push_back(volume*3*(std::sin(k*sigma)-k*sigma*std::cos(k*sigma))/std::pow(k*sigma, 3));
+            const double radius = 0.5*config.model_params().select("sigma").value(site_type);
+            const double volume = 4*PI*std::pow(radius, 3)/3.;
+            ff.push_back(volume*3*(std::sin(k*radius)-k*radius*std::cos(k*radius))/std::pow(k*radius, 3));
           }
           site_ff_.push_back(ff);
         }

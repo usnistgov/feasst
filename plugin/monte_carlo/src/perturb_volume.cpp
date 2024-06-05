@@ -10,6 +10,9 @@ PerturbVolume::PerturbVolume(argtype * args) : Perturb(args) {
   class_name_ = "PerturbVolume";
   uniform_volume_ = boolean("uniform_volume", args, false);
   constrain_volume_change_ = boolean("constrain_volume_change", args, false);
+  if (constrain_volume_change_) {
+    disable_tunable_();
+  }
 }
 PerturbVolume::PerturbVolume(argtype args) : PerturbVolume(&args) {
   FEASST_CHECK_ALL_USED(args);

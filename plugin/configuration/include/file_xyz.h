@@ -42,6 +42,8 @@ class PrinterXYZ : public LoopConfigOneBody {
   If lz == 0, then the domain is set to two dimensions.
   The following n lines are in the format [id x y z],
   where id is the unique site type and x, y, z are the Cartesian coordinates.
+
+  Although FileXYZ writes the domain tilt factors, FileXYZ does not read them.
  */
 class FileXYZ {
  public:

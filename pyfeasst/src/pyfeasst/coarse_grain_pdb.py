@@ -149,7 +149,7 @@ def write_fstprt(mol):
       'S': {'eps': 0.20, 'rad': 1.7818, 'mass': 32.065, 'alt': ['S', 'SG', 'SD']},
     }
 
-    df = pd.read_csv(mol+'.pqr', header=None, delim_whitespace=True)
+    df = pd.read_csv(mol+'.pqr', header=None, sep='\s+')
     df = df[df[0] != 'TER']
     df = df[:len(df)-1]
     df.reset_index(inplace=True)
@@ -165,10 +165,14 @@ def write_fstprt(mol):
         #print(atom)
         #print(atoms[atom]['eps'])
         for _, aa in enumerate(atoms[atom]['alt']):
-            df['atom'][df[2]==aa] = atom
-            df['mass'][df[2]==aa] = atoms[atom]['mass']
-            df['eps'][df[2]==aa] = atoms[atom]['eps']
-            df['sig'][df[2]==aa] = 2*atoms[atom]['rad']
+            df.loc[df[2]==aa, 'atom'] = atom
+            #df['atom'][df[2]==aa] = atom
+            df.loc[df[2]==aa, 'mass'] = atoms[atom]['mass']
+            #df['mass'][df[2]==aa] = atoms[atom]['mass']
+            df.loc[df[2]==aa, 'eps'] = atoms[atom]['eps']
+            #df['eps'][df[2]==aa] = atoms[atom]['eps']
+            df.loc[df[2]==aa, 'sig'] = 2*atoms[atom]['rad']
+            #df['sig'][df[2]==aa] = 2*atoms[atom]['rad']
 
     assert len(df[df['sig'] == 0]) == 0
     #print(df[df['sig'] == 0])
@@ -207,9 +211,11 @@ def write_fstprt(mol):
             #print('at', at)
             if at['q'] == q and at['sig'] == s and at['eps'] == e:
                 new = False
-                df['type'][atom] = iat
+                df.loc[atom, 'type'] = iat
+                #df['type'][atom] = iat
         if new:
-            df['type'][atom] = len(atom_type)
+            df.loc[atom, 'type'] = len(atom_type)
+            #df['type'][atom] = len(atom_type)
             atom_type.append({'q': q, 'sig': s, 'eps': e})
 
     #print(atom_type)

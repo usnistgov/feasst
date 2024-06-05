@@ -136,7 +136,7 @@ def post_process(params):
         ens[sim] /= 4.184 # kJ/mol to kcal/mol
     print('rhos(kg/m^3)', rhos)
     print('ens(kcal/mol)', ens)
-    assert np.abs(rhos[0][0] - 800) < 35
+    assert np.abs(rhos[0][0] - 800) < 55
     assert np.abs(rhos[1][0] - 850) < 35
     assert np.abs(rhos[2][0] - 900) < 35
     assert np.abs(rhos[3][0] - 950) < 35

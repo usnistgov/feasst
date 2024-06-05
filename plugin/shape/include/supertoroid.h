@@ -29,7 +29,7 @@ class Random;
   with an implicit function, \f$F\f$, where \f$F=1\f$ at the surface,
   \f$F<1\f$ inside, and \f$F>1\f$ outside,
 
-  \f$\left{\left[\left(\frac{x}{a_1}\right)^{\frac{2}{\epsilon_2}} + \left(\frac{y}{a_2}\right)^{\frac{2}{\epsilon_2}\right)^{\frac{\epsilon_2}{2}}-a_4\right)^{\frac{2}{\epsilon_1}}+\left(\frac{z}{a_3}\right)^{\frac{2}{\epsilon_1}}\f$.
+  \f$\left(\left(\left(\frac{x}{a_1}\right)^{\frac{2}{\epsilon_2}} + \left(\frac{y}{a_2}\right)^{\frac{2}{\epsilon_2}}\right)^{\frac{\epsilon_2}{2}}-a_4\right)^{\frac{2}{\epsilon_1}}+\left(\frac{z}{a_3}\right)^{\frac{2}{\epsilon_1}}\f$.
 
   The size of the hole is related to \f$a_4\f$, where the radius of the toroid, \f$R=a_4\sqrt{a_1^2+a_2^2}\f$.
 

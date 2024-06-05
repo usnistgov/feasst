@@ -43,6 +43,7 @@ class Configuration {
     - add_particles_of_type[i]: add this many of i-th type particles.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
     - xyz_file: optionally load FileXYZ if not empty (default: empty).
+      Note that Domain tilt factors are not read by FileXYZ.
     - xyz_euler_file: optionally load FileXYZEuler if not empty (default: empty).
     - wrap: wrap particle centers within domain (default: true).
     - physical_constants: optional class_name of PhysicalConstants.

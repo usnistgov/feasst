@@ -16,7 +16,8 @@ class Run : public Action {
  public:
   //@{
   /** @name Arguments
-    - num_trials: run this many trials (default: -1. e.g., None)
+    - num_trials: run this many trials (default: -1. e.g., None).
+      Note that num_trials is not as restart friendly as ``until_*'' arguments.
     - until_num_particles: run until this many particles (default: -1. e.g., None)
     - configuration_index: configuration for until_num_particles (default: 0).
     - particle_type: type of particle to count. If -1, all particles (default: -1).

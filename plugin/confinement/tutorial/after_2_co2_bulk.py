@@ -31,7 +31,7 @@ PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=1e0,
                     help='number of iterations for equilibration')
-PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
+PARSER.add_argument('--hours_checkpoint', type=float, default=0.5, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
