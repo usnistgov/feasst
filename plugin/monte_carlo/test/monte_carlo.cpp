@@ -785,12 +785,14 @@ TEST(MonteCarlo, weight_per_number_fraction_on_add) {
 TEST(MonteCarlo, weight_per_number_fraction) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"},
-                                                   {"particle_type1", "../particle/lj.fstprt"}}},
+                                                   {"particle_type1", "../particle/lj.fstprt"},
+                                                   {"particle_type2", "../particle/lj.fstprt"},
+                                                   {"add_particles_of_type2", "1"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1."}, {"chemical_potential1", "1."}}},
     {"Metropolis", {{}}},
-    {"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"particle_type", "0"}}},
-    {"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"particle_type", "1"}}},
+    {"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"particle_type", "0"}, {"number_fraction_exclude_type", "2"}}},
+    {"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"particle_type", "1"}, {"number_fraction_exclude_type", "2"}}},
     {"TrialTransfer", {{"particle_type", "0"}}},
     {"TrialTransfer", {{"particle_type", "1"}}},
     {"Log", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/lj.txt"}}},
@@ -803,6 +805,8 @@ TEST(MonteCarlo, weight_per_number_fraction) {
     mc->attempt();
     const int num0 = mc->configuration().num_particles_of_type(0);
     const int num1 = mc->configuration().num_particles_of_type(1);
+    const int num2 = mc->configuration().num_particles_of_type(2);
+    EXPECT_EQ(num2, 1);
     EXPECT_EQ(mc->trial(0).weight(), static_cast<double>(num0)/(num0+num1));
     EXPECT_EQ(mc->trial(1).weight(), static_cast<double>(num1)/(num0+num1));
     DEBUG("num0 " << num0 << " num1 " << num1 << " " << static_cast<double>(num0)/(num0+num1));

@@ -23,6 +23,7 @@ Trial::Trial(argtype * args) {
   data_.get_int64_1D()->resize(3);
   *get_weight_() = dble("weight", args, 1);
   weight_per_number_fraction_ = dble("weight_per_number_fraction", args, -1);
+  number_fraction_exclude_type_ = integer("number_fraction_exclude_type", args, -1);
   reset_stats();
 }
 Trial::Trial(argtype args) : Trial(&args) {
@@ -251,6 +252,11 @@ bool Trial::is_equal(const Trial& trial) const {
           trial.weight_per_number_fraction_);
     return false;
   }
+  if (number_fraction_exclude_type_ != trial.number_fraction_exclude_type_) {
+    DEBUG("unequal number_fraction_exclude_type:" << number_fraction_exclude_type_ << " " <<
+          trial.number_fraction_exclude_type_);
+    return false;
+  }
   if (num_stages() > 0) {
     if (!stages_[0]->perturb().tunable().is_equal(
         trial.stages_[0]->perturb().tunable())) {
@@ -262,12 +268,13 @@ bool Trial::is_equal(const Trial& trial) const {
 }
 
 void Trial::serialize_trial_(std::ostream& ostr) const {
-  feasst_serialize_version(571, ostr);
+  feasst_serialize_version(572, ostr);
   feasst_serialize(stages_, ostr);
   // desererialize: refresh stages_ptr_
   feasst_serialize_fstdr(compute_, ostr);
   //feasst_serialize(weight_, ostr);
   feasst_serialize(weight_per_number_fraction_, ostr);
+  feasst_serialize(number_fraction_exclude_type_, ostr);
   feasst_serialize(description_, ostr);
   //feasst_serialize(num_attempts_, ostr);
   //feasst_serialize(num_success_, ostr);
@@ -278,7 +285,7 @@ void Trial::serialize_trial_(std::ostream& ostr) const {
 Trial::Trial(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 570 && version <= 571, "mismatch version: " << version);
+  ASSERT(version >= 570 && version <= 572, "mismatch version: " << version);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize(&stages_, istr);
   { int dim1;
@@ -309,6 +316,9 @@ Trial::Trial(std::istream& istr) {
   }
   if (version >= 571) {
     feasst_deserialize(&weight_per_number_fraction_, istr);
+  }
+  if (version >= 571) {
+    feasst_deserialize(&number_fraction_exclude_type_, istr);
   }
   feasst_deserialize(&description_, istr);
   //feasst_deserialize(&num_attempts_, istr);

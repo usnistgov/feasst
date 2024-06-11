@@ -112,8 +112,8 @@ def post_process(params):
             else:
                 df[p] = iprm['beta_taylor']
     print('b2 (mol*ml/g2)', b2acc.mean(), b2acc.stdev()/np.sqrt(params['procs_per_node']))
-    if params['molecular_weight'] == 13346.39126586914:
-        assert np.abs(b2acc.mean() - 1.98) < 0.1
+    if params['molecular_weight'] == 14315.03534:
+        assert np.abs(b2acc.mean() - 1.72) < 0.1
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,

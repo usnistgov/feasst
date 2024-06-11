@@ -92,7 +92,10 @@ bool TrialFactory::attempt(
           }
           const Configuration& config = tsel.configuration(*system);
           const int number = config.num_particles_of_type(ptype);
-          const int total = config.num_particles();
+          int total = config.num_particles();
+          if (trial->number_fraction_exclude_type() >= 0) {
+            total -= config.num_particles_of_type(trial->number_fraction_exclude_type());
+          }
           const double new_weight = trial->weight_per_number_fraction()*number/total;
           if (std::abs(trial->weight() - new_weight) > 1e-8) {
             trial->set_weight(new_weight);

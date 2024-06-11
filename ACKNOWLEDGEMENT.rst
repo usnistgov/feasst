@@ -1,44 +1,52 @@
 Acknowledgement
 ###############################################################
 
-For help in discussion or testing (alphabetical)
+The following acknowledgements are listed in alphabetical order of last name.
 
-* Prof. Henry S. Ashbaugh
-* Dr. Debra Audus
-* Dr. Christina Bergonzo
+For help in testing and discussion:
+
 * Dr. Marco A. Blanco
-* Dr. Cesar O Calero-Rubio
-* Dr. Joseph Curtis
 * Dr. Tamoghna Das
-* Prof. Pablo Debenedetti
 * Dr. Jingxiang Guo
 * Steven W. Hall
-* Dr. Steven Howell
 * Dr. Sally Jiao
-* Prof. Zhehui (Charlie) Jin
-* Dr. William P. Krekelberg
 * Dr. Nathan Mahynski
 * Dr. Tiara Ann Maula
 * Bartosz Mazur
 * Gordon W. McCann
-* Prof. Jeetain Mittal
-* Prof. Jeremy Palmer
-* Prof. Athanassios Z. Panagiotopoulos
-* Prof. Christopher J. Roberts
 * Dr. Christopher Rzepa
-* Prof. Sapna Sarupria
-* Dr. David A. Sheen
-* Dr. Vincent K. Shen
 * Dr. Daniel W. Siderius
 * Dr. Yingnan Wang
 * Jilong Xu
 * Chieh-Chih (George) Yeh
 * Dr. Hasan Zerze
 
+For help in discussion:
+
+* Prof. Henry S. Ashbaugh
+* Dr. Debra Audus
+* Dr. Christina Bergonzo
+* Dr. Cesar O Calero-Rubio
+* Dr. Joseph Curtis
+* Prof. Pablo Debenedetti
+* Dr. Steven Howell
+* Prof. Zhehui (Charlie) Jin
+* Dr. William P. Krekelberg
+* Prof. Jeetain Mittal
+* Prof. Jeremy Palmer
+* Prof. Athanassios Z. Panagiotopoulos
+* Prof. Christopher J. Roberts
+* Prof. Sapna Sarupria
+* Dr. David A. Sheen
+* Dr. Vincent K. Shen
+* Dr. Daniel W. Siderius
+* Prof. Thomas M. Truskett
+* Prof. Norman J. Wagner
+
 Publications
 ============
 
-Some publications which use FEASST include:
+Publications which use FEASST include:
 
 #. https://doi.org/10.1021/acs.jpcb.4c00753
 #. https://doi.org/10.1063/5.0148488

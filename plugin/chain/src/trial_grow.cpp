@@ -61,6 +61,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   ASSERT(num_args > 0, "TrialGrow requires args.size: " << num_args << " > 0");
   double weight = dble("weight", &(*args)[0], -1.);
   double weight_per_number_fraction = dble("weight_per_number_fraction", &(*args)[0], -1.);
+  double number_fraction_exclude_type = integer("number_fraction_exclude_type", &(*args)[0], -1.);
   ASSERT(weight < 0 || weight_per_number_fraction < 0,
     "TrialGrow cannot have both weight and weight_per_number_fraction arguments.");
   const std::string default_num_steps = str("default_num_steps", &(*args)[0], "1");
@@ -155,6 +156,9 @@ void TrialGrow::build_(std::vector<argtype> * args) {
     }
     if (weight_per_number_fraction > 0) {
       trial->set_weight_per_number_fraction(weight_per_number_fraction);
+    }
+    if (number_fraction_exclude_type > 0) {
+      trial->set_number_fraction_exclude_type(number_fraction_exclude_type);
     }
     if (trial_half_weight[itr]) {
       if (weight_per_number_fraction > 0) {

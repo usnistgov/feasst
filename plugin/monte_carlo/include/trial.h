@@ -34,10 +34,16 @@ class Trial {
       (weight_per_number_fraction * number of TrialSelect::particle_type in
        first TrialStage / total number of particles).
       If <= 0, the given weight above is fixed to that value (default: -1).
-      For a binary simulation, weight_per_number_fraction with a separate
-      trial for particle_type 0 and 1 ensures equal probability of selecting
-      either particle type regardless of the number of particles, while still
-      allowing for different tunable parameters for each particle_type.
+      For a multicomponent simulation, weight_per_number_fraction with a separate
+      trial for each mobile particle_type ensures equal probability of selecting
+      any particles of those types type regardless of the number of particles of
+      each type, while still allowing for different tunable parameters for each
+      particle_type.
+    - number_fraction_exclude_type: if >= 0 (default: -1), exclude this particle
+      type from the total number of fractions in weight_per_number_fraction.
+      If there is a rigid particle type in the grand canonical ensemble, avoid
+      changing the relative weight of translation vs insert/delete and breaking
+      detailed balance.
    */
   explicit Trial(argtype args = argtype());
   explicit Trial(argtype * args);
@@ -61,6 +67,14 @@ class Trial {
   // Set the weight per number.
   void set_weight_per_number_fraction(const double wpn) {
     weight_per_number_fraction_ = wpn; }
+
+  /// Return the particle type excluded in number fraction weights.
+  int number_fraction_exclude_type() const {
+    return number_fraction_exclude_type_; }
+
+  // Set the particle type excluded in number fraction weights.
+  void set_number_fraction_exclude_type(const double nfet) {
+    number_fraction_exclude_type_ = nfet; }
 
   /// Add a stage which includes selection and perturbation with arguments.
   void add_stage(std::shared_ptr<TrialSelect> select,
@@ -199,6 +213,7 @@ class Trial {
   //double weight_;
   double * get_weight_() { return &((*data_.get_dble_1D())[0]); }
   double weight_per_number_fraction_;
+  int number_fraction_exclude_type_;
   std::string description_ = "Trial";
   int64_t * num_attempts_() { return &((*data_.get_int64_1D())[0]); }
   int64_t * num_success_() { return &((*data_.get_int64_1D())[1]); }
