@@ -21,7 +21,7 @@ def structure_factor(distances, radial_distribution, frequency, number_density):
     ...     radial_distribution=gr['g_HH'],
     ...     frequency=0.4,
     ...     number_density=530/90**3)
-    >>> round(sq, 8)
+    >>> round(float(sq), 8)
     0.59292662
     """
     struct_fac = 0.
@@ -43,19 +43,19 @@ def gen_ff_file(qs, sigmas, output_file):
     ...                        output_file='ff.csv')
     >>> import pandas as pd
     >>> df = pd.read_csv('ff.csv')
-    >>> round(df['q'][0], 6) == qs[0]
+    >>> bool(round(df['q'][0], 6) == qs[0])
     True
-    >>> round(df['p0'][0], 4) == 14.0422
+    >>> bool(round(df['p0'][0], 4) == 14.0422)
     True
-    >>> round(df['p0'][1], 4) == 13.9303
+    >>> bool(round(df['p0'][1], 4) == 13.9303)
     True
-    >>> round(df['p4'][0], 3) == 263.059
+    >>> bool(round(df['p4'][0], 3) == 263.059)
     True
-    >>> round(df['p4'][1], 3) == 241.494
+    >>> bool(round(df['p4'][1], 3) == 241.494)
     True
-    >>> round(df['p0'][2], 4) == 14.6937
+    >>> bool(round(df['p0'][2], 4) == 14.6937)
     True
-    >>> round(df['p4'][2], 3) == 411.925
+    >>> bool(round(df['p4'][2], 3) == 411.925)
     True
     """
 
@@ -82,9 +82,9 @@ def intensity(gr_file, num_density, iq_file=None, pqs=None, skip=1, rdf_shift=0.
 
     >>> from pyfeasst import scattering
     >>> df = intensity('../../tests/grn30.csv', iq_file='../../tests/iq.csv', num_density=3/90**3, skip=100)
-    >>> round(df['q'][0], 5)
+    >>> round(float(df['q'][0]), 5)
     0.06981
-    >>> round(df['iq'][0], 8)
+    >>> round(float(df['iq'][0]), 8)
     73049.60991857
     """
     rdf = pd.read_csv(gr_file, comment="#")

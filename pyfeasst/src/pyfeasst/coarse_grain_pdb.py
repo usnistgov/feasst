@@ -21,11 +21,11 @@ def subset(pdb_file, chains, skip_hydrogens=False):
     >>> fc = coarse_grain_pdb.subset(pdb_file="../../tests/1igt.pdb", chains={'B': range(236, 244), 'D': range(236, 244)})
     >>> fc['chain_id'].values[0]
     'B'
-    >>> fc['residue_number'].values[0]
+    >>> int(fc['residue_number'].values[0])
     236
     >>> fc['chain_id'].values[-1]
     'D'
-    >>> fc['residue_number'].values[-1]
+    >>> int(fc['residue_number'].values[-1])
     243
     """
     pdb = PandasPdb().read_pdb(pdb_file)
@@ -50,7 +50,7 @@ def center_of_mass(subset):
     >>> fc = coarse_grain_pdb.subset(pdb_file="../../tests/1igt.pdb", chains={'B': range(248, 475), 'D': range(248, 475)})
     >>> r_com_fc = coarse_grain_pdb.center_of_mass(fc)
     >>> fc_hinge = r_com_fc - r_com_hinge
-    >>> round(np.sqrt(np.dot(fc_hinge, fc_hinge)), 8)
+    >>> round(float(np.sqrt(np.dot(fc_hinge, fc_hinge))), 8)
     42.35587498
     """
     masses = list()

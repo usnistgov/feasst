@@ -78,23 +78,23 @@ def splice_by_node(prefix, suffix, num_nodes, extra_overlap=0):
     >>> from pyfeasst import multistate_accumulator
     >>> from pyfeasst import macrostate_distribution
     >>> spliced = splice_by_node(prefix='../../tests/lj_enn', suffix='.txt', num_nodes=2)
-    >>> round(spliced['average'][375], 8)
+    >>> round(float(spliced['average'][375]), 8)
     -2001.76687973
-    >>> round(spliced['average'][376], 8)
+    >>> round(float(spliced['average'][376]), 8)
     -2012.46764871
     >>> len(spliced)
     476
     >>> spliced.to_csv('spliced.csv')
     >>> lnpi = macrostate_distribution.splice_files(prefix='../../tests/lj_lnpin', suffix='.txt')
     >>> lnpi.concat_dataframe(spliced, add_prefix='e_')
-    >>> round(lnpi.equilibrium(), 8)
+    >>> round(float(lnpi.equilibrium()), 8)
     -0.31402411
     >>> vapor, liquid = lnpi.split()
-    >>> round(-vapor.ln_prob()[0]*0.7/8**3, 8)  # pressure
+    >>> round(float(-vapor.ln_prob()[0]*0.7/8**3), 8)  # pressure
     0.00136904
-    >>> round(vapor.ensemble_average('e_average')/vapor.average_macrostate(), 8)
+    >>> round(float(vapor.ensemble_average('e_average')/vapor.average_macrostate()), 8)
     -0.02500369
-    >>> round(liquid.ensemble_average('e_average')/liquid.average_macrostate(), 8)
+    >>> round(float(liquid.ensemble_average('e_average')/liquid.average_macrostate()), 8)
     -6.09838831
     """
     node_data = list()

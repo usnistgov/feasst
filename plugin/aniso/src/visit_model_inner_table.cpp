@@ -19,7 +19,7 @@ VisitModelInnerTable::VisitModelInnerTable(argtype args) : VisitModelInnerTable(
   FEASST_CHECK_ALL_USED(args);
 }
 
-void VisitModelInnerTable::read_table_(const std::string file_name,
+void VisitModelInnerTable::read_table(const std::string file_name,
     const bool ignore_energy,
     Configuration * config) {
   DEBUG("file_name " << file_name);
@@ -184,16 +184,23 @@ bool VisitModelInnerTable::is_energy_table(const std::vector<std::vector<Table6D
 
 void VisitModelInnerTable::precompute(Configuration * config) {
   VisitModelInner::precompute(config);
-  read_table_(table_file_, ignore_energy_, config);
+  read_table(table_file_, ignore_energy_, config);
   aniso_index_ = config->model_params().index("anisotropic");
   DEBUG("aniso_index_ " << aniso_index_);
   t2index_.resize(config->num_site_types(), -1);
-  const std::vector<std::vector<Table5D> >& inner = config->table5d();
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
     ASSERT(type1 < config->num_site_types(),"site type: " << type1 <<
       " in table > number of site types:" << config->num_site_types());
     t2index_[type1] = t1;
+  }
+  precompute_cutoffs(config);
+}
+
+void VisitModelInnerTable::precompute_cutoffs(Configuration * config) {
+  const std::vector<std::vector<Table5D> >& inner = config->table5d();
+  for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
+    const int type1 = site_types_[t1];
     for (int t2 = t1; t2 < static_cast<int>(site_types_.size()); ++t2) {
       const int type2 = site_types_[t2];
       ASSERT(type2 < config->num_site_types(),"site type: " << type2 <<
@@ -205,6 +212,61 @@ void VisitModelInnerTable::precompute(Configuration * config) {
       INFO("cutoff for " << type2 << "-" << type1 << " site types: " << cutoff);
     }
   }
+}
+
+double VisitModelInnerTable::compute_aniso(const int type1, const int type2,
+    const double squared_distance, const double s1, const double s2,
+    const double e1, const double e2, const double e3, const Configuration& config) const {
+  const std::vector<std::vector<Table5D> >& innert = config.table5d();
+  TRACE("size1 " << innert.size());
+  TRACE("size2 " << innert[0].size());
+  const float inner = innert[type1][type2].linear_interpolation(s1, s2, e1, e2, e3);
+  TRACE("inner " << inner);
+  double en = 0.;
+  if (squared_distance < inner*inner) {
+    en = NEAR_INFINITY;
+    TRACE("hard overlap");
+  } else if (ignore_energy_) {
+    en = 0.;
+  } else {
+    const double delta = delta_[type1][type2];
+    const double outer = inner + delta;
+    TRACE("delta " << delta);
+    TRACE("outer " << outer);
+    if (squared_distance < outer*outer) {
+      const double gamma = gamma_[type1][type2];
+      TRACE("gamma " << gamma);
+      const std::vector<std::vector<Table6D> >& energyt = config.table6d();
+      if ((std::abs(gamma) < NEAR_ZERO)) {
+        en = -1;
+      } else if (is_energy_table(energyt)) {
+        const double smooth = smoothing_distance_[type1][type2];
+        const double rhg = std::pow(inner, gamma);
+        const double rcg = std::pow(outer - smooth, gamma);
+        const double rg = std::pow(squared_distance, 0.5*gamma);
+        double z = (rg - rhg)/(rcg - rhg);
+        if (z < 0 && z > -1e-6) {
+          z = 0.;
+        }
+        TRACE("z " << z);
+        if (z > 1.) {
+          en = energyt[type1][type2].linear_interpolation(s1, s2, e1, e2, e3, 1.);
+          const double dx = outer - std::sqrt(squared_distance);
+          TRACE("dx " << dx);
+          if (dx > smooth && dx < smooth + 1e-5) {
+            en = 0.;
+          } else {
+            ASSERT(dx >= 0 && dx <= smooth, "dx: " << MAX_PRECISION << dx);
+            en *= dx/smooth;
+          }
+        } else {
+          ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
+          en = energyt[type1][type2].linear_interpolation(s1, s2, e1, e2, e3, z);
+        }
+      }
+    }
+  }
+  return en;
 }
 
 void VisitModelInnerTable::compute(
@@ -345,62 +407,13 @@ void VisitModelInnerTable::compute(
   ASSERT(tabtype2 != -1, "site " << type2 << " is anisotropic but not "
     << "included in VisitModelInnerTable.");
 
-  // check the inner cutoff.
-  const std::vector<std::vector<Table5D> >& innert = config->table5d();
-  TRACE("size1 " << innert.size());
-  TRACE("size2 " << innert[0].size());
-  const float inner = innert[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
-  TRACE("inner " << inner);
-  double en = 0.;
-  if (squared_distance < inner*inner) {
-    en = NEAR_INFINITY;
-    TRACE("hard overlap");
-  } else if (ignore_energy_) {
-    return;
-  } else {
-    const double delta = delta_[tabtype1][tabtype2];
-    const double outer = inner + delta;
-    TRACE("delta " << delta);
-    TRACE("outer " << outer);
-    if (squared_distance < outer*outer) {
-      const double gamma = gamma_[tabtype1][tabtype2];
-      TRACE("gamma " << gamma);
-      const std::vector<std::vector<Table6D> >& energyt = config->table6d();
-      if ((std::abs(gamma) < NEAR_ZERO)) {
-        en = -1;
-      } else if (is_energy_table(energyt)) {
-        const double smooth = smoothing_distance_[tabtype1][tabtype2];
-        const double rhg = std::pow(inner, gamma);
-        const double rcg = std::pow(outer - smooth, gamma);
-        const double rg = std::pow(squared_distance, 0.5*gamma);
-        double z = (rg - rhg)/(rcg - rhg);
-        if (z < 0 && z > -1e-6) {
-          z = 0.;
-        }
-        TRACE("z " << z);
-        if (z > 1.) {
-          en = energyt[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, 1.);
-          const double dx = outer - std::sqrt(squared_distance);
-          TRACE("dx " << dx);
-          if (dx > smooth && dx < smooth + 1e-5) {
-            en = 0.;
-          } else {
-            ASSERT(dx >= 0 && dx <= smooth, "dx: " << MAX_PRECISION << dx);
-            en *= dx/smooth;
-          }
-        } else {
-          ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
-          en = energyt[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, z);
-        }
-      } else {
-        return;
-      }
-    }
-  }
+  double en = compute_aniso(tabtype1, tabtype2, squared_distance, s1, s2, e1, e2, e3, *config);
   en *= weight;
   TRACE("en " << en);
-  update_ixn(en, part1_index, site1_index, type1, part2_index,
-             site2_index, type2, squared_distance, pbc, is_old_config, *config);
+  if (en != 0.) {
+    update_ixn(en, part1_index, site1_index, type1, part2_index,
+               site2_index, type2, squared_distance, pbc, is_old_config, *config);
+  }
 }
 
 class MapVisitModelInnerTable {
@@ -423,6 +436,10 @@ VisitModelInnerTable::VisitModelInnerTable(std::istream& istr) : VisitModelInner
 
 void VisitModelInnerTable::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_visit_model_inner_table_(ostr);
+}
+
+void VisitModelInnerTable::serialize_visit_model_inner_table_(std::ostream& ostr) const {
   serialize_visit_model_inner_(ostr);
   feasst_serialize_version(7945, ostr);
   feasst_serialize(aniso_index_, ostr);

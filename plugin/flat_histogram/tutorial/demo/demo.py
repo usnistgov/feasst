@@ -137,7 +137,7 @@ class TestFlatHistogramLJ(unittest.TestCase):
             #plt.show()
             plt.close()
             plt.clf()
-            # ffmpeg -i lj%04d.png -c:v libx264 -crf 23 -profile:v baseline -level 3.0 -pix_fmt yuv420p -c:a aac -ac 2 -b:a 128k -movflags faststart output.mp4
+            # ffmpeg -i lj%04d.png -c:v libx264 -crf 23 -profile:v baseline -level 3.0 -pix_fmt yuv420p -c:a aac -ac 2 -b:a 128k -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -movflags faststart output.mp4
             # ffmpeg -an -i lj%04d.png -vcodec mpeg1video -r 24 -qscale:v 10 -vframes 500 lnpi.mpg
             # ffmpeg -an -i lj%04d.png -vcodec libx264 -pix_fmt yuv420p -r 24 -qscale:v 10 -vframes 500 lnpi.mpg
             # not this#ffmpeg -an -i /home/user/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.%05d.ppm -vcodec mpeg1video -r 24 -vframes 2967 /home/user/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.mpg

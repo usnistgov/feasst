@@ -113,7 +113,7 @@ class MacrostateDistribution:
 
         >>> from pyfeasst import macrostate_distribution
         >>> lnpi = macrostate_distribution.MacrostateDistribution(file_name='../../tests/lnpi.csv')
-        >>> round(lnpi.average_macrostate(), 8)
+        >>> round(float(lnpi.average_macrostate()), 8)
         437.68207872
         """
         return (np.exp(self.ln_prob()) * self.macrostates()).sum()
@@ -126,7 +126,7 @@ class MacrostateDistribution:
         >>> import pandas as pd
         >>> from pyfeasst import macrostate_distribution
         >>> lnpi = macrostate_distribution.MacrostateDistribution(file_name='../../tests/lnpi.csv')
-        >>> round(lnpi.ensemble_average(header='energy'), 8)
+        >>> round(float(lnpi.ensemble_average(header='energy')), 8)
         -2701.39300435
         """
         return (np.exp(self.ln_prob()) * self._dataframe[header]).sum()
@@ -148,7 +148,7 @@ class MacrostateDistribution:
         >>> mins = lnpi.minimums()
         >>> len(mins)
         1
-        >>> mins.values[0]
+        >>> int(mins.values[0])
         150
         """
         lnp = self.ln_prob()
@@ -169,13 +169,13 @@ class MacrostateDistribution:
         >>> from pyfeasst import macrostate_distribution
         >>> lnpi = macrostate_distribution.MacrostateDistribution(file_name='../../tests/lnpi.csv')
         >>> vapor, liquid = lnpi.split()
-        >>> round(vapor.average_macrostate(), 8)
+        >>> round(float(vapor.average_macrostate()), 8)
         1.4212647
-        >>> round(vapor.ensemble_average('energy'), 8)
+        >>> round(float(vapor.ensemble_average('energy')), 8)
         -0.04911667
-        >>> round(liquid.average_macrostate(), 8)
+        >>> round(float(liquid.average_macrostate()), 8)
         437.68207872
-        >>> round(liquid.ensemble_average('energy'), 8)
+        >>> round(float(liquid.ensemble_average('energy')), 8)
         -2701.39300435
         """
         if minimum == -1:
@@ -196,10 +196,10 @@ class MacrostateDistribution:
         >>> from pyfeasst import macrostate_distribution
         >>> lnpi = macrostate_distribution.MacrostateDistribution(file_name='../../tests/lnpi.csv')
         >>> reweight = lnpi.reweight(-1)
-        >>> round(reweight.dataframe()['ln_prob'][0], 8)
+        >>> round(float(reweight.dataframe()['ln_prob'][0]), 8)
         -0.50108687
         >>> reweight = lnpi.reweight(1.5)
-        >>> round(reweight.dataframe()['ln_prob'][0], 8)
+        >>> round(float(reweight.dataframe()['ln_prob'][0]), 8)
         -811.74010444
         """
         # avoid negative log by subtracting min
@@ -220,7 +220,7 @@ class MacrostateDistribution:
 
         >>> from pyfeasst import macrostate_distribution
         >>> lnpi = macrostate_distribution.MacrostateDistribution(file_name='../../tests/lnpi.csv')
-        >>> round(lnpi._macrostate_objective(target_macrostate=10, delta_beta_mu=-1), 8)
+        >>> round(float(lnpi._macrostate_objective(target_macrostate=10, delta_beta_mu=-1)), 8)
         90.1413155
         """
         lnpi_rw = self.reweight(delta_beta_mu)
@@ -236,9 +236,9 @@ class MacrostateDistribution:
 
         >>> from pyfeasst import macrostate_distribution
         >>> lnpi = macrostate_distribution.MacrostateDistribution(file_name='../../tests/lnpi.csv')
-        >>> round(lnpi.reweight_to_macrostate(target_macrostate=10), 8)
+        >>> round(float(lnpi.reweight_to_macrostate(target_macrostate=10)), 8)
         -0.32218376
-        >>> round(lnpi.average_macrostate(), 5)
+        >>> round(float(lnpi.average_macrostate()), 5)
         10.0
         """
         res = minimize(lambda delta_beta_mu: self._macrostate_objective(
@@ -254,7 +254,7 @@ class MacrostateDistribution:
 
         >>> from pyfeasst import macrostate_distribution
         >>> lnpi = macrostate_distribution.MacrostateDistribution(file_name='../../tests/lnpi.csv')
-        >>> round(lnpi._equilibrium_objective(-1), 8)
+        >>> round(float(lnpi._equilibrium_objective(-1)), 8)
         3.81828183
         """
         #print('delta_beta_mu', delta_beta_mu)
@@ -291,12 +291,12 @@ class MacrostateDistribution:
 
         >>> from pyfeasst import macrostate_distribution
         >>> lnpi = macrostate_distribution.MacrostateDistribution(file_name='../../tests/lnpi.csv')
-        >>> round(lnpi.equilibrium(delta_beta_mu_guess=-1, tol=1e-4), 8)
+        >>> round(float(lnpi.equilibrium(delta_beta_mu_guess=-1, tol=1e-4)), 8)
         -0.31323799
         >>> vapor, liquid = lnpi.split()
-        >>> round(vapor.average_macrostate()/8**3, 8)
+        >>> round(float(vapor.average_macrostate()/8**3), 8)
         0.00200035
-        >>> round(liquid.average_macrostate()/8**3, 8)
+        >>> round(float(liquid.average_macrostate()/8**3), 8)
         0.84304803
         """
         res = minimize_scalar(self._equilibrium_objective,
@@ -320,16 +320,16 @@ def splice(windows, extra_overlap=0):
     ...         file_name='../../tests/lnpin'+str(i)+'.csv'))
     >>> lnpi = macrostate_distribution.splice(lnpis)
     >>> lnpi.set_minimum_smoothing(50)
-    >>> round(lnpi.average_macrostate(), 8)
+    >>> round(float(lnpi.average_macrostate()), 8)
     596.29289902
     >>> len(lnpi.minimums())
     0
-    >>> round(lnpi.equilibrium(delta_beta_mu_guess=-1.5), 8)
+    >>> round(float(lnpi.equilibrium(delta_beta_mu_guess=-1.5)), 8)
     -1.2768126
     >>> vapor, liquid = lnpi.split()
-    >>> round(vapor.average_macrostate(), 8)
+    >>> round(float(vapor.average_macrostate()), 8)
     0.03172081
-    >>> round(liquid.average_macrostate(), 8)
+    >>> round(float(liquid.average_macrostate()), 8)
     523.35530815
     """
     macros = list()
@@ -360,12 +360,12 @@ def splice_files(prefix, suffix, ln_prob_header=None, extra_overlap=0):
 
     >>> from pyfeasst import macrostate_distribution
     >>> lnpi = macrostate_distribution.splice_files(prefix='../../tests/lj_lnpin', suffix='.txt')
-    >>> round(lnpi.equilibrium(), 8)
+    >>> round(float(lnpi.equilibrium()), 8)
     -0.31402411
     >>> vapor, liquid = lnpi.split()
-    >>> round(vapor.average_macrostate()/8**3, 8)
+    >>> round(float(vapor.average_macrostate()/8**3), 8)
     0.00199501
-    >>> round(liquid.average_macrostate()/8**3, 8)
+    >>> round(float(liquid.average_macrostate()/8**3), 8)
     0.84318346
     """
     lnpis = list()
@@ -386,7 +386,7 @@ def read_appended(file_name, num_states):
     ...     '../../tests/lj_lnpi_appended.txt', num_states=2)
     >>> dists[10][1]['cpu_hours']
     0.117464
-    >>> round(dists[10][0].ln_prob()[0], 8)
+    >>> round(float(dists[10][0].ln_prob()[0]), 8)
     -4.68014742
     """
     with open(file_name, 'r') as file1:
@@ -410,7 +410,7 @@ def splice_collection_matrix(prefix, suffix, use_soft=False):
     >>> from pyfeasst import macrostate_distribution
     >>> lnp = macrostate_distribution.splice_collection_matrix(prefix="../../tests/lj_crit",
     ...                                                        suffix=".txt")
-    >>> round(lnp.ln_prob()[0], 8)
+    >>> round(float(lnp.ln_prob()[0]), 8)
     -12.27534328
     """
     lnpis = list()
@@ -424,13 +424,14 @@ def splice_collection_matrix(prefix, suffix, use_soft=False):
         lnpis.append(frame)
     lnp = MacrostateDistribution(file_name=None)
     df = pd.concat(lnpis)
+    df['ln_prob'] = df['ln_prob'].astype(float)
     df.sort_values(by=['state'], inplace=True)
     df.reset_index(inplace=True)
     df['delta_ln_prob'] = np.log(df['P_up'].shift(1)/df['P_down'])
-    df.delta_ln_prob.fillna(0, inplace=True)
+    df['delta_ln_prob'] = df['delta_ln_prob'].fillna(0.0)
     for index,_ in enumerate(df['delta_ln_prob']):
         if index == 0:
-            df.loc[index, 'ln_prob'] = 0
+            df.loc[index, 'ln_prob'] = 0.0
         else:
             df.loc[index, 'ln_prob'] = df['delta_ln_prob'].values[index] + \
                                        df['ln_prob'].values[index-1]

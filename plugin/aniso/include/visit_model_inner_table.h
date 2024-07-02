@@ -130,6 +130,12 @@ class VisitModelInnerTable : public VisitModelInner {
 //  void write_surface(argtype args) const;
 
   void precompute(Configuration * config) override;
+  virtual void precompute_cutoffs(Configuration * config);
+  virtual void read_table(const std::string table_file,
+    const bool ignore_energy, Configuration * config);
+  virtual double compute_aniso(const int type1, const int type2,
+    const double squared_distance, const double s1, const double s2,
+    const double e1, const double e2, const double e3, const Configuration& config) const;
   void compute(
     const int part1_index,
     const int site1_index,
@@ -152,6 +158,10 @@ class VisitModelInnerTable : public VisitModelInner {
   virtual ~VisitModelInnerTable() {}
 
   //@}
+
+ protected:
+  void serialize_visit_model_inner_table_(std::ostream& ostr) const;
+
  private:
   int aniso_index_ = -1;
   std::string table_file_;
@@ -166,8 +176,6 @@ class VisitModelInnerTable : public VisitModelInner {
   Position pos1_, pos2_, sph_;
   RotationMatrix rot1_, rot2_, rot3_;
   Euler euler_;
-
-  void read_table_(const std::string table_file, const bool ignore_energy, Configuration * config);
 };
 
 inline std::shared_ptr<VisitModelInnerTable> MakeVisitModelInnerTable(

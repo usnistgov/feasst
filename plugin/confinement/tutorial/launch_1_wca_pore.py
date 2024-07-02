@@ -5,6 +5,7 @@ as described in https://doi.org/10.1021/acs.jpcb.3c00613 .
 """
 
 import argparse
+import subprocess
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

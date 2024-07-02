@@ -40,8 +40,8 @@ class Accumulator:
         >>> acc.add(2.)
         >>> acc.add(4.)
         >>> acc.add([3, 5, 7])
-        >>> acc.mean()
-        3.6666666666666665
+        >>> round(float(acc.mean()), 6)
+        3.666667
         """
         mean = float('nan')
         if self.num_values() > 0 and self.num_moments() > 1:
@@ -54,8 +54,8 @@ class Accumulator:
 
         >>> from pyfeasst import accumulator
         >>> acc = accumulator.Accumulator(values=[1, 2, 3, 4, 5, 7])
-        >>> acc.stdev()
-        2.160246899469287
+        >>> round(float(acc.stdev()), 6)
+        2.160247
         """
         std = float('nan')
         if self.num_values() > 2 and self.num_moments() > 2:
@@ -69,11 +69,11 @@ class Accumulator:
 
         >>> from pyfeasst import accumulator
         >>> acc = accumulator.Accumulator(values=[1, 2, 3, 4, 5, 7])
-        >>> acc.sum_moment(0)
+        >>> round(float(acc.sum_moment(0)), 6)
         6.0
-        >>> acc.sum_moment(1)
+        >>> round(float(acc.sum_moment(1)), 6)
         22.0
-        >>> acc.sum_moment(2)
+        >>> round(float(acc.sum_moment(2)), 6)
         104.0
         """
         mom = float('nan')
