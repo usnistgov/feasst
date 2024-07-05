@@ -126,6 +126,7 @@ These classes include zero- and one-body interactions.
 
    confinement/doc/Background_arguments
    confinement/doc/ModelHardShape_arguments
+   confinement/doc/ModelLJShape_arguments
    confinement/doc/ModelTableCart1DHard_arguments
    shape/doc/ShapeFile_arguments
    shape/doc/Cuboid_arguments

@@ -1,6 +1,7 @@
 #include <cmath>
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "shape/include/shape_file.h"
 #include "configuration/include/site.h"
 #include "configuration/include/model_params.h"
 #include "confinement/include/model_lj_shape.h"
@@ -16,6 +17,19 @@ class MapModelLJShape {
 };
 
 static MapModelLJShape map_model_hard_shape_ = MapModelLJShape();
+
+ModelLJShape::ModelLJShape(argtype * args) : ModelLJShape() {
+  INFO("here");
+  set_shape(std::make_shared<ShapeFile>(args));
+  class_name_ = "ModelLJShape";
+  alpha_ = dble("alpha", args, 3.);
+  delta_ = dble("delta", args, 0.);
+  disable_shift_ = boolean("disable_shift", args, false);
+  shift_ = std::make_shared<ModelLJShapeEnergyAtCutoff>();
+}
+ModelLJShape::ModelLJShape(argtype args) : ModelLJShape(&args) {
+  FEASST_CHECK_ALL_USED(args);
+}
 
 ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
   argtype args) : ModelLJShape(shape, &args) {

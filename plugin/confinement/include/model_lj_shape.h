@@ -33,12 +33,21 @@ class ModelLJShape : public ModelOneBody,
   // for serialization only
   ModelLJShape() { class_name_ = "ModelLJShape"; }
 
-  /**
-    args:
+  //@{
+  /** @name Arguments
+    - Same arguments as ShapeFile.
     - alpha: set the exponent (default: 3.).
     - delta: set the delta parameter (default: 0.).
     - disable_shift: disable shifting of the potential to zero (default: false).
    */
+  explicit ModelLJShape(argtype args);
+  explicit ModelLJShape(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   ModelLJShape(
     std::shared_ptr<Shape> shape,
     argtype args = argtype());
@@ -62,10 +71,11 @@ class ModelLJShape : public ModelOneBody,
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelLJShape>(istr); }
   std::shared_ptr<Model> create(argtype * args) const override {
-    return std::make_shared<ModelLJShape>(); }
+    return std::make_shared<ModelLJShape>(args); }
   explicit ModelLJShape(std::istream& istr);
   virtual ~ModelLJShape() {}
 
+  //@}
  private:
   double alpha_;
   double delta_;
