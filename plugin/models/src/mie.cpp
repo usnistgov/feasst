@@ -62,7 +62,6 @@ double Mie::energy(
     const int type2,
     const ModelParams& model_params) {
   const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
-  const double epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
   const double s_r_sq = sigma*sigma/squared_distance;
   const double n = model_params.select(mie_lambda_r_index_).mixed_values()[type1][type2];
   TRACE("n " << n);
@@ -70,7 +69,7 @@ double Mie::energy(
   TRACE("m " << m);
   const double prefactor = prefactor_.mixed_value(type1, type2);
   TRACE("prefactor " << prefactor);
-  const double en = prefactor*epsilon*(std::pow(s_r_sq, 0.5*n) - std::pow(s_r_sq, 0.5*m));
+  const double en = prefactor*(std::pow(s_r_sq, 0.5*n) - std::pow(s_r_sq, 0.5*m));
   return en;
 }
 

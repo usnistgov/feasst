@@ -78,9 +78,10 @@ MiePrefactor::MiePrefactor(std::istream& istr) : ModelParam(istr) {
 }
 
 double MiePrefactor::compute(const int type1, const int type2, const ModelParams& model_params) {
+  const double eps = model_params.select("epsilon").mixed_value(type1, type2);
   const double n = model_params.select("mie_lambda_r").mixed_value(type1, type2);
   const double m = model_params.select("mie_lambda_a").mixed_value(type1, type2);
-  return n/(n-m)*std::pow(n/m, m/(n-m));
+  return eps*n/(n-m)*std::pow(n/m, m/(n-m));
 }
 
 //double MieIdealDeviation::mix_(const double value1, const double value2) {
