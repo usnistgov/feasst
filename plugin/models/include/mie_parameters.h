@@ -47,25 +47,46 @@ inline std::shared_ptr<MieLambdaA> MakeMieLambdaA() {
 }
 
 /**
-  The mie_ideal_deviation parameter has the default mixing rule:
-  \f$ \lambda_{ij} = 0 \f$
-  and must be input manually.
+  The mie_prefactor parameter is given by
+
+  \f$ \epsilon n/(n-m)(n/m)^{m/(n-m} \f$
+
+  where n and m are mie_lambda_r and mie_lambda_a, respectively.
+  These are precomputed and do not need to be entered manually but are instead
+  precomputed and stored for optimization.
  */
-class MieIdealDeviation : public ModelParam {
+class MiePrefactor : public ModelParam {
  public:
-  MieIdealDeviation() : ModelParam() { class_name_ = "mie_ideal_deviation"; }
+  MiePrefactor() : ModelParam() { class_name_ = "mie_prefactor"; }
+  double compute(const int type1, const int type2,
+    const ModelParams& model_params) override;
   std::shared_ptr<ModelParam> create(std::istream& istr) const override {
-    return std::make_shared<MieIdealDeviation>(istr); }
+    return std::make_shared<MiePrefactor>(istr); }
   void serialize(std::ostream& ostr) const override;
-  explicit MieIdealDeviation(std::istream& istr);
-  virtual ~MieIdealDeviation() {}
- private:
-  double mix_(const double value1, const double value2) override;
+  explicit MiePrefactor(std::istream& istr);
+  virtual ~MiePrefactor() {}
 };
 
-inline std::shared_ptr<MieIdealDeviation> MakeMieIdealDeviation() {
-  return std::make_shared<MieIdealDeviation>();
-}
+///**
+//  The mie_ideal_deviation parameter has the default mixing rule:
+//  \f$ \lambda_{ij} = 0 \f$
+//  and must be input manually.
+// */
+//class MieIdealDeviation : public ModelParam {
+// public:
+//  MieIdealDeviation() : ModelParam() { class_name_ = "mie_ideal_deviation"; }
+//  std::shared_ptr<ModelParam> create(std::istream& istr) const override {
+//    return std::make_shared<MieIdealDeviation>(istr); }
+//  void serialize(std::ostream& ostr) const override;
+//  explicit MieIdealDeviation(std::istream& istr);
+//  virtual ~MieIdealDeviation() {}
+// private:
+//  double mix_(const double value1, const double value2) override;
+//};
+//
+//inline std::shared_ptr<MieIdealDeviation> MakeMieIdealDeviation() {
+//  return std::make_shared<MieIdealDeviation>();
+//}
 
 }  // namespace feasst
 

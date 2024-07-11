@@ -5,6 +5,7 @@
 #include "utils/include/arguments.h"
 #include "configuration/include/model_params.h"
 #include "system/include/model_two_body.h"
+#include "models/include/mie_parameters.h"
 
 namespace feasst {
 
@@ -51,6 +52,7 @@ class Mie : public ModelTwoBody {
  private:
   int mie_lambda_r_index_ = -1;
   int mie_lambda_a_index_ = -1;
+  MiePrefactor prefactor_;
 };
 
 inline std::shared_ptr<Mie> MakeMie(argtype args = argtype()) {

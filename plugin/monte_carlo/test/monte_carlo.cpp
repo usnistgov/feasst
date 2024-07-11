@@ -144,7 +144,9 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
       mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
                                         MakeVisitModelOptLJ()));
     }
-    mc.attempt(1e6);  // 4.5s with 50 (see opt_lj for 3s)
+    mc.attempt(1e6);
+    //mc.attempt(1e6);  // 2.5s with 50 i9 13900K 7/:1/2024
+    //mc.attempt(1e6);  // 4.5s with 50 (see opt_lj for 3s)
     //mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
     // mc.seek_num_particles(450);
     // mc.attempt(1e5);  // 15 sec with 450 on slow computer

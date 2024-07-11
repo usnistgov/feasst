@@ -56,29 +56,57 @@ MieLambdaA::MieLambdaA(std::istream& istr) : ModelParam(istr) {
   ASSERT(version == 2670, "mismatch version: " << version);
 }
 
-double MieIdealDeviation::mix_(const double value1, const double value2) {
-  return 0.;
-}
-
-class MapMieIdealDeviation {
+class MapMiePrefactor {
  public:
-  MapMieIdealDeviation() {
-    auto obj = std::make_shared<MieIdealDeviation>();
-    obj->deserialize_map()["mie_ideal_deviation"] = obj;
+  MapMiePrefactor() {
+    auto obj = std::make_shared<MiePrefactor>();
+    obj->deserialize_map()["cos_patch_angle"] = obj;
   }
 };
 
-static MapMieIdealDeviation mapper_mie_ideal_deviation_ = MapMieIdealDeviation();
+static MapMiePrefactor mapper_cos_patch_angle_ = MapMiePrefactor();
 
-void MieIdealDeviation::serialize(std::ostream& ostr) const {
+void MiePrefactor::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_model_param_(ostr);
-  feasst_serialize_version(2073, ostr);
+  feasst_serialize_version(7964, ostr);
 }
 
-MieIdealDeviation::MieIdealDeviation(std::istream& istr) : ModelParam(istr) {
+MiePrefactor::MiePrefactor(std::istream& istr) : ModelParam(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 2073, "mismatch version: " << version);
+  ASSERT(version == 7964, "mismatch version: " << version);
 }
+
+double MiePrefactor::compute(const int type1, const int type2, const ModelParams& model_params) {
+  const double eps = model_params.select("epsilon").mixed_value(type1, type2);
+  const double n = model_params.select("mie_lambda_r").mixed_value(type1, type2);
+  const double m = model_params.select("mie_lambda_a").mixed_value(type1, type2);
+  return eps*n/(n-m)*std::pow(n/m, m/(n-m));
+}
+
+//double MieIdealDeviation::mix_(const double value1, const double value2) {
+//  return 0.;
+//}
+//
+//class MapMieIdealDeviation {
+// public:
+//  MapMieIdealDeviation() {
+//    auto obj = std::make_shared<MieIdealDeviation>();
+//    obj->deserialize_map()["mie_ideal_deviation"] = obj;
+//  }
+//};
+//
+//static MapMieIdealDeviation mapper_mie_ideal_deviation_ = MapMieIdealDeviation();
+//
+//void MieIdealDeviation::serialize(std::ostream& ostr) const {
+//  ostr << class_name_ << " ";
+//  serialize_model_param_(ostr);
+//  feasst_serialize_version(2073, ostr);
+//}
+//
+//MieIdealDeviation::MieIdealDeviation(std::istream& istr) : ModelParam(istr) {
+//  const int version = feasst_deserialize_version(istr);
+//  ASSERT(version == 2073, "mismatch version: " << version);
+//}
 
 }  // namespace feasst
