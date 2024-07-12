@@ -73,8 +73,8 @@ Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpo
 
 RandomMT19937 seed {seed}
 Configuration side_length0 {xy_side_length} side_length1 {xy_side_length} side_length2 {z_side_length} periodic2 false particle_type0 {fstprt}
-Potential Model ModelLJShape shape_file {prefix}_shape_file.txt alpha 9 epsilon 10 sigma 1
-Potential Model ModelLJShape shape_file {prefix}_shape_file.txt alpha 3 epsilon -10 sigma 1
+Potential Model ModelLJShape shape_file {prefix}_shape_file.txt alpha 9 wall_epsilon 10 wall_sigma 2
+Potential Model ModelLJShape shape_file {prefix}_shape_file.txt alpha 3 wall_epsilon -10 wall_sigma 2
 Potential Model LennardJones
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis

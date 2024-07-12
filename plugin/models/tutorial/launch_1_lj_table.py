@@ -70,19 +70,19 @@ def sim_node_dependent_params(params):
 def user_potential(distance):
     return 4*(distance**-12 - distance**-6)
 
-def generate_table(params):
-    assert params['num_z'] > 1
-    dz = 1./(params['num_z'] - 1)
-    rhg = params['inner']**params['gamma']
-    rcg = params['cutoff']**params['gamma']
-    with open(params['table_file'], 'w') as file1:
-        file1.write("""site_types 1 0\ninner {inner}\nnum_z {num_z}\n""".format(**params))
-        #file1.write("""site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**params))
+def generate_table(PARAMS):
+    assert PARAMS['num_z'] > 1
+    dz = 1./(PARAMS['num_z'] - 1)
+    rhg = PARAMS['inner']**PARAMS['gamma']
+    rcg = PARAMS['cutoff']**PARAMS['gamma']
+    with open(PARAMS['table_file'], 'w') as file1:
+        file1.write("""site_types 1 0\ninner {inner}\nnum_z {num_z}\n""".format(**PARAMS))
+        #file1.write("""site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**PARAMS))
         for z in np.arange(0, 1 + dz/2, dz):
             if z == 0:
-                distance = params['inner']
+                distance = PARAMS['inner']
             else:
-                distance = (z*(rcg - rhg) + rhg)**(1./params['gamma'])
+                distance = (z*(rcg - rhg) + rhg)**(1./PARAMS['gamma'])
             en = user_potential(distance)
             #print('distance', distance, 'en', en)
             file1.write(str(en) + " ")
@@ -97,7 +97,7 @@ def run_en():
 """2
 -1 8 8 8
 0 0 0 0
-1 0 0 {displacement_test}""".format(**params))
+1 0 0 {displacement_test}""".format(**PARAMS))
     with open("launch.txt", "w") as myfile: myfile.write("""
 MonteCarlo
 RandomMT19937 seed time
@@ -108,19 +108,19 @@ ThermoParams beta 1000000
 Metropolis
 Log output_file lj.csv max_precision true clear_file true
 Run num_trials 1
-""".format(**params))
-    syscode = subprocess.call(params['feasst_install']+"bin/fst < launch.txt > launch.log", shell=True, executable='/bin/bash')
+""".format(**PARAMS))
+    syscode = subprocess.call(PARAMS['feasst_install']+"bin/fst < launch.txt > launch.log", shell=True, executable='/bin/bash')
     if syscode > 0: sys.exit(1)
 
 if ARGS.plot_table == 1:
     # check the energy interpolated from the table against the analytical value
-    dists = np.arange(0.97, params['cutoff'], 0.01)
+    dists = np.arange(0.97, PARAMS['cutoff'], 0.01)
     ens = list()
     for dist in dists:
-        params['displacement_test'] = dist
+        PARAMS['displacement_test'] = dist
         run_en()
         df = pd.read_csv('lj.csv')
-        ens.append(df['TwoBodyTable'].values[0])
+        ens.append(df['TablePotential'].values[0])
     import matplotlib.pyplot as plt
     plt.plot(dists, ens, label='table')
     plt.plot(dists, user_potential(dists), color='black', linestyle='dotted', label='analytical')
