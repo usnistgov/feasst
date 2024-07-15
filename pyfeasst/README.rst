@@ -8,7 +8,15 @@ Install pyfeasst locally to match your local FEASST version:
 
     pip install /path/to/feasst/pyfeasst
 
-Juggle multiple pyfeasst versions with Python virtual environments as described in the `library installation <../tutorial/library/tutorial.html>`_.
+Juggle multiple pyfeasst versions with Python virtual environments:
+
+.. code-block:: bash
+
+    sudo [apt,yum,brew,dnf] install python3-dev python3-venv
+    mkdir ~/.pyenv
+    cd ~/.pyenv
+    python3 -m venv feasst
+    source ~/.pyenv/feasst/bin/activate # may add this to your .bash_profile
 
 .. toctree::
    :maxdepth: 2

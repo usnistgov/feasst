@@ -68,9 +68,11 @@ TEST(Ewald, system) {
       {"kmax_squared", "27"},
       {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
     system.add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
-    EXPECT_NEAR(-4061.7105206971828, system.energy(), 1e-10);
+    EXPECT_NEAR(-4061.7105293460118, system.energy(), 1e-10);
+    // b4 table EXPECT_NEAR(-4061.7105206971828, system.energy(), 1e-10);
     EXPECT_NEAR(52.1324574151071, system.potential(0).stored_energy(), 1e-12);
-    EXPECT_NEAR(-3819.2497119062596, system.potential(1).stored_energy(), 1e-10);
+    EXPECT_NEAR(-3819.2497205550849, system.potential(1).stored_energy(), 1e-10);
+    // b4 table EXPECT_NEAR(-3819.2497119062596, system.potential(1).stored_energy(), 1e-10);
     EXPECT_NEAR(23363.573774608, system.potential(2).stored_energy(), 1e-10);
     EXPECT_NEAR(-23652.08040365018, system.potential(3).stored_energy(), 1e-12);
     EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
@@ -83,9 +85,11 @@ TEST(Ewald, system) {
       {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
     system.add(MakePotential(MakeSlabCorrection({{"dimension", "0"}})));
     EXPECT_EQ(system.potentials().num(), 6);
-    EXPECT_NEAR(-4061.7105138549323, system.energy(), 1e-10);
+    EXPECT_NEAR(-4061.7105225037649, system.energy(), 1e-10);
+    // b4 table EXPECT_NEAR(-4061.7105138549323, system.energy(), 1e-10);
     EXPECT_NEAR(52.13245734204947, system.potential(0).stored_energy(), 1e-12);
-    EXPECT_NEAR(-3819.2497053941993, system.potential(1).stored_energy(), 1e-10);
+    EXPECT_NEAR(-3819.2497140430355, system.potential(1).stored_energy(), 1e-10);
+    // b4 table refactor EXPECT_NEAR(-3819.2497053941993, system.potential(1).stored_energy(), 1e-10);
     EXPECT_NEAR(23363.573741866534, system.potential(2).stored_energy(), 1e-10);
     EXPECT_NEAR(-23652.080370504391, system.potential(3).stored_energy(), 1e-12);
     EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
@@ -98,7 +102,8 @@ TEST(Ewald, revert) {
     {"alpha", str(5.6/20)},
     {"kmax_squared", "27"},
     {"xyz_file", "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz"}});
-  const double en = -4062.4726238355574;
+  const double en = -4062.4726324843937;
+  //const double en = -4062.4726238355574;  // before table refactor
   EXPECT_NEAR(en, system.energy(), 1e-10);
   PerturbTranslate perturb;
   TrialSelectParticle tsel;
@@ -111,7 +116,7 @@ TEST(Ewald, revert) {
 }
 
 TEST(Ewald, synchronize) {
-  System s1 = spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"table_size", str(1e3)}});
+  System s1 = spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"erfc_table_size", str(2e4)}});
   s1.get_configuration()->add_particle_of_type(0);
   s1.precompute();
   s1.energy();

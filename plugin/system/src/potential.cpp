@@ -28,6 +28,7 @@ Potential::Potential(argtype * args) {
   }
   prevent_cache_ = boolean("prevent_cache", args, false);
   table_size_ = integer("table_size", args, 0);
+  table_hs_threshold_ = dble("table_hard_sphere_threshold", args, 0.85);
 
   // override args
   DEBUG("parsing model params");
@@ -192,19 +193,6 @@ void Potential::precompute(Configuration * config) {
          "minimum side length: " << half_min_side);
   }
 
-  if (table_size_ > 0) {
-    ASSERT(model_->num_body() == 2, "tables are only implemented for two "
-      << "body simulations");
-    auto table = MakeModelTwoBodyTable();
-    table->precompute(config->model_params());
-    table->set(model_params(*config),
-      table_size_,
-      config->num_site_types(),
-      model_);
-    model_ = table;
-    table_size_ = 0;
-  }
-
   // ModelParam override args
   if (override_args_.size() != 0) {
     argtype args = override_args_;
@@ -233,6 +221,21 @@ void Potential::precompute(Configuration * config) {
     }
     FEASST_CHECK_ALL_USED(args);
   }
+  
+  if (table_size_ > 0) {
+    ASSERT(model_->num_body() == 2, "tables are only implemented for two "
+      << "body simulations");
+    auto table = MakeModelTwoBodyTable({{"hard_sphere_threshold",
+                                         str(table_hs_threshold_)}});
+    table->precompute(config->model_params());
+    table->set(model_params(*config),
+      table_size_,
+      config->num_site_types(),
+      model_);
+    model_ = table;
+    table_size_ = 0;
+  }
+
 }
 
 void Potential::check(const Configuration& config) const {
@@ -253,6 +256,7 @@ void Potential::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(cache_, ostr);
   feasst_serialize(prevent_cache_, ostr);
   feasst_serialize(table_size_, ostr);
+  feasst_serialize(table_hs_threshold_, ostr);
   feasst_serialize(override_args_, ostr);
 }
 
@@ -285,6 +289,7 @@ Potential::Potential(std::istream& istr) {
   feasst_deserialize_fstobj(&cache_, istr);
   feasst_deserialize(&prevent_cache_, istr);
   feasst_deserialize(&table_size_, istr);
+  feasst_deserialize(&table_hs_threshold_, istr);
   feasst_deserialize(&override_args_, istr);
 }
 

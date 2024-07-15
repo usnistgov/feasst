@@ -35,7 +35,7 @@ class ModelLJShape : public ModelOneBody,
 
   //@{
   /** @name Arguments
-    - Same arguments as ShapeFile.
+    - ShapeFile arguments.
     - alpha: set the exponent (default: 3.).
     - delta: set the delta parameter (default: 0.).
     - disable_shift: disable shifting of the potential to zero (default: false).

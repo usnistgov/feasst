@@ -275,7 +275,7 @@ int ModelParams::index(const std::string param_name) const {
 
 const ModelParam& ModelParams::select(const int index) const {
   ASSERT(index >= 0, "The expected ModelParam was not found. "
-    << "Check that the particle_type include the parameters expected by "
+    << "Check that the particle_type includes the parameters expected by "
     << "the given models. index: " << index);
   ASSERT(index < static_cast<int>(params_.size()),
     "index: " << index << " >= size: " << params_.size());

@@ -10,6 +10,7 @@ For example, all text files for version v0.23.0 should also work with v0.23.1, b
 For updating to a newer version, see the change log below.
 
 .. toctree::
+   :maxdepth: 1
 
    utils/doc/Checkpoint_arguments
 
@@ -19,6 +20,7 @@ Random Number Generators
 These are the number generators available for use.
 
 .. toctree::
+   :maxdepth: 1
 
    math/doc/RandomMT19937_arguments
    math/doc/RandomModulo_arguments
@@ -29,6 +31,7 @@ Configuration
 These classes describe the identity of the particles, their positions and the spatial domain in which they reside.
 
 .. toctree::
+   :maxdepth: 1
 
    configuration/doc/Configuration_arguments
    configuration/doc/Domain_arguments
@@ -40,6 +43,7 @@ Nonbonded Isotropic Models
 These classes include pair-wise (two-body) isotropic interactions models.
 
 .. toctree::
+   :maxdepth: 1
 
    system/doc/ModelEmpty_arguments
    system/doc/IdealGas_arguments
@@ -67,6 +71,7 @@ Nonbonded Potentials
 These classes include various ways that interactions may be computed over a :cpp:class:`Selection <feasst::Select>` or the entire :cpp:class:`Configuration <feasst::Configuration>`.
 
 .. toctree::
+   :maxdepth: 1
 
    system/doc/Potential_arguments
    system/doc/VisitModel_arguments
@@ -83,6 +88,7 @@ Nonbonded Anisotropic Models
 These classes include anisotropic interactions.
 
 .. toctree::
+   :maxdepth: 1
 
    patch/doc/VisitModelInnerPatch_arguments
    patch/doc/MoviePatch_arguments
@@ -95,6 +101,7 @@ Long-Range Electrostatics
 These classes include Ewald and long-range electrostatics.
 
 .. toctree::
+   :maxdepth: 1
 
    charge/doc/Ewald_arguments
    charge/doc/ChargeScreened_arguments
@@ -108,6 +115,7 @@ Neighbor Lists
 These classes store neighbors and their interaction energies.
 
 .. toctree::
+   :maxdepth: 1
 
    configuration/doc/NeighborCriteria_arguments
    system/doc/VisitModelInner_arguments
@@ -123,6 +131,7 @@ One-Body Potentials
 These classes include zero- and one-body interactions.
 
 .. toctree::
+   :maxdepth: 1
 
    confinement/doc/Background_arguments
    confinement/doc/ModelHardShape_arguments
@@ -144,6 +153,7 @@ Bonded Interactions
 The following bonded interactions are typically specified in fstprt files (see :doc:`../particle/README`):
 
 .. toctree::
+   :maxdepth: 1
 
    system/doc/RigidBond_arguments
    system/doc/RigidAngle_arguments
@@ -161,6 +171,7 @@ Thermodynamic Parameters
 ==========================
 
 .. toctree::
+   :maxdepth: 1
 
    system/doc/ThermoParams_arguments
 
@@ -170,6 +181,7 @@ Acceptance Criteria
 These classes determine if a :cpp:class:`MonteCarlo <feasst::MonteCarlo>` :cpp:class:`Trial <feasst::Trial>` is accepted or rejected.
 
 .. toctree::
+   :maxdepth: 1
 
    monte_carlo/doc/Metropolis_arguments
    flat_histogram/doc/FlatHistogram_arguments
@@ -182,6 +194,7 @@ Constraints
 These classes impose :cpp:class:`Constraints <feasst::Constraint>` on the acceptance :cpp:class:`Criteria <feasst::Criteria>`.
 
 .. toctree::
+   :maxdepth: 1
 
    monte_carlo/doc/ConstrainNumParticles_arguments
    egce/doc/AEqualB_arguments
@@ -193,6 +206,7 @@ Monte Carlo Trials
 These classes add :cpp:class:`Trials <feasst::Trial>`.
 
 .. toctree::
+   :maxdepth: 1
 
    monte_carlo/doc/TrialTranslate_arguments
    chain/doc/TrialParticlePivot_arguments
@@ -228,6 +242,7 @@ Analyze
 :cpp:class:`Analyze <feasst::Analyze>` update/write every fixed number of trials, and do not change the simulation.
 
 .. toctree::
+   :maxdepth: 1
 
    steppers/doc/Check_arguments
    steppers/doc/Chirality2D_arguments
@@ -259,6 +274,7 @@ Modify
 :cpp:class:`Modify <feasst::Modify>` update/write every fixed number of trials, but may change the simulation.
 
 .. toctree::
+   :maxdepth: 1
 
    steppers/doc/CheckEnergy_arguments
    steppers/doc/CriteriaUpdater_arguments
@@ -271,9 +287,10 @@ Modify
 Actions
 ==========================
 
-Actions happen once.
+:cpp:class:`Action <feasst::Action>` s happen once.
 
 .. toctree::
+   :maxdepth: 1
 
    monte_carlo/doc/Run_arguments
    monte_carlo/doc/RemoveTrial_arguments
@@ -289,9 +306,10 @@ Actions happen once.
 Flat Histogram
 ==========================
 
-Flat-histogram simulations bias along a 1-dimensional macrostate.
+:cpp:class:`FlatHistogram <feasst::FlatHistogram>` simulations :cpp:class:`Bias <feasst::Bias>` along a 1-dimensional :cpp:class:`Macrostate <feasst::Macrostate>`.
 
 .. toctree::
+   :maxdepth: 1
 
    flat_histogram/doc/FlatHistogram_arguments
    flat_histogram/doc/MacrostateNumParticles_arguments
@@ -309,9 +327,10 @@ Flat-histogram simulations bias along a 1-dimensional macrostate.
 Gibbs Ensemble
 ===================
 
-Simulate multiple configurations and transfer particles and/or volume between them.
+Simulate multiple :cpp:class:`Configuration <feasst::Configuration>` s and transfer particles and/or volume between them.
 
 .. toctree::
+   :maxdepth: 1
 
    gibbs/doc/TrialGibbsVolumeTransfer_arguments
    gibbs/doc/TrialGibbsParticleTransfer_arguments

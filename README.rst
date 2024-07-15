@@ -74,11 +74,11 @@ Modern software
 How to get started
 ===============================================
 
-First, compile the executables as described below.
-Second, find :doc:`tutorial/README` that are closest to what you would like to accomplish.
-Third, reproduce the expected result of those tutorials.
-Fourth, use the :doc:`../plugin/text_interface` documentation to better understand and modify the tutorial to accomplish your goals.
-When you :doc:`../CONTACT` us with issues, include the text input file instead of the python script that generates that text file.
+* Compile the executables as described below.
+* Find :doc:`tutorial/README` that are closest to what you would like to accomplish.
+* Reproduce the expected result of those tutorials.
+* Use the :doc:`../plugin/text_interface` documentation to better understand and modify the tutorial to accomplish your goals.
+* When you :doc:`../CONTACT` us with issues, include the text input file instead of the Python script that generates that text file.
 
 How to install (i.e., compile the executables)
 ===============================================

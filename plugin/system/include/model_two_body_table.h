@@ -13,23 +13,29 @@ class Table1D;
 /**
   Tabulate two-body models and interpolate their interactions during the
   simulation.
+  Scale distances,r, by the parameter z, which has more resolution at lower r.
+  \f$z=[(1/r^2 - 1/r_h2)/(1/r_c^2 - 1/r_h^2)]\f$
+  Because there is a higher resolution at lower r, it is best if the
+  hard_sphere_threshold parameter is tuned well for the specific model.
  */
 class ModelTwoBodyTable : public ModelTwoBody {
  public:
   /**
     args:
-    - hard_sphere_threshold: when r < threshold, return NEAR_INFINITY
-      (default: 0.2).
+    - hard_sphere_threshold: when r < threshold*sigma, return NEAR_INFINITY
+      (default: 0.85).
    */
-  ModelTwoBodyTable(argtype args = argtype());
-  ModelTwoBodyTable(argtype * args);
+  explicit ModelTwoBodyTable(argtype args = argtype());
+  explicit ModelTwoBodyTable(argtype * args);
+
+  void precompute(const ModelParams& existing) override;
 
   /// Resize the table based on the number of site types
   void resize(const int num_site_types);
 
   /// Set a table potential between sites of type1 and type2.
   /// Table distances are normalized between 0 and 1, inclusive,
-  /// where z = (r-rh)/(rc-rh), rh is the hard_sphere_threshold
+  /// where z = (r^-2-rh^-2)/(rc^-2-rh^-2), rh is the hard_sphere_threshold
   /// and rc is the cutoff.
   /// Thus, the first element of the table is for a distance of rh,
   /// and the last element of the table is for a distance of rc.
@@ -71,8 +77,9 @@ class ModelTwoBodyTable : public ModelTwoBody {
   void serialize_model_two_body_table_(std::ostream& ostr) const;
 
  private:
-  double hard_sphere_threshold_;
+  double hard_sphere_threshold_inv_sq_;
   std::vector<std::vector<std::shared_ptr<Table1D> > > table_;
+  CutOff cutoff_inv_sq_;
 };
 
 inline std::shared_ptr<ModelTwoBodyTable> MakeModelTwoBodyTable(

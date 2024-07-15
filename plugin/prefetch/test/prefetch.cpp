@@ -135,14 +135,14 @@ TEST(Prefetch, MUVT) {
 }
 
 TEST(Prefetch, MUVT_spce) {
-  prefetch(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"table_size", str(1e3)}}), 1);
+  prefetch(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"erfc_table_size", str(2e4)}}), 1);
 }
 
 TEST(Prefetch, NVT_spce) {
   auto mc = MakePrefetch({{"synchronize", "true"}});
   //auto mc = MakePrefetch({{"synchronize", "false"}});
   // mc->set(MakeRandomMT19937({{"seed", "123"}}));
-  mc->set(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"table_size", str(1e3)}}));
+  mc->set(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"erfc_table_size", str(2e4)}}));
   const int trials_per = 1e2;
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());

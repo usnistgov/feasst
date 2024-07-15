@@ -34,9 +34,10 @@ System spce(argtype args) {
   system.add(Configuration(&args));
   system.add(MakePotential(std::make_shared<Ewald>(&args)));
   system.add(MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
-                                                   MakeChargeScreened({{"erfc_table_size", "0"}})),
-                           MakeVisitModelCutoffOuter(),
-                           {{"table_size", str("table_size", &args, str(1e6))}}));
+                                                   MakeChargeScreened({{"erfc_table_size", str("erfc_table_size", &args, str(2e4))}})),
+                           MakeVisitModelCutoffOuter()//,
+                           //{{"table_size", str("table_size", &args, str(1e6))}}
+                           ));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
   system.add(MakePotential(MakeChargeSelf()));
   if (boolean("lrc", &args, true)) {

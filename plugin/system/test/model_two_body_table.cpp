@@ -29,6 +29,7 @@ TEST(ModelTwoBodyTable, lj) {
   EXPECT_NEAR(no_table.energy(), 4*(std::pow(2, -12) - std::pow(2, -6)), NEAR_ZERO);
   const double table_en = yes_table.energy();
   EXPECT_NE(table_en, 0);
+  EXPECT_NEAR(table_en, 4*(std::pow(2, -12) - std::pow(2, -6)), 1e-6);
   //EXPECT_NE(no_table.energy(), table_en);
   //EXPECT_NEAR(no_table.energy(), table_en, 1e-12);
 }

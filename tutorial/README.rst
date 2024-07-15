@@ -47,12 +47,10 @@ Others:
    ../plugin/beta_expanded/tutorial/tutorial*
    ../plugin/egce/tutorial/tutorial*
    ../plugin/mayer/tutorial/tutorial*
-   ../plugin/math/tutorial/tutorial*
    ../plugin/prefetch/tutorial/tutorial*
    ../plugin/aniso/tutorial/tutorial*
    ../plugin/fftw/tutorial/tutorial*
    ../plugin/morph/tutorial/tutorial*
-   ../plugin/model_expanded/tutorial/tutorial*
    ../plugin/netcdf/tutorial/tutorial*
 
 Text file interface
