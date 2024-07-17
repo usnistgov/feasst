@@ -46,6 +46,9 @@ option(USE_MPI "Use MPI" OFF)
 set(FFTW_DIR "$ENV{HOME}/software/fftw-3.3.10/build/")
 option(USE_NETCDF "Use NetCDF" OFF)
 set(NETCDF_DIR "$ENV{HOME}/local")
+if (NOT DEFINED FEASST_VERBOSE_LEVEL)
+  set (FEASST_VERBOSE_LEVEL "3")
+endif()
 
 # MPI
 if (USE_MPI)
@@ -163,7 +166,9 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-
+#message("FEASST_VERBOSE_LEVEL ${FEASST_VERBOSE_LEVEL}")
+add_definitions("-DFEASST_VERBOSE_LEVEL_=${FEASST_VERBOSE_LEVEL}")
+#unset(FEASST_VERBOSE_LEVEL CACHE)
 add_definitions("-DFEASST_VERSION_=\"${GIT_COMMIT_HASH}-${GIT_BRANCH}\"")
 add_definitions("-DFEASST_DIR_=\"${CMAKE_SOURCE_DIR}\"")
 

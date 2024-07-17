@@ -6,6 +6,7 @@ The following acknowledgements are listed in alphabetical order of last name.
 For help in testing and discussion:
 
 * Dr. Marco A. Blanco
+* Dr. Alexandros Chremos
 * Dr. Tamoghna Das
 * Dr. Jingxiang Guo
 * Steven W. Hall

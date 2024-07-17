@@ -32,8 +32,11 @@ namespace feasst {
   acceptable.
   If the printout is more than once every trial (e.g., inside the visitor loop
   for a model) then use TRACE instead.
+
+  Set the VERBOSE_LEVEL during installation with:
+  "cmake -DFEASST_VERBOSE_LEVEL=3 .."
 */
-constexpr int VERBOSE_LEVEL = 3;
+constexpr int VERBOSE_LEVEL = FEASST_VERBOSE_LEVEL_;
 // HWH update verbose levels: per trial, per energy calc, per interaction
 // HWH also verbosity levels for each plugin and classes.
 

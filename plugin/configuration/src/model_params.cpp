@@ -261,7 +261,7 @@ int ModelParams::size() const {
   return size;
 }
 
-int ModelParams::index(const std::string param_name) const {
+int ModelParams::index(const std::string& param_name) const {
   for (int ind = 0; ind < static_cast<int>(params_.size()); ++ind) {
     const std::shared_ptr<ModelParam> param = params_[ind];
     ASSERT(param, "error");
@@ -282,7 +282,7 @@ const ModelParam& ModelParams::select(const int index) const {
   return const_cast<const ModelParam&>(*params_[index]);
 }
 
-const ModelParam& ModelParams::select(const std::string name) const {
+const ModelParam& ModelParams::select(const std::string& name) const {
   const int indx = index(name);
   ASSERT(indx != -1, "name: " << name << " not found");
   return const_cast<const ModelParam&>(*params_[indx]);
@@ -299,21 +299,21 @@ std::shared_ptr<ModelParam> ModelParams::select_(
   return NULL;
 }
 
-void ModelParams::set(const std::string name,
+void ModelParams::set(const std::string& name,
                       const int site_type,
                       const double value) {
   select_(name)->set(site_type, value);
   mix();
 }
 
-void ModelParams::set(const std::string name,
+void ModelParams::set(const std::string& name,
     const int site_type1,
     const int site_type2,
     const double value) {
   select_(name)->set_mixed(site_type1, site_type2, value);
 }
 
-void ModelParams::set(const std::string name, const std::string filename) {
+void ModelParams::set(const std::string& name, const std::string& filename) {
   std::ifstream file(filename.c_str());
   ASSERT(file.good(), "cannot find mixing file " << filename.c_str());
   std::shared_ptr<ModelParam> param = select_(name);

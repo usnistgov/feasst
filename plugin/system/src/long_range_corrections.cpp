@@ -121,7 +121,9 @@ double LongRangeCorrections::energy_(
   }
   const double n = model_params.select(mie_lambda_r_index_).mixed_values()[type1][type2];
   const double m = model_params.select(mie_lambda_a_index_).mixed_values()[type1][type2];
+  TRACE("n " << n << " m " << m);
   double prefactor = n/(n-m)*std::pow(n/m, m/(n-m));
+  TRACE("prefactor: " << prefactor);
   prefactor *= 2.*epsilon*PI*std::pow(sigma, 3)/(m-3)*
     (((m-3.)/(n-3.))*std::pow(sigma/cutoff, n-3) - std::pow(sigma/cutoff, m-3));
   TRACE("prefactor: " << prefactor);

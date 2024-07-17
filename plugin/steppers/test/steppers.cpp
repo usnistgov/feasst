@@ -19,10 +19,10 @@ TEST(Steppers, CheckForSameFileName) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeMovie({{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj.xyz"}}));
-  try {
+  TRY(
     mc.add(MakeLog({{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj.xyz"}}));
     CATCH_PHRASE("should not have the same output_file");
-  }
+  );
 }
 
 }  // namespace feasst

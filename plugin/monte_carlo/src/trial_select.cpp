@@ -42,6 +42,7 @@ int TrialSelect::particle_type() const {
 }
 
 void TrialSelect::precompute(System * system) {
+  aniso_index_ = system->configuration().model_params().index("anisotropic");
   DEBUG("is_particle_type_set_ " << is_particle_type_set_);
   if (is_particle_type_set_) {
     DEBUG("particle_type " << particle_type_);
@@ -100,6 +101,7 @@ void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
   feasst_serialize(is_particle_type_set_, ostr);
   feasst_serialize(is_ghost_, ostr);
   feasst_serialize_fstobj(properties_, ostr);
+  feasst_serialize(aniso_index_, ostr);
 }
 
 TrialSelect::TrialSelect(std::istream& istr) {
@@ -117,6 +119,7 @@ TrialSelect::TrialSelect(std::istream& istr) {
   feasst_deserialize(&is_particle_type_set_, istr);
   feasst_deserialize(&is_ghost_, istr);
   feasst_deserialize_fstobj(&properties_, istr);
+  feasst_deserialize(&aniso_index_, istr);
 }
 
 void TrialSelect::remove_unphysical_sites(const Configuration& config) {
@@ -190,8 +193,7 @@ void TrialSelect::add_exclude_energy(const double energy) {
 }
 
 bool TrialSelect::is_isotropic(const System * system) const {
-  const Configuration& config = configuration(*system);
-  if (config.model_params().index("anisotropic") == -1) {
+  if (aniso_index_ == -1) {
     return true;
   } else {
     return false;

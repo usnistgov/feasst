@@ -70,6 +70,7 @@ double Mie::energy(
   const double prefactor = prefactor_.mixed_value(type1, type2);
   TRACE("prefactor " << prefactor);
   const double en = prefactor*(std::pow(s_r_sq, 0.5*n) - std::pow(s_r_sq, 0.5*m));
+  TRACE("en " << en);
   return en;
 }
 

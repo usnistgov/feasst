@@ -223,15 +223,15 @@ class ModelParams : public PropertiedEntity {
   int size() const;
 
   /// Modify model parameter of a given site type and name to value.
-  void set(const std::string name, const int site_type, const double value);
+  void set(const std::string& name, const int site_type, const double value);
 
   /// Modify the mixed model parameter of a pair of given site types and name
   /// to value.
-  void set(const std::string name, const int site_type1, const int site_type2,
+  void set(const std::string& name, const int site_type1, const int site_type2,
     const double value);
 
   /// Set mixed model parameters by file.
-  void set(const std::string name, const std::string filename);
+  void set(const std::string& name, const std::string& filename);
 
   /// Add a custom model parameter
   void add(std::shared_ptr<ModelParam> param) {
@@ -242,10 +242,10 @@ class ModelParams : public PropertiedEntity {
 
   /// Return the index of the model parameter with the corresponding name.
   /// Return -1 if name is not found.
-  int index(const std::string name) const;
+  int index(const std::string& name) const;
 
   /// Return the model parameter with the corresponding name.
-  const ModelParam& select(const std::string name) const;
+  const ModelParam& select(const std::string& name) const;
 
   /// Set the minimum cutoff to sigma.
   /// This is used for HardSphere potentials that don't assign cutoff.
