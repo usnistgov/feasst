@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstio &mdash; FEASST v0.25.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+  <title>fstio &mdash; FEASST v0.25.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../_static/leave_notice.js"></script>
+        <script src="../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -49,18 +52,18 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.0
+                v0.25.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README_html.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../python/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -156,7 +159,9 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<div class="viewcode-block" id="vector3d_to_list"><a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.vector3d_to_list">[docs]</a><span class="k">def</span> <span class="nf">vector3d_to_list</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
+<div class="viewcode-block" id="vector3d_to_list">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.vector3d_to_list">[docs]</a>
+<span class="k">def</span> <span class="nf">vector3d_to_list</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a swig stl vector to python list</span>
 
@@ -175,7 +180,10 @@
         <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lst2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">lst</span></div>
 
-<div class="viewcode-block" id="read_checkpoint"><a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.read_checkpoint">[docs]</a><span class="k">def</span> <span class="nf">read_checkpoint</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+
+<div class="viewcode-block" id="read_checkpoint">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.read_checkpoint">[docs]</a>
+<span class="k">def</span> <span class="nf">read_checkpoint</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return contents of checkpoint file as a string</span>
 
@@ -189,7 +197,10 @@
     <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># checkpoint files should have only one line</span>
     <span class="k">return</span> <span class="n">checkpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="all_sims_complete"><a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.all_sims_complete">[docs]</a><span class="k">def</span> <span class="nf">all_sims_complete</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">num_sims</span><span class="p">):</span>
+
+<div class="viewcode-block" id="all_sims_complete">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.all_sims_complete">[docs]</a>
+<span class="k">def</span> <span class="nf">all_sims_complete</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">num_sims</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read filename and see if all sim ID&#39;s from [0, num_sims-1] are present (e.g., complete).</span>
 <span class="sd">    If no file is present, also consider the simulation incomplete.</span>
@@ -213,7 +224,10 @@
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="slurm_single_node"><a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.slurm_single_node">[docs]</a><span class="k">def</span> <span class="nf">slurm_single_node</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+
+<div class="viewcode-block" id="slurm_single_node">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.slurm_single_node">[docs]</a>
+<span class="k">def</span> <span class="nf">slurm_single_node</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write slurm script to fill one node.</span>
 
@@ -279,6 +293,7 @@
 <span class="s2">echo &quot;Time is $(date)&quot;</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span></div>
 
+
 <span class="k">def</span> <span class="nf">server</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">):</span>
     <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">54321</span>
@@ -312,7 +327,9 @@
         <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">syscode</span>
 
-<div class="viewcode-block" id="run_single"><a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.run_single">[docs]</a><span class="k">def</span> <span class="nf">run_single</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">,</span> <span class="n">post_process</span><span class="p">):</span>
+<div class="viewcode-block" id="run_single">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.run_single">[docs]</a>
+<span class="k">def</span> <span class="nf">run_single</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">,</span> <span class="n">post_process</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Run a single simulation. If all simulations are complete, run PostProcess. &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">queue_task</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span>
@@ -331,7 +348,10 @@
                 <span class="n">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">syscode</span></div>
 
-<div class="viewcode-block" id="split"><a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.split">[docs]</a><span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+
+<div class="viewcode-block" id="split">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.split">[docs]</a>
+<span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    From https://stackoverflow.com/questions/2130016/splitting-a-list-into-n-parts-of-approximately-equal-length</span>
 
@@ -341,6 +361,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">k</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">n</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">m</span><span class="p">):(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span></div>
+
 
 <span class="k">def</span> <span class="nf">read_write_params</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="c1">#print(&#39;queue id&#39;, args.queue_id)</span>
@@ -355,7 +376,9 @@
             <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">params</span>
 
-<div class="viewcode-block" id="run_simulations"><a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.run_simulations">[docs]</a><span class="k">def</span> <span class="nf">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">queue_function</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">post_process</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="run_simulations">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.run_simulations">[docs]</a>
+<span class="k">def</span> <span class="nf">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">queue_function</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">post_process</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a simulation either locally in the shell or queue on HPC nodes</span>
 
@@ -449,7 +472,10 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="kc">False</span>  <span class="c1"># unrecognized run_type</span></div>
 
-<div class="viewcode-block" id="combine_tables_two_rigid_body"><a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.combine_tables_two_rigid_body">[docs]</a><span class="k">def</span> <span class="nf">combine_tables_two_rigid_body</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">num_procs</span><span class="p">,</span> <span class="n">num_header_lines</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+
+<div class="viewcode-block" id="combine_tables_two_rigid_body">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.combine_tables_two_rigid_body">[docs]</a>
+<span class="k">def</span> <span class="nf">combine_tables_two_rigid_body</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">num_procs</span><span class="p">,</span> <span class="n">num_header_lines</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Combine table files generated in parallel by TableTwoRigidBody3D.&quot;&quot;&quot;</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">proc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_procs</span><span class="p">):</span>
@@ -475,6 +501,7 @@
                 <span class="n">proc</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">line</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">assert</span> <span class="n">itr</span> <span class="o">&lt;</span> <span class="mf">1e50</span></div>
+
 
 <span class="c1">#def connect_to_port(params, max_attempts=5):</span>
 <span class="c1">#    &quot;&quot;&quot;Attempt to connect to port for server-client interface.&quot;&quot;&quot;</span>

@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ModelLJShape &mdash; FEASST v0.25.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+  <title>ModelLJShape &mdash; FEASST v0.25.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../../../_static/leave_notice.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -54,11 +57,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.0
+                v0.25.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -81,7 +84,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial/tutorial_1_wca_pore.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones in a simple WCA porous network</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial/tutorial_2_co2_zif8.html">Grand Canonical Flat Histogram Simulation of TraPPE CO2 in ZIF8</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../tutorial/tutorial_3_co2.html">Grand Canonical Flat Histogram Simulation of Bulk CO2 to analyze pressure in ZIF8</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Background.html">Background</a></li>
@@ -114,7 +116,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -198,35 +200,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="modelljshape">
-<h1>ModelLJShape<a class="headerlink" href="#modelljshape" title="Permalink to this heading"></a></h1>
+  <section id="modelljshape">
+<h1>ModelLJShape<a class="headerlink" href="#modelljshape" title="Link to this heading"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst12ModelLJShapeE">
-<span class="target" id="classfeasst_1_1ModelLJShape"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelLJShape</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst12ShapedEntityE" title="feasst::ShapedEntity"><span class="n"><span class="pre">ShapedEntity</span></span></a><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShapeE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1ModelLJShape"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelLJShape</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst12ShapedEntityE" title="feasst::ShapedEntity"><span class="n"><span class="pre">ShapedEntity</span></span></a><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShapeE" title="Link to this definition"></a><br /></dt>
 <dd><p>Note that the input shape of this model represents the shape of the cavity.</p>
 <p><span class="math notranslate nohighlight">\(U_{LJ}(r) = \epsilon \left( \frac{\sigma}{r + \Delta} \right)^\alpha\)</span></p>
 <p><span class="math notranslate nohighlight">\(U_{LJ}^{CS}(r) = \left\{ \begin{array}{lr} U_{LJ}(r) - U_{LJ}(r_c) &amp; : r &lt; r_c \\ 0 &amp; : r \ge r_c \end{array} \right. \)</span></p>
@@ -234,40 +212,53 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ModelLJShape12ModelLJShapeENSt10shared_ptrI5ShapeEE7argtype">
-<span class="target" id="classfeasst_1_1ModelLJShape_1aed367ee42f4de7f91fc272df34228677"></span><span class="sig-name descname"><span class="n"><span class="pre">ModelLJShape</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">shape</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShape12ModelLJShapeENSt10shared_ptrI5ShapeEE7argtype" title="Permalink to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>alpha: set the exponent (default: 3.).</p></li>
-<li><p>delta: set the delta parameter (default: 0.).</p></li>
-<li><p>disable_shift: disable shifting of the potential to zero (default: false). </p></li>
-</ul>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst12ModelLJShape10precomputeERK11ModelParams">
-<span class="target" id="classfeasst_1_1ModelLJShape_1a87003d6a499e0429e7380aae9edc7eb4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">existing</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShape10precomputeERK11ModelParams" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1ModelLJShape_1a87003d6a499e0429e7380aae9edc7eb4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">existing</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShape10precomputeERK11ModelParams" title="Link to this definition"></a><br /></dt>
 <dd><p>Precompute the shift factor for optimization. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst12ModelLJShape6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
-<span class="target" id="classfeasst_1_1ModelLJShape_1a61e654feb6a34540745e6763bba49a94"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">wrapped_site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><span class="n"><span class="pre">Site</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">model_params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShape6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1ModelLJShape_1a61e654feb6a34540745e6763bba49a94"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">wrapped_site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><span class="n"><span class="pre">Site</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">site</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">model_params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShape6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the energy given the wrapped coordinates, site, config and params. </p>
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ModelLJShape5sigmaEKiRK11ModelParams">
+<span class="target" id="classfeasst_1_1ModelLJShape_1aaf0f5508f1606586d72a146c5b44c8d4"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sigma</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShape5sigmaEKiRK11ModelParams" title="Link to this definition"></a><br /></dt>
+<dd><p>Return the sigma (in case optionally mixed) </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ModelLJShape7epsilonEKiRK11ModelParams">
+<span class="target" id="classfeasst_1_1ModelLJShape_1a3cb3404cb2aa720adeaf6c2c1f4a323f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">epsilon</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelLJShape7epsilonEKiRK11ModelParams" title="Link to this definition"></a><br /></dt>
+<dd><p>Return the epsilon (in case optionally mixed) </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst12ModelLJShape9serializeERNSt7ostreamE">
-<span class="target" id="classfeasst_1_1ModelLJShape_1a091d8b23fc3175069fa506ff6cb713c5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ModelLJShape9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1ModelLJShape_1a091d8b23fc3175069fa506ff6cb713c5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ostr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12ModelLJShape9serializeERNSt7ostreamE" title="Link to this definition"></a><br /></dt>
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="../../shape/doc/ShapeFile_arguments.html#classfeasst_1_1ShapeFile"><span class="std std-ref">ShapeFile</span></a> arguments.</p></li>
+<li><p>alpha: set the exponent (default: 3.).</p></li>
+<li><p>delta: set the delta parameter (default: 0.).</p></li>
+<li><p>disable_shift: disable shifting of the potential to zero (default: false).</p></li>
+<li><p>wall_sigma: If != 0 (default: 0), use Lorentz-Berthelot mixing rules between this wall sigma and the fluid sigma. Otherwise, the sigma for each site type may be set with the argument Potential::sigma[i].</p></li>
+<li><p>wall_epsilon: If != 0 (default: 0), use a slighly modified version of Lorentz-Berthelot mixing rules between this wall epsilon and the fluid. To account for negative epsilon (attractions), the mixing rule is sign(wall_epsilon)sqrt(|wall_epsilon|*fluid_epsilon). Otherwise, the epsilon for each site type may be set with the argument Potential::epsilon[i]. </p></li>
+</ul>
+</p>
 </div>
 </dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst26ModelLJShapeEnergyAtCutoffE">
-<span class="target" id="classfeasst_1_1ModelLJShapeEnergyAtCutoff"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelLJShapeEnergyAtCutoff</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam"><span class="n"><span class="pre">ModelParam</span></span></a><a class="headerlink" href="#_CPPv4N6feasst26ModelLJShapeEnergyAtCutoffE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1ModelLJShapeEnergyAtCutoff"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelLJShapeEnergyAtCutoff</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam"><span class="n"><span class="pre">ModelParam</span></span></a><a class="headerlink" href="#_CPPv4N6feasst26ModelLJShapeEnergyAtCutoffE" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </section>

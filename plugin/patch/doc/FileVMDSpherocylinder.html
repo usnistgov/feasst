@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FileVMDSpherocylinder &mdash; FEASST v0.25.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+  <title>FileVMDSpherocylinder &mdash; FEASST v0.25.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../../../_static/leave_notice.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -52,11 +55,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.0
+                v0.25.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -76,7 +79,12 @@
 <li class="toctree-l3"><a class="reference internal" href="Spherocylinder.html">Spherocylinder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolidOfRevolutionTable.html">SolidOfRevolutionTable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMDPatch.html">FileVMDPatch</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">FileVMDSpherocylinder</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">FileVMDSpherocylinder</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst21FileVMDSpherocylinderE"><code class="docutils literal notranslate"><span class="pre">FileVMDSpherocylinder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst24PrinterXYZSpherocylinderE"><code class="docutils literal notranslate"><span class="pre">PrinterXYZSpherocylinder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst21FileXYZSpherocylinderE"><code class="docutils literal notranslate"><span class="pre">FileXYZSpherocylinder</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="TwoParticleContactObjective.html">TwoParticleContactObjective</a></li>
 <li class="toctree-l3"><a class="reference internal" href="MoviePatch.html">MoviePatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="MovieSpherocylinder.html">MovieSpherocylinder</a></li>
@@ -108,7 +116,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -192,59 +200,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="filevmdspherocylinder">
-<h1>FileVMDSpherocylinder<a class="headerlink" href="#filevmdspherocylinder" title="Permalink to this heading"></a></h1>
+  <section id="filevmdspherocylinder">
+<h1>FileVMDSpherocylinder<a class="headerlink" href="#filevmdspherocylinder" title="Link to this heading"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst21FileVMDSpherocylinderE">
-<span class="target" id="classfeasst_1_1FileVMDSpherocylinder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FileVMDSpherocylinder</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../configuration/doc/FileVMD.html#_CPPv4N6feasst7FileVMDE" title="feasst::FileVMD"><span class="n"><span class="pre">FileVMD</span></span></a><a class="headerlink" href="#_CPPv4N6feasst21FileVMDSpherocylinderE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1FileVMDSpherocylinder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FileVMDSpherocylinder</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../configuration/doc/FileVMD.html#_CPPv4N6feasst7FileVMDE" title="feasst::FileVMD"><span class="n"><span class="pre">FileVMD</span></span></a><a class="headerlink" href="#_CPPv4N6feasst21FileVMDSpherocylinderE" title="Link to this definition"></a><br /></dt>
 <dd><p>Print a vmd script to view an xyz file via command “vmd -e file.vmd”</p>
 <p>Make a spherocylinder by placing a sphere on each endcap and then connecting them in VMD using the CPK representation. </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst24PrinterXYZSpherocylinderE">
-<span class="target" id="classfeasst_1_1PrinterXYZSpherocylinder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrinterXYZSpherocylinder</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../configuration/doc/VisitConfiguration.html#_CPPv4N6feasst17LoopConfigOneBodyE" title="feasst::LoopConfigOneBody"><span class="n"><span class="pre">LoopConfigOneBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst24PrinterXYZSpherocylinderE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PrinterXYZSpherocylinder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrinterXYZSpherocylinder</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../configuration/doc/VisitConfiguration.html#_CPPv4N6feasst17LoopConfigOneBodyE" title="feasst::LoopConfigOneBody"><span class="n"><span class="pre">LoopConfigOneBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst24PrinterXYZSpherocylinderE" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst21FileXYZSpherocylinderE">
-<span class="target" id="classfeasst_1_1FileXYZSpherocylinder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FileXYZSpherocylinder</span></span></span><a class="headerlink" href="#_CPPv4N6feasst21FileXYZSpherocylinderE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1FileXYZSpherocylinder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FileXYZSpherocylinder</span></span></span><a class="headerlink" href="#_CPPv4N6feasst21FileXYZSpherocylinderE" title="Link to this definition"></a><br /></dt>
 <dd><p>Similar to <a class="reference internal" href="../../configuration/doc/PrinterXYZ_arguments.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a>, except for spherocylinders. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst21FileXYZSpherocylinder4loadEKNSt6stringEP13Configuration">
-<span class="target" id="classfeasst_1_1FileXYZSpherocylinder_1aac6875f0a9963a9f01fd887ca6ec0c4a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst21FileXYZSpherocylinder4loadEKNSt6stringEP13Configuration" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1FileXYZSpherocylinder_1aac6875f0a9963a9f01fd887ca6ec0c4a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst21FileXYZSpherocylinder4loadEKNSt6stringEP13Configuration" title="Link to this definition"></a><br /></dt>
 <dd><p>Load the xyz file with file_name into the configuration. Note that this function does not read the domain tilts xy, xz and yz. This function also does not read the site types. Thus, particles should be added to the system in the desired order. If no particles in the configuration, use the first particle type. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst21FileXYZSpherocylinder5writeEKNSt6stringERK13ConfigurationKi">
-<span class="target" id="classfeasst_1_1FileXYZSpherocylinder_1a2a1231b03a57b4c9fb61d824b4369713"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_decimal_places</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">8</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst21FileXYZSpherocylinder5writeEKNSt6stringERK13ConfigurationKi" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1FileXYZSpherocylinder_1a2a1231b03a57b4c9fb61d824b4369713"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_decimal_places</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">8</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst21FileXYZSpherocylinder5writeEKNSt6stringERK13ConfigurationKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Write the configuration to file_name in xyz format. If the simulation is 2D, simply writes z as 0. </p>
 <dl class="field-list simple">
 <dt class="field-odd">param num_decimal_places<span class="colon">:</span></dt>

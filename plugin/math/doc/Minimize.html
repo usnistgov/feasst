@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minimize &mdash; FEASST v0.25.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+  <title>Minimize &mdash; FEASST v0.25.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../../../_static/leave_notice.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -52,11 +55,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.0
+                v0.25.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -67,7 +70,10 @@
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html">math/include/utils_math</a></li>
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Minimize</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Minimize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst8MinimizeE"><code class="docutils literal notranslate"><span class="pre">Minimize</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Solver.html">Solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolverBisection.html">SolverBisection</a></li>
@@ -85,7 +91,6 @@
 <li class="toctree-l3"><a class="reference internal" href="RandomModulo.html">RandomModulo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -120,7 +125,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -204,42 +209,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="minimize">
-<h1>Minimize<a class="headerlink" href="#minimize" title="Permalink to this heading"></a></h1>
+  <section id="minimize">
+<h1>Minimize<a class="headerlink" href="#minimize" title="Link to this heading"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8MinimizeE">
-<span class="target" id="classfeasst_1_1Minimize"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Minimize</span></span></span><a class="headerlink" href="#_CPPv4N6feasst8MinimizeE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Minimize"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Minimize</span></span></span><a class="headerlink" href="#_CPPv4N6feasst8MinimizeE" title="Link to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="Minimize_arguments.html#classfeasst_1_1Minimize"><span class="std std-ref">Minimize</span></a> the objective function within the bounds up to some tolerance. </p>
 <p>Subclassed by <a class="reference internal" href="GoldenSearch_arguments.html#classfeasst_1_1GoldenSearch"><span class="std std-ref">feasst::GoldenSearch</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8Minimize8MinimizeE7argtype">
-<span class="target" id="classfeasst_1_1Minimize_1a996ac6f8aeddb8cbdb1a632c9998079b"></span><span class="sig-name descname"><span class="n"><span class="pre">Minimize</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Minimize8MinimizeE7argtype" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Minimize_1a996ac6f8aeddb8cbdb1a632c9998079b"></span><span class="sig-name descname"><span class="n"><span class="pre">Minimize</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Minimize8MinimizeE7argtype" title="Link to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>tolerance: solve within this tolerance.</p></li>
 <li><p>lower: lower bound.</p></li>
@@ -250,43 +231,43 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Minimize9toleranceEv">
-<span class="target" id="classfeasst_1_1Minimize_1ae4ebed8f46627aa7619bcde2b6851720"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tolerance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Minimize9toleranceEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Minimize_1ae4ebed8f46627aa7619bcde2b6851720"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tolerance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Minimize9toleranceEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the tolerance. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Minimize5lowerEv">
-<span class="target" id="classfeasst_1_1Minimize_1aee4a21cee3b4a864a231d22c014aa5eb"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lower</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Minimize5lowerEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Minimize_1aee4a21cee3b4a864a231d22c014aa5eb"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lower</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Minimize5lowerEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return lower bound. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8Minimize9set_lowerEKd">
-<span class="target" id="classfeasst_1_1Minimize_1a54948a2db7f8321b3529e6f93cdeba8b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_lower</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lower</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Minimize9set_lowerEKd" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Minimize_1a54948a2db7f8321b3529e6f93cdeba8b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_lower</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lower</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Minimize9set_lowerEKd" title="Link to this definition"></a><br /></dt>
 <dd><p>Set lower bound. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Minimize5upperEv">
-<span class="target" id="classfeasst_1_1Minimize_1a9c517a69101de38456083f00d1cc09b1"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">upper</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Minimize5upperEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Minimize_1a9c517a69101de38456083f00d1cc09b1"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">upper</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Minimize5upperEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return upper bound. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8Minimize9set_upperEKd">
-<span class="target" id="classfeasst_1_1Minimize_1a1dcc3fabefee50f4cb6a2b506710bb02"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_upper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">upper</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Minimize9set_upperEKd" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Minimize_1a1dcc3fabefee50f4cb6a2b506710bb02"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_upper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">upper</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Minimize9set_upperEKd" title="Link to this definition"></a><br /></dt>
 <dd><p>Set upper bound. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8Minimize7bracketEPdPdP7Formula">
-<span class="target" id="classfeasst_1_1Minimize_1a18a921e1d97e0afe3b11070b275b5619"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bracket</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">lower</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">upper</span></span>, <a class="reference internal" href="Formula.html#_CPPv4N6feasst7FormulaE" title="feasst::Formula"><span class="n"><span class="pre">Formula</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">formula</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6feasst8Minimize7bracketEPdPdP7Formula" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Minimize_1a18a921e1d97e0afe3b11070b275b5619"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bracket</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">lower</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">upper</span></span>, <a class="reference internal" href="Formula.html#_CPPv4N6feasst7FormulaE" title="feasst::Formula"><span class="n"><span class="pre">Formula</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">formula</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6feasst8Minimize7bracketEPdPdP7Formula" title="Link to this definition"></a><br /></dt>
 <dd><p>Return reduced bounds containing a minimum. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8Minimize7minimumEP7Formula">
-<span class="target" id="classfeasst_1_1Minimize_1a62f05327a0836e3f2b1b05e628c2a26a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">minimum</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Formula.html#_CPPv4N6feasst7FormulaE" title="feasst::Formula"><span class="n"><span class="pre">Formula</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">formula</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Minimize7minimumEP7Formula" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Minimize_1a62f05327a0836e3f2b1b05e628c2a26a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">minimum</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Formula.html#_CPPv4N6feasst7FormulaE" title="feasst::Formula"><span class="n"><span class="pre">Formula</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">formula</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Minimize7minimumEP7Formula" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the minimum of the <a class="reference internal" href="Formula_arguments.html#classfeasst_1_1Formula"><span class="std std-ref">Formula</span></a>. </p>
 </dd></dl>
 

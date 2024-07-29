@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PotentialFactory &mdash; FEASST v0.25.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+  <title>PotentialFactory &mdash; FEASST v0.25.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../../../_static/leave_notice.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -52,11 +55,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.0
+                v0.25.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -136,7 +139,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -220,155 +223,131 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="potentialfactory">
-<h1>PotentialFactory<a class="headerlink" href="#potentialfactory" title="Permalink to this heading"></a></h1>
+  <section id="potentialfactory">
+<h1>PotentialFactory<a class="headerlink" href="#potentialfactory" title="Link to this heading"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactoryE">
-<span class="target" id="classfeasst_1_1PotentialFactory"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PotentialFactory</span></span></span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactoryE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PotentialFactory</span></span></span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactoryE" title="Link to this definition"></a><br /></dt>
 <dd><p>A list of potentials. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory3addENSt10shared_ptrI9PotentialEE">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a2c818aacc8a4860d4647eb4a66c1ea50"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential"><span class="n"><span class="pre">Potential</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">potential</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3addENSt10shared_ptrI9PotentialEE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a2c818aacc8a4860d4647eb4a66c1ea50"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential"><span class="n"><span class="pre">Potential</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">potential</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3addENSt10shared_ptrI9PotentialEE" title="Link to this definition"></a><br /></dt>
 <dd><p>Add potential. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory3setEKiNSt10shared_ptrI9PotentialEE">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a9891cb8ded1d43f786cd0525be04e156"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential"><span class="n"><span class="pre">Potential</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">potential</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3setEKiNSt10shared_ptrI9PotentialEE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a9891cb8ded1d43f786cd0525be04e156"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential"><span class="n"><span class="pre">Potential</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">potential</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3setEKiNSt10shared_ptrI9PotentialEE" title="Link to this definition"></a><br /></dt>
 <dd><p>Set a potential. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16PotentialFactory10potentialsEv">
-<span class="target" id="classfeasst_1_1PotentialFactory_1afb9ae063b0d1bec82fe66a0d67743a08"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential"><span class="n"><span class="pre">Potential</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">potentials</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory10potentialsEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1afb9ae063b0d1bec82fe66a0d67743a08"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential"><span class="n"><span class="pre">Potential</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">potentials</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory10potentialsEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the potentials. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16PotentialFactory9potentialEKi">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a9a4c0be0645f7ff76cf994043422f2fa"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential"><span class="n"><span class="pre">Potential</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">potential</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory9potentialEKi" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a9a4c0be0645f7ff76cf994043422f2fa"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential"><span class="n"><span class="pre">Potential</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">potential</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory9potentialEKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Return a potential by index of order added. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16PotentialFactory3numEv">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a0ed7e2f6551435342e968f07123fd026"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory3numEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a0ed7e2f6551435342e968f07123fd026"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory3numEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the number of potentials. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory10precomputeEP13Configuration">
-<span class="target" id="classfeasst_1_1PotentialFactory_1ad859941eeb8bc50ae8fc7959346d12fa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory10precomputeEP13Configuration" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1ad859941eeb8bc50ae8fc7959346d12fa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory10precomputeEP13Configuration" title="Link to this definition"></a><br /></dt>
 <dd><p>Precompute quantities for optimizations before calculation of energies. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory10precomputeEKiP13Configuration">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a429007f7061dfdf9b7f6b2d051434eea"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory10precomputeEKiP13Configuration" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a429007f7061dfdf9b7f6b2d051434eea"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory10precomputeEKiP13Configuration" title="Link to this definition"></a><br /></dt>
 <dd><p>Precompute a particular potential by index. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory18remove_opt_overlapEv">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a70408919cb6f3ed60976544c2aedbc9a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_opt_overlap</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory18remove_opt_overlapEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a70408919cb6f3ed60976544c2aedbc9a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_opt_overlap</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory18remove_opt_overlapEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Remove optimization when overlap is detected, which is default. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory6energyEP13Configuration">
-<span class="target" id="classfeasst_1_1PotentialFactory_1ace42e1e36cda96941a3e789e62c9372c"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory6energyEP13Configuration" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1ace42e1e36cda96941a3e789e62c9372c"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">energy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory6energyEP13Configuration" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute the energy of the given configuration. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory13select_energyERK6SelectP13Configuration">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a2ec4cbae9fbb9de76e89d522c8d17cda"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">select_energy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory13select_energyERK6SelectP13Configuration" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a2ec4cbae9fbb9de76e89d522c8d17cda"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">select_energy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory13select_energyERK6SelectP13Configuration" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute the energy of the selection in the configuration. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16PotentialFactory21stored_energy_profileEv">
-<span class="target" id="classfeasst_1_1PotentialFactory_1ac240704676da0e0dfc40925d81dfd7c7"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stored_energy_profile</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory21stored_energy_profileEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1ac240704676da0e0dfc40925d81dfd7c7"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stored_energy_profile</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory21stored_energy_profileEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the profile of energies that were last computed. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16PotentialFactory13stored_energyEv">
-<span class="target" id="classfeasst_1_1PotentialFactory_1aa65197ec9eaa019efe0626b73032793d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stored_energy</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory13stored_energyEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1aa65197ec9eaa019efe0626b73032793d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stored_energy</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory13stored_energyEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the last computed value of the energy. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16PotentialFactory3strEv">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a5b0b5af15207fa7b4109aa9c8e40a5d8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory3strEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a5b0b5af15207fa7b4109aa9c8e40a5d8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory3strEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return a human-readable status. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory13change_volumeEKdKiP13Configuration">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a9a345481e1814a08615478c1d6c95cf5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">change_volume</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delta_volume</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory13change_volumeEKdKiP13Configuration" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a9a345481e1814a08615478c1d6c95cf5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">change_volume</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delta_volume</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dimension</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory13change_volumeEKdKiP13Configuration" title="Link to this definition"></a><br /></dt>
 <dd><p>Change the volume. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory6revertERK6Select">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a363f03b099ae948e6f0feb90f4b4e6bf"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">revert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory6revertERK6Select" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a363f03b099ae948e6f0feb90f4b4e6bf"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">revert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory6revertERK6Select" title="Link to this definition"></a><br /></dt>
 <dd><p>Revert any changes to the configuration due to the last energy computation. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory8finalizeERK6SelectP13Configuration">
-<span class="target" id="classfeasst_1_1PotentialFactory_1ae49a080d12441b05e734b321da4466a8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">finalize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory8finalizeERK6SelectP13Configuration" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1ae49a080d12441b05e734b321da4466a8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">finalize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory8finalizeERK6SelectP13Configuration" title="Link to this definition"></a><br /></dt>
 <dd><p>Finalize changes due to perturbations. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory10load_cacheEKb">
-<span class="target" id="classfeasst_1_1PotentialFactory_1affb40b98d8152bd22e32d8f47ff334b4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load_cache</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">load</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory10load_cacheEKb" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1affb40b98d8152bd22e32d8f47ff334b4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load_cache</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">load</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory10load_cacheEKb" title="Link to this definition"></a><br /></dt>
 <dd><p>Set cache to load energy calculations. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory12unload_cacheERK16PotentialFactory">
-<span class="target" id="classfeasst_1_1PotentialFactory_1aaa333e5cd785789ead2f6b777b448a9b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unload_cache</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst16PotentialFactoryE" title="feasst::PotentialFactory"><span class="n"><span class="pre">PotentialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory12unload_cacheERK16PotentialFactory" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1aaa333e5cd785789ead2f6b777b448a9b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unload_cache</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst16PotentialFactoryE" title="feasst::PotentialFactory"><span class="n"><span class="pre">PotentialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory12unload_cacheERK16PotentialFactory" title="Link to this definition"></a><br /></dt>
 <dd><p>Set cache to unload energy calclatuions. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16PotentialFactory9serializeERNSt7ostreamE">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a7b14853beca153cf83ff7308e92cf837"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sstr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory9serializeERNSt7ostreamE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a7b14853beca153cf83ff7308e92cf837"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sstr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory9serializeERNSt7ostreamE" title="Link to this definition"></a><br /></dt>
 <dd><p>Serialize. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactory16PotentialFactoryERNSt7istreamE">
-<span class="target" id="classfeasst_1_1PotentialFactory_1a91b21c53741831980e9a9573343760d0"></span><span class="sig-name descname"><span class="n"><span class="pre">PotentialFactory</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">istream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sstr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory16PotentialFactoryERNSt7istreamE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1PotentialFactory_1a91b21c53741831980e9a9573343760d0"></span><span class="sig-name descname"><span class="n"><span class="pre">PotentialFactory</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">istream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sstr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory16PotentialFactoryERNSt7istreamE" title="Link to this definition"></a><br /></dt>
 <dd><p>Deserialize. </p>
 </dd></dl>
 

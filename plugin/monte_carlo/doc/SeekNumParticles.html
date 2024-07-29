@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeekNumParticles &mdash; FEASST v0.25.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+  <title>SeekNumParticles &mdash; FEASST v0.25.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../../../_static/leave_notice.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -52,11 +55,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.0
+                v0.25.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -159,7 +162,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -243,41 +246,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="seeknumparticles">
-<h1>SeekNumParticles<a class="headerlink" href="#seeknumparticles" title="Permalink to this heading"></a></h1>
+  <section id="seeknumparticles">
+<h1>SeekNumParticles<a class="headerlink" href="#seeknumparticles" title="Link to this heading"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16SeekNumParticlesE">
-<span class="target" id="classfeasst_1_1SeekNumParticles"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SeekNumParticles</span></span></span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticlesE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1SeekNumParticles"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SeekNumParticles</span></span></span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticlesE" title="Link to this definition"></a><br /></dt>
 <dd><p>Initialize the number of particles in <a class="reference internal" href="MonteCarlo_arguments.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a>. Use the existing trials, but reset their stats once the goal is reached. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16SeekNumParticles16SeekNumParticlesEKi7argtype">
-<span class="target" id="classfeasst_1_1SeekNumParticles_1a589dd1ca750c8721177af595456b0f83"></span><span class="sig-name descname"><span class="n"><span class="pre">SeekNumParticles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles16SeekNumParticlesEKi7argtype" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1SeekNumParticles_1a589dd1ca750c8721177af595456b0f83"></span><span class="sig-name descname"><span class="n"><span class="pre">SeekNumParticles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num</span></span>, <a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles16SeekNumParticlesEKi7argtype" title="Link to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>particle_type: type of particle to add. If -1, all types (default: -1).</p></li>
 <li><p>max_attempts: maximum number of trial attempts for seek (default: 1e8). </p></li>
@@ -287,43 +266,43 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16SeekNumParticles18with_thermo_paramsE7argtype">
-<span class="target" id="classfeasst_1_1SeekNumParticles_1a813cdbf4e1edb363872f297fb24b4c0a"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">with_thermo_params</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles18with_thermo_paramsE7argtype" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1SeekNumParticles_1a813cdbf4e1edb363872f297fb24b4c0a"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">with_thermo_params</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles18with_thermo_paramsE7argtype" title="Link to this definition"></a><br /></dt>
 <dd><p>Optionally, use a temporary <a class="reference internal" href="../../system/doc/ThermoParams_arguments.html#classfeasst_1_1ThermoParams"><span class="std std-ref">ThermoParams</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16SeekNumParticles15with_metropolisEv">
-<span class="target" id="classfeasst_1_1SeekNumParticles_1a2dad58f9656fb8d9f7994fd39e97dd9d"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">with_metropolis</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles15with_metropolisEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1SeekNumParticles_1a2dad58f9656fb8d9f7994fd39e97dd9d"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">with_metropolis</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles15with_metropolisEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Optionally use a temporary <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> criteria with given args. This is the recommended approach, especially to avoid using <a class="reference internal" href="../../flat_histogram/doc/FlatHistogram_arguments.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16SeekNumParticles15with_metropolisENSt10shared_ptrI10ConstraintEE">
-<span class="target" id="classfeasst_1_1SeekNumParticles_1a5bb142c24f4a57ba7803854a60ab9e50"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">with_metropolis</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint"><span class="n"><span class="pre">Constraint</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">constraint</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles15with_metropolisENSt10shared_ptrI10ConstraintEE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1SeekNumParticles_1a5bb142c24f4a57ba7803854a60ab9e50"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">with_metropolis</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint"><span class="n"><span class="pre">Constraint</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">constraint</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles15with_metropolisENSt10shared_ptrI10ConstraintEE" title="Link to this definition"></a><br /></dt>
 <dd><p>Same as above but with a constraint. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16SeekNumParticles14with_trial_addE7argtype">
-<span class="target" id="classfeasst_1_1SeekNumParticles_1ae97cf4f9ad401a8455c6148979efdcc0"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">with_trial_add</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles14with_trial_addE7argtype" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1SeekNumParticles_1ae97cf4f9ad401a8455c6148979efdcc0"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">with_trial_add</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles14with_trial_addE7argtype" title="Link to this definition"></a><br /></dt>
 <dd><p>Use an extra and temporary <a class="reference internal" href="TrialAdd_arguments.html#classfeasst_1_1TrialAdd"><span class="std std-ref">TrialAdd</span></a> between every existing <a class="reference internal" href="Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>. If particle_type is not included in args, use value given by class argument particle_type, if not -1. If -1, then use 0. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI5TrialEE">
-<span class="target" id="classfeasst_1_1SeekNumParticles_1a12e64bd7202f3b124fb9fa938aef8445"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">trial</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI5TrialEE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1SeekNumParticles_1a12e64bd7202f3b124fb9fa938aef8445"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">trial</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI5TrialEE" title="Link to this definition"></a><br /></dt>
 <dd><p>Add an extra trial. Any extra trials, including <a class="reference internal" href="TrialAdd_arguments.html#classfeasst_1_1TrialAdd"><span class="std std-ref">TrialAdd</span></a> above, are attempted between each trial already present in <a class="reference internal" href="MonteCarlo_arguments.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI14ProgressReportEE">
-<span class="target" id="classfeasst_1_1SeekNumParticles_1a0a3c5830879b61420d132adda5dbe642"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../utils/doc/ProgressReport.html#_CPPv4N6feasst14ProgressReportE" title="feasst::ProgressReport"><span class="n"><span class="pre">ProgressReport</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">report</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI14ProgressReportEE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1SeekNumParticles_1a0a3c5830879b61420d132adda5dbe642"></span><a class="reference internal" href="#_CPPv4N6feasst16SeekNumParticlesE" title="feasst::SeekNumParticles"><span class="n"><span class="pre">SeekNumParticles</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../utils/doc/ProgressReport.html#_CPPv4N6feasst14ProgressReportE" title="feasst::ProgressReport"><span class="n"><span class="pre">ProgressReport</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">report</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI14ProgressReportEE" title="Link to this definition"></a><br /></dt>
 <dd><p>Add a progress report. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16SeekNumParticles3runEP10MonteCarlo">
-<span class="target" id="classfeasst_1_1SeekNumParticles_1aab42e9f0f477ce752c7b07b7a99bc768"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">monte_carlo</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles3runEP10MonteCarlo" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1SeekNumParticles_1aab42e9f0f477ce752c7b07b7a99bc768"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">monte_carlo</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16SeekNumParticles3runEP10MonteCarlo" title="Link to this definition"></a><br /></dt>
 <dd><p>Perform the seek. </p>
 </dd></dl>
 

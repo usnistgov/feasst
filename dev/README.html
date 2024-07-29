@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer guidelines &mdash; FEASST v0.25.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+  <title>Developer guidelines &mdash; FEASST v0.25.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../_static/leave_notice.js"></script>
+        <script src="../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -52,18 +55,18 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.0
+                v0.25.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README_html.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../python/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../CONTRIBUTING.html#for-contributing-code">For contributing code</a><ul class="current">
@@ -159,39 +162,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="developer-guidelines">
-<h1>Developer guidelines<a class="headerlink" href="#developer-guidelines" title="Permalink to this heading"></a></h1>
+  <section id="developer-guidelines">
+<h1>Developer guidelines<a class="headerlink" href="#developer-guidelines" title="Link to this heading"></a></h1>
 <p>Developers and contributors of FEASST may consider the following guidelines in order to simplify collaboration.</p>
 <section id="branch-policies">
-<h2>Branch policies<a class="headerlink" href="#branch-policies" title="Permalink to this heading"></a></h2>
+<h2>Branch policies<a class="headerlink" href="#branch-policies" title="Link to this heading"></a></h2>
 <p>Branches in Git are extremely useful for working on different features within the same code base and then merging them into a final product or release.</p>
 <p>Using and naming branches in a way that is consistent may simplify this process.</p>
 <section id="main-branch">
-<h3>Main branch<a class="headerlink" href="#main-branch" title="Permalink to this heading"></a></h3>
+<h3>Main branch<a class="headerlink" href="#main-branch" title="Link to this heading"></a></h3>
 <p>This is the release branch.
 This branch may only merge with develop and hotfix branches.</p>
 <ul class="simple">
@@ -205,7 +184,7 @@ This branch may only merge with develop and hotfix branches.</p>
 </ul>
 </section>
 <section id="develop-branch">
-<h3>Develop branch<a class="headerlink" href="#develop-branch" title="Permalink to this heading"></a></h3>
+<h3>Develop branch<a class="headerlink" href="#develop-branch" title="Link to this heading"></a></h3>
 <p>This is the development branch.</p>
 <p>Tested and complete implementation of new features are added here.</p>
 <ul class="simple">
@@ -216,18 +195,18 @@ Alternatively, you could also rebase your private branch.</p></li>
 </ul>
 </section>
 <section id="hotfix-branch">
-<h3>Hotfix branch<a class="headerlink" href="#hotfix-branch" title="Permalink to this heading"></a></h3>
+<h3>Hotfix branch<a class="headerlink" href="#hotfix-branch" title="Link to this heading"></a></h3>
 <p>The hotfix branch is for implementation of bug fixes to the main branch.
 After merging with main and develop, they are deleted.</p>
 </section>
 <section id="feature-branches">
-<h3>Feature branches<a class="headerlink" href="#feature-branches" title="Permalink to this heading"></a></h3>
+<h3>Feature branches<a class="headerlink" href="#feature-branches" title="Link to this heading"></a></h3>
 <p>These branches are for the development of new features.
 These branch names must begin with characters which identify the main developer of the feature (e..g, username/feature)
 The main developer sets the branch policy.</p>
 </section>
 <section id="dead-dead-branches">
-<h3>Dead (dead_*) branches<a class="headerlink" href="#dead-dead-branches" title="Permalink to this heading"></a></h3>
+<h3>Dead (dead_*) branches<a class="headerlink" href="#dead-dead-branches" title="Link to this heading"></a></h3>
 <p>These branches may record an incomplete attempt of a feature that may be relevant in the future.
 These branch names must begin with the characters “dead”.</p>
 <ul class="simple">
@@ -236,7 +215,7 @@ HINT: rename branches with “git branch -m &lt;newname&gt;”</p></li>
 </ul>
 </section>
 <section id="pull-requests">
-<h3>Pull requests<a class="headerlink" href="#pull-requests" title="Permalink to this heading"></a></h3>
+<h3>Pull requests<a class="headerlink" href="#pull-requests" title="Link to this heading"></a></h3>
 <p>To create a pull request, fork the usnistgov repo, create a new branch with your changes, and add the pull request.</p>
 <p>Try to copy the style of existing commits in the main branch. This means reducing the number of commits in a pull request (e.g., consider a git merge), and to keep the commit descriptions in a similar style as existing commits. For example, the description should be a single sentence that is general and not redundant information from what you see when you click on the details of the commit.</p>
 <p>To incorporate the pull request into feasst
@@ -247,9 +226,9 @@ HINT: rename branches with “git branch -m &lt;newname&gt;”</p></li>
 </section>
 </section>
 <section id="tools">
-<h2>Tools<a class="headerlink" href="#tools" title="Permalink to this heading"></a></h2>
+<h2>Tools<a class="headerlink" href="#tools" title="Link to this heading"></a></h2>
 <section id="gtest-unittest-c">
-<h3>GTEST: Unittest C++<a class="headerlink" href="#gtest-unittest-c" title="Permalink to this heading"></a></h3>
+<h3>GTEST: Unittest C++<a class="headerlink" href="#gtest-unittest-c" title="Link to this heading"></a></h3>
 <p>The main branch requires GTEST coverage for all cpp plugins in plugin/name/test.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-DUSE_GTEST<span class="o">=</span>ON<span class="w"> </span>..
 make<span class="w"> </span>unittest<span class="w"> </span>-j12
@@ -264,7 +243,7 @@ make<span class="w"> </span>unittest<span class="w"> </span>-j12
 </ul>
 </section>
 <section id="gdb-or-lldb-debugging">
-<h3>GDB or LLDB: Debugging<a class="headerlink" href="#gdb-or-lldb-debugging" title="Permalink to this heading"></a></h3>
+<h3>GDB or LLDB: Debugging<a class="headerlink" href="#gdb-or-lldb-debugging" title="Link to this heading"></a></h3>
 <p>gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces.
 The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
 Often, the optimization flags (e.g., -O3) can obfuscate the backtrace.
@@ -291,7 +270,7 @@ r<span class="w"> </span><span class="o">[</span>python<span class="w"> </span>s
 </ul>
 </section>
 <section id="valgrind-find-memory-leaks">
-<h3>Valgrind: Find memory leaks<a class="headerlink" href="#valgrind-find-memory-leaks" title="Permalink to this heading"></a></h3>
+<h3>Valgrind: Find memory leaks<a class="headerlink" href="#valgrind-find-memory-leaks" title="Link to this heading"></a></h3>
 <p>Valgrind helps to detect memory management bugs.</p>
 <p><a class="reference external" href="http://valgrind.org/">http://valgrind.org/</a></p>
 <p>For example, to run Valgrind on a particular test and output to text file</p>
@@ -306,7 +285,7 @@ r<span class="w"> </span><span class="o">[</span>python<span class="w"> </span>s
 </ul>
 </section>
 <section id="gcov-and-lcov-test-coverage">
-<h3>GCOV and LCOV: Test coverage<a class="headerlink" href="#gcov-and-lcov-test-coverage" title="Permalink to this heading"></a></h3>
+<h3>GCOV and LCOV: Test coverage<a class="headerlink" href="#gcov-and-lcov-test-coverage" title="Link to this heading"></a></h3>
 <p>GCC compilers allow testing of coverage with gcov and lcov for visualization.</p>
 <ul class="simple">
 <li><p>Code: currently implemented with Travis CI and CodeCov and available online.
@@ -319,20 +298,20 @@ Note: this disables optimization, so don’t use it for production simulations.<
 </ul>
 </section>
 <section id="ccache-speed-up-compilation-time">
-<h3>CCACHE: Speed up compilation time<a class="headerlink" href="#ccache-speed-up-compilation-time" title="Permalink to this heading"></a></h3>
+<h3>CCACHE: Speed up compilation time<a class="headerlink" href="#ccache-speed-up-compilation-time" title="Link to this heading"></a></h3>
 <p>Something as trivial as changing a comment in a header file can lead to a massive recompile of the entire source.
 Your previous compile is remembered by ccache, leading to near instant recompilation in the above example.</p>
 </section>
 <section id="cpplint-and-pylint-clean-up-styling">
-<h3>cpplint and pylint: Clean up styling<a class="headerlink" href="#cpplint-and-pylint-clean-up-styling" title="Permalink to this heading"></a></h3>
+<h3>cpplint and pylint: Clean up styling<a class="headerlink" href="#cpplint-and-pylint-clean-up-styling" title="Link to this heading"></a></h3>
 <p><a class="reference external" href="https://google.github.io/styleguide/cppguide.html">https://google.github.io/styleguide/cppguide.html</a></p>
 <p><a class="reference external" href="https://github.com/google/styleguide/tree/gh-pages/cpplint">https://github.com/google/styleguide/tree/gh-pages/cpplint</a></p>
 </section>
 </section>
 <section id="document">
-<h2>Document<a class="headerlink" href="#document" title="Permalink to this heading"></a></h2>
+<h2>Document<a class="headerlink" href="#document" title="Link to this heading"></a></h2>
 <section id="setup">
-<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h3>
+<h3>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h3>
 <p>sudo apt install doxygen pandoc
 pip install sphinx breathe pandoc
 doxygen with GENERATE_XML
@@ -355,7 +334,7 @@ breathe_domain_by_extension = {“h” : “cc”}</p>
 <p>pip install pygraphviz breathe pandoc</p>
 </section>
 <section id="sphinx-breathe-doxygen-notes">
-<h3>Sphinx/Breathe/Doxygen notes<a class="headerlink" href="#sphinx-breathe-doxygen-notes" title="Permalink to this heading"></a></h3>
+<h3>Sphinx/Breathe/Doxygen notes<a class="headerlink" href="#sphinx-breathe-doxygen-notes" title="Link to this heading"></a></h3>
 <ul>
 <li><p>Link from rst file to C++ function: <code class="docutils literal notranslate"><span class="pre">:cpp:func:`link</span> <span class="pre">&lt;feasst::className::function()&gt;`</span></code></p></li>
 <li><p>Link from rst file to C++ class: <code class="docutils literal notranslate"><span class="pre">:cpp:class:`link</span> <span class="pre">&lt;feasst::className&gt;`</span></code></p></li>
@@ -377,14 +356,14 @@ breathe_domain_by_extension = {“h” : “cc”}</p>
 </div></blockquote>
 </section>
 <section id="pip-notes">
-<h3>Pip notes<a class="headerlink" href="#pip-notes" title="Permalink to this heading"></a></h3>
+<h3>Pip notes<a class="headerlink" href="#pip-notes" title="Link to this heading"></a></h3>
 <p>dev/tools/pip_install.sh</p>
 </section>
 </section>
 <section id="style">
-<h2>Style<a class="headerlink" href="#style" title="Permalink to this heading"></a></h2>
+<h2>Style<a class="headerlink" href="#style" title="Link to this heading"></a></h2>
 <section id="reference-guides-for-c">
-<h3>Reference guides for C++<a class="headerlink" href="#reference-guides-for-c" title="Permalink to this heading"></a></h3>
+<h3>Reference guides for C++<a class="headerlink" href="#reference-guides-for-c" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="http://www.cplusplus.com/">http://www.cplusplus.com/</a></p></li>
 <li><p><a class="reference external" href="https://google.github.io/styleguide/cppguide.html">https://google.github.io/styleguide/cppguide.html</a></p></li>
@@ -392,7 +371,7 @@ breathe_domain_by_extension = {“h” : “cc”}</p>
 </ul>
 </section>
 <section id="naming">
-<h3>Naming<a class="headerlink" href="#naming" title="Permalink to this heading"></a></h3>
+<h3>Naming<a class="headerlink" href="#naming" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>ClassNames are mixed case with starting upper case letter</p></li>
 <li><p>member_names are lower case with underscores</p></li>
@@ -405,7 +384,7 @@ breathe_domain_by_extension = {“h” : “cc”}</p>
 </ul>
 </section>
 <section id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h3>
+<h3>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Use return values. Argument ordering: input (value or constant reference), then output (pointer only)</p></li>
 <li><p>Overloaded functions -&gt; can you document all in a single comment? good</p></li>
@@ -413,7 +392,7 @@ breathe_domain_by_extension = {“h” : “cc”}</p>
 </ul>
 </section>
 <section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h3>
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Nearly all data members should be private. Limit protected members</p></li>
 <li><p>member_name() returns const member</p></li>
@@ -423,7 +402,7 @@ breathe_domain_by_extension = {“h” : “cc”}</p>
 </ul>
 </section>
 <section id="loops-and-if">
-<h3>Loops and if<a class="headerlink" href="#loops-and-if" title="Permalink to this heading"></a></h3>
+<h3>Loops and if<a class="headerlink" href="#loops-and-if" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>use of “for (auto element : container) { … }” is dangerous</p></li>
 <li><p>for simple loops over containers, use “for (element : container)”</p></li>
@@ -432,13 +411,13 @@ for (int index = 0; index &lt; static_cast&lt;int&gt;(container.size()); ++index
 </ul>
 </section>
 <section id="auto">
-<h3>Auto<a class="headerlink" href="#auto" title="Permalink to this heading"></a></h3>
+<h3>Auto<a class="headerlink" href="#auto" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>only use auto when the type is clear such as auto var = std::make_shared&lt;..&gt;.</p></li>
 </ul>
 </section>
 <section id="arguments">
-<h3>Arguments<a class="headerlink" href="#arguments" title="Permalink to this heading"></a></h3>
+<h3>Arguments<a class="headerlink" href="#arguments" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>All arguments are provided as strings and converted to the expected type.</p></li>
 <li><p>Check that all arguments are used (e.g., like implicit none, a typo is caught).</p></li>
@@ -447,7 +426,7 @@ for (int index = 0; index &lt; static_cast&lt;int&gt;(container.size()); ++index
 </ul>
 </section>
 <section id="serialization">
-<h3>Serialization<a class="headerlink" href="#serialization" title="Permalink to this heading"></a></h3>
+<h3>Serialization<a class="headerlink" href="#serialization" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>guided by <a class="reference external" href="https://isocpp.org/wiki/faq/serialization">https://isocpp.org/wiki/faq/serialization</a></p></li>
 <li><p>For inheritance hierarchy, a static deserialize_map is used to relate class
@@ -461,14 +440,14 @@ compatibility.</p></li>
 </ul>
 </section>
 <section id="file-output">
-<h3>File output<a class="headerlink" href="#file-output" title="Permalink to this heading"></a></h3>
+<h3>File output<a class="headerlink" href="#file-output" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>comma-separated values (CSV) are the preferred format (e.g., comma deliminter)</p></li>
 </ul>
 </section>
 </section>
 <section id="for-quick-reference">
-<h2>For quick reference<a class="headerlink" href="#for-quick-reference" title="Permalink to this heading"></a></h2>
+<h2>For quick reference<a class="headerlink" href="#for-quick-reference" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>line counts [find . -name ‘<em>.cpp’ -o -name ‘</em>.h’ | xargs wc -l | sort -n]</p></li>
 <li><p>tutorial errors [ find . -name ‘tutorial_failures.txt’ | xargs cat ]</p></li>
@@ -482,7 +461,7 @@ compatibility.</p></li>
 </ul>
 </section>
 <section id="to-do-list">
-<h2>To Do List<a class="headerlink" href="#to-do-list" title="Permalink to this heading"></a></h2>
+<h2>To Do List<a class="headerlink" href="#to-do-list" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>profile: Create benchmarking profile to compare among versions</p></li>
 <li><p>profile: implement timer for profiles (with hierarchies by class… tried this, but its too slow. Time only infrequently?)</p></li>
@@ -535,6 +514,12 @@ compatibility.</p></li>
 <li><p>Add precompute for BondFourBody, ThreeBody, etc, to speed up? But different dihedrals have different coefficients.</p></li>
 <li><p>Add option to not serialize neighbor lists to reduce checkpoint size.</p></li>
 <li><p>Allow one script to contain multiple MonteCarlo, CollectionMatrixSplice, Prefetch in any order? (checkpointing is difficult)</p></li>
+<li><p>When trials start, check to see if there is a trial that uses weight_per_number_fraction but there are fixed particles (or, see if there are weight_per_number for all types unless excluded?)</p></li>
+<li><p>Add a FAQ for sim questions, such as, an overview of various table potential options, etc.</p></li>
+<li><p>Optimize BondVisitor that uses deserialize_map and strings in inner loop</p></li>
+<li><p>Hard code version into source code releases. Or update README_html to download releases with wget? Release not just tag?</p></li>
+<li><p>Compress README features list (table?)</p></li>
+<li><p>Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).</p></li>
 </ul>
 </section>
 </section>

@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User defined tabular potentials &mdash; FEASST v0.25.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+  <title>User defined tabular potentials &mdash; FEASST v0.25.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../../../_static/leave_notice.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -52,11 +55,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.0
+                v0.25.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/tutorial.html">Lennard Jones in the canonical ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/launch.html">HPC/SLURM script with checkpointed restarts</a></li>
@@ -86,7 +89,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/tutorial/tutorial_1_wca_pore.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones in a simple WCA porous network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/tutorial/tutorial_2_co2_zif8.html">Grand Canonical Flat Histogram Simulation of TraPPE CO2 in ZIF8</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../confinement/tutorial/tutorial_3_co2.html">Grand Canonical Flat Histogram Simulation of Bulk CO2 to analyze pressure in ZIF8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_0_freely_jointed.html">Simulation of a single freely-jointed chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_1_ideal_ua_chain.html">Simulation of a single chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/tutorial/tutorial_2_ideal_ua_chain20.html">Simulation of a single 20-bead linear chain</a></li>
@@ -108,6 +110,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/tutorial/tutorial_8_b2_pdb.html">Virial coefficients of atomistic proteins in implicit solvent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_2_lj_nvt_prefetch.html">Canonical ensemble Lennard-Jones with Prefetching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_1_cg_protein.html">CG simulation of a protein using anisotropic precomputed potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../fftw/tutorial/tutorial_01_hs_scattering.html">Compare standard vs FFTW scattering calculations for hard spheres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../morph/tutorial/tutorial_1_binary_lj.html">Semi-Grand Canonical Flat Histogram Simulation of a binary LJ mixture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../morph/tutorial/tutorial_2_co2_n2.html">Semi-Grand Canonical Flat Histogram Simulation of CO2 and N2</a></li>
@@ -121,7 +124,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -201,32 +204,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="user-defined-tabular-potentials">
-<h1>User defined tabular potentials<a class="headerlink" href="#user-defined-tabular-potentials" title="Permalink to this heading"></a></h1>
+  <section id="user-defined-tabular-potentials">
+<h1>User defined tabular potentials<a class="headerlink" href="#user-defined-tabular-potentials" title="Link to this heading"></a></h1>
 <p>See <a class="reference internal" href="../doc/TablePotential.html#_CPPv4N6feasst14TablePotentialE" title="feasst::TablePotential"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">TablePotential</span></code></a> for more information on the table file format.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This tutorial is essentially a copy of /path/to/feasst/tutorial/launch.py,</span>
@@ -300,19 +279,19 @@
 <span class="k">def</span> <span class="nf">user_potential</span><span class="p">(</span><span class="n">distance</span><span class="p">):</span>
     <span class="k">return</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">distance</span><span class="o">**-</span><span class="mi">12</span> <span class="o">-</span> <span class="n">distance</span><span class="o">**-</span><span class="mi">6</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">generate_table</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-    <span class="k">assert</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_z&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span>
-    <span class="n">dz</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_z&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">rhg</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;inner&#39;</span><span class="p">]</span><span class="o">**</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
-    <span class="n">rcg</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cutoff&#39;</span><span class="p">]</span><span class="o">**</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;table_file&#39;</span><span class="p">],</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
-        <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;site_types 1 0</span><span class="se">\n</span><span class="s2">inner </span><span class="si">{inner}</span><span class="se">\n</span><span class="s2">num_z </span><span class="si">{num_z}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
-        <span class="c1">#file1.write(&quot;&quot;&quot;site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n&quot;&quot;&quot;.format(**params))</span>
+<span class="k">def</span> <span class="nf">generate_table</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;num_z&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span>
+    <span class="n">dz</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;num_z&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">rhg</span> <span class="o">=</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;inner&#39;</span><span class="p">]</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+    <span class="n">rcg</span> <span class="o">=</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;cutoff&#39;</span><span class="p">]</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;table_file&#39;</span><span class="p">],</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+        <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;site_types 1 0</span><span class="se">\n</span><span class="s2">inner </span><span class="si">{inner}</span><span class="se">\n</span><span class="s2">num_z </span><span class="si">{num_z}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">))</span>
+        <span class="c1">#file1.write(&quot;&quot;&quot;site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n&quot;&quot;&quot;.format(**PARAMS))</span>
         <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">dz</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">dz</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">z</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">distance</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;inner&#39;</span><span class="p">]</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;inner&#39;</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">distance</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="o">*</span><span class="p">(</span><span class="n">rcg</span> <span class="o">-</span> <span class="n">rhg</span><span class="p">)</span> <span class="o">+</span> <span class="n">rhg</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">])</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="o">*</span><span class="p">(</span><span class="n">rcg</span> <span class="o">-</span> <span class="n">rhg</span><span class="p">)</span> <span class="o">+</span> <span class="n">rhg</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">])</span>
             <span class="n">en</span> <span class="o">=</span> <span class="n">user_potential</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
             <span class="c1">#print(&#39;distance&#39;, distance, &#39;en&#39;, en)</span>
             <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">en</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
@@ -327,7 +306,7 @@
 <span class="sd">&quot;&quot;&quot;2</span>
 <span class="sd">-1 8 8 8</span>
 <span class="sd">0 0 0 0</span>
-<span class="sd">1 0 0 {displacement_test}&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+<span class="sd">1 0 0 {displacement_test}&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">))</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;launch.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">MonteCarlo</span>
 <span class="s2">RandomMT19937 seed time</span>
@@ -338,19 +317,19 @@
 <span class="s2">Metropolis</span>
 <span class="s2">Log output_file lj.csv max_precision true clear_file true</span>
 <span class="s2">Run num_trials 1</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
-    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;feasst_install&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;bin/fst &lt; launch.txt &gt; launch.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">))</span>
+    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;feasst_install&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;bin/fst &lt; launch.txt &gt; launch.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">syscode</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">plot_table</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
     <span class="c1"># check the energy interpolated from the table against the analytical value</span>
-    <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cutoff&#39;</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;cutoff&#39;</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">)</span>
     <span class="n">ens</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dists</span><span class="p">:</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;displacement_test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span>
+        <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;displacement_test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span>
         <span class="n">run_en</span><span class="p">()</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
-        <span class="n">ens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;TwoBodyTable&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">ens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;TablePotential&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">ens</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;table&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">user_potential</span><span class="p">(</span><span class="n">dists</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;analytical&#39;</span><span class="p">)</span>

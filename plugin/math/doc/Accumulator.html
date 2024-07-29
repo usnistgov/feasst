@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accumulator &mdash; FEASST v0.25.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
+  <title>Accumulator &mdash; FEASST v0.25.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../../../_static/leave_notice.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -52,11 +55,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.0
+                v0.25.1
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -76,7 +79,10 @@
 <li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Accumulator</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Accumulator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst11AccumulatorE"><code class="docutils literal notranslate"><span class="pre">Accumulator</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Euler.html">Euler</a></li>
@@ -85,7 +91,6 @@
 <li class="toctree-l3"><a class="reference internal" href="RandomModulo.html">RandomModulo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -120,7 +125,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -204,41 +209,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="accumulator">
-<h1>Accumulator<a class="headerlink" href="#accumulator" title="Permalink to this heading"></a></h1>
+  <section id="accumulator">
+<h1>Accumulator<a class="headerlink" href="#accumulator" title="Link to this heading"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst11AccumulatorE">
-<span class="target" id="classfeasst_1_1Accumulator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Accumulator</span></span></span><a class="headerlink" href="#_CPPv4N6feasst11AccumulatorE" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Accumulator</span></span></span><a class="headerlink" href="#_CPPv4N6feasst11AccumulatorE" title="Link to this definition"></a><br /></dt>
 <dd><p>Accumulate a series of values to compute the average, standard deviation, and the standard deviation of the average of uncorrelated data using the blocking method. Flyvbjerg, Error estimates on averages of correlated data, <a class="reference external" href="http://dx.doi.org/10.1063/1.457480">http://dx.doi.org/10.1063/1.457480</a> Also, see Frenkel and Smit, Understanding Molecular Simulations, Appendix D and Case study 4 (pages 98-100, Figure 4.4). </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst11Accumulator11AccumulatorE7argtype">
-<span class="target" id="classfeasst_1_1Accumulator_1a327a360ca4fa5591da3dd7ec3e40b6b4"></span><span class="sig-name descname"><span class="n"><span class="pre">Accumulator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator11AccumulatorE7argtype" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a327a360ca4fa5591da3dd7ec3e40b6b4"></span><span class="sig-name descname"><span class="n"><span class="pre">Accumulator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator11AccumulatorE7argtype" title="Link to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>num_moments: maximum number of moments (default: 5).</p></li>
 <li><p>max_block_operations: maximum number of blocking operations (default: 6). </p></li>
@@ -248,49 +229,49 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator20max_block_operationsEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a14425247ccd99dc155d60f9acd48f444"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_block_operations</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator20max_block_operationsEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a14425247ccd99dc155d60f9acd48f444"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_block_operations</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator20max_block_operationsEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the maximum number of block operations. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator11num_momentsEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a0a9a56361682a0fa855afcb4b9954de8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_moments</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11num_momentsEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a0a9a56361682a0fa855afcb4b9954de8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_moments</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11num_momentsEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the maximum number of moments. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst11Accumulator10accumulateEd">
-<span class="target" id="classfeasst_1_1Accumulator_1a5f61e3de005ca6a9b1b0c13f067c17d3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">accumulate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator10accumulateEd" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a5f61e3de005ca6a9b1b0c13f067c17d3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">accumulate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator10accumulateEd" title="Link to this definition"></a><br /></dt>
 <dd><p>Add a value to the running sum of values and higher moments. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator7averageEv">
-<span class="target" id="classfeasst_1_1Accumulator_1af9f4bc1113a774d565e74b1b706b9734"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">average</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator7averageEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1af9f4bc1113a774d565e74b1b706b9734"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">average</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator7averageEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return average of accumulated values. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator5stdevEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a2b8507f4a0be7b6362cf4a1688821a3d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stdev</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator5stdevEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a2b8507f4a0be7b6362cf4a1688821a3d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stdev</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator5stdevEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return standard deviation e.g., fluctuation of all (correlated) values. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11AccumulatorStEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a93c061555d8ce53e5d3efd565fba3537"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">std</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11AccumulatorStEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a93c061555d8ce53e5d3efd565fba3537"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">std</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11AccumulatorStEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Same as above. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator11stdev_of_avEv">
-<span class="target" id="classfeasst_1_1Accumulator_1afc23508ff91999e537eaf43d47521487"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stdev_of_av</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11stdev_of_avEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1afc23508ff91999e537eaf43d47521487"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stdev_of_av</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11stdev_of_avEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the standard deviation of the average (e.g., std/sqrt(num_samples)) </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator11block_stdevEKiKi">
-<span class="target" id="classfeasst_1_1Accumulator_1a8a8b21be456d370e47f95552409daebe"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">block_stdev</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_op</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_blocks</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">10</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11block_stdevEKiKi" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a8a8b21be456d370e47f95552409daebe"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">block_stdev</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_op</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_blocks</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">10</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11block_stdevEKiKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Return standard deviation of the block average. Return 0 if not enough data. </p>
 <dl class="field-list simple">
 <dt class="field-odd">param num_op<span class="colon">:</span></dt>
@@ -304,115 +285,115 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator16block_std_of_stdEKi">
-<span class="target" id="classfeasst_1_1Accumulator_1a44ba5b781de39a8d68283edae0a7f6d1"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">block_std_of_std</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_op</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator16block_std_of_stdEKi" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a44ba5b781de39a8d68283edae0a7f6d1"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">block_std_of_std</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_op</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator16block_std_of_stdEKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Return standard deviation of the standard deviation of the block average. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator14block_averagesEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a9ec908394b190444812dd0a2aed92088"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">block_averages</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator14block_averagesEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a9ec908394b190444812dd0a2aed92088"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">block_averages</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator14block_averagesEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the block averages. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator10block_sizeEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a73d8d57dcb4f0c660a3ab1ebf10c4b65"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">block_size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10block_sizeEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a73d8d57dcb4f0c660a3ab1ebf10c4b65"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">block_size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10block_sizeEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the size of each block. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator6blocksEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a435f5f2a194fb90040797fa997005802"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">blocks</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator6blocksEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a435f5f2a194fb90040797fa997005802"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">blocks</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator6blocksEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the blocks. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator10num_valuesEv">
-<span class="target" id="classfeasst_1_1Accumulator_1acdc6218fefacc547a79da7d5e6a621cb"></span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_values</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10num_valuesEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1acdc6218fefacc547a79da7d5e6a621cb"></span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_values</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10num_valuesEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return number of values accumulated. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator3sumEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a738793ecd0cad9df12d6413f0ce63269"></span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3sumEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a738793ecd0cad9df12d6413f0ce63269"></span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3sumEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return sum of all values accumulated. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator8sum_dbleEv">
-<span class="target" id="classfeasst_1_1Accumulator_1afd909d14dd43b8845517ecfda5a233bb"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_dble</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator8sum_dbleEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1afd909d14dd43b8845517ecfda5a233bb"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_dble</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator8sum_dbleEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Same as above, but truncated to double precision for Python interface. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator14sum_of_squaredEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a2211c7ef1cd9e1e89385603ab24e66dd"></span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_of_squared</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator14sum_of_squaredEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a2211c7ef1cd9e1e89385603ab24e66dd"></span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_of_squared</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator14sum_of_squaredEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return sum of the square of all values accumulated. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator19sum_of_squared_dbleEv">
-<span class="target" id="classfeasst_1_1Accumulator_1aed396bd15bdec4a11529633e366e0718"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_of_squared_dble</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator19sum_of_squared_dbleEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1aed396bd15bdec4a11529633e366e0718"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_of_squared_dble</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator19sum_of_squared_dbleEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Same as above, but truncated to double precision for Python interface. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst11Accumulator5resetEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a0590e13db13253025691b2fe195bc2d2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator5resetEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a0590e13db13253025691b2fe195bc2d2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator5resetEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Zero all accumulated values. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator3maxEv">
-<span class="target" id="classfeasst_1_1Accumulator_1af8caa388fc5e196316b05872fdabf7f2"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3maxEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1af8caa388fc5e196316b05872fdabf7f2"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3maxEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the maximum value accumulated. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator3minEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a839a8b491ef39d2f70e567cf282bdaba"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">min</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3minEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a839a8b491ef39d2f70e567cf282bdaba"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">min</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3minEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the minimum value accumulated. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator6momentEKi">
-<span class="target" id="classfeasst_1_1Accumulator_1a7c2b1dadebb620a04ff4b91e16d5759e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">moment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator6momentEKi" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a7c2b1dadebb620a04ff4b91e16d5759e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">moment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator6momentEKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the moments as a double. This is the sum of the value^index. Thus, moment(0) is the number of accumulated values. And moment(1) is the sum of the values. moment(2) is the sum of the squared values, etc. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator7momentsEv">
-<span class="target" id="classfeasst_1_1Accumulator_1ac7a640217a21aa6993202cc7e82cd5ea"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">moments</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator7momentsEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1ac7a640217a21aa6993202cc7e82cd5ea"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">moments</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator7momentsEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the moments. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator13status_headerEv">
-<span class="target" id="classfeasst_1_1Accumulator_1ad15319eec23213bf95036fba348de0eb"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status_header</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator13status_headerEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1ad15319eec23213bf95036fba348de0eb"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status_header</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator13status_headerEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the header of the human readable status. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator6statusEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a7c4bf734858fd5168ecaf5d633ebf6b7"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator6statusEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a7c4bf734858fd5168ecaf5d633ebf6b7"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator6statusEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return human readable status. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator3strEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a95ad880aa781d9057a7b3b491fe5555e"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3strEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a95ad880aa781d9057a7b3b491fe5555e"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3strEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Combine header and status. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator10last_valueEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a4ecef033e832c53c59e578e95264c8bf"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10last_valueEv" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a4ecef033e832c53c59e578e95264c8bf"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator10last_valueEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the last value accumulated. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator13is_equivalentERK11AccumulatorKdKiKb">
-<span class="target" id="classfeasst_1_1Accumulator_1a3c4e04cf86f455c717497f575a7229d5"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equivalent</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">accumulator</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_factor</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_op</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator13is_equivalentERK11AccumulatorKdKiKb" title="Permalink to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a3c4e04cf86f455c717497f575a7229d5"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equivalent</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator"><span class="n"><span class="pre">Accumulator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">accumulator</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_factor</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_op</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator13is_equivalentERK11AccumulatorKdKiKb" title="Link to this definition"></a><br /></dt>
 <dd><p>Return true if the <a class="reference internal" href="Accumulator_arguments.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a> is equivalent within the given confidence interval based on the block average standard deviations. </p>
 </dd></dl>
 
