@@ -35,7 +35,7 @@ class Ensemble {
   /// Return the LnProbability (that may have been reweighted).
   const LnProbability& ln_prob() const { return ln_prob_; }
 
-  // HWH used for extrapoltaion.. depreciate?
+  // HWH used for extrapoltaion.. deprecate?
   // Set the ln_prob.
   void set_ln_prob(const LnProbability& ln_prob) { ln_prob_ = ln_prob; }
 

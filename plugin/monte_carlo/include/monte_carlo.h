@@ -87,7 +87,7 @@ class MonteCarlo {
   /// The first action with a Monte Carlo object is to set the Configuration.
   void add(std::shared_ptr<Configuration> config);
 
-  // HWH depreciated interface. WARN.
+  // HWH deprecated interface. WARN.
   void add(const Configuration& config);
 
   /// The configuration may be accessed read-only.
@@ -97,7 +97,7 @@ class MonteCarlo {
   /// The second action is to add Potentials.
   void add(std::shared_ptr<Potential> potential, const int config = 0);
 
-  /// Warning for depreciated use.
+  /// Warning for deprecated use.
   void add(const Potential& potential);
 
   /// Set an existing potential.
@@ -136,7 +136,7 @@ class MonteCarlo {
   /// Reinitialize the system. Return total energy.
   double initialize_system(const int config);
 
-  // HWH depreciate: only in rare cases should the system be modified directly.
+  // HWH deprecate: only in rare cases should the system be modified directly.
   System * get_system() { return &system_; }
   Criteria * get_criteria() { return criteria_.get(); }
   Random * get_random() { return random_.get(); }

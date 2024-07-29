@@ -316,7 +316,7 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
     trial_factory_.add(trial);
   }
 
-  // HWH depreciate?
+  // HWH deprecate?
   // If later, perhaps after some initialization, more trials are added,
   // then Analyze and Modify classes may need to be re-initialized.
   // analyze_factory_.initialize(criteria_, system_, trial_factory_);

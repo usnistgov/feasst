@@ -6,6 +6,7 @@ The ZIF8 forcefield is described in https://doi.org/10.1002/chem.200902144 .
 """
 
 import argparse
+import subprocess
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

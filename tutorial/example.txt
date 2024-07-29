@@ -1,0 +1,23 @@
+# This is a text input file located at $HOME/feasst/tutorial/example.txt.
+# Comments begin with the # symbol.
+# Usage: $HOME/feasst/build/bin/fst < $HOME/feasst/tutorial/example.txt
+MonteCarlo
+RandomMT19937 seed 1572362164
+Configuration cubic_side_length 55.0321208149104 particle_type0 /feasst/particle/lj.fstprt
+Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff
+Potential VisitModel LongRangeCorrections
+ThermoParams beta 1.111111111111111 chemical_potential0 -1
+Metropolis
+TrialTranslate weight 1 tunable_param 2
+Tune
+CheckEnergy trials_per_update 1e4 tolerance 1e-8
+TrialAdd weight 2 particle_type 0
+Run until_num_particles 500
+RemoveTrial name TrialAdd
+Run num_trials 1e5
+RemoveModify name Tune
+Log trials_per_write 1e4 output_file lj.csv
+Energy trials_per_write 1e4 output_file lj_en.csv
+Movie trials_per_write 1e4 output_file lj.xyz
+Metropolis num_trials_per_iteration 1e4 num_iterations_to_complete 1e2
+Run until_criteria_complete true

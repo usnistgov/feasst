@@ -17,7 +17,7 @@ Domain::Domain(argtype * args) {
   ASSERT(!(is_cubic && is_cubic_box),
     "Cannot use both cubic_side_length and cubic_box_length");
   if (is_cubic_box) {
-    WARN("cubic_box_length is depreciated. Use cubic_side_length instead.");
+    WARN("cubic_box_length is deprecated. Use cubic_side_length instead.");
     set_cubic(dble("cubic_box_length", args));
   }
 

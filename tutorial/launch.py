@@ -3,7 +3,9 @@ Example single-site Lennard-Jones canonical ensemble Monte Carlo simulation usin
 Run multiple densities using multiple processors/nodes/restarts, and plot results.
 Compare with T*=0.9 in https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm.
 Note that checkpoints and restarts happen quicker than usual in these tutorial for testing purposes.
-Usage: python /path/to/feasst/tutorial/launch.py --help
+
+Usage: python /path/to/feasst/tutorial/launch.py
+Options: python /path/to/feasst/tutorial/launch.py --help
 """
 
 import argparse

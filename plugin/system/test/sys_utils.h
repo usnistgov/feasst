@@ -7,7 +7,7 @@
 
 namespace feasst {
 
-// HWH depreciate
+// HWH deprecate
 /*
   Return a system with two Lennard-Jones particles.
 

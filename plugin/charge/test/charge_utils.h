@@ -17,7 +17,7 @@ double kelvin2kJpermol(const double kelvin);
 /// Same as above, but obtain the physical constants from a Configuration.
 double kelvin2kJpermol(const double kelvin, const Configuration& config);
 
-// HWH depreciate
+// HWH deprecate
 /*
   Return a system for a typical SPC/E simulation.
 
@@ -35,7 +35,7 @@ double kelvin2kJpermol(const double kelvin, const Configuration& config);
  */
 System spce(argtype args = argtype());
 
-// HWH depreciate
+// HWH deprecate
 /*
   Return a system for a typical RPM simulation.
 

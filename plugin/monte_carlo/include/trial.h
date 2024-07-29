@@ -98,7 +98,7 @@ class Trial {
   const TrialStage& stage(const int index) const {
     return const_cast<TrialStage&>(*stages_[index]); }
 
-  // HWH depreciate
+  // HWH deprecate
   const std::vector<std::shared_ptr<TrialStage> > stages() const {
     return stages_; }
 

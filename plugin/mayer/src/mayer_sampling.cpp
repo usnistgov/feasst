@@ -12,10 +12,10 @@ MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
   class_name_ = "MayerSampling";
   intra_pot_ = integer("intra_potential", args, -1);
 
-  // HWH depreciate
-  // Support depreciation warning for old argument name
+  // HWH deprecate
+  // Support deprecation warning for old argument name
   if (used("num_attempts_per_iteration", *args)) {
-    WARN("Metropolis argument num_attempts_per_iteration is depreciated. " <<
+    WARN("Metropolis argument num_attempts_per_iteration is deprecated. " <<
          "Use num_trials_per_iteration instead.");
     ASSERT(!used("num_trials_per_iteration", *args),
       "Both num_trials_per_iteration and num_attempts_per_iteration");

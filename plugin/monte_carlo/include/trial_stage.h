@@ -60,7 +60,7 @@ class TrialStage {
   const TrialSelect& select() const {
     return const_cast<TrialSelect&>(*select_); }
 
-  // HWH depreciate
+  // HWH deprecate
   const TrialSelect& trial_select() const { return select(); }
 
   /// Initialization before any stage attempt.

@@ -88,7 +88,7 @@ class Position {
   int dimension() const { return size(); }
 
   /// Set the position of self to the origin in 3D space.
-  /// HWH depreciate
+  /// HWH deprecate
   void set_to_origin_3D() { set_vector({0., 0., 0.}); }
 
   /// Set the position of self to the origin.

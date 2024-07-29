@@ -132,7 +132,7 @@ class Criteria {
   /// Return the number of states. (default: 1).
   virtual int num_states() const { return 1; }
 
-  // HWH depreciate this. Only used by old growth expanded, not morph.
+  // HWH deprecate this. Only used by old growth expanded, not morph.
   /// Set the expanded state.
   void set_expanded_state(const int state = 0, const int num = 1);
 

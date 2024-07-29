@@ -631,7 +631,7 @@ class Configuration {
   std::vector<int> group_store_particle_type_,
                    group_store_group_index_;
 
-//  /// HWH depreciate one of these.
+//  /// HWH deprecate one of these.
 //  void check_id_(const Select& select) const;
 //  void check_id_(const std::string id) const;
 

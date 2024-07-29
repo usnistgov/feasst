@@ -364,5 +364,5 @@ v0.23.1 to v0.24.0
 * ModelTableCart3DIntegr::shape_file_name->shape_file
 
 The information available above is pruned from the :doc:`README` documentation, with only the class arguments and no member functions.
-Therefore the :doc:`README` documentation represents all capabilities of FEASST, many of which are hidden from text users for various reasons (e.g., because the classes may be used only internally, in development, buggy, depreciated or debugging tools).
+Therefore the :doc:`README` documentation represents all capabilities of FEASST, many of which are hidden from text users for various reasons (e.g., because the classes may be used only internally, in development, buggy, deprecated or debugging tools).
 

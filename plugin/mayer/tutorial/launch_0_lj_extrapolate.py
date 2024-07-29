@@ -107,6 +107,7 @@ def post_process(params):
                 df = pd.DataFrame(data={sim: b2['beta_taylor']})
             else:
                 df[sim] = b2['beta_taylor']
+    print('b2', np.mean(b2s), '+/-', np.std(b2s)/np.sqrt(len(b2s)))
     b2hs = 2./3.*np.pi*params['reference_sigma']**3
     coeffs = b2hs*df.mean(axis=1)
     print('Taylor series coefficients:', coeffs)
