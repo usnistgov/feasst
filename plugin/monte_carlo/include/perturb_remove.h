@@ -2,7 +2,8 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_REMOVE_H_
 #define FEASST_MONTE_CARLO_PERTURB_REMOVE_H_
 
-#include "monte_carlo/include/perturb_anywhere.h"
+#include <memory>
+#include "monte_carlo/include/perturb.h"
 
 namespace feasst {
 
@@ -11,8 +12,8 @@ namespace feasst {
  */
 class PerturbRemove : public Perturb {
  public:
-  explicit PerturbRemove(
-    std::shared_ptr<Perturb> perturb = MakePerturbAnywhere());
+  PerturbRemove();  // default anywhere
+  explicit PerturbRemove(std::shared_ptr<Perturb> perturb);
 
   void perturb(
     System * system,

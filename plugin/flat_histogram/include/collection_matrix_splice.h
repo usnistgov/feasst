@@ -3,7 +3,6 @@
 #define FEASST_FLAT_HISTOGRAM_COLLECT_MATRIX_SPLICE_H_
 
 #include <string>
-#include <sstream>
 #include <memory>
 #include <vector>
 #include "monte_carlo/include/monte_carlo.h"
@@ -11,7 +10,6 @@
 #include "flat_histogram/include/ln_probability.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/collection_matrix.h"
-#include "steppers/include/seek_analyze.h"
 
 namespace feasst {
 
@@ -120,15 +118,8 @@ class CollectionMatrixSplice {
   /// write to file
   void write(const std::string& file_name) const;
 
-  std::string serialize() {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-  CollectionMatrixSplice deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return CollectionMatrixSplice(ss);
-  }
+  std::string serialize() const;
+  CollectionMatrixSplice deserialize(const std::string str);
 
   //@}
  private:

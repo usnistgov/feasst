@@ -1,11 +1,18 @@
-
+#include <cmath>  // abs
 #include <chrono> // sleep
 #include <thread> // sleep
+#ifdef _OPENMP
+  #include <omp.h>
+#endif  // _OPENMP
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/progress_report.h"
 #include "threads/include/thread_omp.h"
+#include "math/include/constants.h"
 #include "math/include/formula.h"
 #include "math/include/golden_search.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "monte_carlo/include/run.h"
@@ -22,7 +29,7 @@ Rotator::Rotator(argtype * args) {
   proc_ = integer("proc", args, 0);
 }
 Rotator::Rotator(argtype args) : Rotator(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 bool Rotator::ior_in_proc(const int ior) const {

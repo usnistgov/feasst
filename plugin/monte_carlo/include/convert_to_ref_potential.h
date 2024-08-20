@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/action.h"
 
 namespace feasst {

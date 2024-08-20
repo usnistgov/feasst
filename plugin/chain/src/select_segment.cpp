@@ -1,7 +1,11 @@
-#include "chain/include/select_segment.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "chain/include/select_segment.h"
 
 namespace feasst {
 
@@ -39,7 +43,7 @@ void SelectSegment::serialize(std::ostream& ostr) const {
 }
 
 SelectSegment::SelectSegment(argtype args) : SelectSegment(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 SelectSegment::SelectSegment(argtype * args) : TrialSelectParticle(args) {
   class_name_ = "SelectSegment";
@@ -81,7 +85,7 @@ bool SelectSegment::random_segment_in_particle(
   }
 
   // swap for meaningful min/max
-  feasst::sort(&min, &max);
+  feasst_sort(&min, &max);
 
   // remove sites not in min/max, from highest to lowest
   select->remove_last_sites(num_sites - max - 1);
@@ -94,7 +98,7 @@ bool SelectSegment::select(const Select& perturbed,
     Random * random) {
   const bool is_found = random_segment_in_particle(
     configuration(*system),
-    &mobile_,
+    get_mobile(),
     random,
     max_length()
   );

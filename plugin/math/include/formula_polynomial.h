@@ -2,7 +2,6 @@
 #ifndef FEASST_MATH_FORMULA_POLYNOMIAL_H_
 #define FEASST_MATH_FORMULA_POLYNOMIAL_H_
 
-#include <string>
 #include <memory>
 #include <vector>
 #include "math/include/formula.h"

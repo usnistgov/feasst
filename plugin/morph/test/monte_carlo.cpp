@@ -1,5 +1,7 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/configuration.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/dont_visit_model.h"
@@ -11,13 +13,13 @@
 #include "monte_carlo/include/trial_add.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/transition_matrix.h"
+#include "flat_histogram/include/ln_probability.h"
 #include "flat_histogram/include/wang_landau.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
-#include "steppers/include/log_and_movie.h"
 #include "morph/include/trial_morph.h"
 #include "morph/include/trial_morph_expanded.h"
 #include "morph/include/macrostate_morph.h"
@@ -75,22 +77,22 @@ TEST(MonteCarlo, TrialMorphCO2N2) {
   test_morph(system);
 }
 
-MonteCarlo test_morph_expanded_lj(
+std::unique_ptr<MonteCarlo> test_morph_expanded_lj(
   const std::vector<std::vector<int> > grow_sequence,
   const int max = 5) {
-  MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
+  auto mc = std::make_unique<MonteCarlo>();
+  mc->add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../particle/lj.fstprt"},
                             {"particle_type1", "../particle/atom.fstprt"},
                             {"sigma1", "0.5"},
                             {"cutoff1", "1"},
                             {"add_particles_of_type0", "1"}}));
-  mc.add(MakePotential(MakeLennardJones()));
-  mc.add(MakePotential(MakeLongRangeCorrections()));
-  mc.add_to_reference(MakePotential(MakeDontVisitModel()));
+  mc->add(MakePotential(MakeLennardJones()));
+  mc->add(MakePotential(MakeLongRangeCorrections()));
+  mc->add_to_reference(MakePotential(MakeDontVisitModel()));
   const double num_parts_in_grow = static_cast<double>(grow_sequence[0].size());
   //INFO(str(num_parts_in_grow/grow_sequence.size()));
-  mc.set(MakeThermoParams({
+  mc->set(MakeThermoParams({
     {"beta", str(1./1.5)},
     {"chemical_potential0", "-2.352321"},
     {"chemical_potential1", "-2.352321"}}));
@@ -99,19 +101,19 @@ MonteCarlo test_morph_expanded_lj(
       Histogram({{"width", str(num_parts_in_grow/grow_sequence.size())},
                  {"max", str(max)}, {"min", "1"}})),
     MakeTransitionMatrix({{"min_sweeps", "1000"}}));
-  mc.set(criteria);
-  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "1."}}));
-  mc.add(MakeTrialMorphExpanded(grow_sequence,
+  mc->set(criteria);
+  mc->add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "1."}}));
+  mc->add(MakeTrialMorphExpanded(grow_sequence,
     {{"reference_index", "0"}}));//, {"shift", str(-1*num_parts_in_grow)}}));
   const std::string trials_per = str(int(1e3));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/grow_fh"}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
-  mc.add(MakeTune());
-  mc.add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));
-  mc.add(MakeCriteriaWriter({
+//  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/grow_fh"}}));
+  mc->add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
+  mc->add(MakeTune());
+  mc->add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));
+  mc->add(MakeCriteriaWriter({
     {"trials_per_write", trials_per},
     {"output_file", "tmp/grow_fh_crit.txt"}}));
-  mc.add(MakeEnergy({
+  mc->add(MakeEnergy({
     {"output_file", "tmp/grow_fh_energy"},
     {"trials_per_update", "1"},
     {"trials_per_write", trials_per},
@@ -127,18 +129,18 @@ MonteCarlo test_morph_expanded_lj(
 //}
 
 TEST(MonteCarlo, TrialMorphExpanded_2_lj_LONG) {
-  MonteCarlo mc = test_morph_expanded_lj({{1, 1}, {0, 0}}, 5);
-  mc.run_until_complete();
-  //INFO(FlatHistogram(mc.criteria()).write());
-  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob().reduce(2);
+  auto mc = test_morph_expanded_lj({{1, 1}, {0, 0}}, 5);
+  mc->run_until_complete();
+  //INFO(FlatHistogram(mc->criteria()).write());
+  const LnProbability lnpi = FlatHistogram().flat_histogram(mc->criteria())->bias().ln_prob().reduce(2);
   EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.04);
   EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.04);
   EXPECT_NEAR(lnpi.value(2), -0.00163919230786818, 0.005);
-  EXPECT_NEAR(mc.analyzers().back()->analyzers()[0]->accumulator().average(),
+  EXPECT_NEAR(mc->analyzers().back()->analyzers()[0]->accumulator().average(),
               -0.000605740233333333, 1e-8);
-  EXPECT_NEAR(mc.analyzers().back()->analyzers()[2]->accumulator().average(),
+  EXPECT_NEAR(mc->analyzers().back()->analyzers()[2]->accumulator().average(),
               -0.089928316, 0.002);
-  EXPECT_NEAR(mc.analyzers().back()->analyzers()[4]->accumulator().average(),
+  EXPECT_NEAR(mc->analyzers().back()->analyzers()[4]->accumulator().average(),
               -0.29619201333333334, 0.02);
 }
 
@@ -179,36 +181,36 @@ TEST(MonteCarlo, TrialMorph_RPM) {
   test_morph(rpm({{"alpha", str(5.6/12)}, {"kmax_squared", "38"}}));
 }
 
-MonteCarlo test_morph_expanded(const std::string trials_per) {
-  MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
+std::unique_ptr<MonteCarlo> test_morph_expanded(const std::string trials_per) {
+  auto mc = std::make_unique<MonteCarlo>();
+  mc->add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../plugin/morph/particle/lj0.fstprt"},
                             {"particle_type1", "../plugin/morph/particle/lj1.fstprt"},
                             {"particle_type2", "../plugin/morph/particle/lj2.fstprt"},
                             {"particle_type3", "../plugin/morph/particle/lj3.fstprt"},
                             {"add_particles_of_type0", "1"}}));
-  mc.add(MakePotential(MakeLennardJones()));
+  mc->add(MakePotential(MakeLennardJones()));
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
-  mc.set(MakeThermoParams({
+  mc->set(MakeThermoParams({
       {"beta", str(1./1.5)},
       {"chemical_potential0", "-2.352321"},
       {"chemical_potential1", "-2"},
       {"chemical_potential2", "-2.1"},
       {"chemical_potential3", "-2.2"}}));
-  mc.set(MakeFlatHistogram(
+  mc->set(MakeFlatHistogram(
     MakeMacrostateMorph(
       grow_sequence,
       Histogram({{"width", str(1./grow_sequence.size())}, {"max", "5"}, {"min", "1"}})),
     // MakeWangLandau({{"min_flatness", "25"}}),
     MakeTransitionMatrix({{"min_sweeps", "10"}})));
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeTrialMorphExpanded(grow_sequence));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/growth"}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
-  mc.add(MakeTune());
-  mc.add(MakeCriteriaUpdater({{"trials_per_write", trials_per}}));
-  mc.add(MakeCriteriaWriter({{"trials_per_write", trials_per}, {"output_file", "tmp/growth_crit.txt"}}));
-  mc.add(MakeEnergy({{"output_file", "tmp/growth_energy"},
+  mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc->add(MakeTrialMorphExpanded(grow_sequence));
+//  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/growth"}}));
+  mc->add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
+  mc->add(MakeTune());
+  mc->add(MakeCriteriaUpdater({{"trials_per_write", trials_per}}));
+  mc->add(MakeCriteriaWriter({{"trials_per_write", trials_per}, {"output_file", "tmp/growth_crit.txt"}}));
+  mc->add(MakeEnergy({{"output_file", "tmp/growth_energy"},
     {"trials_per_update", "1"},
     {"trials_per_write", str(trials_per)},
     {"multistate", "true"}}));
@@ -216,19 +218,19 @@ MonteCarlo test_morph_expanded(const std::string trials_per) {
 }
 
 TEST(MonteCarlo, TrialMorphExpanded) {
-  MonteCarlo mc = test_morph_expanded(str(int(1e3)));
-  MonteCarlo mc2 = test_serialize(mc);
-  EXPECT_EQ(2, mc.trials().num());
-  mc2.attempt(1e3);
+  auto mc = test_morph_expanded(str(int(1e3)));
+  auto mc2 = test_serialize_unique(*mc);
+  EXPECT_EQ(2, mc->trials().num());
+  mc2->attempt(1e3);
 }
 
 TEST(MonteCarlo, TrialMorphExpanded_LONG) {
-  MonteCarlo mc = test_morph_expanded(str(int(1e4)));
-  mc.run_until_complete();
-  // INFO(mc.criteria().write());
+  auto mc = test_morph_expanded(str(int(1e4)));
+  mc->run_until_complete();
+  // INFO(mc->criteria().write());
 
   std::stringstream ss;
-  mc.criteria().serialize(ss);
+  mc->criteria().serialize(ss);
   FlatHistogram fh(ss);
   LnProbability lnpi = fh.bias().ln_prob().reduce(4);
   lnpi.normalize();
@@ -243,10 +245,10 @@ TEST(MonteCarlo, TrialMorphExpanded_LONG) {
   EXPECT_NEAR(lnpi.value(4), -0.045677458321876000, 0.55);
 
 //  EXPECT_NEAR(energy_av2(0, mc), -0.000605740233333333, 1e-8);
-  EXPECT_NEAR(energy_av2(4, mc), -0.030574223333333334, 0.03);
-  EXPECT_NEAR(energy_av2(8, mc), -0.089928316, 0.05);
-  EXPECT_NEAR(energy_av2(12, mc), -0.1784570533333333, 0.06);
-  EXPECT_NEAR(energy_av2(16, mc), -0.29619201333333334, 0.14);
+  EXPECT_NEAR(energy_av2(4, *mc), -0.030574223333333334, 0.03);
+  EXPECT_NEAR(energy_av2(8, *mc), -0.089928316, 0.05);
+  EXPECT_NEAR(energy_av2(12, *mc), -0.1784570533333333, 0.06);
+  EXPECT_NEAR(energy_av2(16, *mc), -0.29619201333333334, 0.14);
 }
 
 TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {

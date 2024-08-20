@@ -1,6 +1,7 @@
 #include <memory>
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
+#include "system/include/thermo_params.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "system/test/sys_utils.h"

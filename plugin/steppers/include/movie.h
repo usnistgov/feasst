@@ -2,11 +2,17 @@
 #ifndef FEASST_STEPPERS_MOVIE_H_
 #define FEASST_STEPPERS_MOVIE_H_
 
-#include "configuration/include/file_vmd.h"
-#include "configuration/include/file_xyz.h"
+#include <memory>
+#include <string>
+#include <map>
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
+
+class FileVMD;
+class FileXYZ;
+
+typedef std::map<std::string, std::string> argtype;
 
 // HWH allow different formats.
 // HWH for example, incorportate FileXYZPatch
@@ -33,13 +39,13 @@ class Movie : public AnalyzeWriteOnly {
 
   /// Write the sample VMD files and the initial configuration.
   void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+    System * system,
+    TrialFactory * trial_factory) override;
 
   /// Write the configuration.
   std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+    const System& system,
+    const TrialFactory& trial_factory) override;
 
   // serialize
   std::string class_name() const override { return std::string("Movie"); }
@@ -48,12 +54,13 @@ class Movie : public AnalyzeWriteOnly {
     return std::make_shared<Movie>(istr); }
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<Movie>(args); }
-  Movie(std::istream& istr);
+  explicit Movie(std::istream& istr);
+  virtual ~Movie();
 
   //@}
  private:
-  FileXYZ xyz_;
-  FileVMD vmd_;
+  std::unique_ptr<FileXYZ> xyz_;
+  std::unique_ptr<FileVMD> vmd_;
 };
 
 inline std::shared_ptr<Movie> MakeMovie(argtype args = argtype()) {

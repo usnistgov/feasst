@@ -1,8 +1,16 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "math/include/accumulator.h"
+#include "math/include/histogram.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/criteria.h"
 #include "flat_histogram/include/macrostate_energy.h"
 
 namespace feasst {
 
+MacrostateEnergy::MacrostateEnergy(argtype * args) :
+    MacrostateEnergy(Histogram(args), args) {}
 MacrostateEnergy::MacrostateEnergy(const Histogram& histogram,
     argtype * args) : Macrostate(histogram, args) {
   class_name_ = "MacrostateEnergy";
@@ -13,12 +21,12 @@ MacrostateEnergy::MacrostateEnergy(const Histogram& histogram,
   //ASSERT(num_.type() >= -1, "particle_type: " << num_.type());
 MacrostateEnergy::MacrostateEnergy(const Histogram& histogram,
     argtype args) : MacrostateEnergy(histogram, &args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 MacrostateEnergy::MacrostateEnergy(argtype args) :
     MacrostateEnergy(Histogram(&args), &args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 double MacrostateEnergy::value(const System& system,

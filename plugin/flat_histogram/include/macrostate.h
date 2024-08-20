@@ -2,12 +2,18 @@
 #ifndef FEASST_FLAT_HISTOGRAM_MACROSTATE_H_
 #define FEASST_FLAT_HISTOGRAM_MACROSTATE_H_
 
-#include "system/include/system.h"
-#include "monte_carlo/include/criteria.h"
-#include "math/include/histogram.h"
-#include "monte_carlo/include/acceptance.h"
+#include <map>
+#include <string>
+#include <memory>
 
 namespace feasst {
+
+class Acceptance;
+class Criteria;
+class Histogram;
+class System;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   The macrostate is the statistical mechanical variable to which we apply bias
@@ -36,7 +42,7 @@ class Macrostate {
   //@{
 
   /// Arguments as described above, but with explicit histogram object.
-  Macrostate(const Histogram& histogram, argtype args = argtype());
+  explicit Macrostate(const Histogram& histogram, argtype args = argtype());
   Macrostate(const Histogram& histogram, argtype * args);
 
   /**
@@ -46,10 +52,10 @@ class Macrostate {
     The histogram only serves to determine the bins, and should not be
     expanded or have values added during the course of the simulation.
    */
-  void set(const Histogram histogram) { histogram_ = histogram; }
+  void set(const Histogram histogram);
 
   /// Return the histogram.
-  const Histogram& histogram() const { return histogram_; }
+  const Histogram& histogram() const;
 
   /// Return the soft maximum as an integer bin index, not a macrostate.
   const int soft_max() const { return soft_max_; }
@@ -69,8 +75,7 @@ class Macrostate {
   /// Return the current bin of the macrostate.
   int bin(const System& system,
       const Criteria& criteria,
-      const Acceptance& acceptance) const {
-    return histogram_.bin(value(system, criteria, acceptance)); }
+      const Acceptance& acceptance) const;
 
   /// Return the value of the bin.
   double value(const int bin) const;
@@ -85,8 +90,10 @@ class Macrostate {
 //  void swap_soft_bounds(Macrostate * macrostate);
 
   // HWH hackish adjust_bounds interface. See CollectionMatrixSplice.
-  int set_soft_max(const int index, const System& sys, const Criteria& criteria);
-  int set_soft_min(const int index, const System& sys, const Criteria& criteria);
+  int set_soft_max(const int index, const System& sys,
+                   const Criteria& criteria);
+  int set_soft_min(const int index, const System& sys,
+                   const Criteria& criteria);
   void add_to_soft_max(const int num) { soft_max_ += num; }
   void remove_from_soft_min(const int num) { soft_min_ -= num; }
 
@@ -106,7 +113,7 @@ class Macrostate {
   std::string class_name_;
 
  private:
-  Histogram histogram_;
+  std::unique_ptr<Histogram> histogram_;
   int soft_max_;
   int soft_min_;
 };

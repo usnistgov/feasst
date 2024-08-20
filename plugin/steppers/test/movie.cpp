@@ -5,7 +5,8 @@ namespace feasst {
 
 TEST(Movie, serialize) {
   auto movie = MakeMovie({{"output_file", "tmp"}});
-  auto movie2 = test_serialize<Movie, Analyze>(*movie);
+  auto movie2 = test_serialize_unique(*movie);
+  //auto movie2 = test_serialize<Movie, Analyze>(*movie);
 }
 
 }  // namespace feasst

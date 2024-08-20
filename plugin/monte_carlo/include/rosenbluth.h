@@ -2,6 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_ROSENBLUTH_H_
 #define FEASST_MONTE_CARLO_ROSENBLUTH_H_
 
+#include <vector>
 #include "configuration/include/select.h"
 
 namespace feasst {

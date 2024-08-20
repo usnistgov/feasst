@@ -1,16 +1,19 @@
 #include <string>
+#include <iostream>
 #include <fstream>
-#include <sstream>
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 #include "math/include/accumulator.h"
+#include "system/include/system.h"
 #include "monte_carlo/include/stepper.h"
 #include "monte_carlo/include/criteria.h"
 
 namespace feasst {
 
 Stepper::Stepper(argtype args) : Stepper(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 Stepper::Stepper(argtype * args) {
   set_trials_per_write(integer("trials_per_write", args, 1));
@@ -52,7 +55,7 @@ Stepper::Stepper(argtype * args) {
   if (is_multistate() && is_multistate_aggregate_) {
     rewrite_header_ = false;
   }
-  accumulator_ = Accumulator(args);
+  accumulator_ = std::make_shared<Accumulator>(args);
 //  if (used("block_size", *args)) {
 //    accumulator_.set_block_size(integer("block_size", args));
 //  }
@@ -124,7 +127,7 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(state_, ostr);
   feasst_serialize(configuration_index_, ostr);
   feasst_serialize(rewrite_header_, ostr);
-  feasst_serialize_fstobj(accumulator_, ostr);
+  feasst_serialize(accumulator_, ostr);
   feasst_serialize_endcap("Stepper", ostr);
 }
 
@@ -149,8 +152,24 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&state_, istr);
   feasst_deserialize(&configuration_index_, istr);
   feasst_deserialize(&rewrite_header_, istr);
-  feasst_deserialize_fstobj(&accumulator_, istr);
+//  feasst_deserialize(accumulator_, istr);
+// HWH for unknown reasons, this function template does not work.
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      accumulator_ = std::make_shared<Accumulator>(istr);
+    }
+  }
   feasst_deserialize_endcap("Stepper", istr);
 }
+
+const Configuration& Stepper::configuration(const System& system) const {
+  return system.configuration(configuration_index_);
+}
+
+const Accumulator& Stepper::accumulator() const { return *accumulator_; }
+
+Accumulator * Stepper::get_accumulator() { return accumulator_.get(); }
 
 }  // namespace feasst

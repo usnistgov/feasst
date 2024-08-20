@@ -1,6 +1,6 @@
 #include "utils/test/utils.h"
 #include "utils/include/utils.h"
-#include "utils/include/arguments.h"
+#include "utils/include/arguments_extra.h"
 #include "utils/include/debug.h"
 #include "math/include/constants.h"
 
@@ -9,7 +9,7 @@ namespace feasst {
 class TestArgs {
  public:
   TestArgs(argtype args = argtype()) : TestArgs(&args) {
-    FEASST_CHECK_ALL_USED(args);
+    feasst_check_all_used(args);
   }
   TestArgs(argtype * args) {
     key1_ = str("strkey", args);
@@ -38,9 +38,8 @@ TEST(Arguments, args) {
   args = {{"key1", "val1"}};
   EXPECT_TRUE(used("key1", args));
   EXPECT_EQ(1, args.size());
-  append("key1", &args, "a");
-  EXPECT_EQ("val1a", str("key1", &args));
-  FEASST_CHECK_ALL_USED(args);
+  str("key1", &args);
+  feasst_check_all_used(args);
 }
 
 
@@ -115,17 +114,6 @@ TEST(Utils, find_in_list) {
   EXPECT_EQ(str(args), "{{{\"major_key\",minor_key value1 },{\"major_key2\",minor_key2 value2 minor_key3 value[sim_index] },}}");
   replace_in_value("[sim_index]", "5", &args);
   EXPECT_EQ(str(args), "{{{\"major_key\",minor_key value1 },{\"major_key2\",minor_key2 value2 minor_key3 value5 },}}");
-}
-
-TEST(Utils, add_if_not_used) {
-  argtype args;
-  EXPECT_EQ(args.size(), 0);
-  add_if_not_used("hi", &args, "you");
-  EXPECT_EQ(args.size(), 1);
-  EXPECT_EQ(args["hi"], "you");
-  add_if_not_used("hi", &args, "you all");
-  EXPECT_EQ(args.size(), 1);
-  EXPECT_EQ(args["hi"], "you");
 }
 
 TEST(Arguments, line_to_argtype) {

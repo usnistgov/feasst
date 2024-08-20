@@ -13,12 +13,8 @@ namespace feasst {
  */
 class PerturbReptate : public PerturbDistance {
  public:
-  PerturbReptate(argtype args = argtype()) : PerturbReptate(&args) {
-    FEASST_CHECK_ALL_USED(args);
-  }
-  PerturbReptate(argtype * args) : PerturbDistance(args) {
-    class_name_ = "PerturbReptate";
-  }
+  explicit PerturbReptate(argtype args = argtype());
+  explicit PerturbReptate(argtype * args);
   void move(const bool is_position_held, System * system, TrialSelect * select,
       Random * random, Acceptance * acceptance) override {
     PerturbDistance::move(is_position_held, system, select, random, acceptance);

@@ -1,5 +1,6 @@
 #include "utils/include/debug.h"
-#include "utils/include/serialize.h" // deep_copy
+#include "utils/include/arguments_extra.h"
+#include "utils/include/serialize_extra.h" // deep_copy
 #include "utils/include/io.h"
 #include "utils/include/file.h"
 #include "monte_carlo/include/trial_move.h"
@@ -27,7 +28,6 @@
 #include "cluster/include/trial_avb2.h"
 #include "cluster/include/trial_avb4.h"
 #include "gibbs/include/compute_gibbs_particle_transfer.h"
-#include "chain/include/select_end_segment.h"
 #include "chain/include/perturb_pivot.h"
 #include "chain/include/select_segment.h"
 #include "chain/include/perturb_crankshaft.h"
@@ -358,9 +358,9 @@ void TrialGrow::build_(std::vector<argtype> * args) {
         {"reference_index", str("reference_index", &iargs, default_reference_index)},
         {"new_only", str("new_only", &iargs, default_new_only)},
       };
-      FEASST_CHECK_ALL_USED(iargs);
+      feasst_check_all_used(iargs);
       trial->add_stage(select, perturb, &stage_args);
-      FEASST_CHECK_ALL_USED(stage_args);
+      feasst_check_all_used(stage_args);
     }
     if (trial_types[0] == "gibbs_transfer") {
       ASSERT(static_cast<int>(trial_types.size()) == 1,
@@ -474,7 +474,7 @@ TrialGrowFile::TrialGrowFile(argtype * args) : TrialGrow() {
   }
 }
 TrialGrowFile::TrialGrowFile(argtype args) : TrialGrowFile(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 }  // namespace feasst

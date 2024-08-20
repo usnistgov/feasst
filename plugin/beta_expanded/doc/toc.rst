@@ -1,8 +1,8 @@
 
 .. toctree::
 
-   SelectNothing
-   MacrostateBeta
-   PerturbBeta
-   TrialBeta
    ComputeBeta
+   PerturbBeta
+   SelectNothing
+   TrialBeta
+   MacrostateBeta

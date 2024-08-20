@@ -5,11 +5,11 @@
 #include <memory>
 #include <string>
 #include <map>
-#include "math/include/position.h"
-#include "configuration/include/bond.h"
 
 namespace feasst {
 
+class Bond;
+class Position;
 class Random;
 
 class BondTwoBody {

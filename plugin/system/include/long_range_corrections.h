@@ -5,7 +5,6 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include <sstream>
 #include "system/include/visit_model.h"
 
 namespace feasst {

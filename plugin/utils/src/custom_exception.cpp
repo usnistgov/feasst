@@ -16,6 +16,7 @@
   #include <omp.h>
 #endif  // _OPENMP
 #include "utils/include/custom_exception.h"
+#include <sstream>
 
 namespace feasst {
 

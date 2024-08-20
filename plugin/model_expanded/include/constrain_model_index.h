@@ -3,10 +3,11 @@
 #define FEASST_MODEL_EXPANDED_CONSTRAIN_MODEL_INDEX_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/constraint.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Constrain Model::model_index.

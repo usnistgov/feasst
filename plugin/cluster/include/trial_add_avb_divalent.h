@@ -3,11 +3,12 @@
 #define FEASST_CLUSTER_TRIAL_ADD_AVB_DIVALENT_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
 Attempt to add a particle of type "t" with site_index_t anywhere in the Domain.

@@ -5,18 +5,14 @@
 #include <memory>
 #include <string>
 #include <map>
-#include "configuration/include/bond.h"
-#include "system/include/bond_two_body.h"
-#include "system/include/bond_three_body.h"
-#include "system/include/bond_four_body.h"
-#include "system/include/rigid_bond.h"
-#include "system/include/rigid_angle.h"
-#include "system/include/rigid_dihedral.h"
 
 namespace feasst {
 
 class Configuration;
 class Select;
+class RigidBond;
+class RigidAngle;
+class RigidDihedral;
 
 class BondVisitor {
  public:
@@ -60,9 +56,9 @@ class BondVisitor {
   bool verbose_;
 
   // temporary
-  RigidBond bond_;
-  RigidAngle angle_;
-  RigidDihedral dihedral_;
+  std::shared_ptr<RigidBond> bond_;
+  std::shared_ptr<RigidAngle> angle_;
+  std::shared_ptr<RigidDihedral> dihedral_;
 };
 
 inline std::shared_ptr<BondVisitor> MakeBondVisitor(

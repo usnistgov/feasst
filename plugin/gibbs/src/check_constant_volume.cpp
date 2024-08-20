@@ -1,5 +1,7 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "system/include/system.h"
 #include "gibbs/include/check_constant_volume.h"
 
 namespace feasst {
@@ -17,7 +19,7 @@ CheckConstantVolume::CheckConstantVolume(argtype * args) : ModifyUpdateOnly(args
   tolerance_ = dble("tolerance", args, 1e-4);
 }
 CheckConstantVolume::CheckConstantVolume(argtype args) : CheckConstantVolume(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void CheckConstantVolume::update(Criteria * criteria,

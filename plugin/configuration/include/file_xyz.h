@@ -2,14 +2,16 @@
 #ifndef FEASST_CONFIGURATION_FILE_XYZ_H_
 #define FEASST_CONFIGURATION_FILE_XYZ_H_
 
-#include <string>
 #include <fstream>
-#include <sstream>
-#include "utils/include/arguments.h"
+#include <map>
+#include <memory>
+#include <string>
 #include "configuration/include/configuration.h"
 #include "configuration/include/visit_configuration.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 // Utility class to print XYZ files from selection.
 class PrinterXYZ : public LoopConfigOneBody {
@@ -92,6 +94,7 @@ class FileXYZ {
 
   void serialize(std::ostream& ostr) const;
   explicit FileXYZ(std::istream& istr);
+  ~FileXYZ();
 
   //@}
  private:

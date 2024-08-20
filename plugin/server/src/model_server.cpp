@@ -1,6 +1,7 @@
 #include <cmath>
 #include "utils/include/io.h"
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/constants.h"
 #include "configuration/include/model_params.h"
 #include "server/include/server.h"
@@ -21,11 +22,12 @@ ModelServer::ModelServer(argtype * args) {
   class_name_ = "ModelServer";
   const double thres = dble("hard_sphere_threshold", args, 0.2);
   hard_sphere_threshold_sq_ = thres*thres;
-  server_ = std::make_shared<Server>(args);
+  server_ = std::make_unique<Server>(args);
 }
 ModelServer::ModelServer(argtype args) : ModelServer(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
+ModelServer::~ModelServer() {}
 
 void ModelServer::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -43,14 +45,7 @@ ModelServer::ModelServer(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(2367 == version, version);
   feasst_deserialize(&hard_sphere_threshold_sq_, istr);
-  //feasst_deserialize(server_, istr);
-  //HWH for unknown reasons, this does not deserialize properly
-  { int existing;
-    istr >> existing;
-    if (existing != 0) {
-      server_ = std::make_shared<Server>(istr);
-    }
-  }
+  feasst_deserialize(server_, istr);
 }
 
 double ModelServer::hard_sphere_threshold() const {

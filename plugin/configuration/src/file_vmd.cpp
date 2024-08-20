@@ -1,10 +1,9 @@
-
-#include <fstream>
-#include <sstream>
 #include "utils/include/serialize.h"
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
-#include "configuration/include/select.h"
 #include "configuration/include/file_vmd.h"
 
 namespace feasst {
@@ -13,7 +12,7 @@ FileVMD::FileVMD(argtype * args) {
   min_sigma_ = dble("min_sigma", args, 0.1);
 }
 FileVMD::FileVMD(argtype args) : FileVMD(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void FileVMD::serialize(std::ostream& ostr) const {
@@ -52,7 +51,8 @@ void FileVMD::write(const std::string file_name,
   double radius, distance;
   int center_index;
   for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
-    vmdf << "set sel [atomselect top \"name " << site_type << "\"]" << std::endl;
+    vmdf << "set sel [atomselect top \"name " << site_type << "\"]"
+         << std::endl;
     get_params(config, site_type, &radius, &distance, &center_index);
     vmdf << "$sel set radius " << radius << std::endl;
   }

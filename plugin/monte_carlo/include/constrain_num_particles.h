@@ -3,7 +3,6 @@
 #define FEASST_MONTE_CARLO_CONSTRAIN_NUM_PARTICLES_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/constraint.h"
 
 namespace feasst {

@@ -1,4 +1,10 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "math/include/position.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "chain/include/end_to_end_distance.h"
 
 namespace feasst {
@@ -17,7 +23,7 @@ EndToEndDistance::EndToEndDistance(argtype * args) : Analyze(args) {
   group_index_ = integer("group_index", args, 0);
 }
 EndToEndDistance::EndToEndDistance(argtype args) : EndToEndDistance(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void EndToEndDistance::initialize(Criteria * criteria,
@@ -31,14 +37,14 @@ std::string EndToEndDistance::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  ss << accumulator_.status_header() << std::endl;
+  ss << accumulator().status_header() << std::endl;
   return ss.str();
 }
 
 void EndToEndDistance::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  const Select& selection = system.configuration().group_selects()[group_index_];
+  const Select& selection = system.configuration().group_select(group_index_);
   for (int select_index = 0;
        select_index < selection.num_particles();
        ++select_index) {
@@ -47,7 +53,7 @@ void EndToEndDistance::update(const Criteria& criteria,
     const Position& site0pos = part.site(0).position();
     const Position& sitenpos = part.site(part.num_sites() - 1).position();
     const double distance = site0pos.distance(sitenpos);
-    accumulator_.accumulate(distance);
+    get_accumulator()->accumulate(distance);
   }
 }
 
@@ -58,7 +64,7 @@ std::string EndToEndDistance::write(const Criteria& criteria,
   if (rewrite_header()) {
     ss << header(criteria, system, trial_factory);
   }
-  ss << accumulator_.status() << std::endl;
+  ss << accumulator().status() << std::endl;
   DEBUG(ss.str());
   return ss.str();
 }

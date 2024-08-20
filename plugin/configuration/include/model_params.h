@@ -2,16 +2,20 @@
 #ifndef FEASST_CONFIGURATION_MODEL_PARAMS_H_
 #define FEASST_CONFIGURATION_MODEL_PARAMS_H_
 
+#include <map>
 #include <memory>
 #include <vector>
 #include <string>
-#include "configuration/include/physical_constants.h"
-#include "configuration/include/particle.h"
 #include "configuration/include/properties.h"
 
 namespace feasst {
 
 class ModelParams;
+class Particle;
+class PhysicalConstants;
+class Site;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Model parameters depend upon site types, such as epsilon, sigma, etc.
@@ -208,11 +212,6 @@ class ModelParams : public PropertiedEntity {
  public:
   ModelParams();
 
-  //ModelParams(const ModelParams& params);
-
-  /// Add all properties in site.
-//  void add(const Site site);
-
   /// Add all site types in particle.
   void add(const Particle& particle);
 
@@ -252,12 +251,13 @@ class ModelParams : public PropertiedEntity {
   void set_cutoff_min_to_sigma();
 
   /// Set the physical constants.
-  void set_physical_constants(std::shared_ptr<PhysicalConstants> constants =
-    MakeCODATA2018());
+  void set_physical_constants(std::shared_ptr<PhysicalConstants> constants);
+
+  /// Set the physical constants to their default values CODATA2018.
+  void set_physical_constants();
 
   /// Return the physical constants.
-  const PhysicalConstants& physical_constants() const {
-    return const_cast<PhysicalConstants&>(*physical_constants_); }
+  const PhysicalConstants& physical_constants() const;
 
   /// Return the physical constants.
   const PhysicalConstants& constants() const { return physical_constants(); }

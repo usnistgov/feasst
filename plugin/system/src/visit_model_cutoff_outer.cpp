@@ -1,11 +1,12 @@
-#include <sstream>
+#include "utils/include/arguments.h"
+#include "utils/include/utils.h"
 #include "utils/include/serialize.h"
-#include "math/include/utils_math.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/select.h"
 #include "configuration/include/configuration.h"
+#include "system/include/visit_model_inner.h"
 #include "system/include/visit_model_cutoff_outer.h"
-#include "system/include/model_two_body.h"
-#include "system/include/model_one_body.h"
 
 namespace feasst {
 
@@ -20,7 +21,7 @@ VisitModelCutoffOuter::VisitModelCutoffOuter(argtype * args) : VisitModel() {
   }
 }
 VisitModelCutoffOuter::VisitModelCutoffOuter(argtype args) : VisitModelCutoffOuter(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 VisitModelCutoffOuter::VisitModelCutoffOuter(std::shared_ptr<VisitModelInner> inner,
   argtype args) : VisitModelCutoffOuter(args) {
@@ -36,8 +37,8 @@ void VisitModelCutoffOuter::compute(
   DEBUG("visiting model");
   zero_energy();
   const Domain& domain = config->domain();
-  init_relative_(domain, &relative_, &pbc_);
-  const Select& select_all = config->group_selects()[group_index];
+  init_relative_(domain);
+  const Select& select_all = config->group_select(group_index);
   bool is_old_config = false;
   if (selection.trial_state() == 0 ||
       selection.trial_state() == 2) {
@@ -80,7 +81,7 @@ void VisitModelCutoffOuter::compute(
                                       part2_index, site2_index,
                                       config, model_params, model,
                                       is_old_config,
-                                      &relative_, &pbc_);
+                                      relative_.get(), pbc_.get());
                 if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
                   set_energy(inner().energy());
                   return;
@@ -93,7 +94,7 @@ void VisitModelCutoffOuter::compute(
     }
   } else if (selection.is_equal(config->selection_of_all())) {
     compute_between_selection(model, model_params, selection,
-      config, is_old_config, &relative_, &pbc_);
+      config, is_old_config, relative_.get(), pbc_.get());
 
   // If selection is more than one particle but not all particles, skip those in selection
   // Calculate energy in two separate loops.
@@ -122,7 +123,7 @@ void VisitModelCutoffOuter::compute(
                                       part2_index, site2_index,
                                       config, model_params, model,
                                       is_old_config,
-                                      &relative_, &pbc_);
+                                      relative_.get(), pbc_.get());
                 if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
                   set_energy(inner().energy());
                   return;
@@ -136,7 +137,7 @@ void VisitModelCutoffOuter::compute(
 
     // In the second loop, compute interactions between different particles in select.
     compute_between_selection(model, model_params, selection,
-      config, is_old_config, &relative_, &pbc_);
+      config, is_old_config, relative_.get(), pbc_.get());
   }
   set_energy(inner().energy());
 }
@@ -173,7 +174,7 @@ void VisitModelCutoffOuter::compute_between_selection(
                                     part2_index, site2_index,
                                     config, model_params, model,
                                     is_old_config,
-                                    &relative_, &pbc_);
+                                    relative_.get(), pbc_.get());
               if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
                 set_energy(inner().energy());
                 return;
@@ -208,27 +209,6 @@ void VisitModelCutoffOuter::serialize(std::ostream& ostr) const {
   serialize_visit_model_(ostr);
   feasst_serialize_version(2081, ostr);
   feasst_serialize(energy_cutoff_, ostr);
-}
-
-class MapCutoffOuter {
- public:
-  MapCutoffOuter() {
-    auto obj = std::make_shared<CutoffOuter>();
-    obj->deserialize_map()["cutoff_outer"] = obj;
-  }
-};
-
-static MapCutoffOuter mapper_cutoff_outer_ = MapCutoffOuter();
-
-void CutoffOuter::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
-  serialize_model_param_(ostr);
-  feasst_serialize_version(2498, ostr);
-}
-
-CutoffOuter::CutoffOuter(std::istream& istr) : ModelParam(istr) {
-  const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 2498, "mismatch version: " << version);
 }
 
 }  // namespace feasst

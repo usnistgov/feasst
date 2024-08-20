@@ -3,11 +3,11 @@
 #define FEASST_CHARGE_TRIAL_ADD_MULTIPLE_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 
 namespace feasst {
 
+typedef std::map<std::string, std::string> argtype;
 
 // parse the number of particle types.
 std::vector<int> ptypes(argtype * args);

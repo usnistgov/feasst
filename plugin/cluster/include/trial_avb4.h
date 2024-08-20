@@ -3,10 +3,11 @@
 #define FEASST_CLUSTER_TRIAL_AVB4_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
 AVB4 is an extension of AVB3 as described in the following manuscript:

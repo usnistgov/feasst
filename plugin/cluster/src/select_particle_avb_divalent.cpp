@@ -1,8 +1,14 @@
 #include "utils/include/serialize.h"
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"
 #include "math/include/utils_math.h"
 #include "math/include/random.h"
+#include "configuration/include/neighbor_criteria.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/system.h"
+#include "system/include/energy_map.h"
 #include "cluster/include/select_particle_avb_divalent.h"
 
 namespace feasst {
@@ -20,14 +26,14 @@ SelectParticleAVBDivalent::SelectParticleAVBDivalent(argtype args)
   mobile_args.insert({"ghost", str("ghost", &args)});
   select_mobile_ = TrialSelectParticle(mobile_args);
   DEBUG(select_mobile_.particle_type());
-  mobile_.clear();
-  mobile_.add_site(0, select_mobile_.site());
+  get_mobile()->clear();
+  get_mobile()->add_site(0, select_mobile_.site());
 
-  anchor_.clear();
-  anchor_.add_site(0,
+  get_anchor()->clear();
+  get_anchor()->add_site(0,
     integer("target_site_index", &args, 0));
   ASSERT(!used("group_index", args), "group not implemented with AVB");
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapSelectParticleAVBDivalent {
@@ -46,33 +52,33 @@ bool SelectParticleAVBDivalent::select(const Select& perturbed,
                                Random * random) {
   const Configuration& config = system->configuration();
   ASSERT(perturbed.num_particles() >= 1, "first stage should have completed.");
-  anchor_.set_particle(0, perturbed.particle_index(0));
+  get_anchor()->set_particle(0, perturbed.particle_index(0));
   if (select_mobile_.is_ghost()) {
     select_mobile_.ghost_particle(
       system->get_configuration(),
       const_cast<const Select*>(&perturbed),
-      &mobile_);
+      get_mobile());
   } else {
     // HWH update with configuration_index_
     const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_, 0);
     map_(*system, neighbor_).neighbors(
       neighbor,
       config,
-      anchor_.particle_index(0),
-      anchor_.site_index(0, 0),
-      mobile_.site_index(0, 0),
+      anchor().particle_index(0),
+      anchor().site_index(0, 0),
+      mobile().site_index(0, 0),
       &neighbors_);
     neighbors_.remove(perturbed);
     const int num_neigh = static_cast<int>(neighbors_.num_sites());
     if (num_neigh == 0) return false;
     DEBUG("num neigh " << num_neigh << " : " << neighbors_.str());
-    mobile_.set_particle(0,
+    get_mobile()->set_particle(0,
       random->const_element(neighbors_.particle_indices()));
     const double volume_av = neighbor.volume(config.dimension());
     set_probability_(num_neigh/volume_av);
   }
   DEBUG("probability: " << probability());
-  DEBUG("mobile: " << mobile_.str());
+  DEBUG("mobile: " << mobile().str());
   remove_unphysical_sites(config);
   set_mobile_original(system);
   return true;

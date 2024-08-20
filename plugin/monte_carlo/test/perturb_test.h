@@ -2,11 +2,14 @@
 #include <gtest/gtest.h>
 #include "math/include/random_mt19937.h"
 #include "math/include/constants.h"
+#include "system/include/energy_map.h"
+#include "system/include/visit_model.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/lennard_jones.h"
+#include "system/test/sys_utils.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_add.h"
 #include "monte_carlo/include/perturb_remove.h"
-#include "system/include/lennard_jones.h"
-#include "system/test/sys_utils.h"
 
 namespace feasst {
 

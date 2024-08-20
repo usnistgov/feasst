@@ -1,6 +1,8 @@
 #include <vector>
 #include <memory>
 #include "utils/test/utils.h"
+#include "configuration/include/configuration.h"
+#include "flat_histogram/include/ln_probability.h"
 #include "flat_histogram/include/collection_matrix.h"
 
 namespace feasst {

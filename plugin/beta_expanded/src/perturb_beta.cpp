@@ -1,11 +1,15 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/random.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/trial_select.h"
 #include "beta_expanded/include/perturb_beta.h"
 
 namespace feasst {
 
 PerturbBeta::PerturbBeta(argtype args) : PerturbBeta(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbBeta::PerturbBeta(argtype * args) : Perturb(args) {
   class_name_ = "PerturbBeta";

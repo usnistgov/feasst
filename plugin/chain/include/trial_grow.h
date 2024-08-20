@@ -2,10 +2,11 @@
 #define FEASST_CHAIN_TRIAL_GROW_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Manually describe partial or full-particle growth using configurational bias.

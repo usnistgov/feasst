@@ -4,10 +4,12 @@
 
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <map>
 #include "monte_carlo/include/action.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Server;
 
@@ -44,11 +46,11 @@ class Listen : public Action {
 
   //@}
  private:
-  std::shared_ptr<Server> server_;
+  std::unique_ptr<Server> server_;
 };
 
-inline std::shared_ptr<Listen> MakeListen(argtype args = argtype()) {
-  return std::make_shared<Listen>(args);
+inline std::unique_ptr<Listen> MakeListen(argtype args = argtype()) {
+  return std::make_unique<Listen>(args);
 }
 
 }  // namespace feasst

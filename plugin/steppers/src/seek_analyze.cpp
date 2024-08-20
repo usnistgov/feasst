@@ -1,5 +1,6 @@
 #include "utils/include/debug.h"
 #include "utils/include/io.h"
+#include "math/include/accumulator.h"
 #include "steppers/include/seek_analyze.h"
 #include "monte_carlo/include/monte_carlo.h"
 
@@ -50,6 +51,23 @@ std::vector<double> SeekAnalyze::multistate_data(
   const auto& ans = mc.analyze(ndx[0]).analyzers();
   for (const auto& an : ans) data.push_back(get.get(*an));
   return data;
+}
+
+double AccumulatorAverage::get(const Analyze& analyze) const {
+  return analyze.accumulator().average();
+}
+
+double AccumulatorSum::get(const Analyze& analyze) const {
+  return analyze.accumulator().sum();
+}
+
+double AccumulatorSumOfSquared::get(const Analyze& analyze) const {
+  return analyze.accumulator().sum_of_squared();
+}
+
+double AccumulatorMoment::get(const Analyze& analyze) const {
+  const Accumulator& acc = analyze.accumulator();
+  return acc.moment(moment_)/acc.num_values();
 }
 
 }  // namespace feasst

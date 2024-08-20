@@ -1,11 +1,16 @@
 #include <vector>
 #include <cmath>
-#include "utils/include/serialize.h"
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
+#include "utils/include/serialize_extra.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/select.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
-#include "system/include/visit_model_inner.h"
+#include "system/include/energy_map.h"
 #include "system/include/model_two_body.h"
+#include "system/include/visit_model_inner.h"
 
 namespace feasst {
 
@@ -32,7 +37,7 @@ VisitModelInner::VisitModelInner(argtype * args) {
   }
 }
 VisitModelInner::VisitModelInner(argtype args) : VisitModelInner(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void VisitModelInner::compute(
@@ -171,6 +176,70 @@ std::shared_ptr<VisitModelInner> VisitModelInner::factory(const std::string name
 const EnergyMap& VisitModelInner::energy_map() const {
   ASSERT(energy_map_, "VisitModelInner contains no EnergyMap");
   return const_cast<EnergyMap&>(*energy_map_);
+}
+
+void VisitModelInner::update_ixn(
+    const double energy,
+    const int part1_index,
+    const int site1_index,
+    const int site1_type,
+    const int part2_index,
+    const int site2_index,
+    const int site2_type,
+    const double squared_distance,
+    const Position * pbc,
+    const bool is_old_config,
+    const Configuration& config) {
+  energy_ += energy;
+  if (energy_map_ && !is_old_config) {
+    energy_map_->update(energy, part1_index, site1_index, site1_type,
+      part2_index, site2_index, site2_type, squared_distance, pbc, config);
+  }
+}
+
+void VisitModelInner::clear_ixn(
+    const int part1_index,
+    const int site1_index,
+    const int part2_index,
+    const int site2_index) {
+  if (energy_map_) {
+    energy_map_->clear(part1_index, site1_index, part2_index, site2_index);
+  }
+}
+
+void VisitModelInner::revert(const Select& select) {
+  // HWH optimize, maybe map_new doens't have to be same
+  // or have to revert, but how to calc new clusters
+  // before finalize to check cluster constraint?
+  if (energy_map_) {
+    energy_map_->revert(select);
+  }
+}
+
+void VisitModelInner::finalize(const Select& select) {
+  if (energy_map_) {
+    energy_map_->finalize(select);
+  }
+}
+
+void VisitModelInner::set_energy_map(std::shared_ptr<EnergyMap> map) {
+  energy_map_ = map;
+}
+
+bool VisitModelInner::is_energy_map() const {
+  if (energy_map_) { return true; } else { return false; }
+}
+
+void VisitModelInner::check(const Configuration& config) const {
+  if (energy_map_) {
+    energy_map_->check(config);
+  }
+}
+
+void VisitModelInner::synchronize_(const VisitModelInner& inner, const Select& perturbed) {
+  if (energy_map_) {
+    energy_map_->synchronize_(inner.energy_map(), perturbed);
+  }
 }
 
 }  // namespace feasst

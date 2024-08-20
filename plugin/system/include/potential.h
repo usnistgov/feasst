@@ -2,16 +2,20 @@
 #ifndef FEASST_SYSTEM_POTENTIAL_H_
 #define FEASST_SYSTEM_POTENTIAL_H_
 
+#include <map>
+#include <string>
 #include <memory>
-#include "utils/include/cache.h"
-#include "utils/include/arguments.h"
-#include "configuration/include/model_params.h"
-#include "configuration/include/select.h"
-#include "configuration/include/configuration.h"
-#include "system/include/visit_model.h"
-#include "system/include/model.h"
 
 namespace feasst {
+
+class Cache;
+class Configuration;
+class Model;
+class ModelParams;
+class Select;
+class VisitModel;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   A potential represents both the model and the method used to compute the
@@ -54,18 +58,17 @@ class Potential {
   int cell_index() const;
 
   /// Construct with model and default visitor.
-  Potential(std::shared_ptr<Model> model, argtype args = argtype());
+  explicit Potential(std::shared_ptr<Model> model, argtype args = argtype());
 
   /// Return the model.
-  const Model& model() const { return const_cast<Model&>(*model_); }
+  const Model& model() const;
 
   /// Construct with visitor and default model.
   Potential(std::shared_ptr<VisitModel> visit_model,
             argtype args = argtype());
 
   /// Return the method used to compute.
-  const VisitModel& visit_model() const {
-    return const_cast<VisitModel&>(*visit_model_); }
+  const VisitModel& visit_model() const;
 
   /// Construct with model and visitor.
   Potential(std::shared_ptr<Model> model,
@@ -124,34 +127,30 @@ class Potential {
 
   /// Change the volume.
   void change_volume(const double delta_volume, const int dimension,
-      Configuration * config) {
-    visit_model_->change_volume(delta_volume, dimension, config); }
+      Configuration * config);
 
   /// Revert any changes to the configuration due to the last energy computation
-  void revert(const Select& select) { visit_model_->revert(select); }
+  void revert(const Select& select);
 
   /// Finalize changes to the configuration due to the last energy computation
-  void finalize(const Select& select, Configuration * config) {
-    visit_model_->finalize(select, config); }
+  void finalize(const Select& select, Configuration * config);
 
   /// Return the cache.
-  const Cache& cache() const { return cache_; }
+  const Cache& cache() const;
 
   /// Set Cache to load.
-  void load_cache(const bool load) { cache_.set_load(load); }
+  void load_cache(const bool load);
 
   /// Set Cache to unload.
-  void unload_cache(const Potential& potential) {
-    cache_.set_unload(potential.cache()); }
+  void unload_cache(const Potential& potential);
 
   void synchronize_(const Potential& potential, const Select& perturbed);
 
   void check(const Configuration& config) const;
 
-  void set_visit_model_(std::shared_ptr<VisitModel> visit) {
-    visit_model_ = visit; }
+  void set_visit_model_(std::shared_ptr<VisitModel> visit);
 
-  void set_model_index(const int index) { model_->set_model_index(index); }
+  void set_model_index(const int index);
 
   /// Serialize.
   void serialize(std::ostream& ostr) const;
@@ -168,8 +167,8 @@ class Potential {
   std::shared_ptr<Model> model_;
   double stored_energy_ = 0.;
   bool model_params_override_ = false;
-  ModelParams model_params_;
-  Cache cache_;
+  std::shared_ptr<ModelParams> model_params_;
+  std::shared_ptr<Cache> cache_;
   bool prevent_cache_;
   int table_size_;
   double table_hs_threshold_;

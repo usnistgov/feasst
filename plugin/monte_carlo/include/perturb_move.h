@@ -3,7 +3,6 @@
 #define FEASST_MONTE_CARLO_PERTURB_MOVE_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/perturb.h"
 
 namespace feasst {

@@ -1,5 +1,7 @@
+#include <cmath>
 #include <limits>
 #include "utils/include/debug.h"
+#include "utils/include/io.h"
 #include "utils/include/serialize.h"
 
 namespace feasst {
@@ -77,7 +79,7 @@ void feasst_deserialize(double * val, std::istream& ostr) {
   }
 }
 
-void feasst_serialize(const long double& val, std::ostream& ostr) {
+void feasst_serialize(long const double& val, std::ostream& ostr) {
   ostr << std::setprecision(std::numeric_limits<long double>::digits10+2)
        << val << " ";
 }
@@ -114,7 +116,8 @@ void feasst_deserialize(std::vector<double> * vector, std::istream& istr) {
   }
 }
 
-void feasst_serialize(const std::vector<long double>& vector, std::ostream& ostr) {
+void feasst_serialize(const std::vector<long double>& vector,
+    std::ostream& ostr) {
   ostr << MAX_PRECISION;
   ostr << vector.size() << " ";
   for (const long double& element : vector) {

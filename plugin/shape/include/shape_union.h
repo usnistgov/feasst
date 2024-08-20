@@ -3,7 +3,6 @@
 #define FEASST_SHAPE_SHAPE_UNION_H_
 
 #include <memory>
-#include <sstream>
 #include "shape/include/shape.h"
 
 namespace feasst {

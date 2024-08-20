@@ -4,13 +4,16 @@
 
 #include <memory>
 #include <vector>
-#include "utils/include/arguments.h"
-#include "system/include/system.h"
-#include "monte_carlo/include/criteria.h"
-#include "monte_carlo/include/trial_stage.h"
+#include <map>
 #include "monte_carlo/include/trial_compute.h"
 
 namespace feasst {
+
+class Criteria;
+class System;
+class TrialStage;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Attempt to transfer a particle from one configuration to another,

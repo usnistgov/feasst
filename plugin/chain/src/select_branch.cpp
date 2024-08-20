@@ -1,10 +1,12 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/select.h"
 #include "chain/include/select_branch.h"
 
 namespace feasst {
 
 SelectBranch::SelectBranch(argtype args) : SelectBranch(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 SelectBranch::SelectBranch(argtype * args) : TrialSelectAngle(args) {
   class_name_ = "SelectBranch";
@@ -24,7 +26,7 @@ static MapSelectBranch mapper_ = MapSelectBranch();
 
 void SelectBranch::precompute(System * system) {
   TrialSelectAngle::precompute(system);
-  mobile_.add_site(0, mobile_site2_);
+  get_mobile()->add_site(0, mobile_site2_);
 }
 
 std::shared_ptr<TrialSelect> SelectBranch::create(std::istream& istr) const {

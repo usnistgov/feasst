@@ -2,11 +2,11 @@
 .. toctree::
 
    PatchAngle
-   VisitModelInnerPatch
-   Spherocylinder
-   SolidOfRevolutionTable
    FileVMDPatch
-   FileVMDSpherocylinder
-   TwoParticleContactObjective
    MoviePatch
+   FileVMDSpherocylinder
    MovieSpherocylinder
+   SolidOfRevolutionTable
+   Spherocylinder
+   TwoParticleContactObjective
+   VisitModelInnerPatch

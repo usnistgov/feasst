@@ -1,6 +1,12 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
+#include "math/include/accumulator.h"
+#include "configuration/include/configuration.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "system/include/system.h"
 #include "steppers/include/chirality_2d.h"
 
 namespace feasst {
@@ -21,14 +27,14 @@ Chirality2D::Chirality2D(argtype * args) : Analyze(args) {
   sign_error_ = integer("sign_error", args, 0);
 }
 Chirality2D::Chirality2D(argtype args) : Chirality2D(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 std::string Chirality2D::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  ss << accumulator_.status_header() << std::endl;
+  ss << accumulator_->status_header() << std::endl;
   return ss.str();
 }
 
@@ -46,7 +52,7 @@ void Chirality2D::update(const Criteria& criteria,
     const TrialFactory& trial_factory) {
     const Configuration& config = system.configuration();
   int num_positive = 0;
-  for (int part_index : config.group_selects()[0].particle_indices()) {
+  for (int part_index : config.group_select(0).particle_indices()) {
     const Particle& part = config.select_particle(part_index);
     const Bond& bond1 = config.particle_type(part.type()).bond(bond1_);
     const Bond& bond2 = config.particle_type(part.type()).bond(bond2_);
@@ -64,14 +70,14 @@ void Chirality2D::update(const Criteria& criteria,
       if (sign_error_ < 0 && cross_z < 0) FATAL("negative chirality");
     }
   }
-  accumulator_.accumulate(num_positive);
+  accumulator_->accumulate(num_positive);
 }
 
 std::string Chirality2D::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;
-  ss << accumulator_.status() << std::endl;
+  ss << accumulator_->status() << std::endl;
   return ss.str();
 }
 

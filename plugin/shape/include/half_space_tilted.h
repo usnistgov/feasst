@@ -3,9 +3,10 @@
 #define FEASST_SHAPE_HALF_SPACE_TILTED_H_
 
 #include "shape/include/shape.h"
-#include "utils/include/arguments.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   A half space divides space by a plane (or line in 2D).

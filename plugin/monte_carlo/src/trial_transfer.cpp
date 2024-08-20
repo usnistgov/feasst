@@ -1,4 +1,5 @@
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_remove.h"
@@ -27,7 +28,7 @@ TrialTransfer::TrialTransfer(argtype * args) : TrialFactoryNamed() {
   add(trial_remove);
 }
 TrialTransfer::TrialTransfer(argtype args) : TrialTransfer(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 }  // namespace feasst

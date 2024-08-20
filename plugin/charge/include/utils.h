@@ -2,7 +2,6 @@
 #ifndef FEASST_CHARGE_UTILS_H_
 #define FEASST_CHARGE_UTILS_H_
 
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/monte_carlo.h"
 
 namespace feasst {

@@ -1,10 +1,9 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "monte_carlo/include/perturb_add.h"
-#include "monte_carlo/include/perturb_remove.h"
 #include "cluster/include/select_particle_avb_divalent.h"
 #include "cluster/include/perturb_add_avb.h"
 #include "cluster/include/compute_add_avb_divalent.h"
-#include "cluster/include/compute_remove_avb_divalent.h"
 #include "cluster/include/trial_add_avb_divalent.h"
 
 namespace feasst {
@@ -49,7 +48,7 @@ TrialAddAVBDivalent::TrialAddAVBDivalent(argtype * args) : Trial(args) {
     MakeTrialSelectParticle(sel0_args),
     perturb0,
     &parsed_args);
-  FEASST_CHECK_ALL_USED(parsed_args);
+  feasst_check_all_used(parsed_args);
 
   // stage1
   argtype sel1_args;
@@ -64,7 +63,7 @@ TrialAddAVBDivalent::TrialAddAVBDivalent(argtype * args) : Trial(args) {
     MakeSelectParticleAVBDivalent(sel1_args),
     perturb1,
     &parsed_args);
-  FEASST_CHECK_ALL_USED(parsed_args);
+  feasst_check_all_used(parsed_args);
 
   // stage2
   argtype sel2_args;
@@ -79,11 +78,11 @@ TrialAddAVBDivalent::TrialAddAVBDivalent(argtype * args) : Trial(args) {
     MakeSelectParticleAVBDivalent(sel2_args),
     perturb2,
     &parsed_args);
-  FEASST_CHECK_ALL_USED(parsed_args);
+  feasst_check_all_used(parsed_args);
   set(MakeComputeAddAVBDivalent({{"neighbor_index", neighbor}}));
 }
 TrialAddAVBDivalent::TrialAddAVBDivalent(argtype args) : TrialAddAVBDivalent(&args) {
-  //FEASST_CHECK_ALL_USED(args);
+  //feasst_check_all_used(args);
 }
 
 TrialAddAVBDivalent::TrialAddAVBDivalent(std::istream& istr) : Trial(istr) {

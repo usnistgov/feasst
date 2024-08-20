@@ -2,11 +2,17 @@
 #ifndef FEASST_STEPPERS_ANALYZE_EXAMPLE_H_
 #define FEASST_STEPPERS_ANALYZE_EXAMPLE_H_
 
+#include <memory>
+#include <map>
+#include <string>
 #include <vector>
-#include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
+
+class Accumulator;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Add an analysis to FEASST by using this file as a template and instruction set.
@@ -40,11 +46,10 @@ class AnalyzeExample : public Analyze {
   //@{
 
   /// Return the average geometric center of a given dimension.
-  const Accumulator& geometric_center(const int dimension) const {
-    return center_[dimension]; }
+  const Accumulator& geometric_center(const int dimension) const;
 
   /// Return the average geometric center.
-  const std::vector<Accumulator>& geometric_center() const { return center_; }
+  const std::vector<std::unique_ptr<Accumulator> >& geometric_center() const;
 
   /// Write the header for the file.
   std::string header(const Criteria& criteria,
@@ -67,21 +72,23 @@ class AnalyzeExample : public Analyze {
       const TrialFactory& trial_factory) override;
 
   // serialize
-  std::string class_name() const override { return std::string("AnalyzeExample"); }
+  std::string class_name() const override {
+    return std::string("AnalyzeExample"); }
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<AnalyzeExample>(istr); }
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<AnalyzeExample>(args); }
-  AnalyzeExample(std::istream& istr);
+  explicit AnalyzeExample(std::istream& istr);
 
   //@}
  private:
   int group_index_;
-  std::vector<Accumulator> center_;
+  std::vector<std::unique_ptr<Accumulator> > center_;
 };
 
-inline std::shared_ptr<AnalyzeExample> MakeAnalyzeExample(argtype args = argtype()) {
+inline std::shared_ptr<AnalyzeExample> MakeAnalyzeExample(
+    argtype args = argtype()) {
   return std::make_shared<AnalyzeExample>(args);
 }
 

@@ -86,7 +86,7 @@ How to compile
     # optional python packages for feasst tutorials
     pip install jupyter matplotlib pandas scipy ../pyfeasst
 
-FEASST requires a C++ compiler, CMake and Python3, while git is optional.
+FEASST requires a C++14 compiler, CMake and Python3, while git is optional.
 The executables ``fst`` and ``rst`` should appear in ``$HOME/feasst/build/bin/``.
 Text input files are run using ``fst < input.txt`` and simulations are restarted using ``rst checkpoint.txt``.
 For pyfeasst, provide pip a path to the specific pyfeasst directory in feasst to ensure the versions match (e.g., do not leave out the "../").

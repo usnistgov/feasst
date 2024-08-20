@@ -1,4 +1,5 @@
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_remove.h"
@@ -36,7 +37,7 @@ TrialRemove::TrialRemove(argtype * args) : Trial(args) {
   set(std::make_shared<TrialComputeRemove>(args));
 }
 TrialRemove::TrialRemove(argtype args) : TrialRemove(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialRemove::TrialRemove(std::istream& istr) : Trial(istr) {

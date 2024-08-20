@@ -1,5 +1,10 @@
-#include "cluster/include/compute_move_cluster.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/trial_select.h"
+#include "cluster/include/compute_move_cluster.h"
 
 namespace feasst {
 

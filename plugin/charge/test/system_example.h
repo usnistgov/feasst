@@ -37,7 +37,7 @@ inline System chain(const double alpha,
 //    DEBUG("rms0 " << rms);
     DEBUG("kxmax " << kxmax);
     config->add_model_param("alpha", alpha);
-    system.add(*config);
+    system.add(config);
   }
   auto ewald= MakeEwald({{"kmax_squared", "27"},
                {"alpha", str(5.6/system.configuration().domain().inscribed_sphere_diameter())}});

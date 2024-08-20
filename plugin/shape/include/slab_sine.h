@@ -3,11 +3,12 @@
 #define FEASST_SHAPE_SLAB_SINE_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "shape/include/formula_sine_wave.h"
 #include "shape/include/shape_intersect.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Intersection of two parallel HalfSpaceSine.

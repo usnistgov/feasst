@@ -1,4 +1,6 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/trial_select.h"
 #include "charge/include/trial_add_multiple.h"
 
 namespace feasst {

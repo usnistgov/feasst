@@ -1,5 +1,6 @@
 #include "utils/test/utils.h"
 #include "math/include/euler.h"
+#include "math/include/matrix.h"
 #include "math/include/random_mt19937.h"
 
 namespace feasst {

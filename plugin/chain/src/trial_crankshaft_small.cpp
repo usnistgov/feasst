@@ -1,5 +1,7 @@
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/position.h"
 #include "chain/include/select_crankshaft_small.h"
 #include "chain/include/perturb_crankshaft_small.h"
 #include "chain/include/trial_crankshaft_small.h"
@@ -26,7 +28,7 @@ TrialCrankshaftSmall::TrialCrankshaftSmall(argtype * args) :
   set_description("TrialCrankshaftSmall");
 }
 TrialCrankshaftSmall::TrialCrankshaftSmall(argtype args) : TrialCrankshaftSmall(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialCrankshaftSmall::TrialCrankshaftSmall(std::istream& istr) : TrialMove(istr) {

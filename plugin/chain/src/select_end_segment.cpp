@@ -1,6 +1,9 @@
-#include "chain/include/select_end_segment.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/configuration.h"
+#include "chain/include/select_end_segment.h"
 
 namespace feasst {
 
@@ -18,7 +21,7 @@ SelectEndSegment::SelectEndSegment(argtype * args) : SelectSegment(args) {
   class_name_ = "SelectEndSegment";
 }
 SelectEndSegment::SelectEndSegment(argtype args) : SelectEndSegment(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 std::shared_ptr<TrialSelect> SelectEndSegment::create(std::istream& istr) const {
   return std::make_shared<SelectEndSegment>(istr);
@@ -43,8 +46,8 @@ void SelectEndSegment::serialize(std::ostream& ostr) const {
 
 void SelectEndSegment::precompute(System * system) {
   SelectSegment::precompute(system);
-  anchor_.clear();
-  anchor_.add_site(0, 0);
+  get_anchor()->clear();
+  get_anchor()->add_site(0, 0);
 }
 
 bool SelectEndSegment::random_end_segment_in_particle(
@@ -108,7 +111,7 @@ bool SelectEndSegment::select(const Select& perturbed,
   const bool is_found = random_end_segment_in_particle(
     configuration(*system),
     max_length(),
-    &mobile_,
+    get_mobile(),
     random,
     &is_endpoint_beginning
   );
@@ -124,14 +127,14 @@ void SelectEndSegment::update_anchor(const bool is_endpoint_beginning,
   const System * system) {
   int select_index = -1;
   if (is_endpoint_beginning) {
-    select_index = mobile_.num_sites() - 1;
+    select_index = mobile().num_sites() - 1;
   } else {
     select_index = 0;
   }
   DEBUG("is_endpoint_beginning, " << is_endpoint_beginning);
   DEBUG("site index " << select_index);
-  anchor_.set_site(0, 0, mobile_.site_indices()[0][select_index]);
-  anchor_.set_particle(0, mobile_.particle_indices()[0]);
+  get_anchor()->set_site(0, 0, mobile().site_indices()[0][select_index]);
+  get_anchor()->set_particle(0, mobile().particle_indices()[0]);
 }
 
 }  // namespace feasst

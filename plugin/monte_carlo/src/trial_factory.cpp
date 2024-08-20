@@ -1,7 +1,13 @@
-#include "utils/include/serialize.h"
+#include "utils/include/custom_exception.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/arguments.h"
 #include "math/include/utils_math.h"
-#include "monte_carlo/include/trial_factory.h"
 #include "math/include/random.h"
+#include "configuration/include/configuration.h"
+#include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
 
@@ -10,7 +16,7 @@ TrialFactory::TrialFactory(argtype * args) : Trial(args) {
   data_.get_dble_2D()->resize(1);
 }
 TrialFactory::TrialFactory(argtype args) : TrialFactory(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapTrialFactory {
@@ -37,7 +43,7 @@ void TrialFactory::update_cumul_prob_() {
     }
   }
   DEBUG("adjustable_weights_ " << adjustable_weights_);
-  DEBUG("weights " << feasst_str(weights));
+//  DEBUG("weights " << feasst_str(weights));
   if (weights.size() > 0) {
     *get_cumulative_probability_() = feasst::cumulative_probability(weights);
   }

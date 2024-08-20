@@ -2,8 +2,9 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_DIHEDRAL_H_
 #define FEASST_MONTE_CARLO_PERTURB_DIHEDRAL_H_
 
+#include <memory>
 #include "math/include/matrix.h"
-#include "system/include/rigid_angle.h"
+#include "system/include/rigid_dihedral.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
 
 namespace feasst {
@@ -36,8 +37,7 @@ class PerturbDihedral : public PerturbDistanceAngle {
   double random_dihedral_radians(const System& system,
     const TrialSelect * select,
     Random * random,
-    double * bond_energy  // return the bond energy for Rosenbluth exclusion.
-  );
+    double * bond_energy);  // return the bond energy for Rosenbluth exclusion.
 
   /// Place mobile site with given bond distance, angle and dihedral.
   void place_dihedral(const double distance, const double angle,

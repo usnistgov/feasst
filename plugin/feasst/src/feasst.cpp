@@ -1,4 +1,5 @@
 #include <memory>
+#include <iostream>
 #include <string.h>
 #ifdef _OPENMP
   #include <omp.h>

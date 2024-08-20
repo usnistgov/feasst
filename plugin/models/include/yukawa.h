@@ -2,7 +2,6 @@
 #ifndef FEASST_MODELS_YUKAWA_H_
 #define FEASST_MODELS_YUKAWA_H_
 
-#include <sstream>
 #include "system/include/model_two_body.h"
 
 namespace feasst {

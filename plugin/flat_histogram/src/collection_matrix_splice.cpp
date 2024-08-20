@@ -9,17 +9,20 @@
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 #include <fstream>
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 #include "utils/include/checkpoint.h"
 #include "math/include/constants.h"
 #include "math/include/histogram.h"
 #include "math/include/utils_math.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/run.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/wltm.h"
+#include "flat_histogram/include/macrostate.h"
 #include "flat_histogram/include/collection_matrix_splice.h"
-#include "monte_carlo/include/run.h"
 
 namespace feasst {
 
@@ -33,7 +36,7 @@ CollectionMatrixSplice::CollectionMatrixSplice(argtype * args) {
 }
 CollectionMatrixSplice::CollectionMatrixSplice(argtype args) :
   CollectionMatrixSplice(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 const MonteCarlo& CollectionMatrixSplice::clone(const int index) const {
@@ -143,7 +146,7 @@ void CollectionMatrixSplice::write(const std::string& file_name) const {
       auto tm = MakeTransitionMatrix({{"min_sweeps", "0"}});
       tm->set_cm(collection_matrix());
       file << "state," << tm->write_per_bin_header() << std::endl;
-      for (int bin = 0; bin < static_cast<int>(tm->collection().matrix().size()); ++bin) {
+      for (int bin = 0; bin < static_cast<int>(tm->cm().matrix().size()); ++bin) {
         file << bin << "," << tm->write_per_bin(bin) << std::endl;
       }
     }
@@ -304,6 +307,16 @@ std::shared_ptr<CollectionMatrixSplice> MakeCollectionMatrixSplice(
   std::stringstream ss;
   ss << line;
   return std::make_shared<CollectionMatrixSplice>(ss);
+}
+
+std::string CollectionMatrixSplice::serialize() const {
+  std::stringstream ss;
+  serialize(ss);
+  return ss.str();
+}
+CollectionMatrixSplice CollectionMatrixSplice::deserialize(const std::string str) {
+  std::stringstream ss(str);
+  return CollectionMatrixSplice(ss);
 }
 
 }  // namespace feasst

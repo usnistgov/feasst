@@ -1,4 +1,5 @@
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_select_all.h"
 #include "monte_carlo/include/perturb_volume.h"
@@ -31,7 +32,7 @@ TrialVolume::TrialVolume(argtype * args) : Trial(args) {
   set(MakeTrialComputeVolume());
 }
 TrialVolume::TrialVolume(argtype args) : TrialVolume(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialVolume::TrialVolume(std::istream& istr) : Trial(istr) {

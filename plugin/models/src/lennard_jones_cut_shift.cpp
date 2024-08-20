@@ -1,7 +1,8 @@
 #include <cmath>
-#include "models/include/lennard_jones_cut_shift.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "models/include/lennard_jones_cut_shift.h"
 
 namespace feasst {
 
@@ -21,7 +22,7 @@ LennardJonesCutShift::LennardJonesCutShift(argtype * args)
   class_name_ = "LennardJonesCutShift";
 }
 LennardJonesCutShift::LennardJonesCutShift(argtype args) : LennardJonesCutShift(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void LennardJonesCutShift::serialize(std::ostream& ostr) const {

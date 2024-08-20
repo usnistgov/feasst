@@ -4,7 +4,6 @@
 
 #include <string>
 #include <vector>
-#include "configuration/include/typed_entity.h"
 #include "configuration/include/properties.h"
 
 namespace feasst {
@@ -14,9 +13,15 @@ namespace feasst {
   The indices of the sites which are bonded are stored here.
   The type of the bond is used to determine the bond model.
  */
-class Bond : public PropertiedEntity, public TypedEntity {
+class Bond : public PropertiedEntity {
  public:
   Bond() { class_name_ = "Bond"; }
+
+  /// Obtain the type.
+  int type() const { return type_; }
+
+  /// Set the type.
+  void set_type(const int type) { type_ = type; }
 
   /// Return the indices of the sites involved in the bond within a particle.
   const std::vector<int>& site_indices() const { return site_indicies_; }
@@ -46,6 +51,7 @@ class Bond : public PropertiedEntity, public TypedEntity {
   std::string class_name_;
 
  private:
+  int type_ = 0;
   std::vector<int> site_indicies_;
   std::string model_;
 };

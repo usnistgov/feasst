@@ -1,23 +1,32 @@
-#include <fstream>
-#include <sstream>
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"
 #include "utils/include/debug.h"
+#include "utils/include/io.h"
 #include "utils/include/serialize.h"
-#include "math/include/utils_math.h"
 #include "math/include/constants.h"
+#include "math/include/table.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/neighbor_criteria.h"
+#include "configuration/include/model_params.h"
+#include "configuration/include/group.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/select.h"
+#include "configuration/include/physical_constants.h"
 #include "configuration/include/configuration.h"
 
 namespace feasst {
 
 Configuration::Configuration(argtype args) : Configuration(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 Configuration::Configuration(argtype * args) {
   domain_ = std::make_shared<Domain>(args);
-  particle_types_.unique_particles();
-  unique_types_.unique_types();
+  particle_types_ = std::make_shared<ParticleFactory>();
+  particle_types_->unique_particles();
+  unique_types_ = std::make_shared<ParticleFactory>();
+  unique_types_->unique_types();
+  particles_ = std::make_shared<ParticleFactory>();
   // reset_unique_indices_();
   add(MakeGroup());  // add empty group which represents all particles
 
@@ -83,14 +92,16 @@ Configuration::Configuration(argtype * args) {
   }
 
   if (boolean("set_cutoff_min_to_sigma", args, false)) {
-    unique_types_.set_cutoff_min_to_sigma();
+    unique_types_->set_cutoff_min_to_sigma();
   }
 
   init_wrap(boolean("wrap", args, true));
 
   DEBUG("parse ModelParam");
   if (args->size() != 0) {
-    for (std::map<std::string, std::shared_ptr<ModelParam>>::iterator iter = ModelParam().deserialize_map().begin(); iter != ModelParam().deserialize_map().end(); ++iter) {
+    for (std::map<std::string, std::shared_ptr<ModelParam>>::iterator iter =
+         ModelParam().deserialize_map().begin();
+         iter != ModelParam().deserialize_map().end(); ++iter) {
       const std::string param = iter->first;
       if (args->size() != 0) {
         if (used(param, *args)) {
@@ -111,7 +122,8 @@ Configuration::Configuration(argtype * args) {
       if (args->size() != 0) {
         for (int site1 = 0; site1 < num_site_types(); ++site1) {
           for (int site2 = site1; site2 < num_site_types(); ++site2) {
-            std::string param_arg = param + feasst::str(site1) + "_" + feasst::str(site2);
+            std::string param_arg = param + feasst::str(site1) + "_" +
+                                    feasst::str(site2);
             if (used(param_arg, *args)) {
               set_model_param(param, site1, site2, dble(param_arg, args));
             }
@@ -132,29 +144,29 @@ Configuration::Configuration(argtype * args) {
 void Configuration::add_particle_type(const std::string file_name,
     const std::string append) {
   DEBUG("adding type: " << file_name);
-  ASSERT(particles_.num() == 0, "types cannot be added after particles");
-  particle_types_.add(file_name);
-  unique_types_.add(file_name);
-  ghosts_.push_back(Select());
-  ASSERT(ghosts_.back().is_group_empty(), "no ghosts in brand new type");
+  ASSERT(particles_->num() == 0, "types cannot be added after particles");
+  particle_types_->add(file_name);
+  unique_types_->add(file_name);
+  ghosts_.push_back(std::make_shared<Select>());
+  ASSERT(ghosts_.back()->is_group_empty(), "no ghosts in brand new type");
   type_to_file_.push_back(file_name + append);
   num_particles_of_type_.push_back(0);
 }
 
 void Configuration::add_(const Particle particle) {
   Particle part = particle;
-  particles_.add(part);
-  for (Select& select : group_selects_) {
-    add_to_selection_(particles_.num() - 1, &select);
+  particles_->add(part);
+  for (std::shared_ptr<Select> select : group_selects_) {
+    add_to_selection_(particles_->num() - 1, select.get());
   }
-  position_tracker_(particles_.num() - 1);
+  position_tracker_(particles_->num() - 1);
 }
 
 void Configuration::add_non_ghost_particle_of_type(const int type) {
-  Particle part = particle_types_.particle(type);
+  Particle part = particle_types_->particle(type);
   part.erase_bonds();
   add_(part);
-  newest_particle_index_ = particles_.num() - 1;
+  newest_particle_index_ = particles_->num() - 1;
   ++num_particles_of_type_[type];
 }
 
@@ -163,14 +175,14 @@ void Configuration::add_particle_of_type(const int type) {
   ASSERT(type < num_particle_types(), "type(" << type << ") is not allowed "
     << "when there are only " << num_particle_types() << " particle types");
   // decide whether to add a ghost particle or a new one
-  DEBUG("numg " << ghosts_[type].num_particles());
-  if (ghosts_[type].num_particles() == 0) {
+  DEBUG("numg " << ghosts_[type]->num_particles());
+  if (ghosts_[type]->num_particles() == 0) {
     add_non_ghost_particle_of_type(type);
   } else {
-    const int index = ghosts_[type].particle_index(0);
-    ghosts_[type].remove_particle(index);
-    for (Select& select : group_selects_) {
-      add_to_selection_(index, &select);
+    const int index = ghosts_[type]->particle_index(0);
+    ghosts_[type]->remove_particle(index);
+    for (std::shared_ptr<Select> select : group_selects_) {
+      add_to_selection_(index, select.get());
     }
     newest_particle_index_ = index;
     ++num_particles_of_type_[type];
@@ -180,14 +192,14 @@ void Configuration::add_particle_of_type(const int type) {
 void Configuration::remove_particle_(const int particle_index) {
   // HWH optimization: this randomly generated string is expensive.
   // reset_unique_indices_();
-  const int type = particles_.particle(particle_index).type();
+  const int type = particles_->particle(particle_index).type();
   --num_particles_of_type_[type];
-  ghosts_[type].add_particle(select_particle(particle_index), particle_index);
+  ghosts_[type]->add_particle(select_particle(particle_index), particle_index);
   DEBUG("type " << type);
   DEBUG("particle index " << particle_index);
   DEBUG("num particles " << num_particles());
-  for (Select& select : group_selects_) {
-    select.remove_particle(particle_index);
+  for (std::shared_ptr<Select> select : group_selects_) {
+    select->remove_particle(particle_index);
   }
 }
 
@@ -207,7 +219,7 @@ void Configuration::remove_particle(const Select& selection) {
 
 void Configuration::displace_particle_(const int particle_index,
                                        const Position &displacement) {
-  particles_.displace(particle_index, displacement);
+  particles_->displace(particle_index, displacement);
   position_tracker_(particle_index);
 }
 
@@ -216,7 +228,7 @@ void Configuration::displace_site_(const int particle_index,
                                    const Position &displacement) {
   Position pos = displacement;
   pos.add(select_particle(particle_index).site(site_index).position());
-  particles_.replace_position(particle_index, site_index, pos);
+  particles_->replace_position(particle_index, site_index, pos);
   position_tracker_(particle_index, site_index);
 }
 
@@ -244,19 +256,19 @@ void Configuration::replace_position_(const int particle_index,
                                       const Particle& replacement) {
   ASSERT(select_particle(particle_index).num_sites() ==
          replacement.num_sites(), "size error");
-  particles_.replace_position(particle_index, replacement);
+  particles_->replace_position(particle_index, replacement);
   position_tracker_(particle_index);
 }
 
 void Configuration::replace_position_(const int particle_index,
                                       const int site_index,
                                       const Position& replacement) {
-  particles_.replace_position(particle_index, site_index, replacement);
+  particles_->replace_position(particle_index, site_index, replacement);
   position_tracker_(particle_index, site_index);
 }
 
 void Configuration::add(std::shared_ptr<Group> group, std::string name) {
-  ASSERT(group->is_empty() || particle_types_.num() != 0,
+  ASSERT(group->is_empty() || particle_types_->num() != 0,
     "add groups after particle types");
   if (name == "") {
     std::stringstream ss;
@@ -267,15 +279,15 @@ void Configuration::add(std::shared_ptr<Group> group, std::string name) {
   group->add_property(name, 0.);
   group_select.set_group(group);
   init_selection_(&group_select);
-  group_selects_.push_back(group_select);
+  group_selects_.push_back(std::make_shared<Select>(group_select));
 }
 
 void Configuration::position_tracker_(const int particle_index,
                                       const int site_index) {
   ASSERT(site_index >= 0, "index error");
   DEBUG("update selection");
-  for (const Select& select : group_selects_) {
-    ASSERT(!select.group().is_spatial(), "implement updating of groups");
+  for (std::shared_ptr<Select> select : group_selects_) {
+    ASSERT(!select->group().is_spatial(), "implement updating of groups");
   }
 }
 
@@ -300,21 +312,22 @@ void Configuration::set(std::shared_ptr<Domain> domain) {
 
 /// HWH add check .. domain, positions, particles, etc
 void Configuration::check() const {
-  particles_.check();
-  particle_types_.check();
-  unique_types_.check();
-  //selection_of_all().check();
+  particles_->check();
+  particle_types_->check();
+  unique_types_->check();
+  // selection_of_all().check();
 
-  ASSERT(particle_types_.num() == num_particle_types(), "er");
-  ASSERT(unique_types_.num_sites() == num_site_types(), "er");
+  ASSERT(particle_types_->num() == num_particle_types(), "er");
+  ASSERT(unique_types_->num_sites() == num_site_types(), "er");
 
   // check that the first group is all particles in the configuration.
-  ASSERT(static_cast<int>(group_selects_[0].num_particles()) == num_particles(),
+  ASSERT(static_cast<int>(group_selects_[0]->num_particles())
+    == num_particles(),
     "The number of particles in the first group(" <<
-    group_selects_[0].num_particles() << ") is not equal to the number of " <<
+    group_selects_[0]->num_particles() << ") is not equal to the number of " <<
     "particles: " << num_particles());
   for (int index = 0; index < num_particles(); ++index) {
-    ASSERT(static_cast<int>(group_selects_[0].site_indices(index).size()) ==
+    ASSERT(static_cast<int>(group_selects_[0]->site_indices(index).size()) ==
       particle(index).num_sites(), "size error");
   }
 
@@ -324,14 +337,14 @@ void Configuration::check() const {
     "size error");
 
   // check that a particle is not simultaneously a ghost and a real particle
-  for (const Select& ghost : ghosts_) {
-    ASSERT(!group_selects_[0].is_overlap(ghost),
+  for (const std::shared_ptr<Select>& ghost : ghosts_) {
+    ASSERT(!group_selects_[0]->is_overlap(*ghost),
       "ghost particle cannot also be real");
   }
 
   // check that a particle is not listed as a ghost twice
-  for (const Select& ghost : ghosts_) {
-    ASSERT(!has_duplicate(ghost.particle_indices()),
+  for (const std::shared_ptr<Select>& ghost : ghosts_) {
+    ASSERT(!has_duplicate(ghost->particle_indices()),
       "the same particle cannot be listed as a ghost twice");
   }
 
@@ -339,7 +352,7 @@ void Configuration::check() const {
 }
 
 bool Configuration::are_all_sites_physical() const {
-  for (const Particle& part : particles_.particles()) {
+  for (const Particle& part : particles_->particles()) {
     for (const Site& site : part.sites()) {
       if (!site.is_physical()) {
         return false;
@@ -372,12 +385,12 @@ void Configuration::update_positions(
   DEBUG("num sites " << coords.size());
   DEBUG("num sites in config  " << num_sites());
   DEBUG("num particles in config " << num_particles());
-  ASSERT(static_cast<int>(coords[0].size()) == dimension(), "the dimensions: " <<
-    coords[0].size() << " of the coordinates do not match the dimensions: " <<
-    dimension() << " of the configuration.");
+  ASSERT(static_cast<int>(coords[0].size()) == dimension(), "the dimensions: "
+    << coords[0].size() << " of the coordinates do not match the dimensions: "
+    << dimension() << " of the configuration.");
   Position position;
   int iter_site = 0;
-  for (int part_index : group_selects_[0].particle_indices()) {
+  for (int part_index : group_selects_[0]->particle_indices()) {
     Particle part = select_particle(part_index);
     DEBUG("part_index " << part_index);
     for (int site_index = 0;
@@ -400,7 +413,7 @@ void Configuration::update_positions(
   ASSERT(dimension() == 3, "Eulers require 3 dimensions.");
   Euler euler;
   int iter_site = 0;
-  for (int part_index : group_selects_[0].particle_indices()) {
+  for (int part_index : group_selects_[0]->particle_indices()) {
     Particle * part = get_particles_()->get_particle(part_index);
     for (int site_index = 0;
          site_index < part->num_sites();
@@ -486,7 +499,7 @@ void Configuration::update_positions(const Select& select,
       for (int site_index : select.site_indices(pindex)) {
         DEBUG("particle_index " << particle_index);
         DEBUG("site_index " << site_index);
-        Particle * part = particles_.get_particle(particle_index);
+        Particle * part = particles_->get_particle(particle_index);
         Site * site = part->get_site(site_index);
         const int site_type = site->type();
         const int particle_type = part->type();
@@ -536,17 +549,17 @@ int Configuration::particle_type_to_group_create(const int particle_type) {
 }
 
 int Configuration::num_particles(const int group) const {
-  TRACE("pn " << particles_.num());
+  TRACE("pn " << particles_->num());
   TRACE("gn " << num_ghosts_());
   TRACE("group " << group);
   if (group == 0) {
-    TRACE("here " << particles_.num() - num_ghosts_());
-    const int num = particles_.num() - num_ghosts_();
+    TRACE("here " << particles_->num() - num_ghosts_());
+    const int num = particles_->num() - num_ghosts_();
     ASSERT(num >= 0, "error");
     return num;
   }
-  TRACE("here " << group_selects_[group].num_particles());
-  const int num = group_selects_[group].num_particles();
+  TRACE("here " << group_selects_[group]->num_particles());
+  const int num = group_selects_[group]->num_particles();
   ASSERT(num >= 0, "error");
   return num;
 }
@@ -555,17 +568,17 @@ int Configuration::num_sites(const int group) const {
   if (group != 0) FATAL("not implemented");
 
   int num_ghost_sites = 0;
-  for (const Select& ghost : ghosts_) {
-    num_ghost_sites += ghost.num_sites();
+  for (const std::shared_ptr<Select>& ghost : ghosts_) {
+    num_ghost_sites += ghost->num_sites();
   }
   DEBUG("num ghost sites " << num_ghost_sites);
-  return particles_.num_sites() - num_ghost_sites;
+  return particles_->num_sites() - num_ghost_sites;
 }
 
 int Configuration::num_ghosts_() const {
   int num = 0;
-  for (const Select& select : ghosts_) {
-    num += select.num_particles();
+  for (const std::shared_ptr<Select>& select : ghosts_) {
+    num += select->num_particles();
   }
   return num;
 }
@@ -575,13 +588,13 @@ void Configuration::revive(const Select& selection) {
     DEBUG("reviving particle_index: " << particle_index);
     const Particle& part = select_particle(particle_index);
     const int type = part.type();
-    ASSERT(find_in_list(particle_index, ghosts_[type].particle_indices()),
+    ASSERT(find_in_list(particle_index, ghosts_[type]->particle_indices()),
       "attempting to revive a particle that isn't a ghost");
     ++num_particles_of_type_[type];
-    DEBUG("ghost particles " << ghosts_[type].num_particles());
-    ghosts_[type].remove_particle(particle_index);
-    for (Select& select : group_selects_) {
-      add_to_selection_(particle_index, &select);
+    DEBUG("ghost particles " << ghosts_[type]->num_particles());
+    ghosts_[type]->remove_particle(particle_index);
+    for (std::shared_ptr<Select> select : group_selects_) {
+      add_to_selection_(particle_index, select.get());
     }
     position_tracker_(particle_index);
   }
@@ -589,14 +602,14 @@ void Configuration::revive(const Select& selection) {
 
 const Particle& Configuration::particle(const int index) const {
   const int particle_index = selection_of_all().particle_index(index);
-  return particles_.particle(particle_index);
+  return particles_->particle(particle_index);
 }
 
 Particle Configuration::particle(const int index,
                                  const int group) const {
-  const Select& select_group = group_selects_[group];
+  const Select& select_group = *group_selects_[group];
   const int particle_index = select_group.particle_index(index);
-  Particle part = particles_.particle(particle_index);
+  Particle part = particles_->particle(particle_index);
   select_group.group().remove_sites(&part);
   return part;
 }
@@ -605,7 +618,7 @@ void Configuration::add(std::shared_ptr<ModelParam> param) {
   for (const Particle& particle : unique_types().particles()) {
     param->add(particle);
   }
-  unique_types_.add(param);
+  unique_types_->add(param);
 }
 
 int Configuration::num_particles_of_type(const int type) const {
@@ -623,13 +636,15 @@ int Configuration::num_particles_of_type(const int type) const {
 
 void Configuration::wrap_particle(const int particle_index) {
   if (wrap_) {
-    const Position& site0_position = select_particle(particle_index).site(0).position();
+    const Position& site0_position =
+      select_particle(particle_index).site(0).position();
     const Position& pbc_shift = domain_->shift_opt(site0_position);
     DEBUG("site0_position " << site0_position.str());
     DEBUG("pbc " << pbc_shift.str());
     if (pbc_shift.squared_distance() > NEAR_ZERO) {
       displace_particle_(particle_index, pbc_shift);
-      DEBUG("new pos " << select_particle(particle_index).site(0).position().str());
+      DEBUG("new pos " <<
+        select_particle(particle_index).site(0).position().str());
     }
   }
 }
@@ -643,7 +658,7 @@ void Configuration::set_selection_physical(const Select& select,
     for (int ss_index = 0;
          ss_index < static_cast<int>(site_indices.size());
          ++ss_index) {
-      particles_.set_site_physical(
+      particles_->set_site_physical(
         select.particle_indices()[sp_index],
         site_indices[ss_index],
         phys);
@@ -690,15 +705,15 @@ void Configuration::set_site_type(const int particle_type,
                                   const int site,
                                   const int site_type) {
   // Check if cell needs to be updated with changing type
-  for (const Select& group : group_selects_) {
-    if (find_in_list(site_type, group.group().site_types())) {
+  for (std::shared_ptr<Select> select : group_selects_) {
+    if (find_in_list(site_type, select->group().site_types())) {
       ERROR("check if groups need to be updated with changing type");
     }
   }
-  particle_types_.set_site_type(particle_type, site, site_type);
-  for (int particle = 0; particle < particles_.num(); ++particle) {
-    if (particles_.particle(particle).type() == particle_type) {
-      particles_.set_site_type(particle, site, site_type);
+  particle_types_->set_site_type(particle_type, site, site_type);
+  for (int particle = 0; particle < particles_->num(); ++particle) {
+    if (particles_->particle(particle).type() == particle_type) {
+      particles_->set_site_type(particle, site, site_type);
     }
   }
 }
@@ -759,19 +774,19 @@ std::string Configuration::status() const {
 void Configuration::serialize(std::ostream& ostr) const {
   feasst_serialize_version(7199, ostr);
   feasst_serialize(version(), ostr);
-  particle_types_.serialize(ostr);
-  unique_types_.serialize(ostr);
-  particles_.serialize(ostr);
+  feasst_serialize(particle_types_, ostr);
+  feasst_serialize(unique_types_, ostr);
+  feasst_serialize(particles_, ostr);
   feasst_serialize(domain_, ostr);
-  feasst_serialize_fstobj(group_selects_, ostr);
+  feasst_serialize(group_selects_, ostr);
   feasst_serialize(group_store_particle_type_, ostr);
   feasst_serialize(group_store_group_index_, ostr);
-  feasst_serialize_fstobj(ghosts_, ostr);
+  feasst_serialize(ghosts_, ostr);
   feasst_serialize(type_to_file_, ostr);
   feasst_serialize(num_particles_of_type_, ostr);
   feasst_serialize(wrap_, ostr);
   feasst_serialize(num_cell_lists_, ostr);
-  feasst_serialize_fstobj(neighbor_criteria_, ostr);
+  feasst_serialize(neighbor_criteria_, ostr);
   feasst_serialize_endcap("Configuration", ostr);
   DEBUG("size: " << ostr.tellp());
 }
@@ -786,24 +801,83 @@ Configuration::Configuration(std::istream& istr) {
     WARN("version of checkpoint: " << checkpoint_version << " is not the " <<
          "same as current version: " << version());
   }
-  particle_types_ = ParticleFactory(istr);
-  unique_types_ = ParticleFactory(istr);
-  particles_ = ParticleFactory(istr);
+//  feasst_deserialize(particle_types_, istr);
+// HWH for unknown reasons, this function template does not work.
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      particle_types_ = std::make_shared<ParticleFactory>(istr);
+    }
+  }
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      unique_types_ = std::make_shared<ParticleFactory>(istr);
+    }
+  }
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      particles_ = std::make_shared<ParticleFactory>(istr);
+    }
+  }
   // HWH for unknown reasons, this doesn't work
   // feasst_deserialize(domain_, istr);
   { int existing;
     istr >> existing;
     if (existing != 0) domain_ = std::make_shared<Domain>(istr);
   }
-  feasst_deserialize_fstobj(&group_selects_, istr);
+  // feasst_deserialize(group_selects_, istr);
+//  HWH for unknown reasons, this function template does not work.
+  {
+    int dim1;
+    istr >> dim1;
+    group_selects_.resize(dim1);
+    for (int index = 0; index < dim1; ++index) {
+      int existing;
+      istr >> existing;
+      if (existing != 0) {
+        group_selects_[index] = std::make_shared<Select>(istr);
+      }
+    }
+  }
   feasst_deserialize(&group_store_particle_type_, istr);
   feasst_deserialize(&group_store_group_index_, istr);
-  feasst_deserialize_fstobj(&ghosts_, istr);
+  // feasst_deserialize(ghosts_, istr);
+//  HWH for unknown reasons, this function template does not work.
+  {
+    int dim1;
+    istr >> dim1;
+    ghosts_.resize(dim1);
+    for (int index = 0; index < dim1; ++index) {
+      int existing;
+      istr >> existing;
+      if (existing != 0) {
+        ghosts_[index] = std::make_shared<Select>(istr);
+      }
+    }
+  }
   feasst_deserialize(&type_to_file_, istr);
   feasst_deserialize(&num_particles_of_type_, istr);
   feasst_deserialize(&wrap_, istr);
   feasst_deserialize(&num_cell_lists_, istr);
-  feasst_deserialize_fstobj(&neighbor_criteria_, istr);
+//  feasst_deserialize(neighbor_criteria_, istr);
+// HWH for unknown reasons, this function template does not work.
+  {
+    int dim1;
+    istr >> dim1;
+    neighbor_criteria_.resize(dim1);
+    for (int index = 0; index < dim1; ++index) {
+      int existing;
+      istr >> existing;
+      if (existing != 0) {
+        neighbor_criteria_[index] = std::make_shared<NeighborCriteria>(istr);
+      }
+    }
+  }
   feasst_deserialize_endcap("Configuration", istr);
 }
 
@@ -845,7 +919,7 @@ int Configuration::dimension() const { return domain().dimension(); }
 void Configuration::synchronize_(const Configuration& config,
     const Select& perturbed) {
   DEBUG(perturbed.str());
-  Select sync_sel(perturbed, config.particles_);
+  Select sync_sel(perturbed, *(config.particles_));
   update_positions(sync_sel, true);
 //  for (int spindex = 0; spindex < perturbed.num_particles(); ++spindex) {
 //    const int part_index = perturbed.particle_index(spindex);
@@ -853,13 +927,11 @@ void Configuration::synchronize_(const Configuration& config,
 //    DEBUG("part_index " << part_index);
 //    const Particle& part = config.select_particle(part_index);
 //    for (int sindex : perturbed.site_indices(spindex)) {
-////      DEBUG("old pos: " << select_particle(part_index).site(sindex).position().str());
-////      Site * site = particles_.get_particle(part_index)->get_site(sindex);
+////      Site * site = particles_->get_particle(part_index)->get_site(sindex);
 ////      *site = part.site(sindex);
-////      DEBUG("new pos: " << select_particle(part_index).site(sindex).position().str());
 ////      position_tracker_(part_index, sindex);
 ////    }
-//    *particles_.get_particle(part_index) = part;
+//    *particles_->get_particle(part_index) = part;
 //    position_tracker_(part_index);
 //  }
 }
@@ -867,7 +939,7 @@ void Configuration::synchronize_(const Configuration& config,
 void Configuration::set_particle_type(const int ptype,
                                       const Select& select) {
   for (int particle_index : select.particle_indices()) {
-    Particle * part = particles_.get_particle(particle_index);
+    Particle * part = particles_->get_particle(particle_index);
     --num_particles_of_type_[part->type()];
     part->set_type(ptype);
     ++num_particles_of_type_[part->type()];
@@ -876,8 +948,8 @@ void Configuration::set_particle_type(const int ptype,
     for (int isite = 0; isite < part->num_sites(); ++isite) {
       part->get_site(isite)->set_type(particle_type(ptype).site(isite).type());
     }
-    for (Select& sel : group_selects_) {
-      update_selection_(particle_index, &sel);
+    for (std::shared_ptr<Select> sel : group_selects_) {
+      update_selection_(particle_index, sel.get());
     }
     // HWH doesn't update type-based cell lists, groups, etc.
   }
@@ -886,7 +958,7 @@ void Configuration::set_particle_type(const int ptype,
 void Configuration::change_volume(const double delta_volume,
     argtype args) {
   change_volume(delta_volume, &args);
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Configuration::change_volume(const double delta_volume,
@@ -907,14 +979,15 @@ void Configuration::change_volume(const double delta_volume,
     domain_->set_side_length(dimen, domain_->side_length(dimen)*factor);
   }
   if (boolean("scale_particles", args, true)) {
-    particles_.scale_particle_positions(dimen, factor);
+    particles_->scale_particle_positions(dimen, factor);
   }
   position_tracker_();
 }
 
 int Configuration::group_index(const std::string& name) const {
-  for (int index = 0; index < static_cast<int>(group_selects_.size()); ++index) {
-    const Select& sel = group_selects_[index];
+  for (int index = 0; index < static_cast<int>(group_selects_.size());
+       ++index) {
+    const Select& sel = *group_selects_[index];
     if (sel.group().has_property(name)) {
       return index;
     }
@@ -924,7 +997,7 @@ int Configuration::group_index(const std::string& name) const {
 
 std::string Configuration::str() const {
   std::stringstream ss;
-  for (const Particle& part : particles_.particles()) {
+  for (const Particle& part : particles_->particles()) {
     for (const Site& site : part.sites()) {
       ss << site.position().str() << std::endl;
     }
@@ -934,7 +1007,7 @@ std::string Configuration::str() const {
 
 void Configuration::check_dimensions() const {
   int dim = 0, dim_prev = 0;
-  for (const Particle& part : particle_types_.particles()) {
+  for (const Particle& part : particle_types_->particles()) {
     for (const Site& site : part.sites()) {
       dim = site.position().dimension();
       if (dim_prev != 0) {
@@ -971,7 +1044,8 @@ const Site& Configuration::unique_type(const int ptype, const int stype) const {
   return unique_type(ptype).site(index);
 }
 
-std::vector<std::vector<int> > Configuration::num_site_types_per_particle_type() const {
+std::vector<std::vector<int> >
+    Configuration::num_site_types_per_particle_type() const {
   int prev = 0;
   std::vector<std::vector<int> > nstppt(num_particle_types());
   for (int ptype = 0; ptype < num_particle_types(); ++ptype) {
@@ -985,6 +1059,168 @@ std::vector<std::vector<int> > Configuration::num_site_types_per_particle_type()
     nstppt[ptype] = st;
   }
   return nstppt;
+}
+
+const PhysicalConstants& Configuration::physical_constants() const {
+  return model_params().physical_constants();
+}
+
+void Configuration::add(std::shared_ptr<NeighborCriteria> neighbor_criteria) {
+  neighbor_criteria_.push_back(neighbor_criteria);
+}
+
+const NeighborCriteria& Configuration::neighbor_criteria(
+    const int index) const {
+  return *neighbor_criteria_[index];
+}
+
+const std::vector<std::shared_ptr<NeighborCriteria> >&
+  Configuration::neighbor_criteria() const { return neighbor_criteria_; }
+
+NeighborCriteria * Configuration::get_neighbor_criteria(const int index) {
+  return neighbor_criteria_[index].get();
+}
+
+int Configuration::num_particle_types() const { return particle_types_->num(); }
+int Configuration::num_site_types() const { return unique_types_->num_sites(); }
+int Configuration::num_bond_types() const { return unique_types_->num_bonds(); }
+int Configuration::num_angle_types() const {
+  return unique_types_->num_angles(); }
+int Configuration::num_dihedral_types() const {
+  return unique_types_->num_dihedrals(); }
+const Particle& Configuration::particle_type(const int type) const {
+  return particle_types_->particle(type); }
+const ParticleFactory& Configuration::particle_types() const {
+  return *particle_types_;
+}
+const ModelParams& Configuration::model_params() const {
+  return unique_types_->model_params(); }
+
+void Configuration::set_model_param(const std::string name,
+                     const int site_type,
+                     const double value) {
+  unique_types_->set_model_param(name, site_type, value); }
+
+void Configuration::set_model_param(const std::string name,
+                     const int site_type1,
+                     const int site_type2,
+                     const double value) {
+  unique_types_->set_model_param(name, site_type1, site_type2, value); }
+
+void Configuration::set_model_param(const std::string name,
+                                    const std::string filename) {
+  unique_types_->set_model_param(name, filename); }
+
+void Configuration::add_model_param(const std::string name,
+                     const double value) {
+  unique_types_->add_model_param(name, value); }
+
+void Configuration::add_or_set_model_param(const std::string name,
+                            const double value) {
+  unique_types_->add_or_set_model_param(name, value); }
+
+void Configuration::set_physical_constants(
+    std::shared_ptr<PhysicalConstants> constants) {
+  unique_types_->set_physical_constants(constants); }
+
+const ParticleFactory& Configuration::unique_types() const {
+  return *unique_types_;
+}
+
+/// Return the unique type by individual particle.
+const Particle& Configuration::unique_type(const int type) const {
+  return unique_types_->particle(type); }
+
+/// Add or set the property of a site in a particle type.
+void Configuration::add_or_set_particle_type_site_property(
+    const std::string name, const double value, const int particle_type,
+    const int site_index) {
+  particle_types_->add_or_set_site_property(name, value, particle_type,
+                                            site_index);
+}
+
+const ParticleFactory& Configuration::particles() const { return *particles_; }
+
+ParticleFactory * Configuration::get_particles_() { return particles_.get(); }
+
+const Particle& Configuration::select_particle(const int index) const {
+  return particles_->particle(index); }
+
+void Configuration::set_property(const std::string name,
+    const double value,
+    const int particle_index) {
+  particles_->set_property(name, value, particle_index); }
+
+void Configuration::add_site_property(const std::string name,
+    const double value,
+    const int particle_index,
+    const int site_index) {
+  particles_->add_site_property(name, value, particle_index, site_index); }
+
+void Configuration::add_or_set_site_property(const std::string name,
+    const double value,
+    const int particle_index,
+    const int site_index) {
+  particles_->add_or_set_site_property(name, value,
+    particle_index, site_index);
+}
+
+void Configuration::set_site_property(const std::string name,
+    const double value,
+    const int particle_index,
+    const int site_index) {
+  particles_->set_site_property(name, value, particle_index, site_index); }
+
+void Configuration::set_site_property(const int index,
+    const double value,
+    const int particle_index,
+    const int site_index) {
+  particles_->set_site_property(index, value, particle_index, site_index); }
+
+void Configuration::replace_properties_(const int particle_index,
+                         const int site_index,
+                         const Properties& prop) {
+  particles_->replace_properties(particle_index, site_index, prop); }
+
+const Particle& Configuration::particle_(const int index) {
+  return particles_->particle(index); }
+
+const std::vector<std::shared_ptr<Select> >& Configuration::ghosts() const {
+  return ghosts_;
+}
+
+const std::vector<std::vector<std::shared_ptr<Table3D> > >&
+  Configuration::table3d() const { return table3d_; }
+const std::vector<std::vector<std::shared_ptr<Table4D> > >&
+  Configuration::table4d() const { return table4d_; }
+const std::vector<std::vector<std::shared_ptr<Table5D> > >&
+  Configuration::table5d() const { return table5d_; }
+const std::vector<std::vector<std::shared_ptr<Table6D> > >&
+  Configuration::table6d() const { return table6d_; }
+std::vector<std::vector<std::shared_ptr<Table3D> > > *
+  Configuration::get_table3d() { return &table3d_; }
+std::vector<std::vector<std::shared_ptr<Table4D> > > *
+  Configuration::get_table4d() { return &table4d_; }
+std::vector<std::vector<std::shared_ptr<Table5D> > > *
+  Configuration::get_table5d() { return &table5d_; }
+std::vector<std::vector<std::shared_ptr<Table6D> > > *
+  Configuration::get_table6d() { return &table6d_; }
+
+int Configuration::num_groups() const {
+  return static_cast<int>(group_selects_.size());
+}
+
+const std::vector<std::shared_ptr<Select> >& Configuration::group_selects()
+    const {
+  return group_selects_;
+}
+
+const Select& Configuration::group_select(const int index) const {
+  return *group_selects_[index];
+}
+
+const Select& Configuration::selection_of_all() const {
+  return *group_selects_[0];
 }
 
 }  // namespace feasst

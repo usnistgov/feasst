@@ -2,8 +2,8 @@
 #ifndef FEASST_SYSTEM_SYNCHRONIZE_DATA_H_
 #define FEASST_SYSTEM_SYNCHRONIZE_DATA_H_
 
+#include <utility>
 #include <vector>
-#include <sstream>
 
 namespace feasst {
 
@@ -50,10 +50,12 @@ class SynchronizeData {
   std::vector<std::vector<double> > * get_dble_2D() { return &dble_2D_; }
 
   /// Return 3D data.
-  const std::vector<std::vector<std::vector<double> > >& dble_3D() const { return dble_3D_; }
+  const std::vector<std::vector<std::vector<double> > >& dble_3D() const {
+    return dble_3D_; }
 
   /// Get 3D data.
-  std::vector<std::vector<std::vector<double> > > * get_dble_3D() { return &dble_3D_; }
+  std::vector<std::vector<std::vector<double> > > * get_dble_3D() {
+    return &dble_3D_; }
 
   /// Return 5D data.
   const vec5& dble_5D() const { return dble_5D_; }

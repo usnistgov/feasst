@@ -1,10 +1,16 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/trial_select.h"
 #include "chain/include/perturb_site_type.h"
 
 namespace feasst {
 
 PerturbSiteType::PerturbSiteType(argtype args) : PerturbSiteType(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbSiteType::PerturbSiteType(argtype * args) : Perturb(args) {
   class_name_ = "PerturbSiteType";
@@ -96,6 +102,10 @@ void PerturbSiteType::serialize(std::ostream& ostr) const {
   serialize_perturb_(ostr);
   feasst_serialize_version(953, ostr);
   feasst_serialize(new_site_type_, ostr);
+}
+
+void PerturbSiteType::precompute(TrialSelect * select, System * system) {
+  select->set_ghost(true);
 }
 
 }  // namespace feasst

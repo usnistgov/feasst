@@ -2,13 +2,19 @@
 #ifndef FEASST_SYSTEM_MODEL_TWO_BODY_TABLE_H_
 #define FEASST_SYSTEM_MODEL_TWO_BODY_TABLE_H_
 
-#include "utils/include/arguments.h"
-#include "configuration/include/model_params.h"
+#include <vector>
+#include <memory>
+#include <map>
+#include <string>
 #include "system/include/model_two_body.h"
 
 namespace feasst {
 
+class CutOff;
+class ModelParams;
 class Table1D;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Tabulate two-body models and interpolate their interactions during the
@@ -57,8 +63,6 @@ class ModelTwoBodyTable : public ModelTwoBody {
 
   /// Return the tabular potential.
   const Table1D& table(const int type1, const int type2) const {
-    INFO(table_.size());
-    INFO(table_[type1].size());
     return *table_[type1][type2]; }
 
   double energy(
@@ -71,7 +75,7 @@ class ModelTwoBodyTable : public ModelTwoBody {
     return std::make_shared<ModelTwoBodyTable>(istr); }
   void serialize(std::ostream& ostr) const override;
   explicit ModelTwoBodyTable(std::istream& istr);
-  virtual ~ModelTwoBodyTable() {}
+  virtual ~ModelTwoBodyTable();
 
  protected:
   void serialize_model_two_body_table_(std::ostream& ostr) const;
@@ -79,7 +83,7 @@ class ModelTwoBodyTable : public ModelTwoBody {
  private:
   double hard_sphere_threshold_inv_sq_;
   std::vector<std::vector<std::shared_ptr<Table1D> > > table_;
-  CutOff cutoff_inv_sq_;
+  std::unique_ptr<CutOff> cutoff_inv_sq_;
 };
 
 inline std::shared_ptr<ModelTwoBodyTable> MakeModelTwoBodyTable(

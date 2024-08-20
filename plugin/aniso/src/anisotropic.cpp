@@ -1,4 +1,3 @@
-#include <cmath>
 #include "utils/include/serialize.h"
 #include "aniso/include/anisotropic.h"
 

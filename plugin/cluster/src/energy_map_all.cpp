@@ -1,7 +1,10 @@
 #include "utils/include/utils.h"  // find_in_list
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
 #include "configuration/include/configuration.h"
 #include "cluster/include/energy_map_all.h"
@@ -23,7 +26,7 @@ EnergyMapAll::EnergyMapAll(argtype * args) : EnergyMap(args) {
   data_.get_dble_6D()->resize(2);
 }
 EnergyMapAll::EnergyMapAll(argtype args) : EnergyMapAll(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 EnergyMapAll::EnergyMapAll(std::istream& istr) : EnergyMap(istr) {
@@ -196,22 +199,22 @@ bool EnergyMapAll::is_cluster_(
 
 void EnergyMapAll::check(const Configuration& config) const {
   if (!is_equal(map(), map_new(), NEAR_ZERO)) {
-    DEBUG(feasst_str(map()));
-    DEBUG(feasst_str(map_new()));
+//    DEBUG(feasst_str(map()));
+//    DEBUG(feasst_str(map_new()));
     ERROR("maps are not equal");
   }
 
   // check if ghost particles are in the neighbor list
   for (const int part : config.group_select(0).particle_indices()) {
-    for (const Select& ghost : config.ghosts()) {
-      for (int ghost_part : ghost.particle_indices()) {
+    for (const std::shared_ptr<Select>& ghost : config.ghosts()) {
+      for (int ghost_part : ghost->particle_indices()) {
         if (ghost_part < static_cast<int>(map()[part].size())) {
           for (int n_site = 0; n_site < static_cast<int>(map()[part][ghost_part].size()); ++n_site) {
             for (int g_site = 0; g_site < static_cast<int>(map()[part][ghost_part][n_site].size()); ++g_site) {
               if (map()[part][ghost_part][n_site][g_site][0] != 0) {
                 INFO("existing particles: " << config.group_select(0).str());
-                for (const Select& ghost2 : config.ghosts()) {
-                  INFO("ghosts: " << ghost2.str());
+                for (const std::shared_ptr<Select>& ghost2 : config.ghosts()) {
+                  INFO("ghosts: " << ghost2->str());
                 }
                 FATAL("ghost particle " << ghost_part << " in map for p " << part << " s " << n_site);
               }

@@ -1,4 +1,9 @@
+#include <cmath>
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
 #include "steppers/include/heat_capacity.h"
 
 namespace feasst {
@@ -17,7 +22,7 @@ HeatCapacity::HeatCapacity(argtype * args) : Analyze(args) {
   energy_ = *MakeAccumulator({{"num_moments", "3"}});
 }
 HeatCapacity::HeatCapacity(argtype args) : HeatCapacity(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void HeatCapacity::initialize(Criteria * criteria,

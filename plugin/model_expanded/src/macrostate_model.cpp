@@ -1,4 +1,6 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "math/include/histogram.h"
 #include "model_expanded/include/macrostate_model.h"
 
 namespace feasst {
@@ -10,11 +12,11 @@ MacrostateModel::MacrostateModel(const Histogram& histogram,
 }
 MacrostateModel::MacrostateModel(const Histogram& histogram,
     argtype args) : MacrostateModel(histogram, &args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 MacrostateModel::MacrostateModel(argtype args) :
     MacrostateModel(Histogram(&args), &args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapMacrostateModel {

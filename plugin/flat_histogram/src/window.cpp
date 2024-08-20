@@ -1,6 +1,8 @@
 #include <vector>
 #include <cmath>
+#include "utils/include/io.h"
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "math/include/utils_math.h"
 #include "flat_histogram/include/window.h"
 #include "threads/include/thread_omp.h"
@@ -8,7 +10,7 @@
 namespace feasst {
 
 Window::Window(argtype args) : Window(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 Window::Window(argtype * args) {
   minimum_ = integer("minimum", args, 0);

@@ -50,7 +50,8 @@ class AnalyzeFactory : public Analyze {
     const System& system,
     const TrialFactory& trial_factory) override;
 
-  Analyze * get_analyze(const int index) override { return analyzers_[index].get(); }
+  Analyze * get_analyze(const int index) override {
+    return analyzers_[index].get(); }
 
   // serialize
   std::string class_name() const override {

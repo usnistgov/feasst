@@ -2,10 +2,11 @@
 #define FEASST_CHAIN_TRIAL_PARTICLE_PIVOT_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_move.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /// Rigidly rotate or pivot a random particle about one of its sites.
 class TrialParticlePivot : public TrialMove {

@@ -1,6 +1,7 @@
 #include "utils/include/debug.h"
 #include "utils/include/io.h"
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/arguments.h"
 #include "math/include/minimize.h"
 
 namespace feasst {
@@ -28,7 +29,7 @@ Minimize::Minimize(argtype args) {
   tolerance_ = dble("tolerance", &args);
   set_lower(dble("lower", &args));
   set_upper(dble("upper", &args));
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Minimize::serialize_solver_(std::ostream& ostr) const {

@@ -1,8 +1,14 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "math/include/histogram.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 
 namespace feasst {
 
+MacrostateNumParticles::MacrostateNumParticles(argtype * args) :
+    MacrostateNumParticles(Histogram(args), args) {}
 MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
     argtype * args) : Macrostate(histogram, args) {
   class_name_ = "MacrostateNumParticles";
@@ -12,11 +18,11 @@ MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
 }
 MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
     argtype args) : MacrostateNumParticles(histogram, &args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 MacrostateNumParticles::MacrostateNumParticles(argtype args) :
     MacrostateNumParticles(Histogram(&args), &args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 std::shared_ptr<Macrostate> MacrostateNumParticles::create(argtype * args) const {
   return std::make_shared<MacrostateNumParticles>(args);

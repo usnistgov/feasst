@@ -3,6 +3,7 @@
 #define FEASST_STEPPERS_PAIR_DISTRIBUTION_H_
 
 #include "math/include/histogram.h"
+#include "configuration/include/model_params.h"
 #include "system/include/model_two_body.h"
 #include "system/include/visit_model_intra.h"
 #include "monte_carlo/include/modify.h"

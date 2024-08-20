@@ -3,13 +3,15 @@
 #define FEASST_MONTE_CARLO_MODIFY_H_
 
 #include <memory>
+#include <vector>
 #include <string>
 #include <map>
-#include "math/include/random.h"
 #include "monte_carlo/include/stepper.h"
-#include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+class Random;
+class TrialFactory;
 
 /**
   Perform an action every so many trials that may change the system, criteria

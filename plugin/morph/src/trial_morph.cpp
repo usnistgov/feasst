@@ -1,7 +1,5 @@
-#include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
-#include "math/include/random.h"
-#include "configuration/include/domain.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "morph/include/perturb_particle_type.h"
 #include "morph/include/compute_morph.h"
@@ -47,7 +45,7 @@ TrialMorph::TrialMorph(argtype * args) : Trial(args) {
   set(MakeComputeMorph());
 }
 TrialMorph::TrialMorph(argtype args) : TrialMorph(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialMorph::TrialMorph(std::istream& istr) : Trial(istr) {

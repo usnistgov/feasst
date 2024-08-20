@@ -1,15 +1,17 @@
-
 #include <algorithm>
-#include "flat_histogram/include/wang_landau.h"
 #include "utils/include/serialize.h"
-#include "math/include/utils_math.h"
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
+#include "math/include/histogram.h"
+#include "math/include/utils_math.h"
+#include "flat_histogram/include/ln_probability.h"
+#include "flat_histogram/include/wang_landau.h"
 #include "flat_histogram/include/macrostate.h"
 
 namespace feasst {
 
 WangLandau::WangLandau(argtype args) : WangLandau(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 WangLandau::WangLandau(argtype * args) {
   class_name_ = "WangLandau";
@@ -18,7 +20,9 @@ WangLandau::WangLandau(argtype * args) {
   add_to_ln_probability_ = dble("add_to_ln_probability", args, 1.);
   reduce_ln_probability_ = dble("reduce_ln_probability", args, 0.5);
   min_visit_per_macro_ = integer("min_visit_per_macro", args, 1e3);
+  ln_prob_ = std::make_unique<LnProbability>();
 }
+WangLandau::~WangLandau() {}
 
 void WangLandau::flatness_update_() {
   DEBUG(feasst_str(visited_states_));
@@ -26,7 +30,7 @@ void WangLandau::flatness_update_() {
   add_to_ln_probability_ *= reduce_ln_probability_;
   DEBUG("add_to_ln_probability_ " << add_to_ln_probability_);
   ++num_flatness_;
-  ln_prob_.normalize();
+  ln_prob_->normalize();
   if (num_flatness_ >= min_flatness_) {
     set_complete_();
   }
@@ -42,7 +46,7 @@ void WangLandau::infrequent_update(const Macrostate& macro) {
       (min_visit >= flatness_threshold_ * average)) {
     flatness_update_();
   }
-  ln_prob_.normalize();
+  ln_prob_->normalize();
 }
 
 void WangLandau::update(
@@ -53,12 +57,12 @@ void WangLandau::update(
     const bool is_endpoint,
     const Macrostate& macro) {
   int bin = bin_(macrostate_old, macrostate_new, is_accepted);
-  ln_prob_.add(bin, add_to_ln_probability_);
+  ln_prob_->add(bin, add_to_ln_probability_);
   ++visited_states_[bin];
 }
 
 void WangLandau::resize(const Histogram& histogram) {
-  ln_prob_.resize(histogram.size());
+  ln_prob_->resize(histogram.size());
   visited_states_.resize(histogram.size());
 }
 
@@ -83,9 +87,9 @@ std::string WangLandau::write_per_bin(const int bin) const {
 
 void WangLandau::set_ln_prob(
     const LnProbability& ln_prob) {
-  ASSERT(ln_prob.size() == ln_prob_.size(), "size mismatch: " <<
-    ln_prob.size() << " " << ln_prob_.size());
-  ln_prob_ = ln_prob;
+  ASSERT(ln_prob.size() == ln_prob_->size(), "size mismatch: " <<
+    ln_prob.size() << " " << ln_prob_->size());
+  ln_prob_ = std::make_unique<LnProbability>(ln_prob);
 }
 
 class MapWangLandau {
@@ -101,21 +105,21 @@ static MapWangLandau mapper_ = MapWangLandau();
 WangLandau::WangLandau(std::istream& istr) : Bias(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 247, "mismatch version: " << version);
-  feasst_deserialize_fstobj(&(ln_prob_), istr);
-  feasst_deserialize(&(add_to_ln_probability_), istr);
-  feasst_deserialize(&(reduce_ln_probability_), istr);
-  feasst_deserialize(&(min_visit_per_macro_), istr);
-  feasst_deserialize(&(flatness_threshold_), istr);
-  feasst_deserialize(&(visited_states_), istr);
-  feasst_deserialize(&(num_flatness_), istr);
-  feasst_deserialize(&(min_flatness_), istr);
+  feasst_deserialize(ln_prob_, istr);
+  feasst_deserialize(&add_to_ln_probability_, istr);
+  feasst_deserialize(&reduce_ln_probability_, istr);
+  feasst_deserialize(&min_visit_per_macro_, istr);
+  feasst_deserialize(&flatness_threshold_, istr);
+  feasst_deserialize(&visited_states_, istr);
+  feasst_deserialize(&num_flatness_, istr);
+  feasst_deserialize(&min_flatness_, istr);
 }
 
 void WangLandau::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_bias_(ostr);
   feasst_serialize_version(247, ostr);
-  feasst_serialize_fstobj(ln_prob_, ostr);
+  feasst_serialize(ln_prob_, ostr);
   feasst_serialize(add_to_ln_probability_, ostr);
   feasst_serialize(reduce_ln_probability_, ostr);
   feasst_serialize(min_visit_per_macro_, ostr);
@@ -128,6 +132,10 @@ void WangLandau::serialize(std::ostream& ostr) const {
 void WangLandau::set_num_iterations_to_complete(const int flatness) {
   min_flatness_ = flatness;
   if (num_flatness_ < min_flatness_) set_incomplete_();
+}
+
+const LnProbability& WangLandau::ln_prob() const {
+  return *ln_prob_;
 }
 
 }  // namespace feasst

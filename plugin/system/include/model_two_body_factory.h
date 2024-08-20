@@ -69,7 +69,8 @@ class ModelTwoBodyFactory : public ModelTwoBody {
   std::vector<std::shared_ptr<Model> > models_;
 };
 
-inline std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory(argtype args = argtype()) {
+inline std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory(
+    argtype args = argtype()) {
   return std::make_shared<ModelTwoBodyFactory>(args);
 }
 

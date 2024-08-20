@@ -2,7 +2,6 @@
 #define FEASST_MONTE_CARLO_TRIAL_ADD_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 
 namespace feasst {

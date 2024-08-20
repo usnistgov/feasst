@@ -1,4 +1,5 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "model_expanded/include/model_expanded.h"
 
 namespace feasst {
@@ -18,7 +19,7 @@ ModelExpanded::ModelExpanded(argtype * args) : ModelTwoBodyFactory(args) {
   model_index_ = integer("model_index", args, 0);
 }
 ModelExpanded::ModelExpanded(argtype args) : ModelExpanded(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 double ModelExpanded::energy(

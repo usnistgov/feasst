@@ -1,6 +1,15 @@
 #include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "chain/include/trial_grow_linear.h"
+#include "monte_carlo/include/perturb_distance.h"
+#include "monte_carlo/include/trial_select_particle.h"
+#include "monte_carlo/include/trial_select_bond.h"
+#include "monte_carlo/include/perturb_anywhere.h"
 #include "monte_carlo/include/trial_compute_move.h"
 
 namespace feasst {
@@ -51,7 +60,7 @@ void TrialGrowLinear::precompute(Criteria * criteria, System * system) {
     std::make_shared<TrialSelectParticle>(&first_args),
     std::make_shared<PerturbAnywhere>(),
     &first_args);
-  FEASST_CHECK_ALL_USED(first_args);
+  feasst_check_all_used(first_args);
 
   // for the rest, grow based on bond length only
   for (int site = 1; site < num_sites; ++site) {
@@ -63,7 +72,7 @@ void TrialGrowLinear::precompute(Criteria * criteria, System * system) {
       std::make_shared<PerturbDistance>(&args),
       &args
     );
-    FEASST_CHECK_ALL_USED(args);
+    feasst_check_all_used(args);
   }
 
   // precompute stages

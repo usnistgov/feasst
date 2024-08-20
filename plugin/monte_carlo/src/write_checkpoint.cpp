@@ -1,6 +1,4 @@
-
-#include <fstream>
-#include <sstream>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "utils/include/timer.h"
@@ -14,7 +12,7 @@ WriteCheckpoint::WriteCheckpoint(argtype * args) {
   class_name_ = "WriteCheckpoint";
 }
 WriteCheckpoint::WriteCheckpoint(argtype args) : WriteCheckpoint(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapWriteCheckpoint {

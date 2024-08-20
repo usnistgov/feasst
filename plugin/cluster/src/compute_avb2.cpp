@@ -1,12 +1,14 @@
 #include <cmath>
-#include "monte_carlo/include/trial_select.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/trial_select.h"
 #include "cluster/include/compute_avb2.h"
 
 namespace feasst {
 
 ComputeAVB2::ComputeAVB2(argtype args) : ComputeAVB2(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 ComputeAVB2::ComputeAVB2(argtype * args) : TrialComputeMove(args) {
   class_name_ = "ComputeAVB2";

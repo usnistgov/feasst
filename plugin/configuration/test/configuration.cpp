@@ -154,6 +154,16 @@ TEST(Configuration, bonds_spce) {
   EXPECT_EQ(0, config.particle(0).num_bonds());
 }
 
+TEST(Configuration, order) {
+  auto config = MakeConfiguration({{"cubic_side_length", "7"},
+                                   {"particle_type0", "../particle/spce.fstprt"}});
+  config->add_particle_of_type(0);
+  TRY(
+    config->add_particle_type("../particle/lj.fstprt");
+    CATCH_PHRASE("types cannot be added after particles");
+  );
+}
+
 TEST(Configuration, group) {
   auto config = MakeConfiguration({{"cubic_side_length", "7"}});
   TRY(
@@ -163,12 +173,6 @@ TEST(Configuration, group) {
   );
   config->add_particle_type("../particle/spce.fstprt");
   config->add_particle_type("../particle/lj.fstprt");
-  TRY(
-    Configuration config_err(*config);
-    config_err.add_particle_of_type(0);
-    config_err.add_particle_type("../particle/lj.fstprt");
-    CATCH_PHRASE("types cannot be added after particles");
-  );
   config->add(MakeGroup({{"site_type", "0"}, {"particle_type", "0"}}), "O");
   config->add(MakeGroup({{"site_type", "0"}, {"particle_type", "1"}}), "H");
   config->add(MakeGroup({{"site_type", "2"}, {"particle_type", "1"}}), "none");

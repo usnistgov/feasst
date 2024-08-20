@@ -2,6 +2,7 @@
 #ifndef FEASST_MATH_SOLVER_NEWTON_RAPHSON_H_
 #define FEASST_MATH_SOLVER_NEWTON_RAPHSON_H_
 
+#include <map>
 #include <string>
 #include <memory>
 #include <vector>
@@ -9,16 +10,16 @@
 
 namespace feasst {
 
+typedef std::map<std::string, std::string> argtype;
+
 /**
   Find roots for the continuous function f(x) within the interval [a, b]
   assuming that f(a)*f(b)<0,
  */
 class SolverNewtonRaphson : public Solver {
  public:
-  SolverNewtonRaphson(const argtype& args = argtype());
-
+  explicit SolverNewtonRaphson(argtype args = argtype());
   double root(Formula * formula) override;
-
   std::shared_ptr<Solver> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit SolverNewtonRaphson(std::istream& istr);

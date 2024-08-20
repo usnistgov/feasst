@@ -1,8 +1,14 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/select.h"
+#include "configuration/include/physical_constants.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/particle.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/model_params.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/visit_configuration.h"
 #include "charge/include/slab_correction.h"
 
@@ -24,7 +30,7 @@ SlabCorrection::SlabCorrection(argtype * args) {
   data_.get_dble_1D()->resize(1);
 }
 SlabCorrection::SlabCorrection(argtype args) : SlabCorrection(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void SlabCorrection::serialize(std::ostream& ostr) const {

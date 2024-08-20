@@ -3,10 +3,11 @@
 #define FEASST_CLUSTER_TRIAL_ADD_AVB_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
 Attempt to add a particle of type "a" (for add) with a bias for site_index_a

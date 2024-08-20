@@ -4,7 +4,6 @@
 
 #include <memory>
 #include <random>
-#include <sstream>
 #include "math/include/random.h"
 
 namespace feasst {

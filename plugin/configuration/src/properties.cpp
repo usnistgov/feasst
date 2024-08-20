@@ -1,4 +1,5 @@
 #include "configuration/include/properties.h"
+#include "utils/include/io.h"
 #include "utils/include/debug.h"
 #include "utils/include/utils.h"
 #include "utils/include/serialize.h"

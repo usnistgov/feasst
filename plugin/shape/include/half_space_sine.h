@@ -2,11 +2,12 @@
 #ifndef FEASST_SHAPE_HALF_SPACE_SINE_H_
 #define FEASST_SHAPE_HALF_SPACE_SINE_H_
 
-#include "utils/include/arguments.h"
 #include "shape/include/formula_sine_wave.h"
 #include "shape/include/half_space.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Solver;
 class SineDistDeriv;

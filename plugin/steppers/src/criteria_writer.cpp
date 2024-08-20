@@ -1,11 +1,13 @@
-#include "steppers/include/criteria_writer.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "monte_carlo/include/criteria.h"
+#include "steppers/include/criteria_writer.h"
 
 namespace feasst {
 
 CriteriaWriter::CriteriaWriter(argtype * args) : AnalyzeWriteOnly(args) {}
 CriteriaWriter::CriteriaWriter(argtype args) : CriteriaWriter(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapCriteriaWriter {

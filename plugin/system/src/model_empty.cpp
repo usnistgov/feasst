@@ -1,13 +1,13 @@
-#include "system/include/model_empty.h"
 #include "utils/include/serialize.h"
+#include "system/include/model_empty.h"
 
 namespace feasst {
 
 class MapModelEmpty {
  public:
   MapModelEmpty() {
-    ModelEmpty().deserialize_map()["ModelEmpty"]
-      = std::make_shared<ModelEmpty>();
+    auto obj = MakeModelEmpty();
+    obj->deserialize_map()["ModelEmpty"] = obj;
   }
 };
 

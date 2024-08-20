@@ -1,6 +1,4 @@
-
 #include <fstream>
-#include <sstream>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -8,6 +6,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <iostream>
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
@@ -23,7 +22,7 @@ Server::Server(argtype * args) {
   ASSERT(buffer_size_ % 2 == 0, "buffer_size must be even.");
 }
 Server::Server(argtype args) : Server(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 Server::~Server() {

@@ -6,6 +6,7 @@
 #include "math/include/histogram.h"
 #include "monte_carlo/include/modify.h"
 #include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/always_reject.h"
 
 namespace feasst {

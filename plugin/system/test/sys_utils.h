@@ -3,7 +3,12 @@
 #define FEASST_TEST_SYSTEM_UTILS_H_
 
 #include "utils/include/arguments.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/group.h"
+#include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "system/include/potential.h"
 
 namespace feasst {
 

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <iostream>
 #include "feasst/include/feasst.h"
 
 /**
@@ -16,17 +17,17 @@ int main(int argc, char ** argv) {
 //  ss << line;
 //  const std::string line
 
-  feasst::MonteCarlo mc;
+  std::unique_ptr<feasst::MonteCarlo> mc;
   feasst::CollectionMatrixSplice cms;
   bool is_mc = false;
   try {
     feasst::MakeCheckpoint({{"checkpoint_file", std::string(argv[1])}})->read(&cms);
   } catch (const feasst::CustomException& e) {
-    feasst::MakeCheckpoint({{"checkpoint_file", std::string(argv[1])}})->read(&mc);
+    feasst::MakeCheckpoint({{"checkpoint_file", std::string(argv[1])}})->read_unique(mc);
     is_mc = true;
   }
   if (is_mc) {
-    mc.resume();
+    mc->resume();
   } else {
     cms.run_until_all_are_complete();
   }

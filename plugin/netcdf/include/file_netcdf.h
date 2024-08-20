@@ -2,11 +2,11 @@
 #ifndef FEASST_NETCDF_FILE_NETCDF_H_
 #define FEASST_NETCDF_FILE_NETCDF_H_
 
+#include <memory>
+#include <vector>
 #include <string>
 #include <fstream>
-#include <sstream>
 #include <netcdf>
-#include "utils/include/arguments.h"
 #include "configuration/include/configuration.h"
 #include "configuration/include/visit_configuration.h"
 
@@ -83,15 +83,12 @@ class FileNETCDF {
   const std::shared_ptr<netCDF::NcFile> file_parse_(argtype * args) {
     const std::string file_name = str("file_name", args, "");
     if (!file_name.empty()) {
-      return std::make_shared<netCDF::NcFile>(file_name, netCDF::NcFile::replace);
+      return std::make_shared<netCDF::NcFile>(file_name,
+                                              netCDF::NcFile::replace);
     }
     return NULL;
   }
 };
-
-//inline std::shared_ptr<FileNETCDF> MakeFileNETCDF(argtype args = argtype()) {
-//  return std::make_shared<FileNETCDF>(args);
-//}
 
 // Utility class to print XYZ files from selection.
 class PrinterNETCDF : public LoopConfigOneBody {

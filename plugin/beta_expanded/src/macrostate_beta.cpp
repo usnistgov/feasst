@@ -1,4 +1,8 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "math/include/histogram.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
 #include "beta_expanded/include/macrostate_beta.h"
 
 namespace feasst {
@@ -9,12 +13,14 @@ MacrostateBeta::MacrostateBeta(const Histogram& histogram,
 }
 MacrostateBeta::MacrostateBeta(const Histogram& histogram,
     argtype args) : Macrostate(histogram, args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 MacrostateBeta::MacrostateBeta(argtype args) :
     MacrostateBeta(Histogram(&args), &args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
+MacrostateBeta::MacrostateBeta(argtype * args) :
+  MacrostateBeta(Histogram(args), args) {}
 
 class MapMacrostateBeta {
  public:
@@ -45,6 +51,12 @@ void MacrostateBeta::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_macrostate_(ostr);
   feasst_serialize_version(1048, ostr);
+}
+
+double MacrostateBeta::value(const System& system,
+    const Criteria& criteria,
+    const Acceptance& acceptance) const {
+  return system.thermo_params().beta();
 }
 
 }  // namespace feasst

@@ -9,12 +9,8 @@ namespace feasst {
 /// A more efficient version of PerturbCrankshaft for small molecules.
 class PerturbCrankshaftSmall : public PerturbRotate {
  public:
-  PerturbCrankshaftSmall(argtype args = argtype()) : PerturbCrankshaftSmall(&args) {
-    FEASST_CHECK_ALL_USED(args);
-  }
-  PerturbCrankshaftSmall(argtype * args) : PerturbRotate(args) {
-    class_name_ = "PerturbCrankshaftSmall";
-  }
+  explicit PerturbCrankshaftSmall(argtype args = argtype());
+  explicit PerturbCrankshaftSmall(argtype * args);
 
   /// Set the pivot and axis of rotation by the anchors.
   /// Select rotation angle randomly, bounded by tunable parameter.

@@ -1,6 +1,7 @@
 #include <cmath>
 #include <string>
 #include "utils/test/utils.h"
+#include "configuration/test/config_utils.h"
 #include "configuration/include/configuration.h"
 
 namespace feasst {

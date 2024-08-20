@@ -118,7 +118,8 @@ double str_to_double(const std::string& str) {
   return double_value;
 }
 
-bool replace(const std::string& from, const std::string& to, std::string * str) {
+bool replace(const std::string& from, const std::string& to,
+    std::string * str) {
   size_t start_pos = str->find(from);
   if (start_pos == std::string::npos) {
     return false;

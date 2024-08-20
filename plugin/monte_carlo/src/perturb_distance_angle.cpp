@@ -1,14 +1,22 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/constants.h"  // PI
 #include "math/include/random.h"
 #include "math/include/utils_math.h"  // round
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/tunable.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
 
 namespace feasst {
 
 PerturbDistanceAngle::PerturbDistanceAngle(argtype args)
   : PerturbDistanceAngle(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbDistanceAngle::PerturbDistanceAngle(argtype * args)
   : PerturbDistance(args) {

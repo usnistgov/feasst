@@ -1,4 +1,8 @@
 #include "utils/include/debug.h"
+#include "configuration/include/configuration.h"
+#include "configuration/include/select.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/perturb_move.h"
 
 namespace feasst {

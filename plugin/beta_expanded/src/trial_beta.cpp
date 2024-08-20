@@ -1,4 +1,5 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "beta_expanded/include/select_nothing.h"
 #include "beta_expanded/include/perturb_beta.h"
 #include "beta_expanded/include/compute_beta.h"
@@ -26,7 +27,7 @@ TrialBeta::TrialBeta(argtype * args) : Trial(args) {
   set(MakeComputeBeta());
 }
 TrialBeta::TrialBeta(argtype args) : TrialBeta(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialBeta::TrialBeta(std::istream& istr) : Trial(istr) {

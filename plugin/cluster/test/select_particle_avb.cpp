@@ -1,6 +1,13 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "system/include/visit_model_cell.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/perturb_translate.h"
 #include "cluster/include/select_particle_avb.h"
@@ -21,7 +28,7 @@ TEST(SelectParticleAVB, serialize) {
       config->update_positions({{0, 0, 0},
                                 {-1.25, 0, 0},
                                 {2.9, 0, 0}});
-      system.add(*config);
+      system.add(config);
     }
     system.add(MakePotential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

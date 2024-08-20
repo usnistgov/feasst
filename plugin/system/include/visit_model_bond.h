@@ -2,11 +2,14 @@
 #ifndef FEASST_SYSTEM_VISIT_MODEL_BOND_H_
 #define FEASST_SYSTEM_VISIT_MODEL_BOND_H_
 
+#include <map>
+#include <string>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "system/include/visit_model.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Interactions between bonded sites using "inter"-like models are computed.

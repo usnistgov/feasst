@@ -19,27 +19,21 @@ class AnalyzeData {
 /// Obtain Accumulator average in Analyze.
 class AccumulatorAverage : public AnalyzeData {
  public:
-  double get(const Analyze& analyze) const override {
-    return analyze.accumulator().average();
-  }
+  double get(const Analyze& analyze) const override;
   virtual ~AccumulatorAverage() {}
 };
 
 /// Obtain Accumulator sum
 class AccumulatorSum : public AnalyzeData {
  public:
-  double get(const Analyze& analyze) const override {
-    return analyze.accumulator().sum();
-  }
+  double get(const Analyze& analyze) const override;
   virtual ~AccumulatorSum() {}
 };
 
 /// Obtain Accumulator sum of squared
 class AccumulatorSumOfSquared : public AnalyzeData {
  public:
-  double get(const Analyze& analyze) const override {
-    return analyze.accumulator().sum_of_squared();
-  }
+  double get(const Analyze& analyze) const override;
   virtual ~AccumulatorSumOfSquared() {}
 };
 
@@ -47,10 +41,7 @@ class AccumulatorSumOfSquared : public AnalyzeData {
 class AccumulatorMoment : public AnalyzeData {
  public:
   AccumulatorMoment(const int moment = 0) { moment_ = moment; }
-  double get(const Analyze& analyze) const override {
-    const Accumulator& acc = analyze.accumulator();
-    return acc.moment(moment_)/acc.num_values();
-  }
+  double get(const Analyze& analyze) const override;
   virtual ~AccumulatorMoment() {}
  private:
   int moment_;

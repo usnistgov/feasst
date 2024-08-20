@@ -18,8 +18,8 @@ class PerturbAnywhere : public PerturbMove {
                     System * system,
                     TrialSelect * select);
 
-  void move(const bool is_position_held, System * system, TrialSelect * select,
-            Random * random, Acceptance * acceptance) override;
+  void move(const bool is_position_held, System * system,  // NOLINT
+    TrialSelect * select, Random * random, Acceptance * acceptance) override;
 
   // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;

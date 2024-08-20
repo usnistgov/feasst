@@ -2,6 +2,8 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_TRANSLATE_H_
 #define FEASST_MONTE_CARLO_PERTURB_TRANSLATE_H_
 
+#include <memory>
+#include "math/include/position.h"
 #include "monte_carlo/include/perturb_move.h"
 
 namespace feasst {
@@ -47,8 +49,8 @@ class PerturbTranslate : public PerturbMove {
 
   /// Move the selected particles.
   /// The particles are translated by +/- a maximum of the Tunable parameter.
-  void move(const bool is_position_held, System * system, TrialSelect * select,
-            Random * random, Acceptance * acceptance) override;
+  void move(const bool is_position_held, System * system,  // NOLINT
+    TrialSelect * select, Random * random, Acceptance * acceptance) override;
 
   // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;

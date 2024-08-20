@@ -1,11 +1,12 @@
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "monte_carlo/include/action.h"
 
 namespace feasst {
 
 Action::Action(argtype * args) {}
-Action::Action(argtype args) : Action(&args) { FEASST_CHECK_ALL_USED(args); }
+Action::Action(argtype args) : Action(&args) { feasst_check_all_used(args); }
 
 std::map<std::string, std::shared_ptr<Action> >& Action::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Action> >* ans =

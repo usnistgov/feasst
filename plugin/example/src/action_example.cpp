@@ -1,8 +1,11 @@
 
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "utils/include/timer.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/analyze_factory.h"
+#include "monte_carlo/include/modify_factory.h"
 #include "steppers/include/seek_analyze.h"
 #include "steppers/include/seek_modify.h"
 #include "example/include/action_example.h"
@@ -15,7 +18,7 @@ ActionExample::ActionExample(argtype * args) {
   modify_name_ = str("modify_name", args, "");
 }
 ActionExample::ActionExample(argtype args) : ActionExample(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapActionExample {

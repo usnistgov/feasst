@@ -1,4 +1,7 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
 #include "patch/include/movie_patch.h"
 
 namespace feasst {
@@ -19,7 +22,7 @@ MoviePatch::MoviePatch(argtype * args) : AnalyzeWriteOnly(args) {
   args->insert({"append", "true"}); // always append
   xyz_ = FileXYZPatch(args);
 }
-MoviePatch::MoviePatch(argtype args) : MoviePatch(&args) { FEASST_CHECK_ALL_USED(args); }
+MoviePatch::MoviePatch(argtype args) : MoviePatch(&args) { feasst_check_all_used(args); }
 
 void MoviePatch::initialize(Criteria * criteria,
     System * system,

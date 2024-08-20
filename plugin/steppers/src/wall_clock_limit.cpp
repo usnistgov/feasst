@@ -1,5 +1,6 @@
-#include "steppers/include/wall_clock_limit.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "steppers/include/wall_clock_limit.h"
 
 namespace feasst {
 
@@ -19,7 +20,7 @@ WallClockLimit::WallClockLimit(argtype * args) : AnalyzeUpdateOnly(args) {
   set_trials_per(integer("trials_per", args, 1));
 }
 WallClockLimit::WallClockLimit(argtype args) : WallClockLimit(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void WallClockLimit::update(const Criteria& criteria,

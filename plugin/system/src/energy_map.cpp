@@ -1,4 +1,7 @@
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/select.h"
 #include "configuration/include/configuration.h"
 #include "system/include/energy_map.h"
 
@@ -14,7 +17,7 @@ EnergyMap::EnergyMap(argtype * args) {
   default_value_ = dble("default_value", args, 0.);
 }
 EnergyMap::EnergyMap(argtype args) : EnergyMap(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void EnergyMap::clear(
@@ -160,7 +163,7 @@ std::shared_ptr<EnergyMap> EnergyMap::create(argtype * args) const {
 }
 
 std::shared_ptr<EnergyMap> EnergyMap::factory(const std::string name, argtype * args) {
-  DEBUG("name: " << name << ", args: " << str(*args));
+//  DEBUG("name: " << name << ", args: " << str(*args));
   return template_factory(deserialize_map(), name, args);
 }
 

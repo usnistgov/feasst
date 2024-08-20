@@ -1,15 +1,18 @@
 
 .. toctree::
 
-   Cache
    ArgumentParse
    file
-   io
+   Timer
    utils
+   arguments
+   arguments_extra
+   Cache
    CustomException
    debug
-   Timer
-   arguments
-   serialize
-   ProgressReport
+   max_precision
+   io
    Checkpoint
+   ProgressReport
+   serialize
+   serialize_extra

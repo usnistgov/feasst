@@ -3,13 +3,14 @@
 #define FEASST_PATCH_SOLID_OF_REVOLUTION_TABLE_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "math/include/table.h"
 #include "math/include/matrix.h"
 #include "math/include/euler.h"
-#include "system/include/visit_model.h"
+#include "system/include/visit_model_inner.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Model solids of revolution using a tabular potential that is precomputed
@@ -138,7 +139,7 @@ class SolidOfRevolutionTable : public VisitModelInner {
   //@{
 
   /// Return true if there is an energy table.
-  bool is_energy_table(const std::vector<std::vector<Table4D> >& energy) const;
+  bool is_energy_table(const std::vector<std::vector<std::shared_ptr<Table4D> > >& energy) const;
 
   void precompute(Configuration * config) override;
   void compute(

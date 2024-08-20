@@ -1,8 +1,14 @@
 #include <cmath>  // isnan, pow
 #include <string>
 #include <fstream>
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
+#include "utils/include/utils.h"
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/model_two_body.h"
@@ -16,7 +22,7 @@ SolidOfRevolutionTable::SolidOfRevolutionTable(argtype * args) : VisitModelInner
   ignore_energy_ = boolean("ignore_energy", args, false);
 }
 SolidOfRevolutionTable::SolidOfRevolutionTable(argtype args) : SolidOfRevolutionTable(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void SolidOfRevolutionTable::read_table_(const std::string file_name,
@@ -38,10 +44,16 @@ void SolidOfRevolutionTable::read_table_(const std::string file_name,
 
   // size arrays
   site_types_.resize(num_sites);
-  std::vector<std::vector<Table3D> > * inner = config->get_table3d();
-  std::vector<std::vector<Table4D> > * energy = config->get_table4d();
+  std::vector<std::vector<std::shared_ptr<Table3D> > > * inner = config->get_table3d();
+  std::vector<std::vector<std::shared_ptr<Table4D> > > * energy = config->get_table4d();
   resize(num_sites, num_sites, inner);
   resize(num_sites, num_sites, energy);
+  for (int i = 0; i < num_sites; ++i) {
+    for (int j = 0; j < num_sites; ++j) {
+      (*inner)[i][j] = std::make_shared<Table3D>();
+      (*energy)[i][j] = std::make_shared<Table4D>();
+    }
+  }
   resize(num_sites, num_sites, &delta_);
   resize(num_sites, num_sites, &gamma_);
   resize(num_sites, num_sites, &smoothing_distance_);
@@ -82,8 +94,8 @@ void SolidOfRevolutionTable::read_table_(const std::string file_name,
       TRACE("nt2 " << nt2);
       TRACE("np " << np);
       argtype dof = {{"num0", str(nt1)}, {"num1", str(nt2)}, {"num2", str(np)}};
-      Table3D * in = &(*inner)[itype][jtype];
-      Table4D * en = &(*energy)[itype][jtype];
+      Table3D * in = (*inner)[itype][jtype].get();
+      Table4D * en = (*energy)[itype][jtype].get();
       *in = Table3D(dof);
       if (num_z > 0 && !ignore_energy) {
         dof.insert({"num3", str(num_z)});
@@ -144,10 +156,10 @@ void SolidOfRevolutionTable::read_table_(const std::string file_name,
   ASSERT(file.eof(), "improper table file: " << file_name);
 }
 
-bool SolidOfRevolutionTable::is_energy_table(const std::vector<std::vector<Table4D> >& energy) const {
+bool SolidOfRevolutionTable::is_energy_table(const std::vector<std::vector<std::shared_ptr<Table4D> > >& energy) const {
   if (energy.size() > 0) {
     if (energy[0].size() > 0) {
-      if (energy[0][0].num0() > 1) {
+      if (energy[0][0]->num0() > 1) {
         return true;
       }
     }
@@ -161,7 +173,7 @@ void SolidOfRevolutionTable::precompute(Configuration * config) {
   director_index_ = config->model_params().index("director");
   TRACE("director_index_ " << director_index_);
   t2index_.resize(config->num_site_types(), 0);
-  const std::vector<std::vector<Table3D> >& inner = config->table3d();
+  const std::vector<std::vector<std::shared_ptr<Table3D> > >& inner = config->table3d();
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
     ASSERT(type1 < config->num_site_types(),"site type: " << type1 <<
@@ -171,7 +183,7 @@ void SolidOfRevolutionTable::precompute(Configuration * config) {
       const int type2 = site_types_[t2];
       ASSERT(type2 < config->num_site_types(),"site type: " << type2 <<
         " in table > number of site types:" << config->num_site_types());
-      const double cutoff = inner[t1][t2].maximum() + delta_[t1][t2];
+      const double cutoff = inner[t1][t2]->maximum() + delta_[t1][t2];
       // HWH this assumes director types are always following a center type
       config->set_model_param("cutoff", type1-1, type2-1, cutoff);
       config->set_model_param("cutoff", type2-1, type1-1, cutoff);
@@ -359,7 +371,7 @@ void SolidOfRevolutionTable::compute(
                 const int tabtype2 = t2index_[type2tmp];
 
                 // check the inner cutoff.
-                const std::vector<std::vector<Table3D> >& innert = config->table3d();
+                const std::vector<std::vector<std::shared_ptr<Table3D> > >& innert = config->table3d();
                 TRACE("size1 " << innert.size());
                 TRACE("size2 " << innert[0].size());
                 double en = 0.;
@@ -367,7 +379,7 @@ void SolidOfRevolutionTable::compute(
                   en = NEAR_INFINITY;
                   TRACE("hard overlap");
                 } else {
-                  const float inner = innert[tabtype1][tabtype2].linear_interpolation(cosi, cosj, half_cospsi_p_one);
+                  const float inner = innert[tabtype1][tabtype2]->linear_interpolation(cosi, cosj, half_cospsi_p_one);
                   TRACE("inner " << inner);
                   if (squared_distance < inner*inner) {
                     en = NEAR_INFINITY;
@@ -380,7 +392,7 @@ void SolidOfRevolutionTable::compute(
                     if (squared_distance < outer*outer) {
                       const double gamma = gamma_[tabtype1][tabtype2];
                       TRACE("gamma " << gamma);
-                      const std::vector<std::vector<Table4D> >& energyt = config->table4d();
+                      const std::vector<std::vector<std::shared_ptr<Table4D> > >& energyt = config->table4d();
                       if ((std::abs(gamma) < NEAR_ZERO)) {
                         en = -1;
                       } else if (is_energy_table(energyt)) {
@@ -394,7 +406,7 @@ void SolidOfRevolutionTable::compute(
                         }
                         TRACE("z " << z);
                         if (z > 1.) {
-                          en = energyt[tabtype1][tabtype2].linear_interpolation(cosi, cosj, half_cospsi_p_one, 1.);
+                          en = energyt[tabtype1][tabtype2]->linear_interpolation(cosi, cosj, half_cospsi_p_one, 1.);
                           const double dx = outer - std::sqrt(squared_distance);
                           TRACE("dx " << dx);
                           if (dx > smooth && dx < smooth + 1e-5) {
@@ -405,7 +417,7 @@ void SolidOfRevolutionTable::compute(
                           }
                         } else {
                           ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
-                          en = energyt[tabtype1][tabtype2].linear_interpolation(cosi, cosj, half_cospsi_p_one, z);
+                          en = energyt[tabtype1][tabtype2]->linear_interpolation(cosi, cosj, half_cospsi_p_one, z);
                         }
                       } else {
                         return;

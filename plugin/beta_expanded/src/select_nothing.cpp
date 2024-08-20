@@ -1,11 +1,12 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/random.h"
 #include "beta_expanded/include/select_nothing.h"
 
 namespace feasst {
 
 SelectNothing::SelectNothing(argtype args) : SelectNothing(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 SelectNothing::SelectNothing(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectNothing";

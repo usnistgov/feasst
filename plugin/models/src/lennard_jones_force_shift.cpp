@@ -1,7 +1,8 @@
 #include <cmath>
-#include "models/include/lennard_jones_force_shift.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "models/include/lennard_jones_force_shift.h"
 
 namespace feasst {
 
@@ -19,7 +20,7 @@ LennardJonesForceShift::LennardJonesForceShift(argtype * args)
   class_name_ = "LennardJonesForceShift";
 }
 LennardJonesForceShift::LennardJonesForceShift(argtype args) : LennardJonesForceShift(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void LennardJonesForceShift::serialize(std::ostream& ostr) const {

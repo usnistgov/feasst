@@ -1,9 +1,11 @@
-
 #include <fstream>
-#include <sstream>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "patch/include/file_xyz_patch.h"
 
@@ -70,7 +72,7 @@ FileXYZPatch::FileXYZPatch(argtype * args) {
   append_ = boolean("append", args, false);
 }
 FileXYZPatch::FileXYZPatch(argtype args) : FileXYZPatch(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void FileXYZPatch::load(const std::string file_name, Configuration * config) const {
@@ -122,7 +124,7 @@ void FileXYZPatch::write(const std::string file_name,
     file->open(file_name, std::ofstream::app);
   }
   const Domain& domain = config.domain();
-  (*file.get()) << config.group_selects()[group_index_].num_sites() << std::endl
+  (*file.get()) << config.group_select(group_index_).num_sites() << std::endl
     << "-1 ";
   (*file.get()) << std::setprecision(num_places);
   for (int dim = 0; dim < domain.dimension(); ++dim) {

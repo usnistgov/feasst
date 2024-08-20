@@ -1,9 +1,12 @@
 
+#include <cmath>
 #include "utils/include/debug.h"
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
 #include "math/include/utils_math.h"
 #include "math/include/random.h"
 #include "math/include/constants.h"
+#include "math/include/position.h"
+#include "configuration/include/bond.h"
 #include "system/include/bond_three_body.h"
 
 namespace feasst {

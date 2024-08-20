@@ -2,13 +2,22 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_SELECT_H_
 #define FEASST_MONTE_CARLO_TRIAL_SELECT_H_
 
-#include "utils/include/arguments.h"
-#include "math/include/accumulator.h"
-#include "configuration/include/properties.h"
-#include "configuration/include/select.h"
-#include "system/include/system.h"
+#include <memory>
+#include <map>
+#include <string>
 
 namespace feasst {
+
+class Accumulator;
+class Configuration;
+class EnergyMap;
+class Position;
+class Properties;
+class Random;
+class Select;
+class System;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Select the mobile particles and sites that are to be perturbed via trials.
@@ -43,12 +52,10 @@ class TrialSelect {
   int configuration_index() const { return configuration_index_; }
 
   /// Given the system, return the configuration.
-  const Configuration& configuration(const System& system) const {
-    return system.configuration(configuration_index_); }
+  const Configuration& configuration(const System& system) const;
 
   /// Given the system pointer, return the configuration pointer.
-  Configuration * get_configuration(System * system) const {
-    return system->get_configuration(configuration_index_); }
+  Configuration * get_configuration(System * system) const;
 
   /// Set the configuration index.
   void set_configuration_index(const int config);
@@ -65,32 +72,31 @@ class TrialSelect {
     Random * random);
 
   /// Same as above but with an empty perturbed.
-  bool sel(System * system, Random * random) {
-    return select(empty_, system, random); }
+  bool sel(System * system, Random * random);
 
   /// Precompute quantities before simulation for optimization.
   virtual void precompute(System * system);
 
   /// Return the mobile selection. These can change during the trial.
-  const Select& mobile() const { return mobile_; }
+  const Select& mobile() const;
 
   // Return a pointer to the mobile selection.
-  Select * get_mobile() { return &mobile_; }
+  Select * get_mobile();
 
   /// Set the mobile selection.
-  void set_mobile(const Select& mobile) { mobile_ = mobile; }
+  void set_mobile(const Select& mobile);
 
   /// Return originally-seleted mobile. These do not change during trial.
-  const Select& mobile_original() const { return mobile_original_; }
+  const Select& mobile_original() const;
 
   /// Set the original mobile, including Euler if anisotropic.
   void set_mobile_original(const System * system);
 
   /// Return the anchor selection.
-  const Select& anchor() const { return anchor_; }
+  const Select& anchor() const;
 
   // Return a pointer to the anchor selection.
-  Select * get_anchor() { return &anchor_; }
+  Select * get_anchor();
 
   /// Return anchor position.
   const Position& anchor_position(
@@ -102,10 +108,10 @@ class TrialSelect {
 
   /// Set the state of the trial for the mobile select (e.g., old, move, add).
   /// See Select::trial_state
-  void set_trial_state(const int state) { mobile_.set_trial_state(state); }
+  void set_trial_state(const int state);
 
   /// Reset the mobile selection to the original.
-  void reset_mobile() { mobile_ = mobile_original_; }
+  void reset_mobile();
 
   /// Return the probability of the selection. For example, if a random particle
   /// type is selected, then the probability is the inverse of the number of
@@ -122,9 +128,8 @@ class TrialSelect {
   bool is_ghost() const { return is_ghost_; }
 
   /// Return printable properties.
-  const std::map<std::string, Accumulator>& printable() const { return printable_; }
-  const Accumulator& printable(const std::string str) const {
-    return const_cast<const Accumulator&>(printable_.at(str)); }
+  const std::map<std::string, std::shared_ptr<Accumulator> >& printable() const;
+  const Accumulator& printable(const std::string str) const;
 
   /// Return true if constraints are satisfied.
   virtual bool are_constraints_satisfied(const int old,
@@ -144,16 +149,13 @@ class TrialSelect {
   const EnergyMap& map_(const System& system, const int neighbor_index) const;
 
   /// Return the property value by name.
-  double property(const std::string name) const {
-    return properties_.value(name); }
+  double property(const std::string name) const;
 
   /// Return true if entity has property of name.
-  bool has_property(const std::string name) const {
-    return properties_.has(name); }
+  bool has_property(const std::string name) const;
 
   /// Add a property, or set its value if name already exists.
-  void add_or_set_property(const std::string name, const double value) {
-    properties_.add_or_set(name, value); }
+  void add_or_set_property(const std::string name, const double value);
 
   /// Return true if all sites in mobile are isotropic.
   bool is_isotropic(const System * system) const;
@@ -173,16 +175,16 @@ class TrialSelect {
   //@}
  protected:
   std::string class_name_ = "TrialSelect";
-  Select mobile_original_;
-  Select mobile_;
-  Select anchor_;
-  std::map<std::string, Accumulator> printable_;
+  std::shared_ptr<Select> mobile_original_;
+  std::shared_ptr<Select> mobile_;
+  std::shared_ptr<Select> anchor_;
+  std::map<std::string, std::shared_ptr<Accumulator> > printable_;
 
   /// Set the probability of selection.
   void set_probability_(const double prob = 1) { probability_ = prob; }
 
   void serialize_trial_select_(std::ostream& ostr) const;
-  TrialSelect(std::istream& istr);
+  explicit TrialSelect(std::istream& istr);
 
  private:
   int group_index_;
@@ -191,12 +193,12 @@ class TrialSelect {
   int configuration_index_;
   bool is_particle_type_set_ = false;
   bool is_ghost_;
-  Properties properties_;
+  std::shared_ptr<Properties> properties_;
   int aniso_index_ = -1;
 
   // not checkpointed
   double probability_;
-  Select empty_;
+  std::shared_ptr<Select> empty_;
   double exclude_energy_;
 };
 

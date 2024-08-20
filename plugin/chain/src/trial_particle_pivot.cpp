@@ -1,5 +1,7 @@
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/position.h"
 #include "chain/include/select_particle_pivot.h"
 #include "chain/include/perturb_particle_pivot.h"
 #include "chain/include/trial_particle_pivot.h"
@@ -24,7 +26,7 @@ TrialParticlePivot::TrialParticlePivot(argtype * args) :
   set_description("TrialParticlePivot");
 }
 TrialParticlePivot::TrialParticlePivot(argtype args) : TrialParticlePivot(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialParticlePivot::TrialParticlePivot(std::istream& istr) : TrialMove(istr) {

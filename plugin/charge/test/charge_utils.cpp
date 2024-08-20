@@ -24,6 +24,13 @@
 
 namespace feasst {
 
+void add_if_not_used(const std::string& key, argtype * args,
+  const std::string& value) {
+  if (!used(key, *args)) {
+    args->insert({key, value});
+  }
+}
+
 System spce(argtype args) {
   System system;
   double dual_cut = dble("dual_cut", &args, -1);
@@ -31,7 +38,7 @@ System spce(argtype args) {
   add_if_not_used("physical_constants", &args, "CODATA2018");
   add_if_not_used("particle_type", &args,
     install_dir() + "/particle/spce.fstprt");
-  system.add(Configuration(&args));
+  system.add(std::make_shared<Configuration>(&args));
   system.add(MakePotential(std::make_shared<Ewald>(&args)));
   system.add(MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
                                                    MakeChargeScreened({{"erfc_table_size", str("erfc_table_size", &args, str(2e4))}})),
@@ -54,7 +61,7 @@ System spce(argtype args) {
     ref->set_model_param("cutoff", 1, dual_cut);
     system.add_to_reference(ref);
   }
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
   return system;
 }
 
@@ -91,7 +98,7 @@ System rpm(argtype args) {
       config.set_model_param("sigma", 0, sigma.value(0) + delta);
       config.set_model_param("sigma", 1, sigma.value(1) - delta);
     }
-    system.add(config);
+    system.add(std::make_shared<Configuration>(config));
   }
   system.add(MakePotential(std::make_shared<Ewald>(&args)));
   system.add(MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
@@ -106,7 +113,7 @@ System rpm(argtype args) {
     ref->set_model_param("cutoff", 1, dual_cut);
     system.add_to_reference(ref);
   }
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
   return system;
 }
 

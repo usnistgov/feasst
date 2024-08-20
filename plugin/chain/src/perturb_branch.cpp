@@ -1,10 +1,20 @@
 #include <cmath>
 #include <math.h>  // fabsl
+#include <iostream>
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"  // PI
 #include "math/include/quadratic_equation.h"
 #include "math/include/random.h"
 #include "math/include/utils_math.h"  // round
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_select_angle.h"
 #include "chain/include/perturb_branch.h"
 
@@ -14,7 +24,7 @@ PerturbBranch::PerturbBranch(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbBranch";
 }
 PerturbBranch::PerturbBranch(argtype args) : PerturbBranch(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapPerturbBranch {

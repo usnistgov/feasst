@@ -4,14 +4,16 @@
 
 #include <memory>
 #include <string>
-#include "utils/include/arguments.h"
-#include "math/include/histogram.h"
-#include "flat_histogram/include/ln_probability.h"
+#include <map>
 
 namespace feasst {
 
-class Macrostate;
 class CollectionMatrix;
+class Histogram;
+class LnProbability;
+class Macrostate;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Bias for flat histogram Monte Carlo.
@@ -23,8 +25,7 @@ class Bias {
 
   /// Return the natural log of the bias for a transition from a macrostate
   /// in the old bin to a new bin.
-  double ln_bias(const int bin_new, const int bin_old) const {
-    return ln_prob().value(bin_old) - ln_prob().value(bin_new); }
+  double ln_bias(const int bin_new, const int bin_old) const;
 
   /// Update only.
   virtual void update(
@@ -69,7 +70,8 @@ class Bias {
   /// Set the number of iterations required for completion.
   virtual void set_num_iterations_to_complete(const int iteration) = 0;
 
-  virtual int num_iterations(const int state, const Macrostate& macro) const = 0;
+  virtual int num_iterations(const int state, const Macrostate& macro)
+    const = 0;
   bool is_complete() const { return is_complete_; }
   void set_complete_() { is_complete_ = true; }
 
@@ -77,7 +79,8 @@ class Bias {
   virtual void set_cm(const int macro, const Bias& bias);
   virtual const CollectionMatrix& cm() const;
   virtual const int visits(const int macro, const int index) const;
-  virtual bool is_adjust_allowed(const Macrostate& macro) const { return false; }
+  virtual bool is_adjust_allowed(const Macrostate& macro) const {
+    return false; }
 
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;

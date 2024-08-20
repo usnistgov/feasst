@@ -2,22 +2,35 @@
 #ifndef FEASST_MONTE_CARLO_MONTE_CARLO_H_
 #define FEASST_MONTE_CARLO_MONTE_CARLO_H_
 
-#include <sstream>
+#include <utility>
 #include <vector>
+#include <string>
 #include <memory>
-//#include "utils/include/timer.h"
-#include "utils/include/arguments.h"
-#include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/analyze.h"
-#include "monte_carlo/include/analyze_factory.h"
-#include "monte_carlo/include/modify.h"
-#include "monte_carlo/include/modify_factory.h"
+#include <map>
+// #include "utils/include/timer.h"
 
 namespace feasst {
 
-class Checkpoint;
-class Random;
 class Action;
+class Analyze;
+class AnalyzeFactory;
+class Checkpoint;
+class Configuration;
+class Criteria;
+class Modify;
+class ModifyFactory;
+class NeighborCriteria;
+class Potential;
+class Random;
+class Select;
+class System;
+class ThermoParams;
+class Trial;
+class TrialFactory;
+class TrialFactoryNamed;
+
+typedef std::map<std::string, std::string> argtype;
+typedef std::vector<std::pair<std::string, argtype> > arglist;
 
 // HWH consider a constructor-based initialization of MonteCarlo..
 // HWH something where order doesn't need to be enforced?
@@ -87,12 +100,8 @@ class MonteCarlo {
   /// The first action with a Monte Carlo object is to set the Configuration.
   void add(std::shared_ptr<Configuration> config);
 
-  // HWH deprecated interface. WARN.
-  void add(const Configuration& config);
-
   /// The configuration may be accessed read-only.
-  const Configuration& configuration(const int index = 0) const {
-    return system_.configuration(index); }
+  const Configuration& configuration(const int index = 0) const;
 
   /// The second action is to add Potentials.
   void add(std::shared_ptr<Potential> potential, const int config = 0);
@@ -104,26 +113,23 @@ class MonteCarlo {
   void set(const int index, std::shared_ptr<Potential> potential);
 
   /// Add potential to optimized.
-  void add_to_optimized(std::shared_ptr<Potential> potential) {
-    system_.add_to_optimized(potential); }
+  void add_to_optimized(std::shared_ptr<Potential> potential);
 
   /// Add potential to reference.
   void add_to_reference(std::shared_ptr<Potential> potential,
     /// Store different references by index.
     const int index = 0,
-    const int config = 0) {
-    system_.add_to_reference(potential, index, config); }
+    const int config = 0);
 
   /// Add NeighborCriteria.
   void add(std::shared_ptr<NeighborCriteria> neighbor_criteria,
-      const int config = 0) {
-    system_.add(neighbor_criteria, config); }
+    const int config = 0);
 
   /// The third action is to set the ThermoParams.
   void set(std::shared_ptr<ThermoParams> thermo_params);
 
   /// Return the ThermoParams.
-  const ThermoParams& thermo_params() const { return system_.thermo_params(); }
+  const ThermoParams& thermo_params() const;
 
   /// Alternatively, the first, second and third actions may be combined by
   /// setting the system directly.
@@ -131,18 +137,18 @@ class MonteCarlo {
   void set(const System& system);
 
   /// Once the System is set, it may be accessed on a read-only basis.
-  const System& system() const { return system_; }
+  const System& system() const;
 
   /// Reinitialize the system. Return total energy.
   double initialize_system(const int config);
 
-  // HWH deprecate: only in rare cases should the system be modified directly.
-  System * get_system() { return &system_; }
-  Criteria * get_criteria() { return criteria_.get(); }
+  // HWH depreciate: only in rare cases should the system be modified directly.
+  System * get_system();
+  Criteria * get_criteria();
   Random * get_random() { return random_.get(); }
-  TrialFactory * get_trial_factory() { return &trial_factory_; }
-  AnalyzeFactory * get_analyze_factory() { return &analyze_factory_; }
-  ModifyFactory * get_modify_factory() { return &modify_factory_; }
+  TrialFactory * get_trial_factory();
+  AnalyzeFactory * get_analyze_factory();
+  ModifyFactory * get_modify_factory();
 
   // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
   void adjust_bounds(const bool left_most, const bool right_most,
@@ -155,7 +161,7 @@ class MonteCarlo {
   void set(std::shared_ptr<Criteria> criteria);
 
   /// Once Criteria is set, it may be accessed on a read-only basis.
-  const Criteria& criteria() const { return const_cast<Criteria&>(*criteria_); }
+  const Criteria& criteria() const;
 
   /// Initialize the criteria. Also initializes system.
   void initialize_criteria();
@@ -175,14 +181,13 @@ class MonteCarlo {
   void add(std::shared_ptr<TrialFactoryNamed> trials);
 
   /// Remove a trial by index.
-  void remove_trial(const int index) { trial_factory_.remove(index); }
+  void remove_trial(const int index);
 
   /// Access the trials on a read-only basis.
-  const TrialFactory& trials() const { return trial_factory_; }
+  const TrialFactory& trials() const;
 
   /// Access the trials on a read-only basis.
-  const Trial& trial(const int index) const {
-    return trial_factory_.trial(index); }
+  const Trial& trial(const int index) const;
 
   /// Initialize trials.
   void initialize_trials();
@@ -196,19 +201,16 @@ class MonteCarlo {
   void add(std::shared_ptr<Analyze> analyze);
 
   /// Remove an analyze by index.
-  void remove_analyze(const int index) { analyze_factory_.remove(index); }
+  void remove_analyze(const int index);
 
   /// Return all analyzers.
-  const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
-    return analyze_factory_.analyzers(); }
+  const std::vector<std::shared_ptr<Analyze> >& analyzers() const;
 
   /// Return an Analyze by index.
-  const Analyze& analyze(const int index) const {
-    return analyze_factory_.analyze(index); }
+  const Analyze& analyze(const int index) const;
 
   /// Return the number of analyzers.
-  int num_analyzers() const {
-    return static_cast<int>(analyze_factory_.analyzers().size()); }
+  int num_analyzers() const;
 
   /// Initialize analyzers.
   void initialize_analyzers();
@@ -218,15 +220,13 @@ class MonteCarlo {
   void add(const std::shared_ptr<Modify> modify);
 
   /// Remove a modify by index.
-  void remove_modify(const int index) { modify_factory_.remove(index); }
+  void remove_modify(const int index);
 
   /// Return an Modify by index.
-  const Modify& modify(const int index) const {
-    return modify_factory_.modify(index); }
+  const Modify& modify(const int index) const;
 
   /// Return the number of modifiers.
-  int num_modifiers() const {
-    return static_cast<int>(modify_factory_.modifiers().size()); }
+  int num_modifiers() const;
 
   /// Add a checkpoint.
   void set(const std::shared_ptr<Checkpoint> checkpoint);
@@ -235,17 +235,16 @@ class MonteCarlo {
   void write_checkpoint() const;
 
   /// Attempt one trial, with subsequent analysers and modifiers.
-  // void attempt() { attempt_(1, &trial_factory_, random_.get()); }
+  // void attempt() { attempt_(1, trial_factory_.get(), random_.get()); }
 
   /// Perform an Action
   virtual void run(std::shared_ptr<Action> action);
 
   /// Attempt a number of Monte Carlo trials.
-  void attempt(const int num_trials = 1) {
-    attempt_(num_trials, &trial_factory_, random_.get()); }
+  void attempt(const int num_trials = 1);
 
   /// Reset trial statistics
-  virtual void reset_trial_stats() { trial_factory_.reset_stats(); }
+  virtual void reset_trial_stats();
 
   /// Run a number of trials.
   virtual void run_num_trials(int num_trials);
@@ -260,18 +259,15 @@ class MonteCarlo {
 
   /// Attempt Monte Carlo trials until Criteria returns completion.
   /// If available, automatically write checkpoint when complete.
-  void run_until_complete() {
-    run_until_complete_(&trial_factory_, random_.get()); }
+  void run_until_complete();
 
   /// Attempt Monte Carlo trials until the given file name exists.
   virtual void run_until_file_exists(const std::string& file_name);
 
   // HWH hackish interface for prefetch
   void before_attempts_();
-  void delay_finalize_() {
-    trial_factory_.delay_finalize(); }
-  void after_trial_analyze_() {
-    analyze_factory_.trial(*criteria_, system_, trial_factory_); }
+  void delay_finalize_();
+  void after_trial_analyze_();
   void after_trial_modify_();
   // Mimic a rejection by a trial.
   void imitate_trial_rejection_(const int trial_index,
@@ -294,8 +290,7 @@ class MonteCarlo {
     const bool auto_reject,
     const double ln_prob);
   // Finalize changes from previous trial.
-  void finalize_(const int trial_index) {
-    trial_factory_.finalize(trial_index, &system_, criteria_.get()); }
+  void finalize_(const int trial_index);
   // Load random numbers and energy calculations into cache.
   void load_cache_(const bool load);
   // Unload random numbers and energy calculations from cache.
@@ -309,22 +304,16 @@ class MonteCarlo {
   explicit MonteCarlo(std::istream& istr);
 
   // HWH python interface cannot handle stringstreams with serialization.
-  std::string serialize() {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-  MonteCarlo deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return MonteCarlo(ss);
-  }
+  std::string serialize() const;
+//  MonteCarlo deserialize(const std::string str);
 
-  virtual ~MonteCarlo() {}
+  virtual ~MonteCarlo();
 
 //  const Timer& timer() const { return timer_; }
 //  std::string timer_str() const {
 //    std::stringstream ss;
-//    const double trial_missing = timer_.missing_percent("trial", trial_factory_.timer());
+//    const double trial_missing =
+//      timer_.missing_percent("trial", trial_factory_.timer());
 //    ss << timer_.str()
 //       << "*** TrialFactory Profile ***" << std::endl
 //       << trial_factory_.timer().str()
@@ -340,11 +329,11 @@ class MonteCarlo {
                                    Random * random);
 
  private:
-  System system_;
+  std::unique_ptr<System> system_;
   std::shared_ptr<Criteria> criteria_;
-  TrialFactory trial_factory_;
-  AnalyzeFactory analyze_factory_;
-  ModifyFactory modify_factory_;
+  std::unique_ptr<TrialFactory> trial_factory_;
+  std::unique_ptr<AnalyzeFactory> analyze_factory_;
+  std::unique_ptr<ModifyFactory> modify_factory_;
   std::shared_ptr<Checkpoint> checkpoint_;
   std::shared_ptr<Random> random_;
   std::shared_ptr<Action> action_;

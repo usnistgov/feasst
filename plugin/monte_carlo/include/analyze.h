@@ -7,9 +7,11 @@
 #include <string>
 #include <map>
 #include "monte_carlo/include/stepper.h"
-#include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+class Configuration;
+class TrialFactory;
 
 /**
   Perform a read-only action every so many trials.

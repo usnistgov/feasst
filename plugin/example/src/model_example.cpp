@@ -1,5 +1,7 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
 #include "configuration/include/model_params.h"
 #include "example/include/model_example.h"
 
@@ -34,7 +36,7 @@ ModelExample::ModelExample(argtype * args) {
     0);                       // (optional) default value if no argument given.
 }
 ModelExample::ModelExample(argtype args) : ModelExample(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void ModelExample::precompute(const ModelParams& existing) {
@@ -51,7 +53,7 @@ double ModelExample::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  // TRACE only prints at a VERBOSE_LEVEL = 0 in /feasst/plugin/utils/include/debug.h
+  // TRACE prints at a VERBOSE_LEVEL = 0 in /feasst/plugin/utils/include/debug.h
   // Replace TRACE with INFO to print at the default VERBOSE_LEVEL of 3.
   TRACE("squared_distance " << squared_distance);
   TRACE("type1 " << type1);
@@ -59,18 +61,24 @@ double ModelExample::energy(
   ASSERT(num_discretized_steps_ == 0,
     "As an exercise, consider implementing num_discretized_steps to compare " <<
     "with the results of discrete molecular dynamics simulations.");
-  const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
+  const double sigma =
+    model_params.select(sigma_index()).mixed_value(type1, type2);
   TRACE("sigma " << sigma);
   if (squared_distance < sigma*sigma) {
     return NEAR_INFINITY;
   }
-  const double epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
-  const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
+  const double epsilon =
+    model_params.select(epsilon_index()).mixed_value(type1, type2);
+  const double cutoff =
+    model_params.select(cutoff_index()).mixed_value(type1, type2);
   const double distance = std::sqrt(squared_distance);
-  const double lambda = model_params.select(lambda_index_).mixed_values()[type1][type2];
+  const double lambda =
+    model_params.select(lambda_index_).mixed_value(type1, type2);
   if (squared_distance < lambda*lambda) {
-    const double gamma = model_params.select(gamma_index_).mixed_values()[type1][type2];
-    const double en = (gamma*(lambda - distance) - epsilon*(distance - sigma))/(lambda - sigma);
+    const double gamma =
+      model_params.select(gamma_index_).mixed_value(type1, type2);
+    const double en = (gamma*(lambda - distance) - epsilon*(distance - sigma))/
+                      (lambda - sigma);
     TRACE("en " << en);
     return en;
   } else {

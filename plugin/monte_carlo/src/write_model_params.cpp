@@ -1,10 +1,13 @@
-
 #include <fstream>
-#include <sstream>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "utils/include/timer.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/model_params.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "system/include/potential.h"
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/write_model_params.h"
@@ -22,7 +25,7 @@ WriteModelParams::WriteModelParams(argtype * args) {
   reference_index_ = integer("reference_index", args, -1);
 }
 WriteModelParams::WriteModelParams(argtype args) : WriteModelParams(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapWriteModelParams {

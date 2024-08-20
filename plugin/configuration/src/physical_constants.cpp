@@ -1,17 +1,20 @@
 #include <cmath>
-#include "utils/include/serialize.h"
-#include "configuration/include/physical_constants.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/arguments.h"
 #include "math/include/constants.h"
+#include "configuration/include/physical_constants.h"
 
 namespace feasst {
 
-std::map<std::string, std::shared_ptr<PhysicalConstants> >& PhysicalConstants::deserialize_map() {
+std::map<std::string, std::shared_ptr<PhysicalConstants> >&
+    PhysicalConstants::deserialize_map() {
   static std::map<std::string, std::shared_ptr<PhysicalConstants> >* ans =
      new std::map<std::string, std::shared_ptr<PhysicalConstants> >();
   return *ans;
 }
 
-std::shared_ptr<PhysicalConstants> PhysicalConstants::deserialize(std::istream& istr) {
+std::shared_ptr<PhysicalConstants> PhysicalConstants::deserialize(
+    std::istream& istr) {
   return template_deserialize(deserialize_map(), istr,
     // true argument denotes rewinding to reread class name
     // this allows derived class constructor to read class name.
@@ -78,7 +81,8 @@ class MapPhysicalConstantsCustom {
   }
 };
 
-static MapPhysicalConstantsCustom mapper_physical_constants_custom_ = MapPhysicalConstantsCustom();
+static MapPhysicalConstantsCustom mapper_physical_constants_custom_ =
+  MapPhysicalConstantsCustom();
 
 PhysicalConstantsCustom::PhysicalConstantsCustom(argtype args)
   : PhysicalConstants() {
@@ -88,7 +92,7 @@ PhysicalConstantsCustom::PhysicalConstantsCustom(argtype args)
   permitivity_vacuum_ = dble("permitivity_vacuum", &args);
   elementary_charge_ = dble("elementary_charge", &args);
   compute_derived_();
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void PhysicalConstantsCustom::serialize(std::ostream& ostr) const {
@@ -108,4 +112,11 @@ PhysicalConstantsCustom::PhysicalConstantsCustom(std::istream& istr)
   compute_derived_();
 }
 
-} // namespace feasst
+void CODATA2018::serialize(std::ostream& ostr) const {
+  ostr << class_name() << " "; }
+void CODATA2014::serialize(std::ostream& ostr) const {
+  ostr << class_name() << " "; }
+void CODATA2010::serialize(std::ostream& ostr) const {
+  ostr << class_name() << " "; }
+
+}  // namespace feasst

@@ -1,13 +1,23 @@
 #include <cmath>
+#include "utils/include/io.h"
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/system.h"
+#include "system/include/thermo_params.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
 
 TrialComputeAdd::TrialComputeAdd(argtype args) : TrialComputeAdd(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 TrialComputeAdd::TrialComputeAdd(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeAdd";

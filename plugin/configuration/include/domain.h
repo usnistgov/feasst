@@ -2,11 +2,15 @@
 #ifndef FEASST_CONFIGURATION_DOMAIN_H_
 #define FEASST_CONFIGURATION_DOMAIN_H_
 
+#include <map>
 #include <memory>
+#include <string>
 #include <vector>
 #include "math/include/position.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Random;
 

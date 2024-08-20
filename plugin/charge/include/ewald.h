@@ -3,7 +3,6 @@
 #define FEASST_EWALD_EWALD_H_
 
 #include <vector>
-#include <sstream>
 #include <algorithm>
 #include "configuration/include/configuration.h"
 #include "system/include/visit_model.h"
@@ -271,17 +270,7 @@ class Ewald : public VisitModel {
   bool finalizable_ = false;
 
   /// Return the sum of the squared charge.
-  double sum_squared_charge_(const Configuration& config) {
-    double sum_sq_q = 0.;
-    const std::vector<int> num_sites_of_type = config.num_sites_of_type();
-    for (int type = 0;
-         type < static_cast<int>(num_sites_of_type.size());
-         ++type) {
-      const double charge = config.model_params().select(charge_index()).value(type);
-      sum_sq_q += charge*charge*num_sites_of_type[type];
-    }
-    return sum_sq_q;
-  }
+  double sum_squared_charge_(const Configuration& config);
 
   /// Return the Fourier root mean squared accuracy for a given dimension.
   double fourier_rms_(

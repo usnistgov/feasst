@@ -2,10 +2,11 @@
 #define FEASST_CHAIN_TRIAL_CRANKSHAFT_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_move.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /// Rigidly rotate a sub section of a chain.
 class TrialCrankshaft : public TrialMove {

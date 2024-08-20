@@ -1,9 +1,10 @@
-#include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
 #include "math/include/utils_math.h"
 #include "configuration/include/domain.h"
-#include "system/include/ideal_gas.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "steppers/include/pair_distribution.h"
 
 namespace feasst {
@@ -71,7 +72,7 @@ PairDistribution::PairDistribution(argtype * args) : Modify(args) {
   DEBUG("output_file " << output_file());
 }
 PairDistribution::PairDistribution(argtype args) : PairDistribution(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void PairDistribution::initialize(Criteria * criteria,

@@ -3,10 +3,11 @@
 #define FEASST_BETA_EXPANDED_SELECT_NOTHING_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Select nothing.

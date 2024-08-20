@@ -1,10 +1,17 @@
 #include "utils/include/serialize.h"
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
+#include "math/include/accumulator.h"
+#include "configuration/include/select.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "system/include/energy_map.h"
 #include "cluster/include/select_cluster.h"
 
 namespace feasst {
 
 SelectCluster::SelectCluster(argtype args) : SelectCluster(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 SelectCluster::SelectCluster(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectCluster";
@@ -13,7 +20,7 @@ SelectCluster::SelectCluster(argtype * args) : TrialSelect(args) {
     args->insert({"particle_type", str(particle_type())});
   }
   select_particle_ = std::make_shared<TrialSelectParticle>(args);
-  printable_["cluster_size"] = Accumulator();
+  printable_["cluster_size"] = MakeAccumulator();
 }
 
 class MapSelectCluster {
@@ -52,7 +59,7 @@ bool SelectCluster::are_constraints_satisfied(const int old,
   if (old == 0) {
     // HWH update with configuration_index_
     const bool constraint = !map_(system, neighbor_).is_cluster_changed(
-      system.neighbor_criteria(neighbor_, 0), mobile_, system.configuration());
+      system.neighbor_criteria(neighbor_, 0), mobile(), system.configuration());
     DEBUG("constraint " << constraint);
     return constraint;
   }
@@ -86,8 +93,8 @@ bool SelectCluster::select(const Select& perturbed,
   const int first_particle = first_node.particle_index(0);
   set_probability_(1./static_cast<double>(num));
   select_cluster(first_particle, *system);
-  printable_["cluster_size"].accumulate(mobile_.num_particles());
-  if (mobile_.num_particles() == 1) {
+  printable_["cluster_size"]->accumulate(mobile().num_particles());
+  if (mobile().num_particles() == 1) {
     return false;
   }
   remove_unphysical_sites(config);
@@ -124,6 +131,10 @@ void SelectCluster::serialize_select_cluster_(std::ostream& ostr) const {
 void SelectCluster::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_select_cluster_(ostr);
+}
+
+void SelectCluster::select_cluster(const int first_particle, const System& system) {
+  select_cluster(first_particle, system, get_mobile());
 }
 
 }  // namespace feasst

@@ -3,6 +3,8 @@
 #include "math/include/utils_math.h" // round
 #include "math/include/constants.h"
 #include "math/include/random.h" // normal
+#include "math/include/position.h"
+#include "configuration/include/bond.h"
 #include "models/include/angle_harmonic.h"
 
 namespace feasst {
@@ -185,7 +187,7 @@ void AngleHarmonic::random_branch(
     *ln_met *= -1;
   };
   for (double& w : weight) w /= weight.back();
-  DEBUG(feasst_str(weight));
+//  DEBUG(feasst_str(weight));
   const int index = random->index_from_cumulative_probability(weight);
   *radians_a2a1m1 = steps[index].t1;
   *radians_a2a1m2 = steps[index].t2;

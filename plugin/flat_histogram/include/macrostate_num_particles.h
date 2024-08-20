@@ -2,6 +2,7 @@
 #ifndef FEASST_FLAT_HISTOGRAM_MACROSTATE_NUM_PARTICLES_H_
 #define FEASST_FLAT_HISTOGRAM_MACROSTATE_NUM_PARTICLES_H_
 
+#include <memory>
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "flat_histogram/include/macrostate.h"
 
@@ -19,8 +20,7 @@ class MacrostateNumParticles : public Macrostate {
     - Macrostate arguments.
   */
   explicit MacrostateNumParticles(argtype args = argtype());
-  explicit MacrostateNumParticles(argtype * args) :
-    MacrostateNumParticles(Histogram(args), args) {}
+  explicit MacrostateNumParticles(argtype * args);
 
   //@}
   /** @name Public Functions
@@ -28,7 +28,8 @@ class MacrostateNumParticles : public Macrostate {
   //@{
 
   /// Arguments as described above, but with explicit histogram object.
-  MacrostateNumParticles(const Histogram& histogram, argtype args = argtype());
+  explicit MacrostateNumParticles(const Histogram& histogram,
+                                  argtype args = argtype());
   MacrostateNumParticles(const Histogram& histogram, argtype * args);
 
   double value(const System& system,
@@ -37,7 +38,7 @@ class MacrostateNumParticles : public Macrostate {
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
   std::shared_ptr<Macrostate> create(argtype * args) const override;
   void serialize(std::ostream& ostr) const override;
-  MacrostateNumParticles(std::istream& istr);
+  explicit MacrostateNumParticles(std::istream& istr);
   virtual ~MacrostateNumParticles() {}
 
   //@}

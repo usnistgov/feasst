@@ -1,8 +1,11 @@
 #include <cmath>  // rint
 #include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
-#include "system/include/lennard_jones.h"
+#include "system/include/visit_model_inner.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 
 namespace feasst {
@@ -21,7 +24,7 @@ void VisitModelOptLJ::compute(
   const double lx = domain.side_length(0),
                ly = domain.side_length(1),
                lz = domain.side_length(2);
-  const Select& select_all = config->group_selects()[group_index];
+  const Select& select_all = config->group_select(group_index);
 //  LennardJones lj_; // model appears to be faster on stack
   // HWH implement multi-particle selection by sorting group selection
   // for particles that are in both selectiona nd group_index.

@@ -1,13 +1,15 @@
-#include "charge/include/check_net_charge.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "system/include/system.h"
+#include "charge/include/check_net_charge.h"
 
 namespace feasst {
 
 CheckNetCharge::CheckNetCharge(argtype args) : AnalyzeUpdateOnly(&args) {
   minimum_ = dble("minimum", &args, 0.);
   maximum_ = dble("maximum", &args, 0.);
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void CheckNetCharge::update(const Criteria& criteria,

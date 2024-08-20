@@ -1,7 +1,7 @@
-LogAndMovie
+VisitModelInnerNN
 =====================================================
 
-.. doxygenclass:: feasst::LogAndMovie
+.. doxygenclass:: feasst::VisitModelInnerNN
    :project: FEASST
    :members:
-   :membergroups: Arguments
+   

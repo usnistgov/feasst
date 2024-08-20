@@ -3,12 +3,13 @@
 #define FEASST_SERVER_VISIT_MODEL_INNER_SERVER_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "math/include/matrix.h"
 #include "math/include/euler.h"
-#include "system/include/visit_model.h"
+#include "system/include/visit_model_inner.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Server;
 
@@ -69,7 +70,7 @@ class VisitModelInnerServer : public VisitModelInner {
   int aniso_index_ = -1;
   std::vector<int> site_types_;
   std::vector<int> t2index_;
-  std::shared_ptr<Server> server_;
+  std::unique_ptr<Server> server_;
 
   // no serialized optimization variables
   Position pos1_, pos2_, sph_;

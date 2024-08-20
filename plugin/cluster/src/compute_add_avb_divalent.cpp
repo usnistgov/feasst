@@ -1,7 +1,14 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/neighbor_criteria.h"
+#include "system/include/energy_map.h"
+#include "system/include/thermo_params.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/trial_select.h"
 #include "cluster/include/compute_add_avb_divalent.h"
 
@@ -10,7 +17,7 @@ namespace feasst {
 ComputeAddAVBDivalent::ComputeAddAVBDivalent(argtype args) {
   class_name_ = "ComputeAddAVBDivalent";
   neighbor_ = integer("neighbor_index", &args, 0);
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapComputeAddAVBDivalent {

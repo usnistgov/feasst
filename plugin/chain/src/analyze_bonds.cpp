@@ -1,5 +1,12 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/position.h"
+#include "configuration/include/bond.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/select.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "math/include/utils_math.h"
 #include "chain/include/analyze_bonds.h"
 
@@ -28,7 +35,7 @@ AnalyzeBonds::AnalyzeBonds(argtype * args) : Analyze(args) {
   dihedral_hist_.push_back(dhist);
 }
 AnalyzeBonds::AnalyzeBonds(argtype args) : AnalyzeBonds(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void AnalyzeBonds::serialize(std::ostream& ostr) const {

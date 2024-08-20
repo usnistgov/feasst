@@ -3,10 +3,11 @@
 #define FEASST_CLUSTER_TRIAL_REMOVE_AVB_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Attempt to remove a particle of type "a" with a bias for site_index_a

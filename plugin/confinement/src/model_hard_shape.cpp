@@ -1,4 +1,5 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/constants.h"
 #include "shape/include/shape_file.h"
 #include "configuration/include/site.h"
@@ -22,7 +23,7 @@ ModelHardShape::ModelHardShape(argtype * args) : ModelHardShape() {
   cavity_ = boolean("cavity", args, true);
 }
 ModelHardShape::ModelHardShape(argtype args) : ModelHardShape(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void ModelHardShape::serialize(std::ostream& ostr) const {

@@ -2,6 +2,7 @@
 #include "utils/include/io.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/constants.h"
 #include "math/include/formula.h"
 #include "math/include/utils_math.h"
@@ -9,7 +10,7 @@
 
 namespace feasst {
 
-SolverBrentDekker::SolverBrentDekker(const argtype& args) : Solver(args) {
+SolverBrentDekker::SolverBrentDekker(argtype args) : Solver(args) {
   class_name_ = "SolverBrentDekker";
 }
 
@@ -56,9 +57,9 @@ double SolverBrentDekker::root(Formula * formula) {
   double s = -1, d = -1;
   ASSERT(fa*fb < 0, "fa: " << fa << " fb: " << fb << " fa*fb: " << fa*fb);
   if (absfa < absfb) {
-    swap(&a, &b);
-    swap(&fa, &fb);
-    swap(&absfa, &absfb);
+    feasst_swap(&a, &b);
+    feasst_swap(&fa, &fb);
+    feasst_swap(&absfa, &absfb);
   }
   double c = a;
   double fc = fa;
@@ -105,9 +106,9 @@ double SolverBrentDekker::root(Formula * formula) {
       absfa = absfs;
     }
     if (absfa < absfb) {
-      swap(&a, &b);
-      swap(&fa, &fb);
-      swap(&absfa, &absfb);
+      feasst_swap(&a, &b);
+      feasst_swap(&fa, &fb);
+      feasst_swap(&absfa, &absfb);
     }
   }
 }

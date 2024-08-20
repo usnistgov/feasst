@@ -1,7 +1,11 @@
-#include "steppers/include/extensive_moments.h"
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"
 #include "utils/include/serialize.h"
 #include "math/include/accumulator.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
+#include "steppers/include/extensive_moments.h"
 
 namespace feasst {
 
@@ -19,7 +23,7 @@ ExtensiveMoments::ExtensiveMoments(argtype * args) : Analyze(args) {
   max_order_ = integer("max_order", args, 3);
 }
 ExtensiveMoments::ExtensiveMoments(argtype args) : ExtensiveMoments(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void ExtensiveMoments::initialize(Criteria * criteria,

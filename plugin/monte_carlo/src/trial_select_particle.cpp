@@ -1,13 +1,17 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"  // find_in_list
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
 
 TrialSelectParticle::TrialSelectParticle(argtype args)
   : TrialSelectParticle(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialSelectParticle::TrialSelectParticle(argtype * args) : TrialSelect(args) {
@@ -19,8 +23,8 @@ TrialSelectParticle::TrialSelectParticle(argtype * args) : TrialSelect(args) {
   // parse site
   site_ = integer("site", args, -1);
   if (site_ != -1) {
-    mobile_.clear();
-    mobile_.add_site(0, site_);
+    get_mobile()->clear();
+    get_mobile()->add_site(0, site_);
     site_vec_ =  {site_};
   }
 
@@ -117,8 +121,8 @@ void TrialSelectParticle::ghost_particle(Configuration * config,
   // if no ghosts, create one
   DEBUG("particle_type: " << particle_type());
   DEBUG("nump " << config->num_particles());
-  DEBUG("num ghosts " << config->ghosts()[particle_type()].num_particles());
-  const Select& ghosts = config->ghosts()[particle_type()];
+  DEBUG("num ghosts " << config->ghosts()[particle_type()]->num_particles());
+  const Select& ghosts = *(config->ghosts()[particle_type()]);
   const int num_excluded = num_excluded_(
     const_cast<const Configuration&>(*config), exclude);
   int pindex = -1;
@@ -183,28 +187,28 @@ bool TrialSelectParticle::select(const Select& perturbed,
   }
   if (is_ghost()) {
     if (exclude_perturbed_) {
-      ghost_particle(config, const_cast<Select*>(&perturbed), &mobile_);
+      ghost_particle(config, const_cast<Select*>(&perturbed), get_mobile());
     } else {
-      ghost_particle(config, &mobile_);
+      ghost_particle(config, get_mobile());
     }
     set_probability_(1.);
   } else {
     int num = -1;
     if (exclude_perturbed_) {
       num = random_particle(*config,
-        const_cast<Select*>(&perturbed), &mobile_, random);
+        const_cast<Select*>(&perturbed), get_mobile(), random);
     } else {
-      num = random_particle(*config, &mobile_, random);
+      num = random_particle(*config, get_mobile(), random);
     }
     DEBUG("num " << num);
     if (num <= 0) return false;
     set_probability_(1./static_cast<double>(num));
   }
-  DEBUG("selected " << mobile_.str());
+  DEBUG("selected " << mobile().str());
   remove_unphysical_sites(*config);
-  ASSERT(mobile_.num_particles() > 0, "all sites shouldn't be unphysical");
+  ASSERT(mobile().num_particles() > 0, "all sites shouldn't be unphysical");
   set_mobile_original(system);
-  DEBUG("selected " << mobile_.str());
+  DEBUG("selected " << mobile().str());
   return true;
 }
 
@@ -245,14 +249,14 @@ void TrialSelectParticle::serialize(std::ostream& ostr) const {
 
 void TrialSelectParticle::select_particle(const int index,
     const Configuration& config) {
-  const Select& select = config.group_selects()[group_index()];
+  const Select& select = config.group_select(group_index());
   ASSERT(index < select.num_particles(), "error");
-  bool fast = mobile_.replace_indices(select.particle_index(index),
+  bool fast = get_mobile()->replace_indices(select.particle_index(index),
                                       select.site_indices(index));
   if (!fast) {
-    mobile_.resize_positions();
+    get_mobile()->resize_positions();
   }
-  mobile_.load_positions(config.particles());
+  get_mobile()->load_positions(config.particles());
 }
 
 }  // namespace feasst

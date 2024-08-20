@@ -2,9 +2,10 @@
 #include <string>
 #include <fstream>
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/configuration.h"
-#include "system/include/model_two_body.h"
 #include "aniso/include/visit_model_inner_nn.h"
 
 namespace feasst {
@@ -13,7 +14,7 @@ VisitModelInnerNN::VisitModelInnerNN(argtype * args) : VisitModelInnerTable(args
   class_name_ = "VisitModelInnerNN";
 }
 VisitModelInnerNN::VisitModelInnerNN(argtype args) : VisitModelInnerNN(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void VisitModelInnerNN::read_table(const std::string file_name,

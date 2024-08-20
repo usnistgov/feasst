@@ -1,6 +1,12 @@
 #include <cmath>
-#include "steppers/include/mean_squared_displacement.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/accumulator.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "steppers/include/mean_squared_displacement.h"
 
 namespace feasst {
 
@@ -20,7 +26,7 @@ MeanSquaredDisplacement::MeanSquaredDisplacement(argtype * args)
 }
 MeanSquaredDisplacement::MeanSquaredDisplacement(argtype args)
   : MeanSquaredDisplacement(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void MeanSquaredDisplacement::initialize(Criteria * criteria,

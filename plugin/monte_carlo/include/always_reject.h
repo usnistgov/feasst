@@ -2,6 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_ALWAYS_REJECT_H_
 #define FEASST_MONTE_CARLO_ALWAYS_REJECT_H_
 
+#include <memory>
 #include "monte_carlo/include/criteria.h"
 
 namespace feasst {
@@ -28,7 +29,7 @@ class AlwaysReject : public Criteria {
   std::shared_ptr<Criteria> create(argtype * args) const override {
     return std::make_shared<AlwaysReject>(); }
   void serialize(std::ostream& ostr) const override;
-  AlwaysReject(std::istream& istr);
+  explicit AlwaysReject(std::istream& istr);
   ~AlwaysReject() {}
 };
 

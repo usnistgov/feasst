@@ -1,9 +1,10 @@
 
 #include <cmath>
-#include "math/include/formula_exponential.h"
+#include "utils/include/arguments.h"
 #include "utils/include/io.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
+#include "math/include/formula_exponential.h"
 
 namespace feasst {
 
@@ -43,7 +44,7 @@ double FormulaExponential::evaluate(const double x) const {
 }
 
 FormulaExponential::FormulaExponential(argtype args)
-  : FormulaExponential(&args) { FEASST_CHECK_ALL_USED(args); }
+  : FormulaExponential(&args) { feasst_check_all_used(args); }
 FormulaExponential::FormulaExponential(argtype * args) : Formula(args) {
   class_name_ = "FormulaExponential";
   set_f0(dble("f0", args, 0.));

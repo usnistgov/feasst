@@ -1,4 +1,5 @@
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "chain/include/select_end_segment.h"
 #include "chain/include/perturb_pivot.h"
@@ -24,7 +25,7 @@ TrialPivot::TrialPivot(argtype * args) :
   set_description("TrialPivot");
 }
 TrialPivot::TrialPivot(argtype args) : TrialPivot(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialPivot::TrialPivot(std::istream& istr) : TrialMove(istr) {

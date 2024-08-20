@@ -1,11 +1,10 @@
-#include <cmath>
-#include <numeric>
-#include <sstream>
+#include "utils/include/arguments.h"
+#include "utils/include/debug.h"
 #include "utils/include/utils.h"
-#include "utils/include/io.h"
 #include "utils/include/serialize.h"
-#include "math/include/accumulator.h"
+#include "utils/include/io.h"
 #include "math/include/constants.h"
+#include "math/include/accumulator.h"
 
 namespace feasst {
 
@@ -16,7 +15,7 @@ Accumulator::Accumulator(argtype * args) {
 }
 
 Accumulator::Accumulator(argtype args) : Accumulator(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Accumulator::accumulate(double value) {
@@ -32,7 +31,7 @@ void Accumulator::accumulate(double value) {
   // check if its time to make a new block size
   if (max_block_operations_ > 0) {
     const double new_block_size = block_power_*block_size_.back();
-    //INFO("new_block_size " << new_block_size);
+    DEBUG("new_block_size " << new_block_size);
     if (std::abs(std::fmod(num_values(), new_block_size)) < 0.1) {
       block_size_.erase(block_size_.begin());
       block_size_.push_back(new_block_size);
@@ -47,7 +46,7 @@ void Accumulator::accumulate(double value) {
 
     // accumulate block averages
     for (int bop = 0; bop < max_block_operations_; ++bop) {
-      //INFO("bop " << bop << " size " << block_size_[bop]);
+      DEBUG("bop " << bop << " size " << block_size_[bop]);
       sum_block_[bop] += value;
       if (std::abs(std::fmod(num_values(), block_size_[bop])) < 0.1) {
         ASSERT(block_averages_[bop], "er");
@@ -216,15 +215,15 @@ bool Accumulator::is_equivalent(const Accumulator& accum,
                                 const int num_op,
                                 const bool verbose) const {
   const double diff = accum.average() - average();
-  const double stdev = std::sqrt(
-    pow(accum.block_stdev(num_op), 2)/accum.block_averages_[num_op]->num_values() +
+  const double stdev = std::sqrt(pow(accum.block_stdev(num_op), 2)/
+    accum.block_averages_[num_op]->num_values() +
     pow(block_stdev(num_op), 2)/block_averages_[num_op]->num_values());
   if (std::abs(diff) > t_factor*stdev) {
     if (verbose) {
-      std::cout << str() << " " << accum.str() << std::endl;
-      std::cout << "diff: " << diff << std::endl;
-      std::cout << "stdev: " << stdev << std::endl;
-      std::cout << "t_factor: " << t_factor << std::endl;
+      INFO(str() << " " << accum.str() << std::endl <<
+        "diff: " << diff << std::endl <<
+        "stdev: " << stdev << std::endl <<
+        "t_factor: " << t_factor << std::endl);
     }
     return false;
   }
@@ -232,17 +231,19 @@ bool Accumulator::is_equivalent(const Accumulator& accum,
 }
 
 double Accumulator::central_moment(const int n) {
-  //INFO(val_moment_.size());
+  DEBUG(val_moment_.size());
   ASSERT(num_moments() > n, "number of moments: " << num_moments()
     << " must be > n: " << n);
   const double v = num_values();
   if (n == 2) {
     return moment(2)/v - std::pow(moment(1)/v, 2);
-    //return std();
+    // return std();
   } else if (n == 3) {
-    return moment(3)/v - 3.*moment(1)*moment(2)/v/v + 2.*std::pow(moment(1)/v, 3);
+    return moment(3)/v - 3.*moment(1)*moment(2)/v/v +
+           2.*std::pow(moment(1)/v, 3);
   } else if (n == 4) {
-    return moment(4)/v-4*moment(1)*moment(3)/v/v+6*moment(1)*moment(1)*moment(2)/v/v/v-3*std::pow(moment(1)/v, 4);
+    return moment(4)/v-4*moment(1)*moment(3)/v/v +
+           6*moment(1)*moment(1)*moment(2)/v/v/v - 3*std::pow(moment(1)/v, 4);
   } else {
     FATAL("moment: " << n << " not recognized");
   }
@@ -259,7 +260,8 @@ double Accumulator::block_std_of_std(const int op) const {
   return 0.;
 }
 
-bool Accumulator::is_equal(const Accumulator& acc, const double tolerance) const {
+bool Accumulator::is_equal(const Accumulator& acc,
+                           const double tolerance) const {
   if (max_ != acc.max_) return false;
   if (min_ != acc.min_) return false;
   if (!feasst::is_equal(val_moment_, acc.val_moment_, tolerance)) return false;

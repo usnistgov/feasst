@@ -2,10 +2,11 @@
 #define FEASST_BETA_EXPANDED_TRIAL_BETA_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
 Attempt to change the inverse temperature, \f$\beta=\frac{1}{k_B T}\f$ by a

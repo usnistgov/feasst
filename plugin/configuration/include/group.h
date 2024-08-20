@@ -4,10 +4,16 @@
 
 #include <memory>
 #include <vector>
-#include "utils/include/arguments.h"
-#include "configuration/include/particle.h"
+#include <map>
+#include <string>
+#include "configuration/include/properties.h"
 
 namespace feasst {
+
+class Particle;
+class Site;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Define groups based on particle and site types.
@@ -69,7 +75,7 @@ class Group : public PropertiedEntity {
   /// If no types or indices are listed, do not screen by types or indices.
   std::vector<int> site_types_;
   std::vector<int> particle_types_;
-  //std::vector<int> site_indices_;
+  // std::vector<int> site_indices_;
   std::vector<int> particle_indices_;
   bool dynamic_;
   bool spatial_;

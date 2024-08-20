@@ -29,15 +29,15 @@ TEST(VisitModelInnerTable, mab) {
   auto vis = MakeVisitModelInnerTable({{"table_file", table_file}});
   auto config = MakeConfiguration({{"particle_type0", "../particle/atom.fstprt"}});
   vis->precompute(config.get());
-  EXPECT_NEAR(74.09830, config->table5d()[0][0].data()[0][0][0][0][0], 1e-5);
-  EXPECT_NEAR(71.76155, config->table5d()[0][0].data()[0][0][0][0][1], 1e-5);
-  EXPECT_NEAR(74.09830, config->table5d()[0][0].data()[0][0][0][0][2], 1e-5);
-  EXPECT_NEAR(-6.835550, config->table6d()[0][0].data()[0][0][0][0][0][0], 1e-6);
-  EXPECT_NEAR(-0.001538283, config->table6d()[0][0].data()[0][0][0][0][0][1], 1e-9);
-  EXPECT_NEAR(-6.736353, config->table6d()[0][0].data()[0][0][0][0][1][0], 1e-6);
-  EXPECT_NEAR(0.001778595, config->table6d()[0][0].data()[0][0][0][0][1][1], 1e-9);
-  EXPECT_NEAR(-6.835550, config->table6d()[0][0].data()[0][0][0][0][2][0], 1e-6);
-  EXPECT_NEAR(-0.001538283, config->table6d()[0][0].data()[0][0][0][0][2][1], 1e-9);
+  EXPECT_NEAR(74.09830, config->table5d()[0][0]->data()[0][0][0][0][0], 1e-5);
+  EXPECT_NEAR(71.76155, config->table5d()[0][0]->data()[0][0][0][0][1], 1e-5);
+  EXPECT_NEAR(74.09830, config->table5d()[0][0]->data()[0][0][0][0][2], 1e-5);
+  EXPECT_NEAR(-6.835550, config->table6d()[0][0]->data()[0][0][0][0][0][0], 1e-6);
+  EXPECT_NEAR(-0.001538283, config->table6d()[0][0]->data()[0][0][0][0][0][1], 1e-9);
+  EXPECT_NEAR(-6.736353, config->table6d()[0][0]->data()[0][0][0][0][1][0], 1e-6);
+  EXPECT_NEAR(0.001778595, config->table6d()[0][0]->data()[0][0][0][0][1][1], 1e-9);
+  EXPECT_NEAR(-6.835550, config->table6d()[0][0]->data()[0][0][0][0][2][0], 1e-6);
+  EXPECT_NEAR(-0.001538283, config->table6d()[0][0]->data()[0][0][0][0][2][1], 1e-9);
 }
 
 }  // namespace feasst

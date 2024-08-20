@@ -1,4 +1,6 @@
 #include "utils/include/serialize.h"
+#include "system/include/thermo_params.h"
+#include "monte_carlo/include/acceptance.h"
 #include "model_expanded/include/compute_model.h"
 
 namespace feasst {

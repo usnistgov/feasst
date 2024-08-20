@@ -1,4 +1,5 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "egce/include/a_half_b.h"
 
@@ -15,7 +16,7 @@ AHalfB::AHalfB(argtype * args) : Constraint() {
     << " == particle_type_B_: " << num_B_.type());
 }
 AHalfB::AHalfB(argtype args) : AHalfB(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 bool AHalfB::is_allowed(const System& system,

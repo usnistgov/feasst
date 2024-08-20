@@ -4,10 +4,11 @@
 
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Randomly selection a whole particle of given type to pivot.

@@ -5,6 +5,9 @@
 #include "math/include/accumulator.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/thermo_params.h"
+#include "system/include/potential.h"
 #include "system/include/ideal_gas.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/lennard_jones.h"
@@ -15,20 +18,21 @@
 #include "models/include/square_well.h"
 #include "models/include/lennard_jones_force_shift.h"
 #include "monte_carlo/include/trial.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "monte_carlo/include/trial_rotate.h"
+#include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/remove_trial.h"
-#include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "monte_carlo/include/trial_select_dihedral.h"
 #include "monte_carlo/include/perturb_dihedral.h"
+#include "monte_carlo/include/rosenbluth.h"
 #include "steppers/include/log.h"
 #include "steppers/include/tune.h"
-#include "steppers/include/log_and_movie.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/wrap_particles.h"
 #include "steppers/include/tune.h"
@@ -105,8 +109,8 @@ TEST(MonteCarlo, chain) {
   mc.add(MakeTune());
   mc.attempt(3e2);
 
-  MonteCarlo mc2 = test_serialize(mc);
-  EXPECT_EQ(mc2.analyzers().size(), 2);
+  auto mc2 = test_serialize_unique(mc);
+  EXPECT_EQ(mc2->analyzers().size(), 2);
 }
 
 // HWH this test is known to fail infrequently
@@ -172,33 +176,33 @@ TEST(MonteCarlo, TrialGrow_LONG) {
     }
     EXPECT_LT(mc.configuration().num_particles(), 4);
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "100"}}));
-    MonteCarlo mc2 = test_serialize(mc);
-    mc2.attempt(2e1);
-    EXPECT_GE(mc2.configuration().num_particles(), 1);
-    mc2.configuration().check();
+    auto mc2 = test_serialize_unique(mc);
+    mc2->attempt(2e1);
+    EXPECT_GE(mc2->configuration().num_particles(), 1);
+    mc2->configuration().check();
     // INFO(mc.trial(1)->accept().perturbed().str());
   }
 }
 
-MonteCarlo cg7mab2(const std::string& data, const int num, const int trials_per = 1) {
+std::unique_ptr<MonteCarlo> cg7mab2(const std::string& data, const int num, const int trials_per = 1) {
   INFO("data " << data);
-  MonteCarlo mc;
+  std::unique_ptr<MonteCarlo> mc = std::make_unique<MonteCarlo>();
   //mc.set(MakeRandomMT19937({{"seed", "1633624429"}}));
-  mc.add(MakeConfiguration({{"cubic_side_length", "30"},
+  mc->add(MakeConfiguration({{"cubic_side_length", "30"},
     {"particle_type", "../plugin/chain/particle/" + data},
     {"set_cutoff_min_to_sigma", "true"}}));
-  mc.add(MakePotential(MakeHardSphere()));
+  mc->add(MakePotential(MakeHardSphere()));
   if (is_found_in(data, "fullangflex")) {
-    mc.add(MakePotential(MakeHardSphere(),
+    mc->add(MakePotential(MakeHardSphere(),
                      MakeVisitModelIntraMap({{"exclude_bonds", "true"}})));
   }
-  mc.set(MakeThermoParams({{"beta", "1."}, {"chemical_potential", "1"}}));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
-  mc.run(MakeRun({{"until_num_particles", str(num)}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->set(MakeThermoParams({{"beta", "1."}, {"chemical_potential", "1"}}));
+  mc->set(MakeMetropolis());
+  mc->add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc->run(MakeRun({{"until_num_particles", str(num)}}));
+  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   if (is_found_in(data, "fullangflex")) {
-    mc.add(MakeTrialGrow({
+    mc->add(MakeTrialGrow({
       //{{"particle_type", "0"}, {"site", "0"}, {"weight", "4"}, {"regrow", "1"}},
       //{{"bond", "1"}, {"mobile_site", "2"}, {"anchor_site", "0"}},
       {{"particle_type", "0"}, {"weight", "4"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
@@ -207,7 +211,7 @@ MonteCarlo cg7mab2(const std::string& data, const int num, const int trials_per 
       {{"angle", "1"}, {"mobile_site", "4"}, {"anchor_site", "3"}, {"anchor_site2", "0"}},
       {{"angle", "1"}, {"mobile_site", "6"}, {"anchor_site", "5"}, {"anchor_site2", "0"}}}));
   } else {
-    mc.add(MakeTrialGrow({
+    mc->add(MakeTrialGrow({
       //{{"particle_type", "0"}, {"site", "0"}, {"weight", "4"}, {"regrow", "1"}},
       //{{"bond", "1"}, {"mobile_site", "2"}, {"anchor_site", "0"}},
       {{"particle_type", "0"}, {"weight", "4"}, {"bond", "1"}, {"mobile_site", "2"}, {"anchor_site", "0"}},
@@ -216,9 +220,9 @@ MonteCarlo cg7mab2(const std::string& data, const int num, const int trials_per 
       {{"angle", "1"}, {"mobile_site", "3"}, {"anchor_site", "4"}, {"anchor_site2", "0"}},
       {{"angle", "1"}, {"mobile_site", "5"}, {"anchor_site", "6"}, {"anchor_site2", "0"}}}));
   }
-//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/" + data}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-9)}}));
-  mc.add(MakeTune());
+//  mc->add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/" + data}}));
+  mc->add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-9)}}));
+  mc->add(MakeTune());
   return mc;
 }
 
@@ -230,7 +234,7 @@ TEST(MonteCarlo, cg7mab2) {
       "cg7mab2flex.fstprt",
       "cg7mab2fullangflex.fstprt",
     }) {
-    cg7mab2(data, 1).attempt(1e2);
+    cg7mab2(data, 1)->attempt(1e2);
   }
 }
 
@@ -242,7 +246,7 @@ TEST(MonteCarlo, cg7mab2_LONG) {
       "cg7mab2flex.fstprt",
       "cg7mab2fullangflex.fstprt",
     }) {
-    cg7mab2(data, 10, 1e4).attempt(1e6);
+    cg7mab2(data, 10, 1e4)->attempt(1e6);
   }
 }
 
@@ -257,7 +261,7 @@ TEST(System, Angles2D) {
   INFO(mc.criteria().current_energy());
 }
 
-MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
+std::unique_ptr<MonteCarlo> test_avb(const bool avb2, const bool avb4 = true) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
@@ -312,9 +316,9 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
   mc.add(MakeAnalyzeBonds());
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
   mc.add(MakeTune());
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e6);
-  const Analyze& chiral = SeekAnalyze().reference("Chirality2D", mc2);
+  auto mc2 = test_serialize_unique(mc);
+  mc2->attempt(1e6);
+  const Analyze& chiral = SeekAnalyze().reference("Chirality2D", *mc2);
   EXPECT_NEAR(chiral.accumulator().average(), 10., NEAR_ZERO);
   EXPECT_NEAR(chiral.accumulator().stdev(), 0., NEAR_ZERO);
   return mc2;
@@ -323,17 +327,17 @@ MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
 const double z_factor = 20.;
 
 TEST(MonteCarlo, heterotrimer2d_VERY_LONG) {
-  MonteCarlo mc_no_avb = test_avb(false, false);
-  Accumulator en_no_avb = SeekAnalyze().reference("Energy", mc_no_avb).accumulator();
+  auto mc_no_avb = test_avb(false, false);
+  Accumulator en_no_avb = SeekAnalyze().reference("Energy", *mc_no_avb).accumulator();
   INFO(en_no_avb.str());
-  MonteCarlo mc_avb2 = test_avb(true, false);
-  Accumulator en_avb2 = SeekAnalyze().reference("Energy", mc_avb2).accumulator();
+  auto mc_avb2 = test_avb(true, false);
+  Accumulator en_avb2 = SeekAnalyze().reference("Energy", *mc_avb2).accumulator();
   INFO(en_avb2.str());
 
   EXPECT_TRUE(en_no_avb.is_equivalent(en_avb2, z_factor, true));
 
-  MonteCarlo mc_avb4 = test_avb(true, false);
-  Accumulator en_avb4 = SeekAnalyze().reference("Energy", mc_avb4).accumulator();
+  auto mc_avb4 = test_avb(true, false);
+  Accumulator en_avb4 = SeekAnalyze().reference("Energy", *mc_avb4).accumulator();
   INFO(en_avb4.str());
   EXPECT_TRUE(en_no_avb.is_equivalent(en_avb4, z_factor, true));
 }
@@ -591,7 +595,7 @@ TEST(MonteCarlo, RigidBondAngleDihedral) {
     }) {
     INFO(data);
     System system;
-    system.add(*MakeConfiguration({
+    system.add(MakeConfiguration({
       {"cubic_side_length", "10"},
       {"particle_type", data},
       {"add_particles_of_type0", "1"}}));

@@ -4,6 +4,8 @@
 #include "configuration/include/domain.h"
 #include "system/include/system.h"
 #include "system/include/lennard_jones.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/analyze.h"
@@ -12,7 +14,7 @@ namespace feasst {
 
 TEST(TrialRotate, spce) {
   System system;
-  system.add(*MakeConfiguration({{"cubic_side_length", "4"},
+  system.add(MakeConfiguration({{"cubic_side_length", "4"},
     {"particle_type", "../particle/spce.fstprt"},
     {"add_particles_of_type0", "1"}}));
   system.add(MakePotential(MakeLennardJones()));

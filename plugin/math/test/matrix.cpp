@@ -1,6 +1,7 @@
 #include <cmath>
 #include "utils/test/utils.h"
 #include "utils/include/debug.h"
+#include "math/include/position.h"
 #include "math/include/matrix.h"
 #include "math/include/constants.h"
 

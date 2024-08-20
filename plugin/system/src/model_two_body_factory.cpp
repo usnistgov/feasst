@@ -1,5 +1,5 @@
 #include <memory>
-#include "utils/include/arguments.h"
+#include "utils/include/arguments_extra.h"
 #include "utils/include/file.h"
 #include "utils/include/serialize.h"
 #include "system/include/model_two_body_factory.h"
@@ -35,7 +35,7 @@ ModelTwoBodyFactory::ModelTwoBodyFactory(argtype * args) {
       DEBUG(line);
       std::pair<std::string, argtype> margs = parse_line(line, NULL, NULL);
       auto model = ModelTwoBody().factory(margs.first, &margs.second);
-      FEASST_CHECK_ALL_USED(margs.second);
+      feasst_check_all_used(margs.second);
       models_.push_back(model);
     }
   } else {
@@ -54,7 +54,7 @@ ModelTwoBodyFactory::ModelTwoBodyFactory(argtype * args) {
   DEBUG("num " << num());
 }
 ModelTwoBodyFactory::ModelTwoBodyFactory(argtype args) : ModelTwoBodyFactory(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void ModelTwoBodyFactory::add(

@@ -1,7 +1,14 @@
 #include <cmath>
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/random.h"
+#include "configuration/include/configuration.h"
+#include "configuration/include/select.h"
 #include "configuration/include/domain.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/tunable.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/perturb_volume.h"
 
 namespace feasst {
@@ -15,7 +22,7 @@ PerturbVolume::PerturbVolume(argtype * args) : Perturb(args) {
   }
 }
 PerturbVolume::PerturbVolume(argtype args) : PerturbVolume(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapPerturbVolume {
@@ -108,6 +115,12 @@ void PerturbVolume::serialize(std::ostream& ostr) const {
   feasst_serialize(uniform_volume_, ostr);
   feasst_serialize(constrain_volume_change_, ostr);
   feasst_serialize(args_, ostr);
+}
+
+void PerturbVolume::change_volume(const double delta_volume,
+    System * system,
+    const Select& select) {
+  system->change_volume(delta_volume, args_);
 }
 
 }  // namespace feasst

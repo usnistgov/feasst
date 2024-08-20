@@ -3,13 +3,14 @@
 #define FEASST_ANISO_VISIT_MODEL_INNER_NN_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "math/include/table.h"
 #include "math/include/matrix.h"
 #include "math/include/euler.h"
 #include "aniso/include/visit_model_inner_table.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
  * This class is currently in development.

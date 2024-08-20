@@ -4,9 +4,19 @@
 #include <cmath>
 #include <limits>
 #include <random>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "threads/include/thread_omp.h"
+#include "configuration/include/select.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/analyze_factory.h"
+#include "monte_carlo/include/modify_factory.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/action.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/trial_stage.h"
 #include "prefetch/include/prefetch.h"
 
 // use this to make prefetch serial and simply debugging
@@ -23,13 +33,13 @@ Prefetch::Prefetch(argtype args) {
   #ifdef DEBUG_SERIAL_MODE_5324634
     WARN("DEBUG_SERIAL_MODE_5324634");
   #endif
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Prefetch::reset_trial_stats() {
   MonteCarlo::reset_trial_stats();
   for (Pool& pool : pool_) {
-    pool.mc.reset_trial_stats();
+    pool.mc->reset_trial_stats();
   }
 }
 
@@ -37,7 +47,7 @@ MonteCarlo * Prefetch::clone_(const int ithread) {
   if (ithread == 0) {
     return this;
   }
-  return &pool_[ithread].mc;
+  return pool_[ithread].mc.get();
 }
 
 void Prefetch::create(std::vector<Pool> * pool) {
@@ -64,7 +74,7 @@ void Prefetch::create(std::vector<Pool> * pool) {
   for (int thread = 1; thread < num_threads_; ++thread) {
     std::stringstream clone_ss;
     MonteCarlo::serialize(clone_ss);
-    pool_[thread].mc = MonteCarlo(clone_ss);
+    pool_[thread].mc = std::make_unique<MonteCarlo>(clone_ss);
   }
 
   // seed random number generators so that clones are not equal
@@ -311,8 +321,8 @@ void Prefetch::attempt_(
               after_trial_analyze_();
             }
           }
-          DEBUG("num attempts " << pool->mc.trials().num_attempts() << " "
-                                << pool->mc.trials().num_success() << " " << &pool->mc);
+          DEBUG("num attempts " << pool->mc->trials().num_attempts() << " "
+                                << pool->mc->trials().num_success() << " " << &pool->mc);
         }
         DEBUG("num attempts main " << trials().num_attempts() << " "
                                      << trials().num_success() << " " << this);
@@ -555,4 +565,9 @@ Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
   feasst_deserialize(&ghost_, istr);
 }
 
+const std::string Pool::str() const {
+  std::stringstream ss;
+  ss << index_ << " " << ln_prob_ << " " << accepted_;
+  return ss.str();
+}
 }  // namespace feasst

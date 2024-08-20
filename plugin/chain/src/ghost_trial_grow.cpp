@@ -1,11 +1,13 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/io.h"
 #include "utils/include/utils.h"
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/random_mt19937.h" // HWH remove this
 #include "configuration/include/domain.h"
-#include "system/include/ideal_gas.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
 #include "chain/include/trial_grow.h"
 #include "chain/include/ghost_trial_grow.h"
 
@@ -47,7 +49,7 @@ GhostTrialGrow::GhostTrialGrow(argtype * args) : Modify(args) {
   grow_.add(grow->trials()[0]);
 }
 GhostTrialGrow::GhostTrialGrow(argtype args) : GhostTrialGrow(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void GhostTrialGrow::initialize(Criteria * criteria,

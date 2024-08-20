@@ -1,7 +1,7 @@
-TypedEntity
+VisitModelCutoffOuter
 =====================================================
 
-.. doxygenclass:: feasst::TypedEntity
+.. doxygenclass:: feasst::VisitModelCutoffOuter
    :project: FEASST
    :members:
-   :membergroups: Arguments
+   

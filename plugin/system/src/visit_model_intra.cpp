@@ -1,10 +1,14 @@
 #include <cmath>
 #include <vector>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/utils.h"  // find_in_list
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/configuration.h"
-#include "system/include/visit_model_intra.h"
 #include "system/include/model_two_body.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/visit_model_intra.h"
 
 namespace feasst {
 
@@ -13,7 +17,7 @@ VisitModelIntra::VisitModelIntra(argtype * args) : VisitModel(args) {
   set_intra_cut(integer("intra_cut", args, -1));
 }
 VisitModelIntra::VisitModelIntra(argtype args) : VisitModelIntra(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void VisitModelIntra::compute(
@@ -27,7 +31,7 @@ void VisitModelIntra::compute(
     "need to implement site1 loop filtering particles by group");
   zero_energy();
   const Domain& domain = config->domain();
-  init_relative_(domain, &relative_, &pbc_);
+  init_relative_(domain);
   for (int sp1index = 0;
        sp1index < static_cast<int>(selection.particle_indices().size());
        ++sp1index) {
@@ -85,8 +89,8 @@ void VisitModelIntra::compute(
                (!exclude) ) {
             TRACE("sites: " << site1_index << " " << site2_index);
             get_inner_()->compute(part1_index, site1_index, part1_index,
-              site2_index, config, model_params, model, false, &relative_,
-              &pbc_);
+              site2_index, config, model_params, model, false, relative_.get(),
+              pbc_.get());
           }
         }
       }

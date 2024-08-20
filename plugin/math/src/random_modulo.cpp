@@ -1,7 +1,9 @@
 #include <limits>
-#include "math/include/random_modulo.h"
+#include "utils/include/arguments.h"
 #include "utils/include/io.h"
 #include "utils/include/serialize.h"
+#include "math/include/formula_exponential.h"
+#include "math/include/random_modulo.h"
 
 namespace feasst {
 
@@ -10,8 +12,8 @@ double RandomModulo::gen_uniform_() {
   TRACE("M " << M_);
   TRACE("a " << a_)
   TRACE("X " << X_)
-  //X_ = (a_*X_) % M_;
-  X_ = a_*X_ - M_*int(a_*X_/M_);
+  // X_ = (a_*X_) % M_;
+  X_ = a_*X_ - M_*static_cast<int>(a_*X_/M_);
   TRACE("X " << X_)
   return static_cast<double>(X_)/static_cast<double>(M_);
 }
@@ -37,7 +39,7 @@ RandomModulo::RandomModulo(argtype * args) : Random(args) {
   parse_seed_(args);
 }
 RandomModulo::RandomModulo(argtype args) : RandomModulo(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void RandomModulo::serialize(std::ostream& ostr) const {

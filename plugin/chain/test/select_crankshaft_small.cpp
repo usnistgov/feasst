@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "configuration/include/select.h"
 #include "chain/include/select_crankshaft_small.h"
 
 namespace feasst {

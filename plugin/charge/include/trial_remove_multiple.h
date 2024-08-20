@@ -3,10 +3,11 @@
 #define FEASST_CHARGE_TRIAL_REMOVE_MULTIPLE_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Attempt to remove multiple particles.

@@ -1,4 +1,6 @@
 #include <vector>
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/select.h"
 #include "configuration/include/visit_particles.h"
 
 namespace feasst {

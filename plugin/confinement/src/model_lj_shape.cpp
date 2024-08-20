@@ -1,4 +1,6 @@
 #include <cmath>
+#include "utils/include/max_precision.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
@@ -34,12 +36,12 @@ ModelLJShape::ModelLJShape(argtype * args) : ModelLJShape() {
   parse_args_(args);
 }
 ModelLJShape::ModelLJShape(argtype args) : ModelLJShape(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
   argtype args) : ModelLJShape(shape, &args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
@@ -170,11 +172,15 @@ double ModelLJShapeEnergyAtCutoff::compute(const int type1, const ModelParams& m
   const double eps = model_->epsilon(type1, model_params);
   const double sig = model_->sigma(type1, model_params);
   const double cutoff = model_params.select("cutoff").value(type1);
+  TRACE("eps " << MAX_PRECISION << eps);
+  TRACE("sig " << sig);
+  TRACE("cut " << cutoff);
+  double en = 0.;
   if (cutoff > 0) {
-    return model_->energy(eps, sig, cutoff);
-  } else {
-    return 0.;
+    en = model_->energy(eps, sig, cutoff);
   }
+  TRACE("en " << en);
+  return en;
 }
 
 }  // namespace feasst

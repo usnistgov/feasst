@@ -3,10 +3,11 @@
 #define FEASST_CHAIN_SELECT_TWO_SITES_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   A random particle of given type is selected if previously perturbed sites

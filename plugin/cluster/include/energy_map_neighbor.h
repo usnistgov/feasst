@@ -3,12 +3,12 @@
 #define FEASST_CLUSTER_ENERGY_MAP_NEIGHBOR_H_
 
 #include <vector>
-//#include "utils/include/debug.h"
-#include "utils/include/arguments.h"
 #include "system/include/energy_map.h"
 #include "configuration/include/neighbor_criteria.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 typedef std::vector<double> map1type;
 typedef std::vector<std::pair<int, map1type> > map2type;

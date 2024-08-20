@@ -1,9 +1,14 @@
-#include <cmath>
-#include <sstream>
-#include <iostream>
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"  // is_equal
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/io.h"
 #include "math/include/constants.h"
+#include "system/include/visit_model.h"
+#include "system/include/potential.h"
+#include "system/include/model.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/constraint.h"
 #include "monte_carlo/include/constrain_num_particles.h"
@@ -25,7 +30,7 @@ Criteria::Criteria(argtype * args) {
   }
 }
 Criteria::Criteria(argtype args) : Criteria(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 Criteria::Criteria(std::shared_ptr<Constraint> constraint, argtype args)

@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "utils/include/cache.h"
 #include "system/include/system.h"
 #include "system/test/sys_utils.h"
 #include "system/include/lennard_jones.h"

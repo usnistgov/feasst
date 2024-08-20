@@ -1,7 +1,9 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/physical_constants.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/criteria.h"
 #include "steppers/include/read_config_from_file.h"
 
 namespace feasst {

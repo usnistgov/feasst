@@ -3,10 +3,11 @@
 #define FEASST_CLUSTER_TRIAL_TRANSFER_AVB_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /// Attempt TrialAddAVB or TrialRemoveAVB with equal probability.
 class TrialTransferAVB : public TrialFactoryNamed {

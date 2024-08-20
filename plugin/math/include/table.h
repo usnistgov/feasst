@@ -1,10 +1,14 @@
 #ifndef FEASST_MATH_TABLE_H_
 #define FEASST_MATH_TABLE_H_
 
+#include <map>
+#include <memory>
+#include <string>
 #include <vector>
-#include "utils/include/arguments.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Table values are assumed to be equally spaced and vary from 0 to 1.
@@ -27,26 +31,6 @@ class Table {
 
   virtual ~Table() {}
 };
-
-/// Return if the value is bad (i.e., nan or inf).
-template<class T>
-bool has_bad_value(const T& value) {
-  if (std::isnan(value) || std::isinf(value)) {
-    return true;
-  }
-  return false;
-}
-
-/// Return if the vector has a bad value (i.e., nan or inf).
-template<class T>
-int has_bad_value(const std::vector<T>& vec) {
-  for (const T& element : vec) {
-    if (has_bad_value(element)) {
-      return true;
-    }
-  }
-  return false;
-}
 
 /**
   This is a one-dimensional implementation of a table.
@@ -94,15 +78,8 @@ class Table1D : public Table {
   explicit Table1D(std::istream& istr);
 
   // HWH python interface cannot handle stringstreams with serialization.
-  std::string serialize() {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-  Table1D deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return Table1D(ss);
-  }
+  std::string serialize() const;
+  Table1D deserialize(const std::string str);
 
   virtual ~Table1D() {}
 
@@ -169,15 +146,8 @@ class Table2D : public Table {
   explicit Table2D(std::istream& istr);
 
   // HWH python interface cannot handle stringstreams with serialization.
-  std::string serialize() {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-  Table2D deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return Table2D(ss);
-  }
+  std::string serialize() const;
+  Table2D deserialize(const std::string str);
 
   virtual ~Table2D() {}
 
@@ -255,15 +225,8 @@ class Table3D : public Table {
   explicit Table3D(std::istream& istr);
 
   // HWH python interface cannot handle stringstreams with serialization.
-  std::string serialize() const {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-  Table3D deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return Table3D(ss);
-  }
+  std::string serialize() const;
+  Table3D deserialize(const std::string str);
 
   virtual ~Table3D() {}
 
@@ -350,15 +313,8 @@ class Table4D : public Table {
   explicit Table4D(std::istream& istr);
 
   // HWH python interface cannot handle stringstreams with serialization.
-  std::string serialize() const {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-  Table4D deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return Table4D(ss);
-  }
+  std::string serialize() const;
+  Table4D deserialize(const std::string str);
 
   virtual ~Table4D() {}
 
@@ -375,7 +331,8 @@ inline std::shared_ptr<Table4D> MakeTable4D(const std::string file_name) {
   return std::make_shared<Table4D>(file_name);
 }
 
-typedef std::vector<std::vector<std::vector<std::vector<std::vector<float> > > > > fvec5;
+typedef std::vector<std::vector<std::vector<std::vector<float> > > > fvec4;
+typedef std::vector<fvec4> fvec5;
 
 /**
   This is a five-dimensional implementation of a table.
@@ -451,15 +408,8 @@ class Table5D : public Table {
   explicit Table5D(std::istream& istr);
 
   // HWH python interface cannot handle stringstreams with serialization.
-  std::string serialize() const {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-  Table5D deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return Table5D(ss);
-  }
+  std::string serialize() const;
+  Table5D deserialize(const std::string str);
 
   virtual ~Table5D() {}
 
@@ -557,15 +507,8 @@ class Table6D : public Table {
   explicit Table6D(std::istream& istr);
 
   // HWH python interface cannot handle stringstreams with serialization.
-  std::string serialize() const {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-  Table6D deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return Table6D(ss);
-  }
+  std::string serialize() const;
+  Table6D deserialize(const std::string str);
 
   virtual ~Table6D() {}
 

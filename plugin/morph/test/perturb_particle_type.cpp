@@ -1,5 +1,7 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
 #include "system/include/potential.h"
 #include "system/include/lennard_jones.h"
@@ -25,7 +27,7 @@ TEST(PerturbParticleType, serialize) {
     config->particle_type_to_group_create(1);
     EXPECT_EQ(config->model_params().select("sigma").mixed_value(0, 1), 1.25/2.);
     EXPECT_EQ(config->model_params().select("cutoff").mixed_value(0, 1), 2.);
-    sys.add(*config);
+    sys.add(config);
   }
   sys.add(MakePotential(MakeLennardJones()));
   const Configuration& config = sys.configuration();

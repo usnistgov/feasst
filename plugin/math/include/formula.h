@@ -5,10 +5,10 @@
 #include <map>
 #include <memory>
 #include <string>
-#include <sstream>
-#include "utils/include/arguments.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Define a formula that depends on one or more variables, x or y.

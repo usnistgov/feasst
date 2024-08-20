@@ -3,11 +3,13 @@
 #define FEASST_CLUSTER_ENERGY_MAP_ALL_CRITERIA_H_
 
 #include <vector>
-#include "utils/include/arguments.h"
 #include "configuration/include/neighbor_criteria.h"
 #include "cluster/include/energy_map_all.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
+
 /**
   Same as EnergyMapAll, except subject update to NeighborCriteria.
  */

@@ -1,3 +1,4 @@
+#include <cmath>
 #include "utils/test/utils.h"
 #include "flat_histogram/include/ln_probability.h"
 

@@ -1,4 +1,7 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/trial_factory.h"
 #include "steppers/include/increment_phase.h"
 
 namespace feasst {
@@ -16,7 +19,7 @@ IncrementPhase::IncrementPhase(argtype * args) : ModifyUpdateOnly(args) {
   num_trials_ = integer("num_trials", args, -1);
 }
 IncrementPhase::IncrementPhase(argtype args) : IncrementPhase(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void IncrementPhase::update(Criteria * criteria,

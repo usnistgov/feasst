@@ -1,4 +1,5 @@
 #include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
@@ -24,7 +25,7 @@ SlabSine::SlabSine(argtype * args) : ShapeIntersect() {
   int wave_dimension = integer("wave_dimension", args);
   double upper = dble("average_bound0", args);
   double lower = dble("average_bound1", args);
-  sort(&lower, &upper);
+  feasst_sort(&lower, &upper);
   ASSERT(upper - lower > NEAR_ZERO, "slab is too thin");
   auto sine_wave = std::make_shared<FormulaSineWave>(args);
   sine_wave->set_phase(sine_wave->phase() - 0.25*sine_wave->width());
@@ -44,7 +45,7 @@ SlabSine::SlabSine(argtype * args) : ShapeIntersect() {
   set(half0, half1);
 }
 SlabSine::SlabSine(argtype args) : SlabSine(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void SlabSine::serialize(std::ostream& ostr) const {

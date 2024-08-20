@@ -2,11 +2,12 @@
 #ifndef FEASST_MODELS_LENNARD_JONES_ALPHA_H_
 #define FEASST_MODELS_LENNARD_JONES_ALPHA_H_
 
-#include "utils/include/arguments.h"
 #include "configuration/include/model_params.h"
 #include "system/include/lennard_jones.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   This Lennard-Jones potential, \f$U_{LJ}\f$ is a generalization of the one

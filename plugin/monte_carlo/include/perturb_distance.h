@@ -2,6 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_DISTANCE_H_
 #define FEASST_MONTE_CARLO_PERTURB_DISTANCE_H_
 
+#include <memory>
 #include "math/include/matrix.h"
 #include "system/include/rigid_bond.h"
 #include "monte_carlo/include/perturb_move.h"
@@ -60,15 +61,11 @@ class PerturbDistance : public PerturbMove {
   double random_distance(const System& system,
     const TrialSelect* select,
     Random * random,
-    double * bond_energy  // return the bond energy for Rosenbluth exclusion
-  );
+    double * bond_energy);  // return the bond energy for Rosenbluth exclusion
 
   // move possibly more than once, depending on potential_acceptance
-  void move(const bool is_position_held,
-      System * system,
-      TrialSelect * select,
-      Random * random,
-      Acceptance * acceptance) override;
+  void move(const bool is_position_held, System * system,  // NOLINT
+    TrialSelect * select, Random * random, Acceptance * acceptance) override;
 
   // move only once, regardless of potential_acceptance
   virtual void move_once(const bool is_position_held,

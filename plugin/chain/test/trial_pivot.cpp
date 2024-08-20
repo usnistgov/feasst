@@ -1,7 +1,10 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/file_xyz.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
 #include "system/include/system.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/trial_factory.h"
@@ -13,7 +16,7 @@ namespace feasst {
 
 TEST(TrialPivot, chain10) {
   System system;
-  system.add(*MakeConfiguration({{"cubic_side_length", "12"},
+  system.add(MakeConfiguration({{"cubic_side_length", "12"},
     {"particle_type", "../particle/chain10.fstprt"},
     {"add_particles_of_type0", "1"}}));
   system.add(MakePotential(MakeLennardJones()));

@@ -1,5 +1,7 @@
 #include <cmath>
 #include "utils/test/utils.h"
+#include "math/include/accumulator.h"
+#include "configuration/include/configuration.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "example/include/analyze_example.h"
 
@@ -7,7 +9,7 @@ namespace feasst {
 
 TEST(AnalyzeExample, serialize) {
   auto movie = MakeAnalyzeExample({{"output_file", "tmp"}});
-  auto movie2 = test_serialize<AnalyzeExample, Analyze>(*movie);
+  auto movie2 = test_serialize(*movie);
 }
 
 TEST(AnalyzeExample, ideal_gas_fluid_geometric_center_LONG) {

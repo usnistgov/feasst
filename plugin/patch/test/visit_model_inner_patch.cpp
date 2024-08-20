@@ -1,7 +1,12 @@
 #include "utils/test/utils.h"
 #include "patch/include/visit_model_inner_patch.h"
+#include "configuration/include/group.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/domain.h"
+#include "system/include/potential.h"
+#include "system/include/visit_model.h"
+#include "system/include/system.h"
+#include "system/include/visit_model_inner.h"
 #include "models/include/square_well.h"
 #include "monte_carlo/include/perturb_anywhere.h"
 #include "monte_carlo/include/trial_select_particle.h"
@@ -43,7 +48,7 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
       {"add_particles_of_type0", "2"},
       {"patch_angle1", "5"}});
     config->add(MakeGroup({{"site_type", "0"}}));
-    system.add(*config);
+    system.add(config);
   }
 
   system.add(MakePotential(MakeSquareWell(),

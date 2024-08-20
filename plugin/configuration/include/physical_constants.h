@@ -2,13 +2,13 @@
 #ifndef FEASST_CONFIGURATION_PHYSICAL_CONSTANTS_H_
 #define FEASST_CONFIGURATION_PHYSICAL_CONSTANTS_H_
 
-#include <sstream>
 #include <memory>
 #include <map>
 #include <string>
-#include "utils/include/arguments.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   This class provides physical constants and conversions for convenience.
@@ -57,12 +57,13 @@ class PhysicalConstants {
   //@{
 
   /// Convert the number density (1/A^3) to g/cm^3
-  inline double number_density_to_grams_per_cm3(const double density, /// 1/A^3
+  inline double number_density_to_grams_per_cm3(const double density,  /// 1/A^3
       const double molecular_weight) {
     return density*molecular_weight/avogadro_constant()*1e24; }
 
   /// Convert the density in g/cm^3 to number density (1/A^3)
-  inline double grams_per_cm3_to_number_density(const double density, /// g/cm^3
+  inline double grams_per_cm3_to_number_density(
+      const double density,  /// g/cm^3
       const double molecular_weight) {
     return density/number_density_to_grams_per_cm3(1., molecular_weight); }
 
@@ -111,8 +112,7 @@ class CODATA2018 : public PhysicalConstants {
 
   std::shared_ptr<PhysicalConstants> create(std::istream& istr) const override {
     return std::make_shared<CODATA2018>(istr); }
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name() << " "; }
+  void serialize(std::ostream& ostr) const override;
   explicit CODATA2018(std::istream& istr);
   virtual ~CODATA2018() {}
 };
@@ -146,8 +146,7 @@ class CODATA2014 : public PhysicalConstants {
 
   std::shared_ptr<PhysicalConstants> create(std::istream& istr) const override {
     return std::make_shared<CODATA2014>(istr); }
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name() << " "; }
+  void serialize(std::ostream& ostr) const override;
   explicit CODATA2014(std::istream& istr);
   virtual ~CODATA2014() {}
 };
@@ -181,8 +180,7 @@ class CODATA2010 : public PhysicalConstants {
 
   std::shared_ptr<PhysicalConstants> create(std::istream& istr) const override {
     return std::make_shared<CODATA2010>(istr); }
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name() << " "; }
+  void serialize(std::ostream& ostr) const override;
   explicit CODATA2010(std::istream& istr);
   virtual ~CODATA2010() {}
 };

@@ -3,11 +3,15 @@
 #define FEASST_EXAMPLE_MODEL_EXAMPLE_H_
 
 #include <memory>
-#include "configuration/include/model_params.h"
+#include <map>
+#include <string>
 #include "system/include/model_two_body.h"
-#include "example/include/model_param_example.h"
 
 namespace feasst {
+
+class ModelParams;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Add a model to FEASST by using this file as a template and instruction set.
@@ -108,7 +112,8 @@ class ModelExample : public ModelTwoBody {
   int gamma_index_ = -1;
 };
 
-inline std::shared_ptr<ModelExample> MakeModelExample(argtype args = argtype()) {
+inline std::shared_ptr<ModelExample> MakeModelExample(
+    argtype args = argtype()) {
   return std::make_shared<ModelExample>(args);
 }
 

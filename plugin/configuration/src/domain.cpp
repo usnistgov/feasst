@@ -1,10 +1,11 @@
 #include <cmath>
 #include <vector>
-#include "configuration/include/domain.h"
+#include "utils/include/arguments.h"
+#include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
-#include "utils/include/serialize.h"
 #include "math/include/random.h"
+#include "configuration/include/domain.h"
 
 namespace feasst {
 
@@ -49,7 +50,7 @@ Domain::Domain(argtype * args) {
   }
 }
 Domain::Domain(argtype args) : Domain(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 Domain& Domain::set_cubic(const double box_length) {
@@ -144,7 +145,6 @@ Position Domain::random_position(Random * random) const {
 
 void Domain::random_position(Position * position, Random * random) const {
   DEBUG("side_lengths_ " << side_lengths_.str());
-  //ASSERT(!is_tilted(), "implement triclinic");
   return random->position_in_cuboid(side_lengths_, position);
 }
 
@@ -304,7 +304,7 @@ void Domain::wrap_triclinic_opt(const Position& pos1,
     Position * rel,
     Position * pbc,
     double * r2) const {
-  //INFO("wrapping triclinc opt " << pos1.str() << " " << pos2.str());
+  DEBUG("wrapping triclinc opt " << pos1.str() << " " << pos2.str());
   *r2 = 0;
   const std::vector<double>& side = side_lengths_.coord();
   std::vector<double>* dxv = (*rel).get_coord();

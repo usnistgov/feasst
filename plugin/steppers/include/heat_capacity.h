@@ -11,7 +11,7 @@ namespace feasst {
   Accumulate average heat capacity, C, per Boltzmann constant (\f$k_B\f$),
   as computed from the fluctuation in the energy, U,
 
-  /f$\beta \langle C \rangle/k_B = \beta^2 (\langle U^2 \rangle - \langle U \rangle^2) /f$.
+  \f$ C/k_B = \beta^2 (\langle U^2 \rangle - \langle U \rangle^2) \f$.
 
   Note that the heat capacity can also be computed from the moments output by
   Energy.

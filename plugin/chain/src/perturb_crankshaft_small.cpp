@@ -1,8 +1,19 @@
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
-#include "chain/include/perturb_crankshaft_small.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "monte_carlo/include/tunable.h"
+#include "monte_carlo/include/trial_select.h"
+#include "chain/include/perturb_crankshaft_small.h"
 
 namespace feasst {
+
+PerturbCrankshaftSmall::PerturbCrankshaftSmall(argtype args) : PerturbCrankshaftSmall(&args) {
+  feasst_check_all_used(args);
+}
+PerturbCrankshaftSmall::PerturbCrankshaftSmall(argtype * args) : PerturbRotate(args) {
+  class_name_ = "PerturbCrankshaftSmall";
+}
 
 class MapPerturbCrankshaftSmall {
  public:

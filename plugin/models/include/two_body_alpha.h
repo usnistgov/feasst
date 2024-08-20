@@ -2,11 +2,12 @@
 #ifndef FEASST_MODELS_TWO_BODY_ALPHA_H_
 #define FEASST_MODELS_TWO_BODY_ALPHA_H_
 
-#include "utils/include/arguments.h"
 #include "configuration/include/model_params.h"
 #include "system/include/model_two_body.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   The two-body alpha model is defined as

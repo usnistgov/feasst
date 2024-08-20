@@ -1,14 +1,15 @@
 #include <cmath>
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
+#include "utils/include/debug.h"
+#include "utils/include/serialize.h"
 #include "math/include/solver_newton_raphson.h"
 #include "math/include/formula.h"
 #include "math/include/constants.h"
-#include "utils/include/io.h"
-#include "utils/include/debug.h"
-#include "utils/include/serialize.h"
 
 namespace feasst {
 
-SolverNewtonRaphson::SolverNewtonRaphson(const argtype& args) : Solver(args) {
+SolverNewtonRaphson::SolverNewtonRaphson(argtype args) : Solver(args) {
   class_name_ = "SolverNewtonRaphson";
 }
 

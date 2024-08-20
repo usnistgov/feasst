@@ -1,13 +1,22 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 
 namespace feasst {
 
 TrialComputeRemove::TrialComputeRemove(argtype args) : TrialComputeRemove(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 TrialComputeRemove::TrialComputeRemove(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeRemove";

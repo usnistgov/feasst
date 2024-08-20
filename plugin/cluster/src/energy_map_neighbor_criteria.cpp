@@ -1,6 +1,7 @@
+#include "utils/include/arguments.h"
+#include "utils/include/serialize.h"
 #include "configuration/include/configuration.h"
 #include "cluster/include/energy_map_neighbor_criteria.h"
-#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -21,7 +22,7 @@ EnergyMapNeighborCriteria::EnergyMapNeighborCriteria(argtype * args)
 }
 EnergyMapNeighborCriteria::EnergyMapNeighborCriteria(argtype args)
   : EnergyMapNeighborCriteria(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 EnergyMapNeighborCriteria::EnergyMapNeighborCriteria(std::istream& istr)

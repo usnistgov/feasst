@@ -15,6 +15,23 @@ from itertools import repeat
 import numpy as np
 from pathlib import Path
 
+def dict_to_argparse(dictionary):
+    """
+    Converts a dictionary to a string that argparse may read from command line
+
+    >>> from pyfeasst import fstio
+    >>> params = {'run_type': 0, 'feasst_install': '/path/to/feasst/', 'queue_flags': ""}
+    >>> fstio.dict_to_argparse(params)
+    ' --run_type 0 --feasst_install /path/to/feasst/ --queue_flags ""'
+    """
+    rtrn = str()
+    for label in dictionary:
+        if dictionary[label] == "":
+            rtrn += ' --'+label+' ""'
+        else:
+            rtrn += ' --'+label+' '+str(dictionary[label])
+    return rtrn
+
 def vector3d_to_list(vec):
     """
     Converts a swig stl vector to python list

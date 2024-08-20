@@ -2,6 +2,9 @@
 #include "math/include/histogram.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/model_params.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/dont_visit_model.h"
 #include "system/include/model_two_body_factory.h"
@@ -9,6 +12,7 @@
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/remove_trial.h"
@@ -28,7 +32,6 @@
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
-#include "steppers/include/log_and_movie.h"
 #include "charge/include/ewald.h"
 #include "charge/include/charge_screened.h"
 #include "charge/include/charge_self.h"
@@ -37,6 +40,7 @@
 #include "charge/test/charge_utils.h"
 #include "charge/include/trial_transfer_multiple.h"
 #include "flat_histogram/include/flat_histogram.h"
+#include "flat_histogram/include/collection_matrix.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/wang_landau.h"
@@ -124,34 +128,34 @@ TEST(MonteCarlo, hard_sphere_LONG) {
   //EXPECT_NEAR(bias->ln_prob().value(0), -41.3327752, 0.05);
 }
 
-MonteCarlo test_lj_fh(const int num_steps,
+std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
     const std::string bias_name,
     int sweeps = 10,
     bool test_multi = false,
     const int min = 1,
     const int max = 5,
     bool dont_use_multi = false) {
-  MonteCarlo mc;
+  std::unique_ptr<MonteCarlo> mc = std::make_unique<MonteCarlo>();
   int ref = -1;
-  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
+  mc->add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../particle/lj.fstprt"}}));
-  mc.add(MakePotential(MakeLennardJones()));
-  mc.add(MakePotential(MakeLongRangeCorrections()));
+  mc->add(MakePotential(MakeLennardJones()));
+  mc->add(MakePotential(MakeLongRangeCorrections()));
   if (num_steps == 1) {
     if (test_multi) {
       ref = 0;
-      mc.add_to_reference(MakePotential(MakeDontVisitModel()));
+      mc->add_to_reference(MakePotential(MakeDontVisitModel()));
     }
   } else {
     ref = 0;
-    mc.run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));
+    mc->run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));
   }
-  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
-  mc.run(MakeRun({{"until_num_particles", str(min)}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc->set(MakeMetropolis());
+  mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc->add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc->run(MakeRun({{"until_num_particles", str(min)}}));
+  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   argtype transfer_args =
     { {"particle_type0", "0"},
       {"reference_index", str(ref)},
@@ -163,16 +167,16 @@ MonteCarlo test_lj_fh(const int num_steps,
   }
   if (dont_use_multi) {
     ASSERT(!test_multi, "er");
-    mc.add(MakeTrialTransfer({ {"particle_type", "0"},
+    mc->add(MakeTrialTransfer({ {"particle_type", "0"},
       {"reference_index", str(ref)},
       {"num_steps", str(num_steps)},
       {"weight", "4"}}));
   } else {
-    mc.add(MakeTrialTransferMultiple(transfer_args));
+    mc->add(MakeTrialTransferMultiple(transfer_args));
   }
-  EXPECT_EQ(mc.trial(0).weight(), 1);
-  EXPECT_EQ(mc.trial(1).weight(), 2);
-  EXPECT_EQ(mc.trial(2).weight(), 2);
+  EXPECT_EQ(mc->trial(0).weight(), 1);
+  EXPECT_EQ(mc->trial(1).weight(), 2);
+  EXPECT_EQ(mc->trial(2).weight(), 2);
   std::shared_ptr<Bias> bias;
   if (bias_name == "TM") {
     bias = MakeTransitionMatrix({{"min_sweeps", str(sweeps)}});
@@ -188,7 +192,7 @@ MonteCarlo test_lj_fh(const int num_steps,
   }
   std::string width = "1";
   if (test_multi) width = "2";
-  mc.set(MakeThermoParams({{"beta", str(1./1.5)},
+  mc->set(MakeThermoParams({{"beta", str(1./1.5)},
       {"chemical_potential", "-2.352321"}}));
 //      {{"soft_max", "5"}, {"soft_min", "1"}}));
 //      {{"particle_type", "0"}}));
@@ -197,15 +201,15 @@ MonteCarlo test_lj_fh(const int num_steps,
       Histogram({{"width", width}, {"max", str(max)}, {"min", str(min)}})),
     bias);
   INFO(criteria->bias().class_name());
-  mc.set(criteria);
+  mc->set(criteria);
   const std::string trials_per(str(1e3));
   // const std::string trials_per(str(1e4));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/lj_fh"}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
-  //mc.add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
-  mc.add(MakeTune({{"multistate", "true"}, {"trials_per_write", str(trials_per)}, {"output_file", "tmp/tune.txt"}}));
-  mc.add(MakeCriteriaUpdater({{"trials_per_update", str(1)}}));
-  mc.add(MakeCriteriaWriter({
+//  mc->add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/lj_fh"}}));
+  mc->add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
+  //mc->add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
+  mc->add(MakeTune({{"multistate", "true"}, {"trials_per_write", str(trials_per)}, {"output_file", "tmp/tune.txt"}}));
+  mc->add(MakeCriteriaUpdater({{"trials_per_update", str(1)}}));
+  mc->add(MakeCriteriaWriter({
     {"trials_per_write", trials_per},
     {"output_file", "tmp/ljcrit.txt"},
     {"output_file_append_phase", "true"}}));
@@ -217,23 +221,23 @@ MonteCarlo test_lj_fh(const int num_steps,
     {"multistate", "true"}});
   EXPECT_EQ(energy->trials_per_update(), 1);
   EXPECT_EQ(energy->trials_per_write(), 1e3);
-  mc.add(energy);
+  mc->add(energy);
   return mc;
 }
 
 TEST(MonteCarlo, lj_fh_01) {
-  MonteCarlo mc = test_lj_fh(1, "TM", 10, false, 0, 1);
-  mc.run_until_complete();
-  FlatHistogram fh(mc.criteria());
-  const LnProbability lnpi = fh.bias().ln_prob();
+  auto mc = test_lj_fh(1, "TM", 10, false, 0, 1);
+  mc->run_until_complete();
+  std::unique_ptr<FlatHistogram> fh = FlatHistogram().flat_histogram(mc->criteria());
+  const LnProbability lnpi = fh->bias().ln_prob();
   EXPECT_NEAR(lnpi.value(1) - lnpi.value(0), 4.67, 0.2);
 
   // obtain tm/cm
   std::stringstream ss;
-  fh.bias().serialize(ss);
+  fh->bias().serialize(ss);
   TransitionMatrix tm(ss);
-  INFO(tm.collection().min_blocks());
-  std::vector<LnProbability> ln_probs = tm.collection().ln_prob_blocks();
+  INFO(tm.cm().min_blocks());
+  std::vector<LnProbability> ln_probs = tm.cm().ln_prob_blocks();
   Accumulator acc;
   for (const auto& ln_prob : ln_probs) {
     acc.accumulate(ln_prob.value(1) - ln_prob.value(0));
@@ -241,7 +245,7 @@ TEST(MonteCarlo, lj_fh_01) {
     //INFO(feasst_str(ln_prob.values()));
   }
 //  INFO(acc.stdev_of_av());
-//  INFO(fh.write());
+//  INFO(fh->write());
 }
 
 TEST(MonteCarlo, lj_fh_10sweep_LONG) {
@@ -250,15 +254,15 @@ TEST(MonteCarlo, lj_fh_10sweep_LONG) {
   for (int num_steps : {1, 2}) {
     //for (const std::string bias_name : {"TM"}) {
     for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
-      MonteCarlo mc = test_serialize(test_lj_fh(num_steps, bias_name));
+      auto mc = test_serialize_unique(*test_lj_fh(num_steps, bias_name));
       //mc.attempt(1e4);
-      //mc.attempt(1e5); // note more than 1e4 steps required for TM
-      mc.run_until_complete();
-      // INFO(mc.criteria().write());
+      //mc->attempt(1e5); // note more than 1e4 steps required for TM
+      mc->run_until_complete();
+      // INFO(mc->criteria().write());
 
       // compare with known values of lnpi
       //const LnProbability * lnpi = &criteria->bias().ln_prob();
-      const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+      const LnProbability lnpi = FlatHistogram().flat_histogram(mc->criteria())->bias().ln_prob();
       //EXPECT_NEAR(lnpi.value(0), -18.707570324988800000, 0.55);
       EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.75);
       EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.6);
@@ -268,19 +272,19 @@ TEST(MonteCarlo, lj_fh_10sweep_LONG) {
 
       // compare with known values of energy
       //EXPECT_NEAR(energy_av(0, mc), 0, 1e-14);
-      EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);
-      EXPECT_NEAR(energy_av(1, mc), -0.030574223333333334, 0.05);
-      EXPECT_NEAR(energy_av(2, mc), -0.089928316, 0.08);
-      EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.11);
-      EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.15);
-      EXPECT_LE(mc.system().configuration().num_particles(), 5);
+      EXPECT_NEAR(energy_av(0, *mc), -0.000605740233333333, 1e-8);
+      EXPECT_NEAR(energy_av(1, *mc), -0.030574223333333334, 0.05);
+      EXPECT_NEAR(energy_av(2, *mc), -0.089928316, 0.08);
+      EXPECT_NEAR(energy_av(3, *mc), -0.1784570533333333, 0.11);
+      EXPECT_NEAR(energy_av(4, *mc), -0.29619201333333334, 0.15);
+      EXPECT_LE(mc->system().configuration().num_particles(), 5);
     }
   }
 }
 
 TEST(MonteCarlo, lj_fh_block) {
-  MonteCarlo mc = test_serialize(test_lj_fh(1, "TM", 10));
-  mc.run_until_complete();
+  auto mc = test_serialize_unique(*test_lj_fh(1, "TM", 10));
+  mc->run_until_complete();
 //  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
 }
 
@@ -294,8 +298,8 @@ TEST(MonteCarlo, soft_min_macro) {
       {"max", "5"}, {"min", "0"}, {"soft_macro_min", "1"}, {"soft_macro_max", "4"},
       {"Bias", "TransitionMatrix"}, {"min_sweeps", "10"}}},
   }});
-  const FlatHistogram& fh = FlatHistogram(mc->criteria());
-  EXPECT_NEAR(1, fh.macrostate().value(0), NEAR_ZERO);
+  std::unique_ptr<FlatHistogram> fh = FlatHistogram().flat_histogram(mc->criteria());
+  EXPECT_NEAR(1, fh->macrostate().value(0), NEAR_ZERO);
 }
 
 TEST(MonteCarlo, lj_fh_with0) {
@@ -304,15 +308,15 @@ TEST(MonteCarlo, lj_fh_with0) {
     //for (const std::string bias_name : {"WLTM"}) {
     for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
       for (const bool dont_use_multi : {true, false}) {
-        MonteCarlo mc = test_serialize(test_lj_fh(num_steps, bias_name, 10, false, 0, 5, dont_use_multi));
+        auto mc = test_serialize_unique(*test_lj_fh(num_steps, bias_name, 10, false, 0, 5, dont_use_multi));
         //mc.attempt(1e4);
         //mc.attempt(1e5); // note more than 1e4 steps required for TM
-        mc.run_until_complete();
-        // INFO(mc.criteria().write());
+        mc->run_until_complete();
+        // INFO(mc->criteria().write());
 
         // compare with known values of lnpi
         //const LnProbability * lnpi = &criteria->bias().ln_prob();
-        const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+        const LnProbability lnpi = FlatHistogram().flat_histogram(mc->criteria())->bias().ln_prob();
         //INFO(feasst_str(lnpi.values()));
         EXPECT_NEAR(lnpi.value(0), -18.707570324988800000, 0.55);
         EXPECT_NEAR(lnpi.value(1), -14.037373358321800000, 0.75);
@@ -322,32 +326,32 @@ TEST(MonteCarlo, lj_fh_with0) {
         EXPECT_NEAR(lnpi.value(5), -0.045677458321876000, 0.55);
 
         // compare with known values of energy
-        EXPECT_NEAR(energy_av(0, mc), 0, 1e-14);
-        EXPECT_NEAR(energy_av(1, mc), -0.000605740233333333, 1e-8);
-        EXPECT_NEAR(energy_av(2, mc), -0.030574223333333334, 0.05);
-        EXPECT_NEAR(energy_av(3, mc), -0.089928316, 0.08);
-        EXPECT_NEAR(energy_av(4, mc), -0.1784570533333333, 0.11);
-        EXPECT_NEAR(energy_av(5, mc), -0.29619201333333334, 0.15);
-        EXPECT_LE(mc.system().configuration().num_particles(), 5);
+        EXPECT_NEAR(energy_av(0, *mc), 0, 1e-14);
+        EXPECT_NEAR(energy_av(1, *mc), -0.000605740233333333, 1e-8);
+        EXPECT_NEAR(energy_av(2, *mc), -0.030574223333333334, 0.05);
+        EXPECT_NEAR(energy_av(3, *mc), -0.089928316, 0.08);
+        EXPECT_NEAR(energy_av(4, *mc), -0.1784570533333333, 0.11);
+        EXPECT_NEAR(energy_av(5, *mc), -0.29619201333333334, 0.15);
+        EXPECT_LE(mc->system().configuration().num_particles(), 5);
       }
     }
   }
 }
 
 TEST(MonteCarlo, lj_fh_LONG) {
-  MonteCarlo mc = test_serialize(test_lj_fh(4, "TM", 1000));
-  mc.run_until_complete();
-  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  auto mc = test_serialize_unique(*test_lj_fh(4, "TM", 1000));
+  mc->run_until_complete();
+  const LnProbability lnpi = FlatHistogram().flat_histogram(mc->criteria())->bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.02);
   EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.02);
   EXPECT_NEAR(lnpi.value(2), -6.458920624988570000, 0.02);
   EXPECT_NEAR(lnpi.value(3), -3.145637424988510000, 0.01);
   EXPECT_NEAR(lnpi.value(4), -0.045677458321876000, 0.005);
-  EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);
-  EXPECT_NEAR(energy_av(1, mc), -0.030574223333333334, 0.001);
-  EXPECT_NEAR(energy_av(2, mc), -0.089928316, 0.003);
-  EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.005);
-  EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.0075);
+  EXPECT_NEAR(energy_av(0, *mc), -0.000605740233333333, 1e-8);
+  EXPECT_NEAR(energy_av(1, *mc), -0.030574223333333334, 0.001);
+  EXPECT_NEAR(energy_av(2, *mc), -0.089928316, 0.003);
+  EXPECT_NEAR(energy_av(3, *mc), -0.1784570533333333, 0.005);
+  EXPECT_NEAR(energy_av(4, *mc), -0.29619201333333334, 0.0075);
   const LnProbability lnpi3 = lnpi.reduce(2);
   INFO(feasst_str(lnpi3.values()));
   EXPECT_NEAR(lnpi3.value(0), -13.9933350923078, 0.025);
@@ -370,41 +374,41 @@ TEST(MonteCarlo, lj_fh_LONG) {
 //}
 
 TEST(MonteCarlo, lj_fh_liquid_LONG) {
-  MonteCarlo mc = test_serialize(test_lj_fh(4, "TM", 1000, false, 100, 105));
-  mc.run_until_complete();
-  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  auto mc = test_serialize_unique(*test_lj_fh(4, "TM", 1000, false, 100, 105));
+  mc->run_until_complete();
+  const LnProbability lnpi = FlatHistogram().flat_histogram(mc->criteria())->bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -4.92194963175925, 0.025);
   EXPECT_NEAR(lnpi.value(1), -4.03855513175926, 0.02);
   EXPECT_NEAR(lnpi.value(2), -3.15822813175925, 0.02);
   EXPECT_NEAR(lnpi.value(3), -2.28019483175925, 0.015);
   EXPECT_NEAR(lnpi.value(4), -1.40647303175926, 0.0075);
   EXPECT_NEAR(lnpi.value(5), -0.535594831759248, 0.005);
-  EXPECT_NEAR(energy_av(0, mc), -1.381223800E+02, 0.5);
-  EXPECT_NEAR(energy_av(1, mc), -1.408257000E+02, 0.5);
-  EXPECT_NEAR(energy_av(2, mc), -1.435426000E+02, 0.5);
-  EXPECT_NEAR(energy_av(3, mc), -1.462802100E+02, 0.5);
-  EXPECT_NEAR(energy_av(4, mc), -1.490501400E+02, 0.5);
-  EXPECT_NEAR(energy_av(5, mc), -1.518517300E+02, 0.6);
+  EXPECT_NEAR(energy_av(0, *mc), -1.381223800E+02, 0.5);
+  EXPECT_NEAR(energy_av(1, *mc), -1.408257000E+02, 0.5);
+  EXPECT_NEAR(energy_av(2, *mc), -1.435426000E+02, 0.5);
+  EXPECT_NEAR(energy_av(3, *mc), -1.462802100E+02, 0.5);
+  EXPECT_NEAR(energy_av(4, *mc), -1.490501400E+02, 0.5);
+  EXPECT_NEAR(energy_av(5, *mc), -1.518517300E+02, 0.6);
 }
 
 TEST(MonteCarlo, lj_fh_multi_LONG) {
   //MonteCarlo mc = test_serialize(test_lj_fh(1, "WLTM", 1000, true));
   //MonteCarlo mc = test_serialize(test_lj_fh(1, "WL", 200, true));
-  MonteCarlo mc = test_serialize(test_lj_fh(1, "TM", 1000, true));
-  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.run_until_complete();
-  INFO(mc.criteria().write());
-  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  auto mc = test_serialize_unique(*test_lj_fh(1, "TM", 1000, true));
+  //mc->set(MakeRandomMT19937({{"seed", "123"}}));
+  mc->run_until_complete();
+  INFO(mc->criteria().write());
+  const LnProbability lnpi = FlatHistogram().flat_histogram(mc->criteria())->bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.0225);
   EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.02);
   EXPECT_NEAR(lnpi.value(2), -0.00163919230786818, 0.005);
-  EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);
-  EXPECT_NEAR(energy_av(1, mc), -0.089928316, 0.0025);
-  EXPECT_NEAR(energy_av(2, mc), -0.29619201333333334, 0.02);
+  EXPECT_NEAR(energy_av(0, *mc), -0.000605740233333333, 1e-8);
+  EXPECT_NEAR(energy_av(1, *mc), -0.089928316, 0.0025);
+  EXPECT_NEAR(energy_av(2, *mc), -0.29619201333333334, 0.02);
 }
 
 // HWH add num steps to spce fh test for DCCB diagnosis
-MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
+std::unique_ptr<MonteCarlo> test_spce_fh(std::shared_ptr<Bias> bias,
     const int num_steps = 1,
     bool test = true,
     const int min = 0,
@@ -455,12 +459,12 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
     {"trials_per_write", str(trials_per)},
     {"multistate", "true"}});
   mc.add(energy);
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.run_until_complete();
+  auto mc2 = test_serialize_unique(mc);
+  mc2->run_until_complete();
 
   if (!test) return mc2;
 
-  EXPECT_LE(mc2.system().configuration().num_particles(), 5);
+  EXPECT_LE(mc2->system().configuration().num_particles(), 5);
 
   // known values of lnpi and energy
   const std::vector<std::vector<double> > lnpi_srsw = {
@@ -478,15 +482,15 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
     {-13.499, 0.5},
     {-22.27, 1.0}};
 
-  FlatHistogram fh(mc2.criteria());
-  const LnProbability& lnpi = fh.bias().ln_prob();
+  std::unique_ptr<FlatHistogram> fh = FlatHistogram().flat_histogram(mc2->criteria());
+  const LnProbability& lnpi = fh->bias().ln_prob();
   for (int macro = 0; macro < lnpi.size(); ++macro) {
     EXPECT_NEAR(lnpi.value(macro), lnpi_srsw[macro][0],
       15*lnpi_srsw[macro][1]);
 //      if (bias->class_name() == "TransitionMatrix") {
       const double en_std = std::sqrt(std::pow(en_srsw[macro][1], 2) +
         std::pow(energy->energy().block_stdev(), 2));
-      EXPECT_NEAR(energy_av(macro, mc2), en_srsw[macro][0], 15.*en_std);
+      EXPECT_NEAR(energy_av(macro, *mc2), en_srsw[macro][0], 15.*en_std);
 //      }
   }
 
@@ -507,13 +511,13 @@ TEST(MonteCarlo, spce_fh_VERY_LONG) {
   //for (int num_steps : {1}) {
   for (int num_steps : {4}) {
   //for (int num_steps : {1, 4}) {
-    MonteCarlo mc = test_spce_fh(
+    auto mc = test_spce_fh(
       MakeTransitionMatrix({{"min_sweeps", "1000"}}),
       num_steps,
       false); // test
-    FlatHistogram fh(mc.criteria());
-    INFO(feasst_str(fh.bias().ln_prob().values()));
-    const LnProbability& lnpi = fh.bias().ln_prob();
+    std::unique_ptr<FlatHistogram> fh = FlatHistogram().flat_histogram(mc->criteria());
+    INFO(feasst_str(fh->bias().ln_prob().values()));
+    const LnProbability& lnpi = fh->bias().ln_prob();
     EXPECT_NEAR(lnpi.value(0), -2.72070275309203, 0.02);
     EXPECT_NEAR(lnpi.value(1), -1.85234049431879, 0.02);
     EXPECT_NEAR(lnpi.value(2), -1.54708325224374, 0.02);
@@ -521,7 +525,7 @@ TEST(MonteCarlo, spce_fh_VERY_LONG) {
     EXPECT_NEAR(lnpi.value(4), -1.64791755404893, 0.02);
     EXPECT_NEAR(lnpi.value(5), -1.87860075480337, 0.05);
     const std::vector<std::shared_ptr<Analyze> >& en =
-      mc.analyzers().back()->analyzers();
+      mc->analyzers().back()->analyzers();
     EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-13);
     EXPECT_NEAR(en[1]->accumulator().average(), -0.08790895, 1e-5);
     EXPECT_NEAR(en[2]->accumulator().average(), -2.32656326, 0.2);
@@ -538,16 +542,16 @@ TEST(MonteCarlo, spce_fh_liquid_VERY_LONG) {
   for (int num_steps : {4}) {
   //for (int num_steps : {16}) {
   //for (int num_steps : {1, 4}) {
-    MonteCarlo mc = test_spce_fh(
+    auto mc = test_spce_fh(
       MakeTransitionMatrix({{"min_sweeps", "100"}}),
       num_steps,
       false, // test
       100,   // min
       105,   // max
       1e4);  // trials_per
-    FlatHistogram fh(mc.criteria());
-    INFO(feasst_str(fh.bias().ln_prob().values()));
-    const LnProbability& lnpi = fh.bias().ln_prob();
+    std::unique_ptr<FlatHistogram> fh = FlatHistogram().flat_histogram(mc->criteria());
+    INFO(feasst_str(fh->bias().ln_prob().values()));
+    const LnProbability& lnpi = fh->bias().ln_prob();
     EXPECT_NEAR(lnpi.value(0), -1.9471154, 0.15);
     EXPECT_NEAR(lnpi.value(1), -1.898168, 0.15);
     EXPECT_NEAR(lnpi.value(2), -1.8426095, 0.15);
@@ -555,7 +559,7 @@ TEST(MonteCarlo, spce_fh_liquid_VERY_LONG) {
     EXPECT_NEAR(lnpi.value(4), -1.707793039, 0.15);
     EXPECT_NEAR(lnpi.value(5), -1.62427498, 0.15);
     const std::vector<std::shared_ptr<Analyze> >& en =
-      mc.analyzers().back()->analyzers();
+      mc->analyzers().back()->analyzers();
     EXPECT_NEAR(en[0]->accumulator().average(), -2666.66, 50);
     EXPECT_NEAR(en[1]->accumulator().average(), -2703.74, 50);
     EXPECT_NEAR(en[2]->accumulator().average(), -2738.90, 50);
@@ -565,7 +569,7 @@ TEST(MonteCarlo, spce_fh_liquid_VERY_LONG) {
   }
 }
 
-MonteCarlo rpm_fh_test(
+std::shared_ptr<MonteCarlo> rpm_fh_test(
     const int min = 0,
     const int max = 2,
     const int trials_per = 1e3,
@@ -638,21 +642,21 @@ MonteCarlo rpm_fh_test(
     {"trials_per_update", "1"},
     {"trials_per_write", str(trials_per)},
     {"multistate", "true"}}));
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.run_until_complete();
+  auto mc2 = test_serialize_unique(mc);
+  mc2->run_until_complete();
   return mc2;
 }
 
 TEST(MonteCarlo, rpm_fh_LONG) {
-  MonteCarlo mc2 = rpm_fh_test();
-  FlatHistogram fh(mc2.criteria());
-  const LnProbability& lnpi = fh.bias().ln_prob();
+  auto mc2 = rpm_fh_test();
+  std::unique_ptr<FlatHistogram> fh = FlatHistogram().flat_histogram(mc2->criteria());
+  const LnProbability& lnpi = fh->bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -1.2994315780357, 0.1);
   EXPECT_NEAR(lnpi.value(1), -1.08646312498868, 0.15);
   EXPECT_NEAR(lnpi.value(2), -0.941850889679828, 0.2);
-  EXPECT_NEAR(energy_av(0, mc2), 0, 1e-14);
-  EXPECT_NEAR(energy_av(1, mc2), -0.939408, 0.02);
-  EXPECT_NEAR(energy_av(2, mc2), -2.02625, 0.05);
+  EXPECT_NEAR(energy_av(0, *mc2), 0, 1e-14);
+  EXPECT_NEAR(energy_av(1, *mc2), -0.939408, 0.02);
+  EXPECT_NEAR(energy_av(2, *mc2), -2.02625, 0.05);
 }
 
 TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
@@ -716,7 +720,7 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
   mc.run_until_complete();
   // mc.attempt(1e7);
 
-  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  const LnProbability lnpi = FlatHistogram().flat_histogram(mc.criteria())->bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.09);
   EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.07);
   EXPECT_NEAR(lnpi.value(2), -2.1178631459398805, 0.05);
@@ -745,42 +749,42 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
 //  EXPECT_NEAR(en[5]->accumulator().average(), -8.85025, 0.16);
 }
 
-MonteCarlo nvtw(const int num) {
+std::unique_ptr<MonteCarlo> nvtw(const int num) {
   const int num_prod = 1e3;
   const int num_equil = 1e3;
   const std::string trials_per = "1e3";
-  MonteCarlo mc;
-  //mc.set(MakeRandomMT19937({{"seed", "1633373249"}}));
-  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
+  auto mc = std::make_unique<MonteCarlo>();
+  //mc->set(MakeRandomMT19937({{"seed", "1633373249"}}));
+  mc->add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../particle/lj.fstprt"}}));
-  mc.add(MakePotential(MakeLennardJones()));
-  mc.add(MakePotential(MakeLongRangeCorrections()));
-  mc.set(MakeThermoParams({{"beta", str(1./1.5)}, {"chemical_potential", "-2.352321"}}));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-//  mc.add(MakeTrialGrow({{{"translate", "true"}, {"particle_type", "0"}, {"tunable_param", "1"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
-  mc.add(MakeTrialAdd({{"particle_type", "0"}, {"weight", "4"}}));
-  mc.add(MakeTune());
-  mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/lj_fh"}}));
-  mc.run(MakeRun({{"until_num_particles", str(num)}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  mc.attempt((num+1)*num_equil);
-  mc.run(MakeRemoveModify({{"name", "Tune"}}));
-//  mc.add(MakeTrialGrow({{{"transfer", "true"}, {"particle_type", "0"}, {"weight", "4"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
-  mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
-  mc.set(MakeFlatHistogram(
+  mc->add(MakePotential(MakeLennardJones()));
+  mc->add(MakePotential(MakeLongRangeCorrections()));
+  mc->set(MakeThermoParams({{"beta", str(1./1.5)}, {"chemical_potential", "-2.352321"}}));
+  mc->set(MakeMetropolis());
+  mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+//  mc->add(MakeTrialGrow({{{"translate", "true"}, {"particle_type", "0"}, {"tunable_param", "1"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
+  mc->add(MakeTrialAdd({{"particle_type", "0"}, {"weight", "4"}}));
+  mc->add(MakeTune());
+  mc->add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
+//  mc->add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/lj_fh"}}));
+  mc->run(MakeRun({{"until_num_particles", str(num)}}));
+  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->attempt((num+1)*num_equil);
+  mc->run(MakeRemoveModify({{"name", "Tune"}}));
+//  mc->add(MakeTrialGrow({{{"transfer", "true"}, {"particle_type", "0"}, {"weight", "4"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
+  mc->add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
+  mc->set(MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(num)}, {"min", str(num)}})),
   MakeTransitionMatrix({{"min_sweeps", "1e8"}})));
-  mc.add(MakeEnergy({
+  mc->add(MakeEnergy({
     {"output_file", "tmp/ljen" + str(num) + ".txt"},
     {"trials_per_update", "1"},
     {"trials_per_write", str(trials_per)}}));
-  mc.add(MakeCriteriaWriter({
+  mc->add(MakeCriteriaWriter({
     {"trials_per_write", trials_per},
     {"output_file", "tmp/ljcrit" + str(num) + ".txt"}}));
-  mc.attempt((num+1)*num_prod);
+  mc->attempt((num+1)*num_prod);
   return mc;
 }
 
@@ -788,13 +792,13 @@ TEST(MonteCarlo, nvtw) {
   const int min = 1, max = 5;
   std::vector<std::vector<std::vector<Accumulator> > > data;
   for (int num = min; num <= max; ++num) {
-    MonteCarlo mc = nvtw(num);
-    FlatHistogram fh = FlatHistogram(mc.criteria());
+    auto mc = nvtw(num);
+    std::unique_ptr<FlatHistogram> fh = FlatHistogram().flat_histogram(mc->criteria());
     std::stringstream ss;
-    fh.bias().serialize(ss);
+    fh->bias().serialize(ss);
     TransitionMatrix tm(ss);
-    //INFO(feasst_str(tm.collection().matrix()));
-    data.push_back(tm.collection().matrix());
+    //INFO(feasst_str(tm.cm().matrix()));
+    data.push_back(tm.cm().matrix());
   }
   CollectionMatrix cm(data);
   LnProbability lnp;

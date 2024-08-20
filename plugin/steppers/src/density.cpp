@@ -1,5 +1,8 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "math/include/accumulator.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
 #include "steppers/include/density.h"
 
 namespace feasst {
@@ -16,7 +19,7 @@ static MapDensity mapper_ = MapDensity();
 
 Density::Density(argtype * args) : Analyze(args) {}
 Density::Density(argtype args) : Density(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Density::initialize(Criteria * criteria,
@@ -30,7 +33,7 @@ std::string Density::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  ss << accumulator_.status_header() << std::endl;
+  ss << accumulator_->status_header() << std::endl;
   return ss.str();
 }
 
@@ -42,7 +45,7 @@ void Density::update(const Criteria& criteria,
   const int num_particles = configuration(system).num_particles();
   DEBUG("num_particles: " << num_particles);
   DEBUG("state: " << state());
-  accumulator_.accumulate(static_cast<double>(num_particles)/volume);
+  accumulator_->accumulate(static_cast<double>(num_particles)/volume);
 }
 
 std::string Density::write(const Criteria& criteria,
@@ -52,7 +55,7 @@ std::string Density::write(const Criteria& criteria,
   if (rewrite_header()) {
     ss << header(criteria, system, trial_factory);
   }
-  ss << accumulator_.status() << std::endl;
+  ss << accumulator_->status() << std::endl;
   DEBUG(ss.str());
   return ss.str();
 }

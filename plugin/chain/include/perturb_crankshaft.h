@@ -8,12 +8,8 @@ namespace feasst {
 
 class PerturbCrankshaft : public PerturbRotate {
  public:
-  PerturbCrankshaft(argtype args = argtype()) : PerturbCrankshaft(&args) {
-    FEASST_CHECK_ALL_USED(args);
-  }
-  PerturbCrankshaft(argtype * args) : PerturbRotate(args) {
-    class_name_ = "PerturbCrankshaft";
-  }
+  explicit PerturbCrankshaft(argtype args = argtype());
+  explicit PerturbCrankshaft(argtype * args);
 
   /// Set the pivot and axis of rotation by the ends of the selection.
   /// Select rotation angle randomly, bounded by tunable parameter.

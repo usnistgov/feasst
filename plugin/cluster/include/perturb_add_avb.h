@@ -23,8 +23,7 @@ class PerturbAddAVB : public Perturb {
   /// Return if the particle isn't added until finalized.
   bool delay_add() const { return delay_add_; }
 
-  void precompute(TrialSelect * select, System * system) override {
-    select->set_ghost(true); }
+  void precompute(TrialSelect * select, System * system) override;
 
   void perturb(
       System * system,

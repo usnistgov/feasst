@@ -1,6 +1,9 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"  // find_in_list
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/configuration.h"
 #include "monte_carlo/include/trial_select_all.h"
 
 namespace feasst {
@@ -9,7 +12,7 @@ TrialSelectAll::TrialSelectAll(argtype * args) : TrialSelect(args) {
   class_name_ = "TrialSelectAll";
 }
 TrialSelectAll::TrialSelectAll(argtype args) : TrialSelectAll(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapTrialSelectAll {
@@ -28,12 +31,10 @@ bool TrialSelectAll::select(const Select& perturbed,
   set_probability_(1.);
   const Configuration& config = configuration(*system);
   set_mobile(config.selection_of_all());
-  //get_mobile()->load_positions(config.particles());
-  DEBUG("selected " << mobile_.str());
+  DEBUG("selected " << mobile().str());
   remove_unphysical_sites(config);
-  //ASSERT(mobile_.num_particles() > 0, "all sites should not be unphysical");
   set_mobile_original(system);
-  DEBUG("selected " << mobile_.str());
+  DEBUG("selected " << mobile().str());
   return true;
 }
 
@@ -43,7 +44,6 @@ std::shared_ptr<TrialSelect> TrialSelectAll::create(std::istream& istr) const {
 
 TrialSelectAll::TrialSelectAll(std::istream& istr)
   : TrialSelect(istr) {
-  // ASSERT(class_name_ == "TrialSelectAll", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(1759 == version, "mismatch version: " << version);
 }

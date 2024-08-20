@@ -1,4 +1,5 @@
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_add.h"
@@ -26,7 +27,7 @@ TrialAdd::TrialAdd(argtype * args) : Trial(args) {
   set(std::make_shared<TrialComputeAdd>(args));
 }
 TrialAdd::TrialAdd(argtype args) : TrialAdd(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialAdd::TrialAdd(std::istream& istr) : Trial(istr) {

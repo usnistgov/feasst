@@ -1,11 +1,14 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_TRANSFER_H_
 #define FEASST_MONTE_CARLO_TRIAL_TRANSFER_H_
 
+#include <map>
+#include <string>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /// Add both a TrialAdd and TrialRemove with the same arguments.
 class TrialTransfer : public TrialFactoryNamed {
@@ -30,7 +33,8 @@ class TrialTransfer : public TrialFactoryNamed {
   //@}
 };
 
-inline std::shared_ptr<TrialTransfer> MakeTrialTransfer(argtype args = argtype()) {
+inline std::shared_ptr<TrialTransfer> MakeTrialTransfer(
+    argtype args = argtype()) {
   return std::make_shared<TrialTransfer>(args); }
 
 }  // namespace feasst

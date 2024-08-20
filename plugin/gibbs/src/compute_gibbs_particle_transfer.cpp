@@ -1,7 +1,17 @@
 #include <cmath>
 #include "utils/include/serialize.h"
+#include "utils/include/debug.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/perturb.h"
 #include "gibbs/include/compute_gibbs_particle_transfer.h"
 
 namespace feasst {

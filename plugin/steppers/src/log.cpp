@@ -1,5 +1,10 @@
-#include "steppers/include/log.h"
+#include "utils/include/arguments.h"
+#include "utils/include/io.h"
 #include "utils/include/serialize.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/trial_factory.h"
+#include "steppers/include/log.h"
 
 namespace feasst {
 
@@ -12,7 +17,7 @@ class MapLog {
 
 static MapLog mapper_ = MapLog();
 
-Log::Log(argtype args) : Log(&args) { FEASST_CHECK_ALL_USED(args); }
+Log::Log(argtype args) : Log(&args) { feasst_check_all_used(args); }
 Log::Log(argtype * args) : AnalyzeWriteOnly(args) {
   if (boolean("append", args, true)) {
     set_append();

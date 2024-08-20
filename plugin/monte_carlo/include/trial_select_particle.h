@@ -2,12 +2,15 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_SELECT_PARTICLE_H_
 #define FEASST_MONTE_CARLO_TRIAL_SELECT_PARTICLE_H_
 
+#include <map>
+#include <string>
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /// Select a random particle for trial.
 class TrialSelectParticle : public TrialSelect {

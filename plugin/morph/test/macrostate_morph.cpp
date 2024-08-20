@@ -1,7 +1,12 @@
 #include "utils/test/utils.h"
 //#include "math/include/random_mt19937.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
+#include "system/include/potential.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "morph/include/macrostate_morph.h"
@@ -20,7 +25,7 @@ TEST(MacrostateMorph, lj) {
   conf->set_model_param("sigma", 1, 0.75);
   conf->set_model_param("cutoff", 1, 1.0);
   System system;
-  system.add(*conf);
+  system.add(conf);
   Configuration * config = system.get_configuration();
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));

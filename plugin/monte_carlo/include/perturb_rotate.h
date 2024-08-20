@@ -2,7 +2,10 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_ROTATE_H_
 #define FEASST_MONTE_CARLO_PERTURB_ROTATE_H_
 
+#include <memory>
 #include "math/include/matrix.h"
+#include "math/include/euler.h"
+#include "math/include/position.h"
 #include "monte_carlo/include/perturb_move.h"
 
 namespace feasst {
@@ -48,9 +51,7 @@ class PerturbRotate : public PerturbMove {
             Random * random, Acceptance * acceptance) override;
 
   /// Rotate the selected particles using the tuning parameter.
-  void move(System * system,
-      TrialSelect * select,
-      Random * random,
+  void move(System * system, TrialSelect * select, Random * random,  // NOLINT
       /// If pivot is empty, use first particle position.
       const Position& pivot);
 
@@ -71,28 +72,13 @@ class PerturbRotate : public PerturbMove {
   Position axis_tmp_, vec1_, vec2_;
   Euler euler_;
 
-  const Position& piv_sel_(const Position& pivot, const TrialSelect * select) {
-    if (pivot.dimension() == 0) {
-      return select->mobile().site_positions()[0][0];
-    }
-    return pivot;
-  }
+  const Position& piv_sel_(const Position& pivot, const TrialSelect * select);
 
   // optimization
   // check to see if rotation is not necessary when pivot is equivalent to
   // the only rotated position.
   bool is_rotation_not_needed_(const TrialSelect * select,
-      const Position& pivot) {
-    const Select& rotated = select->mobile();
-    if (rotated.num_particles() == 1) {
-      if (static_cast<int>(rotated.site_indices()[0].size()) == 1) {
-        if (rotated.site_positions()[0][0].is_equal(pivot)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
+      const Position& pivot);
 };
 
 inline std::shared_ptr<PerturbRotate> MakePerturbRotate(

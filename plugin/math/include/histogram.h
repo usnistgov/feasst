@@ -4,9 +4,13 @@
 
 #include <deque>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <map>
+#include <string>
+#include <vector>
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Formula;
 

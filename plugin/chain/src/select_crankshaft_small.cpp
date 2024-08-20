@@ -1,6 +1,9 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/utils_math.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/configuration.h"
 #include "chain/include/select_crankshaft_small.h"
 
 namespace feasst {
@@ -39,7 +42,7 @@ void SelectCrankshaftSmall::serialize(std::ostream& ostr) const {
 }
 
 SelectCrankshaftSmall::SelectCrankshaftSmall(argtype args) : SelectCrankshaftSmall(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 SelectCrankshaftSmall::SelectCrankshaftSmall(argtype * args) : TrialSelectParticle(args) {
   class_name_ = "SelectCrankshaftSmall";
@@ -73,9 +76,9 @@ bool SelectCrankshaftSmall::select(const Select& perturbed,
   const Select& select = config->group_select(group_index);
   const int particle_index = select.particle_index(index);
   set_probability_(1./static_cast<double>(num));
-  mobile_.set_particle(0, particle_index);
-  anchor_.set_particle(0, particle_index);
-  mobile_.load_positions(config->particles());
+  get_mobile()->set_particle(0, particle_index);
+  get_anchor()->set_particle(0, particle_index);
+  get_mobile()->load_positions(config->particles());
   set_mobile_original(system);
   return true;
 }

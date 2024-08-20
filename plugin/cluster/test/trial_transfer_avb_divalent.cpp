@@ -1,7 +1,17 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/visit_model_inner.h"
 #include "system/include/lennard_jones.h"
+#include "system/include/thermo_params.h"
+#include "system/include/potential.h"
+#include "system/include/visit_model.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/metropolis.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
 #include "cluster/include/trial_add_avb_divalent.h"
@@ -13,7 +23,7 @@ namespace feasst {
 // Seems there is an issue with AVBDivalent prefactors
 TEST(TrialTransferAVBDivalent, add_remove) {
   System system;
-  system.add(*MakeConfiguration({{"cubic_side_length", "8"},
+  system.add(MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type0", "../particle/lj.fstprt"},
     {"particle_type1", "../particle/atom.fstprt"}}));
   const Configuration& config = system.configuration();

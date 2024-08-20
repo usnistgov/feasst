@@ -1,8 +1,12 @@
 #include <vector>
-#include "configuration/include/configuration.h"
-#include "system/include/visit_model_bond.h"
-#include "system/include/model_two_body.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/model_two_body.h"
+#include "system/include/visit_model_bond.h"
 
 namespace feasst {
 
@@ -10,7 +14,7 @@ VisitModelBond::VisitModelBond(argtype * args) : VisitModel() {
   class_name_ = "VisitModelBond";
 }
 VisitModelBond::VisitModelBond(argtype args) : VisitModelBond(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void VisitModelBond::compute(
@@ -23,7 +27,7 @@ void VisitModelBond::compute(
   ASSERT(group_index == 0, "need to implement site1 loop filtering particles by group");
   zero_energy();
   const Domain& domain = config->domain();
-  init_relative_(domain, &relative_, &pbc_);
+  init_relative_(domain);
   for (int select_index = 0;
        select_index < selection.num_particles();
        ++select_index) {
@@ -45,7 +49,7 @@ void VisitModelBond::compute(
       }
       if (!exclude) {
         get_inner_()->compute(part_index, site0, part_index, site1,
-          config, model_params, model, false, &relative_, &pbc_);
+          config, model_params, model, false, relative_.get(), pbc_.get());
       }
     }
     for (const Angle& angle : config->particle_type(part_type).angles()) {
@@ -53,13 +57,13 @@ void VisitModelBond::compute(
       const int site2 = angle.site_indices().back();
       TRACE("sites " << site0 << " " << site2);
       get_inner_()->compute(part_index, site0, part_index, site2,
-        config, model_params, model, false, &relative_, &pbc_);
+        config, model_params, model, false, relative_.get(), pbc_.get());
     }
     // force inclusion of new bond
     if (selection.new_bond()) {
       get_inner_()->compute(part_index, selection.site_index(0, 0),
                             part_index, selection.new_bond()->site_index(0, 0),
-        config, model_params, model, false, &relative_, &pbc_);
+        config, model_params, model, false, relative_.get(), pbc_.get());
     }
   }
   set_energy(inner().energy());

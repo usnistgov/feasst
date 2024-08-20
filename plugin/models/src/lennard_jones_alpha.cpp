@@ -1,12 +1,13 @@
 #include <cmath>
-#include "models/include/lennard_jones_alpha.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "models/include/lennard_jones_alpha.h"
 
 namespace feasst {
 
 LennardJonesAlpha::LennardJonesAlpha(argtype args) : LennardJonesAlpha(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 LennardJonesAlpha::LennardJonesAlpha(argtype * args) : LennardJones(args) {
   class_name_ = "LennardJonesAlpha";

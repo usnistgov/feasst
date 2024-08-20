@@ -1,5 +1,6 @@
 #include <cmath>
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/io.h"
 #include "utils/include/debug.h"
 #include "utils/include/arguments.h"
 #include "math/include/random.h"
@@ -165,7 +166,7 @@ double Shape::integrate(
     }
     ++irad;
   }
-  //FEASST_CHECK_ALL_USED(*args);
+  //feasst_check_all_used(*args);
   return sum;
 }
 double Shape::integrate(

@@ -3,17 +3,18 @@
 
    FENE
    BondHarmonic
-   AngleHarmonic
-   DihedralTraPPE
-   DihedralRyckaertBellemans
-   DihedralHarmonic
    Yukawa
    TwoBodyTable
    SquareWell
-   TwoBodyAlpha
-   Mie
-   Jagla
    TablePotential
+   DihedralTraPPE
+   DihedralRyckaertBellemans
+   DihedralHarmonic
+   AngleHarmonic
+   TwoBodyAlpha
    LennardJonesAlpha
    LennardJonesCutShift
    LennardJonesForceShift
+   MieLambdaR
+   Mie
+   Jagla

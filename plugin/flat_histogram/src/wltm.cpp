@@ -1,9 +1,12 @@
 
 #include <algorithm>
-#include "flat_histogram/include/wltm.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
-#include "math/include/utils_math.h"
 #include "utils/include/debug.h"
+#include "math/include/utils_math.h"
+#include "flat_histogram/include/wang_landau.h"
+#include "flat_histogram/include/transition_matrix.h"
+#include "flat_histogram/include/wltm.h"
 
 namespace feasst {
 
@@ -11,16 +14,17 @@ WLTM::WLTM(argtype * args) {
   class_name_ = "WLTM";
   collect_flatness_ = integer("collect_flatness", args);
   min_collect_sweeps_ = integer("min_collect_sweeps", args, -1);
-  wang_landau_ = std::make_shared<WangLandau>(args);
+  wang_landau_ = std::make_unique<WangLandau>(args);
   min_flatness_ = wang_landau_->min_flatness();
   ASSERT(collect_flatness_ < min_flatness_,
     "collect_flatness:" << collect_flatness_ << " should be less than " <<
     "transition_flatness:" << min_flatness_);
-  transition_matrix_ = std::make_shared<TransitionMatrix>(args);
+  transition_matrix_ = std::make_unique<TransitionMatrix>(args);
 }
 WLTM::WLTM(argtype args) : WLTM(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
+WLTM::~WLTM() {}
 
 bool WLTM::is_wl_bias_(const Macrostate& macro) const {
   if ((wang_landau_->num_flatness() < min_flatness_) ||
@@ -146,18 +150,8 @@ WLTM::WLTM(std::istream& istr) : Bias(istr) {
   feasst_deserialize(&min_flatness_, istr);
   feasst_deserialize(&min_collect_sweeps_, istr);
   feasst_deserialize(&production_, istr);
-  // HWH for unknown reasons, this function template does not work.
-  // feasst_deserialize_fstdr(wang_landau_, istr);
-  // feasst_deserialize_fstdr(transition_matrix_, istr);
-  int existing;
-  istr >> existing;
-  if (existing != 0) {
-    wang_landau_ = std::make_shared<WangLandau>(istr);
-  }
-  istr >> existing;
-  if (existing != 0) {
-    transition_matrix_ = std::make_shared<TransitionMatrix>(istr);
-  }
+  feasst_deserialize(wang_landau_, istr);
+  feasst_deserialize(transition_matrix_, istr);
 }
 
 void WLTM::serialize(std::ostream& ostr) const {
@@ -168,8 +162,26 @@ void WLTM::serialize(std::ostream& ostr) const {
   feasst_serialize(min_flatness_, ostr);
   feasst_serialize(min_collect_sweeps_, ostr);
   feasst_serialize(production_, ostr);
-  feasst_serialize_fstdr(wang_landau_, ostr);
-  feasst_serialize_fstdr(transition_matrix_, ostr);
+  feasst_serialize(wang_landau_, ostr);
+  feasst_serialize(transition_matrix_, ostr);
 }
+
+int WLTM::num_iterations_to_complete() const {
+  return transition_matrix_->num_iterations_to_complete(); }
+
+void WLTM::set_num_iterations_to_complete(const int sweeps) {
+  transition_matrix_->set_num_iterations_to_complete(sweeps); }
+
+const TransitionMatrix& WLTM::transition_matrix() const {
+  return const_cast<TransitionMatrix&>(*transition_matrix_); }
+
+void WLTM::set_cm(const int macro, const Bias& bias) {
+  transition_matrix_->set_cm(macro, bias); }
+
+const CollectionMatrix& WLTM::cm() const {
+  return transition_matrix().cm(); }
+
+const int WLTM::visits(const int macro, const int index) const {
+  return transition_matrix().visits(macro, index); }
 
 }  // namespace feasst

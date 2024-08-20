@@ -1,12 +1,17 @@
 
+#include <iostream>
 #include <chrono> // sleep
 #include <thread> // sleep
 #include "utils/include/serialize.h"
+#include "utils/include/utils.h"
+#include "utils/include/arguments_extra.h"
 #include "utils/include/progress_report.h"
 #include "threads/include/thread_omp.h"
 #include "math/include/formula.h"
 #include "math/include/golden_search.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/configuration.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -35,7 +40,7 @@ TabulateTwoRigidBody3D::TabulateTwoRigidBody3D(argtype * args) {
   contact_xyz_index_ = integer("contact_xyz_index", args, -1);
 }
 TabulateTwoRigidBody3D::TabulateTwoRigidBody3D(argtype args) : TabulateTwoRigidBody3D(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapTabulateTwoRigidBody3D {

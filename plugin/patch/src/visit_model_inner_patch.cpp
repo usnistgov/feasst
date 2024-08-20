@@ -1,6 +1,9 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/model_two_body.h"
@@ -12,7 +15,7 @@ VisitModelInnerPatch::VisitModelInnerPatch(argtype * args) : VisitModelInner(arg
   class_name_ = "VisitModelInnerPatch";
 }
 VisitModelInnerPatch::VisitModelInnerPatch(argtype args) : VisitModelInnerPatch(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void VisitModelInnerPatch::compute(

@@ -1,13 +1,15 @@
 #include "utils/test/utils.h"
+#include "configuration/include/configuration.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "steppers/include/wall_clock_limit.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
-#include "steppers/include/log_and_movie.h"
 #include "steppers/include/seek_modify.h"
 
 namespace feasst {

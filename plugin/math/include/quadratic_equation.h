@@ -3,7 +3,6 @@
 #define FEASST_MATH_QUADRATIC_EQUATION_H_
 
 #include <cmath>
-#include "utils/include/debug.h"
 #include "math/include/constants.h"
 
 namespace feasst {

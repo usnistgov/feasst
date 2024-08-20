@@ -1,6 +1,7 @@
 #include <cmath>
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/bond.h"
 #include "system/include/rigid_bond.h"
 
 namespace feasst {

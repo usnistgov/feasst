@@ -1,5 +1,10 @@
+#include "utils/include/arguments.h"
+#include "utils/include/serialize_extra.h"
+#include "configuration/include/configuration.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "system/include/system.h"
 #include "steppers/include/check_properties.h"
-#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -16,7 +21,7 @@ CheckProperties::CheckProperties(argtype * args) : ModifyUpdateOnly(args) {
   tolerance_ = dble("tolerance", args, 1e-15);
 }
 CheckProperties::CheckProperties(argtype args) : CheckProperties(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void CheckProperties::update(Criteria * criteria,

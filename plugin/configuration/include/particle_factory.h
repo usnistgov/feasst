@@ -6,10 +6,13 @@
 #include <string>
 #include <vector>
 #include "configuration/include/particle.h"
-#include "configuration/include/model_params.h"
-#include "configuration/include/group.h"
 
 namespace feasst {
+
+class Group;
+class ModelParam;
+class ModelParams;
+class PhysicalConstants;
 
 /**
   A container for a list of particles.
@@ -30,7 +33,7 @@ namespace feasst {
  */
 class ParticleFactory {
  public:
-  ParticleFactory() {}
+  ParticleFactory();
 
   /// Adjust the site types of added particles to ensure uniqueness.
   /// Returns self for chain setting.
@@ -156,52 +159,45 @@ class ParticleFactory {
     particles_[particle].set_site_type(site, site_type); }
 
   /// Remove particles and sites based on the group.
-  void remove(const Group group);
+  void remove(const Group& group);
 
   /// Displace the particle with given index.
   void displace(const int particle_index, const Position& displacement) {
     particles_[particle_index].displace(displacement); }
 
   /// Return the model parameters.
-  const ModelParams& model_params() const { return model_params_; }
+  const ModelParams& model_params() const;
 
   /// Add a custom type of model parameter.
-  void add(const std::shared_ptr<ModelParam> param) {
-    model_params_.add(param); }
+  void add(const std::shared_ptr<ModelParam> param);
 
   /// Modify model parameter of a given site type and name to value.
   void set_model_param(const std::string name,
                        const int site_type,
-                       const double value) {
-    model_params_.set(name, site_type, value); }
+                       const double value);
 
   /// Modify a mixed model parameter of given site types and name to value.
   void set_model_param(const std::string name,
                        const int site_type1,
                        const int site_type2,
-                       const double value) {
-    model_params_.set(name, site_type1, site_type2, value); }
+                       const double value);
 
   /// Set mixed model parameters using a file.
-  void set_model_param(const std::string name, const std::string filename) {
-    model_params_.set(name, filename); }
+  void set_model_param(const std::string name, const std::string filename);
 
   /// Add model parameter of a given name to value.
   void add_model_param(const std::string name,
-                       const double value) {
-    model_params_.add_property(name, value); }
+                       const double value);
 
   /// Add or set model parameter of a given name to value.
   void add_or_set_model_param(const std::string name,
-                              const double value) {
-    model_params_.add_or_set_property(name, value); }
+                              const double value);
 
   /// Set the minimum cutoff to sigma.
-  void set_cutoff_min_to_sigma() { model_params_.set_cutoff_min_to_sigma(); }
+  void set_cutoff_min_to_sigma();
 
   /// Set the physical constants in model parameters.
-  void set_physical_constants(std::shared_ptr<PhysicalConstants> constants) {
-    model_params_.set_physical_constants(constants); }
+  void set_physical_constants(std::shared_ptr<PhysicalConstants> constants);
 
   /// Set site as physical/nonphysical.
   void set_site_physical(const int particle, const int site, const bool phys);
@@ -264,7 +260,7 @@ class ParticleFactory {
   std::vector<Particle> particles_;
   bool unique_particles_ = false;
   bool unique_types_ = false;
-  ModelParams model_params_;
+  std::shared_ptr<ModelParams> model_params_;
 };
 
 }  // namespace feasst

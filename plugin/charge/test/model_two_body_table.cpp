@@ -2,6 +2,7 @@
 #include "math/include/table.h"
 #include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/potential.h"
 #include "system/include/model_two_body_table.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/system.h"
@@ -24,12 +25,12 @@ TEST(ModelTwoBodyTable, spce) {
   //auto model = MakeChargeScreened({{"table_size", "0"}});
 
   System no_table;
-  no_table.add(*config);
+  no_table.add(config);
   no_table.add(MakePotential(model));
   no_table.precompute();
 
   System yes_table;
-  yes_table.add(*config);
+  yes_table.add(config);
   yes_table.add(MakePotential(model, {{"table_size", str(1e6)}}));
   yes_table.precompute();
 

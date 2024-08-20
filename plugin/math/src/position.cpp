@@ -1,8 +1,9 @@
 #include <cmath>
-#include "math/include/position.h"
 #include "utils/include/debug.h"
 #include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/position.h"
 #include "math/include/utils_math.h"
 #include "math/include/constants.h"
 
@@ -248,7 +249,7 @@ Position::Position(argtype * args) {
   }
 }
 Position::Position(argtype args) : Position(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Position::orthogonal(const Position& orthogonal) {
@@ -318,7 +319,8 @@ void Position::spherical(Position * result) const {
   }
 }
 
-double Position::vertex_angle_radians(const Position& ri, const Position& rk) const {
+double Position::vertex_angle_radians(const Position& ri,
+                                      const Position& rk) const {
   Position rij = ri;
   rij.subtract(*this);
   Position rkj = rk;

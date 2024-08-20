@@ -1,4 +1,6 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
+#include "configuration/include/configuration.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "aniso/include/visit_model_inner_table.h"
 
@@ -14,10 +16,10 @@ TEST(MonteCarlo, VisitModelInnerTable) {
 //  EXPECT_NEAR(vis->outer()[0][0].maximum(), 1.5, NEAR_ZERO);
   auto config = MakeConfiguration({{"particle_type0", "../particle/atom.fstprt"}});
   vis->precompute(config.get());
-  EXPECT_NEAR(config->table5d()[0][0].minimum(), 1.0, NEAR_ZERO);
-  EXPECT_NEAR(config->table5d()[0][0].maximum(), 1.0, NEAR_ZERO);
-  EXPECT_NEAR(config->table6d()[0][0].minimum(), -1, 1e-3);
-  EXPECT_NEAR(config->table6d()[0][0].maximum(), -1., 1e-3);
+  EXPECT_NEAR(config->table5d()[0][0]->minimum(), 1.0, NEAR_ZERO);
+  EXPECT_NEAR(config->table5d()[0][0]->maximum(), 1.0, NEAR_ZERO);
+  EXPECT_NEAR(config->table6d()[0][0]->minimum(), -1, 1e-3);
+  EXPECT_NEAR(config->table6d()[0][0]->maximum(), -1., 1e-3);
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/aniso/particle/aniso_tabular.fstprt"},
       {"xyz_file", "../plugin/aniso/test/data/two.xyz"}}},
@@ -70,7 +72,7 @@ TEST(MonteCarlo, rigid_body_connector) {
     {"CheckEnergy", {{"trials_per_update", str(1e2)}, {"tolerance", "1e-8"}}},
   }});
   mc->attempt(1e3);
-  MonteCarlo mc2 = test_serialize(*mc);
+  test_serialize_unique(*mc);
 }
 
 TEST(MonteCarlo, 4lyt_smoothing) {

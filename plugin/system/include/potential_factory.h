@@ -5,14 +5,21 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include <sstream>
-#include "system/include/potential.h"
 // #include "utils/include/timer.h"
 
 namespace feasst {
 
+class Configuration;
+class Potential;
+class Select;
+
 /**
   A list of potentials.
+
+  By default, if one of the potentials returns a large energy, then the rest
+  of the potentials are not calculated.
+  This is the default behavior, which can be disabled with remove_opt_overlap()
+  as done in MayerSampling.
  */
 class PotentialFactory {
  public:
@@ -33,7 +40,8 @@ class PotentialFactory {
     return const_cast<Potential&>(*potentials_[index]); }
 
   // Return a potential by index of order added.
-  Potential * get_potential(const int index) { return potentials_[index].get(); }
+  Potential * get_potential(const int index) {
+    return potentials_[index].get(); }
 
   /// Return the number of potentials.
   int num() const { return static_cast<int>(potentials_.size()); }

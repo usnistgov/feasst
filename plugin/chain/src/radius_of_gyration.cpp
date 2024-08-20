@@ -1,5 +1,13 @@
+#include <cmath>
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/histogram.h"
+#include "math/include/position.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
 #include "chain/include/radius_of_gyration.h"
 
 namespace feasst {
@@ -21,7 +29,7 @@ RadiusOfGyration::RadiusOfGyration(argtype * args) : Analyze(args) {
   }
 }
 RadiusOfGyration::RadiusOfGyration(argtype args) : RadiusOfGyration(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void RadiusOfGyration::initialize(Criteria * criteria,
@@ -35,14 +43,14 @@ std::string RadiusOfGyration::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  ss << accumulator_.status_header() << ",rgu,rguu" << std::endl;
+  ss << accumulator().status_header() << ",rgu,rguu" << std::endl;
   return ss.str();
 }
 
 void RadiusOfGyration::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  const Select& selection = system.configuration().group_selects()[group_index_];
+  const Select& selection = system.configuration().group_select(group_index_);
   for (int select_index = 0;
        select_index < selection.num_particles();
        ++select_index) {
@@ -60,7 +68,7 @@ void RadiusOfGyration::update(const Criteria& criteria,
       rg += site.position().squared_distance(r_cm);
     }
     const double rgn = std::sqrt(rg/selection.num_sites());
-    accumulator_.accumulate(rgn);
+    get_accumulator()->accumulate(rgn);
     if (hist_) {
       hist_->add(rgn);
     }
@@ -77,7 +85,7 @@ std::string RadiusOfGyration::write(const Criteria& criteria,
   if (rewrite_header()) {
     ss << header(criteria, system, trial_factory);
   }
-  ss << accumulator_.status() << "," << rg_e_.average();
+  ss << accumulator().status() << "," << rg_e_.average();
   ss << "," << rg_e2_.average();
   ss << std::endl;
   DEBUG(ss.str());
@@ -103,7 +111,15 @@ RadiusOfGyration::RadiusOfGyration(std::istream& istr) : Analyze(istr) {
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize_fstobj(&rg_e_, istr);
   feasst_deserialize_fstobj(&rg_e2_, istr);
-  feasst_deserialize(hist_, istr);
+//  HWH for unknown reasons, this function template does not work.
+  //feasst_deserialize(hist_, istr);
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      hist_ = std::make_shared<Histogram>(istr);
+    }
+  }
 }
 
 RadiusOfGyration::RadiusOfGyration(const Analyze& energy) {

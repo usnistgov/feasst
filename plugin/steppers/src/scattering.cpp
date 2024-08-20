@@ -1,7 +1,14 @@
 #include <cmath>
-#include "math/include/constants.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
+#include "math/include/accumulator.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "steppers/include/scattering.h"
 
 namespace feasst {
@@ -20,7 +27,7 @@ Scattering::Scattering(argtype * args) : Analyze(args) {
   num_frequency_ = integer("num_frequency", args, 100);
 }
 Scattering::Scattering(argtype args) : Scattering(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Scattering::initialize(Criteria * criteria,

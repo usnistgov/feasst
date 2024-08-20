@@ -2,10 +2,11 @@
 #ifndef FEASST_EGCE_A_EQUAL_B_H_
 #define FEASST_EGCE_A_EQUAL_B_H_
 
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/constrain_num_particles.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Constrain the number of the first type of particle, A, to be equal to the

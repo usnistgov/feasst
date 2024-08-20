@@ -2,13 +2,17 @@
 #ifndef FEASST_FLAT_HISTOGRAM_BIAS_COLLECTION_MATRIX_H_
 #define FEASST_FLAT_HISTOGRAM_BIAS_COLLECTION_MATRIX_H_
 
+#include <map>
+#include <string>
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "math/include/accumulator.h"
-#include "flat_histogram/include/ln_probability.h"
 
 namespace feasst {
+
+class LnProbability;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   The collection matrix is triple banded when the macrostate can only increase
@@ -85,7 +89,7 @@ class CollectionMatrix {
     const int block = -1) const;
 
   /// Return the matrix
-  const std::vector<std::vector<Accumulator> >& matrix() const { return matrix_; }
+  const std::vector<std::vector<Accumulator> >& matrix() const;
 
 //  /// Return the standard deviation of the change in the ln_prob relative to
 //  /// the bin below.

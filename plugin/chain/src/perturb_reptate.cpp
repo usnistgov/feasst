@@ -1,7 +1,19 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "monte_carlo/include/trial_select.h"
 #include "chain/include/perturb_reptate.h"
 
 namespace feasst {
+
+PerturbReptate::PerturbReptate(argtype args) : PerturbReptate(&args) {
+  feasst_check_all_used(args);
+}
+PerturbReptate::PerturbReptate(argtype * args) : PerturbDistance(args) {
+  class_name_ = "PerturbReptate";
+}
 
 class MapPerturbReptate {
  public:

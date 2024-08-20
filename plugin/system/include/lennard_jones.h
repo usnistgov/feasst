@@ -2,12 +2,14 @@
 #ifndef FEASST_SYSTEM_LENNARD_JONES_H_
 #define FEASST_SYSTEM_LENNARD_JONES_H_
 
+#include <map>
 #include <string>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "system/include/model_two_body.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   The Lennard-Jones potential is given by

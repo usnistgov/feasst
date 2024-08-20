@@ -1,6 +1,8 @@
 #include <fstream>
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"  // resize and fill
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/io.h"
 #include "utils/include/progress_report.h"
 #include "threads/include/thread_omp.h"
 #include "math/include/constants.h"
@@ -10,11 +12,14 @@
 #include "math/include/random_mt19937.h"
 #include "shape/include/shape.h"
 #include "shape/include/shape_file.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/site.h"
 #include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/trial_select.h"
 #include "confinement/include/model_table_cartesian.h"
 
 // HWH beware circular dependency
@@ -126,7 +131,7 @@ void ModelTableCart1DHard::compute_table(
     table->set_data(bin, minimize.minimum(&objective));
     report->check();
   }
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapModelTableCart2DIntegr {
@@ -319,7 +324,7 @@ ModelTableCart3DIntegr::ModelTableCart3DIntegr(argtype *args) {
   write(table_file);
 }
 ModelTableCart3DIntegr::ModelTableCart3DIntegr(argtype args) : ModelTableCart3DIntegr(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void ModelTableCart3DIntegr::read(const std::string file_name) {

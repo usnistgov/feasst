@@ -3,10 +3,11 @@
 #define FEASST_CLUSTER_TRIAL_AVB2_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Attempt AVB2 in->out and out->in with equal probability.

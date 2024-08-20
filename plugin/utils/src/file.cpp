@@ -1,4 +1,5 @@
 #include <sys/stat.h>
+#include <sstream>
 #include "utils/include/file.h"
 #include "utils/include/debug.h"
 

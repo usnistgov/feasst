@@ -1,11 +1,13 @@
 #include <deque>
-#include <cmath>
+#include <numeric>  // accumulate
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"
 #include "utils/include/serialize.h"
-#include "math/include/utils_math.h"
+#include "configuration/include/site.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/visit_configuration.h"
-#include "system/include/ideal_gas.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "steppers/include/density_profile.h"
 
 namespace feasst {
@@ -26,7 +28,7 @@ DensityProfile::DensityProfile(argtype * args) : Analyze(args) {
   center_ = dble("center", args, 0.);
 }
 DensityProfile::DensityProfile(argtype args) : DensityProfile(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void DensityProfile::initialize(Criteria * criteria,

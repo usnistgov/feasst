@@ -1,3 +1,4 @@
+#include <cmath>
 #include "utils/include/serialize.h"
 #include "example/include/model_param_example.h"
 

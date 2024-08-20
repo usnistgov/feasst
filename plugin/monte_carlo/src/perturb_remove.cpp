@@ -1,4 +1,8 @@
 #include "utils/include/serialize.h"
+#include "configuration/include/configuration.h"
+#include "configuration/include/select.h"
+#include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/perturb_anywhere.h"
 #include "monte_carlo/include/perturb_remove.h"
 
 namespace feasst {
@@ -8,6 +12,7 @@ PerturbRemove::PerturbRemove(std::shared_ptr<Perturb> perturb) {
   move_ = perturb;
   disable_tunable_();
 }
+PerturbRemove::PerturbRemove() : PerturbRemove(MakePerturbAnywhere()) {}
 
 class MapPerturbRemove {
  public:

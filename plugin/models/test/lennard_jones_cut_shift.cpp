@@ -1,4 +1,5 @@
 #include <cmath>  // pow
+#include "utils/include/serialize_extra.h"
 #include "utils/test/utils.h"
 #include "models/include/lennard_jones_cut_shift.h"
 #include "configuration/include/configuration.h"

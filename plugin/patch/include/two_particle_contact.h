@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "math/include/formula.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/trial_select_particle.h"
@@ -12,6 +11,8 @@
 #include "monte_carlo/include/action.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class TwoParticleContact;
 

@@ -1,8 +1,19 @@
 #include <string>
 #include <memory>
-#include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "utils/include/serialize_extra.h"
 #include "math/include/random.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/tunable.h"
+#include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/trial_compute.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/trial.h"
 
 namespace feasst {
@@ -25,9 +36,10 @@ Trial::Trial(argtype * args) {
   weight_per_number_fraction_ = dble("weight_per_number_fraction", args, -1);
   number_fraction_exclude_type_ = integer("number_fraction_exclude_type", args, -1);
   reset_stats();
+  acceptance_ = std::make_shared<Acceptance>();
 }
 Trial::Trial(argtype args) : Trial(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Trial::add_stage(
@@ -102,7 +114,7 @@ void Trial::revert(System * system, Criteria * criteria) {
   for (int index = num_stages() - 1; index >= 0; --index) {
     stages_[index]->revert(system);
   }
-  system->revert(acceptance_.perturbed());
+  system->revert(acceptance_->perturbed());
 }
 
 void Trial::revert(const int index,
@@ -125,15 +137,15 @@ void Trial::finalize(System * system, Criteria * criteria) {
   for (int index = num_stages() - 1; index >= 0; --index) {
     stages_[index]->finalize(system);
   }
-  DEBUG("finalize perturbed. Num configs? " << acceptance_.num_configurations());
-  for (int iconf = 0; iconf < acceptance_.num_configurations(); ++iconf) {
-    DEBUG("iconf:" << iconf << " updated? " << acceptance_.updated(iconf));
-    if (acceptance_.updated(iconf) == 1) {
-      system->finalize(acceptance_.perturbed(iconf), iconf);
+  DEBUG("finalize perturbed. Num configs? " << acceptance_->num_configurations());
+  for (int iconf = 0; iconf < acceptance_->num_configurations(); ++iconf) {
+    DEBUG("iconf:" << iconf << " updated? " << acceptance_->updated(iconf));
+    if (acceptance_->updated(iconf) == 1) {
+      system->finalize(acceptance_->perturbed(iconf), iconf);
     }
   }
   DEBUG("done finalizing perturbed");
-  criteria->finalize(acceptance_);
+  criteria->finalize(*acceptance_);
 }
 
 bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
@@ -154,33 +166,36 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
     //DEBUG("all: " << system->configuration(iconf).selection_of_all().str());
   }
   increment_num_attempts();
-  acceptance_.reset();
+  if (!acceptance_) {
+    acceptance_ = std::make_shared<Acceptance>();
+  }
+  acceptance_->reset();
   criteria->before_attempt(*system);
-  before_select(&acceptance_, criteria);
+  before_select(acceptance_.get(), criteria);
 
   // Perform selections. If one selection fails, do not continue selecting.
   for (TrialStage * stage : stages_ptr_) {
     stage->before_select();
     DEBUG("selecting");
-    if (!acceptance_.reject()) {
-      stage->select(system, &acceptance_, random);
+    if (!acceptance_->reject()) {
+      stage->select(system, acceptance_.get(), random);
     }
   }
-  if (acceptance_.reject()) {
+  if (acceptance_->reject()) {
     DEBUG("auto rejected at selection");
   } else {
     for (TrialStage * stage : stages_ptr_) {
       stage->set_mobile_physical(false, system);
     }
     compute_->perturb_and_acceptance(
-      criteria, system, &acceptance_, &stages_ptr_, random);
+      criteria, system, acceptance_.get(), &stages_ptr_, random);
   }
   DEBUG("num attempts: " << num_attempts());
-  if (acceptance_.reject()) {
+  if (acceptance_->reject()) {
     DEBUG("auto reject");
     *num_auto_reject_() += 1;
   }
-  if (criteria->is_accepted(*system, &acceptance_, random)) {
+  if (criteria->is_accepted(*system, acceptance_.get(), random)) {
     DEBUG("accepted");
     increment_num_success_();
     DEBUG("is_finalize_delayed_ " << is_finalize_delayed_);
@@ -192,7 +207,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
     DEBUG("rejected");
     revert(system, criteria);
     if (!is_finalize_delayed_) {
-      criteria->revert(acceptance_);
+      criteria->revert(*acceptance_);
     }
     return false;
   }
@@ -325,6 +340,7 @@ Trial::Trial(std::istream& istr) {
   //feasst_deserialize(&num_success_, istr);
   feasst_deserialize(&is_finalize_delayed_, istr);
   feasst_deserialize_fstobj(&data_, istr);
+  acceptance_ = std::make_shared<Acceptance>();
 }
 
 const std::vector<std::shared_ptr<Trial> >& Trial::trials() const {
@@ -346,5 +362,25 @@ void Trial::add_stage(std::shared_ptr<TrialStage> stage) {
   stages_.push_back(stage);
   refresh_stages_ptr_();
 }
+
+void Trial::set(std::shared_ptr<TrialCompute> compute) { compute_ = compute; }
+
+const TrialCompute& Trial::compute() const {
+  return const_cast<TrialCompute&>(*compute_);
+}
+
+int Trial::num_stages() const { return static_cast<int>(stages_.size()); }
+
+const TrialStage& Trial::stage(const int index) const {
+  return const_cast<TrialStage&>(*stages_[index]);
+}
+
+const std::vector<std::shared_ptr<TrialStage> > Trial::stages() const {
+  return stages_;
+}
+
+TrialStage * Trial::get_stage_(const int index) { return stages_[index].get(); }
+
+const Acceptance& Trial::accept() const { return *acceptance_; }
 
 }  // namespace feasst

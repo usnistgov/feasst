@@ -2,6 +2,7 @@
 #include "configuration/test/config_utils.h"
 #include "system/include/system.h"
 #include "system/include/lennard_jones.h"
+#include "system/include/potential.h"
 #include "confinement/include/background.h"
 
 namespace feasst {
@@ -9,7 +10,7 @@ namespace feasst {
 TEST(Background, constant) {
   Configuration config = lj_sample4();
   System system;
-  system.add(lj_sample4());
+  system.add(std::make_shared<Configuration>(lj_sample4()));
   system.add(MakePotential(MakeLennardJones()));
   const double en_lj_expect = -16.790321304625856;
   const double constant = 10.;

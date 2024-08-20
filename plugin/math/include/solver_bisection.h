@@ -2,6 +2,7 @@
 #ifndef FEASST_MATH_SOLVER_BISECTION_H_
 #define FEASST_MATH_SOLVER_BISECTION_H_
 
+#include <map>
 #include <string>
 #include <memory>
 #include <vector>
@@ -9,13 +10,15 @@
 
 namespace feasst {
 
+typedef std::map<std::string, std::string> argtype;
+
 /**
   Find roots for the continuous function f(x) within the interval [a, b]
   assuming that f(a)*f(b)<0,
  */
 class SolverBisection : public Solver {
  public:
-  SolverBisection(const argtype& args = argtype());
+  explicit SolverBisection(argtype args = argtype());
 
   double root(Formula * formula) override;
 

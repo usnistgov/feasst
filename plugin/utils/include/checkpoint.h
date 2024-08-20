@@ -3,16 +3,17 @@
 #define FEASST_UTILS_INCLUDE_CHECKPOINT_H_
 
 #include <fstream>
-#include <sstream>
 #include <string>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <map>
 #include "utils/include/timer.h"
 #include "utils/include/file.h"
 #include "utils/include/debug.h"
 #include "utils/include/io.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Save the state of a class in memory by writing to disk, such that the
@@ -92,6 +93,15 @@ class Checkpoint {
     std::getline(file, line);
     std::stringstream ss(line);
     *obj = T(ss);
+  }
+  template <typename T>
+  void read_unique(std::unique_ptr<T>& obj) {
+    std::ifstream file(checkpoint_file_.c_str());
+    ASSERT(file.good(), "cannot find " << checkpoint_file_);
+    std::string line;
+    std::getline(file, line);
+    std::stringstream ss(line);
+    obj = std::make_unique<T>(ss);
   }
 
   /// Serialize object.

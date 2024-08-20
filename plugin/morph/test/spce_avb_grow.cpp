@@ -1,7 +1,10 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
 #include "system/include/lennard_jones.h"
+#include "system/include/visit_model_inner.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/dont_visit_model.h"
 #include "monte_carlo/include/metropolis.h"
@@ -14,9 +17,9 @@
 #include "steppers/include/tune.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
-#include "steppers/include/log_and_movie.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
+#include "flat_histogram/include/ln_probability.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "charge/include/utils.h"
 #include "charge/test/charge_utils.h"
@@ -33,7 +36,7 @@ double energy_av44(const int macro, const MonteCarlo& mc) {
 }
 
 // HWH add num steps to spce fh test for DCCB diagnosis
-MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
+std::unique_ptr<MonteCarlo> test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
     const std::string avb_type,
     const int num_steps = 1,
     bool test = true,
@@ -43,7 +46,7 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
   bool avb = true;
   if (avb_type == "none") avb = false;
   DEBUG(bias->class_name());
-  MonteCarlo mc;
+  auto mc = std::make_unique<MonteCarlo>();
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   argtype spce_args = {{"physical_constants", "CODATA2010"},
                        {"cubic_side_length", "20"},
@@ -57,11 +60,11 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
     spce_args.insert({"dual_cut", str(3.16555789)});
     ref = 0;
   }
-  mc.set(spce(spce_args));
-  mc.get_system()->get_configuration()->add_particle_of_type(0);
+  mc->set(spce(spce_args));
+  mc->get_system()->get_configuration()->add_particle_of_type(0);
   if (avb) {
     auto ncrit = MakeNeighborCriteria({{"maximum_distance", "10"}, {"minimum_distance", "3.2"}, {"site_type0", "0"}, {"site_type1", "0"}, {"potential_index", "1"}});
-    mc.add(ncrit);
+    mc->add(ncrit);
     auto pot = MakePotential(
       MakeLennardJones(),
       //MakeModelTwoBodyFactory({MakeLennardJones(), MakeChargeScreened({{"table_size", "0"}})}),
@@ -70,19 +73,19 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAllCriteria(ncrit)))//,
       //{{"table_size", "1e6"}}
     );
-    mc.set(1, pot);
-    mc.add(MakePotential(MakeChargeScreened({{"erfc_table_size", "0"}})));
-    mc.add_to_reference(MakePotential(MakeDontVisitModel()));
-    //mc.add_to_reference(pot);
+    mc->set(1, pot);
+    mc->add(MakePotential(MakeChargeScreened({{"erfc_table_size", "0"}})));
+    mc->add_to_reference(MakePotential(MakeDontVisitModel()));
+    //mc->add_to_reference(pot);
   }
-  const double beta = 1/kelvin2kJpermol(525, mc.configuration()); // mol/kJ
-  mc.set(MakeThermoParams({{"beta", str(beta)}, {"chemical_potential", str(-8.14/beta)}}));
-  mc.set(MakeMetropolis());
-//  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0."}}));
-//  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
-//  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
+  const double beta = 1/kelvin2kJpermol(525, mc->configuration()); // mol/kJ
+  mc->set(MakeThermoParams({{"beta", str(beta)}, {"chemical_potential", str(-8.14/beta)}}));
+  mc->set(MakeMetropolis());
+//  mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0."}}));
+//  mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
+//  mc->add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   if (avb) {
-    mc.add(MakeTrialGrow(
+    mc->add(MakeTrialGrow(
       {
         //{{"transfer", "true"}, {"particle_type", "0"}, {"weight", "4"}, {"site", "0"}},
         {{"default_num_steps", "2"}, {"default_reference_index", "0"},
@@ -91,23 +94,23 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
         {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}}));
   }
   if (avb_type != "transfer_avb") {
-    mc.add(MakeTrialTransfer({
+    mc->add(MakeTrialTransfer({
       {"particle_type", "0"},
       {"weight", "4"},
       {"reference_index", str(ref)},
       {"num_steps", str(num_steps)}}));
   }
-  mc.run(MakeRun({{"until_num_particles", str(min)}}));
+  mc->run(MakeRun({{"until_num_particles", str(min)}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     bias);
-  mc.set(criteria);
-//  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/spce_fh"}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
-  //mc.add(MakeCheckEnergyAndTune({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
-  mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
-  mc.add(MakeCriteriaWriter({
+  mc->set(criteria);
+//  mc->add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/spce_fh"}}));
+  mc->add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
+  //mc->add(MakeCheckEnergyAndTune({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
+  mc->add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
+  mc->add(MakeCriteriaWriter({
     {"trials_per_write", str(trials_per)},
     {"output_file", "tmp/spce_crit.txt"}}));
   auto energy = MakeEnergy({
@@ -115,13 +118,13 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
     {"trials_per_update", "1"},
     {"trials_per_write", str(trials_per)},
     {"multistate", "true"}});
-  mc.add(energy);
+  mc->add(energy);
   //MonteCarlo mc2 = test_serialize(mc);
-  mc.run_until_complete();
+  mc->run_until_complete();
 
   if (!test) return mc;
 
-  EXPECT_LE(mc.system().configuration().num_particles(), 5);
+  EXPECT_LE(mc->system().configuration().num_particles(), 5);
 
   // known values of lnpi and energy
   const std::vector<std::vector<double> > lnpi_srsw = {
@@ -144,15 +147,15 @@ MonteCarlo test_spce_avb_grow_fh(std::shared_ptr<Bias> bias,
     {-13.499, 0.5},
     {-22.27, 1.0}};
 
-  FlatHistogram fh(mc.criteria());
-  const LnProbability& lnpi = fh.bias().ln_prob();
+  std::unique_ptr<FlatHistogram> fh = FlatHistogram().flat_histogram(mc->criteria());
+  const LnProbability& lnpi = fh->bias().ln_prob();
   for (int macro = 0; macro < lnpi.size(); ++macro) {
     EXPECT_NEAR(lnpi.value(macro), lnpi_srsw[macro][0],
       15*lnpi_srsw[macro][1]);
 //      if (bias->class_name() == "TransitionMatrix") {
       const double en_std = std::sqrt(std::pow(en_srsw[macro][1], 2) +
         std::pow(energy->energy().block_stdev(), 2));
-      EXPECT_NEAR(energy_av44(macro, mc), en_srsw[macro][0], 15.*en_std);
+      EXPECT_NEAR(energy_av44(macro, *mc), en_srsw[macro][0], 15.*en_std);
 //      }
   }
 

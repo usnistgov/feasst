@@ -3,10 +3,11 @@
 #define FEASST_CHAIN_SELECT_BRANCH_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select_angle.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   A random particle of given type is selected if previously perturbed sites are

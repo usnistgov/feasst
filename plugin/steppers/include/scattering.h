@@ -4,6 +4,7 @@
 
 #include <vector>
 #include "math/include/position.h"
+#include "math/include/accumulator.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {

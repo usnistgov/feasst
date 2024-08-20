@@ -5,9 +5,11 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <map>
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Positions are a set of coordinates (abbreviated here as "coord") in the

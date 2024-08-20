@@ -1,12 +1,11 @@
-
-#include <fstream>
-#include <sstream>
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/timer.h"
 #include "math/include/utils_math.h"
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/remove_trial.h"
 
 namespace feasst {
@@ -19,7 +18,7 @@ RemoveTrial::RemoveTrial(argtype * args) {
   name_contains_ = str("name_contains", args, "");
 }
 RemoveTrial::RemoveTrial(argtype args) : RemoveTrial(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapRemoveTrial {

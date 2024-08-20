@@ -1,7 +1,14 @@
 #include "utils/test/utils.h"
-#include "configuration/include/domain.h"
-#include "system/include/lennard_jones.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/system.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
+#include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/metropolis.h"
 #include "chain/include/trial_swap_sites.h"
 
@@ -9,7 +16,7 @@ namespace feasst {
 
 TEST(TrialSwapSites, swap) {
   System sys;
-  sys.add(*MakeConfiguration({{"cubic_side_length", "20"},
+  sys.add(MakeConfiguration({{"cubic_side_length", "20"},
     {"particle_type", "../particle/chain10_3types.fstprt"},
     {"add_particles_of_type0", "1"}}));
   sys.add(MakePotential(MakeLennardJones()));

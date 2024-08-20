@@ -1,4 +1,5 @@
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/trial_move.h"
@@ -25,7 +26,7 @@ TrialTranslate::TrialTranslate(argtype * args) :
   set_description("TrialTranslate");
 }
 TrialTranslate::TrialTranslate(argtype args) : TrialTranslate(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialTranslate::TrialTranslate(std::istream& istr) : TrialMove(istr) {

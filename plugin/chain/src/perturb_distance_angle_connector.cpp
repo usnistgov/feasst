@@ -1,11 +1,16 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "monte_carlo/include/trial_select.h"
 #include "chain/include/perturb_distance_angle_connector.h"
 
 namespace feasst {
 
 PerturbDistanceAngleConnector::PerturbDistanceAngleConnector(argtype args)
   : PerturbDistanceAngleConnector(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbDistanceAngleConnector::PerturbDistanceAngleConnector(argtype * args)
   : PerturbDistanceAngle(args) {

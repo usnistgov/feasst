@@ -2,6 +2,7 @@
 #ifndef FEASST_MATH_UTILS_MATH_H_
 #define FEASST_MATH_UTILS_MATH_H_
 
+#include <cmath>
 #include <vector>
 #include <deque>
 #include <numeric>  // accumulate
@@ -76,9 +77,11 @@ T minimum(const std::vector<std::vector<std::vector<std::vector<T> > > > &vec) {
 
 /// Return the minimum element of a 5D vector.
 template<class T>
-T minimum(const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > &vec) {
+T minimum(const std::vector<std::vector<std::vector<std::vector<std::vector<T>
+    > > > > &vec) {
   std::vector<T> mins;
-  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec1 : vec) {
+  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec1 :
+      vec) {
     mins.push_back(minimum(vec1));
   }
   return *std::min_element(mins.begin(), mins.end());
@@ -86,9 +89,11 @@ T minimum(const std::vector<std::vector<std::vector<std::vector<std::vector<T> >
 
 /// Return the minimum element of a 6D vector.
 template<class T>
-T minimum(const std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > > &vec) {
+T minimum(const std::vector<std::vector<std::vector<std::vector<std::vector<
+    std::vector<T> > > > > > &vec) {
   std::vector<T> mins;
-  for (const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > >& vec1 : vec) {
+  for (const std::vector<std::vector<std::vector<std::vector<std::vector<T> > >
+      > >& vec1 : vec) {
     mins.push_back(minimum(vec1));
   }
   return *std::min_element(mins.begin(), mins.end());
@@ -132,9 +137,11 @@ T maximum(const std::vector<std::vector<std::vector<std::vector<T> > > > &vec) {
 
 /// Return the maximum element of a 5D vector.
 template<class T>
-T maximum(const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > &vec) {
+T maximum(const std::vector<std::vector<std::vector<std::vector<std::vector<T>
+    > > > > &vec) {
   std::vector<T> maxs;
-  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec1 : vec) {
+  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec1 :
+      vec) {
     maxs.push_back(maximum(vec1));
   }
   return *std::max_element(maxs.begin(), maxs.end());
@@ -142,9 +149,11 @@ T maximum(const std::vector<std::vector<std::vector<std::vector<std::vector<T> >
 
 /// Return the maximum element of a 6D vector.
 template<class T>
-T maximum(const std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > > &vec) {
+T maximum(const std::vector<std::vector<std::vector<std::vector<std::vector<
+    std::vector<T> > > > > > &vec) {
   std::vector<T> maxs;
-  for (const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > >& vec1 : vec) {
+  for (const std::vector<std::vector<std::vector<std::vector<std::vector<T> > >
+      > >& vec1 : vec) {
     maxs.push_back(maximum(vec1));
   }
   return *std::max_element(maxs.begin(), maxs.end());
@@ -242,17 +251,17 @@ double degrees_to_radians(const double degrees);
 
 /// Swap the values.
 template <typename T>
-inline void swap(T * val1, T * val2) {
-  const double temp = *val1;
+inline void feasst_swap(T * val1, T * val2) {
+  const T temp = *val1;
   *val1 = *val2;
   *val2 = temp;
 }
 
 /// Sort the values in order of increasing size.
 template <typename T>
-inline void sort(T * min, T * max) {
+inline void feasst_sort(T * min, T * max) {
   if (*min > *max) {
-    swap(min, max);
+    feasst_swap(min, max);
   }
 }
 
@@ -297,8 +306,8 @@ inline void add(const std::vector<std::vector<std::vector<T> > >& vec1,
 
 /// Add vec1 to vec2
 template <typename T>
-inline void add(const std::vector<std::vector<std::vector<std::vector<T> > > >& vec1,
-    std::vector<std::vector<std::vector<std::vector<T> > > > * vec2) {
+inline void add(const std::vector<std::vector<std::vector<std::vector<T> > > >&
+    vec1, std::vector<std::vector<std::vector<std::vector<T> > > > * vec2) {
   for (int i = 0; i < static_cast<int>(vec1.size()); ++i) {
     add(vec1[i], &(*vec2)[i]);
   }
@@ -306,6 +315,26 @@ inline void add(const std::vector<std::vector<std::vector<std::vector<T> > > >& 
 
 /// Return the factorial of an integer.
 int factorial(const int num);
+
+/// Return if the value is bad (i.e., nan or inf).
+template<class T>
+bool has_bad_value(const T& value) {
+  if (std::isnan(value) || std::isinf(value)) {
+    return true;
+  }
+  return false;
+}
+
+/// Return if the vector has a bad value (i.e., nan or inf).
+template<class T>
+int has_bad_value(const std::vector<T>& vec) {
+  for (const T& element : vec) {
+    if (has_bad_value(element)) {
+      return true;
+    }
+  }
+  return false;
+}
 
 }  // namespace feasst
 

@@ -4,10 +4,11 @@
 
 #include <string>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/action.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   An Analyze/Modify of given name is forced to write to file.

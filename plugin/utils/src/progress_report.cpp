@@ -3,6 +3,7 @@
 #include <fstream>
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/timer.h"
 #include "utils/include/progress_report.h"
 
@@ -25,7 +26,7 @@ ProgressReport::ProgressReport(argtype args) {
     ASSERT(percent_per_write_ >= 0.0001,
       "percent_per_write: " << percent_per_write_ << " must be > 0.0001");
   }
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void ProgressReport::serialize(std::ostream& ostr) const {
@@ -81,7 +82,8 @@ void ProgressReport::write() {
     DEBUG("percent_per_hours " << percent_per_hours);
     const double remaining_hours = (1. - percent())/percent_per_hours;
     ss << std::setprecision(3) << percent() << ","
-       << elapsed_hours << "," << remaining_hours << "," << elapsed_hours + remaining_hours;
+       << elapsed_hours << "," << remaining_hours << ","
+       << elapsed_hours + remaining_hours;
   }
   DEBUG("filename? " << file_name_);
   if (file_name_.empty()) {

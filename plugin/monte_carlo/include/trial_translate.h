@@ -1,12 +1,15 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_TRANSLATE_H_
 #define FEASST_MONTE_CARLO_TRIAL_TRANSLATE_H_
 
+#include <map>
+#include <string>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_move.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /// Attempt a rigid translation of a random particle.
 class TrialTranslate : public TrialMove {
@@ -37,7 +40,8 @@ class TrialTranslate : public TrialMove {
   //@}
 };
 
-inline std::shared_ptr<TrialTranslate> MakeTrialTranslate(argtype args = argtype()) {
+inline std::shared_ptr<TrialTranslate> MakeTrialTranslate(
+    argtype args = argtype()) {
   return std::make_shared<TrialTranslate>(args); }
 
 }  // namespace feasst

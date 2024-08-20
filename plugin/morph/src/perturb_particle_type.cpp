@@ -1,11 +1,18 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "math/include/constants.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/trial_select.h"
 #include "morph/include/perturb_particle_type.h"
 
 namespace feasst {
 
 PerturbParticleType::PerturbParticleType(argtype args)
   : PerturbParticleType(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbParticleType::PerturbParticleType(argtype * args) : Perturb(args) {
   class_name_ = "PerturbParticleType";

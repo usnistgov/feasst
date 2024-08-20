@@ -1,4 +1,5 @@
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "chain/include/select_reptate.h"
 #include "chain/include/perturb_reptate.h"
@@ -24,7 +25,7 @@ TrialReptate::TrialReptate(argtype * args) :
   set_description("TrialReptate");
 }
 TrialReptate::TrialReptate(argtype args) : TrialReptate(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialReptate::TrialReptate(std::istream& istr) : TrialMove(istr) {

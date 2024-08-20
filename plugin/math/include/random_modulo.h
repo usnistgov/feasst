@@ -2,12 +2,15 @@
 #ifndef FEASST_MATH_RANDOM_MODULO_H_
 #define FEASST_MATH_RANDOM_MODULO_H_
 
+#include <map>
 #include <memory>
 #include <random>
-#include <sstream>
+#include <string>
 #include "math/include/random.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   This is a poor quality implementation of a random number generator,

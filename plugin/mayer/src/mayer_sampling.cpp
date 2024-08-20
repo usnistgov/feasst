@@ -1,9 +1,15 @@
 #include <cmath>
 #include <fstream>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h" // factorial
 #include "math/include/constants.h"
 #include "math/include/random.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
 #include "mayer/include/mayer_sampling.h"
 
 namespace feasst {
@@ -34,7 +40,7 @@ MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
   training_per_write_ = integer("training_per_write", args, 1e4);
 }
 MayerSampling::MayerSampling(argtype args) : MayerSampling(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void MayerSampling::precompute(System * system) {

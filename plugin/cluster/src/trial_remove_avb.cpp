@@ -1,4 +1,6 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "math/include/position.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "cluster/include/select_particle_avb.h"
 #include "cluster/include/perturb_add_avb.h"
@@ -30,7 +32,7 @@ TrialRemoveAVB::TrialRemoveAVB(argtype * args) : Trial(args) {
   set(MakeComputeRemoveAVB());
 }
 TrialRemoveAVB::TrialRemoveAVB(argtype args) : TrialRemoveAVB(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialRemoveAVB::TrialRemoveAVB(std::istream& istr) : Trial(istr) {

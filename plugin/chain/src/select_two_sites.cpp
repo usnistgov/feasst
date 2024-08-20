@@ -1,11 +1,15 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "chain/include/select_two_sites.h"
 
 namespace feasst {
 
 SelectTwoSites::SelectTwoSites(argtype args) : SelectTwoSites(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 SelectTwoSites::SelectTwoSites(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectTwoSites";
@@ -30,12 +34,12 @@ static MapSelectTwoSites mapper_ = MapSelectTwoSites();
 
 void SelectTwoSites::precompute(System * system) {
   TrialSelect::precompute(system);
-  mobile_.clear();
-  mobile_.add_site(0, mobile_site_);
+  get_mobile()->clear();
+  get_mobile()->add_site(0, mobile_site_);
   if (particle_type2_ == -1) {
-    mobile_.add_site(0, mobile_site2_);
+    get_mobile()->add_site(0, mobile_site2_);
   } else {
-    mobile_.add_site(1, mobile_site2_);
+    get_mobile()->add_site(1, mobile_site2_);
   }
 }
 
@@ -69,12 +73,12 @@ bool SelectTwoSites::select(const Select& perturbed,
       set_probability_(probability()/static_cast<double>(num2));
     }
   }
-  mobile_.set_particle(0, particle_index);
+  get_mobile()->set_particle(0, particle_index);
   if (particle_type2_ != -1) {
-    mobile_.set_particle(1, particle_index2);
+    get_mobile()->set_particle(1, particle_index2);
   }
-  mobile_.load_positions(config->particles());
-  DEBUG("mobile: " << mobile_.str());
+  get_mobile()->load_positions(config->particles());
+  DEBUG("mobile: " << mobile().str());
   set_mobile_original(system);
   return true;
 }

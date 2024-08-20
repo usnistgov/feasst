@@ -4,14 +4,14 @@
 
 #include <string>
 #include <fstream>
-#include <sstream>
-#include "utils/include/arguments.h"
 #include "configuration/include/configuration.h"
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/file_vmd.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Print a vmd script to view an xyz file via command "vmd -e file.vmd"

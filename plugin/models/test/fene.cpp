@@ -1,11 +1,14 @@
 #include "utils/test/utils.h"
 #include "math/include/accumulator.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/visit_model_bond.h"
 #include "system/include/bond_visitor.h"
 #include "system/include/system.h"
+#include "system/include/potential.h"
 #include "models/include/fene.h"
 #include "models/include/lennard_jones_cut_shift.h"
 
@@ -13,7 +16,7 @@ namespace feasst {
 
 System fene_ex() {
   System system;
-  system.add(*MakeConfiguration({{"cubic_side_length", "12"},
+  system.add(MakeConfiguration({{"cubic_side_length", "12"},
     {"particle_type0", "../plugin/models/particle/data.chain10"},
     {"add_particles_of_type0", "1"}}));
   // wca

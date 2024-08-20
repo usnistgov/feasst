@@ -6,6 +6,13 @@
 
 namespace feasst {
 
+class Acceptance;
+class Random;
+class System;
+class TrialSelect;
+
+typedef std::map<std::string, std::string> argtype;
+
 /**
   Change the inverse temperature, \f$\beta\f$, of the system by a fixed amount,
   randomly up or down.

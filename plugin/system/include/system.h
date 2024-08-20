@@ -2,15 +2,20 @@
 #ifndef FEASST_SYSTEM_SYSTEM_H_
 #define FEASST_SYSTEM_SYSTEM_H_
 
+#include <string>
+#include <map>
 #include <vector>
 #include <memory>
-#include "configuration/include/configuration.h"
-#include "configuration/include/neighbor_criteria.h"
 #include "system/include/potential_factory.h"
-#include "system/include/thermo_params.h"
-#include "system/include/bond_visitor.h"
 
 namespace feasst {
+
+class BondVisitor;
+class Configuration;
+class NeighborCriteria;
+class ThermoParams;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   System is a facade design pattern in order to constrain and/or simplify
@@ -46,12 +51,8 @@ class System {
   /// Add a configuration.
   void add(std::shared_ptr<Configuration> configuration);
 
-  // HWH Depreciated interface.
-  void add(const Configuration& configuration);
-
   /// Return the number of configurations.
-  int num_configurations() const {
-    return static_cast<int>(configurations_.size()); }
+  int num_configurations() const;
 
   /// Return the configuration
   const Configuration& configuration(const int config = 0) const;
@@ -115,7 +116,8 @@ class System {
     const int config = 0) const;
 
   /// Return the list of reference potentials.
-  const std::vector<std::vector<PotentialFactory> > references() const { return references_; }
+  const std::vector<std::vector<PotentialFactory> > references() const {
+    return references_; }
 
   /// Return a constant reference to the full potentials.
   const PotentialFactory& potentials(const int config = 0) const;
@@ -131,15 +133,14 @@ class System {
 
   /// Add a NeighborCriteria.
   void add(std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const int config = 0) {
-    configurations_[config].add(neighbor_criteria); }
+    const int config = 0);
 
   /// Return a NeighborCriteria by index in order added.
   const NeighborCriteria& neighbor_criteria(const int index,
     const int config) const;
 
   /// Return a NeighborCriteria by index in order added.
-  const std::vector<NeighborCriteria>& neighbor_criteria(
+  const std::vector<std::shared_ptr<NeighborCriteria> >& neighbor_criteria(
     const int config) const;
 
   // Return a NeighborCriteria by index in order added.
@@ -198,11 +199,10 @@ class System {
   const ThermoParams& thermo_params() const;
 
   // Same as above, but as a constant pointer.
-  const ThermoParams * thermo_params_ptr_() const {
-    return thermo_params_.get(); }
+  const ThermoParams * thermo_params_ptr_() const;
 
   /// Set the inverse temperature, \f$\beta\f$.
-  void set_beta(const double beta) { thermo_params_->set_beta(beta); }
+  void set_beta(const double beta);
 
   //@}
   // Other functions:
@@ -238,8 +238,7 @@ class System {
 
   /// Finalize changes due to energy computation of perturbations.
   void finalize(const Select& select, const int config = 0);
-  void finalize(const int config = 0) {
-    finalize(configurations_[config].selection_of_all(), config); }
+  void finalize(const int config = 0);
 
   /// Set cache to load energy calculations.
   void load_cache(const bool load);
@@ -265,8 +264,8 @@ class System {
   explicit System(std::istream& sstr);
 
  private:
-  std::vector<Configuration> configurations_;
-  std::vector<BondVisitor> bonds_;
+  std::vector<std::shared_ptr<Configuration> > configurations_;
+  std::vector<std::shared_ptr<BondVisitor> > bonds_;
   std::vector<PotentialFactory> unoptimized_;
   std::vector<PotentialFactory> optimized_;
   bool is_optimized_ = false;
@@ -277,7 +276,7 @@ class System {
   // In order to finalize or restart the correct reference potential utilized
   // in a trial, this temporarily stores that reference potential index.
   int ref_used_last_ = -1;
-  double delta_volume_previous_ = 1e30; // implemented for Gibbs ensemble.
+  double delta_volume_previous_ = 1e30;  // implemented for Gibbs ensemble.
 
   PotentialFactory * reference_(const int index, const int config);
   PotentialFactory * potentials_(const int config);

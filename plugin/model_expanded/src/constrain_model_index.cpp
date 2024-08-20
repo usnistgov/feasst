@@ -1,5 +1,10 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "system/include/potential.h"
+#include "system/include/model.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
 #include "model_expanded/include/constrain_model_index.h"
 
 namespace feasst {
@@ -11,7 +16,7 @@ ConstrainModelIndex::ConstrainModelIndex(argtype * args) : Constraint() {
   potential_index_ = integer("potential_index", args, 0);
 }
 ConstrainModelIndex::ConstrainModelIndex(argtype args) : ConstrainModelIndex(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 int ConstrainModelIndex::model_index(const System& system,

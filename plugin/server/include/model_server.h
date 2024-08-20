@@ -4,10 +4,11 @@
 
 #include <string>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "system/include/model_two_body.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Server;
 
@@ -53,7 +54,7 @@ class ModelServer : public ModelTwoBody {
     return std::make_shared<ModelServer>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit ModelServer(std::istream& istr);
-  virtual ~ModelServer() {}
+  virtual ~ModelServer();
 
   //@}
  protected:
@@ -61,12 +62,12 @@ class ModelServer : public ModelTwoBody {
 
  private:
   double hard_sphere_threshold_sq_;
-  std::shared_ptr<Server> server_;
+  std::unique_ptr<Server> server_;
 };
 
-inline std::shared_ptr<ModelServer> MakeModelServer(
+inline std::unique_ptr<ModelServer> MakeModelServer(
     argtype args = argtype()) {
-  return std::make_shared<ModelServer>(args);
+  return std::make_unique<ModelServer>(args);
 }
 
 }  // namespace feasst

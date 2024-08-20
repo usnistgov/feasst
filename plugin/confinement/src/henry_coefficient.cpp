@@ -1,5 +1,12 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/trial_stage.h"
 #include "confinement/include/henry_coefficient.h"
 
 namespace feasst {
@@ -16,7 +23,7 @@ static MapHenryCoefficient mapper_ = MapHenryCoefficient();
 
 HenryCoefficient::HenryCoefficient(argtype args) : Analyze(&args) {
   ASSERT(trials_per_update() == 1, "should update every step");
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void HenryCoefficient::initialize(Criteria * criteria,
@@ -39,7 +46,7 @@ std::string HenryCoefficient::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  ss << accumulator_.status_header() << std::endl;
+  ss << accumulator().status_header() << std::endl;
   return ss.str();
 }
 
@@ -48,14 +55,14 @@ void HenryCoefficient::update(const Criteria& criteria,
     const TrialFactory& trial_factory) {
   const double en = trial_factory.trial(0).accept().energy_new();
   DEBUG("en: " << en);
-  accumulator_.accumulate(std::exp(-system.thermo_params().beta()*en));
+  get_accumulator()->accumulate(std::exp(-system.thermo_params().beta()*en));
 }
 
 std::string HenryCoefficient::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;
-  ss << accumulator_.status() << std::endl;
+  ss << accumulator().status() << std::endl;
   DEBUG(ss.str());
   return ss.str();
 }

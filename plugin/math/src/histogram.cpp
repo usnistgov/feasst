@@ -1,7 +1,8 @@
 
 #include <cmath>
-#include "math/include/histogram.h"
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
+#include "math/include/histogram.h"
 #include "math/include/formula_polynomial.h"
 #include "math/include/utils_math.h"
 #include "utils/include/io.h"
@@ -11,7 +12,9 @@
 
 namespace feasst {
 
-Histogram::Histogram(argtype args) : Histogram(&args) { FEASST_CHECK_ALL_USED(args); }
+Histogram::Histogram(argtype args) : Histogram(&args) {
+  feasst_check_all_used(args);
+}
 Histogram::Histogram(argtype * args) {
   // optionally construct a constant width bin
   if (used("width", *args)) {

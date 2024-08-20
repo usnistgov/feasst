@@ -1,34 +1,38 @@
 #include <cmath>  // isinf and isnan
-#include "configuration/include/domain.h"
-#include "system/include/system.h"
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/select.h"
+#include "configuration/include/neighbor_criteria.h"
+#include "configuration/include/configuration.h"
+#include "system/include/bond_visitor.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
 
 namespace feasst {
 
 void System::add(std::shared_ptr<Configuration> configuration) {
-  add(*configuration);
-}
-
-void System::add(const Configuration& configuration) {
   configurations_.push_back(configuration);
-  bonds_.push_back(BondVisitor());
+  bonds_.push_back(std::make_shared<BondVisitor>());
   unoptimized_.push_back(PotentialFactory());
   optimized_.push_back(PotentialFactory());
 }
 
 const Configuration& System::configuration(const int config) const {
-  return configurations_[config];
+  return *configurations_[config];
 }
 
 Configuration* System::get_configuration(const int config) {
-  return &configurations_[config];
+  return configurations_[config].get();
 }
 
 int System::dimension(const int config) const {
-  const int dim = configurations_[0].dimension();
-  for (const Configuration& config : configurations_) {
-    ASSERT(dim == config.dimension(), "dimensions of configs do not match");
+  const int dim = configurations_[0]->dimension();
+  for (auto config : configurations_) {
+    ASSERT(dim == config->dimension(), "dimensions of configs do not match");
   }
   return dim;
 }
@@ -37,14 +41,14 @@ void System::add_to_unoptimized(std::shared_ptr<Potential> potential,
     const int config) {
   unoptimized_[config].add(potential);
   unoptimized_[config].precompute(unoptimized_[config].num() - 1,
-                                               &configurations_[config]);
+                                               configurations_[config].get());
 }
 
 void System::set_unoptimized(const int index,
     std::shared_ptr<Potential> potential,
     const int config) {
   unoptimized_[config].set(index, potential);
-  unoptimized_[config].precompute(index, &configurations_[config]);
+  unoptimized_[config].precompute(index, configurations_[config].get());
 }
 
 void System::add_to_optimized(std::shared_ptr<Potential> potential,
@@ -52,7 +56,7 @@ void System::add_to_optimized(std::shared_ptr<Potential> potential,
   is_optimized_ = true;
   optimized_[config].add(potential);
   optimized_[config].precompute(optimized_[config].num() - 1,
-                                &configurations_[config]);
+                                configurations_[config].get());
 }
 
 PotentialFactory * System::reference_(const int index, const int config) {
@@ -77,7 +81,7 @@ void System::add_to_reference(std::shared_ptr<Potential> ref, const int index,
   }
   reference_(index, config)->add(ref);
   reference_(index, config)->precompute(reference_(index, config)->num() - 1,
-                                        &configurations_[config]);
+                                        configurations_[config].get());
 }
 
 const Potential& System::reference(const int ref,
@@ -91,7 +95,7 @@ const Potential& System::reference(const int ref,
 
 void System::precompute() {
   for (int config_index = 0; config_index < num_configurations(); ++config_index) {
-    Configuration * config = &configurations_[config_index];
+    Configuration * config = configurations_[config_index].get();
     unoptimized_[config_index].precompute(config);
     if (is_optimized_) {
       optimized_[config_index].precompute(config);
@@ -107,16 +111,16 @@ void System::precompute() {
 double System::unoptimized_energy(const int config) {
   ASSERT(config < num_configurations(),
     "config: " << config << " >= num_configurations: " << num_configurations());
-  const double en = unoptimized_[config].energy(&configurations_[config]);
+  const double en = unoptimized_[config].energy(configurations_[config].get());
   ASSERT(!std::isinf(en) && !std::isnan(en),
     "Energy(" << en << ") is infinite or not "
     << "a number. Are particles on top of each other?");
-  unoptimized_[config].finalize(configurations_[config].selection_of_all(),
-    &configurations_[config]);
+  unoptimized_[config].finalize(configurations_[config]->selection_of_all(),
+    configurations_[config].get());
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  bonds_[config].compute_all(configurations_[config]);
-  return en + bonds_[config].energy();
+  bonds_[config]->compute_all(*configurations_[config]);
+  return en + bonds_[config]->energy();
 }
 
 PotentialFactory * System::potentials_(const int config) {
@@ -127,22 +131,22 @@ PotentialFactory * System::potentials_(const int config) {
 }
 
 double System::energy(const int config) {
-  const double en = potentials_(config)->energy(&configurations_[config]);
+  const double en = potentials_(config)->energy(configurations_[config].get());
   finalize(config);
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  bonds_[config].compute_all(configurations_[config]);
-  DEBUG("bond en " << bonds_[config].energy());
-  return en + bonds_[config].energy();
+  bonds_[config]->compute_all(*configurations_[config]);
+  DEBUG("bond en " << bonds_[config]->energy());
+  return en + bonds_[config]->energy();
 }
 
 double System::perturbed_energy(const Select& select, const int config) {
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  double en = potentials_(config)->select_energy(select, &configurations_[config]);
-  bonds_[config].compute_all(select, configurations_[config]);
-  const double bond_en = bonds_[config].energy();
-  DEBUG("bond en " << bonds_[config].energy());
+  double en = potentials_(config)->select_energy(select, configurations_[config].get());
+  bonds_[config]->compute_all(select, *configurations_[config]);
+  const double bond_en = bonds_[config]->energy();
+  DEBUG("bond en " << bonds_[config]->energy());
   ASSERT(!std::isinf(en), "en: " << en << " is inf.");
   ASSERT(!std::isnan(en), "en: " << en << " is nan.");
   ASSERT(!std::isinf(bond_en), "bond_en: " << bond_en << " is inf.");
@@ -153,7 +157,7 @@ double System::perturbed_energy(const Select& select, const int config) {
 double System::reference_energy(const int ref, const int config) {
   ref_used_last_ = ref;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  return reference_(ref, config)->energy(&configurations_[config]);
+  return reference_(ref, config)->energy(configurations_[config].get());
 }
 
 double System::reference_energy(const Select& select,
@@ -164,13 +168,13 @@ double System::reference_energy(const Select& select,
   ASSERT(ref < num_references(), "Asked for reference: " << ref <<
     ", but there are only " << num_references());
   return reference_(ref, config)->select_energy(select,
-                                                &configurations_[config]);
+                                                configurations_[config].get());
 }
 
 void System::serialize(std::ostream& sstr) const {
   feasst_serialize_version(7349, sstr);
-  feasst_serialize_fstobj(configurations_, sstr);
-  feasst_serialize_fstobj(bonds_, sstr);
+  feasst_serialize(configurations_, sstr);
+  feasst_serialize(bonds_, sstr);
   feasst_serialize_fstobj(unoptimized_, sstr);
   feasst_serialize_fstobj(optimized_, sstr);
   feasst_serialize(is_optimized_, sstr);
@@ -183,8 +187,36 @@ void System::serialize(std::ostream& sstr) const {
 System::System(std::istream& sstr) {
   const int version = feasst_deserialize_version(sstr);
   ASSERT(version == 7349, "unrecognized verison: " << version);
-  feasst_deserialize_fstobj(&configurations_, sstr);
-  feasst_deserialize_fstobj(&bonds_, sstr);
+//  HWH for unknown reasons, this function template does not work.
+  //feasst_deserialize(&configurations_, sstr);
+  {
+    int dim1;
+    sstr >> dim1;
+    configurations_.resize(dim1);
+    for (int index = 0; index < dim1; ++index) {
+      //feasst_deserialize((*vector)[index], istr);
+      int existing;
+      sstr >> existing;
+      if (existing != 0) {
+        configurations_[index] = std::make_shared<Configuration>(sstr);
+      }
+    }
+  }
+//  HWH for unknown reasons, this function template does not work.
+  //feasst_deserialize(&bonds_, sstr);
+  {
+    int dim1;
+    sstr >> dim1;
+    bonds_.resize(dim1);
+    for (int index = 0; index < dim1; ++index) {
+      //feasst_deserialize((*vector)[index], istr);
+      int existing;
+      sstr >> existing;
+      if (existing != 0) {
+        bonds_[index] = std::make_shared<BondVisitor>(sstr);
+      }
+    }
+  }
   feasst_deserialize_fstobj(&unoptimized_, sstr);
   feasst_deserialize_fstobj(&optimized_, sstr);
   feasst_deserialize(&is_optimized_, sstr);
@@ -237,13 +269,13 @@ void System::finalize(const Select& select, const int config) {
   DEBUG("finalizing " << select.str() << " in config:" << config);
   if (select.trial_state() == 2) {
     // finalize removal
-    configurations_[config].remove_particles(select);
+    configurations_[config]->remove_particles(select);
   }
-  unoptimized_[config].finalize(select, &configurations_[config]);
-  optimized_[config].finalize(select, &configurations_[config]);
+  unoptimized_[config].finalize(select, configurations_[config].get());
+  optimized_[config].finalize(select, configurations_[config].get());
   if (num_references(config) > 0) {
     for (PotentialFactory& ref : references_[config]) {
-      ref.finalize(select, &configurations_[config]);
+      ref.finalize(select, configurations_[config].get());
     }
   }
   for (int iconf = 0; iconf < num_configurations(); ++iconf) {
@@ -261,11 +293,11 @@ void System::revert(const Select& select, const int config) {
 }
 
 void System::check(const int config) const {
-  unoptimized_[config].check(configurations_[config]);
-  optimized_[config].check(configurations_[config]);
+  unoptimized_[config].check(*configurations_[config]);
+  optimized_[config].check(*configurations_[config]);
   if (num_references(config) > 0) {
     for (const PotentialFactory& ref : references_[config]) {
-      ref.check(configurations_[config]);
+      ref.check(*configurations_[config]);
     }
   }
 }
@@ -276,7 +308,7 @@ std::string System::status_header() const {
     ss << configuration(0).status_header();
   } else {
     for (int iconf = 0; iconf < num_configurations(); ++iconf) {
-      const Configuration& config = configurations_[iconf];
+      const Configuration& config = *configurations_[iconf];
       ss << config.status_header("_config" + str(iconf));
     }
   }
@@ -286,8 +318,8 @@ std::string System::status_header() const {
 
 std::string System::status() const {
   std::stringstream ss;
-  for (const Configuration& config : configurations_) {
-    ss << config.status();
+  for (auto config : configurations_) {
+    ss << config->status();
   }
   ss << "," << thermo_params().beta();
   return ss.str();
@@ -296,7 +328,7 @@ std::string System::status() const {
   // HWH suggest: make perturb a vector, one for each config?
 void System::synchronize_(const System& system, const Select& perturbed) {
   for (int config = 0; config < num_configurations(); ++config) {
-    configurations_[config].synchronize_(system.configuration(config),
+    configurations_[config]->synchronize_(system.configuration(config),
       perturbed);
     ASSERT(config == 0, "perturb not implemented for multiple configs");
     unoptimized_[config].synchronize_(system.unoptimized(), perturbed);
@@ -311,19 +343,19 @@ void System::change_volume(const double delta_volume, argtype * args) {
   const int config = integer("configuration", args, 0);
   const int dimen = integer("dimension", args, -1);
   args->insert({"dimension", str(dimen)});
-  configurations_[config].change_volume(delta_volume, args);
-  unoptimized_[config].change_volume(delta_volume, dimen, &configurations_[config]);
-  optimized_[config].change_volume(delta_volume, dimen, &configurations_[config]);
+  configurations_[config]->change_volume(delta_volume, args);
+  unoptimized_[config].change_volume(delta_volume, dimen, configurations_[config].get());
+  optimized_[config].change_volume(delta_volume, dimen, configurations_[config].get());
   if (num_references(config) > 0) {
     for (PotentialFactory& ref : references_[config]) {
-      ref.change_volume(delta_volume, dimen, &configurations_[config]);
+      ref.change_volume(delta_volume, dimen, configurations_[config].get());
     }
   }
   delta_volume_previous_ = delta_volume;
 }
 void System::change_volume(const double delta_volume, argtype args) {
   change_volume(delta_volume, &args);
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 //double System::constrained_volume_change(argtype * args) {
@@ -332,7 +364,7 @@ void System::change_volume(const double delta_volume, argtype args) {
 //}
 //double System::constrained_volume_change(argtype args) {
 //  const double delta_volume = constrained_volume_change(&args);
-//  FEASST_CHECK_ALL_USED(args);
+//  feasst_check_all_used(args);
 //  return delta_volume;
 //}
 
@@ -366,25 +398,44 @@ void System::remove_opt_overlap() {
 
 const NeighborCriteria& System::neighbor_criteria(const int index,
     const int config) const {
-  return configurations_[config].neighbor_criteria(index);
+  return configurations_[config]->neighbor_criteria(index);
 }
 
-const std::vector<NeighborCriteria>& System::neighbor_criteria(
+const std::vector<std::shared_ptr<NeighborCriteria> >& System::neighbor_criteria(
     const int config) const {
-  return configurations_[config].neighbor_criteria();
+  return configurations_[config]->neighbor_criteria();
 }
 
 NeighborCriteria * System::get_neighbor_criteria(const int index,
                                                  const int config) {
-  return configurations_[config].get_neighbor_criteria(index);
+  return configurations_[config]->get_neighbor_criteria(index);
 }
 
 double System::total_volume() const {
   double volume = 0.;
-  for (const Configuration& config : configurations_) {
-    volume += config.domain().volume();
+  for (auto config : configurations_) {
+    volume += config->domain().volume();
   }
   return volume;
+}
+
+const ThermoParams * System::thermo_params_ptr_() const {
+  return thermo_params_.get();
+}
+
+void System::set_beta(const double beta) { thermo_params_->set_beta(beta); }
+
+int System::num_configurations() const {
+  return static_cast<int>(configurations_.size());
+}
+
+void System::add(std::shared_ptr<NeighborCriteria> neighbor_criteria,
+    const int config) {
+  configurations_[config]->add(neighbor_criteria);
+}
+
+void System::finalize(const int config) {
+  finalize(configurations_[config]->selection_of_all(), config);
 }
 
 }  // namespace feasst

@@ -1,10 +1,4 @@
-#include "utils/include/serialize.h"
-#include "monte_carlo/include/perturb_add.h"
-#include "monte_carlo/include/perturb_remove.h"
-#include "cluster/include/select_particle_avb_divalent.h"
-#include "cluster/include/perturb_add_avb.h"
-#include "cluster/include/compute_add_avb_divalent.h"
-#include "cluster/include/compute_remove_avb_divalent.h"
+#include "utils/include/arguments.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
 #include "cluster/include/trial_add_avb_divalent.h"
 #include "cluster/include/trial_remove_avb_divalent.h"
@@ -34,6 +28,6 @@ TrialTransferAVBDivalent::TrialTransferAVBDivalent(argtype * args) : TrialFactor
   add(trial_remove);
 }
 TrialTransferAVBDivalent::TrialTransferAVBDivalent(argtype args) : TrialTransferAVBDivalent(&args) {
-  // FEASST_CHECK_ALL_USED(args);
+  // feasst_check_all_used(args);
 }
 }  // namespace feasst

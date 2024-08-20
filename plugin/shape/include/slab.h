@@ -3,10 +3,11 @@
 #define FEASST_SHAPE_SLAB_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "shape/include/shape_intersect.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   A slab is the intersection of two half spaces.

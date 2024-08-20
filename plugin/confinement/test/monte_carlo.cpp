@@ -1,13 +1,17 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "utils/include/checkpoint.h"
 #include "utils/include/progress_report.h"
 #include "math/include/table.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/file_xyz.h"
+#include "system/include/potential.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/model_two_body_factory.h"
+#include "system/include/thermo_params.h"
 #include "system/include/visit_model_bond.h"
 #include "system/include/long_range_corrections.h"
 #include "shape/include/sphere.h"
@@ -26,7 +30,6 @@
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/always_reject.h"
-#include "steppers/include/log_and_movie.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
 #include "steppers/include/density_profile.h"
@@ -58,8 +61,8 @@ TEST(MonteCarlo, ShapeUnion) {
 //  const int trials_per = 1e0;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
 //                          {"output_file", "tmp/confine"}}));
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e3);
+  auto mc2 = test_serialize_unique(mc);
+  mc2->attempt(1e3);
 }
 
 TEST(MonteCarlo, ShapeUnion_LONG) {
@@ -77,8 +80,8 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
 //  const int trials_per = 1e3;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
 //                          {"output_file", "tmp/confine"}}));
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e4);
+  auto mc2 = test_serialize_unique(mc);
+  mc2->attempt(1e4);
 }
 
 TEST(MonteCarlo, ShapeTable_LONG) {
@@ -266,7 +269,7 @@ TEST(Ewald, henry_coefficient_LONG) {
     config->set_model_param("cutoff", site_type, 2.5);
   }
   FileXYZ().write_for_vmd("tmp.xyz", *config);
-  system.add(*config);
+  system.add(config);
   system.add(MakePotential(
     MakeEwald({{"kmax_squared", "38"},
                {"alpha", str(5.6/system.configuration().domain().inscribed_sphere_diameter())}})));
@@ -284,7 +287,7 @@ TEST(Ewald, henry_coefficient_LONG) {
 TEST(HardShape, henry_LONG) {
   for (const double length : {10, 20}) {
     System system;
-    system.add(*MakeConfiguration({{"cubic_side_length", str(length)},
+    system.add(MakeConfiguration({{"cubic_side_length", str(length)},
       {"particle_type0", "../particle/hard_sphere.fstprt"},
       {"periodic2", "false"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
@@ -300,7 +303,7 @@ TEST(HardShape, henry_LONG) {
 TEST(HardShape, henry2_LONG) {
   for (const double length : {10, 20}) {
     System system;
-    system.add(*MakeConfiguration({{"cubic_side_length", str(length)},
+    system.add(MakeConfiguration({{"cubic_side_length", str(length)},
       {"particle_type0", "../particle/hard_sphere.fstprt"},
       {"periodic2", "false"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlabSine(
@@ -319,7 +322,7 @@ TEST(HardShape, henry_dimer_LONG) {
   for (const double length : {10}) {
   //for (const double length : {10, 20}) {
     System system;
-    system.add(*MakeConfiguration({{"cubic_side_length", str(length)},
+    system.add(MakeConfiguration({{"cubic_side_length", str(length)},
       {"particle_type0", "../particle/dimer.fstprt"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
       {"dimension", "2"},
@@ -386,8 +389,8 @@ TEST(MonteCarlo, SineSlab) {
 //  const int trials_per = 1e2;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
 //                          {"output_file", "tmp/sine"}}));
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e3);
+  auto mc2 = test_serialize_unique(mc);
+  mc2->attempt(1e3);
 }
 
 TEST(MonteCarlo, SineSlabTable_LONG) {
@@ -436,8 +439,8 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
 //  const int trials_per = 1e2;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
 //                          {"output_file", "tmp/sine"}}));
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e3);
+  auto mc2 = test_serialize_unique(mc);
+  mc2->attempt(1e3);
 }
 
 }  // namespace feasst

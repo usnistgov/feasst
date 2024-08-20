@@ -1,14 +1,20 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/thermo_params.h"
 #include "charge/include/compute_remove_multiple.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
 
 ComputeRemoveMultiple::ComputeRemoveMultiple(argtype args)
   : ComputeRemoveMultiple(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 ComputeRemoveMultiple::ComputeRemoveMultiple(argtype * args)
   : TrialCompute(args) {

@@ -1,13 +1,28 @@
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/neighbor_criteria.h"
+#include "configuration/include/model_params.h"
+#include "configuration/include/properties.h"
+#include "configuration/include/select.h"
+#include "system/include/potential.h"
+#include "system/include/visit_model.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/system.h"
 #include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
 
 TrialSelect::TrialSelect(argtype args) : TrialSelect(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 TrialSelect::TrialSelect(argtype * args) {
+  properties_ = std::make_shared<Properties>();
+  mobile_original_ = std::make_shared<Select>();
+  mobile_ = std::make_shared<Select>();
+  anchor_ = std::make_shared<Select>();
   // defaults
   set_ghost(false);
 
@@ -57,8 +72,8 @@ void TrialSelect::precompute(System * system) {
 const Position& TrialSelect::anchor_position(const int particle_index,
     const int site_index,
     const System& system) const {
-  const int part = anchor_.particle_index(particle_index);
-  const int site = anchor_.site_index(particle_index, site_index);
+  const int part = anchor_->particle_index(particle_index);
+  const int site = anchor_->site_index(particle_index, site_index);
   DEBUG("site " << site);
   return configuration(system).select_particle(part).site(site).position();
 }
@@ -92,15 +107,15 @@ std::shared_ptr<TrialSelect> TrialSelect::deserialize(std::istream& istr) {
 
 void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
   feasst_serialize_version(274, ostr);
-  feasst_serialize_fstobj(mobile_original_, ostr);
-  feasst_serialize_fstobj(mobile_, ostr);
-  feasst_serialize_fstobj(anchor_, ostr);
+  feasst_serialize(mobile_original_, ostr);
+  feasst_serialize(mobile_, ostr);
+  feasst_serialize(anchor_, ostr);
   feasst_serialize(group_index_, ostr);
   feasst_serialize(particle_type_, ostr);
   feasst_serialize(configuration_index_, ostr);
   feasst_serialize(is_particle_type_set_, ostr);
   feasst_serialize(is_ghost_, ostr);
-  feasst_serialize_fstobj(properties_, ostr);
+  feasst_serialize(properties_, ostr);
   feasst_serialize(aniso_index_, ostr);
 }
 
@@ -108,9 +123,33 @@ TrialSelect::TrialSelect(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(version >= 273 && version <= 274, "mismatch version: " << version);
-  feasst_deserialize_fstobj(&mobile_original_, istr);
-  feasst_deserialize_fstobj(&mobile_, istr);
-  feasst_deserialize_fstobj(&anchor_, istr);
+//  feasst_deserialize(mobile_original_, istr);
+// HWH for unknown reasons, this function template does not work.
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      mobile_original_ = std::make_shared<Select>(istr);
+    }
+  }
+//  feasst_deserialize(mobile_, istr);
+// HWH for unknown reasons, this function template does not work.
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      mobile_ = std::make_shared<Select>(istr);
+    }
+  }
+//  feasst_deserialize(anchor_, istr);
+// HWH for unknown reasons, this function template does not work.
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      anchor_ = std::make_shared<Select>(istr);
+    }
+  }
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize(&particle_type_, istr);
   if (version >= 274) {
@@ -118,7 +157,15 @@ TrialSelect::TrialSelect(std::istream& istr) {
   }
   feasst_deserialize(&is_particle_type_set_, istr);
   feasst_deserialize(&is_ghost_, istr);
-  feasst_deserialize_fstobj(&properties_, istr);
+//  feasst_deserialize(properties_, istr);
+// HWH for unknown reasons, this function template does not work.
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+       properties_ = std::make_shared<Properties>(istr);
+    }
+  }
   feasst_deserialize(&aniso_index_, istr);
 }
 
@@ -126,12 +173,12 @@ void TrialSelect::remove_unphysical_sites(const Configuration& config) {
   //Select unphysical;
   bool resize = false;
   for (int sp_index = 0;
-       sp_index < static_cast<int>(mobile_.particle_indices().size());
+       sp_index < static_cast<int>(mobile_->particle_indices().size());
        ++sp_index) {
-    const int p_index = mobile_.particle_indices()[sp_index];
+    const int p_index = mobile_->particle_indices()[sp_index];
     DEBUG("p_index " << p_index);
     std::vector<int> sites;
-    for (const int s_index : mobile_.site_indices(sp_index)) {
+    for (const int s_index : mobile_->site_indices(sp_index)) {
       DEBUG("s_index " << s_index);
       if (!config.select_particle(p_index).site(s_index).is_physical()) {
         DEBUG("unphysical");
@@ -140,22 +187,22 @@ void TrialSelect::remove_unphysical_sites(const Configuration& config) {
     }
     if (sites.size() > 0) {
       resize = true;
-      mobile_.remove_sites(p_index, sites);
+      mobile_->remove_sites(p_index, sites);
     }
   }
   if (resize) {
-    mobile_.resize_positions();
-    mobile_.load_positions(config.particles());
+    mobile_->resize_positions();
+    mobile_->load_positions(config.particles());
   }
 }
 
 void TrialSelect::replace_mobile(const Select& replacement,
     const int sp_index,
     const Configuration& config) {
-  bool fast = mobile_.replace_indices(replacement.particle_index(sp_index),
+  bool fast = mobile_->replace_indices(replacement.particle_index(sp_index),
                                       replacement.site_indices(sp_index));
-  if (!fast) mobile_.resize_positions();
-  mobile_.load_positions(config.particles());
+  if (!fast) mobile_->resize_positions();
+  mobile_->load_positions(config.particles());
 }
 
 bool TrialSelect::select(
@@ -184,7 +231,7 @@ const EnergyMap& TrialSelect::map_(const System& system,
 }
 
 void TrialSelect::before_select() {
-  mobile_.reset_excluded_and_bond();
+  mobile_->reset_excluded_and_bond();
   //exclude_energy_ = 0.;
 }
 
@@ -201,21 +248,21 @@ bool TrialSelect::is_isotropic(const System * system) const {
 }
 
 void TrialSelect::set_mobile_original(const System * system) {
-  mobile_original_ = mobile_;
+  mobile_original_ = std::make_shared<Select>(*mobile_);
   DEBUG("is system isotropic? " << is_isotropic(system));
   if (!is_isotropic(system)) {
     const Configuration& config = configuration(*system);
     for (int select_index = 0;
-         select_index < mobile_original_.num_particles();
+         select_index < mobile_original_->num_particles();
          ++select_index) {
-      const int part_index = mobile_original_.particle_index(select_index);
+      const int part_index = mobile_original_->particle_index(select_index);
       for (int select_site = 0;
-           select_site < static_cast<int>(mobile_original_.site_indices(select_index).size());
+           select_site < static_cast<int>(mobile_original_->site_indices(select_index).size());
            ++select_site) {
-        const int site_index = mobile_original_.site_index(select_index, select_site);
+        const int site_index = mobile_original_->site_index(select_index, select_site);
         const Particle& part = config.select_particle(part_index);
         const Site& site = part.site(site_index);
-        mobile_original_.set_euler(select_index, select_site, site.euler());
+        mobile_original_->set_euler(select_index, select_site, site.euler());
         DEBUG("original Euler(" << part_index << "," << site_index << ") " << site.euler().str());
       }
     }
@@ -230,5 +277,56 @@ bool TrialSelect::are_constraints_satisfied(const int old,
 void TrialSelect::set_configuration_index(const int config) {
   configuration_index_ = config;
 }
+
+const Configuration& TrialSelect::configuration(const System& system) const {
+  return system.configuration(configuration_index_);
+}
+
+Configuration * TrialSelect::get_configuration(System * system) const {
+  return system->get_configuration(configuration_index_);
+}
+
+bool TrialSelect::sel(System * system, Random * random) {
+  if (!empty_) {
+    empty_ = std::make_shared<Select>();
+  }
+  return select(*empty_, system, random);
+}
+
+const std::map<std::string, std::shared_ptr<Accumulator> >& TrialSelect::printable() const {
+  return printable_;
+}
+
+const Accumulator& TrialSelect::printable(const std::string str) const {
+  return const_cast<const Accumulator&>(*printable_.at(str));
+}
+
+double TrialSelect::property(const std::string name) const {
+  return properties_->value(name);
+}
+
+bool TrialSelect::has_property(const std::string name) const {
+  return properties_->has(name);
+}
+
+void TrialSelect::add_or_set_property(const std::string name, const double value) {
+  properties_->add_or_set(name, value);
+}
+
+const Select& TrialSelect::anchor() const { return *anchor_; }
+
+Select * TrialSelect::get_anchor() { return anchor_.get(); }
+
+const Select& TrialSelect::mobile() const { return *mobile_; }
+
+Select * TrialSelect::get_mobile() { return mobile_.get(); }
+
+void TrialSelect::set_mobile(const Select& mobile) { mobile_ = std::make_shared<Select>(mobile); }
+
+const Select& TrialSelect::mobile_original() const { return *mobile_original_; }
+
+void TrialSelect::set_trial_state(const int state) { mobile_->set_trial_state(state); }
+
+void TrialSelect::reset_mobile() { mobile_ = std::make_shared<Select>(*mobile_original_); }
 
 }  // namespace feasst

@@ -2,13 +2,16 @@
 #ifndef FEASST_FLAT_HISTOGRAM_TRANSITION_MATRIX_H_
 #define FEASST_FLAT_HISTOGRAM_TRANSITION_MATRIX_H_
 
-#include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <string>
+#include <vector>
 #include "flat_histogram/include/bias.h"
-#include "flat_histogram/include/collection_matrix.h"
 
 namespace feasst {
+
+class CollectionMatrix;
+class Histogram;
+class LnProbability;
 
 /**
   Transition matrix flat histogram bias.
@@ -80,11 +83,9 @@ class TransitionMatrix : public Bias {
   int num_iterations_to_complete() const override { return min_sweeps_;}
   void set_num_iterations_to_complete(const int sweeps) override;
   int num_iterations(const int state, const Macrostate& macro) const override;
-  const LnProbability& ln_prob() const override {
-    return ln_prob_; }
+  const LnProbability& ln_prob() const override;
   void resize(const int size);
-  void resize(const Histogram& histogram) override {
-    resize(histogram.size()); }
+  void resize(const Histogram& histogram) override;
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
@@ -93,17 +94,11 @@ class TransitionMatrix : public Bias {
   bool is_equal(const TransitionMatrix& transition_matrix,
     const double tolerance) const;
 
-  /// Return the collection matrix.
-  const CollectionMatrix& collection() const {
-    return collection_; }
-
   // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
   void set_cm(const CollectionMatrix& cm);
   void set_cm(const int macro, const Bias& bias) override;
-  const CollectionMatrix& cm() const override {
-    return collection_; }
-  const int visits(const int macro, const int index) const override {
-    return visits_[macro][index]; }
+  const CollectionMatrix& cm() const override;
+  const int visits(const int macro, const int index) const override;
   bool is_adjust_allowed(const Macrostate& macro) const override;
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
@@ -111,14 +106,14 @@ class TransitionMatrix : public Bias {
     return std::make_shared<TransitionMatrix>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit TransitionMatrix(std::istream& istr);
-  explicit TransitionMatrix(const Bias& bias);
-  virtual ~TransitionMatrix() {}
+  // std::unique_ptr<TransitionMatrix> tm(const Bias& bias);
+  virtual ~TransitionMatrix();
 
   //@}
  private:
-  CollectionMatrix collection_;
-  CollectionMatrix collection_widom_;
-  LnProbability ln_prob_;
+  std::unique_ptr<CollectionMatrix> collection_;
+  std::unique_ptr<CollectionMatrix> collection_widom_;
+  std::unique_ptr<LnProbability> ln_prob_;
   std::vector<std::vector<int> > visits_;
   int min_visits_ = 0;
   int num_sweeps_ = 0;

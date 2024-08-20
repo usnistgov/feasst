@@ -1,4 +1,5 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "models/include/mie.h"
@@ -9,7 +10,7 @@ Mie::Mie(argtype * args) {
   class_name_ = "Mie";
 }
 Mie::Mie(argtype args) : Mie(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapMie {

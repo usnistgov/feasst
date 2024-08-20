@@ -5,18 +5,22 @@
 #include <memory>
 #include <string>
 #include <map>
-#include <sstream>
-#include "math/include/position.h"
 #include "system/include/synchronize_data.h"
-#include "system/include/visit_model_inner.h"
 
 namespace feasst {
 
 class Domain;
 class Configuration;
+class Model;
+class ModelParams;
 class ModelOneBody;
 class ModelTwoBody;
 class ModelThreeBody;
+class Position;
+class Select;
+class VisitModelInner;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   This class loops a Model over a Configuration or Select.
@@ -27,8 +31,8 @@ class ModelThreeBody;
  */
 class VisitModel {
  public:
-  explicit VisitModel(std::shared_ptr<VisitModelInner> inner =
-    std::make_shared<VisitModelInner>());
+  VisitModel();  // use the default VisitModelInner
+  explicit VisitModel(std::shared_ptr<VisitModelInner> inner);
 
   //@{
   /** @name Arguments
@@ -48,11 +52,9 @@ class VisitModel {
 
   double energy_cutoff() const { return energy_cutoff_; }
 
-  void set_inner(const std::shared_ptr<VisitModelInner> inner) {
-    inner_ = inner; }
+  void set_inner(const std::shared_ptr<VisitModelInner> inner);
 
-  const VisitModelInner& inner() const {
-    return const_cast<VisitModelInner&>(*inner_); }
+  const VisitModelInner& inner() const;
 
   virtual void compute(
       ModelOneBody * model,
@@ -122,10 +124,7 @@ class VisitModel {
   /// Set the energy.
   void set_energy(const double energy) { energy_ = energy; }
 
-  void zero_energy() {
-    energy_ = 0.;
-    inner_->set_energy(0.);
-  }
+  void zero_energy();
 
   /// Increment the energy.
   void increment_energy(const double energy) { energy_ += energy; }
@@ -137,14 +136,12 @@ class VisitModel {
       Configuration * config,
       const int group_index = 0);
 
-  virtual void revert(const Select& select) { inner_->revert(select); }
-  virtual void finalize(const Select& select, Configuration * config) {
-    inner_->finalize(select); }
+  virtual void revert(const Select& select);
+  virtual void finalize(const Select& select, Configuration * config);
 
   virtual void precompute(Configuration * config);
 
-  virtual void check(const Configuration& config) const {
-    inner_->check(config); }
+  virtual void check(const Configuration& config) const;
 
   // Synchronize with another object of the same type.
   // Typically used with prefetch.
@@ -170,10 +167,7 @@ class VisitModel {
 
   // serialization
   std::string class_name() const { return class_name_; }
-  virtual void serialize(std::ostream& ostr) const {
-    ostr << class_name_ << " ";
-    serialize_visit_model_(ostr);
-  }
+  virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<VisitModel> create(std::istream& istr) const {
     return std::make_shared<VisitModel>(istr); }
   virtual std::shared_ptr<VisitModel> create(argtype * args) const {
@@ -188,14 +182,13 @@ class VisitModel {
  protected:
   std::string class_name_ = "VisitModel";
   void serialize_visit_model_(std::ostream& ostr) const;
-  VisitModelInner * get_inner_() const { return inner_.get(); }
+  VisitModelInner * get_inner_() const;
 
   // HWH hacky addition for optimization: also, prep inner for reverting,
   // because this is called at beginning of every pair-wise selection compute
   // optimization to avoid repeated construction of Position.
-  Position relative_, pbc_, origin_;
-  void init_relative_(const Domain& domain, Position * relative,
-                      Position * pbc);
+  std::shared_ptr<Position> relative_, pbc_, origin_;
+  void init_relative_(const Domain& domain);
 
   SynchronizeData data_;  // all data is copied at synchronization
   SynchronizeData manual_data_;  // data is manually copied

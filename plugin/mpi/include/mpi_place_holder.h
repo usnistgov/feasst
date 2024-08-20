@@ -4,10 +4,11 @@
 
 #include <string>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "system/include/model_two_body.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
  */

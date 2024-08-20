@@ -2,6 +2,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/constants.h"
+#include "configuration/include/bond.h"
 #include "models/include/dihedral_trappe.h"
 
 namespace feasst {

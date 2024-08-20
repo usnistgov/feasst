@@ -2,12 +2,18 @@
 #ifndef FEASST_MAYER_MAYER_SAMPLING_H_
 #define FEASST_MAYER_MAYER_SAMPLING_H_
 
+#include <vector>
+#include <map>
+#include <string>
+#include <memory>
 #include "monte_carlo/include/criteria.h"
 #include "math/include/accumulator.h"
 
 namespace feasst {
 
 class Random;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Mayer-sampling Monte Carlo acceptance criteria (see

@@ -2,12 +2,12 @@
 #ifndef FEASST_CONFIGURATION_VISIT_PARTICLES_H_
 #define FEASST_CONFIGURATION_VISIT_PARTICLES_H_
 
-#include "configuration/include/particle_factory.h"
-#include "configuration/include/select.h"
-
 namespace feasst {
 
 class LoopOneBody;
+class ParticleFactory;
+class Select;
+class Site;
 
 class VisitParticles {
  public:
@@ -19,10 +19,10 @@ class VisitParticles {
 
 class LoopOneBody {
  public:
-  void visit(VisitParticles& visitor,
+  void visit(VisitParticles * visitor,
              const ParticleFactory& particles,
              const Select& select) {
-    visitor.loop(particles, this, select);
+    visitor->loop(particles, this, select);
   }
   virtual void work(const Site& site) const = 0;
   virtual ~LoopOneBody() {}

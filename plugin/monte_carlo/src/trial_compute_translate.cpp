@@ -1,13 +1,23 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/configuration.h"
+#include "configuration/include/select.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/rosenbluth.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_compute_translate.h"
 
 namespace feasst {
 
 TrialComputeTranslate::TrialComputeTranslate(argtype args) : TrialComputeTranslate(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 TrialComputeTranslate::TrialComputeTranslate(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeTranslate";
+  new_ = std::make_shared<Select>();
 }
 
 class MapTrialComputeTranslate {
@@ -43,12 +53,9 @@ void TrialComputeTranslate::perturb_and_acceptance(
     DEBUG("original pos " << first_sel.mobile_original().site_positions()[0][0].str());
     // compute rosenbluth of new first
     compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-    // save the chosen 'new' position
-    //new_ = system->configuration().select_particle(first_sel.mobile().particle_index(0)).site(
-    //  first_sel.mobile().site_index(0, 0)).position();
     if (first_stage->rosenbluth().chosen_step() != -1) {
-      new_ = first_stage->rosenbluth().chosen();
-      DEBUG("new " << new_.str() << " " << new_.site_positions()[0][0].str());
+      new_ = std::make_shared<Select>(first_stage->rosenbluth().chosen());
+      DEBUG("new " << new_->str() << " " << new_->site_positions()[0][0].str());
       // midstage will set new position as anchor
       for (TrialStage * stage : *stages) stage->mid_stage(system);
       // move selection to original position
@@ -56,7 +63,7 @@ void TrialComputeTranslate::perturb_and_acceptance(
       // then, compute rosenbluth of old
       compute_rosenbluth(1, criteria, system, acceptance, stages, random);
       // finally, move back to new chosen position
-      system->get_configuration()->update_positions(new_);
+      system->get_configuration()->update_positions(*new_);
     }
   }
   DEBUG("New");
@@ -82,6 +89,7 @@ TrialComputeTranslate::TrialComputeTranslate(std::istream& istr)
   : TrialCompute(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(8958 == version, "mismatch version: " << version);
+  new_ = std::shared_ptr<Select>();
 }
 
 void TrialComputeTranslate::serialize_trial_compute_translate_(std::ostream& ostr) const {

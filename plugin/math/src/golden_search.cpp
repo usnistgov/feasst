@@ -1,4 +1,5 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/io.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
@@ -8,7 +9,7 @@
 
 namespace feasst {
 
-GoldenSearch::GoldenSearch(const argtype& args) : Minimize(args) {
+GoldenSearch::GoldenSearch(argtype args) : Minimize(args) {
   class_name_ = "GoldenSearch";
 }
 
@@ -43,7 +44,7 @@ void GoldenSearch::bracket(double * a, double * b, Formula * formula) {
   const double tol = tolerance();
   *a = lower();
   *b = upper();
-  sort(a, b);
+  feasst_sort(a, b);
   const double invphi = 2./(std::sqrt(5.) + 1.);
   DEBUG("invphi " << invphi);
   double c = *b - (*b - *a)*invphi;

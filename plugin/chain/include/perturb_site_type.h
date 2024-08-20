@@ -2,7 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_SITE_TYPE_H_
 #define FEASST_MONTE_CARLO_PERTURB_SITE_TYPE_H_
 
-#include "monte_carlo/include/perturb_anywhere.h"
+#include "monte_carlo/include/perturb.h"
 
 namespace feasst {
 
@@ -19,8 +19,7 @@ class PerturbSiteType : public Perturb {
   explicit PerturbSiteType(argtype * args);
 
   //initialize ghost selection in TrialSelect?
-  void precompute(TrialSelect * select, System * system) override {
-    select->set_ghost(true); }
+  void precompute(TrialSelect * select, System * system) override;
 
   /// Set the site type.
   void set_site_type(

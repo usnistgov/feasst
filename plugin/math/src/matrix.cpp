@@ -1,6 +1,7 @@
 #include <cmath>
 #include <vector>
 #include "math/include/matrix.h"
+#include "math/include/position.h"
 #include "utils/include/debug.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
@@ -117,8 +118,8 @@ void Matrix::invert() {
 void RotationMatrix::check() const {
   Matrix::check();
   ASSERT(matrix().size() == matrix()[0].size(), str() << "not square");
-  ASSERT(std::abs(determinant() - 1.) < 10*NEAR_ZERO, str() << "not unit determinant("
-    << determinant() << ")");
+  ASSERT(std::abs(determinant() - 1.) < 10*NEAR_ZERO,
+    str() << "not unit determinant(" << determinant() << ")");
 }
 
 RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
@@ -163,10 +164,10 @@ void RotationMatrix::axis_angle_opt(const Position& unit_axis,
   }
 }
 
-void RotationMatrix::rotate(const Position& pivot, Position * rotated, Position * temp) const {
+void RotationMatrix::rotate(const Position& pivot, Position * rotated,
+    Position * temp) const {
   rotated->subtract(pivot);
   temp->set_vector(rotated->coord());
-  //*temp = *rotated;
   multiply(*temp, rotated);
   rotated->add(pivot);
 }
@@ -178,18 +179,22 @@ void RotationMatrix::rotate(const Position& pivot, Position * rotated) const {
 void RotationMatrix::quaternion(const Position& q) {
   ASSERT(q.size() == 4, "size: " << q.size() <<
     " but assumes 3D space, 4D qernion");
-  set_value(0, 0, q.coord(0)*q.coord(0) - q.coord(1)*q.coord(1) - q.coord(2)*q.coord(2) + q.coord(3)*q.coord(3));
+  set_value(0, 0, q.coord(0)*q.coord(0) - q.coord(1)*q.coord(1) -
+                  q.coord(2)*q.coord(2) + q.coord(3)*q.coord(3));
   set_value(1, 0, 2*(q.coord(0)*q.coord(1) + q.coord(2)*q.coord(3)));
   set_value(2, 0, 2*(q.coord(2)*q.coord(0) - q.coord(1)*q.coord(3)));
   set_value(0, 1, 2*(q.coord(0)*q.coord(1) - q.coord(2)*q.coord(3)));
-  set_value(1, 1, q.coord(1)*q.coord(1) - q.coord(2)*q.coord(2) - q.coord(0)*q.coord(0) + q.coord(3)*q.coord(3));
+  set_value(1, 1, q.coord(1)*q.coord(1) - q.coord(2)*q.coord(2) -
+                  q.coord(0)*q.coord(0) + q.coord(3)*q.coord(3));
   set_value(2, 1, 2*(q.coord(1)*q.coord(2) + q.coord(0)*q.coord(3)));
   set_value(0, 2, 2*(q.coord(2)*q.coord(0) + q.coord(1)*q.coord(3)));
   set_value(1, 2, 2*(q.coord(1)*q.coord(2) - q.coord(0)*q.coord(3)));
-  set_value(2, 2, q.coord(2)*q.coord(2) - q.coord(0)*q.coord(0) - q.coord(1)*q.coord(1) + q.coord(3)*q.coord(3));
+  set_value(2, 2, q.coord(2)*q.coord(2) - q.coord(0)*q.coord(0) -
+                  q.coord(1)*q.coord(1) + q.coord(3)*q.coord(3));
 }
 
-void Matrix::multiply(const Matrix& matrix, Matrix * result, Position * tmp1, Position * tmp2) const {
+void Matrix::multiply(const Matrix& matrix, Matrix * result, Position * tmp1,
+                      Position * tmp2) const {
   if (result->num_rows() == 0) {
     result->set_size(num_rows(), matrix.num_columns());
   }

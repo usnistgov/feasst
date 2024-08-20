@@ -1,4 +1,5 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "shape/include/half_space.h"
 
 namespace feasst {
@@ -18,7 +19,7 @@ class MapHalfSpace {
 static MapHalfSpace mapper_ = MapHalfSpace();
 
 HalfSpace::HalfSpace(argtype args) : HalfSpace(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 HalfSpace::HalfSpace(argtype * args) : Shape() {
   class_name_ = "HalfSpace";

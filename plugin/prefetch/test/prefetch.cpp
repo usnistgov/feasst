@@ -1,9 +1,13 @@
 #include "utils/test/utils.h"
 #include "threads/include/thread_omp.h"
 #include "math/include/random_mt19937.h"
+#include "math/include/histogram.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/visit_model_inner.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/metropolis.h"
@@ -18,7 +22,6 @@
 #include "steppers/include/check_energy.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/energy.h"
-#include "steppers/include/log_and_movie.h"
 #include "steppers/include/check_properties.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/transition_matrix.h"
@@ -121,8 +124,8 @@ void prefetch(System system, const int sync = 0) {
     }
   }
 
-  Prefetch mc2 = test_serialize(*mc);
-  EXPECT_EQ(1, mc2.trials_per_check());
+  auto mc2 = test_serialize_unique(*mc);
+  EXPECT_EQ(1, mc2->trials_per_check());
 }
 
 TEST(Prefetch, MUVT) {

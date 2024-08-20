@@ -2,6 +2,9 @@
 #ifndef FEASST_MONTE_CARLO_MODIFY_FACTORY_H_
 #define FEASST_MONTE_CARLO_MODIFY_FACTORY_H_
 
+#include <memory>
+#include <string>
+#include <vector>
 #include "monte_carlo/include/modify.h"
 
 namespace feasst {
@@ -48,7 +51,8 @@ class ModifyFactory : public Modify {
     Random * random,
     TrialFactory * trial_factory) override;
 
-  Modify * get_modify(const int index) override { return modifiers_[index].get(); }
+  Modify * get_modify(const int index) override {
+    return modifiers_[index].get(); }
 
   std::string class_name() const override {
     return std::string("ModifyFactory"); }

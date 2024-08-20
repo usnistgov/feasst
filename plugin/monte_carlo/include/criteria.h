@@ -3,19 +3,22 @@
 #define FEASST_MONTE_CARLO_CRITERIA_H_
 
 #include <vector>
-#include "utils/include/arguments.h"
-#include "system/include/system.h"
+#include <map>
+#include <string>
+#include <memory>
 #include "system/include/synchronize_data.h"
-#include "monte_carlo/include/acceptance.h"
 
 namespace feasst {
 
-class Random;
+class Acceptance;
+class Bias;
 class Constraint;
 class FlatHistogram;
 class Macrostate;
-class Bias;
+class Random;
+class System;
 
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Determine whether to accept or reject a trial.
@@ -158,7 +161,8 @@ class Criteria {
 
   // HWH hackish interface for prefetch
   // Revert changes from previous trial.
-  virtual void revert_(const bool accepted, const bool endpoint, const double ln_prob);
+  virtual void revert_(const bool accepted, const bool endpoint,
+                       const double ln_prob);
   // Imitate a trial rejection (used in FlatHistogram).
   virtual void imitate_trial_rejection_(const double ln_prob,
     const int state_old,
@@ -170,7 +174,8 @@ class Criteria {
   // HWH hackish adjust_bounds interface. See CollectionMatrixSplice.
   virtual int set_soft_max(const int index, const System& sys);
   virtual int set_soft_min(const int index, const System& sys);
-  virtual void set_cm(const bool inc_max, const int macro, const Criteria& crit);
+  virtual void set_cm(const bool inc_max, const int macro,
+                      const Criteria& crit);
   virtual void adjust_bounds(const bool left_most, const bool right_most,
     const bool left_complete, const bool right_complete,
     const bool all_min_size,
@@ -213,11 +218,16 @@ class Criteria {
   int num_iterations_to_complete_;
   std::vector<std::shared_ptr<Constraint> > constraints_;
 
-  std::vector<double> * current_energy_() { return &((*data_.get_dble_2D())[0]); }
-  const std::vector<double>& const_current_energy_() const { return data_.dble_2D()[0]; }
-  std::vector<std::vector<double> > * current_energy_profile_() { return &((*data_.get_dble_3D())[0]); }
-  const std::vector<std::vector<double> >& const_current_energy_profile_() const { return data_.dble_3D()[0]; }
-  int * num_attempt_since_last_iteration_() { return &((*data_.get_int_1D())[0]); }
+  std::vector<double> * current_energy_() {
+    return &((*data_.get_dble_2D())[0]); }
+  const std::vector<double>& const_current_energy_() const {
+    return data_.dble_2D()[0]; }
+  std::vector<std::vector<double> > * current_energy_profile_() {
+    return &((*data_.get_dble_3D())[0]); }
+  const std::vector<std::vector<double> >& const_current_energy_profile_()
+    const { return data_.dble_3D()[0]; }
+  int * num_attempt_since_last_iteration_() {
+    return &((*data_.get_int_1D())[0]); }
   int * num_iterations_() { return &((*data_.get_int_1D())[1]); }
   int const_num_iterations_() const { return data_.int_1D()[1]; }
 };

@@ -3,7 +3,6 @@
 #define FEASST_SHAPE_SHAPE_FILE_H_
 
 #include <memory>
-#include <sstream>
 #include "shape/include/shape.h"
 
 namespace feasst {
@@ -17,7 +16,7 @@ namespace feasst {
  */
 class ShapeFile : public Shape {
  public:
-  ShapeFile() : Shape() {} // only use for deserialize_map.
+  ShapeFile() : Shape() {}  // only use for deserialize_map.
   //@{
   /** @name Arguments
     - shape_file: name of the file which describes the shape.

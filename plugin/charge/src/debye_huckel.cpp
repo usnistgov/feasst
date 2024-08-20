@@ -1,6 +1,8 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/physical_constants.h"
 #include "configuration/include/model_params.h"
 #include "charge/include/debye_huckel.h"
 
@@ -23,7 +25,7 @@ DebyeHuckel::DebyeHuckel(argtype * args) {
   smoothing_distance_ = dble("smoothing_distance", args, -1.);
 }
 DebyeHuckel::DebyeHuckel(argtype args) : DebyeHuckel(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void DebyeHuckel::serialize(std::ostream& ostr) const {

@@ -1,5 +1,8 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
@@ -23,7 +26,7 @@ TEST(TrialSelectParticle, exclude_perturbed) {
     config->add_particle_of_type(0);
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);
-    system.add(*config);
+    system.add(config);
   }
   auto sel1 = MakeTrialSelectParticle({{"particle_type", "0"}});
   auto sel2 = MakeTrialSelectParticle({{"particle_type", "0"},

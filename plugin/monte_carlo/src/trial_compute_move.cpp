@@ -1,10 +1,15 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_compute_move.h"
 
 namespace feasst {
 
 TrialComputeMove::TrialComputeMove(argtype args) : TrialComputeMove(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 TrialComputeMove::TrialComputeMove(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeMove";

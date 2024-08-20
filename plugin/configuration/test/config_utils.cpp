@@ -23,7 +23,7 @@ Configuration two_particle_configuration(argtype args) {
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   config.update_positions({{0, 0, 0}, {1.25, 0, 0}});
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
   return config;
 }
 

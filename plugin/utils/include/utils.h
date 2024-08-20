@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <vector>
+#include <utility>
 
 namespace feasst {
 
@@ -35,7 +36,7 @@ bool find_in_list(const T value, const std::vector<T> &list) {
 /// Same as above, but use the first element of pair in list.
 template<class T1, class T2>
 bool find_in_list(const T1 value,
-    const std::vector<std::pair<T1,T2> >& list,
+    const std::vector<std::pair<T1, T2> >& list,
     int * index) {
   const int size = static_cast<int>(list.size());
   if (size == 0) return false;
@@ -82,7 +83,8 @@ void resize(const int dim0, const int dim1, const int dim2, const int dim3,
 
 /// Resize five dimensional vector.
 template<class T>
-void resize(const int dim0, const int dim1, const int dim2, const int dim3, const int dim4,
+void resize(const int dim0, const int dim1, const int dim2, const int dim3,
+  const int dim4,
   std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > *vec) {
   vec->resize(dim0);
   for (int i = 0; i < static_cast<int>(vec->size()); ++i) {
@@ -92,8 +94,10 @@ void resize(const int dim0, const int dim1, const int dim2, const int dim3, cons
 
 /// Resize six dimensional vector.
 template<class T>
-void resize(const int dim0, const int dim1, const int dim2, const int dim3, const int dim4, const int dim5,
-  std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > > *vec) {
+void resize(const int dim0, const int dim1, const int dim2, const int dim3,
+    const int dim4, const int dim5,
+  std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<T> >
+    > > > > *vec) {
   vec->resize(dim0);
   for (int i = 0; i < static_cast<int>(vec->size()); ++i) {
     resize(dim1, dim2, dim3, dim4, dim5, &(*vec)[i]);
@@ -130,19 +134,6 @@ int num_elements(const std::vector<std::vector<T> >& vec) {
   return num;
 }
 
-//template<class T>
-//void feasst_reverse(std::vector<T> * vec) {
-//  std::reverse(vec->begin(), vec->end());
-//}
-//
-//template<class T>
-//void feasst_reverse(std::vector<std::vector<T> > * vec) {
-//  std::reverse(vec->begin(), vec->end());
-//  for (std::vector<T>& vec1 : *vec) {
-//    feasst_reverse(&vec1);
-//  }
-//}
-
 /// Return true if the sorted vector contains a duplicate value.
 template<class T>
 bool has_duplicate(const std::vector<T>& vec) {
@@ -161,7 +152,6 @@ bool is_equal(const std::vector<T>& vec1,
               const std::vector<T>& vec2,
               const double tolerance = 1e-15) {
   if (vec1.size() != vec2.size()) {
-//    TRACE("size of vec1:" << vec1.size() << " != size of vec2:" << vec2.size());
     return false;
   }
   for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {

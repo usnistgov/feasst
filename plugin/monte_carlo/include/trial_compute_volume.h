@@ -2,15 +2,15 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_COMPUTE_VOLUME_H_
 #define FEASST_MONTE_CARLO_TRIAL_COMPUTE_VOLUME_H_
 
+#include <map>
+#include <string>
 #include <memory>
 #include <vector>
-#include "utils/include/arguments.h"
-#include "system/include/system.h"
-#include "monte_carlo/include/criteria.h"
-#include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
 Attempt to change the volume

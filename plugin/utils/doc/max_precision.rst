@@ -1,7 +1,5 @@
-LogAndMovie
+utils/include/max_precision
 =====================================================
 
-.. doxygenclass:: feasst::LogAndMovie
+.. doxygenfile:: utils/include/max_precision.h
    :project: FEASST
-   :members:
-   

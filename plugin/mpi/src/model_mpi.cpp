@@ -1,5 +1,6 @@
 #include <cmath>
 #include "mpi.h"
+#include "utils/include/arguments.h"
 #include "utils/include/io.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
@@ -24,7 +25,7 @@ ModelMPI::ModelMPI(argtype * args) {
   hard_sphere_threshold_sq_ = thres*thres;
 }
 ModelMPI::ModelMPI(argtype args) : ModelMPI(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 ModelMPI::~ModelMPI() {
   if (thread_) {

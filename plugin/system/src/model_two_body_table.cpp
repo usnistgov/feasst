@@ -1,21 +1,26 @@
 #include <cmath>
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/table.h"
+#include "configuration/include/model_params.h"
 #include "system/include/model_two_body_table.h"
 
 namespace feasst {
 
 ModelTwoBodyTable::ModelTwoBodyTable(argtype args) : ModelTwoBodyTable(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 ModelTwoBodyTable::ModelTwoBodyTable(argtype * args) {
   class_name_ = "ModelTwoBodyTable";
   const double hard_sphere_threshold = dble("hard_sphere_threshold", args, 0.85);
   hard_sphere_threshold_inv_sq_ = 1/std::pow(hard_sphere_threshold, 2);
+  cutoff_inv_sq_ = std::make_unique<CutOff>();
 }
+ModelTwoBodyTable::~ModelTwoBodyTable() {}
 
 class MapModelTwoBodyTable {
  public:
@@ -33,15 +38,15 @@ void ModelTwoBodyTable::resize(const int num_site_types) {
 
 void ModelTwoBodyTable::precompute(const ModelParams& existing) {
   Model::precompute(existing);
-  if (cutoff_inv_sq_.size() == 0) {
+  if (cutoff_inv_sq_->size() == 0) {
     const ModelParam& rc = existing.select("cutoff");
     for (int type1 = 0; type1 < existing.size(); ++type1) {
-      cutoff_inv_sq_.add(std::pow(rc.value(type1), -2));
+      cutoff_inv_sq_->add(std::pow(rc.value(type1), -2));
     }
-    cutoff_inv_sq_.mix();
+    cutoff_inv_sq_->mix();
     for (int type1 = 0; type1 < existing.size(); ++type1) {
       for (int type2 = 0; type2 < existing.size(); ++type2) {
-        cutoff_inv_sq_.set_mixed(type1, type2,
+        cutoff_inv_sq_->set_mixed(type1, type2,
                                  std::pow(rc.mixed_value(type1, type2), -2));
       }
     }
@@ -77,7 +82,7 @@ void ModelTwoBodyTable::set(const ModelParams& model_params,
       DEBUG("type2 " << type2);
       const double sigma = sig.mixed_value(type1, type2);
       const double rhg = hard_sphere_threshold_inv_sq_/sigma/sigma;
-      const double rcg = cutoff_inv_sq_.mixed_value(type1, type2);
+      const double rcg = cutoff_inv_sq_->mixed_value(type1, type2);
       auto table = MakeTable1D({{"num", str(size)}});
       for (int bin = 0; bin < size; ++bin) {
         const double z = table->bin_to_value(bin);
@@ -110,7 +115,7 @@ void ModelTwoBodyTable::serialize_model_two_body_table_(
   feasst_serialize_version(5937, ostr);
   feasst_serialize(hard_sphere_threshold_inv_sq_, ostr);
   feasst_serialize(table_, ostr);
-  feasst_serialize_fstobj(cutoff_inv_sq_, ostr);
+  feasst_serialize(cutoff_inv_sq_, ostr);
 }
 
 ModelTwoBodyTable::ModelTwoBodyTable(std::istream& istr) : ModelTwoBody(istr) {
@@ -135,7 +140,7 @@ ModelTwoBodyTable::ModelTwoBodyTable(std::istream& istr) : ModelTwoBody(istr) {
       }
     }
   }
-  feasst_deserialize_fstobj(&cutoff_inv_sq_, istr);
+  feasst_deserialize(cutoff_inv_sq_, istr);
 }
 
 double ModelTwoBodyTable::energy(
@@ -156,7 +161,7 @@ double ModelTwoBodyTable::energy(
   if (1./squared_distance > rhg) {
     return NEAR_INFINITY;
   } else if (table_[type1][type2]) {
-    const double rcg = cutoff_inv_sq_.mixed_value(type1, type2);
+    const double rcg = cutoff_inv_sq_->mixed_value(type1, type2);
     TRACE("rcg " << rcg);
     const double z = (1./squared_distance - rhg)/(rcg - rhg);
     TRACE("z " << z);

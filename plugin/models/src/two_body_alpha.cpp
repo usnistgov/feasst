@@ -1,8 +1,7 @@
 #include <cmath>
-#include <iostream>
-#include <sstream>
+#include "utils/include/arguments.h"
+#include "utils/include/io.h"
 #include "utils/include/serialize.h"
-#include "math/include/constants.h"
 #include "models/include/two_body_alpha.h"
 
 namespace feasst {
@@ -31,7 +30,7 @@ TwoBodyAlpha::TwoBodyAlpha(argtype * args) {
   }
 }
 TwoBodyAlpha::TwoBodyAlpha(argtype args) : TwoBodyAlpha(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapTwoBodyAlpha {

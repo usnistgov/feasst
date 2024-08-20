@@ -1,7 +1,13 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/thermo_params.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/trial_select.h"
 #include "charge/include/compute_add_multiple.h"
 
@@ -9,7 +15,7 @@ namespace feasst {
 
 ComputeAddMultiple::ComputeAddMultiple(argtype args)
   : ComputeAddMultiple(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 ComputeAddMultiple::ComputeAddMultiple(argtype * args)
   : TrialCompute(args) {

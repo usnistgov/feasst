@@ -1,7 +1,7 @@
 #ifndef FEASST_UTILS_INCLUDE_CACHE_H_
 #define FEASST_UTILS_INCLUDE_CACHE_H_
 
-#include <sstream>
+#include <iosfwd>
 #include <deque>
 
 namespace feasst {

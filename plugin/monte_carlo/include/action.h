@@ -3,12 +3,14 @@
 #define FEASST_MONTE_CARLO_ACTION_H_
 
 #include <memory>
+#include <map>
 #include <string>
-#include "utils/include/arguments.h"
 
 namespace feasst {
 
 class MonteCarlo;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   An Action is for use with the MonteCarlo(arglist) constructor.

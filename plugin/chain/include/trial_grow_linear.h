@@ -2,13 +2,8 @@
 #ifndef FEASST_CHAIN_TRIAL_GROW_LINEAR_H_
 #define FEASST_CHAIN_TRIAL_GROW_LINEAR_H_
 
-#include <string>
 #include <memory>
 #include "monte_carlo/include/trial.h"
-#include "monte_carlo/include/trial_select_particle.h"
-#include "monte_carlo/include/trial_select_bond.h"
-#include "monte_carlo/include/perturb_distance.h"
-#include "monte_carlo/include/perturb_anywhere.h"
 
 namespace feasst {
 

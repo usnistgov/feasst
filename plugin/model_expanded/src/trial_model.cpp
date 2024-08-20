@@ -1,4 +1,5 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select_all.h"
 #include "model_expanded/include/perturb_model.h"
 #include "model_expanded/include/compute_model.h"
@@ -26,7 +27,7 @@ TrialModel::TrialModel(argtype * args) : Trial(args) {
   set(MakeComputeModel());
 }
 TrialModel::TrialModel(argtype args) : TrialModel(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialModel::TrialModel(std::istream& istr) : Trial(istr) {

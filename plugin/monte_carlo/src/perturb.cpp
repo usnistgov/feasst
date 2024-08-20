@@ -1,11 +1,14 @@
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/arguments.h"
+#include "monte_carlo/include/tunable.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/perturb.h"
 
 namespace feasst {
 
-Perturb::Perturb(argtype args) : Perturb(&args) { FEASST_CHECK_ALL_USED(args); }
+Perturb::Perturb(argtype args) : Perturb(&args) { feasst_check_all_used(args); }
 Perturb::Perturb(argtype * args) {
-  tunable_ = Tunable(args);
+  tunable_ = std::make_shared<Tunable>(args);
 }
 
 void Perturb::before_select() {
@@ -51,7 +54,7 @@ std::string Perturb::status_header() const {
 std::string Perturb::status() const {
   std::stringstream ss;
   if (tunable().is_enabled()) {
-    ss << "," << tunable_.value();
+    ss << "," << tunable_->value();
   }
   return ss.str();
 }
@@ -77,14 +80,22 @@ std::shared_ptr<Perturb> Perturb::deserialize(std::istream& istr) {
 
 void Perturb::serialize_perturb_(std::ostream& ostr) const {
   feasst_serialize_version(902, ostr);
-  feasst_serialize_fstobj(tunable_, ostr);
+  feasst_serialize(tunable_, ostr);
 }
 
 Perturb::Perturb(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(902 == version, "mismatch version: " << version);
-  feasst_deserialize_fstobj(&tunable_, istr);
+//  feasst_deserialize(tunable_, istr);
+// HWH for unknown reasons, this function template does not work.
+  {
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      tunable_ = std::make_shared<Tunable>(istr);
+    }
+  }
 }
 
 void Perturb::perturb(
@@ -94,6 +105,15 @@ void Perturb::perturb(
   const bool is_position_held,
   Acceptance * acceptance) {
   FATAL("not implemented");
+}
+
+const Tunable& Perturb::tunable() const { return *tunable_; }
+void Perturb::set_tunable(const double value) { tunable_->set_value(value); }
+void Perturb::tune(const double actual) { tunable_->tune(actual); }
+void Perturb::disable_tunable_() { tunable_->disable(); }
+
+void Perturb::set_tunable_min_and_max(const double min, const double max) {
+  tunable_->set_min_and_max(min, max);
 }
 
 }  // namespace feasst

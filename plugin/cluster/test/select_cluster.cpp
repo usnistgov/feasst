@@ -1,6 +1,13 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "cluster/include/select_cluster.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "system/include/visit_model_cell.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
 #include "math/include/random_mt19937.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/perturb_translate.h"
@@ -28,7 +35,7 @@ TEST(SelectCluster, serialize) {
       config->update_positions({{0, 0, 0},
                                {-1.25, 0, 0},
                                {3, 3, 3}});
-      sys.add(*config);
+      sys.add(config);
     }
     std::shared_ptr<EnergyMap> map;
     if (map_type == "all") {

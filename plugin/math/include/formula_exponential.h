@@ -3,9 +3,6 @@
 #define FEASST_MATH_FORMULA_EXPONENTIAL_H_
 
 #include <memory>
-#include <string>
-#include <sstream>
-#include "utils/include/arguments.h"
 #include "math/include/formula.h"
 
 namespace feasst {

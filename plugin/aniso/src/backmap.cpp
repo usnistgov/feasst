@@ -1,6 +1,10 @@
 #include "utils/include/arguments.h"
+#include "utils/include/utils.h"
 #include "utils/include/serialize.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "system/include/system.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_rotate.h"
 #include "monte_carlo/include/perturb_translate.h"
@@ -44,7 +48,7 @@ Backmap::Backmap(argtype * args) : AnalyzeWriteOnly(args) {
   vmd_ = FileVMD(args);
 }
 Backmap::Backmap(argtype args) : Backmap(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Backmap::add_backmap_particles_() {
@@ -54,7 +58,7 @@ void Backmap::add_backmap_particles_() {
     config_args.insert({"particle_type"+str(type), fstprt});
     ++type;
   }
-  all_atom_ = *MakeConfiguration(config_args);
+  all_atom_ = MakeConfiguration(config_args);
 }
 
 void Backmap::initialize(Criteria * criteria,
@@ -75,7 +79,7 @@ void Backmap::initialize(Criteria * criteria,
   // write vmd
   std::stringstream ss;
   ss << name << ".vmd";
-  vmd_.write(ss.str(), all_atom_, name);
+  vmd_.write(ss.str(), *all_atom_, name);
 }
 
 std::string Backmap::write(const Criteria& criteria,
@@ -83,7 +87,7 @@ std::string Backmap::write(const Criteria& criteria,
     const TrialFactory& trial_factory) {
   const Configuration& orig_config = configuration(system);
   add_backmap_particles_();
-  all_atom_.set(std::make_shared<Domain>(orig_config.domain()));
+  all_atom_->set(std::make_shared<Domain>(orig_config.domain()));
   const Select& all = orig_config.selection_of_all();
   std::vector<std::shared_ptr<TrialSelectParticle> > sels;
   for (int site_type : site_types_) {

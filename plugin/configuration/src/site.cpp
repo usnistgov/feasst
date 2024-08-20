@@ -4,7 +4,7 @@
 
 namespace feasst {
 
-Site::Site() : PropertiedEntity(), TypedEntity() {
+Site::Site() : PropertiedEntity() {
   set_physical();
   set_anisotropic();
   is_anisotropic_ = false;
@@ -35,8 +35,8 @@ bool Site::is_anisotropic() const {
 
 void Site::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
-  TypedEntity::serialize(ostr);
   feasst_serialize_version(481, ostr);
+  feasst_serialize(type_, ostr);
   feasst_serialize_fstobj(position_, ostr);
   feasst_serialize_fstobj(euler_, ostr);
   feasst_serialize(is_physical_, ostr);
@@ -45,10 +45,10 @@ void Site::serialize(std::ostream& ostr) const {
 }
 
 Site::Site(std::istream& istr)
-  : PropertiedEntity(istr),
-    TypedEntity(istr) {
+  : PropertiedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 480 || version == 481, "unrecognized version: " << version);
+  feasst_deserialize(&type_, istr);
   feasst_deserialize_fstobj(&position_, istr);
   feasst_deserialize_fstobj(&euler_, istr);
   if (version == 480) {

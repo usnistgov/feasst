@@ -1,10 +1,9 @@
-
-#include <fstream>
-#include <sstream>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
-#include "utils/include/debug.h"
-#include "utils/include/timer.h"
-#include "math/include/utils_math.h"
+#include "utils/include/io.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "system/include/potential.h"
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/convert_to_ref_potential.h"
@@ -18,7 +17,7 @@ ConvertToRefPotential::ConvertToRefPotential(argtype * args) {
   use_cell_ = boolean("use_cell", args, false);
 }
 ConvertToRefPotential::ConvertToRefPotential(argtype args) : ConvertToRefPotential(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapConvertToRefPotential {

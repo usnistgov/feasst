@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "math/include/formula.h"
 #include "configuration/include/file_xyz.h"
 #include "system/include/system.h"
@@ -14,6 +13,8 @@
 #include "monte_carlo/include/perturb_translate.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Rotator;
 

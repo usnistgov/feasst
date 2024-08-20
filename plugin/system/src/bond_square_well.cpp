@@ -2,6 +2,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/random.h"
+#include "configuration/include/bond.h"
 #include "system/include/bond_square_well.h"
 
 namespace feasst {

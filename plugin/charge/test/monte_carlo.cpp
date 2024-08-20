@@ -19,7 +19,6 @@
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
-#include "steppers/include/log_and_movie.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/num_particles.h"
 #include "charge/include/trial_transfer_multiple.h"
@@ -66,7 +65,7 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
                             {"output_file", "tmp/spce_nvt_energy.txt"}});
   mc.add(energy);
   mc.attempt(1e6);
-  test_serialize(mc);
+  test_serialize_unique(mc);
   INFO("energy: " << energy->energy().str());
   const double num = mc.configuration().num_particles();
   EXPECT_NEAR(-46.82*num,
@@ -188,7 +187,7 @@ TEST(MonteCarlo, rpm) {
   mc.add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeTune());
   mc.attempt(1e3);
-  //test_serialize(mc);
+  test_serialize_unique(mc);
 }
 
 TEST(MonteCarlo, spcearglist) {

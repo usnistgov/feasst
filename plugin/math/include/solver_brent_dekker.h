@@ -2,6 +2,7 @@
 #ifndef FEASST_MATH_SOLVER_BRENT_DEKKER_H_
 #define FEASST_MATH_SOLVER_BRENT_DEKKER_H_
 
+#include <map>
 #include <string>
 #include <memory>
 #include <vector>
@@ -9,12 +10,14 @@
 
 namespace feasst {
 
+typedef std::map<std::string, std::string> argtype;
+
 /**
   https://en.wikipedia.org/wiki/Brent%27s_method
  */
 class SolverBrentDekker : public Solver {
  public:
-  SolverBrentDekker(const argtype& args = argtype());
+  explicit SolverBrentDekker(argtype args = argtype());
   double root(Formula * formula) override;
   std::shared_ptr<Solver> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

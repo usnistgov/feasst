@@ -2,6 +2,7 @@
 #ifndef FEASST_FLAT_HISTOGRAM_MACROSTATE_ENERGY_H_
 #define FEASST_FLAT_HISTOGRAM_MACROSTATE_ENERGY_H_
 
+#include <memory>
 #include "flat_histogram/include/macrostate.h"
 
 namespace feasst {
@@ -20,8 +21,7 @@ class MacrostateEnergy : public Macrostate {
     - Macrostate arguments.
   */
   explicit MacrostateEnergy(argtype args = argtype());
-  explicit MacrostateEnergy(argtype * args) :
-    MacrostateEnergy(Histogram(args), args) {}
+  explicit MacrostateEnergy(argtype * args);
 
   //@}
   /** @name Public Functions
@@ -29,7 +29,8 @@ class MacrostateEnergy : public Macrostate {
   //@{
 
   /// Arguments as described above, but with explicit histogram object.
-  MacrostateEnergy(const Histogram& histogram, argtype args = argtype());
+  explicit MacrostateEnergy(const Histogram& histogram,
+                            argtype args = argtype());
   MacrostateEnergy(const Histogram& histogram, argtype * args);
 
   double value(const System& system,
@@ -38,7 +39,7 @@ class MacrostateEnergy : public Macrostate {
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
   std::shared_ptr<Macrostate> create(argtype * args) const override;
   void serialize(std::ostream& ostr) const override;
-  MacrostateEnergy(std::istream& istr);
+  explicit MacrostateEnergy(std::istream& istr);
   virtual ~MacrostateEnergy() {}
   //@}
 };

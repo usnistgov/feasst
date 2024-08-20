@@ -4,6 +4,7 @@
 #include "math/include/random_mt19937.h"
 #include "configuration/test/config_utils.h"
 #include "system/include/visit_model.h"
+#include "system/include/visit_model_inner.h"
 #include "system/include/lennard_jones.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/energy_map_all_criteria.h"

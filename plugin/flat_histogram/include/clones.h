@@ -3,7 +3,6 @@
 #define FEASST_FLAT_HISTOGRAM_CLONES_H_
 
 #include <string>
-#include <sstream>
 #include <memory>
 #include <vector>
 #include "monte_carlo/include/monte_carlo.h"
@@ -93,7 +92,7 @@ class Clones {
   void set_num_iterations_to_complete(const int iterations);
 
   /// Return the FlatHistogram of a given clone index.
-  FlatHistogram flat_histogram(const int index) const;
+  std::unique_ptr<FlatHistogram> flat_histogram(const int index) const;
 
   /// Stitch together and return the LnProbability of all clones.
   LnProbability ln_prob(
@@ -126,15 +125,8 @@ class Clones {
   /// Deserialize
   explicit Clones(std::istream& istr);
 
-  std::string serialize() {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-  Clones deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return Clones(ss);
-  }
+  std::string serialize() const;
+  Clones deserialize(const std::string str);
 
  private:
   std::vector<std::shared_ptr<MonteCarlo> > clones_;

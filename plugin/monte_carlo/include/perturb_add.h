@@ -2,6 +2,8 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_ADD_H_
 #define FEASST_MONTE_CARLO_PERTURB_ADD_H_
 
+#include <string>
+#include <memory>
 #include "monte_carlo/include/perturb_anywhere.h"
 
 namespace feasst {
@@ -22,7 +24,7 @@ class PerturbAdd : public Perturb {
   /// Return if the particle isn't added until finalized.
   bool delay_add() const { return delay_add_; }
 
-  //initialize ghost selection in TrialSelect?
+  // initialize ghost selection in TrialSelect?
   void precompute(TrialSelect * select, System * system) override;
 
   void before_select() override;

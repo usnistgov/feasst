@@ -1,4 +1,5 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "charge/include/compute_remove_multiple.h"
@@ -42,11 +43,11 @@ TrialRemoveMultiple::TrialRemoveMultiple(argtype * args) : Trial(args) {
       std::make_shared<TrialSelectParticle>(&arg),
       std::make_shared<PerturbRemove>(),
       &arg);
-    FEASST_CHECK_ALL_USED(arg);
+    feasst_check_all_used(arg);
   }
 }
 TrialRemoveMultiple::TrialRemoveMultiple(argtype args) : TrialRemoveMultiple(&args) {
-  //FEASST_CHECK_ALL_USED(args);
+  //feasst_check_all_used(args);
 }
 
 TrialRemoveMultiple::TrialRemoveMultiple(std::istream& istr) : Trial(istr) {

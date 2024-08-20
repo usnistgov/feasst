@@ -7,9 +7,11 @@
 #include "system/include/hard_sphere.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/model_two_body_factory.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
 #include "models/include/square_well.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "steppers/include/log.h"
-#include "steppers/include/log_and_movie.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tune.h"
 #include "monte_carlo/include/trial_rotate.h"
@@ -76,10 +78,10 @@ MayerSampling ljb2(const int trials, const int num_beta_taylor = 0) {
   mc.set(MakeMayerSampling({{"num_beta_taylor",
                           str(num_beta_taylor)}}));
   mc.add(MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"}, {"weight", "0.75"}}));
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(trials);
+  auto mc2 = test_serialize_unique(mc);
+  mc2->attempt(trials);
   std::stringstream ss;
-  mc2.criteria().serialize(ss);
+  mc2->criteria().serialize(ss);
   MayerSampling mayer(ss);
   return mayer;
 }
@@ -143,10 +145,10 @@ TEST(MayerSampling, square_well_LONG) {
   mc.add(MakeLog({{"trials_per_write", trials_per}, {"output_file", "tmp/sqw.txt"}}));
   mc.add(MakeMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/sqw.xyz"}}));
   mc.add(MakeTune({{"trials_per_write", trials_per}, {"output_file", "tmp/tune.txt"}}));
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e6);
+  auto mc2 = test_serialize_unique(mc);
+  mc2->attempt(1e6);
   std::stringstream ss;
-  mc2.criteria().serialize(ss);
+  mc2->criteria().serialize(ss);
   MayerSampling mayer(ss);
   const double b2_reduced_analytical = 1-(3*3*3-1)*(std::exp(1/temperature)-1);
   DEBUG(mayer.mayer().str());
@@ -177,10 +179,10 @@ TEST(MayerSampling, cg4_rigid_LONG) {
   mc.add(MakeLog({{"trials_per_write", trials_per}, {"output_file", "tmp/cg4.txt"}}));
   mc.add(MakeMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/cg4.xyz"}}));
   mc.add(MakeTune());
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e6);
+  auto mc2 = test_serialize_unique(mc);
+  mc2->attempt(1e6);
   std::stringstream ss;
-  mc2.criteria().serialize(ss);
+  mc2->criteria().serialize(ss);
   MayerSampling mayer(ss);
   EXPECT_NEAR(0.46, mayer.second_virial_ratio(), 0.15);
 }

@@ -1,9 +1,14 @@
 #include <cmath>  // rint
 #include "utils/include/utils.h"
-#include "math/include/constants.h"
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
+#include "configuration/include/physical_constants.h"
+#include "system/include/visit_model_inner.h"
 #include "opt_lj/include/visit_model_opt_rpm.h"
 
 namespace feasst {
@@ -31,7 +36,7 @@ void VisitModelOptRPM::compute(
   const double lx = domain.side_length(0),
                ly = domain.side_length(1),
                lz = domain.side_length(2);
-  const Select& select_all = config->group_selects()[group_index];
+  const Select& select_all = config->group_select(group_index);
   bool is_old_config = false;
   if (selection.trial_state() == 0 ||
       selection.trial_state() == 2) {

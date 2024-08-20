@@ -2,14 +2,13 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_COMPUTE_TRANSLATE_H_
 #define FEASST_MONTE_CARLO_TRIAL_COMPUTE_TRANSLATE_H_
 
+#include <memory>
 #include <vector>
-#include "system/include/system.h"
-#include "configuration/include/select.h"
-#include "monte_carlo/include/criteria.h"
-#include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 
 namespace feasst {
+
+class Select;
 
 /**
   Translate a selection of particles and sites.
@@ -34,7 +33,8 @@ class TrialComputeTranslate : public TrialCompute {
   void serialize_trial_compute_translate_(std::ostream& ostr) const;
 
  private:
-  Select new_;
+  // not serialized
+  std::shared_ptr<Select> new_;
 };
 
 inline std::shared_ptr<TrialComputeTranslate> MakeTrialComputeTranslate(

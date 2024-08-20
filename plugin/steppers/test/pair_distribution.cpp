@@ -1,13 +1,15 @@
 #include "utils/test/utils.h"
 #include "math/include/utils_math.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
 #include "steppers/include/pair_distribution.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
-#include "steppers/include/log_and_movie.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/seek_analyze.h"
 #include "steppers/include/seek_modify.h"
@@ -52,12 +54,12 @@ TEST(PairDistribution, gr_LONG) {
     {"multistate_aggregate", "false"},
   }));
   EXPECT_EQ(mc.configuration().model_params().select("cutoff").value(0), 3.);
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e6);
-  MonteCarlo mc3 = test_serialize(mc2);
-  auto pd = PairDistribution(mc3.modify(SeekModify().index("PairDistribution", mc3)[0]).modify(0));
-  const grtype& gr = pd.radial(mc3.configuration());
-  const Accumulator en = Energy(mc3.analyze(SeekAnalyze().index("Energy", mc3)[0])).energy();
+  auto mc2 = test_serialize_unique(mc);
+  mc2->attempt(1e6);
+  auto mc3 = test_serialize_unique(*mc2);
+  auto pd = PairDistribution(mc3->modify(SeekModify().index("PairDistribution", *mc3)[0]).modify(0));
+  const grtype& gr = pd.radial(mc3->configuration());
+  const Accumulator en = Energy(mc3->analyze(SeekAnalyze().index("Energy", *mc3)[0])).energy();
 
   // compare with https://mmlapps.nist.gov/srs/LJ_PURE/md.htm
   EXPECT_EQ(gr[43].first, 1.0875);

@@ -1,10 +1,11 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include "configuration/include/file_particle.h"
+#include "utils/include/arguments.h"
 #include "utils/include/file.h"
 #include "utils/include/debug.h"
-#include "utils/include/serialize.h"
+#include "utils/include/io.h"
+#include "configuration/include/file_particle.h"
 
 namespace feasst {
 
@@ -170,7 +171,8 @@ Particle FileParticle::read(const std::string file_name) {
     is_found = find("Dihedrals", file);
     if (!is_found) FATAL("Could not find Dihedrals in " << file_name);
     int idihedral, a1, a2, a3, a4;
-    for (int dihedral_index = 0; dihedral_index < num_dihedrals_; ++dihedral_index) {
+    for (int dihedral_index = 0; dihedral_index < num_dihedrals_;
+         ++dihedral_index) {
       file >> idihedral >> itype >> a1 >> a2 >> a3 >> a4;
       feasst::Dihedral dihedral;
       dihedral.add_site_index(a1);
@@ -182,22 +184,23 @@ Particle FileParticle::read(const std::string file_name) {
     }
   }
 
-//  // read Impropers section
-//  if (num_impropers_ > 0) {
-//    is_found = find("Impropers", file);
-//    if (!is_found) FATAL("Could not find Impropers in " << file_name);
-//    int iimproper, a1, a2, a3, a4;
-//    for (int improper_index = 0; improper_index < num_impropers_; ++improper_index) {
-//      file >> iimproper >> itype >> a1 >> a2 >> a3 >> a4;
-//      feasst::Improper improper;
-//      improper.add_site_index(a1);
-//      improper.add_site_index(a2);
-//      improper.add_site_index(a3);
-//      improper.add_site_index(a4);
-//      improper.set_type(itype);
-//      particle.add_improper(improper);
-//    }
-//  }
+// // read Impropers section
+// if (num_impropers_ > 0) {
+//   is_found = find("Impropers", file);
+//   if (!is_found) FATAL("Could not find Impropers in " << file_name);
+//   int iimproper, a1, a2, a3, a4;
+//   for (int improper_index = 0; improper_index < num_impropers_;
+//        ++improper_index) {
+//     file >> iimproper >> itype >> a1 >> a2 >> a3 >> a4;
+//     feasst::Improper improper;
+//     improper.add_site_index(a1);
+//     improper.add_site_index(a2);
+//     improper.add_site_index(a3);
+//     improper.add_site_index(a4);
+//     improper.set_type(itype);
+//     particle.add_improper(improper);
+//   }
+// }
 
   return particle;
 }
@@ -219,12 +222,16 @@ void FileParticle::read_properties(const std::string file_name,
   }
   if (num_angles_ != 0) {
     is_found = find("Angle Properties", file);
-    if (!is_found) FATAL("Could not find \"Angle Properties\" in " << file_name);
+    if (!is_found) {
+      FATAL("Could not find \"Angle Properties\" in " << file_name);
+    }
     read_properties_("angle", num_angle_types_, particle, file);
   }
   if (num_dihedrals_ != 0) {
     is_found = find("Dihedral Properties", file);
-    if (!is_found) FATAL("Could not find \"Dihedral Properties\" in " << file_name);
+    if (!is_found) {
+      FATAL("Could not find \"Dihedral Properties\" in " << file_name);
+    }
     read_properties_("dihedral", num_dihedral_types_, particle, file);
   }
 }
@@ -270,18 +277,20 @@ void FileParticle::read_properties_(const std::string property_type,
         if (name == "anisotropic") {
           site->set_anisotropic("true");
         }
-        //particle->set_site(type, site);
+        // particle->set_site(type, site);
       } else if (property_type == "bond") {
-        DEBUG("adding bond coeff of type " << type << " name " << name << " value " << value);
+        DEBUG("adding bond coeff of type " << type << " name " << name <<
+              " value " << value);
         particle->add_bond_property(type, name, value);
       } else if (property_type == "angle") {
-        DEBUG("adding angle coeff of type " << type << " name " << name << " value " << value);
+        DEBUG("adding angle coeff of type " << type << " name " << name <<
+              " value " << value);
         particle->add_angle_property(type, name, value);
       } else if (property_type == "dihedral") {
-        DEBUG("adding dihedral coeff of type " << type << " name " << name << " value " << value);
+        DEBUG("adding dihedral coeff of type " << type << " name " << name <<
+              " value " << value);
         particle->add_dihedral_property(type, name, value);
 //      } else if (property_type == "improper") {
-//        DEBUG("adding improper coeff of type " << type << " name " << name << " value " << value);
 //        particle->add_improper_property(type, name, value);
       } else {
         ERROR("unrecognized property_type: " << property_type);

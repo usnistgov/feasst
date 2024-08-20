@@ -1,5 +1,9 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/random_mt19937.h"
+#include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/trial_stage.h"
 #include "cluster/include/analyze_cluster.h"
 
 namespace feasst {
@@ -16,7 +20,7 @@ static MapAnalyzeCluster mapper_ = MapAnalyzeCluster();
 
 AnalyzeCluster::AnalyzeCluster(argtype * args) : Analyze(args) {}
 AnalyzeCluster::AnalyzeCluster(argtype args) : AnalyzeCluster(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void AnalyzeCluster::initialize(Criteria * criteria,
@@ -30,7 +34,7 @@ std::string AnalyzeCluster::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  ss << accumulator_.status_header() << std::endl;
+  ss << accumulator().status_header() << std::endl;
   return ss.str();
 }
 
@@ -43,7 +47,7 @@ void AnalyzeCluster::update(const Criteria& criteria,
   if (sel.class_name() == "SelectCluster") {
     const Accumulator& csize = sel.printable("cluster_size");
     if (csize.num_values() > 0) {
-      accumulator_.accumulate(csize.last_value());
+      get_accumulator()->accumulate(csize.last_value());
     }
   }
 }
@@ -55,7 +59,7 @@ std::string AnalyzeCluster::write(const Criteria& criteria,
   if (rewrite_header()) {
     ss << header(criteria, system, trial_factory);
   }
-  ss << accumulator_.status() << std::endl;
+  ss << accumulator().status() << std::endl;
   DEBUG(ss.str());
   return ss.str();
 }

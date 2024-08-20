@@ -1,5 +1,11 @@
 #include <cmath>
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/accumulator.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
 #include "steppers/include/check_energy.h"
 
 namespace feasst {
@@ -18,7 +24,7 @@ CheckEnergy::CheckEnergy(argtype * args) : ModifyUpdateOnly(args) {
   check_ = MakeCheck();
 }
 CheckEnergy::CheckEnergy(argtype args) : CheckEnergy(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void CheckEnergy::update(Criteria * criteria,
@@ -38,7 +44,7 @@ void CheckEnergy::update(Criteria * criteria,
        << "diff: " << energy - current_energy
     );
     // HWH configuration_index_
-    accumulator_.accumulate(energy - current_energy);
+    accumulator_->accumulate(energy - current_energy);
 
     // loop over each profile and perform the energy check
     const std::vector<double>& energy_profile = system->unoptimized(config).stored_energy_profile();

@@ -2,10 +2,11 @@
 #ifndef FEASST_CHARGE_ELECTRIC_FIELD_H_
 #define FEASST_CHARGE_ELECTRIC_FIELD_H_
 
-#include "utils/include/arguments.h"
 #include "system/include/model_one_body.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Apply an electric field along a dimension.

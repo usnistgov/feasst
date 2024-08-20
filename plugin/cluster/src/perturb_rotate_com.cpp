@@ -1,4 +1,8 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/configuration.h"
+#include "configuration/include/select.h"
+#include "monte_carlo/include/trial_select.h"
 #include "cluster/include/perturb_rotate_com.h"
 
 namespace feasst {
@@ -14,7 +18,7 @@ class MapPerturbRotateCOM {
 static MapPerturbRotateCOM mapper_ = MapPerturbRotateCOM();
 
 PerturbRotateCOM::PerturbRotateCOM(argtype args) : PerturbRotateCOM(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbRotateCOM::PerturbRotateCOM(argtype * args) : PerturbRotate(args) {
   class_name_ = "PerturbRotateCOM";

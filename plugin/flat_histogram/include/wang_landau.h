@@ -2,12 +2,14 @@
 #ifndef FEASST_FLAT_HISTOGRAM_WANG_LANDAU_H_
 #define FEASST_FLAT_HISTOGRAM_WANG_LANDAU_H_
 
-#include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <string>
+#include <vector>
 #include "flat_histogram/include/bias.h"
 
 namespace feasst {
+
+class LnProbability;
 
 /**
   Wang Landau flat histogram bias.
@@ -48,9 +50,9 @@ class WangLandau : public Bias {
     const Macrostate& macro) override;
   int num_iterations_to_complete() const override { return min_flatness_; }
   void set_num_iterations_to_complete(const int flatness) override;
-  int num_iterations(const int state, const Macrostate& macro) const override { return num_flatness_;}
-  const LnProbability& ln_prob() const override {
-    return ln_prob_; }
+  int num_iterations(const int state, const Macrostate& macro) const override {
+    return num_flatness_;}
+  const LnProbability& ln_prob() const override;
   void resize(const Histogram& histogram) override;
   void infrequent_update(const Macrostate& macro) override;
   std::string write() const override;
@@ -64,11 +66,11 @@ class WangLandau : public Bias {
     return std::make_shared<WangLandau>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit WangLandau(std::istream& istr);
-  virtual ~WangLandau() {}
+  virtual ~WangLandau();
 
   //@}
  private:
-  LnProbability ln_prob_;
+  std::unique_ptr<LnProbability> ln_prob_;
   double add_to_ln_probability_ = 0;
   double reduce_ln_probability_ = 0;
   double flatness_threshold_ = 0;

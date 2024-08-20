@@ -3,11 +3,12 @@
 #define FEASST_MODELS_TABLE_POTENTIAL_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "math/include/table.h"
 #include "system/include/model_two_body.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Represent isotropic interactions using a tabular potential that is precomputed

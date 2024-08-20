@@ -3,10 +3,11 @@
 #define FEASST_CONFINEMENT_BACKGROUND_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "system/include/visit_model.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Add a constant background potential that doesn't depend on the configuration.

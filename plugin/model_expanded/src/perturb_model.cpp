@@ -1,11 +1,16 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/random.h"
+#include "system/include/potential.h"
+#include "system/include/model.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/trial_select.h"
 #include "model_expanded/include/perturb_model.h"
 
 namespace feasst {
 
 PerturbModel::PerturbModel(argtype args) : PerturbModel(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbModel::PerturbModel(argtype * args) : Perturb(args) {
   class_name_ = "PerturbModel";

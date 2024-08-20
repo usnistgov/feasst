@@ -1,8 +1,6 @@
-#include "utils/include/serialize.h"
-#include "monte_carlo/include/perturb_translate.h"
-#include "cluster/include/select_cluster.h"
-#include "cluster/include/compute_move_cluster.h"
-#include "cluster/include/perturb_rotate_com.h"
+#include "utils/include/debug.h"
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "cluster/include/trial_translate_cluster.h"
 #include "cluster/include/trial_rotate_cluster.h"
 #include "cluster/include/trial_rigid_cluster.h"
@@ -35,7 +33,7 @@ TrialRigidCluster::TrialRigidCluster(argtype * args) : TrialFactoryNamed() {
   DEBUG("args" << str(*args));
 }
 TrialRigidCluster::TrialRigidCluster(argtype args) : TrialRigidCluster(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 }  // namespace feasst

@@ -6,6 +6,7 @@
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model.h"
+#include "system/include/visit_model_inner.h"
 #include "system/include/model_empty.h"
 #include "system/include/model_two_body_factory.h"
 

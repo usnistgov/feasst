@@ -1,8 +1,13 @@
 #include <cmath>
 #include <string>
 #include <fstream>
+#include "utils/include/arguments.h"
+#include "utils/include/utils.h"
 #include "utils/include/serialize.h"
+#include "utils/include/io.h"
+#include "math/include/constants.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/model_two_body.h"
@@ -18,7 +23,7 @@ TablePotential::TablePotential(argtype * args) {
   }
 }
 TablePotential::TablePotential(argtype args) : TablePotential(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void TablePotential::read_table_(const std::string file_name) {
@@ -122,7 +127,7 @@ double TablePotential:: energy(
     flip = true;
   }
   if (flip) {
-    swap(&ttype1, &ttype2);
+    feasst_swap(&ttype1, &ttype2);
   }
   DEBUG("flip " << flip);
 

@@ -1,4 +1,6 @@
 #include "utils/test/utils.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "chain/include/perturb_library.h"
 
@@ -12,7 +14,7 @@ TEST(PerturbLibrary, serialize) {
 
 TEST(PerturbLibrary, dimer) {
   System sys;
-  sys.add(*MakeConfiguration({
+  sys.add(MakeConfiguration({
     {"cubic_side_length", "8"},
     {"particle_type0", "../particle/dimer.fstprt"}}));
   sys.precompute();

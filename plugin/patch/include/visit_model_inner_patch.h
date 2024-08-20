@@ -2,11 +2,12 @@
 #ifndef FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_
 #define FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_
 
-#include "utils/include/arguments.h"
-#include "system/include/visit_model.h"
 #include "patch/include/patch_angle.h"
+#include "system/include/visit_model_inner.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Patch interactions are defined by two sites. These are called centers or

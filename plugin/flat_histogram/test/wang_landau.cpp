@@ -10,4 +10,9 @@ TEST(WangLandau, args) {
   );
 }
 
+TEST(WangLandau, serialize) {
+  auto bias = MakeWangLandau({{"min_flatness", "2"}});
+  auto bias2 = test_serialize_unique(*bias);
+}
+
 }  // namespace feasst

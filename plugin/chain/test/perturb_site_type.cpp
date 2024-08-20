@@ -1,6 +1,9 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/system.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "chain/include/perturb_site_type.h"
 
@@ -8,7 +11,7 @@ namespace feasst {
 
 TEST(PerturbSiteType, serialize) {
   System sys;
-  sys.add(*MakeConfiguration({{"cubic_side_length", "20"},
+  sys.add(MakeConfiguration({{"cubic_side_length", "20"},
     {"particle_type", "../particle/chain10_3types.fstprt"},
     {"add_particles_of_type0", "1"}}));
   const Configuration& config = sys.configuration();

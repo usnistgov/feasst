@@ -2,10 +2,13 @@
 #ifndef FEASST_GIBBS_CHECK_CONSTANT_VOLUME_H_
 #define FEASST_GIBBS_CHECK_CONSTANT_VOLUME_H_
 
+#include <map>
+#include <string>
 #include "monte_carlo/include/modify.h"
-#include "steppers/include/check.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Check that the total volume of all Configurations, stored from the last

@@ -1,10 +1,14 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "monte_carlo/include/trial_select_angle.h"
 
 namespace feasst {
 
 TrialSelectAngle::TrialSelectAngle(argtype args) : TrialSelectAngle(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 TrialSelectAngle::TrialSelectAngle(argtype * args) : TrialSelectBond(args) {
   class_name_ = "TrialSelectAngle";
@@ -36,7 +40,7 @@ void TrialSelectAngle::precompute(System * system) {
   DEBUG("anchor2: " << anchor_site2_);
   DEBUG("angle_type: " << angle_type);
   add_or_set_property("angle_type", angle_type);
-  anchor_.add_site(0, anchor_site2_);
+  get_anchor()->add_site(0, anchor_site2_);
 }
 
 std::shared_ptr<TrialSelect> TrialSelectAngle::create(std::istream& istr) const {

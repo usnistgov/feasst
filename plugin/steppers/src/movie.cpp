@@ -1,5 +1,9 @@
-#include "steppers/include/movie.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/file_vmd.h"
+#include "configuration/include/file_xyz.h"
+#include "monte_carlo/include/criteria.h"
+#include "steppers/include/movie.h"
 
 namespace feasst {
 
@@ -17,10 +21,11 @@ Movie::Movie(argtype * args) : AnalyzeWriteOnly(args) {
   set_append();
   ASSERT(!output_file().empty(), "file name is required");
   args->insert({"append", "true"}); // always append
-  xyz_ = FileXYZ(args);
-  vmd_ = FileVMD(args);
+  xyz_ = std::make_unique<FileXYZ>(args);
+  vmd_ = std::make_unique<FileVMD>(args);
 }
-Movie::Movie(argtype args) : Movie(&args) { FEASST_CHECK_ALL_USED(args); }
+Movie::Movie(argtype args) : Movie(&args) { feasst_check_all_used(args); }
+Movie::~Movie() {}
 
 void Movie::initialize(Criteria * criteria,
     System * system,
@@ -31,35 +36,35 @@ void Movie::initialize(Criteria * criteria,
 
   // write xyz
   if (state() == criteria->state()) {
-    xyz_.write(name, configuration(*system));
+    xyz_->write(name, configuration(*system));
   }
 
   // write vmd
   std::stringstream ss;
   ss << name << ".vmd";
-  vmd_.write(ss.str(), configuration(*system), name);
+  vmd_->write(ss.str(), configuration(*system), name);
 }
 
 std::string Movie::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   // ensure the following order matches the header from initialization.
-  xyz_.write(output_file(criteria), configuration(system));
+  xyz_->write(output_file(criteria), configuration(system));
   return std::string("");
 }
 
 void Movie::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(536, ostr);
-  feasst_serialize_fstobj(xyz_, ostr);
-  feasst_serialize_fstobj(vmd_, ostr);
+  feasst_serialize(xyz_, ostr);
+  feasst_serialize(vmd_, ostr);
 }
 
 Movie::Movie(std::istream& istr) : AnalyzeWriteOnly(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 536, "version mismatch:" << version);
-  feasst_deserialize_fstobj(&xyz_, istr);
-  feasst_deserialize_fstobj(&vmd_, istr);
+  feasst_deserialize(xyz_, istr);
+  feasst_deserialize(vmd_, istr);
 }
 
 }  // namespace feasst

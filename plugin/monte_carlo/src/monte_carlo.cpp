@@ -1,16 +1,48 @@
 #include <iostream>
 #include <fstream>
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/arguments.h"
 #include "utils/include/file.h"
 #include "utils/include/checkpoint.h"
-#include "monte_carlo/include/monte_carlo.h"
+#include "configuration/include/neighbor_criteria.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "system/include/visit_model.h"
+#include "system/include/potential.h"
+#include "system/include/system.h"
+#include "system/include/thermo_params.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/rosenbluth.h"
+#include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/action.h"
+#include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/analyze_factory.h"
+#include "monte_carlo/include/modify_factory.h"
+#include "monte_carlo/include/monte_carlo.h"
 
 // for parsing factories
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/metropolis.h"
 
 namespace feasst {
+
+/// If args contains derived class of T, return factory pointer and remove from
+/// args.
+template <class T>
+std::shared_ptr<T> parse(T * obj, arglist * args) {
+  std::shared_ptr<T> new_obj;
+  const auto& map = obj->deserialize_map();
+  // INFO("parsing " << args->begin()->first);
+  if (map.count(args->begin()->first) > 0) {
+    new_obj = obj->factory(args->begin()->first, &args->begin()->second);
+    // INFO(new_obj->class_name());
+    feasst_check_all_used(args->begin()->second);
+    args->erase(args->begin());
+    return new_obj;
+  }
+  return new_obj;
+}
 
 MonteCarlo::MonteCarlo(std::shared_ptr<Random> random) {
   set(random);
@@ -19,9 +51,14 @@ MonteCarlo::MonteCarlo(std::shared_ptr<Random> random) {
 //    timer_analyze_ = timer_.add("analyze");
 //    timer_modify_ = timer_.add("modify");
 //    timer_checkpoint_ = timer_.add("checkpoint");
+  system_ = std::make_unique<System>();
+  trial_factory_ = std::make_unique<TrialFactory>();
+  analyze_factory_ = std::make_unique<AnalyzeFactory>();
+  modify_factory_ = std::make_unique<ModifyFactory>();
 }
 
 MonteCarlo::MonteCarlo() : MonteCarlo(std::make_shared<RandomMT19937>()) {}
+MonteCarlo::~MonteCarlo() {}
 
 void MonteCarlo::parse_args(arglist * args, const bool silent) {
   DEBUG("first " << args->begin()->first);
@@ -180,8 +217,8 @@ MonteCarlo::MonteCarlo(arglist args) : MonteCarlo() {
 void MonteCarlo::run(std::shared_ptr<Action> action) {
   action_ = action;
   action_->run(this);
-//  action_->run(&system_, criteria_, &trial_factory_, &analyze_factory_,
-//               &modify_factory_, checkpoint_, random_);
+//  action_->run(&system_, criteria_, trial_factory_.get(), analyze_factory_.get(),
+//               modify_factory_.get(), checkpoint_, random_);
 }
 
 void MonteCarlo::seed_random(const int seed) {
@@ -192,18 +229,7 @@ void MonteCarlo::add(std::shared_ptr<Configuration> config) {
   if (config->num_particle_types() == 0) {
     FATAL("There are no particle types in config");
   }
-  system_.add(*config);
-  config_set_ = true;
-  if (potential_set_) system_set_ = true;
-  ASSERT(!criteria_set_, "add config before criteria");
-}
-
-void MonteCarlo::add(const Configuration& config) {
-  if (config.num_particle_types() == 0) {
-    FATAL("There are no particle types in config");
-  }
-  WARN("Use MakeConfiguration instead of Configuration");
-  system_.add(config);
+  system_->add(config);
   config_set_ = true;
   if (potential_set_) system_set_ = true;
   ASSERT(!criteria_set_, "add config before criteria");
@@ -213,28 +239,28 @@ void MonteCarlo::add(std::shared_ptr<Potential> potential, const int config) {
   ASSERT(!criteria_set_, "add potential before criteria");
   ASSERT(config_set_ || system_set_, "config:" << config_set_ <<
     " or system:" << system_set_ << " must be set before adding a potential");
-  system_.add(potential, config);
-  system_.precompute();
+  system_->add(potential, config);
+  system_->precompute();
   potential_set_ = true;
 }
 
 void MonteCarlo::set(const int index, std::shared_ptr<Potential> potential) {
   // ASSERT(!criteria_set_, "add potential before criteria");
   ASSERT(potential_set_ || system_set_, "add potential before setting one");
-  system_.set_unoptimized(index, potential);
-  system_.precompute();
+  system_->set_unoptimized(index, potential);
+  system_->precompute();
 }
 
 void MonteCarlo::set(std::shared_ptr<ThermoParams> thermo_params) {
-  system_.set(thermo_params);
+  system_->set(thermo_params);
   thermo_params_set_ = true;
   if (config_set_ && potential_set_) system_set_ = true;
 }
 
 void MonteCarlo::set(const System& system) {
   system_set_ = true;
-  system_ = system;
-  system_.precompute();
+  system_ = std::make_unique<System>(system);
+  system_->precompute();
   // ASSERT(!criteria_set_, "add system before criteria");
   // HWH used in clones.cpp to transfer configurations
 }
@@ -244,7 +270,7 @@ void MonteCarlo::set(std::shared_ptr<Criteria> criteria) {
   criteria_ = criteria;
   criteria_set_ = true;
   initialize_criteria();
-  // criteria->set_current_energy(system_.unoptimized_energy());
+  // criteria->set_current_energy(system_->unoptimized_energy());
   DEBUG("current energy: " << criteria->current_energy());
 }
 
@@ -252,7 +278,7 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
   ASSERT(criteria_set_, "set Criteria before Trials.");
 
   // Error check Ewald
-  for (const std::shared_ptr<Potential>& pot : system_.potentials().potentials()) {
+  for (const std::shared_ptr<Potential>& pot : system_->potentials().potentials()) {
     if (pot->visit_model().class_name() == "Ewald" ||
         pot->visit_model().class_name() == "LongRangeCorrections") {
       for (int stage = 0; stage < trial->num_stages(); ++stage) {
@@ -295,7 +321,7 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
 
 //  // Need to implement some way to handle profiles when config is only in the first select
 //  if (trial->num_stages() > 1) {
-//    ASSERT(system_.num_configurations() == 1,
+//    ASSERT(system_->num_configurations() == 1,
 //      "not implemented. Fix TrialStage::set_rosenbluth_energy_");
 //  }
 
@@ -312,15 +338,15 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
       add(itrl);
     }
   } else {
-    trial->precompute(criteria_.get(), &system_);
-    trial_factory_.add(trial);
+    trial->precompute(criteria_.get(), system_.get());
+    trial_factory_->add(trial);
   }
 
   // HWH deprecate?
   // If later, perhaps after some initialization, more trials are added,
   // then Analyze and Modify classes may need to be re-initialized.
-  // analyze_factory_.initialize(criteria_, system_, trial_factory_);
-  // modify_factory_.initialize(criteria_, &system_, &trial_factory_);
+  // analyze_factory_->initialize(criteria_, system_, trial_factory_);
+  // modify_factory_->initialize(criteria_, &system_, trial_factory_.get());
 }
 
 void MonteCarlo::add(std::shared_ptr<TrialFactoryNamed> trials) {
@@ -340,10 +366,10 @@ void MonteCarlo::add(std::shared_ptr<TrialFactoryNamed> trials) {
 
 bool MonteCarlo::duplicate_stepper_output_file_(const std::string output_file) {
   if (!output_file.empty()) {
-    for (const std::shared_ptr<Analyze>& an : analyze_factory_.analyzers()) {
+    for (const std::shared_ptr<Analyze>& an : analyze_factory_->analyzers()) {
       if (an->output_file() == output_file) return true;
     }
-    for (const std::shared_ptr<Modify>& mod : modify_factory_.modifiers()) {
+    for (const std::shared_ptr<Modify>& mod : modify_factory_->modifiers()) {
       if (mod->output_file() == output_file) return true;
     }
   }
@@ -364,7 +390,7 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
     if (analyze->is_multistate_aggregate()) {
       trials_per_write = analyze->trials_per_write();
       output_file = analyze->output_file();
-      analyze->initialize(criteria_.get(), &system_, &trial_factory_);
+      analyze->initialize(criteria_.get(), system_.get(), trial_factory_.get());
     }
     auto multi = MakeAnalyzeFactory({
       {"multistate", "true"},
@@ -395,9 +421,9 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
     }
     analyze = multi;
   }
-  analyze->initialize(criteria_.get(), &system_, &trial_factory_);
+  analyze->initialize(criteria_.get(), system_.get(), trial_factory_.get());
   DEBUG("mults " << analyze->is_multistate() << " class name? " << analyze->class_name());
-  analyze_factory_.add(analyze);
+  analyze_factory_->add(analyze);
 }
 
 // copied from above
@@ -414,7 +440,7 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
     if (modify->is_multistate_aggregate()) {
       trials_per_write = modify->trials_per_write();
       output_file = modify->output_file();
-      modify->initialize(criteria_.get(), &system_, &trial_factory_);
+      modify->initialize(criteria_.get(), system_.get(), trial_factory_.get());
     }
     auto multi = MakeModifyFactory({
       {"multistate", "true"},
@@ -439,27 +465,27 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
         mod->empty_output_file();
       }
       mod->set_state(state);
-      // mod->initialize(criteria_.get(), &system_, &trial_factory_);
+      // mod->initialize(criteria_.get(), &system_, trial_factory_.get());
       multi->add(mod);
     }
     modify = multi;
   }
-  modify->initialize(criteria_.get(), &system_, &trial_factory_);
+  modify->initialize(criteria_.get(), system_.get(), trial_factory_.get());
   DEBUG("mults " << modify->is_multistate() << " class name? " << modify->class_name());
 
   // Check that modifiers aren't added after ReadConfigFromFile.
-  if (modify_factory_.num() > 0) {
+  if (modify_factory_->num() > 0) {
     ASSERT(
-      modify_factory_.modifiers().back()->class_name() != "ReadConfigFromFile",
+      modify_factory_->modifiers().back()->class_name() != "ReadConfigFromFile",
       "ReadConfigFromFile should be the last modifier.");
   }
-  modify_factory_.add(modify);
+  modify_factory_->add(modify);
 }
 
 //void MonteCarlo::add(const std::shared_ptr<Modify> modify) {
 //  ASSERT(criteria_set_, "set Criteria before Modify");
-//  modify->initialize(criteria_.get(), &system_, &trial_factory_);
-//  modify_factory_.add(modify);
+//  modify->initialize(criteria_.get(), &system_, trial_factory_.get());
+//  modify_factory_->add(modify);
 //}
 
 void MonteCarlo::set(const std::shared_ptr<Checkpoint> checkpoint) {
@@ -467,7 +493,7 @@ void MonteCarlo::set(const std::shared_ptr<Checkpoint> checkpoint) {
 }
 
 void MonteCarlo::after_trial_modify_() {
-  modify_factory_.trial(criteria_.get(), &system_, random_.get(), &trial_factory_);
+  modify_factory_->trial(criteria_.get(), system_.get(), random_.get(), trial_factory_.get());
   if (checkpoint_) {
     checkpoint_->check(*this);
   }
@@ -475,11 +501,11 @@ void MonteCarlo::after_trial_modify_() {
 
 void MonteCarlo::serialize(std::ostream& ostr) const {
   feasst_serialize_version(529, ostr);
-  feasst_serialize_fstobj(system_, ostr);
+  feasst_serialize(system_, ostr);
   feasst_serialize_fstdr(criteria_, ostr);
-  feasst_serialize_fstobj(trial_factory_, ostr);
-  feasst_serialize_fstobj(analyze_factory_, ostr);
-  feasst_serialize_fstobj(modify_factory_, ostr);
+  feasst_serialize(trial_factory_, ostr);
+  feasst_serialize(analyze_factory_, ostr);
+  feasst_serialize(modify_factory_, ostr);
   feasst_serialize(checkpoint_, ostr);
   feasst_serialize_fstdr(random_, ostr);
   feasst_serialize_fstdr(action_, ostr);
@@ -496,7 +522,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
 MonteCarlo::MonteCarlo(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 529, "version: " << version);
-  feasst_deserialize_fstobj(&system_, istr);
+  feasst_deserialize(system_, istr);
   // feasst_deserialize_fstdr(criteria_, istr);
   { // HWH for unknown reasons the above template function does not work
     int existing;
@@ -505,9 +531,9 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
       criteria_ = criteria_->deserialize(istr);
     }
   }
-  feasst_deserialize_fstobj(&trial_factory_, istr);
-  feasst_deserialize_fstobj(&analyze_factory_, istr);
-  feasst_deserialize_fstobj(&modify_factory_, istr);
+  feasst_deserialize(trial_factory_, istr);
+  feasst_deserialize(analyze_factory_, istr);
+  feasst_deserialize(modify_factory_, istr);
   // HWH for unknown reasons, this function template does not work.
   //feasst_deserialize(checkpoint_, istr);
   { int existing;
@@ -543,12 +569,12 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
 
 void MonteCarlo::load_cache_(const bool load) {
   random_->set_cache_to_load(load);
-  system_.load_cache(load);
+  system_->load_cache(load);
 }
 
 void MonteCarlo::unload_cache_(const MonteCarlo& mc) {
   random_->set_cache_to_unload((*mc.random_));
-  system_.unload_cache(mc.system());
+  system_->unload_cache(mc.system());
 }
 
 void MonteCarlo::before_attempts_() {
@@ -561,7 +587,7 @@ void MonteCarlo::revert_(const int trial_index,
     const bool endpoint,
     const bool auto_reject,
     const double ln_prob) {
-  trial_factory_.revert(trial_index, accepted, auto_reject, &system_, criteria_.get());
+  trial_factory_->revert(trial_index, accepted, auto_reject, system_.get(), criteria_.get());
   DEBUG("reverting " << criteria_->current_energy());
   criteria_->revert_(accepted, endpoint, ln_prob);
 }
@@ -576,14 +602,14 @@ void MonteCarlo::attempt_(int num_trials,
   before_attempts_();
   for (int trial = 0; trial < num_trials; ++trial) {
     DEBUG("mc trial: " << trial);
-    trial_factory->attempt(criteria_.get(), &system_, random);
+    trial_factory->attempt(criteria_.get(), system_.get(), random);
     after_trial_analyze_();
     after_trial_modify_();
   }
 }
 
 bool MonteCarlo::attempt_trial(const int index) {
-  return trial_factory_.attempt(criteria_.get(), &system_,
+  return trial_factory_->attempt(criteria_.get(), system_.get(),
                                 index, random_.get());
 }
 
@@ -593,45 +619,45 @@ void MonteCarlo::imitate_trial_rejection_(const int trial_index,
     const bool auto_reject,
     const int state_old,
     const int state_new) {
-  trial_factory_.imitate_trial_rejection_(trial_index, auto_reject);
+  trial_factory_->imitate_trial_rejection_(trial_index, auto_reject);
   criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new, endpoint);
 }
 
 double MonteCarlo::initialize_system(const int config) {
-  system_.precompute();
-  const double en = system_.unoptimized_energy(config);
-  system_.energy(config);
-  for (int ref = 0; ref < system_.num_references(config); ++ref) {
-    system_.reference_energy(ref, config);
+  system_->precompute();
+  const double en = system_->unoptimized_energy(config);
+  system_->energy(config);
+  for (int ref = 0; ref < system_->num_references(config); ++ref) {
+    system_->reference_energy(ref, config);
   }
   return en;
 }
 
 void MonteCarlo::initialize_criteria() {
-  for (int iconf = 0; iconf < system_.num_configurations(); ++iconf) {
+  for (int iconf = 0; iconf < system_->num_configurations(); ++iconf) {
     const double en = initialize_system(iconf);
     // HWH set up a Criteria::precompute for this instead.
     if (criteria_) {
       criteria_->set_current_energy(en, iconf);
-      criteria_->set_current_energy_profile(system_.stored_energy_profile(iconf), iconf);
+      criteria_->set_current_energy_profile(system_->stored_energy_profile(iconf), iconf);
     }
   }
   if (criteria_) {
-    criteria_->precompute(&system_);
+    criteria_->precompute(system_.get());
   }
-  criteria_->update_state(system_, Acceptance());
+  criteria_->update_state(*system_, Acceptance());
 }
 
 void MonteCarlo::initialize_trials() {
-  for (int trial = 0; trial < trial_factory_.num(); ++trial) {
-    trial_factory_.get_trial(trial)->precompute(criteria_.get(), &system_);
+  for (int trial = 0; trial < trial_factory_->num(); ++trial) {
+    trial_factory_->get_trial(trial)->precompute(criteria_.get(), system_.get());
   }
 }
 
 void MonteCarlo::initialize_analyzers() {
-  for (int an = 0; an < analyze_factory_.num(); ++an) {
-    analyze_factory_.get_analyze(an)->initialize(
-      criteria_.get(), &system_, &trial_factory_);
+  for (int an = 0; an < analyze_factory_->num(); ++an) {
+    analyze_factory_->get_analyze(an)->initialize(
+      criteria_.get(), system_.get(), trial_factory_.get());
   }
 }
 
@@ -653,7 +679,7 @@ void MonteCarlo::run_until_file_exists(const std::string& file_name) {
   if (!file_name.empty()) {
     while (!file_exists(file_name)) {
       DEBUG("here");
-      attempt_(1e2, &trial_factory_, random_.get());
+      attempt_(1e2, trial_factory_.get(), random_.get());
     }
     write_checkpoint();
     write_to_file();
@@ -661,9 +687,9 @@ void MonteCarlo::run_until_file_exists(const std::string& file_name) {
 }
 
 void MonteCarlo::synchronize_(const MonteCarlo& mc, const Select& perturbed) {
-  system_.synchronize_(mc.system(), perturbed);
+  system_->synchronize_(mc.system(), perturbed);
   criteria_->synchronize_(mc.criteria());
-  trial_factory_.synchronize_(mc.trials());
+  trial_factory_->synchronize_(mc.trials());
 }
 
 std::shared_ptr<MonteCarlo> MakeMonteCarlo(const std::string file_name) {
@@ -689,15 +715,15 @@ void MonteCarlo::adjust_bounds(const bool left_most, const bool right_most,
   if (mc) {
     criteria_->adjust_bounds(left_most, right_most, left_complete, right_complete,
       all_min_size, min_size,
-      system_, &mc->system(),  mc->get_criteria(), &adjusted_up, &states);
+      *system_, &mc->system(),  mc->get_criteria(), &adjusted_up, &states);
     DEBUG("adjusted_up " << adjusted_up);
     DEBUG("states: " << feasst_str(states));
-    analyze_factory_.adjust_bounds(adjusted_up, states, mc->get_analyze_factory());
-    modify_factory_.adjust_bounds(adjusted_up, states, mc->get_modify_factory());
+    analyze_factory_->adjust_bounds(adjusted_up, states, mc->get_analyze_factory());
+    modify_factory_->adjust_bounds(adjusted_up, states, mc->get_modify_factory());
   } else {
     // single processor adjustment on the left and right most only.
     criteria_->adjust_bounds(left_most, right_most, false, false, false, min_size,
-      system_, NULL, NULL, NULL, NULL);
+      *system_, NULL, NULL, NULL, NULL);
   }
 }
 
@@ -710,8 +736,8 @@ void MonteCarlo::ghost_trial_(
 }
 
 void MonteCarlo::write_to_file() {
-  analyze_factory_.write_to_file(*criteria_, system_, trial_factory_);
-  modify_factory_.write_to_file(criteria_.get(), &system_, &trial_factory_);
+  analyze_factory_->write_to_file(*criteria_, *system_, *trial_factory_);
+  modify_factory_->write_to_file(criteria_.get(), system_.get(), trial_factory_.get());
 }
 
 void MonteCarlo::run_num_trials(int num_trials) {
@@ -742,4 +768,68 @@ void MonteCarlo::run_for_hours(const double hours) {
   }
 }
 
+Criteria * MonteCarlo::get_criteria() { return criteria_.get(); }
+
+const Criteria& MonteCarlo::criteria() const {
+  return const_cast<Criteria&>(*criteria_);
+}
+
+void MonteCarlo::after_trial_analyze_() {
+  analyze_factory_->trial(*criteria_, *system_, *trial_factory_);
+}
+
+void MonteCarlo::finalize_(const int trial_index) {
+  trial_factory_->finalize(trial_index, system_.get(), criteria_.get());
+}
+
+std::string MonteCarlo::serialize() const {
+  std::stringstream ss;
+  serialize(ss);
+  return ss.str();
+}
+//MonteCarlo MonteCarlo::deserialize(const std::string str) {
+//  std::stringstream ss(str);
+//  return MonteCarlo(ss);
+//}
+
+const Configuration& MonteCarlo::configuration(const int index) const {
+  return system_->configuration(index); }
+void MonteCarlo::add_to_optimized(std::shared_ptr<Potential> potential) {
+  system_->add_to_optimized(potential); }
+void MonteCarlo::add_to_reference(std::shared_ptr<Potential> potential,
+    const int index, const int config) {
+  system_->add_to_reference(potential, index, config); }
+void MonteCarlo::add(std::shared_ptr<NeighborCriteria> neighbor_criteria,
+    const int config) {
+  system_->add(neighbor_criteria, config); }
+const ThermoParams& MonteCarlo::thermo_params() const {
+  return system_->thermo_params(); }
+const System& MonteCarlo::system() const { return *system_; }
+System * MonteCarlo::get_system() { return system_.get(); }
+TrialFactory * MonteCarlo::get_trial_factory() { return trial_factory_.get(); }
+void MonteCarlo::remove_trial(const int index) { trial_factory_->remove(index); }
+const TrialFactory& MonteCarlo::trials() const { return *trial_factory_; }
+const Trial& MonteCarlo::trial(const int index) const {
+  return trial_factory_->trial(index); }
+void MonteCarlo::attempt(const int num_trials) {
+  attempt_(num_trials, trial_factory_.get(), random_.get()); }
+void MonteCarlo::reset_trial_stats() { trial_factory_->reset_stats(); }
+void MonteCarlo::run_until_complete() {
+  run_until_complete_(trial_factory_.get(), random_.get()); }
+void MonteCarlo::delay_finalize_() {
+  trial_factory_->delay_finalize(); }
+AnalyzeFactory * MonteCarlo::get_analyze_factory() { return analyze_factory_.get(); }
+ModifyFactory * MonteCarlo::get_modify_factory() { return modify_factory_.get(); }
+void MonteCarlo::remove_modify(const int index) { modify_factory_->remove(index); }
+void MonteCarlo::remove_analyze(const int index) { analyze_factory_->remove(index); }
+const Modify& MonteCarlo::modify(const int index) const {
+  return modify_factory_->modify(index); }
+int MonteCarlo::num_modifiers() const {
+  return static_cast<int>(modify_factory_->modifiers().size()); }
+const std::vector<std::shared_ptr<Analyze> >& MonteCarlo::analyzers() const {
+  return analyze_factory_->analyzers(); }
+const Analyze& MonteCarlo::analyze(const int index) const {
+  return analyze_factory_->analyze(index); }
+int MonteCarlo::num_analyzers() const {
+  return static_cast<int>(analyze_factory_->analyzers().size()); }
 }  // namespace feasst

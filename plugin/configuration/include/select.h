@@ -6,11 +6,14 @@
 #include <vector>
 #include <memory>
 #include "math/include/euler.h"
-#include "configuration/include/group.h"
-#include "configuration/include/particle_factory.h"
+#include "math/include/position.h"
+#include "configuration/include/properties.h"
 
 namespace feasst {
 
+class Group;
+class Particle;
+class ParticleFactory;
 class Random;
 
 // HWH rename, many particle_index are actually select_index
@@ -252,7 +255,6 @@ class Select {
 
   /// Return sites to become bonded.
   const Select * new_bond() const { return new_bond_.get(); }
-  //const Select& new_bond() const { return *new_bond_; }
 
   /// Sites which are bonded.
   void set_old_bond(const Select& select);

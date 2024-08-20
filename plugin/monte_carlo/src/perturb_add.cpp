@@ -1,10 +1,15 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/configuration.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/perturb_add.h"
 
 namespace feasst {
 
 PerturbAdd::PerturbAdd(argtype args) : PerturbAdd(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbAdd::PerturbAdd(argtype * args) : Perturb(args) {
   class_name_ = "PerturbAdd";
@@ -45,8 +50,8 @@ void PerturbAdd::add(
     select->mobile().particle_index(0)
   ).type();
   DEBUG("type " << particle_type);
-  for (const Select& ghost : config->ghosts()) {
-    DEBUG("ghost " << ghost.str());
+  for (const std::shared_ptr<Select>& ghost : config->ghosts()) {
+    DEBUG("ghost " << ghost->str());
   }
   if (center.dimension() == 0) {
     anywhere_.perturb(system, select, random, is_position_held);

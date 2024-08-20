@@ -3,11 +3,12 @@
 #define FEASST_CLUSTER_TRIAL_ROTATE_CLUSTER_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Rigid rotation of a cluster of particles.

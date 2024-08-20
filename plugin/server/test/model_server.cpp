@@ -5,7 +5,7 @@ namespace feasst {
 
 TEST(ModelServer, serialize) {
   auto obj = MakeModelServer();
-  auto obj2 = test_serialize(*obj);
+  auto obj2 = test_serialize(obj);
 }
 
 }  // namespace feasst

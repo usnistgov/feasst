@@ -3,6 +3,6 @@
 
    MacrostateMorph
    PerturbParticleType
-   ComputeMorph
    TrialMorph
    TrialMorphExpanded
+   ComputeMorph

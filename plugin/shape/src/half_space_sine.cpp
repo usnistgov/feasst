@@ -1,4 +1,6 @@
 #include <cmath>
+#include "utils/include/arguments.h"
+#include "utils/include/io.h"
 #include "utils/include/serialize.h"
 #include "math/include/formula.h"
 #include "math/include/constants.h"
@@ -69,7 +71,7 @@ HalfSpaceSine::HalfSpaceSine(std::shared_ptr<FormulaSineWave> sine_wave,
   // solver_ = MakeSolverBisection({{"tolerance", str(1e-8)}});
   // solver_ = MakeSolverNewtonRaphson({{"tolerance", str(1e-8)}, {"guess", "0"}});
   init_sine_dist_deriv_();
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 bool HalfSpaceSine::is_inside(const Position& point) const {

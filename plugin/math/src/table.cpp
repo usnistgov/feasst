@@ -1,5 +1,6 @@
 #include <string>
 #include <fstream>
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"  // resize and fill
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
@@ -24,7 +25,7 @@ void Table1D::calc_d_() {
   bin_spacing_ = bin_spacing(num());
 }
 
-Table1D::Table1D(argtype args) : Table1D(&args) { FEASST_CHECK_ALL_USED(args); }
+Table1D::Table1D(argtype args) : Table1D(&args) { feasst_check_all_used(args); }
 Table1D::Table1D(argtype * args) : Table() {
   const int num = integer("num", args, 1);
   data_.resize(num, dble("default_value", args, 0.));
@@ -57,7 +58,7 @@ double Table1D::linear_interpolation(const double value0) const {
 double Table1D::forward_difference_interpolation(const double value0) const {
   const double sds = value0/bin_spacing_;
   TRACE("sds " << sds);
-  const int k = int(sds);
+  const int k = static_cast<int>(sds);
   ASSERT(k < num(), "k: " << k << " beyond num: " << num());
   TRACE("k " << k);
   const double xi = sds - k;
@@ -110,7 +111,7 @@ void Table2D::calc_d_() {
     bin_spacing(num1())});
 }
 
-Table2D::Table2D(argtype args) : Table2D(&args) { FEASST_CHECK_ALL_USED(args); }
+Table2D::Table2D(argtype args) : Table2D(&args) { feasst_check_all_used(args); }
 Table2D::Table2D(argtype * args) : Table() {
   const int num0 = integer("num0", args, 1);
   const int num1 = integer("num1", args, 1);
@@ -193,7 +194,7 @@ void Table3D::calc_d_() {
     bin_spacing(num2())});
 }
 
-Table3D::Table3D(argtype args) : Table3D(&args) { FEASST_CHECK_ALL_USED(args); }
+Table3D::Table3D(argtype args) : Table3D(&args) { feasst_check_all_used(args); }
 Table3D::Table3D(argtype * args) : Table() {
   const int num0 = integer("num0", args, 1);
   const int num1 = integer("num1", args, 1);
@@ -335,7 +336,7 @@ void Table4D::calc_d_() {
     bin_spacing(num3())});
 }
 
-Table4D::Table4D(argtype args) : Table4D(&args) { FEASST_CHECK_ALL_USED(args); }
+Table4D::Table4D(argtype args) : Table4D(&args) { feasst_check_all_used(args); }
 Table4D::Table4D(argtype * args) : Table() {
   const int num0 = integer("num0", args, 1);
   const int num1 = integer("num1", args, 1);
@@ -419,14 +420,22 @@ double Table4D::linear_interpolation(const double value0,
   TRACE("size1 " << data_[0].size());
   TRACE("size2 " << data_[0][0].size());
   TRACE("size3 " << data_[0][0][0].size());
-  const double c000 = data_[i0][i1][i2][i3] * (1-xd0) + xd0*data_[i02][i1][i2][i3];
-  const double c100 = data_[i0][i12][i2][i3] *(1-xd0) + xd0*data_[i02][i12][i2][i3];
-  const double c010 = data_[i0][i1][i22][i3] *(1-xd0) + xd0*data_[i02][i1][i22][i3];
-  const double c110 = data_[i0][i12][i22][i3]*(1-xd0) + xd0*data_[i02][i12][i22][i3];
-  const double c001 = data_[i0][i1][i2][i32] * (1-xd0) + xd0*data_[i02][i1][i2][i32];
-  const double c101 = data_[i0][i12][i2][i32] *(1-xd0) + xd0*data_[i02][i12][i2][i32];
-  const double c011 = data_[i0][i1][i22][i32] *(1-xd0) + xd0*data_[i02][i1][i22][i32];
-  const double c111 = data_[i0][i12][i22][i32]*(1-xd0) + xd0*data_[i02][i12][i22][i32];
+  const double c000 = data_[i0][i1][i2][i3] * (1-xd0) +
+                  xd0*data_[i02][i1][i2][i3];
+  const double c100 = data_[i0][i12][i2][i3] *(1-xd0) +
+                  xd0*data_[i02][i12][i2][i3];
+  const double c010 = data_[i0][i1][i22][i3] *(1-xd0) +
+                  xd0*data_[i02][i1][i22][i3];
+  const double c110 = data_[i0][i12][i22][i3]*(1-xd0) +
+                  xd0*data_[i02][i12][i22][i3];
+  const double c001 = data_[i0][i1][i2][i32] * (1-xd0) +
+                  xd0*data_[i02][i1][i2][i32];
+  const double c101 = data_[i0][i12][i2][i32] *(1-xd0) +
+                  xd0*data_[i02][i12][i2][i32];
+  const double c011 = data_[i0][i1][i22][i32] *(1-xd0) +
+                  xd0*data_[i02][i1][i22][i32];
+  const double c111 = data_[i0][i12][i22][i32]*(1-xd0) +
+                  xd0*data_[i02][i12][i22][i32];
   TRACE("c000 " << c000 << " c010 " << c010
     << " c001 " << c001 << " c011 " << c011
     << " c100 " << c100 << " c110 " << c110
@@ -499,7 +508,7 @@ void Table5D::calc_d_() {
     bin_spacing(num4())});
 }
 
-Table5D::Table5D(argtype args) : Table5D(&args) { FEASST_CHECK_ALL_USED(args); }
+Table5D::Table5D(argtype args) : Table5D(&args) { feasst_check_all_used(args); }
 Table5D::Table5D(argtype * args) : Table() {
   const int num0 = integer("num0", args, 1);
   const int num1 = integer("num1", args, 1);
@@ -543,27 +552,32 @@ double Table5D::linear_interpolation(const double value0, const double value1,
     << " If periodicity is disabled, place a hard wall at the boundaries.");
   ASSERT(value4 >= 0 && value4 <= 1, "value: " << value4 << " out of bounds. "
     << " If periodicity is disabled, place a hard wall at the boundaries.");
-  TRACE("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 " << i4);
+  TRACE("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 "
+    << i4);
   int i02 = i0 + 1, i12 = i1 + 1, i22 = i2 + 1, i32 = i3 + 1, i42 = i4 + 1;
   if (i02 == n0) i02 = i0;
   if (i12 == n1) i12 = i1;
   if (i22 == n2) i22 = i2;
   if (i32 == n3) i32 = i3;
   if (i42 == n4) i42 = i4;
-  TRACE("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 << " i42 " << i42);
+  TRACE("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 <<
+    " i42 " << i42);
   const double d0 = bin_spacing_[0];
   const double d1 = bin_spacing_[1];
   const double d2 = bin_spacing_[2];
   const double d3 = bin_spacing_[3];
   const double d4 = bin_spacing_[4];
-  TRACE("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3 << " d4 " << d4);
+  TRACE("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3 << " d4 "
+    << d4);
   const double v0 = i0 * d0, vv0 = v0 + d0;
   const double v1 = i1 * d1, vv1 = v1 + d1;
   const double v2 = i2 * d2, vv2 = v2 + d2;
   const double v3 = i3 * d3, vv3 = v3 + d3;
   const double v4 = i4 * d4, vv4 = v4 + d4;
-  TRACE("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3 << " v4 " << v4);
-  TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3 << " vv4 " << vv4);
+  TRACE("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3 << " v4 "
+    << v4);
+  TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3 <<
+    " vv4 " << vv4);
   const double dv0 = vv0 - v0;
   double xd0 = 0.;
   if (std::abs(dv0) > NEAR_ZERO) {
@@ -594,28 +608,45 @@ double Table5D::linear_interpolation(const double value0, const double value1,
   ASSERT(xd2 >= 0 && xd2 <= 1, "xd2 " << xd2);
   ASSERT(xd3 >= 0 && xd3 <= 1, "xd3 " << xd3);
   ASSERT(xd4 >= 0 && xd4 <= 1, "xd4 " << xd4);
-  TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 << " xd4 " << xd4);
+  TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 <<
+    " xd4 " << xd4);
   TRACE("size0 " << data_.size());
   TRACE("size1 " << data_[0].size());
   TRACE("size2 " << data_[0][0].size());
   TRACE("size3 " << data_[0][0][0].size());
   TRACE("size4 " << data_[0][0][0][0].size());
-  const double c0000 = data_[i0][i1][i2][i3][i4] * (1-xd0) + xd0*data_[i02][i1][i2][i3][i4];
-  const double c1000 = data_[i0][i12][i2][i3][i4] *(1-xd0) + xd0*data_[i02][i12][i2][i3][i4];
-  const double c0100 = data_[i0][i1][i22][i3][i4] *(1-xd0) + xd0*data_[i02][i1][i22][i3][i4];
-  const double c1100 = data_[i0][i12][i22][i3][i4]*(1-xd0) + xd0*data_[i02][i12][i22][i3][i4];
-  const double c0010 = data_[i0][i1][i2][i32][i4] * (1-xd0) + xd0*data_[i02][i1][i2][i32][i4];
-  const double c1010 = data_[i0][i12][i2][i32][i4] *(1-xd0) + xd0*data_[i02][i12][i2][i32][i4];
-  const double c0110 = data_[i0][i1][i22][i32][i4] *(1-xd0) + xd0*data_[i02][i1][i22][i32][i4];
-  const double c1110 = data_[i0][i12][i22][i32][i4]*(1-xd0) + xd0*data_[i02][i12][i22][i32][i4];
-  const double c0001 = data_[i0][i1][i2][i3][i42] * (1-xd0) + xd0*data_[i02][i1][i2][i3][i42];
-  const double c1001 = data_[i0][i12][i2][i3][i42] *(1-xd0) + xd0*data_[i02][i12][i2][i3][i42];
-  const double c0101 = data_[i0][i1][i22][i3][i42] *(1-xd0) + xd0*data_[i02][i1][i22][i3][i42];
-  const double c1101 = data_[i0][i12][i22][i3][i42]*(1-xd0) + xd0*data_[i02][i12][i22][i3][i42];
-  const double c0011 = data_[i0][i1][i2][i32][i42] * (1-xd0) + xd0*data_[i02][i1][i2][i32][i42];
-  const double c1011 = data_[i0][i12][i2][i32][i42] *(1-xd0) + xd0*data_[i02][i12][i2][i32][i42];
-  const double c0111 = data_[i0][i1][i22][i32][i42] *(1-xd0) + xd0*data_[i02][i1][i22][i32][i42];
-  const double c1111 = data_[i0][i12][i22][i32][i42]*(1-xd0) + xd0*data_[i02][i12][i22][i32][i42];
+  const double c0000 = data_[i0][i1][i2][i3][i4] * (1-xd0) +
+                   xd0*data_[i02][i1][i2][i3][i4];
+  const double c1000 = data_[i0][i12][i2][i3][i4] *(1-xd0) +
+                   xd0*data_[i02][i12][i2][i3][i4];
+  const double c0100 = data_[i0][i1][i22][i3][i4] *(1-xd0) +
+                   xd0*data_[i02][i1][i22][i3][i4];
+  const double c1100 = data_[i0][i12][i22][i3][i4]*(1-xd0) +
+                   xd0*data_[i02][i12][i22][i3][i4];
+  const double c0010 = data_[i0][i1][i2][i32][i4] * (1-xd0) +
+                   xd0*data_[i02][i1][i2][i32][i4];
+  const double c1010 = data_[i0][i12][i2][i32][i4] *(1-xd0) +
+                   xd0*data_[i02][i12][i2][i32][i4];
+  const double c0110 = data_[i0][i1][i22][i32][i4] *(1-xd0) +
+                   xd0*data_[i02][i1][i22][i32][i4];
+  const double c1110 = data_[i0][i12][i22][i32][i4]*(1-xd0) +
+                   xd0*data_[i02][i12][i22][i32][i4];
+  const double c0001 = data_[i0][i1][i2][i3][i42] * (1-xd0) +
+                   xd0*data_[i02][i1][i2][i3][i42];
+  const double c1001 = data_[i0][i12][i2][i3][i42] *(1-xd0) +
+                   xd0*data_[i02][i12][i2][i3][i42];
+  const double c0101 = data_[i0][i1][i22][i3][i42] *(1-xd0) +
+                   xd0*data_[i02][i1][i22][i3][i42];
+  const double c1101 = data_[i0][i12][i22][i3][i42]*(1-xd0) +
+                   xd0*data_[i02][i12][i22][i3][i42];
+  const double c0011 = data_[i0][i1][i2][i32][i42] * (1-xd0) +
+                   xd0*data_[i02][i1][i2][i32][i42];
+  const double c1011 = data_[i0][i12][i2][i32][i42] *(1-xd0) +
+                   xd0*data_[i02][i12][i2][i32][i42];
+  const double c0111 = data_[i0][i1][i22][i32][i42] *(1-xd0) +
+                   xd0*data_[i02][i1][i22][i32][i42];
+  const double c1111 = data_[i0][i12][i22][i32][i42]*(1-xd0) +
+                   xd0*data_[i02][i12][i22][i32][i42];
   TRACE("c0000 " << c0000 << " c0100 " << c0100
     << " c0010 " << c0010 << " c0110 " << c0110
     << " c1000 " << c1000 << " c1100 " << c1100
@@ -632,8 +663,10 @@ double Table5D::linear_interpolation(const double value0, const double value1,
   const double c101 = c0101*(1-xd1) + xd1*c1101;
   const double c011 = c0011*(1-xd1) + xd1*c1011;
   const double c111 = c0111*(1-xd1) + xd1*c1111;
-  TRACE("c000 " << c000 << " c100 " << c100 << " c010 " << c010 << " c110 " << c110 <<
-        "c001 " << c001 << " c101 " << c101 << " c011 " << c011 << " c111 " << c111);
+  TRACE("c000 " << c000 << " c100 " << c100 <<
+       " c010 " << c010 << " c110 " << c110 <<
+        "c001 " << c001 << " c101 " << c101 <<
+       " c011 " << c011 << " c111 " << c111);
   const double c00 = c000*(1-xd2)+xd2*c100;
   const double c10 = c010*(1-xd2)+xd2*c110;
   const double c01 = c001*(1-xd2)+xd2*c101;
@@ -705,7 +738,7 @@ void Table6D::calc_d_() {
     bin_spacing(num5())});
 }
 
-Table6D::Table6D(argtype args) : Table6D(&args) { FEASST_CHECK_ALL_USED(args); }
+Table6D::Table6D(argtype args) : Table6D(&args) { feasst_check_all_used(args); }
 Table6D::Table6D(argtype * args) : Table() {
   const int num0 = integer("num0", args, 1);
   const int num1 = integer("num1", args, 1);
@@ -757,30 +790,36 @@ double Table6D::linear_interpolation(const double value0, const double value1,
     << " If periodicity is disabled, place a hard wall at the boundaries.");
   ASSERT(value5 >= 0 && value5 <= 1, "value: " << value5 << " out of bounds. "
     << " If periodicity is disabled, place a hard wall at the boundaries.");
-  TRACE("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 " << i4 << " i5 " << i5);
-  int i02 = i0 + 1, i12 = i1 + 1, i22 = i2 + 1, i32 = i3 + 1, i42 = i4 + 1, i52 = i5 + 1;
+  TRACE("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 "
+    << i4 << " i5 " << i5);
+  int i02 = i0 + 1, i12 = i1 + 1, i22 = i2 + 1, i32 = i3 + 1, i42 = i4 + 1,
+      i52 = i5 + 1;
   if (i02 == n0) i02 = i0;
   if (i12 == n1) i12 = i1;
   if (i22 == n2) i22 = i2;
   if (i32 == n3) i32 = i3;
   if (i42 == n4) i42 = i4;
   if (i52 == n5) i52 = i5;
-  TRACE("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 << " i42 " << i42 << " i52 " << i52);
+  TRACE("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 <<
+    " i42 " << i42 << " i52 " << i52);
   const double d0 = bin_spacing_[0];
   const double d1 = bin_spacing_[1];
   const double d2 = bin_spacing_[2];
   const double d3 = bin_spacing_[3];
   const double d4 = bin_spacing_[4];
   const double d5 = bin_spacing_[5];
-  TRACE("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3 << " d4 " << d4 << " d5 " << d5);
+  TRACE("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3 << " d4 "
+    << d4 << " d5 " << d5);
   const double v0 = i0 * d0, vv0 = v0 + d0;
   const double v1 = i1 * d1, vv1 = v1 + d1;
   const double v2 = i2 * d2, vv2 = v2 + d2;
   const double v3 = i3 * d3, vv3 = v3 + d3;
   const double v4 = i4 * d4, vv4 = v4 + d4;
   const double v5 = i5 * d5, vv5 = v5 + d5;
-  TRACE("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3 << " v4 " << v4 << " v5 " << v5);
-  TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3 << " vv4 " << vv4 << " vv5 " << vv5);
+  TRACE("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3 << " v4 "
+    << v4 << " v5 " << v5);
+  TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3 <<
+    " vv4 " << vv4 << " vv5 " << vv5);
   const double dv0 = vv0 - v0;
   double xd0 = 0.;
   if (std::abs(dv0) > NEAR_ZERO) {
@@ -817,45 +856,78 @@ double Table6D::linear_interpolation(const double value0, const double value1,
   ASSERT(xd3 >= 0 && xd3 <= 1, "xd3 " << xd3);
   ASSERT(xd4 >= 0 && xd4 <= 1, "xd4 " << xd4);
   ASSERT(xd5 >= 0 && xd5 <= 1, "xd5 " << xd5);
-  TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 << " xd4 " << xd4 << " xd5 " << xd5);
+  TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 <<
+       " xd4 " << xd4 << " xd5 " << xd5);
   TRACE("size0 " << data_.size());
   TRACE("size1 " << data_[0].size());
   TRACE("size2 " << data_[0][0].size());
   TRACE("size3 " << data_[0][0][0].size());
   TRACE("size4 " << data_[0][0][0][0].size());
   TRACE("size5 " << data_[0][0][0][0][0].size());
-  const double c00000 = data_[i0][i1][i2][i3][i4][i5]     *(1-xd0) + xd0*data_[i02][i1][i2][i3][i4][i5];
-  const double c10000 = data_[i0][i12][i2][i3][i4][i5]    *(1-xd0) + xd0*data_[i02][i12][i2][i3][i4][i5];
-  const double c01000 = data_[i0][i1][i22][i3][i4][i5]    *(1-xd0) + xd0*data_[i02][i1][i22][i3][i4][i5];
-  const double c11000 = data_[i0][i12][i22][i3][i4][i5]   *(1-xd0) + xd0*data_[i02][i12][i22][i3][i4][i5];
-  const double c00100 = data_[i0][i1][i2][i32][i4][i5]    *(1-xd0) + xd0*data_[i02][i1][i2][i32][i4][i5];
-  const double c10100 = data_[i0][i12][i2][i32][i4][i5]   *(1-xd0) + xd0*data_[i02][i12][i2][i32][i4][i5];
-  const double c01100 = data_[i0][i1][i22][i32][i4][i5]   *(1-xd0) + xd0*data_[i02][i1][i22][i32][i4][i5];
-  const double c11100 = data_[i0][i12][i22][i32][i4][i5]  *(1-xd0) + xd0*data_[i02][i12][i22][i32][i4][i5];
-  const double c00010 = data_[i0][i1][i2][i3][i42][i5]    *(1-xd0) + xd0*data_[i02][i1][i2][i3][i42][i5];
-  const double c10010 = data_[i0][i12][i2][i3][i42][i5]   *(1-xd0) + xd0*data_[i02][i12][i2][i3][i42][i5];
-  const double c01010 = data_[i0][i1][i22][i3][i42][i5]   *(1-xd0) + xd0*data_[i02][i1][i22][i3][i42][i5];
-  const double c11010 = data_[i0][i12][i22][i3][i42][i5]  *(1-xd0) + xd0*data_[i02][i12][i22][i3][i42][i5];
-  const double c00110 = data_[i0][i1][i2][i32][i42][i5]   *(1-xd0) + xd0*data_[i02][i1][i2][i32][i42][i5];
-  const double c10110 = data_[i0][i12][i2][i32][i42][i5]  *(1-xd0) + xd0*data_[i02][i12][i2][i32][i42][i5];
-  const double c01110 = data_[i0][i1][i22][i32][i42][i5]  *(1-xd0) + xd0*data_[i02][i1][i22][i32][i42][i5];
-  const double c11110 = data_[i0][i12][i22][i32][i42][i5] *(1-xd0) + xd0*data_[i02][i12][i22][i32][i42][i5];
-  const double c00001 = data_[i0][i1][i2][i3][i4][i52]    *(1-xd0) + xd0*data_[i02][i1][i2][i3][i4][i52];
-  const double c10001 = data_[i0][i12][i2][i3][i4][i52]   *(1-xd0) + xd0*data_[i02][i12][i2][i3][i4][i52];
-  const double c01001 = data_[i0][i1][i22][i3][i4][i52]   *(1-xd0) + xd0*data_[i02][i1][i22][i3][i4][i52];
-  const double c11001 = data_[i0][i12][i22][i3][i4][i52]  *(1-xd0) + xd0*data_[i02][i12][i22][i3][i4][i52];
-  const double c00101 = data_[i0][i1][i2][i32][i4][i52]   *(1-xd0) + xd0*data_[i02][i1][i2][i32][i4][i52];
-  const double c10101 = data_[i0][i12][i2][i32][i4][i52]  *(1-xd0) + xd0*data_[i02][i12][i2][i32][i4][i52];
-  const double c01101 = data_[i0][i1][i22][i32][i4][i52]  *(1-xd0) + xd0*data_[i02][i1][i22][i32][i4][i52];
-  const double c11101 = data_[i0][i12][i22][i32][i4][i52] *(1-xd0) + xd0*data_[i02][i12][i22][i32][i4][i52];
-  const double c00011 = data_[i0][i1][i2][i3][i42][i52]   *(1-xd0) + xd0*data_[i02][i1][i2][i3][i42][i52];
-  const double c10011 = data_[i0][i12][i2][i3][i42][i52]  *(1-xd0) + xd0*data_[i02][i12][i2][i3][i42][i52];
-  const double c01011 = data_[i0][i1][i22][i3][i42][i52]  *(1-xd0) + xd0*data_[i02][i1][i22][i3][i42][i52];
-  const double c11011 = data_[i0][i12][i22][i3][i42][i52] *(1-xd0) + xd0*data_[i02][i12][i22][i3][i42][i52];
-  const double c00111 = data_[i0][i1][i2][i32][i42][i52]  *(1-xd0) + xd0*data_[i02][i1][i2][i32][i42][i52];
-  const double c10111 = data_[i0][i12][i2][i32][i42][i52] *(1-xd0) + xd0*data_[i02][i12][i2][i32][i42][i52];
-  const double c01111 = data_[i0][i1][i22][i32][i42][i52] *(1-xd0) + xd0*data_[i02][i1][i22][i32][i42][i52];
-  const double c11111 = data_[i0][i12][i22][i32][i42][i52]*(1-xd0) + xd0*data_[i02][i12][i22][i32][i42][i52];
+  const double c00000 = data_[i0][i1][i2][i3][i4][i5]     *(1-xd0) +
+                    xd0*data_[i02][i1][i2][i3][i4][i5];
+  const double c10000 = data_[i0][i12][i2][i3][i4][i5]    *(1-xd0) +
+                    xd0*data_[i02][i12][i2][i3][i4][i5];
+  const double c01000 = data_[i0][i1][i22][i3][i4][i5]    *(1-xd0) +
+                    xd0*data_[i02][i1][i22][i3][i4][i5];
+  const double c11000 = data_[i0][i12][i22][i3][i4][i5]   *(1-xd0) +
+                    xd0*data_[i02][i12][i22][i3][i4][i5];
+  const double c00100 = data_[i0][i1][i2][i32][i4][i5]    *(1-xd0) +
+                    xd0*data_[i02][i1][i2][i32][i4][i5];
+  const double c10100 = data_[i0][i12][i2][i32][i4][i5]   *(1-xd0) +
+                    xd0*data_[i02][i12][i2][i32][i4][i5];
+  const double c01100 = data_[i0][i1][i22][i32][i4][i5]   *(1-xd0) +
+                    xd0*data_[i02][i1][i22][i32][i4][i5];
+  const double c11100 = data_[i0][i12][i22][i32][i4][i5]  *(1-xd0) +
+                    xd0*data_[i02][i12][i22][i32][i4][i5];
+  const double c00010 = data_[i0][i1][i2][i3][i42][i5]    *(1-xd0) +
+                    xd0*data_[i02][i1][i2][i3][i42][i5];
+  const double c10010 = data_[i0][i12][i2][i3][i42][i5]   *(1-xd0) +
+                    xd0*data_[i02][i12][i2][i3][i42][i5];
+  const double c01010 = data_[i0][i1][i22][i3][i42][i5]   *(1-xd0) +
+                    xd0*data_[i02][i1][i22][i3][i42][i5];
+  const double c11010 = data_[i0][i12][i22][i3][i42][i5]  *(1-xd0) +
+                    xd0*data_[i02][i12][i22][i3][i42][i5];
+  const double c00110 = data_[i0][i1][i2][i32][i42][i5]   *(1-xd0) +
+                    xd0*data_[i02][i1][i2][i32][i42][i5];
+  const double c10110 = data_[i0][i12][i2][i32][i42][i5]  *(1-xd0) +
+                    xd0*data_[i02][i12][i2][i32][i42][i5];
+  const double c01110 = data_[i0][i1][i22][i32][i42][i5]  *(1-xd0) +
+                    xd0*data_[i02][i1][i22][i32][i42][i5];
+  const double c11110 = data_[i0][i12][i22][i32][i42][i5] *(1-xd0) +
+                    xd0*data_[i02][i12][i22][i32][i42][i5];
+  const double c00001 = data_[i0][i1][i2][i3][i4][i52]    *(1-xd0) +
+                    xd0*data_[i02][i1][i2][i3][i4][i52];
+  const double c10001 = data_[i0][i12][i2][i3][i4][i52]   *(1-xd0) +
+                    xd0*data_[i02][i12][i2][i3][i4][i52];
+  const double c01001 = data_[i0][i1][i22][i3][i4][i52]   *(1-xd0) +
+                    xd0*data_[i02][i1][i22][i3][i4][i52];
+  const double c11001 = data_[i0][i12][i22][i3][i4][i52]  *(1-xd0) +
+                    xd0*data_[i02][i12][i22][i3][i4][i52];
+  const double c00101 = data_[i0][i1][i2][i32][i4][i52]   *(1-xd0) +
+                    xd0*data_[i02][i1][i2][i32][i4][i52];
+  const double c10101 = data_[i0][i12][i2][i32][i4][i52]  *(1-xd0) +
+                    xd0*data_[i02][i12][i2][i32][i4][i52];
+  const double c01101 = data_[i0][i1][i22][i32][i4][i52]  *(1-xd0) +
+                    xd0*data_[i02][i1][i22][i32][i4][i52];
+  const double c11101 = data_[i0][i12][i22][i32][i4][i52] *(1-xd0) +
+                    xd0*data_[i02][i12][i22][i32][i4][i52];
+  const double c00011 = data_[i0][i1][i2][i3][i42][i52]   *(1-xd0) +
+                    xd0*data_[i02][i1][i2][i3][i42][i52];
+  const double c10011 = data_[i0][i12][i2][i3][i42][i52]  *(1-xd0) +
+                    xd0*data_[i02][i12][i2][i3][i42][i52];
+  const double c01011 = data_[i0][i1][i22][i3][i42][i52]  *(1-xd0) +
+                    xd0*data_[i02][i1][i22][i3][i42][i52];
+  const double c11011 = data_[i0][i12][i22][i3][i42][i52] *(1-xd0) +
+                    xd0*data_[i02][i12][i22][i3][i42][i52];
+  const double c00111 = data_[i0][i1][i2][i32][i42][i52]  *(1-xd0) +
+                    xd0*data_[i02][i1][i2][i32][i42][i52];
+  const double c10111 = data_[i0][i12][i2][i32][i42][i52] *(1-xd0) +
+                    xd0*data_[i02][i12][i2][i32][i42][i52];
+  const double c01111 = data_[i0][i1][i22][i32][i42][i52] *(1-xd0) +
+                    xd0*data_[i02][i1][i22][i32][i42][i52];
+  const double c11111 = data_[i0][i12][i22][i32][i42][i52]*(1-xd0) +
+                    xd0*data_[i02][i12][i22][i32][i42][i52];
   const double c0000 = c00000*(1-xd1) + xd1*c10000;
   const double c1000 = c01000*(1-xd1) + xd1*c11000;
   const double c0100 = c00100*(1-xd1) + xd1*c10100;
@@ -888,24 +960,22 @@ double Table6D::linear_interpolation(const double value0, const double value1,
   const double c1 = c01*(1-xd4)+xd4*c11;
   const double rtn = c0*(1-xd5)+xd5*c1;
   if (std::isnan(rtn)) {
-    INFO("num0 " << n0);
-    INFO("num1 " << n1);
-    INFO("num2 " << n2);
-    INFO("num3 " << n3);
-    INFO("num4 " << n4);
-    INFO("num5 " << n5);
-    INFO("value0 " << value0);
-    INFO("value1 " << value1);
-    INFO("value2 " << value2);
-    INFO("value3 " << value3);
-    INFO("value4 " << value4);
-    INFO("value5 " << value5);
-    INFO("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 " << i4 << " i5 " << i5);
-    INFO("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 << " i42 " << i42 << " i52 " << i52);
-    INFO("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3 << " d4 " << d4 << " d5 " << d5);
-    INFO("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3 << " v4 " << v4 << " v5 " << v5);
-    INFO("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3 << " vv4 " << vv4 << " vv5 " << vv5);
-    INFO("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 << " xd4 " << xd4 << " xd5 " << xd5);
+    INFO("num0 " << n0 << " num1 " << n1 << " num2 " << n2 << " num3 " << n3 <<
+      " num4 " << n4 << " num5 " << n5);
+    INFO("value0 " << value0 << "value1 " << value1 << "value2 " << value2 <<
+      " value3 " << value3 << " value4 " << value4 << " value5 " << value5);
+    INFO("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 "
+      << i4 << " i5 " << i5);
+    INFO("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 <<
+      " i42 " << i42 << " i52 " << i52);
+    INFO("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3 << " d4 "
+      << d4 << " d5 " << d5);
+    INFO("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3 << " v4 "
+      << v4 << " v5 " << v5);
+    INFO("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3 <<
+      " vv4 " << vv4 << " vv5 " << vv5);
+    INFO("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 <<
+      " xd4 " << xd4 << " xd5 " << xd5);
     INFO("size0 " << data_.size());
     INFO("size1 " << data_[0].size());
     INFO("size2 " << data_[0][0].size());
@@ -919,7 +989,8 @@ double Table6D::linear_interpolation(const double value0, const double value1,
     INFO("c01111 " << c01111 << " c11111 " << c11111);
     INFO(data_[i0][i12][i22][i32][i42][i52]);
     INFO(data_[i02][i12][i22][i32][i42][i52]);
-    INFO(i02 << " " << i12 << " " << i22 << " " << i32 << " " << i42 << " " << i52);
+    INFO(i02 << " " << i12 << " " << i22 << " " << i32 << " " << i42 << " "
+      << i52);
     FATAL("fatal");
   }
   return rtn;
@@ -977,4 +1048,58 @@ Table6D::Table6D(const std::string file_name) {
   *this = deserialize(line);
 }
 
+std::string Table1D::serialize() const {
+  std::stringstream ss;
+  serialize(ss);
+  return ss.str();
+}
+Table1D Table1D::deserialize(const std::string str) {
+  std::stringstream ss(str);
+  return Table1D(ss);
+}
+std::string Table2D::serialize() const {
+  std::stringstream ss;
+  serialize(ss);
+  return ss.str();
+}
+Table2D Table2D::deserialize(const std::string str) {
+  std::stringstream ss(str);
+  return Table2D(ss);
+}
+std::string Table3D::serialize() const {
+  std::stringstream ss;
+  serialize(ss);
+  return ss.str();
+}
+Table3D Table3D::deserialize(const std::string str) {
+  std::stringstream ss(str);
+  return Table3D(ss);
+}
+std::string Table4D::serialize() const {
+  std::stringstream ss;
+  serialize(ss);
+  return ss.str();
+}
+Table4D Table4D::deserialize(const std::string str) {
+  std::stringstream ss(str);
+  return Table4D(ss);
+}
+std::string Table5D::serialize() const {
+  std::stringstream ss;
+  serialize(ss);
+  return ss.str();
+}
+Table5D Table5D::deserialize(const std::string str) {
+  std::stringstream ss(str);
+  return Table5D(ss);
+}
+std::string Table6D::serialize() const {
+  std::stringstream ss;
+  serialize(ss);
+  return ss.str();
+}
+Table6D Table6D::deserialize(const std::string str) {
+  std::stringstream ss(str);
+  return Table6D(ss);
+}
 }  // namespace feasst

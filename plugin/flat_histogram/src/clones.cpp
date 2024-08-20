@@ -9,12 +9,20 @@
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 #include <fstream>
+#include "utils/include/custom_exception.h"
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 #include "utils/include/checkpoint.h"
 #include "math/include/constants.h"
 #include "math/include/histogram.h"
 #include "math/include/utils_math.h"
+#include "math/include/accumulator.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
+#include "flat_histogram/include/bias.h"
+#include "flat_histogram/include/macrostate.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/clones.h"
 
@@ -51,18 +59,18 @@ MonteCarlo * Clones::get_clone(const int index) {
 void Clones::initialize(const int upper_index, argtype args) {
   const int attempt_batch = integer("attempt_batch", &args, 1);
   const int max_batch = integer("max_batch", &args, -1);
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
   Acceptance empty;
   MonteCarlo * lower = clones_[upper_index - 1].get();
   MonteCarlo * upper = clones_[upper_index].get();
-  FlatHistogram fh_lower = flat_histogram(upper_index - 1);
-  FlatHistogram fh_upper = flat_histogram(upper_index);
-  const double macro_upper_min = fh_upper.macrostate().value(0);
+  std::unique_ptr<FlatHistogram> fh_lower = flat_histogram(upper_index - 1);
+  std::unique_ptr<FlatHistogram> fh_upper = flat_histogram(upper_index);
+  const double macro_upper_min = fh_upper->macrostate().value(0);
   const double macro_lower_max =
-    fh_lower.macrostate().histogram().center_of_last_bin();
+    fh_lower->macrostate().histogram().center_of_last_bin();
 
-  if (fh_upper.macrostate().is_allowed(upper->system(),
-                                       upper->criteria(), empty)) {
+  if (fh_upper->macrostate().is_allowed(upper->system(),
+                                        upper->criteria(), empty)) {
     DEBUG("already initialized");
     return;
   }
@@ -73,7 +81,7 @@ void Clones::initialize(const int upper_index, argtype args) {
   while (!overlap) {
     lower->attempt(attempt_batch);
 
-    const double macro_lower = fh_lower.macrostate().value(
+    const double macro_lower = fh_lower->macrostate().value(
       lower->system(), lower->criteria(), empty);
     DEBUG("macro_lower: " << macro_lower);
     if (is_in_interval(macro_lower, macro_upper_min, macro_lower_max)) {
@@ -134,7 +142,7 @@ void Clones::run_until_complete_omp_(argtype run_args,
   if (used("ln_prob_file", run_args)) {
     ln_prob_file = str("ln_prob_file", &run_args);
   }
-  FEASST_CHECK_ALL_USED(run_args);
+  feasst_check_all_used(run_args);
   std::vector<bool> is_complete(num(), false);
   std::vector<bool> is_initialized(num(), false);
   is_initialized[0] = true;
@@ -210,10 +218,10 @@ void Clones::initialize_and_run_until_complete(argtype run_args,
 #endif // _OPENMP
 }
 
-FlatHistogram Clones::flat_histogram(const int index) const {
+std::unique_ptr<FlatHistogram> Clones::flat_histogram(const int index) const {
   std::stringstream ss;
   clone(index).criteria().serialize(ss);
-  return FlatHistogram(ss);
+  return std::make_unique<FlatHistogram>(ss);
 }
 
 LnProbability Clones::ln_prob(Histogram * macrostates,
@@ -226,9 +234,9 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
   int starting_lower_bin = 0;
   for (int fh_index = 0; fh_index < num() - 1; ++fh_index) {
     DEBUG("fh_index " << fh_index);
-    FlatHistogram fh_lower = flat_histogram(fh_index);
-    FlatHistogram fh_upper = flat_histogram(fh_index + 1);
-    const double macro_upper_min = fh_upper.macrostate().value(0);
+    std::unique_ptr<FlatHistogram> fh_lower = flat_histogram(fh_index);
+    std::unique_ptr<FlatHistogram> fh_upper = flat_histogram(fh_index + 1);
+    const double macro_upper_min = fh_upper->macrostate().value(0);
 
     // Optionally, extract multistate_data
     std::vector<double> lower_data, upper_data;
@@ -242,13 +250,13 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
     std::vector<double> overlap_upper;
     std::vector<double> overlap_lower;
     DEBUG("starting_lower_bin " << starting_lower_bin);
-    DEBUG("lower size " << fh_lower.bias().ln_prob().size());
+    DEBUG("lower size " << fh_lower->bias().ln_prob().size());
     for (int bin = starting_lower_bin;
-         bin < fh_lower.bias().ln_prob().size();
+         bin < fh_lower->bias().ln_prob().size();
          ++bin) {
       DEBUG("bin " << bin);
-      const double macro_lower = fh_lower.macrostate().value(bin);
-      const double ln_prob_lower = fh_lower.bias().ln_prob().value(bin);
+      const double macro_lower = fh_lower->macrostate().value(bin);
+      const double ln_prob_lower = fh_lower->bias().ln_prob().value(bin);
       if (std::abs(macro_lower - macro_upper_min) > NEAR_ZERO &&
           upper_index == 0) {
         DEBUG("macro_lower " << macro_lower);
@@ -258,9 +266,9 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
       } else {
         DEBUG("upper index " << upper_index);
         DEBUG("stitch " << bin);
-        overlap_upper.push_back(fh_upper.bias().ln_prob().value(upper_index));
+        overlap_upper.push_back(fh_upper->bias().ln_prob().value(upper_index));
         overlap_lower.push_back(ln_prob_lower);
-        DEBUG("upper " << fh_upper.bias().ln_prob().value(upper_index));
+        DEBUG("upper " << fh_upper->bias().ln_prob().value(upper_index));
         DEBUG("lower " << ln_prob_lower);
         if (multistate_data) {
           DEBUG("lower data " << lower_data[bin]);
@@ -271,7 +279,7 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
         ++upper_index;
       }
       if (macrostates) {
-        const double lower = fh_lower.macrostate().histogram().edges()[bin];
+        const double lower = fh_lower->macrostate().histogram().edges()[bin];
         edges.push_back(lower);
       }
     }
@@ -292,21 +300,21 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
   }
 
   // now add the non-overlapping part of the last clone
-  FlatHistogram fh = flat_histogram(num() - 1);
+  std::unique_ptr<FlatHistogram> fh = flat_histogram(num() - 1);
   std::vector<double> data;
   if (multistate_data) {
     data = SeekAnalyze().multistate_data(analyze_name, clone(num() - 1), get);
   }
-  for (int bin = starting_lower_bin; bin < fh.bias().ln_prob().size(); ++bin) {
-    ln_prob.push_back(fh.bias().ln_prob().value(bin) + shift);
+  for (int bin = starting_lower_bin; bin < fh->bias().ln_prob().size(); ++bin) {
+    ln_prob.push_back(fh->bias().ln_prob().value(bin) + shift);
     if (macrostates) {
-      const double macro = fh.macrostate().histogram().edges()[bin];
+      const double macro = fh->macrostate().histogram().edges()[bin];
       edges.push_back(macro);
     }
     if (multistate_data) multistate_data->push_back(data[bin]);
   }
   if (macrostates) {
-    edges.push_back(fh.macrostate().histogram().edges().back());
+    edges.push_back(fh->macrostate().histogram().edges().back());
     *macrostates = Histogram();
     macrostates->set_edges(edges);
   }
@@ -381,6 +389,16 @@ void Clones::set_num_iterations_to_complete(const int iterations) {
   for (int index = 0; index < num(); ++index) {
     clones_[index]->get_criteria()->set_num_iterations_to_complete(iterations);
   }
+}
+
+std::string Clones::serialize() const {
+  std::stringstream ss;
+  serialize(ss);
+  return ss.str();
+}
+Clones Clones::deserialize(const std::string str) {
+  std::stringstream ss(str);
+  return Clones(ss);
 }
 
 }  // namespace feasst

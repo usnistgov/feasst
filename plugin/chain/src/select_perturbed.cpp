@@ -1,5 +1,7 @@
-#include "chain/include/select_perturbed.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "chain/include/select_perturbed.h"
 
 namespace feasst {
 
@@ -17,7 +19,7 @@ SelectPerturbed::SelectPerturbed(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectPerturbed";
 }
 SelectPerturbed::SelectPerturbed(argtype args) : SelectPerturbed(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 std::shared_ptr<TrialSelect> SelectPerturbed::create(std::istream& istr) const {

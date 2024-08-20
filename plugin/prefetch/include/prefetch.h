@@ -5,10 +5,11 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/monte_carlo.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Thread;
 
@@ -22,7 +23,6 @@ class Thread;
 class Pool {
  public:
   void set_index(const int index) {
-    DEBUG("index " << index);
     index_ = index; }
   int index() const { return index_; }
   void set_ln_prob(const double ln_prob) { ln_prob_ = ln_prob; }
@@ -33,14 +33,8 @@ class Pool {
   bool auto_rejected() const { return auto_rejected_; }
   void set_endpoint(const bool endpoint) { endpoint_ = endpoint; }
   bool endpoint() const { return endpoint_; }
-
-  const std::string str() const {
-    std::stringstream ss;
-    ss << index_ << " " << ln_prob_ << " " << accepted_;
-    return ss.str();
-  }
-
-  MonteCarlo mc;
+  const std::string str() const;
+  std::unique_ptr<MonteCarlo> mc;
 
  private:
   int index_;

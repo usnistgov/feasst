@@ -1,12 +1,16 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/utils_math.h"
 #include "math/include/random.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/trial_select.h"
 #include "cluster/include/perturb_add_avb.h"
 
 namespace feasst {
 
 PerturbAddAVB::PerturbAddAVB(argtype args) : PerturbAddAVB(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbAddAVB::PerturbAddAVB(argtype * args) : Perturb(args) {
   class_name_ = "PerturbAddAVB";
@@ -35,7 +39,7 @@ void PerturbAddAVB::perturb(
     const bool is_position_held,
     Acceptance * acceptance) {
   DEBUG("is_position_held " << is_position_held);
-  DEBUG(select->mobile().str());
+  //DEBUG(select->mobile().str());
   if (!delay_add_) {
     system->get_configuration()->revive(select->mobile());
   }
@@ -102,6 +106,10 @@ void PerturbAddAVB::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2908, ostr);
   feasst_serialize(delay_add_, ostr);
   feasst_serialize_fstdr(move_, ostr);
+}
+
+void PerturbAddAVB::precompute(TrialSelect * select, System * system) {
+  select->set_ghost(true);
 }
 
 }  // namespace feasst

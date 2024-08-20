@@ -1,6 +1,7 @@
 
 #include <cmath>
 #include "utils/include/debug.h"
+#include "utils/include/arguments.h"
 #include "monte_carlo/include/tunable.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
@@ -13,7 +14,7 @@ Tunable::Tunable(argtype * args) {
   set_percent_change(dble("tunable_percent_change", args, 1));
 }
 Tunable::Tunable(argtype args) : Tunable(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Tunable::set_min_and_max(const double min, const double max) {

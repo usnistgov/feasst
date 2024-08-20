@@ -3,10 +3,11 @@
 #define FEASST_CHARGE_TRIAL_TRANSFER_MULTIPLE_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /// Attempt TrialAddMultiple or TrialRemoveMultiple and split the trial weights
 /// equally.

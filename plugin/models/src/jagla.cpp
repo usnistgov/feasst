@@ -1,7 +1,8 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
 #include "configuration/include/model_params.h"
-#include "example/include/model_param_example.h"
 #include "models/include/jagla.h"
 
 namespace feasst {
@@ -23,7 +24,7 @@ Jagla::Jagla(argtype * args) {
     num_discretized_steps_ << " not implemented");
 }
 Jagla::Jagla(argtype args) : Jagla(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Jagla::precompute(const ModelParams& existing) {

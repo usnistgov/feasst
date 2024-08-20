@@ -1,6 +1,8 @@
 #include <cmath>
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/select.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/long_range_corrections.h"
@@ -51,7 +53,7 @@ void LongRangeCorrections::compute(
   config->num_sites_of_type(group_index, &num_of_site_type_);
   config->num_sites_of_type(selection, &select_types_);
   DEBUG("sel: " << selection.str());
-  DEBUG("num sites of type in selection: " << feasst_str(select_types_));
+//  DEBUG("num sites of type in selection: " << feasst_str(select_types_));
   double en = 0.;
   double factor = -1;
   DEBUG("trial state " << selection.trial_state());
@@ -87,7 +89,7 @@ void LongRangeCorrections::compute(
     const int group_index) {
   double en = 0;
   config->num_sites_of_type(group_index, &num_of_site_type_);
-  DEBUG("num sites of type in group: " << feasst_str(num_of_site_type_));
+//  DEBUG("num sites of type in group: " << feasst_str(num_of_site_type_));
   for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
     for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
       en += num_of_site_type_[type1]*num_of_site_type_[type2]*

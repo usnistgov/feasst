@@ -2,12 +2,17 @@
 #ifndef FEASST_SYSTEM_VISIT_MODEL_CELL_H_
 #define FEASST_SYSTEM_VISIT_MODEL_CELL_H_
 
+#include <map>
+#include <string>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "system/include/visit_model.h"
-#include "system/include/cells.h"
 
 namespace feasst {
+
+class Cells;
+class Select;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Compute many-body inter-particle interactions using a cell list.
@@ -38,7 +43,7 @@ class VisitModelCell : public VisitModel {
     argtype args);
 
   /// Return the cells.
-  const Cells& cells() const { return cells_; }
+  const Cells& cells() const;
 
   /// Return the unique cell number for the position.
   int cell_id(const Domain& domain, const Position& position) const;
@@ -49,7 +54,8 @@ class VisitModelCell : public VisitModel {
   /// Same as base class, but also prepare the cells.
   void precompute(Configuration * config) override;
 
-  void change_volume(const double delta_volume, const int dimension, Configuration * config) override;
+  void change_volume(const double delta_volume, const int dimension,
+                     Configuration * config) override;
 
   void compute(
       ModelTwoBody * model,
@@ -73,19 +79,18 @@ class VisitModelCell : public VisitModel {
     return std::make_shared<VisitModelCell>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelCell(std::istream& istr);
-  VisitModelCell() {} // for mapper only
+  VisitModelCell() {}  // for mapper only
   virtual ~VisitModelCell() {}
 
   //@}
  private:
-  Cells cells_;
+  std::shared_ptr<Cells> cells_;
   std::string min_length_;
   int group_index_;
   std::string group_;
-  Position opt_origin_, opt_rel_, opt_pbc_;
 
   // temporary and not serialized
-  Select one_site_select_;
+  std::shared_ptr<Select> one_site_select_;
   double opt_r2_;
 
   void position_tracker_(const Select& select, Configuration * config);

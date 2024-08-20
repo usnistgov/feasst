@@ -1,5 +1,7 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 //#include "utils/include/timer.h"
+#include "monte_carlo/include/trial_factory.h"
 #include "steppers/include/profile_trials.h"
 
 namespace feasst {
@@ -16,7 +18,7 @@ static MapProfileTrials mapper_ = MapProfileTrials();
 
 ProfileTrials::ProfileTrials(argtype * args) : Analyze(args) {}
 ProfileTrials::ProfileTrials(argtype args) : ProfileTrials(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void ProfileTrials::initialize(Criteria * criteria,

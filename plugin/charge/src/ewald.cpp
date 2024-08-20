@@ -1,14 +1,19 @@
 #include <cmath>  // isnan, pow
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/utils.h"  // find_in_list
 #include "math/include/constants.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/physical_constants.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/visit_configuration.h"
 #include "charge/include/ewald.h"
 
 namespace feasst {
 
-Ewald::Ewald(argtype args) : Ewald(&args) { FEASST_CHECK_ALL_USED(args); }
+Ewald::Ewald(argtype args) : Ewald(&args) { feasst_check_all_used(args); }
 Ewald::Ewald(argtype * args) {
   class_name_ = "Ewald";
   if (used("tolerance", *args)) {
@@ -872,5 +877,17 @@ int Ewald::wave_num(const int vector_index, const int dim) const {
 //  }
 //  return eik()[part_index][site_index][index];
 //}
+
+double Ewald::sum_squared_charge_(const Configuration& config) {
+  double sum_sq_q = 0.;
+  const std::vector<int> num_sites_of_type = config.num_sites_of_type();
+  for (int type = 0;
+       type < static_cast<int>(num_sites_of_type.size());
+       ++type) {
+    const double charge = config.model_params().select(charge_index()).value(type);
+    sum_sq_q += charge*charge*num_sites_of_type[type];
+  }
+  return sum_sq_q;
+}
 
 }  // namespace feasst

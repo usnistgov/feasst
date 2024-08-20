@@ -1,5 +1,11 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/constrain_num_particles.h"
 
 namespace feasst {
@@ -11,7 +17,7 @@ ConstrainNumParticles::ConstrainNumParticles(argtype * args) : Constraint() {
   type_ = integer("type", args, -1);
 }
 ConstrainNumParticles::ConstrainNumParticles(argtype args) : ConstrainNumParticles(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 int ConstrainNumParticles::num_particles(const System& system,

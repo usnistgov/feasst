@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 #include "configuration/include/properties.h"
-#include "configuration/include/typed_entity.h"
 #include "configuration/include/site.h"
 #include "configuration/include/bond.h"
 
@@ -25,10 +24,15 @@ namespace feasst {
   Each site has its own position which is not relative to the position of
   the particle. Reference sites may be stored optionally.
  */
-class Particle : public PropertiedEntity,
-                 public TypedEntity {
+class Particle : public PropertiedEntity {
  public:
-  Particle() : PropertiedEntity(), TypedEntity() {}
+  Particle() : PropertiedEntity() {}
+
+  /// Obtain the type.
+  int type() const { return type_; }
+
+  /// Set the type.
+  void set_type(const int type) { type_ = type; }
 
   /** @name Sites
     Sites of the particle. */
@@ -233,7 +237,8 @@ class Particle : public PropertiedEntity,
                            const int site_index3, const int site_index4) const;
 
   /// List the site indices that form dihedrals with the given site.
-  const std::vector<std::vector<int> >& dihedral_neighbors(const int site) const;
+  const std::vector<std::vector<int> >& dihedral_neighbors(
+    const int site) const;
 
 //  //@}
 //  /** @name Impropers
@@ -277,6 +282,7 @@ class Particle : public PropertiedEntity,
   explicit Particle(std::istream& istr);
 
  private:
+  int type_ = 0;
   std::vector<Site> sites_;
   std::vector<Bond> bonds_;
   std::vector<Angle> angles_;

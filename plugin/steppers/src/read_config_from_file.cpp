@@ -1,4 +1,8 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/acceptance.h"
 #include "steppers/include/read_config_from_file.h"
 
 namespace feasst {
@@ -8,7 +12,7 @@ ReadConfigFromFile::ReadConfigFromFile(argtype * args) : ModifyUpdateOnly(args) 
   xyz_ = FileXYZ(args);
 }
 ReadConfigFromFile::ReadConfigFromFile(argtype args) : ReadConfigFromFile(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapReadConfigFromFile {

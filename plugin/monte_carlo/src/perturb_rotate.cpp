@@ -1,13 +1,19 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
-#include "monte_carlo/include/perturb_rotate.h"
 #include "math/include/constants.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "monte_carlo/include/tunable.h"
+#include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/perturb_rotate.h"
 
 namespace feasst {
 
 PerturbRotate::PerturbRotate(argtype args) : PerturbRotate(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbRotate::PerturbRotate(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbRotate";
@@ -147,6 +153,27 @@ void PerturbRotate::serialize_perturb_rotate_(std::ostream& ostr) const {
 void PerturbRotate::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_rotate_(ostr);
+}
+
+const Position& PerturbRotate::piv_sel_(const Position& pivot,
+                                        const TrialSelect * select) {
+  if (pivot.dimension() == 0) {
+    return select->mobile().site_positions()[0][0];
+  }
+  return pivot;
+}
+
+bool PerturbRotate::is_rotation_not_needed_(const TrialSelect * select,
+    const Position& pivot) {
+  const Select& rotated = select->mobile();
+  if (rotated.num_particles() == 1) {
+    if (static_cast<int>(rotated.site_indices()[0].size()) == 1) {
+      if (rotated.site_positions()[0][0].is_equal(pivot)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 }  // namespace feasst

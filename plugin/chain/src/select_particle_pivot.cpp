@@ -1,13 +1,17 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"  // find_in_list
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "chain/include/select_particle_pivot.h"
 
 namespace feasst {
 
 SelectParticlePivot::SelectParticlePivot(argtype args)
   : SelectParticlePivot(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 SelectParticlePivot::SelectParticlePivot(argtype * args) : TrialSelect(args) {
@@ -29,8 +33,8 @@ void SelectParticlePivot::precompute(System * system) {
   TrialSelect::precompute(system);
   ASSERT(is_particle_type_set(), "required particle_type as argument");
   ASSERT(particle_type() >= 0, "particle_type required and must be >= 0");
-  anchor_.clear();
-  anchor_.add_site(0, pivot_site_);
+  get_anchor()->clear();
+  get_anchor()->add_site(0, pivot_site_);
 }
 
 bool SelectParticlePivot::select(const Select& perturbed,
@@ -43,23 +47,23 @@ bool SelectParticlePivot::select(const Select& perturbed,
   const int index = random->uniform(0, num - 1);
   const Select& group = config.group_select(group_index());
   const int particle_index = group.particle_index(index);
-  if (mobile_.num_sites() == 0) {
-    mobile_ = Select(particle_index, config.select_particle(particle_index));
-    mobile_.remove_sites(particle_index, {pivot_site_});
-    ASSERT(mobile_.num_sites() > 0,
+  if (mobile().num_sites() == 0) {
+    set_mobile(Select(particle_index, config.select_particle(particle_index)));
+    get_mobile()->remove_sites(particle_index, {pivot_site_});
+    ASSERT(mobile().num_sites() > 0,
       "no point pivoting a particle with one site");
-    ASSERT(mobile_.num_sites() == config.select_particle(particle_index).num_sites() - 1, "err");
-    mobile_.resize_positions();
+    ASSERT(mobile().num_sites() == config.select_particle(particle_index).num_sites() - 1, "err");
+    get_mobile()->resize_positions();
   } else {
-    mobile_.set_particle(0, particle_index);
+    get_mobile()->set_particle(0, particle_index);
   }
-  mobile_.load_positions(config.particles());
-  anchor_.set_particle(0, particle_index);
-  DEBUG("selected " << mobile_.str());
+  get_mobile()->load_positions(config.particles());
+  get_anchor()->set_particle(0, particle_index);
+  DEBUG("selected " << mobile().str());
   remove_unphysical_sites(config);
-  ASSERT(mobile_.num_particles() > 0, "all sites shouldn't be unphysical");
+  ASSERT(mobile().num_particles() > 0, "all sites shouldn't be unphysical");
   set_mobile_original(system);
-  DEBUG("selected " << mobile_.str());
+  DEBUG("selected " << mobile().str());
   return true;
 }
 

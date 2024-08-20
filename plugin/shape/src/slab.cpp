@@ -1,4 +1,5 @@
 #include "utils/include/io.h"
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
@@ -23,7 +24,7 @@ Slab::Slab(argtype * args) : ShapeIntersect() {
   int dimension = integer("dimension", args);
   double upper = dble("bound0", args);
   double lower = dble("bound1", args);
-  sort(&lower, &upper);
+  feasst_sort(&lower, &upper);
   ASSERT(upper - lower > NEAR_ZERO, "slab is infinitesimally thin");
   auto half0 = MakeHalfSpace({
     {"dimension", str(dimension)},
@@ -38,7 +39,7 @@ Slab::Slab(argtype * args) : ShapeIntersect() {
   set(half0, half1);
 }
 Slab::Slab(argtype args) : Slab(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void Slab::serialize(std::ostream& ostr) const {

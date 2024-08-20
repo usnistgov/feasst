@@ -7,13 +7,14 @@
 #include <deque>
 #include <string>
 #include <memory>
-#include "utils/include/arguments.h"
-#include "utils/include/cache.h"
-#include "math/include/position.h"
 
 namespace feasst {
 
+class Cache;
+class Position;
 class RotationMatrix;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Psuedo random number generator class.
@@ -181,14 +182,13 @@ class Random {
 //    const double minimum_angle = 0.);
 
   /// Return the cache.
-  const Cache& cache() const { return cache_; }
+  const Cache& cache() const;
 
   /// Set Cache to load.
-  void set_cache_to_load(const bool load) { cache_.set_load(load); }
+  void set_cache_to_load(const bool load);
 
   /// Set Cache to unload.
-  void set_cache_to_unload(const Random& random) {
-    cache_.set_unload(random.cache()); }
+  void set_cache_to_unload(const Random& random);
 
   /// Serialize.
   std::string class_name() const { return class_name_; }
@@ -208,7 +208,7 @@ class Random {
   explicit Random(std::istream& istr);
 
  private:
-  Cache cache_;
+  std::shared_ptr<Cache> cache_;
   bool is_seeded_ = false;
 
   virtual void reseed_(const int seed) = 0;

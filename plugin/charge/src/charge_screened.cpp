@@ -1,8 +1,11 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/table.h"
+#include "configuration/include/physical_constants.h"
 #include "configuration/include/model_params.h"
+#include "configuration/include/physical_constants.h"
 #include "charge/include/charge_screened.h"
 
 namespace feasst {
@@ -23,7 +26,7 @@ ChargeScreened::ChargeScreened(argtype * args) {
   hard_sphere_threshold_sq_ = hs_thres*hs_thres;
 }
 ChargeScreened::ChargeScreened(argtype args) : ChargeScreened(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void ChargeScreened::serialize(std::ostream& ostr) const {

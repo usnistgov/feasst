@@ -1,5 +1,7 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
+#include "system/include/potential.h"
+#include "system/include/system.h"
 #include "chain/include/select_reptate.h"
 #include "chain/test/system_chain.h"
 

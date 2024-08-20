@@ -2,12 +2,13 @@
 #ifndef FEASST_UTILS_PROGRESS_REPORT_H_
 #define FEASST_UTILS_PROGRESS_REPORT_H_
 
-#include <string>
-#include <sstream>
+#include <map>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <string>
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Periodically report on the progress of long tasks and estimate remaining

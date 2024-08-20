@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "configuration/test/config_utils.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/file_particle.h"
 

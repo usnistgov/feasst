@@ -2,10 +2,11 @@
 #define FEASST_CHAIN_TRIAL_SWAP_SWITES_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Swap the types of two sites in a particle.

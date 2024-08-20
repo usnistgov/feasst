@@ -1,6 +1,13 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/system.h"
+#include "system/include/thermo_params.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute_volume.h"
 #include "monte_carlo/include/trial_select.h"
 
@@ -8,7 +15,7 @@ namespace feasst {
 
 TrialComputeVolume::TrialComputeVolume(argtype args) : TrialCompute(&args) {
   class_name_ = "TrialComputeVolume";
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapTrialComputeVolume {
@@ -33,7 +40,7 @@ void TrialComputeVolume::perturb_and_acceptance(
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
   acceptance->set_energy_new(acceptance->energy_new());
   acceptance->set_energy_profile_new(acceptance->energy_profile_new());
-  DEBUG("acceptance en prof " << feasst_str(acceptance->energy_profile_new()));
+//  DEBUG("acceptance en prof " << feasst_str(acceptance->energy_profile_new()));
   const double volume_new = config.domain().volume();
   if (volume_old == volume_new) acceptance->set_reject(true);
   const ThermoParams& thermo = system->thermo_params();

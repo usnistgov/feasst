@@ -3,7 +3,6 @@
 #define FEASST_CHAIN_PERTURB_BRANCH_H_
 
 #include <memory>
-#include <iostream>
 #include "monte_carlo/include/perturb_distance_angle.h"
 #include "system/include/rigid_angle.h"
 #include "chain/include/perturb_branch.h"

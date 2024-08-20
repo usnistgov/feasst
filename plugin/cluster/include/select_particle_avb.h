@@ -4,10 +4,12 @@
 
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
+#include "configuration/include/select.h"
 #include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Select a random particle as target, then selection another particle that has

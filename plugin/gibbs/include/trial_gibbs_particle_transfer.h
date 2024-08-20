@@ -3,10 +3,11 @@
 #define FEASST_GIBBS_TRIAL_GIBBS_PARTICLE_TRANSFER_H_
 
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Attempt TrialGibbsParticleTransferOneWay with equal probability in either direction.

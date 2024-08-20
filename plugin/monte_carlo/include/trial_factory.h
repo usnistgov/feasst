@@ -2,12 +2,18 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_FACTORY_H_
 #define FEASST_MONTE_CARLO_TRIAL_FACTORY_H_
 
-#include <sstream>
+#include <map>
 #include <memory>
+#include <string>
+#include <vector>
 #include "monte_carlo/include/trial.h"
 // #include "utils/include/timer.h"
 
 namespace feasst {
+
+class Random;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Contains multiple Trials.
@@ -101,8 +107,9 @@ class TrialFactory : public Trial {
 
  private:
   std::vector<std::shared_ptr<Trial> > trials_;
-  std::vector<double> * get_cumulative_probability_() { return &((*data_.get_dble_2D())[0]); }
-  //std::vector<double> cumulative_probability_;
+  std::vector<double> * get_cumulative_probability_() {
+    return &((*data_.get_dble_2D())[0]); }
+  // std::vector<double> cumulative_probability_;
   bool adjustable_weights_ = false;
 
   // not to be serialized
@@ -135,7 +142,8 @@ class TrialFactoryNamed {
   virtual std::shared_ptr<TrialFactoryNamed> create(argtype * args) const;
   std::map<std::string, std::shared_ptr<TrialFactoryNamed> >& deserialize_map();
 //  std::shared_ptr<TrialFactoryNamed> deserialize(std::istream& istr);
-  std::shared_ptr<TrialFactoryNamed> factory(const std::string name, argtype * args);
+  std::shared_ptr<TrialFactoryNamed> factory(
+    const std::string name, argtype * args);
 //  explicit TrialFactoryNamed(std::istream& istr);
   virtual ~TrialFactoryNamed() {}
 

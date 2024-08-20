@@ -1,7 +1,5 @@
-TypedEntity
+utils/include/max_precision
 =====================================================
 
-.. doxygenclass:: feasst::TypedEntity
+.. doxygenfile:: utils/include/max_precision.h
    :project: FEASST
-   :members:
-   

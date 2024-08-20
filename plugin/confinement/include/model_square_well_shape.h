@@ -4,9 +4,10 @@
 
 #include "system/include/model_one_body.h"
 #include "shape/include/shape.h"
-#include "utils/include/arguments.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Note that the input shape of this model represents the shape of the cavity.

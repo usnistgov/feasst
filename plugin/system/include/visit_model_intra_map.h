@@ -2,12 +2,15 @@
 #ifndef FEASST_SYSTEM_VISIT_MODEL_INTRA_MAP_H_
 #define FEASST_SYSTEM_VISIT_MODEL_INTRA_MAP_H_
 
+#include <map>
+#include <string>
 #include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "system/include/visit_model.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Intra-particle interactions are computed here.

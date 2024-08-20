@@ -1,11 +1,20 @@
-#include <vector>
-#include "utils/include/serialize.h"
+#include "utils/include/utils.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/io.h"
+#include "utils/include/arguments.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/rosenbluth.h"
+#include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_compute.h"
 
 namespace feasst {
 
 TrialCompute::TrialCompute(argtype args) : TrialCompute(&args) {
-  FEASST_CHECK_ALL_USED(args); }
+  feasst_check_all_used(args); }
 TrialCompute::TrialCompute(argtype * args) {}
 
 void TrialCompute::compute_rosenbluth(

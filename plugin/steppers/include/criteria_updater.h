@@ -6,6 +6,11 @@
 
 namespace feasst {
 
+class Criteria;
+class Random;
+class System;
+class TrialFactory;
+
 /**
   Periodically write Criteria.
  */
@@ -26,7 +31,7 @@ class CriteriaUpdater : public ModifyUpdateOnly {
   void update(Criteria * criteria,
     System * system,
     Random * random,
-    TrialFactory * trial_factory) override { criteria->update(); }
+    TrialFactory * trial_factory) override;
 
   // serialize
   std::string class_name() const override {

@@ -1,10 +1,14 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
 #include "monte_carlo/include/trial_select_dihedral.h"
 
 namespace feasst {
 
 TrialSelectDihedral::TrialSelectDihedral(argtype args) : TrialSelectDihedral(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 TrialSelectDihedral::TrialSelectDihedral(argtype * args) : TrialSelectAngle(args) {
   class_name_ = "TrialSelectDihedral";
@@ -33,7 +37,7 @@ void TrialSelectDihedral::precompute(System * system) {
   DEBUG("anchor3: " << anchor_site3_);
   DEBUG("dihedral_type: " << dihedral_type);
   add_or_set_property("dihedral_type", dihedral_type);
-  anchor_.add_site(0, anchor_site3_);
+  get_anchor()->add_site(0, anchor_site3_);
 }
 
 std::shared_ptr<TrialSelect> TrialSelectDihedral::create(std::istream& istr) const {

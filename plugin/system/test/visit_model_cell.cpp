@@ -2,6 +2,8 @@
 #include "math/include/constants.h"
 #include "math/include/random_mt19937.h"
 #include "math/include/utils_math.h"
+#include "system/test/sys_utils.h"
+#include "system/include/cells.h"
 #include "system/include/visit_model_cell.h"
 #include "system/include/lennard_jones.h"
 #include "configuration/include/file_xyz.h"

@@ -2,14 +2,19 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_H_
 #define FEASST_MONTE_CARLO_PERTURB_H_
 
+#include <memory>
+#include <map>
 #include <string>
-#include "utils/include/arguments.h"
-#include "system/include/system.h"
-#include "monte_carlo/include/acceptance.h"
-#include "monte_carlo/include/tunable.h"
-#include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
+
+class Acceptance;
+class System;
+class Random;
+class TrialSelect;
+class Tunable;
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Perturbations to the system include the following types:
@@ -37,17 +42,16 @@ class Perturb {
   explicit Perturb(argtype * args);
 
   /// Return the tunable parameter.
-  const Tunable& tunable() const { return tunable_; }
+  const Tunable& tunable() const;
 
   /// Set the minimum and maximum values of the tunable parameter.
-  void set_tunable_min_and_max(const double min, const double max) {
-    tunable_.set_min_and_max(min, max); }
+  void set_tunable_min_and_max(const double min, const double max);
 
   /// Set the value of the tunable parameter.
-  void set_tunable(const double value) { tunable_.set_value(value); }
+  void set_tunable(const double value);
 
   /// Tune the parameter based on difference between target and actual.
-  void tune(const double actual) { tunable_.tune(actual); }
+  void tune(const double actual);
 
   virtual void precompute(TrialSelect * select, System * system) {}
 
@@ -110,15 +114,15 @@ class Perturb {
   std::shared_ptr<Perturb> deserialize(std::istream& istr);
   virtual ~Perturb() {}
 
-  void disable_tunable_() { tunable_.disable(); }
+  void disable_tunable_();
 
  protected:
   std::string class_name_ = "Perturb";
   void serialize_perturb_(std::ostream& ostr) const;
-  Perturb(std::istream& istr);
+  explicit Perturb(std::istream& istr);
 
  private:
-  Tunable tunable_;
+  std::shared_ptr<Tunable> tunable_;
 
   // optimzation or temporary object
   bool revert_possible_, finalize_possible_;

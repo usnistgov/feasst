@@ -3,11 +3,12 @@
 #define FEASST_CLUSTER_ENERGY_MAP_ALL_H_
 
 #include <vector>
-#include "utils/include/arguments.h"
 #include "system/include/energy_map.h"
 #include "configuration/include/neighbor_criteria.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Map energies with an inefficient but simple data structure.

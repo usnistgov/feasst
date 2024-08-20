@@ -1,11 +1,10 @@
-
-#include <fstream>
-#include <sstream>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "utils/include/timer.h"
 #include "math/include/utils_math.h"
 #include "system/include/visit_model_cell.h"
+#include "monte_carlo/include/analyze_factory.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/remove_analyze.h"
 
@@ -18,7 +17,7 @@ RemoveAnalyze::RemoveAnalyze(argtype * args) {
   all_ = boolean("all", args, false);
 }
 RemoveAnalyze::RemoveAnalyze(argtype args) : RemoveAnalyze(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapRemoveAnalyze {

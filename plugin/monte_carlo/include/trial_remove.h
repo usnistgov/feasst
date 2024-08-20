@@ -1,11 +1,14 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_REMOVE_H_
 #define FEASST_MONTE_CARLO_TRIAL_REMOVE_H_
 
+#include <map>
+#include <string>
 #include <memory>
-#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /// Attempt to remove a particle.
 class TrialRemove : public Trial {

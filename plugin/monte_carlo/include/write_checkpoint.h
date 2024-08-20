@@ -2,12 +2,15 @@
 #ifndef FEASST_MONTE_CARLO_WRITE_CHECKPOINT_H_
 #define FEASST_MONTE_CARLO_WRITE_CHECKPOINT_H_
 
-#include <vector>
+#include <map>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <string>
+#include <vector>
 #include "monte_carlo/include/action.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Write a Checkpoint.
@@ -26,7 +29,8 @@ class WriteCheckpoint : public Action {
   virtual ~WriteCheckpoint() {}
 };
 
-inline std::shared_ptr<WriteCheckpoint> MakeWriteCheckpoint(argtype args = argtype()) {
+inline std::shared_ptr<WriteCheckpoint> MakeWriteCheckpoint(
+    argtype args = argtype()) {
   return std::make_shared<WriteCheckpoint>(args);
 }
 

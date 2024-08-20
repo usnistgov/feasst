@@ -1,5 +1,7 @@
 #include <iostream>  // std::scientific
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "math/include/accumulator.h"
 #include "steppers/include/cpu_time.h"
 
 namespace feasst {
@@ -15,7 +17,7 @@ static MapCPUTime mapper_ = MapCPUTime();
 
 CPUTime::CPUTime(argtype * args) : AnalyzeWriteOnly(args) {}
 CPUTime::CPUTime(argtype args) : CPUTime(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void CPUTime::initialize(Criteria * criteria,
@@ -33,7 +35,7 @@ std::string CPUTime::write(const Criteria& criteria,
   const double elapsed_hours = cpu_hours() - initialize_time_;
   const double trials_per_second = num_writes_*trials_per_write()
                                   /(elapsed_hours*60*60);
-  accumulator_.accumulate(trials_per_second);
+  accumulator_->accumulate(trials_per_second);
   ss << std::scientific
      << "elapsed_hours: " << elapsed_hours << " "
      << "steps per second: " << trials_per_second << " "

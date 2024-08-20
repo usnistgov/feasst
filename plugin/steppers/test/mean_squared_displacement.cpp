@@ -1,10 +1,14 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
+#include "math/include/accumulator.h"
+#include "configuration/include/configuration.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
+#include "system/include/potential.h"
+#include "system/include/thermo_params.h"
 #include "steppers/include/mean_squared_displacement.h"
 #include "steppers/include/tune.h"
 #include "steppers/include/check_energy.h"
-#include "steppers/include/log_and_movie.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/remove_trial.h"
@@ -36,7 +40,7 @@ TEST(MeanSquaredDisplacement, msd) {
     {"output_file", "tmp/msd.txt"},
   }));
   mc.attempt(1e3);
-  MonteCarlo mc2 = test_serialize(mc);
+  auto mc2 = test_serialize_unique(mc);
 }
 
 }  // namespace feasst

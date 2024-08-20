@@ -27,8 +27,8 @@ TEST(MonteCarlo, TrialModel) {
     {"Tune", {{}}},
     //{"Run", {{"num_trials", "1e2"}}},
   }});
-  auto mc2 = test_serialize(*mc);
-  mc2.run_num_trials(1e2);
+  auto mc2 = test_serialize_unique(*mc);
+  mc2->run_num_trials(1e2);
 }
 
 }  // namespace feasst

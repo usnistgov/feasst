@@ -1,6 +1,12 @@
 #include "utils/test/utils.h"
+#include "monte_carlo/test/monte_carlo_utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
+#include "system/include/system.h"
+#include "system/include/visit_model.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/potential.h"
 #include "system/include/lennard_jones.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/select_particle_avb.h"
@@ -15,7 +21,7 @@ TEST(PerturbAddAVB, gce_add) {
       {"particle_type", "../particle/lj.fstprt"},
       {"add_particles_of_type0", "1"}});
     config->update_positions({{0, 0, 0}});
-    system.add(*config);
+    system.add(config);
   }
   system.add(MakePotential(MakeLennardJones(),
                        MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

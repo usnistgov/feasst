@@ -1,7 +1,9 @@
 #include <algorithm>
+#include "utils/include/arguments.h"
 #include "utils/include/utils.h"  // find_in_list
 #include "utils/include/io.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
 #include "configuration/include/configuration.h"
 #include "cluster/include/energy_map_neighbor.h"
@@ -22,7 +24,7 @@ EnergyMapNeighbor::EnergyMapNeighbor(argtype * args) : EnergyMap(args) {
   class_name_ = "EnergyMapNeighbor";
 }
 EnergyMapNeighbor::EnergyMapNeighbor(argtype args) : EnergyMapNeighbor(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 EnergyMapNeighbor::EnergyMapNeighbor(std::istream& istr) : EnergyMap(istr) {

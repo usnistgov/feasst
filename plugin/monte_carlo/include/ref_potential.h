@@ -2,9 +2,8 @@
 #ifndef FEASST_MONTE_CARLO_REF_POTENTIAL_H_
 #define FEASST_MONTE_CARLO_REF_POTENTIAL_H_
 
-#include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <vector>
 #include "monte_carlo/include/action.h"
 
 namespace feasst {

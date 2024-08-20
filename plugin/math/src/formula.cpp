@@ -1,7 +1,8 @@
-#include "math/include/formula.h"
 #include "utils/include/debug.h"
 #include "utils/include/io.h"
-#include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "utils/include/arguments.h"
+#include "math/include/formula.h"
 
 namespace feasst {
 
@@ -28,7 +29,8 @@ std::shared_ptr<Formula> Formula::deserialize(std::istream& istr) {
     true);
 }
 
-std::shared_ptr<Formula> Formula::factory(const std::string name, argtype * args) {
+std::shared_ptr<Formula> Formula::factory(const std::string name,
+                                          argtype * args) {
   return template_factory(deserialize_map(), name, args);
 }
 

@@ -1,5 +1,8 @@
-#include "steppers/include/check_physicality.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
+#include "steppers/include/check_physicality.h"
 
 namespace feasst {
 
@@ -15,7 +18,7 @@ static MapCheckPhysicality mapper_ = MapCheckPhysicality();
 
 CheckPhysicality::CheckPhysicality(argtype * args) : AnalyzeUpdateOnly(args) {}
 CheckPhysicality::CheckPhysicality(argtype args) : CheckPhysicality(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void CheckPhysicality::serialize(std::ostream& ostr) const {

@@ -1,13 +1,19 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/neighbor_criteria.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/trial_select.h"
 #include "cluster/include/perturb_move_avb.h"
 
 namespace feasst {
 
 PerturbMoveAVB::PerturbMoveAVB(argtype args) : PerturbMoveAVB(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 PerturbMoveAVB::PerturbMoveAVB(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbMoveAVB";

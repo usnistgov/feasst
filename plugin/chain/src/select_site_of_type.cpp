@@ -1,6 +1,10 @@
-#include "chain/include/select_site_of_type.h"
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/configuration.h"
+#include "chain/include/select_site_of_type.h"
 
 namespace feasst {
 
@@ -38,7 +42,7 @@ void SelectSiteOfType::serialize(std::ostream& ostr) const {
 }
 
 SelectSiteOfType::SelectSiteOfType(argtype args) : SelectSiteOfType(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 SelectSiteOfType::SelectSiteOfType(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectSiteOfType";
@@ -98,7 +102,7 @@ bool SelectSiteOfType::select(const Select& perturbed,
     Random * random) {
   const int num = random_site_in_particle(
     configuration(*system),
-    &mobile_,
+    get_mobile(),
     random);
   if (num <= 0) return false;
   set_probability_(1./static_cast<double>(num));

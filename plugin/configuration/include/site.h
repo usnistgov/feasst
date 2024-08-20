@@ -6,7 +6,6 @@
 #include <string>
 #include "math/include/position.h"
 #include "math/include/euler.h"
-#include "configuration/include/typed_entity.h"
 #include "configuration/include/properties.h"
 
 namespace feasst {
@@ -17,10 +16,15 @@ namespace feasst {
   This Site base class contains only those site properties which are unique
   to this particular site and not the same for every site of the same type.
  */
-class Site : public PropertiedEntity,
-             public TypedEntity {
+class Site : public PropertiedEntity {
  public:
   Site();
+
+  /// Obtain the type.
+  int type() const { return type_; }
+
+  /// Set the type.
+  void set_type(const int type) { type_ = type; }
 
   /// Set the Position.
   void set_position(const Position& position) { position_ = position; }
@@ -84,6 +88,7 @@ class Site : public PropertiedEntity,
   virtual ~Site() {}
 
  private:
+  int type_ = 0;
   Position position_;
   Euler euler_;
   bool is_physical_;

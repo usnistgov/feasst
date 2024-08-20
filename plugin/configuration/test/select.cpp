@@ -1,5 +1,6 @@
 #include <vector>
 #include "utils/test/utils.h"
+#include "configuration/test/config_utils.h"
 #include "configuration/include/select.h"
 #include "configuration/include/configuration.h"
 

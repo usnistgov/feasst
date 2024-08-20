@@ -1,4 +1,5 @@
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "cluster/include/select_particle_avb.h"
 #include "cluster/include/perturb_move_avb.h"
 #include "cluster/include/compute_avb4.h"
@@ -34,7 +35,7 @@ TrialAVB4::TrialAVB4(argtype * args) : Trial(args) {
   set(MakeComputeAVB4());
 }
 TrialAVB4::TrialAVB4(argtype args) : TrialAVB4(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 TrialAVB4::TrialAVB4(std::istream& istr) : Trial(istr) {

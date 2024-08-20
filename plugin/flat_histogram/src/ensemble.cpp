@@ -1,7 +1,13 @@
 #include <cmath>
 #include "utils/include/serialize.h"
+#include "utils/include/arguments.h"
 #include "math/include/constants.h"
+#include "math/include/histogram.h"
+#include "math/include/accumulator.h"
+#include "system/include/thermo_params.h"
+#include "system/include/system.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/acceptance.h"
 #include "flat_histogram/include/ensemble.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/clones.h"
@@ -132,7 +138,7 @@ void ExtrapolateBetaGCE::extrapolateBetaGCE_(
     "assumes first marcostate is 0 particles for N and <NU>");
   const double beta_new = dble("beta_new", &args);
   const double beta_original = dble("beta_original", &args);
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
   const double dbeta = beta_new - beta_original;
   DEBUG("dbeta " << dbeta);
   std::vector<double> nu(ln_prob_original_.size());

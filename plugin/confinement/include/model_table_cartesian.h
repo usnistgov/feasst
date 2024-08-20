@@ -3,11 +3,12 @@
 #define FEASST_CONFINEMENT_MODEL_TABLE_CARTESIAN_H_
 
 #include <vector>
-#include "utils/include/arguments.h"
 #include "math/include/table.h"
 #include "system/include/model_one_body.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Shape;
 class System;

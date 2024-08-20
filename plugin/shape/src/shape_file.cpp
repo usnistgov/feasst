@@ -1,4 +1,5 @@
 #include <memory>
+#include "utils/include/arguments_extra.h"
 #include "utils/include/io.h"
 #include "utils/include/file.h"
 #include "utils/include/serialize.h"
@@ -68,7 +69,7 @@ ShapeFile::ShapeFile(argtype * args) : Shape() {
   }
 }
 ShapeFile::ShapeFile(argtype args) : ShapeFile(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void ShapeFile::serialize(std::ostream& ostr) const {

@@ -1,10 +1,9 @@
-
-#include <fstream>
-#include <sstream>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "utils/include/timer.h"
 #include "math/include/utils_math.h"
+#include "system/include/potential.h"
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/ref_potential.h"
@@ -19,7 +18,7 @@ RefPotential::RefPotential(argtype * args) {
   args->clear();
 }
 RefPotential::RefPotential(argtype args) : RefPotential(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapRefPotential {

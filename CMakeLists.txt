@@ -1,10 +1,11 @@
 cmake_minimum_required (VERSION 3.5)
 project (FEASST)
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 14)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -Wall -pedantic -g -pthread")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread -fanalyzer")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
 
 # manually list the plugins

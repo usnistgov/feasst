@@ -3,10 +3,13 @@
 #define FEASST_FLAT_HISTOGRAM_WINDOW_EXPONENTIAL_H_
 
 #include <vector>
-#include "utils/include/arguments.h"
+#include <map>
+#include <string>
 #include "flat_histogram/include/window.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 /**
   Determine windows based on an expontential factor, \f$\alpha\f$.

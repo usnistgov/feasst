@@ -2,9 +2,9 @@
 #ifndef FEASST_MONTE_CARLO_REMOVE_ANALYZE_H_
 #define FEASST_MONTE_CARLO_REMOVE_ANALYZE_H_
 
-#include <vector>
 #include <memory>
-#include "utils/include/arguments.h"
+#include <string>
+#include <vector>
 #include "monte_carlo/include/action.h"
 
 namespace feasst {
@@ -46,7 +46,8 @@ class RemoveAnalyze : public Action {
   bool all_;
 };
 
-inline std::shared_ptr<RemoveAnalyze> MakeRemoveAnalyze(argtype args = argtype()) {
+inline std::shared_ptr<RemoveAnalyze> MakeRemoveAnalyze(
+    argtype args = argtype()) {
   return std::make_shared<RemoveAnalyze>(args);
 }
 

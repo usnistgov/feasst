@@ -5,10 +5,10 @@
 #include <map>
 #include <memory>
 #include <string>
-#include <sstream>
-#include "utils/include/arguments.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Formula;
 
@@ -24,7 +24,7 @@ class Solver {
     - upper: optional upper bound.
     - guess: initial guess for the root.
    */
-  Solver(argtype args = argtype());
+  explicit Solver(argtype args = argtype());
 
   /// Return the tolerance
   double tolerance() const { return tolerance_; }

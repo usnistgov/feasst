@@ -1,9 +1,11 @@
-
 #include <fstream>
-#include <sstream>
+#include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "patch/include/file_xyz_spherocylinder.h"
 
@@ -63,7 +65,7 @@ FileXYZSpherocylinder::FileXYZSpherocylinder(argtype * args) {
   append_ = boolean("append", args, false);
 }
 FileXYZSpherocylinder::FileXYZSpherocylinder(argtype args) : FileXYZSpherocylinder(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void FileXYZSpherocylinder::load(const std::string file_name, Configuration * config) const {
@@ -127,7 +129,7 @@ void FileXYZSpherocylinder::write(const std::string file_name,
     file->open(file_name, std::ofstream::app);
   }
   const Domain& domain = config.domain();
-  (*file.get()) << config.group_selects()[group_index_].num_sites()*expand_factor_/2 << std::endl
+  (*file.get()) << config.group_select(group_index_).num_sites()*expand_factor_/2 << std::endl
     << "-1 ";
   (*file.get()) << std::setprecision(num_places);
   for (int dim = 0; dim < domain.dimension(); ++dim) {

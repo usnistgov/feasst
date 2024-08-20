@@ -2,6 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_DISTANCE_ANGLE_H_
 #define FEASST_MONTE_CARLO_PERTURB_DISTANCE_ANGLE_H_
 
+#include <memory>
 #include "math/include/matrix.h"
 #include "system/include/rigid_angle.h"
 #include "monte_carlo/include/perturb_distance.h"
@@ -39,8 +40,7 @@ class PerturbDistanceAngle : public PerturbDistance {
   double random_angle_radians(const System& system,
     const TrialSelect * select,
     Random * random,
-    double * bond_energy  // return the bond energy for Rosenbluth exclusion
-  );
+    double * bond_energy);  // return the bond energy for Rosenbluth exclusion
 
   /// Place mobile site randomly in the circle about the anchors.
   void place_in_circle(const double distance, const double angle,

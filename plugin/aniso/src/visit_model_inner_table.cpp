@@ -1,8 +1,13 @@
 #include <cmath>  // isnan, pow
 #include <string>
 #include <fstream>
+#include "utils/include/arguments.h"
+#include "utils/include/utils.h"
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/particle_factory.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/model_two_body.h"
@@ -16,7 +21,7 @@ VisitModelInnerTable::VisitModelInnerTable(argtype * args) : VisitModelInner(arg
   ignore_energy_ = boolean("ignore_energy", args, false);
 }
 VisitModelInnerTable::VisitModelInnerTable(argtype args) : VisitModelInnerTable(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 void VisitModelInnerTable::read_table(const std::string file_name,
@@ -38,10 +43,16 @@ void VisitModelInnerTable::read_table(const std::string file_name,
 
   // size arrays
   site_types_.resize(num_sites);
-  std::vector<std::vector<Table5D> > * inner = config->get_table5d();
-  std::vector<std::vector<Table6D> > * energy = config->get_table6d();
+  std::vector<std::vector<std::shared_ptr<Table5D> > > * inner = config->get_table5d();
+  std::vector<std::vector<std::shared_ptr<Table6D> > > * energy = config->get_table6d();
   resize(num_sites, num_sites, inner);
   resize(num_sites, num_sites, energy);
+  for (int i = 0; i < num_sites; ++i) {
+    for (int j = 0; j < num_sites; ++j) {
+      (*inner)[i][j] = std::make_shared<Table5D>();
+      (*energy)[i][j] = std::make_shared<Table6D>();
+    }
+  }
   resize(num_sites, num_sites, &delta_);
   resize(num_sites, num_sites, &gamma_);
   resize(num_sites, num_sites, &smoothing_distance_);
@@ -92,9 +103,9 @@ void VisitModelInnerTable::read_table(const std::string file_name,
       DEBUG("ne3 " << ne3);
       argtype dof = {{"num0", str(ns1)}, {"num1", str(ns2)}, {"num2", str(ne1)},
                      {"num3", str(ne2)}, {"num4", str(ne3)}};
-      Table5D * in = &(*inner)[itype][jtype];
+      Table5D * in = (*inner)[itype][jtype].get();
 //      Table5D * out = &outer_[itype][jtype];
-      Table6D * en = &(*energy)[itype][jtype];
+      Table6D * en = (*energy)[itype][jtype].get();
       *in = Table5D(dof);
       if (num_z > 0 && !ignore_energy) {
 //        *out = Table5D(dof);
@@ -171,10 +182,10 @@ void VisitModelInnerTable::read_table(const std::string file_name,
 //  return false;
 //}
 
-bool VisitModelInnerTable::is_energy_table(const std::vector<std::vector<Table6D> >& energy) const {
+bool VisitModelInnerTable::is_energy_table(const std::vector<std::vector<std::shared_ptr<Table6D> > >& energy) const {
   if (energy.size() > 0) {
     if (energy[0].size() > 0) {
-      if (energy[0][0].num0() > 1) {
+      if (energy[0][0]->num0() > 1) {
         return true;
       }
     }
@@ -198,14 +209,14 @@ void VisitModelInnerTable::precompute(Configuration * config) {
 }
 
 void VisitModelInnerTable::precompute_cutoffs(Configuration * config) {
-  const std::vector<std::vector<Table5D> >& inner = config->table5d();
+  const std::vector<std::vector<std::shared_ptr<Table5D> > >& inner = config->table5d();
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
     for (int t2 = t1; t2 < static_cast<int>(site_types_.size()); ++t2) {
       const int type2 = site_types_[t2];
       ASSERT(type2 < config->num_site_types(),"site type: " << type2 <<
         " in table > number of site types:" << config->num_site_types());
-      const double cutoff = inner[t1][t2].maximum() + delta_[t1][t2];
+      const double cutoff = inner[t1][t2]->maximum() + delta_[t1][t2];
       config->set_model_param("cutoff", type1, type2, cutoff);
       config->set_model_param("cutoff", type2, type1, cutoff);
       INFO("cutoff for " << type1 << "-" << type2 << " site types: " << cutoff);
@@ -217,10 +228,10 @@ void VisitModelInnerTable::precompute_cutoffs(Configuration * config) {
 double VisitModelInnerTable::compute_aniso(const int type1, const int type2,
     const double squared_distance, const double s1, const double s2,
     const double e1, const double e2, const double e3, const Configuration& config) const {
-  const std::vector<std::vector<Table5D> >& innert = config.table5d();
+  const std::vector<std::vector<std::shared_ptr<Table5D> > >& innert = config.table5d();
   TRACE("size1 " << innert.size());
   TRACE("size2 " << innert[0].size());
-  const float inner = innert[type1][type2].linear_interpolation(s1, s2, e1, e2, e3);
+  const float inner = innert[type1][type2]->linear_interpolation(s1, s2, e1, e2, e3);
   TRACE("inner " << inner);
   double en = 0.;
   if (squared_distance < inner*inner) {
@@ -236,7 +247,7 @@ double VisitModelInnerTable::compute_aniso(const int type1, const int type2,
     if (squared_distance < outer*outer) {
       const double gamma = gamma_[type1][type2];
       TRACE("gamma " << gamma);
-      const std::vector<std::vector<Table6D> >& energyt = config.table6d();
+      const std::vector<std::vector<std::shared_ptr<Table6D> > >& energyt = config.table6d();
       if ((std::abs(gamma) < NEAR_ZERO)) {
         en = -1;
       } else if (is_energy_table(energyt)) {
@@ -250,7 +261,7 @@ double VisitModelInnerTable::compute_aniso(const int type1, const int type2,
         }
         TRACE("z " << z);
         if (z > 1.) {
-          en = energyt[type1][type2].linear_interpolation(s1, s2, e1, e2, e3, 1.);
+          en = energyt[type1][type2]->linear_interpolation(s1, s2, e1, e2, e3, 1.);
           const double dx = outer - std::sqrt(squared_distance);
           TRACE("dx " << dx);
           if (dx > smooth && dx < smooth + 1e-5) {
@@ -261,7 +272,7 @@ double VisitModelInnerTable::compute_aniso(const int type1, const int type2,
           }
         } else {
           ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
-          en = energyt[type1][type2].linear_interpolation(s1, s2, e1, e2, e3, z);
+          en = energyt[type1][type2]->linear_interpolation(s1, s2, e1, e2, e3, z);
         }
       }
     }
@@ -328,7 +339,7 @@ void VisitModelInnerTable::compute(
     }
   }
   if (flip) {
-    swap(&type1, &type2);
+    feasst_swap(&type1, &type2);
   }
   TRACE("flip " << flip);
 
@@ -454,9 +465,9 @@ double VisitModelInnerTable::second_virial_coefficient(const Configuration& conf
   const int type2 = integer("site_type2", &args, 0);
   ASSERT(smoothing_distance_[type1][type2] < NEAR_ZERO, "not implemented with smoothing_distance");
   const double beta = dble("beta", &args, 1.);
-  FEASST_CHECK_ALL_USED(args);
-  const Table5D& inner = config.table5d()[type1][type2];
-  const Table6D& energy = config.table6d()[type1][type2];
+  feasst_check_all_used(args);
+  const Table5D& inner = *(config.table5d()[type1][type2]);
+  const Table6D& energy = *(config.table6d()[type1][type2]);
   if (energy.num0() == 1) {
     WARN("Only implemented for hard particles (num_z == 0).");
   }
@@ -574,7 +585,7 @@ double VisitModelInnerTable::second_virial_coefficient(const Configuration& conf
 //  const int type2 = integer("site_type2", &args, 0);
 //  ASSERT(type1 == type2, "only implemented for type1 == type2");
 //  const int expand_t = integer("expand_t", &args, 1);
-//  FEASST_CHECK_ALL_USED(args);
+//  feasst_check_all_used(args);
 //  const Table5D& inner = inner_[type1][type2];
 //  const int ns1 = inner.num0();
 //  const int ns2 = inner.num1();

@@ -2,13 +2,16 @@
 #ifndef FEASST_CONFIGURATION_NEIGHBOR_CRITERIA_H_
 #define FEASST_CONFIGURATION_NEIGHBOR_CRITERIA_H_
 
+#include <map>
 #include <memory>
-#include "utils/include/arguments.h"
-#include "math/include/position.h"
+#include <string>
 
 namespace feasst {
 
+typedef std::map<std::string, std::string> argtype;
+
 class Domain;
+class Position;
 
 // HWH consider applying Shapes from confinement into NeighborCriteria
 // For now, it assumes spheres/circles
@@ -75,7 +78,7 @@ class NeighborCriteria {
   int site_type1_;
 
   // temporary
-  Position rel_, pbc_, origin_;
+  std::shared_ptr<Position> rel_, pbc_, origin_;
 };
 
 inline std::shared_ptr<NeighborCriteria> MakeNeighborCriteria(

@@ -2,33 +2,39 @@
 #include <fstream>
 #include <algorithm>
 #include <iomanip>  // setprecision
+#include "utils/include/arguments.h"
 #include "utils/include/progress_report.h"
 #include "utils/include/utils.h"  // is_equal
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
+#include "math/include/histogram.h"
 #include "math/include/utils_math.h"
 #include "math/include/accumulator.h"
+#include "flat_histogram/include/collection_matrix.h"
 #include "flat_histogram/include/macrostate.h"
+#include "flat_histogram/include/ln_probability.h"
 #include "flat_histogram/include/transition_matrix.h"
 
 namespace feasst {
 
 TransitionMatrix::TransitionMatrix(argtype args) : TransitionMatrix(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 TransitionMatrix::TransitionMatrix(argtype * args) {
   class_name_ = "TransitionMatrix";
   min_visits_ = integer("min_visits", args, 100);
   min_sweeps_ = integer("min_sweeps", args);
   reset_sweeps_ = integer("reset_sweeps", args, -1);
-  collection_ = CollectionMatrix(args);
+  collection_ = std::make_unique<CollectionMatrix>(args);
   average_visits_ = integer("average_visits", args, 0);
   new_sweep_ = integer("new_sweep", args, 0);
   widom_ = boolean("widom", args, false);
   if (widom_) {
-    collection_widom_ = deep_copy(collection_);
+    collection_widom_ = std::make_unique<CollectionMatrix>(*collection_);
   }
+  ln_prob_ = std::make_unique<LnProbability>();
 }
+TransitionMatrix::~TransitionMatrix() {}
 
 void TransitionMatrix::update(
     const int macrostate_old,
@@ -61,25 +67,25 @@ void TransitionMatrix::update(
   DEBUG("macrostate_old " << macrostate_old << " index " << index);
   DEBUG("metropolis_prob " << metropolis_prob);
   if (index == 0) {
-    collection_.increment(macrostate_old, 0, metropolis_prob);
-    collection_.increment(macrostate_old, 1, 0.);
+    collection_->increment(macrostate_old, 0, metropolis_prob);
+    collection_->increment(macrostate_old, 1, 0.);
     if (widom_) {
-      collection_widom_.increment(macrostate_old, 0, metropolis_prob_widom);
-      collection_widom_.increment(macrostate_old, 1, 0.);
+      collection_widom_->increment(macrostate_old, 0, metropolis_prob_widom);
+      collection_widom_->increment(macrostate_old, 1, 0.);
     }
   } else if (index == 1) {
-    collection_.increment(macrostate_old, 0, 0.);
-    collection_.increment(macrostate_old, 1, 0.);
+    collection_->increment(macrostate_old, 0, 0.);
+    collection_->increment(macrostate_old, 1, 0.);
     if (widom_) {
-      collection_widom_.increment(macrostate_old, 0, 0.);
-      collection_widom_.increment(macrostate_old, 1, 0.);
+      collection_widom_->increment(macrostate_old, 0, 0.);
+      collection_widom_->increment(macrostate_old, 1, 0.);
     }
   } else if (index == 2) {
-    collection_.increment(macrostate_old, 0, 0.);
-    collection_.increment(macrostate_old, 1, metropolis_prob);
+    collection_->increment(macrostate_old, 0, 0.);
+    collection_->increment(macrostate_old, 1, metropolis_prob);
     if (widom_) {
-      collection_widom_.increment(macrostate_old, 0, 0.);
-      collection_widom_.increment(macrostate_old, 1, metropolis_prob_widom);
+      collection_widom_->increment(macrostate_old, 0, 0.);
+      collection_widom_->increment(macrostate_old, 1, metropolis_prob_widom);
     }
   } else {
     FATAL("unrecognized index: " << index);
@@ -87,11 +93,11 @@ void TransitionMatrix::update(
 }
 
 void TransitionMatrix::resize(const int size) {
-  ln_prob_.resize(size);
+  ln_prob_->resize(size);
   feasst::resize(size, 2, &visits_);
-  collection_.resize(size);
+  collection_->resize(size);
   if (widom_) {
-    collection_widom_.resize(size);
+    collection_widom_->resize(size);
   }
 }
 
@@ -99,7 +105,7 @@ std::string TransitionMatrix::write() const {
   std::stringstream ss;
   ss << Bias::write();
   ss << "\"num_sweeps\":" << num_sweeps_ << ",";
-  //TRACE("matrix," << feasst_str(collection_.matrix()));
+  //TRACE("matrix," << feasst_str(collection_->matrix()));
   return ss.str();
 }
 
@@ -107,9 +113,9 @@ std::string TransitionMatrix::write_per_bin_header() const {
   std::stringstream ss;
   ss << Bias::write_per_bin_header() << ",";
   ss << "visits0,visits1,";
-  ss << collection_.write_per_bin_header();
+  ss << collection_->write_per_bin_header();
   if (widom_) {
-    ss << collection_widom_.write_per_bin_header(true);
+    ss << collection_widom_->write_per_bin_header(true);
   }
   return ss.str();
 }
@@ -118,9 +124,9 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
   std::stringstream ss;
   ss << Bias::write_per_bin(bin) << ",";
   ss << MAX_PRECISION << visits_[bin][0] << "," << visits_[bin][1] << ",";
-  ss << collection_.write_per_bin(bin);
+  ss << collection_->write_per_bin(bin);
   if (widom_) {
-    ss << collection_widom_.write_per_bin(bin, true);
+    ss << collection_widom_->write_per_bin(bin, true);
   }
   return ss.str();
 }
@@ -140,7 +146,7 @@ int TransitionMatrix::min_vis_calc_(const Macrostate& macro) const {
 void TransitionMatrix::infrequent_update(const Macrostate& macro) {
   DEBUG("TransitionMatrix::infrequent_update_()");
   DEBUG("update the macrostate distribution");
-  collection_.compute_ln_prob(&ln_prob_);
+  collection_->compute_ln_prob(ln_prob_.get());
 
   DEBUG("update the number of sweeps");
   if (new_sweep_ == 0) {
@@ -171,9 +177,9 @@ void TransitionMatrix::infrequent_update(const Macrostate& macro) {
 
 void TransitionMatrix::set_ln_prob(
     const LnProbability& ln_prob) {
-  ASSERT(ln_prob.size() == ln_prob_.size(), "size mismatch: " <<
-    ln_prob.size() << " " << ln_prob_.size());
-  ln_prob_ = ln_prob;
+  ASSERT(ln_prob.size() == ln_prob_->size(), "size mismatch: " <<
+    ln_prob.size() << " " << ln_prob_->size());
+  ln_prob_ = std::make_unique<LnProbability>(ln_prob);
 }
 
 class MapTransitionMatrix {
@@ -195,8 +201,8 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
   ASSERT(class_name_ == "TransitionMatrix", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(version >= 667 && version <= 670, "mismatch version: " << version);
-  feasst_deserialize_fstobj(&ln_prob_, istr);
-  feasst_deserialize_fstobj(&collection_, istr);
+  feasst_deserialize(ln_prob_, istr);
+  feasst_deserialize(collection_, istr);
   feasst_deserialize(&visits_, istr);
   feasst_deserialize(&min_visits_, istr);
   feasst_deserialize(&num_sweeps_, istr);
@@ -208,7 +214,7 @@ TransitionMatrix::TransitionMatrix(std::istream& istr)
   }
   if (version > 669) {
     feasst_deserialize(&widom_, istr);
-    feasst_deserialize_fstobj(&collection_widom_, istr);
+    feasst_deserialize(collection_widom_, istr);
   }
 //  if (version == 667) {  // HWH backwards compatability
 //    int num_blocks, iter_block;
@@ -225,8 +231,8 @@ void TransitionMatrix::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_bias_(ostr);
   feasst_serialize_version(670, ostr);
-  feasst_serialize_fstobj(ln_prob_, ostr);
-  feasst_serialize_fstobj(collection_, ostr);
+  feasst_serialize(ln_prob_, ostr);
+  feasst_serialize(collection_, ostr);
   feasst_serialize(visits_, ostr);
   feasst_serialize(min_visits_, ostr);
   feasst_serialize(num_sweeps_, ostr);
@@ -235,21 +241,21 @@ void TransitionMatrix::serialize(std::ostream& ostr) const {
   feasst_serialize(average_visits_, ostr);
   feasst_serialize(new_sweep_, ostr);
   feasst_serialize(widom_, ostr);
-  feasst_serialize_fstobj(collection_widom_, ostr);
+  feasst_serialize(collection_widom_, ostr);
 }
 
 bool TransitionMatrix::is_equal(const TransitionMatrix& transition_matrix,
     const double tolerance) const {
-  if (!collection_.is_equal(transition_matrix.collection_, tolerance)) {
+  if (!collection_->is_equal(*(transition_matrix.collection_), tolerance)) {
     return false;
   }
   if (widom_) {
-    if (!collection_widom_.is_equal(transition_matrix.collection_widom_,
+    if (!collection_widom_->is_equal(*(transition_matrix.collection_widom_),
                                     tolerance)) {
       return false;
     }
   }
-  if (!ln_prob_.is_equal(transition_matrix.ln_prob_, tolerance)) {
+  if (!ln_prob_->is_equal(*(transition_matrix.ln_prob_), tolerance)) {
     return false;
   }
   if (!feasst::is_equal(visits_, transition_matrix.visits_)) {
@@ -271,26 +277,26 @@ void TransitionMatrix::set_num_iterations_to_complete(const int sweeps) {
   if (num_sweeps_ < min_sweeps_) set_incomplete_();
 }
 
-TransitionMatrix::TransitionMatrix(const Bias& bias) {
-  std::stringstream ss;
-  bias.serialize(ss);
-  *this = TransitionMatrix(ss);
-}
+//std::unique_ptr<TransitionMatrix> TransitionMatrix::tm(const Bias& bias) {
+//  std::stringstream ss;
+//  bias.serialize(ss);
+//  return std::make_unique<TransitionMatrix>(ss);
+//}
 
 void TransitionMatrix::set_cm(const int macro, const Bias& bias) {
   ASSERT(!widom_, "not implemented with widom argument.");
-  collection_.set(macro, bias.cm().matrix()[macro]);
+  collection_->set(macro, bias.cm().matrix()[macro]);
   visits_[macro][0] = bias.visits(macro, 0);
   visits_[macro][1] = bias.visits(macro, 1);
 }
 
 void TransitionMatrix::set_cm(const CollectionMatrix& cm) {
   ASSERT(!widom_, "not implemented with widom argument.");
-  collection_ = cm;
-  const int size = collection_.matrix().size();
-  ln_prob_.resize(size);
+  collection_ = std::make_unique<CollectionMatrix>(cm);
+  const int size = collection_->matrix().size();
+  ln_prob_->resize(size);
   feasst::resize(size, 2, &visits_);
-  collection_.compute_ln_prob(&ln_prob_);
+  collection_->compute_ln_prob(ln_prob_.get());
 }
 
 int TransitionMatrix::num_iterations(const int state, const Macrostate& macro) const {
@@ -309,6 +315,22 @@ bool TransitionMatrix::is_adjust_allowed(const Macrostate& macro) const {
   } else {
     return false;
   }
+}
+
+void TransitionMatrix::resize(const Histogram& histogram) {
+  resize(histogram.size());
+}
+
+const LnProbability& TransitionMatrix::ln_prob() const {
+  return *ln_prob_;
+}
+
+const CollectionMatrix& TransitionMatrix::cm() const {
+  return *collection_;
+}
+
+const int TransitionMatrix::visits(const int macro, const int index) const {
+  return visits_[macro][index];
 }
 
 }  // namespace feasst

@@ -1,8 +1,9 @@
-
-#include <fstream>
-#include <sstream>
+#include "utils/include/arguments.h"
+#include "utils/include/io.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
+#include "math/include/constants.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/select.h"
 #include "configuration/include/file_vmd.h"
@@ -25,10 +26,12 @@ FileXYZ::FileXYZ(argtype * args) {
   euler_ = boolean("euler", args, false);
 }
 FileXYZ::FileXYZ(argtype args) : FileXYZ(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
+FileXYZ::~FileXYZ() {}
 
-bool FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const {
+bool FileXYZ::load_frame(std::ifstream& xyz_file,
+                         Configuration * config) const {
   ASSERT(xyz_file, "xyz_file is empty");
   if (xyz_file.peek() == EOF) {
     return false;
@@ -43,8 +46,6 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const 
   { std::stringstream iss(line);
     double id;
     iss >> id >> coord[0] >> coord[1] >> coord[2]; }
-  //cout << "line " << line << " is " << iss.str() << endl;
-//      cout << "cord " << str(coord) << endl;
   // If third coordinate, z, is zero, then its a 2d simulation.
   if (coord[2] < NEAR_ZERO) {
     coord.pop_back();
@@ -96,6 +97,8 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file, Configuration * config) const 
   if (num_sites != config->num_sites()) {
     DEBUG("update number of particles");
     const int particle_type = 0;
+    INFO("config->num_sites() " << config->num_sites());
+    INFO("config->num_particle_types() " << config->num_particle_types());
     ASSERT(config->num_particle_types() == 1, "assumes 1 particle type");
     if (num_sites < config->num_sites()) {
       int spi = config->num_particles() - 1;
@@ -169,7 +172,7 @@ void FileXYZ::write(const std::string file_name,
     file->open(file_name, std::ofstream::app);
   }
   const Domain& domain = config.domain();
-  (*file.get()) << config.group_selects()[gindex].num_sites() << std::endl
+  (*file.get()) << config.group_select(gindex).num_sites() << std::endl
     << "-1 ";
   (*file.get()) << std::setprecision(num_places);
   for (int dim = 0; dim < domain.dimension(); ++dim) {

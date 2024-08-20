@@ -2,6 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_METROPOLIS_H_
 #define FEASST_MONTE_CARLO_METROPOLIS_H_
 
+#include <memory>
 #include "monte_carlo/include/criteria.h"
 
 namespace feasst {

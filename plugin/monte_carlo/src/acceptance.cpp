@@ -1,6 +1,7 @@
 #include <cmath>
 #include "utils/include/debug.h"
 #include "utils/include/utils.h"
+#include "configuration/include/select.h"
 #include "monte_carlo/include/acceptance.h"
 
 namespace feasst {
@@ -31,34 +32,38 @@ void Acceptance::reset() {
   macrostate_shift_type_.resize(1);
   macrostate_shift_type_[0] = 0.;
   perturbed_.clear();
-  perturbed_.resize(2); // maximum number of configs
+  perturbed_.resize(2);  // maximum number of configs
+  perturbed_[0] = std::make_shared<Select>();
+  perturbed_[1] = std::make_shared<Select>();
 }
 
 void Acceptance::add_to_perturbed(const Select& select, const int config) {
   resize_(config, &perturbed_);
-  perturbed_[config].add(select);
+  perturbed_[config]->add(select);
 }
 
 void Acceptance::set_perturbed_state(const int state, const int config) {
   resize_(config, &perturbed_);
   DEBUG("state " << state);
-  perturbed_[config].set_trial_state(state);
+  perturbed_[config]->set_trial_state(state);
 }
 
 const Select& Acceptance::perturbed(const int config) const {
   ASSERT(config < static_cast<int>(perturbed_.size()),
     "config: " << config << " >= size:" << perturbed_.size() <<
     "Consider increasing max num config in reset()");
-  return perturbed_[config];
+  return *perturbed_[config];
 }
 
-const std::vector<double>& Acceptance::energy_profile_new(const int config) const {
+const std::vector<double>& Acceptance::energy_profile_new(
+    const int config) const {
   ASSERT(config < static_cast<int>(energy_profile_new_.size()),
     "config:" << config << " >= size:" << energy_profile_new_.size());
   return energy_profile_new_[config];
 }
 
-void Acceptance::set_energy_profile_new(const std::vector<double>& energy, const int config) {
+void Acceptance::set_energy_profile_new(const std::vector<double>& energy,
+    const int config) {
   if (config == static_cast<int>(energy_profile_new_.size())) {
     energy_profile_new_.resize(energy_profile_new_.size()+1);
   }
@@ -84,8 +89,8 @@ void Acceptance::add_to_energy_profile_new(const std::vector<double>& energy,
   }
 }
 
-void Acceptance::subtract_from_energy_profile_new(const std::vector<double>& energy,
-    const int config) {
+void Acceptance::subtract_from_energy_profile_new(
+    const std::vector<double>& energy, const int config) {
   resize_(config, &energy_profile_new_);
   DEBUG("config " << config);
   const int current_size = static_cast<int>(energy_profile_new_[config].size());
@@ -102,13 +107,15 @@ void Acceptance::subtract_from_energy_profile_new(const std::vector<double>& ene
   }
 }
 
-const std::vector<double>& Acceptance::energy_profile_old(const int config) const {
+const std::vector<double>& Acceptance::energy_profile_old(
+    const int config) const {
   ASSERT(config < static_cast<int>(energy_profile_old_.size()),
     "config:" << config << " >= size:" << energy_profile_old_.size());
   return energy_profile_old_[config];
 }
 
-void Acceptance::set_energy_profile_old(const std::vector<double>& energy, const int config) {
+void Acceptance::set_energy_profile_old(const std::vector<double>& energy,
+    const int config) {
   resize_(config, &energy_profile_old_);
   energy_profile_old_[config] = energy;
 }
@@ -193,10 +200,10 @@ int Acceptance::num_configurations() const {
 //  INFO("energy_new_ " << energy_new_.size());
 //  INFO("energy_old_ " << energy_old_.size());
 //  INFO("updated_ " << updated_.size());
-  //return static_cast<int>(energy_new_.size());
+  // return static_cast<int>(energy_new_.size());
   return static_cast<int>(updated_.size());
 }
-  
+
 void Acceptance::add_to_macrostate_shift(const int shift, const int config) {
   resize_(config, &macrostate_shift_);
   macrostate_shift_[config] += shift;

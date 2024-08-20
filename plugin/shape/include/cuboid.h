@@ -3,9 +3,10 @@
 #define FEASST_SHAPE_CUBOID_H_
 
 #include "shape/include/shape.h"
-#include "utils/include/arguments.h"
 
 namespace feasst {
+
+typedef std::map<std::string, std::string> argtype;
 
 class Random;
 

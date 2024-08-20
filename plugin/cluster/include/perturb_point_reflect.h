@@ -2,6 +2,7 @@
 #ifndef FEASST_CLUSTER_PERTURB_POINT_REFLECT_H_
 #define FEASST_CLUSTER_PERTURB_POINT_REFLECT_H_
 
+#include "math/include/position.h"
 #include "monte_carlo/include/perturb_move.h"
 
 namespace feasst {

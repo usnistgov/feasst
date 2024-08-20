@@ -1,4 +1,5 @@
 #include <cmath>
+#include "utils/include/arguments.h"
 #include "utils/include/io.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
@@ -16,7 +17,7 @@ FormulaSineWave::FormulaSineWave(argtype * args) : Formula(args) {
   shift_ = dble("shift", args, default_shift());
 }
 FormulaSineWave::FormulaSineWave(argtype args) : FormulaSineWave(&args) {
-  FEASST_CHECK_ALL_USED(args);
+  feasst_check_all_used(args);
 }
 
 class MapFormulaSineWave {

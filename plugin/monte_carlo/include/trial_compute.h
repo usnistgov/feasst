@@ -4,13 +4,18 @@
 
 #include <map>
 #include <string>
+#include <memory>
 #include <vector>
-#include "utils/include/arguments.h"
-#include "system/include/system.h"
-#include "monte_carlo/include/trial_stage.h"
-#include "monte_carlo/include/criteria.h"
 
 namespace feasst {
+
+class Acceptance;
+class Criteria;
+class Random;
+class System;
+class TrialStage;
+
+typedef std::map<std::string, std::string> argtype;
 
 /// Implement the perturbation and calculation of acceptance.
 class TrialCompute {
@@ -47,7 +52,7 @@ class TrialCompute {
  protected:
   std::string class_name_ = "TrialCompute";
   void serialize_trial_compute_(std::ostream& ostr) const;
-  TrialCompute(std::istream& istr);
+  explicit TrialCompute(std::istream& istr);
 };
 
 }  // namespace feasst
