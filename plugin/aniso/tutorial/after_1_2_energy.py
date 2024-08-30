@@ -30,7 +30,7 @@ TabulateTwoRigidBody3D proc {sim} num_proc {num_sims} input_orientation_file {or
 
 def post_process(params):
     """ Combine tables, check their length and launch the next step """
-    subprocess.check_call(['sleep', '5']) # without this command, combine doesn't read all tables?
+    subprocess.check_call(['sleep', '15']) # without this command, combine doesn't read all tables?
     if not os.path.isfile('''{prefix}.txt'''.format(**params)):
         fstio.combine_tables_two_rigid_body(prefix=params['prefix'], suffix='.txt',
                                             num_procs=params['num_sims'])

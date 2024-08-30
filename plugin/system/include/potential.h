@@ -38,7 +38,7 @@ class Potential {
     - table_size: set size of tabular potential (default: 0).
       Do not use table if size <= 0.
     - table_hard_sphere_threshold: If using a table above, set the
-      ModelTwoBodyTable::hard_sphere_threshold (default: 0.85).
+      ModelTwoBodyTable hard_sphere_threshold (default: 0.85).
     - [parameter]/[i]/[j]: as described in Configuration arguments.
     - Model: derived class Model name (default: ModelEmpty).
     - VisitModel: derived class VisitModel name (default: VisitModel).

@@ -352,6 +352,8 @@ void System::change_volume(const double delta_volume, argtype * args) {
     }
   }
   delta_volume_previous_ = delta_volume;
+  // HWH check cutoff is less than half box
+  // HWH or don't change volume at all?
 }
 void System::change_volume(const double delta_volume, argtype args) {
   change_volume(delta_volume, &args);

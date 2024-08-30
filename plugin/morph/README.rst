@@ -5,6 +5,7 @@ Morph
 This plugin is for morphing particle types, including example ensemble simulations.
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

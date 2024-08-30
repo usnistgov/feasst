@@ -98,6 +98,7 @@ Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_eq.xyz configuration_index 0
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
 RemoveModify name Tune
+# decrease trials per due to infrequency of volume transfer attempts
 Tune trials_per_tune 10
 Run until_criteria_complete true
 RemoveModify name Tune

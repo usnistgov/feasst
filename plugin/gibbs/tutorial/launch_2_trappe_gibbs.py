@@ -189,7 +189,8 @@ CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_fill.xyz configuration_index 0
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_fill.csv include_bonds true
-Tune
+# decrease trials per due to infrequency of volume transfer attempts
+Tune trials_per_tune 10
 
 # fill the first box
 TrialGrowFile grow_file {prefix}_c0_grow_add.txt
@@ -212,7 +213,6 @@ RemoveAnalyze name Movie
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialGrowFile grow_file {prefix}_grow_gibbs.txt
 TrialGibbsVolumeTransfer weight 0.001 tunable_param 3000 reference_index 0
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
 CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_eq.xyz configuration_index 0

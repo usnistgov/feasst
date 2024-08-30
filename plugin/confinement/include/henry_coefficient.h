@@ -15,7 +15,21 @@ namespace feasst {
  */
 class HenryCoefficient : public Analyze {
  public:
+  //@{
+  /** @name Arguments
+    - num_beta_taylor: number of derivatives of second virial ratio with
+      respect to beta. (default: 0).
+   */
   explicit HenryCoefficient(argtype args = argtype());
+  explicit HenryCoefficient(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
+  /// Return the number of beta derivatives, starting with 1.
+  int num_beta_taylor() const { return static_cast<int>(beta_taylor_.size()); }
 
   std::string header(const Criteria& criteria,
     const System& system,
@@ -41,6 +55,11 @@ class HenryCoefficient : public Analyze {
     return std::make_shared<HenryCoefficient>(istr); }
   void serialize(std::ostream& ostr) const override;
   explicit HenryCoefficient(std::istream& istr);
+  virtual ~HenryCoefficient() {}
+  //@}
+
+ private:
+  std::vector<Accumulator> beta_taylor_;
 };
 
 inline std::shared_ptr<HenryCoefficient> MakeHenryCoefficient(

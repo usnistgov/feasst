@@ -18,8 +18,8 @@ class MacrostateModel : public Macrostate {
     - Macrostate arguments.
    */
   explicit MacrostateModel(argtype args = argtype());
-  explicit MacrostateModel(argtype * args) :
-    MacrostateModel(Histogram(args), args) {}
+  explicit MacrostateModel(argtype * args);
+
   //@}
   /** @name Public Functions
    */

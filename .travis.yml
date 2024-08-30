@@ -39,7 +39,7 @@ script:
   - cmake -DUSE_SWIG=ON -DUSE_GTEST=ON -DUSE_GCOV=ON ..
 #  - make _feasst
   - make
-  - make coverage
+#  - make coverage
 #  - make install
 #  - make test
 #  - valgrind ./bin/unittest --gtest_filter=-*LONG*

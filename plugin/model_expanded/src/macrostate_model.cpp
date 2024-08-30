@@ -18,6 +18,8 @@ MacrostateModel::MacrostateModel(argtype args) :
     MacrostateModel(Histogram(&args), &args) {
   feasst_check_all_used(args);
 }
+MacrostateModel::MacrostateModel(argtype * args) :
+    MacrostateModel(Histogram(args), args) {}
 
 class MapMacrostateModel {
  public:

@@ -5,6 +5,7 @@ Chain
 Simulate linear chains
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

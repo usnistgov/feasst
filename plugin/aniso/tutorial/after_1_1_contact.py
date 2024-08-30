@@ -70,7 +70,8 @@ if __name__ == '__main__':
     # convert pdb to pqr to fstprt
     if prms['run_type'] != 2:
         for domain in [prms['domain1'], prms['domain2']]:
-            subprocess.check_call('pdb2pqr30 --titration-state-method=propka --with-ph='+str(prms['pH'])+' --ff=PARSE '+domain+'.pdb '+domain+'.pqr --drop-water > '+domain+'.log 2>&1', shell=True, executable='/bin/bash')
+            # example of how pdb is converted to pqr
+            #subprocess.check_call('pdb2pqr30 --titration-state-method=propka --with-ph='+str(prms['pH'])+' --ff=PARSE '+domain+'.pdb '+domain+'.pqr --drop-water > '+domain+'.log 2>&1', shell=True, executable='/bin/bash')
             coarse_grain_pdb.write_fstprt(domain)
 
     fstio.run_simulations(params=prms,

@@ -6,6 +6,7 @@ This plugin is in development and not ready for public use.
 Anisotropic sites with tabular potentials.
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

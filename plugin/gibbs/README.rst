@@ -6,6 +6,7 @@ This plugin is in development and not ready for public use.
 Gibbs ensemble Monte Carlo simulations.
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

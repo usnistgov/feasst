@@ -3,6 +3,7 @@
 #define FEASST_ANISO_VISIT_MODEL_INNER_TABLE_H_
 
 #include <memory>
+#include "math/include/position.h"
 #include "math/include/table.h"
 #include "math/include/matrix.h"
 #include "math/include/euler.h"

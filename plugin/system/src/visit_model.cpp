@@ -7,6 +7,7 @@
 #include "math/include/constants.h"
 #include "math/include/position.h"
 #include "configuration/include/particle_factory.h"
+#include "configuration/include/group.h"
 #include "configuration/include/select.h"
 #include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
@@ -65,19 +66,39 @@ void VisitModel::compute(
     const Select& selection,
     Configuration * config,
     const int group_index) {
-  ASSERT(group_index == 0, "not implemented because redundant to selection");
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain);
   double r2;
-  for (int sel_index = 0; sel_index < selection.num_particles(); ++sel_index) {
-    const int particle_index = selection.particle_index(sel_index);
-    const Particle& part = config->select_particle(particle_index);
-    for (int site_index : selection.site_indices(sel_index)) {
-      const Site& site = part.site(site_index);
-      if (site.is_physical()) {
-        domain.wrap_opt(site.position(), *origin_, relative_.get(), pbc_.get(), &r2);
-        energy_ += model->energy(*relative_, site, *config, model_params);
+  if (group_index == 0) {
+    for (int sel_index = 0; sel_index < selection.num_particles(); ++sel_index) {
+      const int particle_index = selection.particle_index(sel_index);
+      const Particle& part = config->select_particle(particle_index);
+      for (int site_index : selection.site_indices(sel_index)) {
+        const Site& site = part.site(site_index);
+        if (site.is_physical()) {
+          domain.wrap_opt(site.position(), *origin_, relative_.get(),
+                          pbc_.get(), &r2);
+          energy_ += model->energy(*relative_, site, *config, model_params);
+        }
+      }
+    }
+  } else {
+    const Group& grp = config->group_select(group_index).group();
+    for (int sel_index = 0; sel_index < selection.num_particles(); ++sel_index) {
+      const int particle_index = selection.particle_index(sel_index);
+      const Particle& part = config->select_particle(particle_index);
+      if (grp.is_in(part, particle_index)) {
+        for (int site_index : selection.site_indices(sel_index)) {
+          const Site& site = part.site(site_index);
+          if (grp.is_in(site)) {
+            if (site.is_physical()) {
+              domain.wrap_opt(site.position(), *origin_, relative_.get(),
+                              pbc_.get(), &r2);
+              energy_ += model->energy(*relative_, site, *config, model_params);
+            }
+          }
+        }
       }
     }
   }

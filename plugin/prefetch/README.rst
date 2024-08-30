@@ -6,6 +6,7 @@ OMP parallelize Monte Carlo simulations by prefetching trial moves.
 For MacOS, "brew install libomp"
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

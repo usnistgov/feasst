@@ -49,7 +49,7 @@ inline std::shared_ptr<MieLambdaA> MakeMieLambdaA() {
 /**
   The mie_prefactor parameter is given by
 
-  \f$ \epsilon n/(n-m)(n/m)^{m/(n-m} \f$
+  \f$ \epsilon n/(n-m)(n/m)^{m/(n-m)} \f$
 
   where n and m are mie_lambda_r and mie_lambda_a, respectively.
   These are precomputed and do not need to be entered manually but are instead

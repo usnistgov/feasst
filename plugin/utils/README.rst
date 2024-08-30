@@ -5,6 +5,7 @@ Utilities
 This plugin contains basic software utilities.
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

@@ -56,6 +56,7 @@ These classes include pair-wise (two-body) isotropic interactions models.
    models/doc/LennardJonesForceShift_arguments
    models/doc/TablePotential_arguments
    models/doc/Mie_arguments
+   models/doc/MieLambdaR_arguments
    models/doc/Yukawa_arguments
    models/doc/Jagla_arguments
    charge/doc/Coulomb_arguments

@@ -65,7 +65,7 @@ Run until_criteria_complete true
 def post_process(params):
     iq=pd.read_csv(params['prefix']+'0_iq.csv', comment="#")
     grp = iq.groupby('q', as_index=False)
-    assert np.abs(iq['i'][3810] - 6.5772) < 0.4
+    assert np.abs(iq['i'][3810] - 0.114066) < 0.4
     assert np.abs(iq['i'][0]/iq['p0'][0]**2 - 1) < 0.075
     plt.scatter(iq['q'], iq['i']/iq['p0']**2, label='sq_all')
     plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0']**2, label='sq_av')

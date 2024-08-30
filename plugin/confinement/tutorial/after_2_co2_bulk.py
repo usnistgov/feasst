@@ -21,9 +21,9 @@ PARSER.add_argument('--temperature', type=float, default=303, help='temperature 
 PARSER.add_argument('--mu', type=float, default=-16, help='chemical potential')
 PARSER.add_argument('--mu_init', type=float, default=-1, help='initial chemical potential')
 PARSER.add_argument('--beta_init', type=float, default=0.1, help='initial beta to fill adsorbent')
-PARSER.add_argument('--max_particles', type=int, default=400, help='maximum number of particles')
+PARSER.add_argument('--max_particles', type=int, default=395, help='maximum number of particles')
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
-PARSER.add_argument('--min_sweeps', type=int, default=2,
+PARSER.add_argument('--min_sweeps', type=int, default=1,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
 PARSER.add_argument('--cubic_side_length', type=float, default=30,
                     help='cubic periodic boundary length')
@@ -68,7 +68,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 # first, initialize multiple clones into windows
 CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}{node}_lnpi.txt min_window_size -1
-WindowExponential maximum {max_particles} min0 {min_particles} num {procs_per_node} overlap 0 alpha 2.0 min_size 2
+WindowExponential maximum {max_particles} min0 {min_particles} num {procs_per_node} overlap 0 alpha 2.2 min_size 2
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}

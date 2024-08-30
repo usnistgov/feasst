@@ -26,9 +26,9 @@ PARSER.add_argument('--temperature', type=float, default=303, help='temperature 
 PARSER.add_argument('--mu', type=float, default=-20, help='chemical potential')
 PARSER.add_argument('--mu_init', type=float, default=-1, help='initial chemical potential')
 PARSER.add_argument('--beta_init', type=float, default=0.1, help='initial beta to fill adsorbent')
-PARSER.add_argument('--max_particles', type=int, default=250, help='maximum number of particles')
+PARSER.add_argument('--max_particles', type=int, default=150, help='maximum number of particles')
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
-PARSER.add_argument('--min_sweeps', type=int, default=2,
+PARSER.add_argument('--min_sweeps', type=int, default=1,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
 PARSER.add_argument('--cubic_side_length', type=float, default=34.023240,
                     help='cubic periodic boundary length')
@@ -66,7 +66,7 @@ PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
 PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
 PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
-PARAMS['min1'] = PARAMS['min_particles'] + 20
+PARAMS['min1'] = PARAMS['min_particles'] + 10
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -74,7 +74,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 # first, initialize multiple clones into windows
 CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}{node}_lnpi.txt min_window_size -1
-WindowExponential maximum {max_particles} min0 {min_particles} min1 {min1} num {procs_per_node} overlap 0 alpha 2.0 min_size 2
+WindowExponential maximum {max_particles} min0 {min_particles} min1 {min1} num {procs_per_node} overlap 0 alpha 2.2 min_size 2
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}

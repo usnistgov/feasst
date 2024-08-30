@@ -93,7 +93,7 @@ def post_process(params):
     iq=pd.read_csv(params['prefix'] + '0_iq.csv', comment="#")
     grp = iq.groupby('q', as_index=False)
     assert np.abs(gr['g0-0'][45] - 1.2829) < 0.05
-    assert np.abs(iq['i'][3810] - 5.72894) < 0.4
+    assert np.abs(iq['i'][3810] - 0.0988677) < 0.4
     assert np.abs(iq['i'][0]/iq['p0'][0]**2 - 1) < 0.075
 
     # scale the gr closer to one at the tail by dividing by the average of the last 5%

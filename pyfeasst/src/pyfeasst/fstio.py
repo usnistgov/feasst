@@ -114,7 +114,7 @@ def slurm_single_node(params):
         params['max_restarts'] = '0'
     params['queue_command'] = "sbatch --array=0-" + str(params['max_restarts']) + "%1 " + params['prefix'] + "_slurm.txt"
     params['command_to_queue_id'] = " | tail -1 | awk '{print $4}'"
-    if params['scratch'] == None:
+    if params['scratch'] == None or params['scratch'] == 'None':
         params['scratch_slurm_preamble'] = ''
         params['scratch_slurm_postamble'] = ''
     else:
@@ -147,7 +147,7 @@ export OMP_NUM_THREADS={procs_per_sim}
 python {script} --run_type 0 --node {node} --queue_id $SLURM_ARRAY_JOB_ID --queue_task $SLURM_ARRAY_TASK_ID
 {scratch_slurm_postamble}
 if [ $? == 0 ] && [ ! -f {sim_id_file} ]; then
-  echo "Job is done"
+  echo "Simulation complete. Cancelling restarts."
   scancel $SLURM_ARRAY_JOB_ID
 else
   echo "Job is terminating, to be restarted again"
@@ -202,7 +202,10 @@ def run_single(sim, params, args, sim_node_dependent_params, write_feasst_script
             file1.write(str(sim)+'\n')
         # if all sims are complete, post process or test once (by removing sim id file)
         if all_sims_complete(params['sim_id_file'], params['num_sims']):
-            os.remove(params['sim_id_file'])
+            try:
+                os.remove(params['sim_id_file'])
+            except FileNotFoundError:
+                pass
             if post_process is not None:
                 post_process(params)
     return syscode

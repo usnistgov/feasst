@@ -375,3 +375,4 @@ To Do List
 * Hard code version into source code releases. Or update README_html to download releases with wget? Release not just tag?
 * Compress README features list (table?)
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
+* Add a CheckEnergy tolerance relative to the (max value of the) total energy

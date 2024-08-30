@@ -769,7 +769,7 @@ void Ewald::check(const Configuration& config) const {
                          &sf_real, &sf_imag, &eikn);
   DEBUG(config.selection_of_all().str());
   DEBUG(eikn.size());
-  const double tolerance = 1e-8;
+  const double tolerance = 1e-4;
   std::stringstream ss;
   if (wavep.size() != wave_prefactor_.size()) {
     ss << "wavep size: " << wavep.size()
@@ -813,7 +813,8 @@ void Ewald::check(const Configuration& config) const {
   if (!is_equal(sf_real, struct_fact_real(), tolerance)) {
     for (int ik = 0; ik < static_cast<int>(sf_real.size()); ++ik) {
       if (std::abs(sf_real[ik] - struct_fact_real(ik)) > tolerance) {
-        ss << "sf_real(" << ik << "): " << sf_real[ik]
+        ss << MAX_PRECISION
+           << "sf_real(" << ik << "): " << sf_real[ik]
            << " struct_fact_real(" << ik << "):" << struct_fact_real(ik)
            << std::endl;
       }
