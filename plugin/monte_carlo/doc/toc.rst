@@ -8,7 +8,6 @@
    WriteCheckpoint
    Constraint
    ConstrainNumParticles
-   ConvertToRefPotential
    MonteCarlo
    Perturb
    PerturbRemove

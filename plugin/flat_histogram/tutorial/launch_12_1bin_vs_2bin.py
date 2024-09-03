@@ -19,7 +19,7 @@ params = {
     #"cubic_side_length": 8, "fstprt": "/feasst/particle/lj.fstprt", "beta": 1/1.5, "mu": -2.352321,
     "min_particles": 100, "min_sweeps": 1e9,
     "trials_per": 1e6, "hours_per_adjust": 0.01, "hours_per_checkpoint": 1, "seed": random.randrange(1e9), "num_hours": 0.5,
-    "equilibration": 1e6, "num_nodes": 1, "procs_per_sim": 1, "procs_per_node": 4, "script": __file__, "dccb_cut": 2**(1./6.),
+    "equilibration": 1e6, "num_nodes": 1, "procs_per_sim": 1, "procs_per_node": 4, "script": __file__,
     "dir": str(pathlib.Path(__file__).parent.resolve())}
 params["max_particles"] = params["min_particles"] + 1
 params["num_minutes"] = round(params["num_hours"]*60)
@@ -41,7 +41,6 @@ RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
-#ConvertToRefPotential cutoff {dccb_cut} use_cell true
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25

@@ -77,7 +77,7 @@ RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} particle_type1 {pore} cutoff0 2.5 cutoff1 {wca} cutoff0_1 {wca} add_particles_of_type1 1 group0 liquid liquid_particle_type 0 group1 pore pore_particle_type 1
 NeighborCriteria maximum_distance 1.375 minimum_distance 0.9 site_type0 0 site_type1 0
 Potential EnergyMap EnergyMapNeighborCriteria neighbor_index 0 Model LennardJonesForceShift
-ConvertToRefPotential cutoff {dccb_cut} use_cell true
+RefPotential Model LennardJonesForceShift VisitModel VisitModelCell min_length {dccb_cut}
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25

@@ -7,6 +7,7 @@
 #include "system/include/thermo_params.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/dont_visit_model.h"
+#include "system/include/visit_model_cell.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/potential.h"
 #include "system/include/lennard_jones.h"
@@ -148,7 +149,7 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
     }
   } else {
     ref = 0;
-    mc->run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));
+    mc->add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
   }
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->set(MakeMetropolis());
@@ -573,7 +574,7 @@ std::shared_ptr<MonteCarlo> rpm_fh_test(
     const int min = 0,
     const int max = 2,
     const int trials_per = 1e3,
-    const int num_steps = 1) {
+    const int num_steps = 8) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
@@ -581,10 +582,8 @@ std::shared_ptr<MonteCarlo> rpm_fh_test(
     {"cutoff", "4.891304347826090"},
     {"kmax_squared", "38"},
     {"alpha", str(6.87098396396261/12)}};
-  int ref = -1;
   if (num_steps > 1) {
     rpm_args.insert({"dual_cut", "1"});
-    ref = 0;
   }
   mc.add(MakeConfiguration({{"cubic_side_length", "12"},
     {"particle_type0", install_dir() + "/plugin/charge/particle/rpm_plus.fstprt"},
@@ -594,11 +593,11 @@ std::shared_ptr<MonteCarlo> rpm_fh_test(
     {"charge1", str(-1/std::sqrt(CODATA2018().charge_conversion()))}}));
   mc.add(MakePotential(MakeEwald({{"alpha", str(6.87098396396261/12)},
     {"kmax_squared", "38"}})));
-  mc.add(MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(), MakeChargeScreened()),
-                                    {{"table_size", "1e6"}}));
+  mc.add(MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
+    MakeChargeScreened({{"erfc_table_size", "2e4"}}))));
   mc.add(MakePotential(MakeChargeSelf()));
-
-  mc.add_to_reference(MakePotential(MakeDontVisitModel()));
+  mc.add_to_reference(MakePotential(MakeHardSphere(),
+    MakeVisitModelCell({{"min_length", "1.2"}})));
   INFO("charge conversion " << MAX_PRECISION << CODATA2018().charge_conversion());
   const double temperature = 0.047899460618081;
   const double beta_mu = -13.94;
@@ -615,9 +614,7 @@ std::shared_ptr<MonteCarlo> rpm_fh_test(
   INFO("beta_mu " << mc.system().thermo_params().beta_mu(0));
   mc.add(MakeTrialTranslate({
     {"weight", "0.25"},
-    {"tunable_param", "0.1"},
-    {"reference_index", str(ref)},
-    {"num_steps", str(num_steps)}}));
+    {"tunable_param", "0.1"}}));
   mc.add(MakeTrialTransferMultiple({
     {"weight", "4."},
     {"particle_type0", "0"},

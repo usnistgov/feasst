@@ -7,6 +7,7 @@
 #include "system/include/hard_sphere.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/dont_visit_model.h"
+#include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
@@ -658,7 +659,7 @@ TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
-  mc.run(MakeConvertToRefPotential({{"cutoff", "1"}, {"use_cell", "true"}}));
+  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));
   mc.get_system()->get_configuration()->add_particle_of_type(0);
   mc.set(MakeThermoParams({{"beta", str(1/1.5)}, {"chemical_potential", "-2.352321"}}));
   mc.set(MakeMetropolis());

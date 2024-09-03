@@ -48,6 +48,8 @@ void ConvertToRefPotential::serialize(std::ostream& ostr) const {
 }
 
 void ConvertToRefPotential::run(MonteCarlo * mc) {
+  WARN("ConvertToRefPotential is deprecated. "
+    << "Use RefPotential instead.");
   const Potential& pot = mc->system().potential(potential_index_);
   std::stringstream ss;
   pot.serialize(ss);

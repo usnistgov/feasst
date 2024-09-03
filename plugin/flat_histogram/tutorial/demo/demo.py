@@ -33,7 +33,7 @@ RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff 2.5
 Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
-ConvertToRefPotential cutoff {dccb_cut} use_cell true
+RefPotential Model LennardJones VisitModel VisitModelCell min_length {dccb_cut}
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25

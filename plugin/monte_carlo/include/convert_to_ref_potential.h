@@ -10,6 +10,8 @@ namespace feasst {
 
 /**
   Make a new reference potential based on an existing potential.
+  This class is deprecated.
+  Use RefPotential instead.
  */
 class ConvertToRefPotential : public Action {
  public:
