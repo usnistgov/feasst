@@ -18,7 +18,6 @@
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/remove_modify.h"
-#include "monte_carlo/include/convert_to_ref_potential.h"
 #include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"

@@ -28,7 +28,6 @@
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/remove_trial.h"
 #include "monte_carlo/include/remove_modify.h"
-#include "monte_carlo/include/convert_to_ref_potential.h"
 #include "monte_carlo/test/monte_carlo_benchmark.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
