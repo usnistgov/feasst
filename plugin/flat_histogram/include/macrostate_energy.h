@@ -40,7 +40,7 @@ class MacrostateEnergy : public Macrostate {
   std::shared_ptr<Macrostate> create(argtype * args) const override;
   void serialize(std::ostream& ostr) const override;
   explicit MacrostateEnergy(std::istream& istr);
-  virtual ~MacrostateEnergy() {}
+  virtual ~MacrostateEnergy();
   //@}
 };
 

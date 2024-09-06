@@ -34,7 +34,7 @@ PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
                     help='number of iterations for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
-PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
+PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
                     help='0: run, 1: submit to queue, 2: post-process')
 PARSER.add_argument('--seed', type=int, default=-1,

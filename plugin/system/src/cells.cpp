@@ -143,4 +143,16 @@ Cells::Cells(std::istream& sstr) {
   feasst_deserialize_fstobj(&particles_, sstr);
 }
 
+void Cells::update(const Select& select, const int cell_new, const int cell_old) {
+  //ASSERT(cell_old < static_cast<int>(particles_.size()),
+  //  "cell_old:" << cell_old << " >= number of cells:" << particles_.size());
+  // skip if there are no longer that many cells
+  if (cell_old < static_cast<int>(particles_.size())) {
+    particles_[cell_old].remove(select);
+  }
+  ASSERT(cell_new < static_cast<int>(particles_.size()),
+    "cell_new:" << cell_new << " >= number of cells:" << particles_.size());
+  particles_[cell_new].add(select);
+}
+
 }  // namespace feasst

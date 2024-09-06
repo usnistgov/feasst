@@ -26,6 +26,7 @@ Histogram::Histogram(argtype * args) {
     set_width_min_max(width, min, max);
   }
 }
+Histogram::~Histogram() {}
 
 void Histogram::set_bin_size(const std::shared_ptr<Formula> bin_size) {
   set_expandable_();

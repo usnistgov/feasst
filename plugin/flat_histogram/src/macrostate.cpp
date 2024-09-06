@@ -36,6 +36,7 @@ Macrostate::Macrostate(argtype args) :
     Macrostate(Histogram(&args), &args) {
   feasst_check_all_used(args);
 }
+Macrostate::~Macrostate() {}
 
 bool Macrostate::is_allowed(const System& system,
                             const Criteria& criteria,

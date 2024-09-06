@@ -31,13 +31,19 @@ typedef std::map<std::string, std::string> argtype;
  */
 class Accumulator {
  public:
-  /**
+  //@{
+  /** @name Arguments
     args:
     - num_moments: maximum number of moments (default: 5).
     - max_block_operations: maximum number of blocking operations (default: 6).
    */
   explicit Accumulator(argtype args = argtype());
   explicit Accumulator(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the maximum number of block operations.
   int max_block_operations() const { return max_block_operations_; }
@@ -149,7 +155,9 @@ class Accumulator {
 
   void serialize(std::ostream& ostr) const;
   explicit Accumulator(std::istream& istr);
+  ~Accumulator();
 
+  //@}
  private:
   double max_, min_;
   double last_value_;

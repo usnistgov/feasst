@@ -202,11 +202,13 @@ def run_single(sim, params, args, sim_node_dependent_params, write_feasst_script
             file1.write(str(sim)+'\n')
         # if all sims are complete, post process or test once (by removing sim id file)
         if all_sims_complete(params['sim_id_file'], params['num_sims']):
+            removed = False
             try:
                 os.remove(params['sim_id_file'])
+                removed = True
             except FileNotFoundError:
                 pass
-            if post_process is not None:
+            if post_process is not None and removed:
                 post_process(params)
     return syscode
 

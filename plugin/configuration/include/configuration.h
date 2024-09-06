@@ -49,7 +49,13 @@ class Configuration {
  public:
   //@{
   /** @name Arguments
+    The following arguments are parsed in the order listed,
+    regardless of the order input by the user.
+
     - Domain arguments may be parsed here.
+    - physical_constants: optional class_name of PhysicalConstants.
+      These are typically only used in charged interactions to compute the
+      conversion factor between squared charge over distance and energy.
     - particle_type[i]: add the i-th type of particle.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       If only one particle type, the "[i]" is optional.
@@ -58,13 +64,11 @@ class Configuration {
     - xyz_file: optionally load FileXYZ if not empty (default: empty).
       Note that Domain tilt factors are not read by FileXYZ.
     - xyz_euler_file: optionally load FileXYZEuler if not empty (default: empty).
+    - group[i]: set the name of the "i"-th group.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      All following arguments of the group are then expected to have the name
+      prepended (e.g., "group0 water water_particle_type 0").
     - wrap: wrap particle centers within domain (default: true).
-    - physical_constants: optional class_name of PhysicalConstants.
-      These are typically only used in charged interactions to compute the
-      conversion factor between squared charge over distance and energy.
-    - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
-      (default: false). This is typically used for HardSphere models that
-      didn't specify cutoff.
     - [parameter]: optionally set the [parameter] of all types to this value.
       The "[parameter]" is to be substituted for epsilon, sigma, cutoff, etc.
     - [parameter][i]: optionally set the [parameter] of the i-th site type.
@@ -75,10 +79,9 @@ class Configuration {
       These are applied after (overriding) the above argument for single types.
     - [parameter]_mixing_file: override default mixing parameters with this
       file in the three-column space-separated format of "i j [param]_ij".
-    - group[i]: set the name of the "i"-th group.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      All following arguments of the group are then expected to have the name
-      prepended (e.g., "group0 water water_particle_type 0").
+    - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
+      (default: false). This is typically used for HardSphere models that
+      didn't specify cutoff.
    */
   explicit Configuration(argtype args = argtype());
   explicit Configuration(argtype * args);

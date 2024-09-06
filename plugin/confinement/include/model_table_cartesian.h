@@ -10,6 +10,8 @@ namespace feasst {
 
 typedef std::map<std::string, std::string> argtype;
 
+class Domain;
+class Random;
 class Shape;
 class System;
 

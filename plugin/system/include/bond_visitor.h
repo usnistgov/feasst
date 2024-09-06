@@ -14,6 +14,8 @@ class RigidBond;
 class RigidAngle;
 class RigidDihedral;
 
+typedef std::map<std::string, std::string> argtype;
+
 class BondVisitor {
  public:
   /**

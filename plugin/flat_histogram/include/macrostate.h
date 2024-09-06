@@ -105,7 +105,7 @@ class Macrostate {
   std::shared_ptr<Macrostate> deserialize(std::istream& istr);
   std::shared_ptr<Macrostate> factory(const std::string name, argtype * args);
   explicit Macrostate(std::istream& istr);
-  virtual ~Macrostate() {}
+  virtual ~Macrostate();
 
   //@}
  protected:

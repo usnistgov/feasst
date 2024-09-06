@@ -123,6 +123,8 @@ class Acceptance {
   /// Return the perturbed selection.
   const Select& perturbed(const int config = 0) const;
 
+  ~Acceptance();
+
  private:
   double ln_metropolis_prob_;
   std::vector<double> energy_new_;

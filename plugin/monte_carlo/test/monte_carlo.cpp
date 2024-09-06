@@ -651,7 +651,7 @@ TEST(MonteCarlo, arglist) {
 TEST(MonteCarlo, gen_5_spce_in_triclinic) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({
-    {"side_length0", "20"}, {"side_length1", "20"}, {"side_length2", "20"},
+    {"side_length0", "22"}, {"side_length1", "22"}, {"side_length2", "22"},
     {"xy", "4"}, {"yz", "4"}, {"xz", "4"},
     {"particle_type0", "../particle/spce.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));

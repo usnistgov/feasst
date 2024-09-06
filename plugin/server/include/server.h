@@ -2,8 +2,10 @@
 #ifndef FEASST_SERVER_SERVER_H_
 #define FEASST_SERVER_SERVER_H_
 
-#include <vector>
+#include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace feasst {
 

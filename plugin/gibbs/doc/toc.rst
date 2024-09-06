@@ -1,9 +1,9 @@
 
 .. toctree::
 
-   TrialGibbsParticleTransfer
-   TrialGibbsVolumeTransfer
    CheckConstantVolume
    ComputeGibbsParticleTransfer
-   ComputeGibbsVolumeTransfer
    PressureFromTestVolume
+   TrialGibbsVolumeTransfer
+   TrialGibbsParticleTransfer
+   ComputeGibbsVolumeTransfer

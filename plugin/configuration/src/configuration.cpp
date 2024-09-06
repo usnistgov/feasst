@@ -91,10 +91,6 @@ Configuration::Configuration(argtype * args) {
     key << start << index;
   }
 
-  if (boolean("set_cutoff_min_to_sigma", args, false)) {
-    unique_types_->set_cutoff_min_to_sigma();
-  }
-
   init_wrap(boolean("wrap", args, true));
 
   DEBUG("parse ModelParam");
@@ -138,6 +134,11 @@ Configuration::Configuration(argtype * args) {
         }
       }
     }
+  }
+
+  // Set after param overrides
+  if (boolean("set_cutoff_min_to_sigma", args, false)) {
+    unique_types_->set_cutoff_min_to_sigma();
   }
 }
 

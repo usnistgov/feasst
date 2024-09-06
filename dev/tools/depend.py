@@ -1,8 +1,8 @@
 '''
-  This utility automatically generates three kinds of files.
-  The first is the swig python interface file, py/feasst.i.
-  The second are all of the plugin/[module]/doc rst files for documentation.
-  The third is the feasst.h file used for the C++ interface.
+  This utility automatically generates two kinds of files.
+  The first are all of the plugin/[module]/doc rst files for documentation.
+  The second is the feasst.h file used for the C++ interface.
+  In previous versions, this use to also generate the swig python interface file, py/feasst.i.
 '''
 usage='/path/to/feasst/py/run.sh /path/to/feasst/dev/tools/depend.py -s /path/to/feasst'
 
@@ -11,6 +11,7 @@ import argparse
 parser = argparse.ArgumentParser()
 optional = parser.add_argument_group('optional arguments')
 optional.add_argument("--update_doc", "-u", help="update documentation rst?", type=int, default=1)
+optional.add_argument("--check_headers", "-c", help="if ON, make a cpp that includes each header to check self-sufficiency", type=str, default='OFF')
 required = parser.add_argument_group('required arguments')
 required.add_argument("--source_dir", "-s", help="/path/to/feasst", type=str, required=True)
 args = parser.parse_args()
@@ -65,6 +66,17 @@ def dependency(path):
       if dep1 not in (headers + external_libs):
         hi=0
         #raise Exception(dep1, 'is included by', dep[0], 'but has wrong directory structure')
+
+  # optionally print self-sufficient check of header files
+  if args.check_headers == 'ON':
+    for header in headers:
+      print(header)
+      #print(header[:-2])
+      cpp = args.source_dir + '/plugin/' + header[:-2] + '_tmphcheck.cpp'
+      cpp = cpp.replace('/include/', '/src/')
+      print(cpp)
+      with open(cpp, 'w') as file1:
+        file1.write('#include "'+header+'"')
   return depends
 
 # bubble sort by moving headers up if they include a file not below them.
@@ -118,77 +130,77 @@ for dep in deps:
   cls = read_class(plugin_dir+header)
   classes.append(cls)
 
-# obtain the headers sorted by dependency
-# write the swig interface file
-with open(args.source_dir+'/py/feasst.i', 'w') as swig_file:
-  swig_file.write(
-"/* This is an interface file for swig.\n\
-   This file is created by dev/tools/depend.py . Modifications to this\n\
-   file will likely be overwritten in the future. Thus, edit depend.py\n\
-   instead.\n\
-\n\
-   usage: "+usage+"\n\
- */\n\
-\n\
-%module(directors=\"1\") feasst\n\
-\n\
-%feature(\"director:except\") {\n\
-  if( $error != NULL ) {\n\
-    PyObject *ptype, *pvalue, *ptraceback;\n\
-    PyErr_Fetch( &ptype, &pvalue, &ptraceback );\n\
-    PyErr_Restore( ptype, pvalue, ptraceback );\n\
-    PyErr_Print();\n\
-    Py_Exit(1);\n\
-  }\n\
-}\n\
-\n\
-%warnfilter(509);\n\
-\n\
-%{\n\
-")
-  for dep in deps:
-    swig_file.write('#include "' + dep[0] + '"\n')
-  swig_file.write(
-"using namespace feasst;\n%}\n\
-%include \"std_string.i\"\n\
-%include \"std_vector.i\"\n\
-%include \"std_shared_ptr.i\"\n\
-%include \"std_iostream.i\"\n\
-%include \"stdint.i\"\n\
-%template(IntVector) std::vector<int>;\n\
-%template(Int2DVector) std::vector<std::vector<int> >;\n\
-%template(DoubleVector) std::vector<double>;\n\
-%template(Double2DVector) std::vector<std::vector<double> >;\n\
-%template(Double3DVector) std::vector<std::vector<std::vector<double> > >;\n\
-using namespace std;\n\
-%pythonnondynamic;\n\
-%include \"std_map.i\"\n\
-%template(args) std::map<std::string, std::string>;\n\
-%template(ArgsVector) std::vector<std::map<std::string, std::string> >;\n\
-%template(arglist) std::vector<std::pair<std::string, std::map<std::string, std::string> > >;\n\
-")
-#%template(arglist) std::map<std::string, std::map<std::string, std::string> >;\n\
-
-  if 'system' in include_plugin:
-      swig_file.write("%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;\n")
-      swig_file.write("%feature(\"director\") Potential;\n")
-      swig_file.write("%include \"std_pair.i\"\n")
-      swig_file.write("%template(Map2) std::vector<std::pair<int, std::vector<double>>>;\n")
-      swig_file.write("%template(Map3) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>;\n")
-      swig_file.write("%template(Map4) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>;\n")
-      swig_file.write("%template(MapNew) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>>>;\n")
-      swig_file.write("%template(MapOld) std::vector<std::vector<std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>;\n")
-
-  for cls in classes:
-    for icl in cls:
-      swig_file.write("%shared_ptr(feasst::" + icl + ");\n")
-  for dep in deps:
-    swig_file.write('%include ' + dep[0] + '\n')
-# Attempting to add SWIG wrap to serialization of all classes
-#    for cls in classes:
-#      for icl in cls:
-#        for ser in ["serialize", "deserialize"]:
-#          swig_file.write("%template(" + ser + icl + ") feasst::" + ser + "<feasst::" + icl + ">;\n")
+## obtain the headers sorted by dependency
+## write the swig interface file
+#with open(args.source_dir+'/py/feasst.i', 'w') as swig_file:
+#  swig_file.write(
+#"/* This is an interface file for swig.\n\
+#   This file is created by dev/tools/depend.py . Modifications to this\n\
+#   file will likely be overwritten in the future. Thus, edit depend.py\n\
+#   instead.\n\
+#\n\
+#   usage: "+usage+"\n\
+# */\n\
+#\n\
+#%module(directors=\"1\") feasst\n\
+#\n\
+#%feature(\"director:except\") {\n\
+#  if( $error != NULL ) {\n\
+#    PyObject *ptype, *pvalue, *ptraceback;\n\
+#    PyErr_Fetch( &ptype, &pvalue, &ptraceback );\n\
+#    PyErr_Restore( ptype, pvalue, ptraceback );\n\
+#    PyErr_Print();\n\
+#    Py_Exit(1);\n\
+#  }\n\
+#}\n\
+#\n\
+#%warnfilter(509);\n\
+#\n\
+#%{\n\
+#")
+#  for dep in deps:
+#    swig_file.write('#include "' + dep[0] + '"\n')
+#  swig_file.write(
+#"using namespace feasst;\n%}\n\
+#%include \"std_string.i\"\n\
+#%include \"std_vector.i\"\n\
+#%include \"std_shared_ptr.i\"\n\
+#%include \"std_iostream.i\"\n\
+#%include \"stdint.i\"\n\
+#%template(IntVector) std::vector<int>;\n\
+#%template(Int2DVector) std::vector<std::vector<int> >;\n\
+#%template(DoubleVector) std::vector<double>;\n\
+#%template(Double2DVector) std::vector<std::vector<double> >;\n\
+#%template(Double3DVector) std::vector<std::vector<std::vector<double> > >;\n\
+#using namespace std;\n\
+#%pythonnondynamic;\n\
+#%include \"std_map.i\"\n\
+#%template(args) std::map<std::string, std::string>;\n\
+#%template(ArgsVector) std::vector<std::map<std::string, std::string> >;\n\
+#%template(arglist) std::vector<std::pair<std::string, std::map<std::string, std::string> > >;\n\
+#")
+##%template(arglist) std::map<std::string, std::map<std::string, std::string> >;\n\
+#
+#  if 'system' in include_plugin:
+#      swig_file.write("%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;\n")
+#      swig_file.write("%feature(\"director\") Potential;\n")
+#      swig_file.write("%include \"std_pair.i\"\n")
+#      swig_file.write("%template(Map2) std::vector<std::pair<int, std::vector<double>>>;\n")
+#      swig_file.write("%template(Map3) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>;\n")
+#      swig_file.write("%template(Map4) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>;\n")
+#      swig_file.write("%template(MapNew) std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>>>;\n")
+#      swig_file.write("%template(MapOld) std::vector<std::vector<std::vector<std::pair<int, std::vector<std::pair<int, std::vector<double>>>>>>>;\n")
+#
+#  for cls in classes:
+#    for icl in cls:
+#      swig_file.write("%shared_ptr(feasst::" + icl + ");\n")
+#  for dep in deps:
+#    swig_file.write('%include ' + dep[0] + '\n')
+## Attempting to add SWIG wrap to serialization of all classes
+##    for cls in classes:
+##      for icl in cls:
+##        for ser in ["serialize", "deserialize"]:
+##          swig_file.write("%template(" + ser + icl + ") feasst::" + ser + "<feasst::" + icl + ">;\n")
 
 # write the C++ interface feasst.h
 with open(plugin_dir+'feasst/include/feasst.h', 'w') as fsth:

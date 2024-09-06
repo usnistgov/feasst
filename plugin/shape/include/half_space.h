@@ -59,6 +59,8 @@ class HalfSpace : public Shape {
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<HalfSpace>(istr); }
+  std::shared_ptr<Shape> create(argtype * args) const override {
+    return std::make_shared<HalfSpace>(args); }
   explicit HalfSpace(std::istream& istr);
   virtual ~HalfSpace() {}
 

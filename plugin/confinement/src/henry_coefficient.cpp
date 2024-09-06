@@ -79,6 +79,9 @@ std::string HenryCoefficient::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;
+  if (rewrite_header()) {
+    ss << header(criteria, system, trial_factory);
+  }
   ss << accumulator().status();
   if (num_beta_taylor() > 0) {
     ss << ",\"beta_taylor\": [";

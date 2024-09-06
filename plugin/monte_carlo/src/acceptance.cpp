@@ -6,6 +6,8 @@
 
 namespace feasst {
 
+Acceptance::~Acceptance() {}
+
 double Acceptance::ln_metropolis_prob() const {
   ASSERT(!std::isinf(ln_metropolis_prob_), "ln_metropolis_prob_ is inf");
   return ln_metropolis_prob_;

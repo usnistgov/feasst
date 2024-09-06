@@ -26,7 +26,7 @@ typedef std::map<std::string, std::string> argtype;
  */
 class FlatHistogram : public Criteria {
  public:
-  FlatHistogram() {}  // do not use this constructor.
+  FlatHistogram();  // do not use this constructor.
 
   //@{
   /** @name Arguments
@@ -124,7 +124,7 @@ class FlatHistogram : public Criteria {
   void serialize(std::ostream& ostr) const override;
   explicit FlatHistogram(std::istream& istr);
   std::unique_ptr<FlatHistogram> flat_histogram(const Criteria& criteria);
-  ~FlatHistogram() {}
+  ~FlatHistogram();
 
   //@}
  private:

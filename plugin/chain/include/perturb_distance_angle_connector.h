@@ -2,6 +2,7 @@
 #ifndef FEASST_CHAIN_PERTURB_DISTANCE_ANGLE_CONNECTOR_H_
 #define FEASST_CHAIN_PERTURB_DISTANCE_ANGLE_CONNECTOR_H_
 
+#include "math/include/euler.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
 
 namespace feasst {

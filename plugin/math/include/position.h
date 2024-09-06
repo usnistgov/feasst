@@ -20,7 +20,8 @@ class Position {
  public:
   Position() {}
 
-  /**
+  //@{
+  /** @name Arguments
     args:
     - x: x-coordinate
     - y: y-coordinate. Requires explicit x.
@@ -28,6 +29,11 @@ class Position {
    */
   explicit Position(argtype args);
   explicit Position(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Initialize coordinates by brace initialized position vector.
   explicit Position(std::vector<double> vec) { coord_ = vec; }
@@ -213,6 +219,7 @@ class Position {
   void serialize(std::ostream& ostr) const;
   explicit Position(std::istream& istr);
 
+  //@}
  private:
   std::vector<double> coord_;
 };

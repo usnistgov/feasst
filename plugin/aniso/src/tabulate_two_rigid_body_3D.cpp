@@ -121,7 +121,11 @@ void TabulateTwoRigidBody3D::adjust_domain(System * system) {
   const double length0 = max_cubic_side_length(0, system->configuration());
   const double length1 = max_cubic_side_length(1, system->configuration());
   const double length = 0.5*(length0 + length1);
-  const double delta_volume = std::pow(length, 3) - system->configuration().domain().volume();
+  DEBUG("length " << length);
+  const double volume = system->configuration().domain().volume();
+  DEBUG("volume " << volume);
+  const double delta_volume = std::pow(length, 3) - volume;
+  DEBUG("delta_volume " << delta_volume);
   system->change_volume(delta_volume, {{"scale_particles", "false"}});
 }
 

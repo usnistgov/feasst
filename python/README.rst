@@ -36,5 +36,3 @@ Python usage is as follows:
     Configuration cubic_side_length 8 particle_type0 /feasst/particle/lj.fstprt"""
     for line in text_input.split('\n'):
         feasst.parse(mc, line)
-
-The depreciated Python interface using SWIG is described in :doc:`/../py/README`.

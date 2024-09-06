@@ -103,6 +103,7 @@ class Histogram {
 
   void serialize(std::ostream& ostr) const;
   explicit Histogram(std::istream& istr);
+  ~Histogram();
 
   //@}
  private:

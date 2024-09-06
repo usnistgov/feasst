@@ -89,7 +89,7 @@ RemoveAnalyze name Movie
 RemoveAnalyze name Movie
 
 # gibbs ensemble equilibration
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations} Constraint ConstrainVolumeByCutoff
 TrialGibbsParticleTransfer weight 0.05 particle_type 0 reference_index 0
 TrialGibbsVolumeTransfer weight 0.001 tunable_param 0.1 reference_index 0
 CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
@@ -107,7 +107,7 @@ RemoveAnalyze name Movie
 RemoveAnalyze name Movie
 
 # gibbs ensemble production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
+Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations} Constraint ConstrainVolumeByCutoff
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0.xyz configuration_index 0
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1.xyz configuration_index 1
@@ -115,6 +115,8 @@ Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_en.c
 Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_en.csv configuration_index 1
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_dens.csv configuration_index 0
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_dens.csv configuration_index 1
+Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_vol.csv configuration_index 0
+Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_vol.csv configuration_index 1
 PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
 # the pressure in the liquid phase is harder to converge with test volume changes? and faster to compute in the vapor.
 #PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_pressure.csv configuration_index 1

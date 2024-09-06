@@ -29,8 +29,6 @@ set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;mont
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;netcdf")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;fftw")
 #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;xtc")
-# Note, if you change the plugin list and want to use the python interface,
-# you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
 
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -39,11 +37,12 @@ option(USE_GTEST "Use gtest" OFF)
 option(USE_CCACHE "Use ccache to speed up builds" ON)
 option(USE_OPENMP "Use OpenMP" ON)
 option(USE_SPHINX "Use SPHINX for documentation" OFF)
-option(USE_SWIG "Use SWIG for python interface" OFF)
+#option(USE_SWIG "Use SWIG for python interface" OFF)
 option(USE_GCOV "Use Coverage" OFF)
 option(USE_FFTW "Use FFTW" OFF)
 option(USE_PYBIND11 "Use PYBIND11" OFF)
 option(USE_MPI "Use MPI" OFF)
+option(USE_HEADER_CHECK "Use stand-alone header check (requires cleanup)" OFF)
 set(FFTW_DIR "$ENV{HOME}/software/fftw-3.3.10/build/")
 option(USE_NETCDF "Use NetCDF" OFF)
 set(NETCDF_DIR "$ENV{HOME}/local")
@@ -189,6 +188,20 @@ if (USE_OPENMP)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
   endif()
+endif()
+
+# prep feasst.(i/h) (as well as documentation)
+execute_process(
+  COMMAND python3 ${CMAKE_SOURCE_DIR}/dev/tools/depend.py -s ${CMAKE_SOURCE_DIR} --update_doc 0 --check_headers ${USE_HEADER_CHECK}
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+  RESULT_VARIABLE EXIT_CODE
+)
+
+if (NOT ${EXIT_CODE} EQUAL 0)
+    message(
+            FATAL_ERROR
+            "There was a problem generating feasst.h using the following command: \"python3 ../dev/tools/depend.py -s ../\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers."
+    )
 endif()
 
 # FEASST plugins
@@ -535,20 +548,6 @@ if (USE_GTEST)
 
 endif(USE_GTEST)
 
-# prep feasst.(i/h) (as well as documentation)
-execute_process(
-  COMMAND python3 ${CMAKE_SOURCE_DIR}/py/depend.py -s ${CMAKE_SOURCE_DIR} --update_doc 0
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-  RESULT_VARIABLE EXIT_CODE
-)
-
-if (NOT ${EXIT_CODE} EQUAL 0)
-    message(
-            FATAL_ERROR
-            "There was a problem generating feasst.h using the following command: \"python3 ../py/depend.py -s ../\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers."
-    )
-endif()
-
 # build feasst library
 add_library (feasstlib INTERFACE)
 foreach (PLUGIN ${FEASST_PLUGINS})
@@ -607,76 +606,76 @@ if (${_index} GREATER -1)
   target_link_libraries (rst LINK_PUBLIC feasstlib)
 endif()
 
-# SWIG
-if (USE_SWIG)
-  if(POLICY CMP0078)
-    cmake_policy(SET CMP0078 NEW)
-  endif()
-  if(POLICY CMP0086)
-    cmake_policy(SET CMP0086 NEW)
-  endif()
-  if (SET_PYTHON_PATH)
-  else (SET_PYTHON_PATH)
-    FIND_PACKAGE(PythonLibs 3)
-    if (PythonLibs_FOUND)
-    else (PythonLibs_FOUND)
-      # Try default anaconda home install.
-      set(PYTHON_INCLUDE_DIR "$ENV{HOME}/anaconda3/include/python3.7m/")
-      set(PYTHON_LIBRARY "$ENV{HOME}/anaconda3/lib/libpython3.7m.so")
-    endif (PythonLibs_FOUND)
-  endif (SET_PYTHON_PATH)
-  message("PYTHON_INCLUDE_DIR: ${PYTHON_INCLUDE_DIR}")
-  message("PYTHON_LIBRARY: ${PYTHON_LIBRARY}")
-
-  FIND_PACKAGE(SWIG)
-  if (SWIG_FOUND)
-    INCLUDE(${SWIG_USE_FILE})
-    INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR})
-    #INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-    get_filename_component(barename "${CMAKE_CURRENT_BINARY_DIR}" NAME)
-    add_custom_target(build-time-make-directory ALL
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${barename})
-    SET(CMAKE_SWIG_FLAGS "")
-
-    SET_SOURCE_FILES_PROPERTIES("${CMAKE_SOURCE_DIR}/py/feasst.i" PROPERTIES CPLUSPLUS ON)
-    #SET_SOURCE_FILES_PROPERTIES("${CMAKE_CURRENT_BINARY_DIR}/feasst.i" PROPERTIES SWIG_FLAGS "-includeall")
-    if (${CMAKE_VERSION} VERSION_LESS "3.10.0")
-      SWIG_ADD_MODULE(feasst python "${CMAKE_SOURCE_DIR}/py/feasst.i")
-    else ()
-      SWIG_ADD_LIBRARY(feasst LANGUAGE python SOURCES "${CMAKE_SOURCE_DIR}/py/feasst.i")
-    endif ()
-    SWIG_LINK_LIBRARIES(feasst ${EXTRA_LIBS})
-    SWIG_LINK_LIBRARIES(feasst feasstlib)
-    if (APPLE)
-      if (${CMAKE_VERSION} VERSION_LESS "3.15.0")
-        set_target_properties(_feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-      else ()
-        set_target_properties(feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-      endif ()
-    endif (APPLE)
-    if (${CMAKE_VERSION} VERSION_LESS "3.15.0")
-      add_dependencies(_feasst build-time-make-directory)
-    else ()
-      add_dependencies(feasst build-time-make-directory)
-    endif ()
-
-    # install using setup.py
-    set(OUTPUT    "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
-    set(SETUP_PY  "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
-    configure_file("${CMAKE_SOURCE_DIR}/dev/tools/setup.py.in" ${SETUP_PY})
-#    add_custom_command(OUTPUT ${OUTPUT}
-#                       COMMAND python3 setup.py build
-#                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT})
-#    add_custom_target(target ALL DEPENDS ${OUTPUT})
-    install(CODE "execute_process(COMMAND pip install .)")
-    #install(CODE "execute_process(COMMAND python3 ${SETUP_PY} install)")
-
-    add_test(NAME pytest COMMAND python3 ${CMAKE_SOURCE_DIR}/py/test.py)
-    add_test(NAME pytutorial COMMAND python3 ../dev/tools/run_tutorials.py)
-  else (SWIG_FOUND)
-    message("SWIG NOT FOUND")
-  endif (SWIG_FOUND)
-endif(USE_SWIG)
+## SWIG # deprecated after v0.25.1
+#if (USE_SWIG)
+#  if(POLICY CMP0078)
+#    cmake_policy(SET CMP0078 NEW)
+#  endif()
+#  if(POLICY CMP0086)
+#    cmake_policy(SET CMP0086 NEW)
+#  endif()
+#  if (SET_PYTHON_PATH)
+#  else (SET_PYTHON_PATH)
+#    FIND_PACKAGE(PythonLibs 3)
+#    if (PythonLibs_FOUND)
+#    else (PythonLibs_FOUND)
+#      # Try default anaconda home install.
+#      set(PYTHON_INCLUDE_DIR "$ENV{HOME}/anaconda3/include/python3.7m/")
+#      set(PYTHON_LIBRARY "$ENV{HOME}/anaconda3/lib/libpython3.7m.so")
+#    endif (PythonLibs_FOUND)
+#  endif (SET_PYTHON_PATH)
+#  message("PYTHON_INCLUDE_DIR: ${PYTHON_INCLUDE_DIR}")
+#  message("PYTHON_LIBRARY: ${PYTHON_LIBRARY}")
+#
+#  FIND_PACKAGE(SWIG)
+#  if (SWIG_FOUND)
+#    INCLUDE(${SWIG_USE_FILE})
+#    INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR})
+#    #INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+#    get_filename_component(barename "${CMAKE_CURRENT_BINARY_DIR}" NAME)
+#    add_custom_target(build-time-make-directory ALL
+#      COMMAND ${CMAKE_COMMAND} -E make_directory ${barename})
+#    SET(CMAKE_SWIG_FLAGS "")
+#
+#    SET_SOURCE_FILES_PROPERTIES("${CMAKE_SOURCE_DIR}/python/deprecated_pyswig/feasst.i" PROPERTIES CPLUSPLUS ON)
+#    #SET_SOURCE_FILES_PROPERTIES("${CMAKE_CURRENT_BINARY_DIR}/feasst.i" PROPERTIES SWIG_FLAGS "-includeall")
+#    if (${CMAKE_VERSION} VERSION_LESS "3.10.0")
+#      SWIG_ADD_MODULE(feasst python "${CMAKE_SOURCE_DIR}/python/deprecated_pyswig/feasst.i")
+#    else ()
+#      SWIG_ADD_LIBRARY(feasst LANGUAGE python SOURCES "${CMAKE_SOURCE_DIR}/python/deprecated_pyswig/feasst.i")
+#    endif ()
+#    SWIG_LINK_LIBRARIES(feasst ${EXTRA_LIBS})
+#    SWIG_LINK_LIBRARIES(feasst feasstlib)
+#    if (APPLE)
+#      if (${CMAKE_VERSION} VERSION_LESS "3.15.0")
+#        set_target_properties(_feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+#      else ()
+#        set_target_properties(feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+#      endif ()
+#    endif (APPLE)
+#    if (${CMAKE_VERSION} VERSION_LESS "3.15.0")
+#      add_dependencies(_feasst build-time-make-directory)
+#    else ()
+#      add_dependencies(feasst build-time-make-directory)
+#    endif ()
+#
+#    # install using setup.py
+#    set(OUTPUT    "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
+#    set(SETUP_PY  "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
+#    configure_file("${CMAKE_SOURCE_DIR}/dev/tools/setup.py.in" ${SETUP_PY})
+##    add_custom_command(OUTPUT ${OUTPUT}
+##                       COMMAND python3 setup.py build
+##                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT})
+##    add_custom_target(target ALL DEPENDS ${OUTPUT})
+#    install(CODE "execute_process(COMMAND pip install .)")
+#    #install(CODE "execute_process(COMMAND python3 ${SETUP_PY} install)")
+#
+#    add_test(NAME pytest COMMAND python3 ${CMAKE_SOURCE_DIR}/py/test.py)
+#    add_test(NAME pytutorial COMMAND python3 ../dev/tools/run_tutorials.py)
+#  else (SWIG_FOUND)
+#    message("SWIG NOT FOUND")
+#  endif (SWIG_FOUND)
+#endif(USE_SWIG)
 
 
 # PYBIND11

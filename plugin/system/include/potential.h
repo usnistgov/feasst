@@ -110,6 +110,11 @@ class Potential {
   /// Use model parameters from configuration if they have not been overridden.
   const ModelParams& model_params(const Configuration& config) const;
 
+  /// Check that the cutoff is within the allowed range for the Domain.
+  bool does_cutoff_fit_domain(const Configuration& config,
+                              /// Generate a fatal error if returning false
+                              const bool fatal = false) const;
+
   /// Precompute quantities for optimizations before calculation of energies.
   void precompute(Configuration * config);
 

@@ -24,6 +24,7 @@ Listen::Listen(argtype * args) {
 Listen::Listen(argtype args) : Listen(&args) {
   feasst_check_all_used(args);
 }
+Listen::~Listen() {}
 
 class MapListen {
  public:

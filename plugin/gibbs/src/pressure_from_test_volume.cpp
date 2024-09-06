@@ -25,6 +25,8 @@ class MapPressureFromTestVolume {
 
 static MapPressureFromTestVolume mapper_inner_ = MapPressureFromTestVolume();
 
+PressureFromTestVolume::~PressureFromTestVolume() {}
+
 void PressureFromTestVolume::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(8947, ostr);

@@ -82,7 +82,7 @@ RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {plus} particle_type1 {minus} cutoff 4.891304347826090 charge0 {charge_plus} charge1 {charge_minus}
 Potential VisitModel Ewald alpha {alpha} kmax_squared 38
 Potential Model ModelTwoBodyFactory model0 HardSphere model1 ChargeScreened erfc_table_size 2e4
-RefPotential Model HardSphere VisitModel VisitModelCell max_length {dccb_cut}
+RefPotential Model HardSphere VisitModel VisitModelCell min_length {dccb_cut}
 Potential Model ChargeSelf
 ThermoParams beta {beta} chemical_potential0 {mu} chemical_potential1 {mu}
 Metropolis Constraint AEqualB extra_A 1

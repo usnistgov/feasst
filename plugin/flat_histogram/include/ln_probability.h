@@ -2,6 +2,7 @@
 #ifndef FEASST_FLAT_HISTOGRAM_LN_PROBABILITY_H_
 #define FEASST_FLAT_HISTOGRAM_LN_PROBABILITY_H_
 
+#include <ostream>
 #include <vector>
 
 namespace feasst {

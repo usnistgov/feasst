@@ -186,6 +186,21 @@ int Potential::cell_index() const {
   return group_index();
 }
 
+bool Potential::does_cutoff_fit_domain(const Configuration& config,
+    const bool fatal) const {
+  ASSERT(config.dimension() == 2 || config.dimension() == 3,
+    "Domain must be 2 or 3 dimensions. Please initialize Domain::side_length.");
+  const ModelParams& params = model_params(config);
+  const double max_cutoff = maximum(params.select("cutoff").values());
+  const double half_min_side = 0.5*config.domain().inscribed_sphere_diameter();
+  if (max_cutoff - NEAR_ZERO > half_min_side) {
+    ASSERT(!fatal, "The maximum cutoff: " << max_cutoff <<
+      " is greater than half the minimum side length: " << half_min_side);
+    return false;
+  }
+  return true;
+}
+
 void Potential::precompute(Configuration * config) {
   if (!group_.empty()) {
     group_index_ = config->group_index(group_);
@@ -222,14 +237,7 @@ void Potential::precompute(Configuration * config) {
   visit_model_->precompute(config);
   const ModelParams& params = model_params(*config);
   model_->precompute(params);
-  ASSERT(config->dimension() == 2 || config->dimension() == 3,
-    "Domain must be 2 or 3 dimensions. Please initialize Domain::side_length.");
-  const double max_cutoff = maximum(params.select("cutoff").values());
-  const double half_min_side = 0.5*config->domain().inscribed_sphere_diameter();
-  if (max_cutoff - NEAR_ZERO > half_min_side) {
-    WARN("The maximum cutoff:" << max_cutoff << " is greater than half the " <<
-         "minimum side length: " << half_min_side);
-  }
+  does_cutoff_fit_domain(*config, true);
 
   if (table_size_ > 0) {
     ASSERT(model_->num_body() == 2, "tables are only implemented for two "
@@ -346,6 +354,8 @@ void Potential::set_visit_model_(std::shared_ptr<VisitModel> visit) {
 void Potential::change_volume(const double delta_volume, const int dimension,
     Configuration * config) {
   visit_model_->change_volume(delta_volume, dimension, config);
+  //ASSERT(does_cutoff_fit_domain(*config), "Volume(" <<
+  //  config->domain().volume() << ") change does not fit cutoff.");
 }
 
 void Potential::revert(const Select& select) { visit_model_->revert(select); }

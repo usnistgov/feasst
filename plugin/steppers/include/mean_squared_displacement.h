@@ -3,6 +3,8 @@
 #define FEASST_STEPPERS_MEAN_SQUARED_DISPLACEMENT_H_
 
 #include <vector>
+#include "math/include/accumulator.h"
+#include "configuration/include/select.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {

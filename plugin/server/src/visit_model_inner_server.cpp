@@ -33,6 +33,7 @@ VisitModelInnerServer::VisitModelInnerServer(argtype * args) : VisitModelInner(a
 VisitModelInnerServer::VisitModelInnerServer(argtype args) : VisitModelInnerServer(&args) {
   feasst_check_all_used(args);
 }
+VisitModelInnerServer::~VisitModelInnerServer() {}
 
 void VisitModelInnerServer::precompute(Configuration * config) {
   VisitModelInner::precompute(config);
