@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM &mdash; FEASST v0.25.1 documentation</title>
+  <title>Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -289,8 +289,8 @@
 <span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
 <span class="s2">Configuration cubic_side_length </span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type0 </span><span class="si">{plus}</span><span class="s2"> particle_type1 </span><span class="si">{minus}</span><span class="s2"> cutoff 4.891304347826090 charge0 </span><span class="si">{charge_plus}</span><span class="s2"> charge1 </span><span class="si">{charge_minus}</span>
 <span class="s2">Potential VisitModel Ewald alpha </span><span class="si">{alpha}</span><span class="s2"> kmax_squared 38</span>
-<span class="s2">Potential Model ModelTwoBodyFactory model0 HardSphere model1 ChargeScreened table_size 1e6</span>
-<span class="s2">ConvertToRefPotential potential_index 1 cutoff </span><span class="si">{dccb_cut}</span><span class="s2"> use_cell true</span>
+<span class="s2">Potential Model ModelTwoBodyFactory model0 HardSphere model1 ChargeScreened erfc_table_size 2e4</span>
+<span class="s2">RefPotential Model HardSphere VisitModel VisitModelCell min_length </span><span class="si">{dccb_cut}</span>
 <span class="s2">Potential Model ChargeSelf</span>
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential0 </span><span class="si">{mu}</span><span class="s2"> chemical_potential1 </span><span class="si">{mu}</span>
 <span class="s2">Metropolis Constraint AEqualB extra_A 1</span>

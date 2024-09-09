@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PotentialFactory &mdash; FEASST v0.25.1 documentation</title>
+  <title>PotentialFactory &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -147,7 +147,8 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PotentialFactoryE">
 <span class="target" id="classfeasst_1_1PotentialFactory"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PotentialFactory</span></span></span><br /></dt>
-<dd><p>A list of potentials. </p>
+<dd><p>A list of potentials.</p>
+<p>By default, if one of the potentials returns a large energy, then the rest of the potentials are not calculated. This is the default behavior, which can be disabled with <a class="reference internal" href="PotentialFactory.html#classfeasst_1_1PotentialFactory_1a70408919cb6f3ed60976544c2aedbc9a"><span class="std std-ref">remove_opt_overlap()</span></a> as done in <a class="reference internal" href="../../mayer/doc/MayerSampling_arguments.html#classfeasst_1_1MayerSampling"><span class="std std-ref">MayerSampling</span></a>. </p>
 </dd></dl>
 
 </section>

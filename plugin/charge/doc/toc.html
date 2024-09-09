@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; FEASST v0.25.1 documentation</title>
+  <title>&lt;no title&gt; &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -29,7 +29,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="SlabCorrection" href="SlabCorrection.html" />
+    <link rel="next" title="charge/include/utils" href="utils.html" />
     <link rel="prev" title="Charge" href="../README.html" />
 
 	<!-- frame blocking -->
@@ -57,7 +57,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -152,27 +152,28 @@
              
   <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="SlabCorrection.html">SlabCorrection</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SlabCorrection.html#_CPPv4N6feasst14SlabCorrectionE"><code class="docutils literal notranslate"><span class="pre">SlabCorrection</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SlabCorrection.html#_CPPv4NK6feasst14SlabCorrection10net_dipoleERK13Configuration"><code class="docutils literal notranslate"><span class="pre">net_dipole()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SlabCorrection.html#_CPPv4N6feasst14SlabCorrection7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SlabCorrection.html#_CPPv4N6feasst14SlabCorrection7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">charge/include/utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#_CPPv46feasst"><code class="docutils literal notranslate"><span class="pre">feasst</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#_CPPv4N6feasst6feasst15kelvin2kJpermolEKd"><code class="docutils literal notranslate"><span class="pre">feasst::kelvin2kJpermol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#_CPPv4N6feasst6feasst15kelvin2kJpermolEKdRK13Configuration"><code class="docutils literal notranslate"><span class="pre">feasst::kelvin2kJpermol()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Coulomb.html">Coulomb</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Coulomb.html#_CPPv4N6feasst7CoulombE"><code class="docutils literal notranslate"><span class="pre">Coulomb</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Coulomb.html#_CPPv4N6feasst7Coulomb10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Coulomb.html#_CPPv4NK6feasst7Coulomb9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ElectricField.html">ElectricField</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ElectricField.html#_CPPv4N6feasst13ElectricFieldE"><code class="docutils literal notranslate"><span class="pre">ElectricField</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ElectricField.html#_CPPv4N6feasst13ElectricField10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ElectricField.html#_CPPv4N6feasst13ElectricField6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ElectricField.html#_CPPv4NK6feasst13ElectricField9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ChargeScreenedIntra.html#_CPPv4N6feasst19ChargeScreenedIntraE"><code class="docutils literal notranslate"><span class="pre">ChargeScreenedIntra</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ChargeScreenedIntra.html#_CPPv4N6feasst19ChargeScreenedIntra10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ChargeScreenedIntra.html#_CPPv4NK6feasst19ChargeScreenedIntra9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ChargeSelf.html#_CPPv4N6feasst10ChargeSelfE"><code class="docutils literal notranslate"><span class="pre">ChargeSelf</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ChargeSelf.html#_CPPv4N6feasst10ChargeSelf6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ChargeSelf.html#_CPPv4N6feasst10ChargeSelf10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ChargeSelf.html#_CPPv4NK6feasst10ChargeSelf9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -194,20 +195,46 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ElectricField.html">ElectricField</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ElectricField.html#_CPPv4N6feasst13ElectricFieldE"><code class="docutils literal notranslate"><span class="pre">ElectricField</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ElectricField.html#_CPPv4N6feasst13ElectricField10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ElectricField.html#_CPPv4N6feasst13ElectricField6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ElectricField.html#_CPPv4NK6feasst13ElectricField9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coulomb.html">Coulomb</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Coulomb.html#_CPPv4N6feasst7CoulombE"><code class="docutils literal notranslate"><span class="pre">Coulomb</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Coulomb.html#_CPPv4N6feasst7Coulomb10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Coulomb.html#_CPPv4NK6feasst7Coulomb9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ChargeSelf.html#_CPPv4N6feasst10ChargeSelfE"><code class="docutils literal notranslate"><span class="pre">ChargeSelf</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ChargeSelf.html#_CPPv4N6feasst10ChargeSelf6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ChargeSelf.html#_CPPv4N6feasst10ChargeSelf10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ChargeSelf.html#_CPPv4NK6feasst10ChargeSelf9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ChargeScreenedIntra.html#_CPPv4N6feasst19ChargeScreenedIntraE"><code class="docutils literal notranslate"><span class="pre">ChargeScreenedIntra</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ChargeScreenedIntra.html#_CPPv4N6feasst19ChargeScreenedIntra10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ChargeScreenedIntra.html#_CPPv4NK6feasst19ChargeScreenedIntra9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TrialRemoveMultiple.html#_CPPv4N6feasst19TrialRemoveMultipleE"><code class="docutils literal notranslate"><span class="pre">TrialRemoveMultiple</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TrialAddMultiple.html#_CPPv4N6feasst16TrialAddMultipleE"><code class="docutils literal notranslate"><span class="pre">TrialAddMultiple</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TrialTransferMultiple.html#_CPPv4N6feasst21TrialTransferMultipleE"><code class="docutils literal notranslate"><span class="pre">TrialTransferMultiple</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ComputeRemoveMultiple.html#_CPPv4N6feasst21ComputeRemoveMultipleE"><code class="docutils literal notranslate"><span class="pre">ComputeRemoveMultiple</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ComputeRemoveMultiple.html#_CPPv4N6feasst21ComputeRemoveMultiple21ComputeRemoveMultipleE7argtype"><code class="docutils literal notranslate"><span class="pre">ComputeRemoveMultiple()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ComputeRemoveMultiple.html#_CPPv4N6feasst21ComputeRemoveMultiple22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random"><code class="docutils literal notranslate"><span class="pre">perturb_and_acceptance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ComputeAddMultiple.html#_CPPv4N6feasst18ComputeAddMultipleE"><code class="docutils literal notranslate"><span class="pre">ComputeAddMultiple</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ComputeAddMultiple.html#_CPPv4N6feasst18ComputeAddMultiple18ComputeAddMultipleE7argtype"><code class="docutils literal notranslate"><span class="pre">ComputeAddMultiple()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ComputeAddMultiple.html#_CPPv4N6feasst18ComputeAddMultiple22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random"><code class="docutils literal notranslate"><span class="pre">perturb_and_acceptance()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -239,26 +266,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ComputeRemoveMultiple.html#_CPPv4N6feasst21ComputeRemoveMultipleE"><code class="docutils literal notranslate"><span class="pre">ComputeRemoveMultiple</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ComputeRemoveMultiple.html#_CPPv4N6feasst21ComputeRemoveMultiple21ComputeRemoveMultipleE7argtype"><code class="docutils literal notranslate"><span class="pre">ComputeRemoveMultiple()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ComputeRemoveMultiple.html#_CPPv4N6feasst21ComputeRemoveMultiple22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random"><code class="docutils literal notranslate"><span class="pre">perturb_and_acceptance()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="TrialRemoveMultiple.html#_CPPv4N6feasst19TrialRemoveMultipleE"><code class="docutils literal notranslate"><span class="pre">TrialRemoveMultiple</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="TrialAddMultiple.html#_CPPv4N6feasst16TrialAddMultipleE"><code class="docutils literal notranslate"><span class="pre">TrialAddMultiple</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="TrialTransferMultiple.html#_CPPv4N6feasst21TrialTransferMultipleE"><code class="docutils literal notranslate"><span class="pre">TrialTransferMultiple</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="CheckNetCharge.html#_CPPv4N6feasst14CheckNetChargeE"><code class="docutils literal notranslate"><span class="pre">CheckNetCharge</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="CheckNetCharge.html#_CPPv4N6feasst14CheckNetCharge6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
@@ -266,18 +273,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">charge/include/utils</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#_CPPv46feasst"><code class="docutils literal notranslate"><span class="pre">feasst</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="utils.html#_CPPv4N6feasst6feasst15kelvin2kJpermolEKd"><code class="docutils literal notranslate"><span class="pre">feasst::kelvin2kJpermol()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="utils.html#_CPPv4N6feasst6feasst15kelvin2kJpermolEKdRK13Configuration"><code class="docutils literal notranslate"><span class="pre">feasst::kelvin2kJpermol()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ComputeAddMultiple.html#_CPPv4N6feasst18ComputeAddMultipleE"><code class="docutils literal notranslate"><span class="pre">ComputeAddMultiple</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ComputeAddMultiple.html#_CPPv4N6feasst18ComputeAddMultiple18ComputeAddMultipleE7argtype"><code class="docutils literal notranslate"><span class="pre">ComputeAddMultiple()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ComputeAddMultiple.html#_CPPv4N6feasst18ComputeAddMultiple22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random"><code class="docutils literal notranslate"><span class="pre">perturb_and_acceptance()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="SlabCorrection.html">SlabCorrection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SlabCorrection.html#_CPPv4N6feasst14SlabCorrectionE"><code class="docutils literal notranslate"><span class="pre">SlabCorrection</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SlabCorrection.html#_CPPv4NK6feasst14SlabCorrection10net_dipoleERK13Configuration"><code class="docutils literal notranslate"><span class="pre">net_dipole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SlabCorrection.html#_CPPv4N6feasst14SlabCorrection7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SlabCorrection.html#_CPPv4N6feasst14SlabCorrection7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -290,7 +290,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../README.html" class="btn btn-neutral float-left" title="Charge" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SlabCorrection.html" class="btn btn-neutral float-right" title="SlabCorrection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="utils.html" class="btn btn-neutral float-right" title="charge/include/utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

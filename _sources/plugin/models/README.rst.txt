@@ -5,6 +5,7 @@ Models
 This plugin contains extra models
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

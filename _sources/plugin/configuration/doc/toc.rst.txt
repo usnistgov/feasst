@@ -1,21 +1,20 @@
 
 .. toctree::
 
-   TypedEntity
    Properties
    Bond
-   PhysicalConstants
-   Domain
-   NeighborCriteria
-   Site
-   Particle
+   Configuration
    Group
    ModelParam
-   FileParticle
-   ParticleFactory
-   Select
+   NeighborCriteria
+   PhysicalConstants
    VisitParticles
-   Configuration
    VisitConfiguration
-   FileVMD
    PrinterXYZ
+   FileVMD
+   Domain
+   Site
+   Particle
+   ParticleFactory
+   FileParticle
+   Select

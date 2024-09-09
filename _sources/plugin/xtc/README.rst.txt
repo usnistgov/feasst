@@ -24,6 +24,7 @@ Associated CMake flag
    cmake -DXDRFILE_DIR=/path/to/xdrfile/build/ ..
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

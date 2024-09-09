@@ -7,6 +7,7 @@ This plugin contains information associated with sites, particles and the spatia
 .. figure:: doc/configuration.svg
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SolidOfRevolutionTable &mdash; FEASST v0.25.1 documentation</title>
+  <title>SolidOfRevolutionTable &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -29,7 +29,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="FileVMDPatch" href="FileVMDPatch.html" />
+    <link rel="next" title="Mayer" href="../../mayer/README.html" />
     <link rel="prev" title="Spherocylinder" href="Spherocylinder.html" />
 
 	<!-- frame blocking -->
@@ -57,7 +57,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -77,17 +77,17 @@
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Patch</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="PatchAngle.html">PatchAngle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMDSpherocylinder.html">FileVMDSpherocylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MovieSpherocylinder.html">MovieSpherocylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMDPatch.html">FileVMDPatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MoviePatch.html">MoviePatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TwoParticleContactObjective.html">TwoParticleContactObjective</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitModelInnerPatch.html">VisitModelInnerPatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Spherocylinder.html">Spherocylinder</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">SolidOfRevolutionTable</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst22SolidOfRevolutionTableE"><code class="docutils literal notranslate"><span class="pre">SolidOfRevolutionTable</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="FileVMDPatch.html">FileVMDPatch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileVMDSpherocylinder.html">FileVMDSpherocylinder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TwoParticleContactObjective.html">TwoParticleContactObjective</a></li>
-<li class="toctree-l3"><a class="reference internal" href="MoviePatch.html">MoviePatch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="MovieSpherocylinder.html">MovieSpherocylinder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -237,8 +237,8 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst22SolidOfRevolutionTable15is_energy_tableERKNSt6vectorINSt6vectorI7Table4DEEEE">
-<span class="target" id="classfeasst_1_1SolidOfRevolutionTable_1a6f11e24ed5626a970ae059ffa0289d93"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_energy_table</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../math/doc/Table.html#_CPPv4N6feasst7Table4DE" title="feasst::Table4D"><span class="n"><span class="pre">Table4D</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst22SolidOfRevolutionTable15is_energy_tableERKNSt6vectorINSt6vectorI7Table4DEEEE" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst22SolidOfRevolutionTable15is_energy_tableERKNSt6vectorINSt6vectorINSt10shared_ptrI7Table4DEEEEEE">
+<span class="target" id="classfeasst_1_1SolidOfRevolutionTable_1adee0ca519f3cb8b787fbe7e37d9ccb10"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_energy_table</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../math/doc/Table.html#_CPPv4N6feasst7Table4DE" title="feasst::Table4D"><span class="n"><span class="pre">Table4D</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst22SolidOfRevolutionTable15is_energy_tableERKNSt6vectorINSt6vectorINSt10shared_ptrI7Table4DEEEEEE" title="Link to this definition"></a><br /></dt>
 <dd><p>Return true if there is an energy table. </p>
 </dd></dl>
 
@@ -260,7 +260,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Spherocylinder.html" class="btn btn-neutral float-left" title="Spherocylinder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="FileVMDPatch.html" class="btn btn-neutral float-right" title="FileVMDPatch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../mayer/README.html" class="btn btn-neutral float-right" title="Mayer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

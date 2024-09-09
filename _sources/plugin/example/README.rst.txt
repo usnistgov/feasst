@@ -41,7 +41,7 @@ In addition, use the example plugin as a template to create new plugins with the
 
 3. Find "set(FEASST_PLUGINS ...)" in /path/to/feasst/CMakeLists.txt and add "new_plugin" to the semicolon-separated list.
 
-4. Add one class present in the new_plugin near the bottom of /path/to/feasst/py/depend.py. For example, if there is a class NewName in new_plugin, add the following line near all of the similar lines near the end of depend.py: "if 'new_plugin' in include_plugin: select_classes.append("NewName")
+4. Add one class present in the new_plugin near the bottom of /path/to/feasst/dev/tools/depend.py. For example, if there is a class NewName in new_plugin, add the following line near all of the similar lines near the end of depend.py: "if 'new_plugin' in include_plugin: select_classes.append("NewName")
 
 5. Reinstall FEASST, starting with the cmake command.
 
@@ -59,5 +59,6 @@ API
 ===
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc

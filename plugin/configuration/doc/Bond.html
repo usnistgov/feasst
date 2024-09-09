@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bond &mdash; FEASST v0.25.1 documentation</title>
+  <title>Bond &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -27,7 +27,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Domain" href="Domain.html" />
+    <link rel="next" title="Configuration" href="Configuration.html" />
     <link rel="prev" title="Properties" href="Properties.html" />
 
 	<!-- frame blocking -->
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -68,7 +68,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Properties.html">Properties</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Bond</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst4BondE"><code class="docutils literal notranslate"><span class="pre">Bond</span></code></a></li>
@@ -77,21 +76,21 @@
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst8ImproperE"><code class="docutils literal notranslate"><span class="pre">Improper</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileParticle.html">FileParticle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PrinterXYZ.html">PrinterXYZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileParticle.html">FileParticle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -213,11 +212,23 @@
 <h1>Bond<a class="headerlink" href="#bond" title="Link to this heading"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst4BondE">
-<span class="target" id="classfeasst_1_1Bond"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Bond</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity"><span class="n"><span class="pre">PropertiedEntity</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="TypedEntity.html#_CPPv4N6feasst11TypedEntityE" title="feasst::TypedEntity"><span class="n"><span class="pre">TypedEntity</span></span></a><a class="headerlink" href="#_CPPv4N6feasst4BondE" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1Bond"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Bond</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity"><span class="n"><span class="pre">PropertiedEntity</span></span></a><a class="headerlink" href="#_CPPv4N6feasst4BondE" title="Link to this definition"></a><br /></dt>
 <dd><p>Sites within the same particle may be bonded. The indices of the sites which are bonded are stored here. The type of the bond is used to determine the bond model. </p>
 <p>Subclassed by <a class="reference internal" href="Bond_arguments.html#classfeasst_1_1Angle"><span class="std std-ref">feasst::Angle</span></a>, <a class="reference internal" href="Bond_arguments.html#classfeasst_1_1Dihedral"><span class="std std-ref">feasst::Dihedral</span></a>, <a class="reference internal" href="Bond_arguments.html#classfeasst_1_1Improper"><span class="std std-ref">feasst::Improper</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst4Bond4typeEv">
+<span class="target" id="classfeasst_1_1Bond_1ab3bac1d175d17fc1b9f6951a68bdd2e7"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst4Bond4typeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Obtain the type. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst4Bond8set_typeEKi">
+<span class="target" id="classfeasst_1_1Bond_1aead7afb83f0de5ccd03391876a3a929a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bond8set_typeEKi" title="Link to this definition"></a><br /></dt>
+<dd><p>Set the type. </p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst4Bond12site_indicesEv">
 <span class="target" id="classfeasst_1_1Bond_1ae45ee05880aab55c6829a79466c717f3"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">site_indices</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst4Bond12site_indicesEv" title="Link to this definition"></a><br /></dt>
@@ -282,7 +293,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Properties.html" class="btn btn-neutral float-left" title="Properties" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Domain.html" class="btn btn-neutral float-right" title="Domain" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Configuration.html" class="btn btn-neutral float-right" title="Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

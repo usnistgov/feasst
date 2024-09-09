@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modify FEASST &mdash; FEASST v0.25.1 documentation</title>
+  <title>Modify FEASST &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="&lt;no title&gt;" href="doc/toc.html" />
-    <link rel="prev" title="Backmap" href="../aniso/doc/Backmap.html" />
+    <link rel="prev" title="VisitModelInnerNN" href="../aniso/doc/VisitModelInnerNN.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -57,7 +57,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -95,10 +95,10 @@
 <li class="toctree-l3"><a class="reference internal" href="tutorial/tutorial_03_custom_action.html">Make your own custom Action</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="doc/ActionExample.html">ActionExample</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Gamma.html">Gamma</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/ModelExample.html">ModelExample</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ActionExample.html">ActionExample</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/AnalyzeExample.html">AnalyzeExample</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ModelExample.html">ModelExample</a></li>
 </ul>
 </li>
 </ul>
@@ -117,10 +117,10 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial_03_custom_action.html">Make your own custom Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ActionExample.html">ActionExample</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/Gamma.html">Gamma</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelExample.html">ModelExample</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/ActionExample.html">ActionExample</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/AnalyzeExample.html">AnalyzeExample</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/ModelExample.html">ModelExample</a></li>
 </ul>
 </li>
 </ul>
@@ -241,7 +241,7 @@ cp<span class="w"> </span>-r<span class="w"> </span>example<span class="w"> </sp
 <ol class="arabic simple" start="2">
 <li><p>Remove the classes (.h and .cpp files) that you do not need and make sure the ones you need are renamed to something unique, as described in the previous steps 1-3 for making a new class detailed above.</p></li>
 <li><p>Find “set(FEASST_PLUGINS …)” in /path/to/feasst/CMakeLists.txt and add “new_plugin” to the semicolon-separated list.</p></li>
-<li><p>Add one class present in the new_plugin near the bottom of /path/to/feasst/py/depend.py. For example, if there is a class NewName in new_plugin, add the following line near all of the similar lines near the end of depend.py: “if ‘new_plugin’ in include_plugin: select_classes.append(“NewName”)</p></li>
+<li><p>Add one class present in the new_plugin near the bottom of /path/to/feasst/dev/tools/depend.py. For example, if there is a class NewName in new_plugin, add the following line near all of the similar lines near the end of depend.py: “if ‘new_plugin’ in include_plugin: select_classes.append(“NewName”)</p></li>
 <li><p>Reinstall FEASST, starting with the cmake command.</p></li>
 </ol>
 <div class="toctree-wrapper compound">
@@ -261,37 +261,10 @@ cp<span class="w"> </span>-r<span class="w"> </span>example<span class="w"> </sp
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="doc/ActionExample.html">ActionExample</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ActionExample.html#_CPPv4N6feasst13ActionExampleE"><code class="docutils literal notranslate"><span class="pre">ActionExample</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Gamma.html">Gamma</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/Gamma.html#_CPPv4N6feasst5GammaE"><code class="docutils literal notranslate"><span class="pre">Gamma</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelExample.html">ModelExample</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ModelExample.html#_CPPv4N6feasst12ModelExampleE"><code class="docutils literal notranslate"><span class="pre">ModelExample</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelExample.html#_CPPv4NK6feasst12ModelExample21num_discretized_stepsEv"><code class="docutils literal notranslate"><span class="pre">num_discretized_steps()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelExample.html#_CPPv4N6feasst12ModelExample10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelExample.html#_CPPv4N6feasst12ModelExample6energyEKdKiKiRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelExample.html#_CPPv4NK6feasst12ModelExample9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelExample.html#_CPPv4NK6feasst12ModelExample6createERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/AnalyzeExample.html">AnalyzeExample</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExampleE"><code class="docutils literal notranslate"><span class="pre">AnalyzeExample</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/AnalyzeExample.html#_CPPv4NK6feasst14AnalyzeExample16geometric_centerEKi"><code class="docutils literal notranslate"><span class="pre">geometric_center()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/AnalyzeExample.html#_CPPv4NK6feasst14AnalyzeExample16geometric_centerEv"><code class="docutils literal notranslate"><span class="pre">geometric_center()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/AnalyzeExample.html#_CPPv4NK6feasst14AnalyzeExample6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExample10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExample6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExample5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Gamma.html">Gamma</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ActionExample.html">ActionExample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/AnalyzeExample.html">AnalyzeExample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelExample.html">ModelExample</a></li>
 </ul>
 </div>
 </section>
@@ -301,7 +274,7 @@ cp<span class="w"> </span>-r<span class="w"> </span>example<span class="w"> </sp
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../aniso/doc/Backmap.html" class="btn btn-neutral float-left" title="Backmap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../aniso/doc/VisitModelInnerNN.html" class="btn btn-neutral float-left" title="VisitModelInnerNN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="doc/toc.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -5,6 +5,7 @@ Math
 This plugin contains math utilities.
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>System &mdash; FEASST v0.25.1 documentation</title>
+  <title>System &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="&lt;no title&gt;" href="doc/toc.html" />
-    <link rel="prev" title="PrinterXYZ" href="../configuration/doc/PrinterXYZ.html" />
+    <link rel="prev" title="Select" href="../configuration/doc/Select.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -57,7 +57,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -73,41 +73,42 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">System</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="doc/SynchronizeData.html">SynchronizeData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Cells.html">Cells</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Model.html">Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/ThermoParams.html">ThermoParams</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/BondFourBody.html">BondFourBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/RigidDihedral.html">RigidDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/BondThreeBody.html">BondThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/RigidAngle.html">RigidAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/BondTwoBody.html">BondTwoBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/RigidBond.html">RigidBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/BondSquareWell.html">BondSquareWell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/BondThreeBody.html">BondThreeBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/AngleSquareWell.html">AngleSquareWell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/RigidAngle.html">RigidAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/BondFourBody.html">BondFourBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/BondVisitor.html">BondVisitor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/VisitModel.html">VisitModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/DontVisitModel.html">DontVisitModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/ModelTwoBody.html">ModelTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/IdealGas.html">IdealGas</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/HardSphere.html">HardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/CutoffOuter.html">CutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/ModelEmpty.html">ModelEmpty</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/IdealGas.html">IdealGas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/HardSphere.html">HardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/LennardJones.html">LennardJones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/Cells.html">Cells</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/PotentialFactory.html">PotentialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/SynchronizeData.html">SynchronizeData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/System.html">System</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ThermoParams.html">ThermoParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/VisitModel.html">VisitModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/DontVisitModel.html">DontVisitModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/VisitModelBond.html">VisitModelBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/VisitModelCutoffOuter.html">VisitModelCutoffOuter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/VisitModelIntraMap.html">VisitModelIntraMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/VisitModelBond.html">VisitModelBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/LennardJones.html">LennardJones</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/CutoffOuter.html">CutoffOuter</a></li>
 </ul>
 </li>
 </ul>
@@ -237,422 +238,42 @@
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="doc/SynchronizeData.html">SynchronizeData</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeDataE"><code class="docutils literal notranslate"><span class="pre">SynchronizeData</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4NK6feasst15SynchronizeData7dble_1DEv"><code class="docutils literal notranslate"><span class="pre">dble_1D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4NK6feasst15SynchronizeData6int_1DEv"><code class="docutils literal notranslate"><span class="pre">int_1D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4NK6feasst15SynchronizeData8int64_1DEv"><code class="docutils literal notranslate"><span class="pre">int64_1D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeData11get_dble_1DEv"><code class="docutils literal notranslate"><span class="pre">get_dble_1D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeData10get_int_1DEv"><code class="docutils literal notranslate"><span class="pre">get_int_1D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeData12get_int64_1DEv"><code class="docutils literal notranslate"><span class="pre">get_int64_1D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4NK6feasst15SynchronizeData7dble_2DEv"><code class="docutils literal notranslate"><span class="pre">dble_2D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeData11get_dble_2DEv"><code class="docutils literal notranslate"><span class="pre">get_dble_2D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4NK6feasst15SynchronizeData7dble_3DEv"><code class="docutils literal notranslate"><span class="pre">dble_3D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeData11get_dble_3DEv"><code class="docutils literal notranslate"><span class="pre">get_dble_3D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4NK6feasst15SynchronizeData7dble_5DEv"><code class="docutils literal notranslate"><span class="pre">dble_5D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeData11get_dble_5DEv"><code class="docutils literal notranslate"><span class="pre">get_dble_5D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4NK6feasst15SynchronizeData7dble_6DEv"><code class="docutils literal notranslate"><span class="pre">dble_6D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeData11get_dble_6DEv"><code class="docutils literal notranslate"><span class="pre">get_dble_6D()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4NK6feasst15SynchronizeData19get_const_vpvpvpvpvEv"><code class="docutils literal notranslate"><span class="pre">get_const_vpvpvpvpv()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeData13get_vpvpvpvpvEv"><code class="docutils literal notranslate"><span class="pre">get_vpvpvpvpv()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4NK6feasst15SynchronizeData17get_const_vvvpvpvEv"><code class="docutils literal notranslate"><span class="pre">get_const_vvvpvpv()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/SynchronizeData.html#_CPPv4N6feasst15SynchronizeData11get_vvvpvpvEv"><code class="docutils literal notranslate"><span class="pre">get_vvvpvpv()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Model.html">Model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/Model.html#_CPPv4N6feasst5ModelE"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4N6feasst5Model7computeERK11ModelParamsKiP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4N6feasst5Model7computeERK11ModelParamsP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4N6feasst5Model7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4N6feasst5Model7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4NK6feasst5Model8num_bodyEv"><code class="docutils literal notranslate"><span class="pre">num_body()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4N6feasst5Model10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4NK6feasst5Model13epsilon_indexEv"><code class="docutils literal notranslate"><span class="pre">epsilon_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4NK6feasst5Model11sigma_indexEv"><code class="docutils literal notranslate"><span class="pre">sigma_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4NK6feasst5Model12cutoff_indexEv"><code class="docutils literal notranslate"><span class="pre">cutoff_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4NK6feasst5Model12charge_indexEv"><code class="docutils literal notranslate"><span class="pre">charge_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4NK6feasst5Model9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4N6feasst5Model11deserializeERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">deserialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Model.html#_CPPv4N6feasst5Model7factoryEKNSt6stringEP7argtype"><code class="docutils literal notranslate"><span class="pre">factory()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ThermoParams.html">ThermoParams</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4N6feasst12ThermoParamsE"><code class="docutils literal notranslate"><span class="pre">ThermoParams</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4N6feasst12ThermoParams8set_betaEKd"><code class="docutils literal notranslate"><span class="pre">set_beta()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4NK6feasst12ThermoParams4betaEv"><code class="docutils literal notranslate"><span class="pre">beta()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4N6feasst12ThermoParams6set_pHEKd"><code class="docutils literal notranslate"><span class="pre">set_pH()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4NK6feasst12ThermoParams2pHEv"><code class="docutils literal notranslate"><span class="pre">pH()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4N6feasst12ThermoParams22add_chemical_potentialEKd"><code class="docutils literal notranslate"><span class="pre">add_chemical_potential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4N6feasst12ThermoParams22set_chemical_potentialEKdKi"><code class="docutils literal notranslate"><span class="pre">set_chemical_potential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4NK6feasst12ThermoParams18chemical_potentialEKi"><code class="docutils literal notranslate"><span class="pre">chemical_potential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4NK6feasst12ThermoParams7beta_muEKi"><code class="docutils literal notranslate"><span class="pre">beta_mu()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4NK6feasst12ThermoParams8pressureEv"><code class="docutils literal notranslate"><span class="pre">pressure()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4N6feasst12ThermoParams12set_pressureEKd"><code class="docutils literal notranslate"><span class="pre">set_pressure()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4NK6feasst12ThermoParams3strEv"><code class="docutils literal notranslate"><span class="pre">str()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ThermoParams.html#_CPPv4NK6feasst12ThermoParams8is_equalERK12ThermoParams"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/EnergyMap.html">EnergyMap</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4N6feasst9EnergyMapE"><code class="docutils literal notranslate"><span class="pre">EnergyMap</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap13default_valueEv"><code class="docutils literal notranslate"><span class="pre">default_value()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap5clearEKiKiKiKi"><code class="docutils literal notranslate"><span class="pre">clear()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap6updateEKdKiKiKiKiKiKiKdPK8PositionRK13Configuration"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap12is_queryableEv"><code class="docutils literal notranslate"><span class="pre">is_queryable()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap6energyEKiKi"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap6revertERK6Select"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap8finalizeERK6Select"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap12total_energyEv"><code class="docutils literal notranslate"><span class="pre">total_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap14select_clusterERK16NeighborCriteriaRK13ConfigurationKiP6SelectRK8Position"><code class="docutils literal notranslate"><span class="pre">select_cluster()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap18is_cluster_changedERK16NeighborCriteriaRK6SelectRK13Configuration"><code class="docutils literal notranslate"><span class="pre">is_cluster_changed()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap17neighbor_criteriaEv"><code class="docutils literal notranslate"><span class="pre">neighbor_criteria()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6SelectKi"><code class="docutils literal notranslate"><span class="pre">neighbors()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelInner.html">VisitModelInner</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/VisitModelInner.html#_CPPv4N6feasst15VisitModelInnerE"><code class="docutils literal notranslate"><span class="pre">VisitModelInner</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/BondTwoBody.html">BondTwoBody</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/BondTwoBody.html#_CPPv4N6feasst11BondTwoBodyE"><code class="docutils literal notranslate"><span class="pre">BondTwoBody</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/RigidBond.html">RigidBond</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/RigidBond.html#_CPPv4N6feasst9RigidBondE"><code class="docutils literal notranslate"><span class="pre">RigidBond</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/BondSquareWell.html">BondSquareWell</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/BondSquareWell.html#_CPPv4N6feasst14BondSquareWellE"><code class="docutils literal notranslate"><span class="pre">BondSquareWell</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/BondThreeBody.html">BondThreeBody</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/BondThreeBody.html#_CPPv4N6feasst13BondThreeBodyE"><code class="docutils literal notranslate"><span class="pre">BondThreeBody</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/BondThreeBody.html#_CPPv4NK6feasst13BondThreeBody6energyERK8PositionRK8PositionRK8PositionRK4Bond"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/BondThreeBody.html#_CPPv4NK6feasst13BondThreeBody6energyEKdRK4Bond"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/BondThreeBody.html#_CPPv4NK6feasst13BondThreeBody20random_angle_radiansERK5AngleKdKiP6Random"><code class="docutils literal notranslate"><span class="pre">random_angle_radians()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/BondThreeBody.html#_CPPv4NK6feasst13BondThreeBody13random_branchERK5AngleRK5AngleRK5AngleKdKbPdPdPdP6RandomPdPCK8PositionPCK8PositionPCK8PositionPCK8Position"><code class="docutils literal notranslate"><span class="pre">random_branch()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/AngleSquareWell.html">AngleSquareWell</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/AngleSquareWell.html#_CPPv4N6feasst15AngleSquareWellE"><code class="docutils literal notranslate"><span class="pre">AngleSquareWell</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/AngleSquareWell.html#_CPPv4NK6feasst15AngleSquareWell6energyEKdRK4Bond"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/RigidAngle.html">RigidAngle</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/RigidAngle.html#_CPPv4N6feasst10RigidAngleE"><code class="docutils literal notranslate"><span class="pre">RigidAngle</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/RigidAngle.html#_CPPv4NK6feasst10RigidAngle6energyEKdRK4Bond"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/RigidAngle.html#_CPPv4NK6feasst10RigidAngle20random_angle_radiansERK5AngleKdKiP6Random"><code class="docutils literal notranslate"><span class="pre">random_angle_radians()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/RigidAngle.html#_CPPv4NK6feasst10RigidAngle13random_branchERK5AngleRK5AngleRK5AngleKdKbPdPdPdP6RandomPdPCK8PositionPCK8PositionPCK8PositionPCK8Position"><code class="docutils literal notranslate"><span class="pre">random_branch()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/BondFourBody.html">BondFourBody</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/BondFourBody.html#_CPPv4N6feasst12BondFourBodyE"><code class="docutils literal notranslate"><span class="pre">BondFourBody</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/RigidDihedral.html">RigidDihedral</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/RigidDihedral.html#_CPPv4N6feasst13RigidDihedralE"><code class="docutils literal notranslate"><span class="pre">RigidDihedral</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/BondVisitor.html">BondVisitor</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/BondVisitor.html#_CPPv4N6feasst11BondVisitorE"><code class="docutils literal notranslate"><span class="pre">BondVisitor</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/BondVisitor.html#_CPPv4N6feasst11BondVisitor11BondVisitorE7argtype"><code class="docutils literal notranslate"><span class="pre">BondVisitor()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/VisitModel.html">VisitModel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/VisitModel.html#_CPPv4N6feasst10VisitModelE"><code class="docutils literal notranslate"><span class="pre">VisitModel</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModel.html#_CPPv4NK6feasst10VisitModel6energyEv"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModel.html#_CPPv4N6feasst10VisitModel10set_energyEKd"><code class="docutils literal notranslate"><span class="pre">set_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModel.html#_CPPv4N6feasst10VisitModel16increment_energyEKd"><code class="docutils literal notranslate"><span class="pre">increment_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModel.html#_CPPv4N6feasst10VisitModel12check_energyEP5ModelP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">check_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModel.html#_CPPv4N6feasst10VisitModel13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModel.html#_CPPv4NK6feasst10VisitModel13epsilon_indexEv"><code class="docutils literal notranslate"><span class="pre">epsilon_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModel.html#_CPPv4NK6feasst10VisitModel11sigma_indexEv"><code class="docutils literal notranslate"><span class="pre">sigma_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModel.html#_CPPv4NK6feasst10VisitModel12cutoff_indexEv"><code class="docutils literal notranslate"><span class="pre">cutoff_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModel.html#_CPPv4NK6feasst10VisitModel12charge_indexEv"><code class="docutils literal notranslate"><span class="pre">charge_index()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/DontVisitModel.html">DontVisitModel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/DontVisitModel.html#_CPPv4N6feasst14DontVisitModelE"><code class="docutils literal notranslate"><span class="pre">DontVisitModel</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/LongRangeCorrections.html">LongRangeCorrections</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrectionsE"><code class="docutils literal notranslate"><span class="pre">LongRangeCorrections</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrections10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelTwoBody.html">ModelTwoBody</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE"><code class="docutils literal notranslate"><span class="pre">ModelTwoBody</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBody7computeERK11ModelParamsP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBody.html#_CPPv4NK6feasst12ModelTwoBody8num_bodyEv"><code class="docutils literal notranslate"><span class="pre">num_body()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/IdealGas.html">IdealGas</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/IdealGas.html#_CPPv4N6feasst8IdealGasE"><code class="docutils literal notranslate"><span class="pre">IdealGas</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/IdealGas.html#_CPPv4NK6feasst8IdealGas9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelTwoBodyFactory.html">ModelTwoBodyFactory</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ModelTwoBodyFactory.html#_CPPv4N6feasst19ModelTwoBodyFactoryE"><code class="docutils literal notranslate"><span class="pre">ModelTwoBodyFactory</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyFactory.html#_CPPv4N6feasst19ModelTwoBodyFactory3addENSt6vectorINSt10shared_ptrI12ModelTwoBodyEEEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyFactory.html#_CPPv4N6feasst19ModelTwoBodyFactory3addENSt10shared_ptrI12ModelTwoBodyEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyFactory.html#_CPPv4NK6feasst19ModelTwoBodyFactory3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyFactory.html#_CPPv4NK6feasst19ModelTwoBodyFactory5modelEKi"><code class="docutils literal notranslate"><span class="pre">model()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyFactory.html#_CPPv4N6feasst19ModelTwoBodyFactory10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyFactory.html#_CPPv4NK6feasst19ModelTwoBodyFactory9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/HardSphere.html">HardSphere</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/HardSphere.html#_CPPv4N6feasst10HardSphereE"><code class="docutils literal notranslate"><span class="pre">HardSphere</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/HardSphere.html#_CPPv4NK6feasst10HardSphere9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelOneBody.html">ModelOneBody</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE"><code class="docutils literal notranslate"><span class="pre">ModelOneBody</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBody7computeERK11ModelParamsP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBody7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelOneBody.html#_CPPv4NK6feasst12ModelOneBody8num_bodyEv"><code class="docutils literal notranslate"><span class="pre">num_body()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBody6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBody14energy_no_wrapERK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy_no_wrap()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelEmpty.html">ModelEmpty</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ModelEmpty.html#_CPPv4N6feasst10ModelEmptyE"><code class="docutils literal notranslate"><span class="pre">ModelEmpty</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelEmpty.html#_CPPv4N6feasst10ModelEmpty6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelEmpty.html#_CPPv4NK6feasst10ModelEmpty9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelThreeBody.html">ModelThreeBody</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ModelThreeBody.html#_CPPv4N6feasst14ModelThreeBodyE"><code class="docutils literal notranslate"><span class="pre">ModelThreeBody</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelThreeBody.html#_CPPv4N6feasst14ModelThreeBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelThreeBody.html#_CPPv4N6feasst14ModelThreeBody7computeERK11ModelParamsP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelThreeBody.html#_CPPv4NK6feasst14ModelThreeBody8num_bodyEv"><code class="docutils literal notranslate"><span class="pre">num_body()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelTwoBodyTable.html">ModelTwoBodyTable</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTableE"><code class="docutils literal notranslate"><span class="pre">ModelTwoBodyTable</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable17ModelTwoBodyTableE7argtype"><code class="docutils literal notranslate"><span class="pre">ModelTwoBodyTable()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable6resizeEKi"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setENSt10shared_ptrI7Table1DEEKiKi"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setERK11ModelParamsKiKiP5Model"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setERK11ModelParamsKiKiNSt10shared_ptrI5ModelEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyTable.html#_CPPv4NK6feasst17ModelTwoBodyTable5tableEKiKi"><code class="docutils literal notranslate"><span class="pre">table()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelTwoBodyTable.html#_CPPv4NK6feasst17ModelTwoBodyTable9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Cells.html">Cells</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/Cells.html#_CPPv4N6feasst5CellsE"><code class="docutils literal notranslate"><span class="pre">Cells</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4N6feasst5Cells6createEKdKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4NK6feasst5Cells9num_totalEv"><code class="docutils literal notranslate"><span class="pre">num_total()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4NK6feasst5Cells3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4NK6feasst5Cells3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4N6feasst5Cells9set_groupEKi"><code class="docutils literal notranslate"><span class="pre">set_group()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4NK6feasst5Cells5groupEv"><code class="docutils literal notranslate"><span class="pre">group()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4N6feasst5Cells5clearEv"><code class="docutils literal notranslate"><span class="pre">clear()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4NK6feasst5Cells8neighborEv"><code class="docutils literal notranslate"><span class="pre">neighbor()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4NK6feasst5Cells9particlesEv"><code class="docutils literal notranslate"><span class="pre">particles()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4NK6feasst5Cells9num_sitesEv"><code class="docutils literal notranslate"><span class="pre">num_sites()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4NK6feasst5Cells2idERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">id()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4NK6feasst5Cells4typeEv"><code class="docutils literal notranslate"><span class="pre">type()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Cells.html#_CPPv4N6feasst5Cells8set_typeEKi"><code class="docutils literal notranslate"><span class="pre">set_type()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelCell.html">VisitModelCell</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCellE"><code class="docutils literal notranslate"><span class="pre">VisitModelCell</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell14VisitModelCellENSt10shared_ptrI15VisitModelInnerEE7argtype"><code class="docutils literal notranslate"><span class="pre">VisitModelCell()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModelCell.html#_CPPv4NK6feasst14VisitModelCell5cellsEv"><code class="docutils literal notranslate"><span class="pre">cells()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModelCell.html#_CPPv4NK6feasst14VisitModelCell7cell_idERK6DomainRK8Position"><code class="docutils literal notranslate"><span class="pre">cell_id()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell12cell_id_opt_ERK6DomainRK8Position"><code class="docutils literal notranslate"><span class="pre">cell_id_opt_()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Potential.html">Potential</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9PotentialE"><code class="docutils literal notranslate"><span class="pre">Potential</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4NK6feasst9Potential11group_indexEv"><code class="docutils literal notranslate"><span class="pre">group_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4NK6feasst9Potential10cell_indexEv"><code class="docutils literal notranslate"><span class="pre">cell_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEE7argtype"><code class="docutils literal notranslate"><span class="pre">Potential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4NK6feasst9Potential5modelEv"><code class="docutils literal notranslate"><span class="pre">model()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI10VisitModelEE7argtype"><code class="docutils literal notranslate"><span class="pre">Potential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4NK6feasst9Potential11visit_modelEv"><code class="docutils literal notranslate"><span class="pre">visit_model()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEENSt10shared_ptrI10VisitModelEE7argtype"><code class="docutils literal notranslate"><span class="pre">Potential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential3setERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential16set_model_paramsERK13Configuration"><code class="docutils literal notranslate"><span class="pre">set_model_params()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential15set_model_paramERKNSt6stringEKiKd"><code class="docutils literal notranslate"><span class="pre">set_model_param()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential15set_model_paramERKNSt6stringEKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_model_param()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4NK6feasst9Potential12model_paramsEv"><code class="docutils literal notranslate"><span class="pre">model_params()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4NK6feasst9Potential12model_paramsERK13Configuration"><code class="docutils literal notranslate"><span class="pre">model_params()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential6energyEP13Configuration"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential13select_energyERK6SelectP13Configuration"><code class="docutils literal notranslate"><span class="pre">select_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4NK6feasst9Potential13stored_energyEv"><code class="docutils literal notranslate"><span class="pre">stored_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential17set_stored_energyEKd"><code class="docutils literal notranslate"><span class="pre">set_stored_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential6revertERK6Select"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential8finalizeERK6SelectP13Configuration"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4NK6feasst9Potential5cacheEv"><code class="docutils literal notranslate"><span class="pre">cache()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential10load_cacheEKb"><code class="docutils literal notranslate"><span class="pre">load_cache()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential12unload_cacheERK9Potential"><code class="docutils literal notranslate"><span class="pre">unload_cache()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4NK6feasst9Potential9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Potential.html#_CPPv4N6feasst9Potential9PotentialERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">Potential()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PotentialFactory.html">PotentialFactory</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactoryE"><code class="docutils literal notranslate"><span class="pre">PotentialFactory</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory3addENSt10shared_ptrI9PotentialEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory3setEKiNSt10shared_ptrI9PotentialEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4NK6feasst16PotentialFactory10potentialsEv"><code class="docutils literal notranslate"><span class="pre">potentials()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4NK6feasst16PotentialFactory9potentialEKi"><code class="docutils literal notranslate"><span class="pre">potential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4NK6feasst16PotentialFactory3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory10precomputeEKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory18remove_opt_overlapEv"><code class="docutils literal notranslate"><span class="pre">remove_opt_overlap()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory6energyEP13Configuration"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory13select_energyERK6SelectP13Configuration"><code class="docutils literal notranslate"><span class="pre">select_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4NK6feasst16PotentialFactory21stored_energy_profileEv"><code class="docutils literal notranslate"><span class="pre">stored_energy_profile()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4NK6feasst16PotentialFactory13stored_energyEv"><code class="docutils literal notranslate"><span class="pre">stored_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4NK6feasst16PotentialFactory3strEv"><code class="docutils literal notranslate"><span class="pre">str()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory6revertERK6Select"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory8finalizeERK6SelectP13Configuration"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory10load_cacheEKb"><code class="docutils literal notranslate"><span class="pre">load_cache()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory12unload_cacheERK16PotentialFactory"><code class="docutils literal notranslate"><span class="pre">unload_cache()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4NK6feasst16PotentialFactory9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PotentialFactory.html#_CPPv4N6feasst16PotentialFactory16PotentialFactoryERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">PotentialFactory()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/System.html">System</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6SystemE"><code class="docutils literal notranslate"><span class="pre">System</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System3setENSt10shared_ptrI12ThermoParamsEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System13thermo_paramsEv"><code class="docutils literal notranslate"><span class="pre">thermo_params()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System8set_betaEKd"><code class="docutils literal notranslate"><span class="pre">set_beta()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System13change_volumeEKd7argtype"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System21delta_volume_previousEv"><code class="docutils literal notranslate"><span class="pre">delta_volume_previous()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System12total_volumeEv"><code class="docutils literal notranslate"><span class="pre">total_volume()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System6revertERK6SelectKi"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System8finalizeERK6SelectKi"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System10load_cacheEKb"><code class="docutils literal notranslate"><span class="pre">load_cache()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System12unload_cacheERK6System"><code class="docutils literal notranslate"><span class="pre">unload_cache()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System13status_headerEv"><code class="docutils literal notranslate"><span class="pre">status_header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System6statusEv"><code class="docutils literal notranslate"><span class="pre">status()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System5checkEKi"><code class="docutils literal notranslate"><span class="pre">check()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System6SystemERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">System()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System3addENSt10shared_ptrI13ConfigurationEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System18num_configurationsEv"><code class="docutils literal notranslate"><span class="pre">num_configurations()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System13configurationEKi"><code class="docutils literal notranslate"><span class="pre">configuration()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System9dimensionEKi"><code class="docutils literal notranslate"><span class="pre">dimension()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System3addENSt10shared_ptrI9PotentialEEKi"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System15set_unoptimizedEKiNSt10shared_ptrI9PotentialEEKi"><code class="docutils literal notranslate"><span class="pre">set_unoptimized()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System18add_to_unoptimizedENSt10shared_ptrI9PotentialEEKi"><code class="docutils literal notranslate"><span class="pre">add_to_unoptimized()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System11unoptimizedEKi"><code class="docutils literal notranslate"><span class="pre">unoptimized()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System9potentialEKiKi"><code class="docutils literal notranslate"><span class="pre">potential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System16add_to_optimizedENSt10shared_ptrI9PotentialEEKi"><code class="docutils literal notranslate"><span class="pre">add_to_optimized()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System9optimizedEKi"><code class="docutils literal notranslate"><span class="pre">optimized()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System16add_to_referenceENSt10shared_ptrI9PotentialEEKiKi"><code class="docutils literal notranslate"><span class="pre">add_to_reference()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System14num_referencesEKi"><code class="docutils literal notranslate"><span class="pre">num_references()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System9referenceEKiKiKi"><code class="docutils literal notranslate"><span class="pre">reference()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System10referencesEv"><code class="docutils literal notranslate"><span class="pre">references()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System10potentialsEKi"><code class="docutils literal notranslate"><span class="pre">potentials()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System18remove_opt_overlapEv"><code class="docutils literal notranslate"><span class="pre">remove_opt_overlap()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System3addENSt10shared_ptrI16NeighborCriteriaEEKi"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System17neighbor_criteriaEKiKi"><code class="docutils literal notranslate"><span class="pre">neighbor_criteria()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System17neighbor_criteriaEKi"><code class="docutils literal notranslate"><span class="pre">neighbor_criteria()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System10precomputeEv"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System18unoptimized_energyEKi"><code class="docutils literal notranslate"><span class="pre">unoptimized_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System6energyEKi"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System16perturbed_energyERK6SelectKi"><code class="docutils literal notranslate"><span class="pre">perturbed_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System13stored_energyEKi"><code class="docutils literal notranslate"><span class="pre">stored_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4NK6feasst6System21stored_energy_profileEKi"><code class="docutils literal notranslate"><span class="pre">stored_energy_profile()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System16reference_energyEKiKi"><code class="docutils literal notranslate"><span class="pre">reference_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System16reference_energyERK6SelectKiKi"><code class="docutils literal notranslate"><span class="pre">reference_energy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/System.html#_CPPv4N6feasst6System6SystemEv"><code class="docutils literal notranslate"><span class="pre">System()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelIntra.html">VisitModelIntra</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/VisitModelIntra.html#_CPPv4N6feasst15VisitModelIntraE"><code class="docutils literal notranslate"><span class="pre">VisitModelIntra</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelIntraMap.html">VisitModelIntraMap</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMapE"><code class="docutils literal notranslate"><span class="pre">VisitModelIntraMap</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMap10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMap11include_mapEKiKiKi"><code class="docutils literal notranslate"><span class="pre">include_map()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelBond.html">VisitModelBond</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/VisitModelBond.html#_CPPv4N6feasst14VisitModelBondE"><code class="docutils literal notranslate"><span class="pre">VisitModelBond</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/LennardJones.html">LennardJones</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/LennardJones.html#_CPPv4N6feasst12LennardJonesE"><code class="docutils literal notranslate"><span class="pre">LennardJones</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/LennardJones.html#_CPPv4NK6feasst12LennardJones21hard_sphere_thresholdEv"><code class="docutils literal notranslate"><span class="pre">hard_sphere_threshold()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/LennardJones.html#_CPPv4NK6feasst12LennardJones9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/CutoffOuter.html">CutoffOuter</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/CutoffOuter.html#_CPPv4N6feasst11CutoffOuterE"><code class="docutils literal notranslate"><span class="pre">CutoffOuter</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="doc/CutoffOuter.html#_CPPv4N6feasst21VisitModelCutoffOuterE"><code class="docutils literal notranslate"><span class="pre">VisitModelCutoffOuter</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/CutoffOuter.html#_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterE7argtype"><code class="docutils literal notranslate"><span class="pre">VisitModelCutoffOuter()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/CutoffOuter.html#_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterENSt10shared_ptrI15VisitModelInnerEE7argtype"><code class="docutils literal notranslate"><span class="pre">VisitModelCutoffOuter()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Cells.html">Cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/BondFourBody.html">BondFourBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/RigidDihedral.html">RigidDihedral</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/BondThreeBody.html">BondThreeBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/RigidAngle.html">RigidAngle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/AngleSquareWell.html">AngleSquareWell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/RigidBond.html">RigidBond</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/BondSquareWell.html">BondSquareWell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/BondVisitor.html">BondVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/CutoffOuter.html">CutoffOuter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelOneBody.html">ModelOneBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelEmpty.html">ModelEmpty</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/IdealGas.html">IdealGas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/HardSphere.html">HardSphere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/LennardJones.html">LennardJones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Potential.html">Potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PotentialFactory.html">PotentialFactory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/SynchronizeData.html">SynchronizeData</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/EnergyMap.html">EnergyMap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/System.html">System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ThermoParams.html">ThermoParams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/VisitModel.html">VisitModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/DontVisitModel.html">DontVisitModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelBond.html">VisitModelBond</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelCutoffOuter.html">VisitModelCutoffOuter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/VisitModelIntraMap.html">VisitModelIntraMap</a></li>
 </ul>
 </div>
 </section>
@@ -662,7 +283,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../configuration/doc/PrinterXYZ.html" class="btn btn-neutral float-left" title="PrinterXYZ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../configuration/doc/Select.html" class="btn btn-neutral float-left" title="Select" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="doc/toc.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

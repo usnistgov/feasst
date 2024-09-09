@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beta expanded &mdash; FEASST v0.25.1 documentation</title>
+  <title>Beta expanded &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="&lt;no title&gt;" href="doc/toc.html" />
-    <link rel="prev" title="TrialMorphExpanded" href="../morph/doc/TrialMorphExpanded.html" />
+    <link rel="prev" title="ComputeMorph" href="../morph/doc/ComputeMorph.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -57,7 +57,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -87,11 +87,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../morph/README.html">Morph</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Beta expanded</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/SelectNothing.html">SelectNothing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/ComputeBeta.html">ComputeBeta</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/MacrostateBeta.html">MacrostateBeta</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/PerturbBeta.html">PerturbBeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/SelectNothing.html">SelectNothing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/TrialBeta.html">TrialBeta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ComputeBeta.html">ComputeBeta</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tutorial">Tutorial</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial.html">Beta expanded ensemble</a></li>
 </ul>
@@ -197,41 +197,11 @@
 <p>This plugin is for inverse temperature, or beta, expanded ensemble simulations.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="doc/SelectNothing.html">SelectNothing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/SelectNothing.html#_CPPv4N6feasst13SelectNothingE"><code class="docutils literal notranslate"><span class="pre">SelectNothing</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/SelectNothing.html#_CPPv4N6feasst13SelectNothing6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/MacrostateBeta.html">MacrostateBeta</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/MacrostateBeta.html#_CPPv4N6feasst14MacrostateBetaE"><code class="docutils literal notranslate"><span class="pre">MacrostateBeta</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/MacrostateBeta.html#_CPPv4NK6feasst14MacrostateBeta5valueERK6SystemRK8CriteriaRK10Acceptance"><code class="docutils literal notranslate"><span class="pre">value()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbBeta.html">PerturbBeta</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/PerturbBeta.html#_CPPv4N6feasst11PerturbBetaE"><code class="docutils literal notranslate"><span class="pre">PerturbBeta</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbBeta.html#_CPPv4N6feasst11PerturbBeta7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance"><code class="docutils literal notranslate"><span class="pre">perturb()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbBeta.html#_CPPv4N6feasst11PerturbBeta11change_betaEKdP6System"><code class="docutils literal notranslate"><span class="pre">change_beta()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbBeta.html#_CPPv4N6feasst11PerturbBeta6revertEP6System"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/PerturbBeta.html#_CPPv4N6feasst11PerturbBeta11PerturbBetaE7argtype"><code class="docutils literal notranslate"><span class="pre">PerturbBeta()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialBeta.html">TrialBeta</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/TrialBeta.html#_CPPv4N6feasst9TrialBetaE"><code class="docutils literal notranslate"><span class="pre">TrialBeta</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ComputeBeta.html">ComputeBeta</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doc/ComputeBeta.html#_CPPv4N6feasst11ComputeBetaE"><code class="docutils literal notranslate"><span class="pre">ComputeBeta</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ComputeBeta.html#_CPPv4N6feasst11ComputeBeta22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random"><code class="docutils literal notranslate"><span class="pre">perturb_and_acceptance()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ComputeBeta.html">ComputeBeta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/MacrostateBeta.html">MacrostateBeta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbBeta.html">PerturbBeta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/SelectNothing.html">SelectNothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialBeta.html">TrialBeta</a></li>
 </ul>
 </div>
 <section id="tutorial">
@@ -254,7 +224,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../morph/doc/TrialMorphExpanded.html" class="btn btn-neutral float-left" title="TrialMorphExpanded" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../morph/doc/ComputeMorph.html" class="btn btn-neutral float-left" title="ComputeMorph" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="doc/toc.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

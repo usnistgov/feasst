@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstio &mdash; FEASST v0.25.1 documentation</title>
+  <title>fstio &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -159,6 +159,26 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
+<div class="viewcode-block" id="dict_to_argparse">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.dict_to_argparse">[docs]</a>
+<span class="k">def</span> <span class="nf">dict_to_argparse</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a dictionary to a string that argparse may read from command line</span>
+
+<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; params = {&#39;run_type&#39;: 0, &#39;feasst_install&#39;: &#39;/path/to/feasst/&#39;, &#39;queue_flags&#39;: &quot;&quot;}</span>
+<span class="sd">    &gt;&gt;&gt; fstio.dict_to_argparse(params)</span>
+<span class="sd">    &#39; --run_type 0 --feasst_install /path/to/feasst/ --queue_flags &quot;&quot;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rtrn</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">rtrn</span> <span class="o">+=</span> <span class="s1">&#39; --&#39;</span><span class="o">+</span><span class="n">label</span><span class="o">+</span><span class="s1">&#39; &quot;&quot;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rtrn</span> <span class="o">+=</span> <span class="s1">&#39; --&#39;</span><span class="o">+</span><span class="n">label</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">rtrn</span></div>
+
+
 <div class="viewcode-block" id="vector3d_to_list">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.vector3d_to_list">[docs]</a>
 <span class="k">def</span> <span class="nf">vector3d_to_list</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
@@ -252,7 +272,7 @@
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;max_restarts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;queue_command&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sbatch --array=0-&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;max_restarts&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%1 &quot;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_slurm.txt&quot;</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;command_to_queue_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; | tail -1 | awk &#39;{print $4}&#39;&quot;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;scratch&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;scratch&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;scratch&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;None&#39;</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;scratch_slurm_preamble&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;scratch_slurm_postamble&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     <span class="k">else</span><span class="p">:</span>
@@ -285,7 +305,7 @@
 <span class="s2">python </span><span class="si">{script}</span><span class="s2"> --run_type 0 --node </span><span class="si">{node}</span><span class="s2"> --queue_id $SLURM_ARRAY_JOB_ID --queue_task $SLURM_ARRAY_TASK_ID</span>
 <span class="si">{scratch_slurm_postamble}</span>
 <span class="s2">if [ $? == 0 ] &amp;&amp; [ ! -f </span><span class="si">{sim_id_file}</span><span class="s2"> ]; then</span>
-<span class="s2">  echo &quot;Job is done&quot;</span>
+<span class="s2">  echo &quot;Simulation complete. Cancelling restarts.&quot;</span>
 <span class="s2">  scancel $SLURM_ARRAY_JOB_ID</span>
 <span class="s2">else</span>
 <span class="s2">  echo &quot;Job is terminating, to be restarted again&quot;</span>
@@ -343,8 +363,13 @@
             <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="c1"># if all sims are complete, post process or test once (by removing sim id file)</span>
         <span class="k">if</span> <span class="n">all_sims_complete</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]):</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">post_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">removed</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">])</span>
+                <span class="n">removed</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">if</span> <span class="n">post_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">removed</span><span class="p">:</span>
                 <span class="n">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">syscode</span></div>
 

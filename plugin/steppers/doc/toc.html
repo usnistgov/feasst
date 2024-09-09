@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; FEASST v0.25.1 documentation</title>
+  <title>&lt;no title&gt; &mdash; FEASST v0.25.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d78f09be"></script>
+        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -29,7 +29,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="WriteStepper" href="WriteStepper.html" />
+    <link rel="next" title="Check" href="Check.html" />
     <link rel="prev" title="Steppers" href="../README.html" />
 
 	<!-- frame blocking -->
@@ -57,7 +57,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.1
+                v0.25.2
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -152,16 +152,16 @@
              
   <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="WriteStepper.html">WriteStepper</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="WriteStepper.html#_CPPv4N6feasst12WriteStepperE"><code class="docutils literal notranslate"><span class="pre">WriteStepper</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Check.html">Check</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Check.html#_CPPv4N6feasst5CheckE"><code class="docutils literal notranslate"><span class="pre">Check</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Check.html#_CPPv4N6feasst5Check6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Volume.html">Volume</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Volume.html#_CPPv4N6feasst6VolumeE"><code class="docutils literal notranslate"><span class="pre">Volume</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Volume.html#_CPPv4NK6feasst6Volume6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Volume.html#_CPPv4N6feasst6Volume10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Volume.html#_CPPv4N6feasst6Volume6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Volume.html#_CPPv4N6feasst6Volume5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CheckEnergy.html#_CPPv4N6feasst11CheckEnergyE"><code class="docutils literal notranslate"><span class="pre">CheckEnergy</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html#_CPPv4N6feasst11CheckEnergy6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -173,89 +173,10 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ProfileTrials.html">ProfileTrials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrialsE"><code class="docutils literal notranslate"><span class="pre">ProfileTrials</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4NK6feasst13ProfileTrials6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="DensityProfile.html">DensityProfile</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="DensityProfile.html#_CPPv4N6feasst14DensityProfileE"><code class="docutils literal notranslate"><span class="pre">DensityProfile</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4NK6feasst14DensityProfile6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4N6feasst14DensityProfile10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4N6feasst14DensityProfile6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4NK6feasst14DensityProfile7profileEv"><code class="docutils literal notranslate"><span class="pre">profile()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4N6feasst14DensityProfile5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Movie.html">Movie</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5MovieE"><code class="docutils literal notranslate"><span class="pre">Movie</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5Movie10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5Movie5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="CPUTime.html">CPUTime</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CPUTime.html#_CPPv4N6feasst7CPUTimeE"><code class="docutils literal notranslate"><span class="pre">CPUTime</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html#_CPPv4N6feasst7CPUTime10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html#_CPPv4N6feasst7CPUTime5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacementE"><code class="docutils literal notranslate"><span class="pre">MeanSquaredDisplacement</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="HeatCapacity.html">HeatCapacity</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacityE"><code class="docutils literal notranslate"><span class="pre">HeatCapacity</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4NK6feasst12HeatCapacity6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="NumParticles.html">NumParticles</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="NumParticles.html#_CPPv4N6feasst12NumParticlesE"><code class="docutils literal notranslate"><span class="pre">NumParticles</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="NumParticles.html#_CPPv4NK6feasst12NumParticles6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="NumParticles.html#_CPPv4N6feasst12NumParticles10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="NumParticles.html#_CPPv4N6feasst12NumParticles6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="NumParticles.html#_CPPv4N6feasst12NumParticles5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Check.html">Check</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Check.html#_CPPv4N6feasst5CheckE"><code class="docutils literal notranslate"><span class="pre">Check</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Check.html#_CPPv4N6feasst5Check6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE"><code class="docutils literal notranslate"><span class="pre">AnalyzeData</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE"><code class="docutils literal notranslate"><span class="pre">AccumulatorAverage</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst14AccumulatorSumE"><code class="docutils literal notranslate"><span class="pre">AccumulatorSum</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst23AccumulatorSumOfSquaredE"><code class="docutils literal notranslate"><span class="pre">AccumulatorSumOfSquared</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst17AccumulatorMomentE"><code class="docutils literal notranslate"><span class="pre">AccumulatorMoment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst11SeekAnalyzeE"><code class="docutils literal notranslate"><span class="pre">SeekAnalyze</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze5indexEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze9referenceEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">reference()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze15multistate_dataEKNSt6stringERK10MonteCarloRK11AnalyzeData"><code class="docutils literal notranslate"><span class="pre">multistate_data()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="CheckProperties.html">CheckProperties</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CheckProperties.html#_CPPv4N6feasst15CheckPropertiesE"><code class="docutils literal notranslate"><span class="pre">CheckProperties</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CheckProperties.html#_CPPv4N6feasst15CheckProperties15CheckPropertiesE7argtype"><code class="docutils literal notranslate"><span class="pre">CheckProperties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckProperties.html#_CPPv4N6feasst15CheckProperties6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -271,9 +192,30 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="WallClockLimit.html#_CPPv4N6feasst14WallClockLimitE"><code class="docutils literal notranslate"><span class="pre">WallClockLimit</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html#_CPPv4N6feasst14WallClockLimit6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CriteriaWriter.html#_CPPv4N6feasst14CriteriaWriterE"><code class="docutils literal notranslate"><span class="pre">CriteriaWriter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html#_CPPv4N6feasst14CriteriaWriter5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Density.html">Density</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Density.html#_CPPv4N6feasst7DensityE"><code class="docutils literal notranslate"><span class="pre">Density</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Density.html#_CPPv4NK6feasst7Density6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Density.html#_CPPv4N6feasst7Density10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Density.html#_CPPv4N6feasst7Density6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Density.html#_CPPv4N6feasst7Density5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DensityProfile.html">DensityProfile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DensityProfile.html#_CPPv4N6feasst14DensityProfileE"><code class="docutils literal notranslate"><span class="pre">DensityProfile</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4NK6feasst14DensityProfile6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4N6feasst14DensityProfile10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4N6feasst14DensityProfile6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4NK6feasst14DensityProfile7profileEv"><code class="docutils literal notranslate"><span class="pre">profile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html#_CPPv4N6feasst14DensityProfile5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -300,28 +242,112 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CriteriaWriter.html#_CPPv4N6feasst14CriteriaWriterE"><code class="docutils literal notranslate"><span class="pre">CriteriaWriter</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html#_CPPv4N6feasst14CriteriaWriter5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="IncrementPhase.html">IncrementPhase</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="IncrementPhase.html#_CPPv4N6feasst14IncrementPhaseE"><code class="docutils literal notranslate"><span class="pre">IncrementPhase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="IncrementPhase.html#_CPPv4N6feasst14IncrementPhase6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Log.html">Log</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Log.html#_CPPv4N6feasst3LogE"><code class="docutils literal notranslate"><span class="pre">Log</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Log.html#_CPPv4NK6feasst3Log6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Log.html#_CPPv4N6feasst3Log10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Log.html#_CPPv4N6feasst3Log5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="NumParticles.html">NumParticles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="NumParticles.html#_CPPv4N6feasst12NumParticlesE"><code class="docutils literal notranslate"><span class="pre">NumParticles</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NumParticles.html#_CPPv4NK6feasst12NumParticles6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="NumParticles.html#_CPPv4N6feasst12NumParticles10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="NumParticles.html#_CPPv4N6feasst12NumParticles6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="NumParticles.html#_CPPv4N6feasst12NumParticles5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Density.html">Density</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Density.html#_CPPv4N6feasst7DensityE"><code class="docutils literal notranslate"><span class="pre">Density</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Density.html#_CPPv4NK6feasst7Density6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Density.html#_CPPv4N6feasst7Density10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Density.html#_CPPv4N6feasst7Density6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Density.html#_CPPv4N6feasst7Density5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ProfileTrials.html">ProfileTrials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrialsE"><code class="docutils literal notranslate"><span class="pre">ProfileTrials</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4NK6feasst13ProfileTrials6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFileE"><code class="docutils literal notranslate"><span class="pre">ReadConfigFromFile</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeekModify.html">SeekModify</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeekModify.html#_CPPv4N6feasst10SeekModifyE"><code class="docutils literal notranslate"><span class="pre">SeekModify</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeekModify.html#_CPPv4NK6feasst10SeekModify5indexEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tune.html">Tune</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tune.html#_CPPv4N6feasst4TuneE"><code class="docutils literal notranslate"><span class="pre">Tune</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tune.html#_CPPv4NK6feasst4Tune6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tune.html#_CPPv4N6feasst4Tune10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tune.html#_CPPv4N6feasst4Tune6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tune.html#_CPPv4N6feasst4Tune5writeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Volume.html">Volume</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Volume.html#_CPPv4N6feasst6VolumeE"><code class="docutils literal notranslate"><span class="pre">Volume</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Volume.html#_CPPv4NK6feasst6Volume6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Volume.html#_CPPv4N6feasst6Volume10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Volume.html#_CPPv4N6feasst6Volume6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Volume.html#_CPPv4N6feasst6Volume5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WallClockLimit.html#_CPPv4N6feasst14WallClockLimitE"><code class="docutils literal notranslate"><span class="pre">WallClockLimit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html#_CPPv4N6feasst14WallClockLimit6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WrapParticles.html">WrapParticles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WrapParticles.html#_CPPv4N6feasst13WrapParticlesE"><code class="docutils literal notranslate"><span class="pre">WrapParticles</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="WrapParticles.html#_CPPv4N6feasst13WrapParticles6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdaterE"><code class="docutils literal notranslate"><span class="pre">CriteriaUpdater</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdater6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HeatCapacity.html">HeatCapacity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacityE"><code class="docutils literal notranslate"><span class="pre">HeatCapacity</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4NK6feasst12HeatCapacity6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacementE"><code class="docutils literal notranslate"><span class="pre">MeanSquaredDisplacement</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Movie.html">Movie</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5MovieE"><code class="docutils literal notranslate"><span class="pre">Movie</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5Movie10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5Movie5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -335,53 +361,29 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="LogAndMovie.html">LogAndMovie</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="LogAndMovie.html#_CPPv4N6feasst11LogAndMovieE"><code class="docutils literal notranslate"><span class="pre">LogAndMovie</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="LogAndMovie.html#_CPPv4N6feasst11LogAndMovie11LogAndMovieE7argtype"><code class="docutils literal notranslate"><span class="pre">LogAndMovie()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE"><code class="docutils literal notranslate"><span class="pre">AnalyzeData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE"><code class="docutils literal notranslate"><span class="pre">AccumulatorAverage</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst14AccumulatorSumE"><code class="docutils literal notranslate"><span class="pre">AccumulatorSum</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst23AccumulatorSumOfSquaredE"><code class="docutils literal notranslate"><span class="pre">AccumulatorSumOfSquared</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst17AccumulatorMomentE"><code class="docutils literal notranslate"><span class="pre">AccumulatorMoment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst11SeekAnalyzeE"><code class="docutils literal notranslate"><span class="pre">SeekAnalyze</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze5indexEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze9referenceEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">reference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze15multistate_dataEKNSt6stringERK10MonteCarloRK11AnalyzeData"><code class="docutils literal notranslate"><span class="pre">multistate_data()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CheckProperties.html">CheckProperties</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CheckProperties.html#_CPPv4N6feasst15CheckPropertiesE"><code class="docutils literal notranslate"><span class="pre">CheckProperties</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CheckProperties.html#_CPPv4N6feasst15CheckProperties15CheckPropertiesE7argtype"><code class="docutils literal notranslate"><span class="pre">CheckProperties()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="CheckProperties.html#_CPPv4N6feasst15CheckProperties6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="WriteStepper.html">WriteStepper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WriteStepper.html#_CPPv4N6feasst12WriteStepperE"><code class="docutils literal notranslate"><span class="pre">WriteStepper</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdaterE"><code class="docutils literal notranslate"><span class="pre">CriteriaUpdater</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdater6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SeekModify.html">SeekModify</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SeekModify.html#_CPPv4N6feasst10SeekModifyE"><code class="docutils literal notranslate"><span class="pre">SeekModify</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SeekModify.html#_CPPv4NK6feasst10SeekModify5indexEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="IncrementPhase.html">IncrementPhase</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="IncrementPhase.html#_CPPv4N6feasst14IncrementPhaseE"><code class="docutils literal notranslate"><span class="pre">IncrementPhase</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="IncrementPhase.html#_CPPv4N6feasst14IncrementPhase6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="WrapParticles.html">WrapParticles</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="WrapParticles.html#_CPPv4N6feasst13WrapParticlesE"><code class="docutils literal notranslate"><span class="pre">WrapParticles</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="WrapParticles.html#_CPPv4N6feasst13WrapParticles6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFileE"><code class="docutils literal notranslate"><span class="pre">ReadConfigFromFile</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Log.html">Log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Log.html#_CPPv4N6feasst3LogE"><code class="docutils literal notranslate"><span class="pre">Log</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Log.html#_CPPv4NK6feasst3Log6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Log.html#_CPPv4N6feasst3Log10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Log.html#_CPPv4N6feasst3Log5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -400,19 +402,10 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Tune.html">Tune</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Tune.html#_CPPv4N6feasst4TuneE"><code class="docutils literal notranslate"><span class="pre">Tune</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Tune.html#_CPPv4NK6feasst4Tune6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Tune.html#_CPPv4N6feasst4Tune10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Tune.html#_CPPv4N6feasst4Tune6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Tune.html#_CPPv4N6feasst4Tune5writeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CheckEnergy.html#_CPPv4N6feasst11CheckEnergyE"><code class="docutils literal notranslate"><span class="pre">CheckEnergy</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html#_CPPv4N6feasst11CheckEnergy6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="CPUTime.html">CPUTime</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CPUTime.html#_CPPv4N6feasst7CPUTimeE"><code class="docutils literal notranslate"><span class="pre">CPUTime</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html#_CPPv4N6feasst7CPUTime10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html#_CPPv4N6feasst7CPUTime5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -425,7 +418,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../README.html" class="btn btn-neutral float-left" title="Steppers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="WriteStepper.html" class="btn btn-neutral float-right" title="WriteStepper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Check.html" class="btn btn-neutral float-right" title="Check" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -5,6 +5,7 @@ Patch
 Patchy, orientation-dependent interactions.
 
 .. toctree::
+   :maxdepth: 1
 
    doc/toc
 
