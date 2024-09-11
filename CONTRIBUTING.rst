@@ -4,12 +4,12 @@ Contributing
 
 There are many ways to contribute:
 
-* :doc:`CONTACT` us with suggestions, issues or kind words!
+* :doc:`CONTACT` us with suggestions, issues or comments.
 * Include a :doc:`CITATION` in your manuscripts, presentations, posters and other :doc:`ACKNOWLEDGEMENT` sections.
 * Become a `Contributor <https://github.com/usnistgov/feasst/graphs/contributors>`_ by submitting a `Pull Request <https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests>`_ from a `Fork <https://help.github.com/en/github/getting-started-with-github/fork-a-repo>`_
 * Share a new `Tutorial <tutorial/tutorial.html>`_, `Plugin <plugin/example/README.html>`_, `Model <plugin/example/doc/ModelExample.html>`_ or other work helpful to FEASST users.
 
-Thank you for taking the time to contribute to FEASST!
+Thank you for taking the time to contribute to FEASST.
 
 ------------------------
 For contributing code
@@ -33,5 +33,5 @@ These may be further refined on a case-by-case basis.
 * Collaborators may have extensive private conversations with developers.
 * User questions are preferred in public mail lists or GitHub issues (see `Contact <CONTACT.html>`_).
 * Feature requests involving collaboration implicitly have priority due to common interest.
-* Former collaborators may become users and *vice versa*. Future private FEASST-related communication with developers should indicate this change of role.
+* Former collaborators may become users and *vice versa*.
 

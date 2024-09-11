@@ -680,9 +680,9 @@ endif()
 
 # PYBIND11
 if (USE_PYBIND11)
-  find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+  find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
   find_package(pybind11 CONFIG REQUIRED)
-  python_add_library(_core MODULE ${CMAKE_SOURCE_DIR}/python/feasst.cpp WITH_SOABI)
+  python3_add_library(_core MODULE ${CMAKE_SOURCE_DIR}/python/feasst.cpp WITH_SOABI)
   target_link_libraries(_core PRIVATE pybind11::headers)
   target_link_libraries (_core LINK_PUBLIC feasstlib)
   target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})

@@ -1,6 +1,12 @@
 #include <pybind11/pybind11.h>
 #include <string>
 #include "utils/include/arguments.h"
+#include "utils/include/arguments_extra.h"
+#include "math/include/position.h"
+#include "configuration/include/site.h"
+#include "configuration/include/particle.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "monte_carlo/include/monte_carlo.h"
 
 #define STRINGIFY(x) #x
@@ -27,7 +33,20 @@ PYBIND11_MODULE(_core, m) {
     )pbdoc";
 
     py::class_<feasst::MonteCarlo>(m, "MonteCarlo")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def("configuration", &feasst::MonteCarlo::configuration);
+
+    py::class_<feasst::Configuration>(m, "Configuration")
+        .def("particle",   py::overload_cast<int>(&feasst::Configuration::particle, py::const_));
+
+    py::class_<feasst::Particle>(m, "Particle")
+        .def("site", &feasst::Particle::site);
+
+    py::class_<feasst::Site>(m, "Site")
+        .def("position",   py::overload_cast<int>(&feasst::Site::position, py::const_));
+
+    py::class_<feasst::Position>(m, "Position")
+        .def("coord",   py::overload_cast<int>(&feasst::Position::coord, py::const_));
 
     m.def("parse", &parse, R"pbdoc(
         Parse a single line with the text interface format.
