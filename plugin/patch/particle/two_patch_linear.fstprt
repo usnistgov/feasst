@@ -15,11 +15,11 @@ Site Properties
 
 Bond Properties
 
-0 RigidBond length 1.0 delta 0.000001
+0 RigidBond length 1.0 delta 0.0001
 
 Angle Properties
 
-0 RigidAngle degrees 180 delta 0.001
+0 RigidAngle degrees 180 delta 0.01
 
 Sites
 

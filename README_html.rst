@@ -79,8 +79,7 @@ How to compile
     #[apt/yum/dnf/brew] install g++ cmake git python3
     cd $HOME # replace this with your preference throughout
     git clone https://github.com/usnistgov/feasst.git
-    mkdir feasst/build
-    cd feasst/build
+    mkdir feasst/build; cd $_
     cmake ..
     make install -j$(nproc)
     # optional python packages for feasst tutorials

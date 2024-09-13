@@ -66,14 +66,20 @@ Potential Model ModelHardShape shape_file {prefix}_shape_file.txt
 ThermoParams beta {beta} chemical_potential {mu}
 AlwaysReject
 TrialAdd particle_type 0 new_only true
-HenryCoefficient trials_per_write {trials_per_iteration} file_name {prefix}.csv
+HenryCoefficient trials_per_write {trials_per_iteration} file_name {prefix}.csv write_precision 12 num_beta_taylor 4
 Run num_trials 1e6
 """.format(**params))
 
 def post_process(params):
-    df = pd.read_csv(params['prefix'] + '.csv')
+    df = pd.read_csv(params['prefix'] + '.csv', comment='#')
     print(df)
     assert np.abs(df['average'][0] - 0.5) < 3*df['block_stdev'][0]
+    with open(params['prefix']+'.csv') as f:
+        firstline = f.readline().rstrip()
+        henry=eval(firstline[1:])
+        print(henry)
+        assert np.abs(henry['beta_taylor'][0] - 0.5) < 3*df['block_stdev'][0]
+        assert np.abs(henry['beta_taylor'][1]) < 1e-6
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,

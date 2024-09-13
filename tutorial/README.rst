@@ -63,6 +63,6 @@ Thus, most users will want to search the :doc:`../plugin/text_interface` documen
 Python and C++ interface
 ===============================
 
-FEASST may also be called directly in Python and C++ as a `library <library/tutorial.html>`_.
-The :doc:`../py/README` and :doc:`../plugin/README` are not recommended for most users, and maybe change with minor version.
+FEASST may also be called directly in Python and C++.
+The :doc:`../python/README` and :doc:`../plugin/README` are not recommended for most users, and may change with minor version.
 

@@ -354,8 +354,7 @@ void Potential::set_visit_model_(std::shared_ptr<VisitModel> visit) {
 void Potential::change_volume(const double delta_volume, const int dimension,
     Configuration * config) {
   visit_model_->change_volume(delta_volume, dimension, config);
-  //ASSERT(does_cutoff_fit_domain(*config), "Volume(" <<
-  //  config->domain().volume() << ") change does not fit cutoff.");
+  does_cutoff_fit_domain(*config, true);
 }
 
 void Potential::revert(const Select& select) { visit_model_->revert(select); }

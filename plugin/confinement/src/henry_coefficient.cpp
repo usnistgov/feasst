@@ -30,6 +30,7 @@ HenryCoefficient::HenryCoefficient(argtype * args) : Analyze(args) {
     beta_taylor_[ibt] = *MakeAccumulator({{"num_moments", "2"},
                                           {"max_block_operations", "0"}});
   }
+  write_precision_ = dble("write_precision", args, 8);
 }
 HenryCoefficient::HenryCoefficient(argtype args) : HenryCoefficient(&args) {
   feasst_check_all_used(args);
@@ -79,34 +80,39 @@ std::string HenryCoefficient::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;
+  if (num_beta_taylor() > 0) {
+    ss << "#{\"beta_taylor\": [";
+    ss << std::setprecision(write_precision_) << accumulator().average() << ",";
+    for (int ibt = 1; ibt < num_beta_taylor() + 1; ++ibt) {
+      ss << std::setprecision(write_precision_)
+         << beta_taylor_[ibt - 1].average() << ",";
+    }
+    ss << "]}";
+  }
+  ss << std::endl;
   if (rewrite_header()) {
     ss << header(criteria, system, trial_factory);
   }
   ss << accumulator().status();
-  if (num_beta_taylor() > 0) {
-    ss << ",\"beta_taylor\": [";
-    ss << accumulator().average() << ",";
-    for (int ibt = 1; ibt < num_beta_taylor() + 1; ++ibt) {
-      ss << beta_taylor_[ibt - 1].average() << ",";
-    }
-    ss << "],";
-  }
-  ss << std::endl;
   DEBUG(ss.str());
   return ss.str();
 }
 
 void HenryCoefficient::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
-  feasst_serialize_version(9493, ostr);
+  feasst_serialize_version(9494, ostr);
   feasst_serialize_fstobj(beta_taylor_, ostr);
+  feasst_serialize(write_precision_, ostr);
 }
 
 HenryCoefficient::HenryCoefficient(std::istream& istr) : Analyze(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 9492 && version <= 9493, "mismatch version:" << version);
+  ASSERT(version >= 9492 && version <= 9494, "mismatch version:" << version);
   if (version >= 9493) {
     feasst_deserialize_fstobj(&beta_taylor_, istr);
+  }
+  if (version >= 9494) {
+    feasst_deserialize(&write_precision_, istr);
   }
 }
 

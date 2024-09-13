@@ -48,6 +48,17 @@ done
 echo "********** pybind11 **********" >> summary.log
 python ../python/tutorial/test.py >> summary_long.log 2>&1
 
+echo "********** cpplib **********" >> summary.log
+pushd ../tutorial/
+  mkdir build; cd $_
+  cmake .. >> log.txt 2>&1
+  make >> log.txt 2>&1
+  ./tutorial >> log.txt 2>&1
+popd
+for flag in "Error" "error" "Assert"; do
+  grep $flag ../tutorial/build/log.txt >> summary.log
+done
+
 #tail -1 tutorial_failures.txt >> summary.log
 #echo "********** launch py **********" >> summary.log
 #python ../dev/tools/lnch_tutorials.py >> summary_long_long.log 2>&1

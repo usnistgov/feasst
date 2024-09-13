@@ -15,11 +15,11 @@ PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
 PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/spce.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--temperature', type=float, default=500, help='temperature in Kelvin')
-PARSER.add_argument('--num_particles', type=int, default=300, help='number of particles')
+PARSER.add_argument('--num_particles', type=int, default=500, help='number of particles')
 #PARSER.add_argument('--pressures', type=json.loads, default='{"pressure":[5.790E+01]}',
 PARSER.add_argument('--pressures', type=json.loads, default='{"pressure":[5.790E+01,5.521E+02,1.277E+03,2.270E+03,3.290E+03,3.432E+03,3.586E+03,3.728E+03]}',
                     help='dictionary with a list of pressures in units of atm.')
-PARSER.add_argument('--initial_cubic_side_length', type=int, default=22, help='cubic periodic boundary length')
+PARSER.add_argument('--initial_cubic_side_length', type=int, default=25, help='cubic periodic boundary length')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(2e1),
@@ -82,7 +82,7 @@ CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 
 # gcmc initialization
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_init.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_init.csv
 Tune
 Run until_num_particles {num_particles}
 RemoveTrial name TrialAdd
@@ -92,9 +92,9 @@ RemoveAnalyze name Log
 ThermoParams beta {beta} pressure {pressure}
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialVolume weight 0.05 tunable_param 0.2 tunable_target_acceptance 0.5
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
-Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density_eq.txt
+Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density_eq.csv
 Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name Log
@@ -103,11 +103,11 @@ RemoveAnalyze name Density
 
 # npt production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz start_after_iteration 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.txt
-Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density.txt
-Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_volume.txt
+Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.csv
+Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density.csv
+Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_volume.csv
 Run until_criteria_complete true
 """.format(**params))
 
@@ -122,12 +122,12 @@ def post_process(params):
     rhos = np.zeros(shape=(params['num_sims'], 2))
     dens_conv = 18.01528*1e30/1e3/physical_constants.AvogadroConstant().value()
     for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.txt')
+        log = pd.read_csv(params['prefix']+str(sim)+'.csv')
         #assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+str(sim)+'_en.txt')
+        energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
         ens[sim] = np.array([energy['average'][0],
                              energy['block_stdev'][0]])/params['num_particles']
-        density = pd.read_csv(params['prefix']+str(sim)+'_density.txt')
+        density = pd.read_csv(params['prefix']+str(sim)+'_density.csv')
         #print('density', density)
         rhos[sim] = np.array([density['average'][0],
                               density['block_stdev'][0]])

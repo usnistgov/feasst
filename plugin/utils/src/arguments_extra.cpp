@@ -103,4 +103,26 @@ std::vector<double> parse_dimensional(const std::string& key, argtype * args,
   return data;
 }
 
+std::vector<arglist> parse_mcs(std::istream& is, argtype variables) {
+  std::vector<arglist> lists;
+  arglist list;
+  std::string line;
+  while (std::getline(is, line)) {
+    if (!line.empty() && line[0] != '#') {
+      if (line == "MonteCarlo") {
+        lists.push_back(list);
+        list = arglist();
+      } else {
+        bool assign_to_list = true;
+        std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
+        if (assign_to_list) {
+          list.push_back(line_pair);
+        }
+      }
+    }
+  }
+  lists.push_back(list);
+  return lists;
+}
+
 }  // namespace feasst

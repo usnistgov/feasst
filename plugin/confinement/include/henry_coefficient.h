@@ -19,6 +19,8 @@ class HenryCoefficient : public Analyze {
   /** @name Arguments
     - num_beta_taylor: number of derivatives of second virial ratio with
       respect to beta. (default: 0).
+    - write_precision: number of decimals in writing taylor coefficients
+      (default: 8).
    */
   explicit HenryCoefficient(argtype args = argtype());
   explicit HenryCoefficient(argtype * args);
@@ -62,6 +64,7 @@ class HenryCoefficient : public Analyze {
 
  private:
   std::vector<Accumulator> beta_taylor_;
+  int write_precision_;
 };
 
 inline std::shared_ptr<HenryCoefficient> MakeHenryCoefficient(

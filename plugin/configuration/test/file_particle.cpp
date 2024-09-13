@@ -76,9 +76,9 @@ TEST(FileParticle, data_spce) {
     CATCH_PHRASE("not found");
   );
   EXPECT_NEAR(1., particle.bond(0).property("length"), NEAR_ZERO);
-  EXPECT_NEAR(0.000001, particle.bond(0).property("delta"), NEAR_ZERO);
+  EXPECT_NEAR(0.0001, particle.bond(0).property("delta"), NEAR_ZERO);
   EXPECT_NEAR(109.47, particle.angle(0).property("degrees"), NEAR_ZERO);
-  EXPECT_NEAR(0.0001, particle.angle(0).property("delta"), NEAR_ZERO);
+  EXPECT_NEAR(0.01, particle.angle(0).property("delta"), NEAR_ZERO);
 }
 
 TEST(FileParticle, dimer) {

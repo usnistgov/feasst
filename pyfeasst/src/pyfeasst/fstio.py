@@ -80,8 +80,11 @@ def all_sims_complete(filename, num_sims):
     """
     if not os.path.isfile(filename):
         return False
-    with open(filename, 'r') as file1:
-        lines = file1.read().splitlines()
+    try:
+        with open(filename, 'r') as file1:
+            lines = file1.read().splitlines()
+    except FileNotFoundError:
+        return False
     ids = map(str, list(range(num_sims)))
     for line in lines:
         ids = [i for i in ids if i not in line]
@@ -195,7 +198,7 @@ def run_single(sim, params, args, sim_node_dependent_params, write_feasst_script
         syscode = seed_param_write_run(sim, params, args, sim_node_dependent_params, write_feasst_script)
     else: # if queue_task < 1, restart from checkpoint
         syscode = subprocess.call(
-            args.feasst_install+'bin/rst '+params['prefix']+str(sim)+'_checkpoint.fst',
+            args.feasst_install+'bin/rst --checkpoint_file '+params['prefix']+str(sim)+'_checkpoint.fst',
             shell=True, executable='/bin/bash')
     if syscode == 0: # if simulation finishes with no errors, write to sim id file
         with open(params['sim_id_file'], 'a', encoding='utf-8') as file1:

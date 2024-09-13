@@ -79,12 +79,12 @@ Bonds
 
 Angle Properties
 
-0 RigidAngle degrees 0.0 delta 0.001
-1 RigidAngle degrees 0.0 delta 0.001
-2 RigidAngle degrees 0.0 delta 0.001
-3 RigidAngle degrees 120.0 delta 0.001
-4 RigidAngle degrees 120.0 delta 0.001
-5 RigidAngle degrees 120.0 delta 0.001
+0 RigidAngle degrees 0.0 delta 0.01
+1 RigidAngle degrees 0.0 delta 0.01
+2 RigidAngle degrees 0.0 delta 0.01
+3 RigidAngle degrees 120.0 delta 0.01
+4 RigidAngle degrees 120.0 delta 0.01
+5 RigidAngle degrees 120.0 delta 0.01
 
 Angles
 

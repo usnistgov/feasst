@@ -37,16 +37,16 @@ PYBIND11_MODULE(_core, m) {
         .def("configuration", &feasst::MonteCarlo::configuration);
 
     py::class_<feasst::Configuration>(m, "Configuration")
-        .def("particle",   py::overload_cast<int>(&feasst::Configuration::particle, py::const_));
+        .def("particle", py::overload_cast<int>(&feasst::Configuration::particle, py::const_));
 
     py::class_<feasst::Particle>(m, "Particle")
         .def("site", &feasst::Particle::site);
 
     py::class_<feasst::Site>(m, "Site")
-        .def("position",   py::overload_cast<int>(&feasst::Site::position, py::const_));
+        .def("position", py::overload_cast<int>(&feasst::Site::position, py::const_));
 
     py::class_<feasst::Position>(m, "Position")
-        .def("coord",   py::overload_cast<int>(&feasst::Position::coord, py::const_));
+        .def("coord", py::overload_cast<int>(&feasst::Position::coord, py::const_));
 
     m.def("parse", &parse, R"pbdoc(
         Parse a single line with the text interface format.
