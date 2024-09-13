@@ -257,9 +257,9 @@ TEST(MonteCarlo, NVT_SRSW) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", str(nMol)}}));
   mc.run(MakeRemoveTrial({{"name_contains", "Add"}}));
-  mc.add(MakeLog({{"trials_per_write", str(1e3)}, {"output_file", "tmp/lj.csv"}}));
-  mc.add(MakeMovie({{"trials_per_write", str(1e3)}, {"output_file", "tmp/lj.xyz"}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", str(1e3)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeLog({{"trials_per_write", "1e3"}, {"output_file", "tmp/lj.csv"}}));
+  mc.add(MakeMovie({{"trials_per_write", "1e3"}, {"output_file", "tmp/lj.xyz"}}));
+  mc.add(MakeCheckEnergy({{"trials_per_update", "1e3"}, {"decimal_places", "9"}}));
   mc.add(MakeTune());
   Accumulator pe;
   const int num_trials = 1e3;

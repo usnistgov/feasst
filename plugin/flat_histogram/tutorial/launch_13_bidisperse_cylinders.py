@@ -96,7 +96,7 @@ ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 2 particle_type 0
 TrialRotate weight 1 tunable_param 40 particle_type 0
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0

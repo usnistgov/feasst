@@ -21,10 +21,38 @@ static MapCheckEnergy mapper_energy_check_ = MapCheckEnergy();
 
 CheckEnergy::CheckEnergy(argtype * args) : ModifyUpdateOnly(args) {
   tolerance_ = dble("tolerance", args, 1e-10);
+  decimal_places_ = integer("decimal_places", args, -1);
   check_ = MakeCheck();
 }
 CheckEnergy::CheckEnergy(argtype args) : CheckEnergy(&args) {
   feasst_check_all_used(args);
+}
+
+bool CheckEnergy::is_within_tolerance_(const double u1, const double u2) const {
+  bool pass = true;
+  DEBUG(MAX_PRECISION << "u1 " << u1 << " u2 " << u2);
+  if (decimal_places_ > 0) {
+    DEBUG("decimal_places_ " << decimal_places_);
+    DEBUG(std::abs(u1 - u2)/std::max(std::abs(u1), std::abs(u2)));
+    if (std::abs(u1 - u2)/std::max(std::abs(u1), std::abs(u2)) > std::pow(10, -decimal_places_)) {
+      pass = false;
+    }
+  } else {
+    if (std::abs(u1 - u2) > tolerance_) {
+      pass = false;
+    }
+  }
+  return pass;
+}
+
+std::string CheckEnergy::err_msg_() const {
+  std::stringstream ss;
+  if (decimal_places_ > 0) {
+    ss << "number of decimal places(" << decimal_places_ << "). ";
+  } else {
+    ss << "tolerance(" << tolerance_ << "). ";
+  }
+  return ss.str();
 }
 
 void CheckEnergy::update(Criteria * criteria,
@@ -53,7 +81,7 @@ void CheckEnergy::update(Criteria * criteria,
     DEBUG("energy_profile " << feasst_str(energy_profile));
     DEBUG("current_energy_profile " << feasst_str(current_energy_profile));
     for (int i = 0; i < static_cast<int>(energy_profile.size()); ++i) {
-      ASSERT(std::abs(energy_profile[i] - current_energy_profile[i]) < tolerance_,
+      ASSERT(is_within_tolerance_(energy_profile[i], current_energy_profile[i]),
         MAX_PRECISION <<
         "Energy check failure. There is a problem with the potentials. " <<
         "The unoptimized energy of potential " << i << " in configuration " <<
@@ -62,12 +90,12 @@ void CheckEnergy::update(Criteria * criteria,
         "(the accumulation of a change in energy over a series of steps) is " <<
         current_energy_profile[i] <<
         ". The difference(" << std::abs(energy_profile[i] - current_energy_profile[i]) << ") is " <<
-        "greater than the tolerance(" << tolerance_ << "). ");
+        "greater than the " << err_msg_());
     }
     criteria->set_current_energy_profile(energy_profile, config);
 
     // perform same energy check for entire system
-    ASSERT(std::abs(energy - current_energy) < tolerance_,
+    ASSERT(is_within_tolerance_(energy, current_energy),
       MAX_PRECISION <<
       "Energy check failure. There is a problem with the potentials. " <<
       "The unoptimized energy of configuration " << config <<
@@ -75,7 +103,7 @@ void CheckEnergy::update(Criteria * criteria,
       << "(the accumulation of a change in energy over a series of steps) is "
       << current_energy <<
       ". The difference(" << std::abs(energy - current_energy) << ") is " <<
-      "greater than the tolerance(" << tolerance_ << "). "
+      "greater than the " << err_msg_() << " "
       << system->unoptimized().str());
     criteria->set_current_energy(energy, config);
 
@@ -85,15 +113,19 @@ void CheckEnergy::update(Criteria * criteria,
 
 void CheckEnergy::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
-  feasst_serialize_version(715, ostr);
+  feasst_serialize_version(716, ostr);
   feasst_serialize(tolerance_, ostr);
+  feasst_serialize(decimal_places_, ostr);
   feasst_serialize_fstdr(check_, ostr);
 }
 
 CheckEnergy::CheckEnergy(std::istream& istr) : ModifyUpdateOnly(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 715, "version mismatch: " << version);
+  ASSERT(version >= 715 && version <= 716, "version mismatch: " << version);
   feasst_deserialize(&tolerance_, istr);
+  if (version >= 716) {
+    feasst_deserialize(&decimal_places_, istr);
+  }
   // feasst_deserialize_fstdr(modify->check_, istr);
   { // HWH for unknown reasons the above template function does not work
     int existing;

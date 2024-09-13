@@ -174,7 +174,7 @@ TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25 pivot_site 0
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25 pivot_site {last_site}
 TrialGrowFile grow_file trappe_grow_canonical.txt
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 
 # gcmc initialization and nvt equilibration
 TrialGrowFile grow_file trappe_grow_grand_canonical.txt

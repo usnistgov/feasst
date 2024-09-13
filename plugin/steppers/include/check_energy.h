@@ -25,6 +25,11 @@ namespace feasst {
   It is not very surprising to see a difference in the 6th or 7th decimal place
   in some cases.
 
+  An alternative metric is the number of decimal places.
+  In practice, this is implemented as follows for two energies U1 and U2.
+
+  \f$\frac{|U_1-U_2|}{\mathrm{max}(|U_1|, |U_2|) < 10^{-decimal_places}\f$
+
   The size of the deviation can depend not only on the system size but the
   potential function and the number of trials between each check.
   For example, if the system undergoes a random walk deviation of size delta,
@@ -40,8 +45,11 @@ class CheckEnergy : public ModifyUpdateOnly {
  public:
   //@{
   /** @name Arguments
-    - tolerance: relative absolute difference between running energy
-      and recomputed energy (default: 1e-10).
+    - tolerance: absolute difference between running energy and recomputed
+      energy (default: 1e-10).
+    - decimal_places: If decimal places > 0 (default: 0), ignore the tolerance
+      parameter and instead check if the difference between the two energies
+      exceeds is within a the given number of decimal places.
     - Stepper arguments.
   */
   explicit CheckEnergy(argtype args = argtype());
@@ -70,7 +78,11 @@ class CheckEnergy : public ModifyUpdateOnly {
   //@}
  private:
   double tolerance_;
+  int decimal_places_;
   std::shared_ptr<Analyze> check_;
+
+  bool is_within_tolerance_(const double u1, const double u2) const;
+  std::string err_msg_() const;
 };
 
 inline std::shared_ptr<CheckEnergy> MakeCheckEnergy(

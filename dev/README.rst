@@ -378,3 +378,4 @@ To Do List
 * Add a CheckEnergy tolerance relative to the (max value of the) total energy
 * Remove ConvertToRefPotential in v0.26
 * Class parameters should be parsed in order of documentation
+* Tutorials should use CheckEnergy::decimal_places
