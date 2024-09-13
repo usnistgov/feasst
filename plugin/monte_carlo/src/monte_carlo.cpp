@@ -214,6 +214,10 @@ MonteCarlo::MonteCarlo(arglist args) : MonteCarlo() {
   begin(args);
 }
 
+void MonteCarlo::add_args(arglist args) {
+  args_.insert(args_.end(), args.begin(), args.end());
+}
+
 void MonteCarlo::run(std::shared_ptr<Action> action) {
   action_ = action;
   action_->run(this);
@@ -832,4 +836,9 @@ const Analyze& MonteCarlo::analyze(const int index) const {
   return analyze_factory_->analyze(index); }
 int MonteCarlo::num_analyzers() const {
   return static_cast<int>(analyze_factory_->analyzers().size()); }
+
+void MonteCarlo::set_num_iterations_to_complete(const int num) {
+  criteria_->set_num_iterations_to_complete(num);
+}
+
 }  // namespace feasst

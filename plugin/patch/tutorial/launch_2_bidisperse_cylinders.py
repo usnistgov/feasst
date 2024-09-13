@@ -19,7 +19,7 @@ PARSER.add_argument('--small_cylinder_length', type=float, default=2, help='smal
 PARSER.add_argument('--small_cylinder_diameter', type=float, default=1, help='small cylinder diameter')
 PARSER.add_argument('--large_cylinder_length', type=float, default=10, help='large cylinder length (distance between center of end caps)')
 PARSER.add_argument('--large_cylinder_diameter', type=float, default=3, help='large cylinder diameter')
-PARSER.add_argument('--cubic_side_length', type=int, default=20, help='cubic periodic boundary length')
+PARSER.add_argument('--cubic_side_length', type=int, default=30, help='cubic periodic boundary length')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),

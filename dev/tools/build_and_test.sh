@@ -8,9 +8,10 @@ source feasst_test_env/bin/activate
 python3 -m pip install --upgrade pip
 pip install ../pyfeasst numpy jupyter matplotlib pandas scipy wheel biopandas
 module load mpi/openmpi-x86_64 # sudo dnf install openmpi-devel
-cmake -DUSE_GTEST=ON -DUSE_MPI=ON .. #-DUSE_SWIG=ON
+cmake -DUSE_GTEST=ON -DUSE_MPI=ON -DUSE_HEADER_CHECK=ON -DUSE_PYBIND11=ON .. #-DUSE_SWIG=ON
 #make feasst -j24
 make install -j24
+pip install ../
 echo "" > summary_long.log
 echo "" > summary.log
 
@@ -42,6 +43,20 @@ echo "********** pytutorial **********" >> summary.log
 python ../dev/tools/run_tutorials.py --feasst_install $feasst_dir >> summary_long.log 2>&1
 for fl in `find ../ -name 'tutorial_failures.txt'`; do
   cat $fl >> summary.log
+done
+
+echo "********** pybind11 **********" >> summary.log
+python ../python/tutorial/test.py >> summary_long.log 2>&1
+
+echo "********** cpplib **********" >> summary.log
+pushd ../tutorial/
+  mkdir build; cd $_
+  cmake .. >> log.txt 2>&1
+  make >> log.txt 2>&1
+  ./tutorial >> log.txt 2>&1
+popd
+for flag in "Error" "error" "Assert"; do
+  grep $flag ../tutorial/build/log.txt >> summary.log
 done
 
 #tail -1 tutorial_failures.txt >> summary.log

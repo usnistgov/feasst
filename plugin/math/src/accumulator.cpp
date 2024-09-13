@@ -17,6 +17,7 @@ Accumulator::Accumulator(argtype * args) {
 Accumulator::Accumulator(argtype args) : Accumulator(&args) {
   feasst_check_all_used(args);
 }
+Accumulator::~Accumulator() {}
 
 void Accumulator::accumulate(double value) {
   last_value_ = value;
@@ -139,7 +140,7 @@ void Accumulator::set_moments_(const int num_moments) {
 
 std::string Accumulator::status_header() const {
   std::stringstream ss;
-  ss << "average,stdev,block_stdev,";
+  ss << "average,stdev,block_stdev,min,max,";
   for (int i = 0; i < static_cast<int>(val_moment_.size()); ++i) {
     ss << "moment" << i << ",";
   }
@@ -154,6 +155,8 @@ std::string Accumulator::status() const {
   ss << MAX_PRECISION << average() << ",";
   ss << stdev() << ",";
   ss << block_stdev() << ",";
+  ss << min() << ",";
+  ss << max() << ",";
   for (const long double moment : val_moment_) {
     ss << moment << ",";
   }

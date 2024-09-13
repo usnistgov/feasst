@@ -32,7 +32,7 @@ Sites
 
 Bond Properties
 
-0 RigidBond length 1.0 delta 0.000001
+0 RigidBond length 1.0 delta 0.0001
 
 Bonds
 
@@ -41,7 +41,7 @@ Bonds
 
 Angle Properties
 
-0 RigidAngle degrees 109.47 delta 0.0001
+0 RigidAngle degrees 109.47 delta 0.01
 
 Angles
 

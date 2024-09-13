@@ -19,7 +19,7 @@ typedef std::map<std::string, std::string> argtype;
   Follow the same 4 steps detailed in /feasst/plugin/example/include/model_example.h
   In summary, copy analyze_example.[h/cpp] to new_name.[h/cpp], replace
   AnalyzeExample with NewName, Replace ANALYZE_EXAMPLE with NEW_NAME, and finally
-  cd /path/to/feasst/build; python ../py/depend-py -s ../
+  cd /path/to/feasst/build; python ../dev/tools/depend-py -s ../
 
   For more inspiration, take a look at the other existing Analyze in the stepper
   plugin, such as Movie, Log or PairDistribution.
@@ -80,6 +80,7 @@ class AnalyzeExample : public Analyze {
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<AnalyzeExample>(args); }
   explicit AnalyzeExample(std::istream& istr);
+  ~AnalyzeExample();
 
   //@}
  private:

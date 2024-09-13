@@ -2,8 +2,10 @@
 #ifndef FEASST_SYSTEM_SYNCHRONIZE_DATA_H_
 #define FEASST_SYSTEM_SYNCHRONIZE_DATA_H_
 
+#include <cstdint>
 #include <utility>
 #include <vector>
+#include <ostream>
 
 namespace feasst {
 

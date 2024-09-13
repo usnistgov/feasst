@@ -68,6 +68,7 @@ class PressureFromTestVolume : public Modify {
     return std::make_shared<PressureFromTestVolume>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit PressureFromTestVolume(std::istream& istr);
+  ~PressureFromTestVolume();
 
   //@}
  private:

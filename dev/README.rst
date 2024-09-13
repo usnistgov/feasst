@@ -377,3 +377,4 @@ To Do List
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
 * Add a CheckEnergy tolerance relative to the (max value of the) total energy
 * Remove ConvertToRefPotential in v0.26
+* Class parameters should be parsed in order of documentation

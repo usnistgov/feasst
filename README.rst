@@ -8,7 +8,7 @@ simulations with Monte Carlo methods.
 
 .. note::
 
-   Manuscript: https://doi.org/10.6028/jres.123.004
+   Manuscript: https://doi.org/10.1063/5.0224283
 
    Website: https://pages.nist.gov/feasst/
 

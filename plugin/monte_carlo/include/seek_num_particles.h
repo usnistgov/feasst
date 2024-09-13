@@ -12,6 +12,7 @@ class Criteria;
 class Constraint;
 class TrialAdd;
 class Trial;
+class ThermoParams;
 class MonteCarlo;
 class ProgressReport;
 

@@ -42,7 +42,7 @@ class Listen : public Action {
     return std::make_shared<Listen>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit Listen(std::istream& istr);
-  virtual ~Listen() {}
+  virtual ~Listen();
 
   //@}
  private:

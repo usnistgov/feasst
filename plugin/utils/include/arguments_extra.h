@@ -27,6 +27,9 @@ std::pair<std::string, argtype> parse_line(const std::string line,
 /// convert a space-delimited string into argtype
 argtype line_to_argtype(const std::string line);
 
+/// Parse MonteCarlo arguments from a stream
+std::vector<arglist> parse_mcs(std::istream& is, argtype variables = argtype());
+
 /// Find all values equal to "search" in args and replace with "replace"
 void replace_value(const std::string search, const std::string replace,
                    arglist * args);

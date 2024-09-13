@@ -7,6 +7,8 @@
 
 namespace feasst {
 
+class Select;
+
 /**
   Change the type of a Particle.
   If the Particle has multiple Sites, then fix the coordinate of the first site

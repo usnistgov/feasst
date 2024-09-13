@@ -67,10 +67,7 @@ class Cells {
     particles_[cell].add(select); }
   void remove(const Select& select, const int cell) {
     particles_[cell].remove(select); }
-  void update(const Select& select, const int cell_new, const int cell_old) {
-    particles_[cell_old].remove(select);
-    particles_[cell_new].add(select);
-  }
+  void update(const Select& select, const int cell_new, const int cell_old);
 
   std::string str() const;
 

@@ -8,11 +8,11 @@
    HalfSpaceSine
    Cylinder
    Cuboid
-   ShapeFile
+   Supertoroid
+   Sphere
+   ShapeUnion
    ShapeIntersect
    FiniteCylinder
-   ShapeUnion
-   Slab
    SlabSine
-   Sphere
-   Supertoroid
+   Slab
+   ShapeFile

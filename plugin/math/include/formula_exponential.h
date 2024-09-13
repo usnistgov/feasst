@@ -12,7 +12,8 @@ namespace feasst {
  */
 class FormulaExponential : public Formula {
  public:
-  /**
+  //@{
+  /** @name Arguments
     args:
     - f0: function value at reference point (default: 0).
     - A: coefficient inside exponential (default: 1).
@@ -20,6 +21,12 @@ class FormulaExponential : public Formula {
    */
   explicit FormulaExponential(argtype args = argtype());
   explicit FormulaExponential(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   void set_f0(const double f0) { f0_ = f0; }
   void set_A(const double A) { A_ = A; }
   void set_B(const double B) { B_ = B; }
@@ -29,6 +36,7 @@ class FormulaExponential : public Formula {
   explicit FormulaExponential(std::istream& istr);
   virtual ~FormulaExponential() {}
 
+  //@}
  private:
   double f0_;
   double A_;

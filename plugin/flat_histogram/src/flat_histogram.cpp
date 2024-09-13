@@ -19,6 +19,9 @@
 
 namespace feasst {
 
+FlatHistogram::FlatHistogram() {}  // do not use this constructor.
+FlatHistogram::~FlatHistogram() {}
+
 void FlatHistogram::init_(std::shared_ptr<Macrostate> macrostate,
     std::shared_ptr<Bias> bias) {
   macrostate_ = macrostate;

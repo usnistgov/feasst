@@ -3,6 +3,7 @@
 #define FEASST_SERVER_VISIT_MODEL_INNER_SERVER_H_
 
 #include <memory>
+#include "math/include/position.h"
 #include "math/include/matrix.h"
 #include "math/include/euler.h"
 #include "system/include/visit_model_inner.h"
@@ -63,7 +64,7 @@ class VisitModelInnerServer : public VisitModelInner {
     return std::make_shared<VisitModelInnerServer>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelInnerServer(std::istream& istr);
-  virtual ~VisitModelInnerServer() {}
+  virtual ~VisitModelInnerServer();
 
   //@}
  private:

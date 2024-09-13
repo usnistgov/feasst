@@ -8,28 +8,6 @@
 
 using namespace feasst;
 
-std::vector<arglist> parse_mcs(argtype variables = argtype()) {
-  std::vector<arglist> lists;
-  arglist list;
-  std::string line;
-  while (std::getline(std::cin, line)) {
-    if (!line.empty() && line[0] != '#') {
-      if (line == "MonteCarlo") {
-        lists.push_back(list);
-        list = arglist();
-      } else {
-        bool assign_to_list = true;
-        std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
-        if (assign_to_list) {
-          list.push_back(line_pair);
-        }
-      }
-    }
-  }
-  lists.push_back(list);
-  return lists;
-}
-
 // Parse the line containing CollectionMatrixSplice and the following line
 // beginning "Window"
 // consider moving this to CollectionMatrixSplice
@@ -70,7 +48,7 @@ void parse_cm(std::string line) {
   line_pair = parse_line(line, &variables, &assign_to_list);
   cm.set(MakeCheckpoint(line_pair.second));
 
-  std::vector<arglist> list = parse_mcs();
+  std::vector<arglist> list = parse_mcs(std::cin);
   ASSERT(static_cast<int>(list.size()) == 1, "CollectionMatrixSplice should "
     << "have no lines beginning as \"MonteCarlo\"");
   std::vector<int> complete(window->num(), 0);
@@ -107,7 +85,7 @@ void parse_prefetch(std::string line) {
   argtype variables;
   bool assign_to_list;
   std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
-  std::vector<arglist> lists = parse_mcs();
+  std::vector<arglist> lists = parse_mcs(std::cin);
   for (auto list : lists) {
     Prefetch prefetch(line_pair.second);
     prefetch.begin(list);
@@ -169,6 +147,7 @@ void parse_server(std::string line) {
  */
 int main() {
   std::cout << "# FEASST version: " << version() << std::endl;
+  std::cout << "# Usage: ./fst < file.txt" << std::endl;
   std::string line;
   std::getline(std::cin, line);
 
@@ -182,7 +161,7 @@ int main() {
 
   if (line == "MonteCarlo") {
     std::cout << "MonteCarlo" << std::endl;
-    std::vector<arglist> lists = parse_mcs();
+    std::vector<arglist> lists = parse_mcs(std::cin);
     for (auto list : lists) {
       auto mc = std::make_shared<MonteCarlo>(list);
     }
@@ -196,7 +175,7 @@ int main() {
   } else {
     FATAL("As currently implemented, all FEASST input text files must begin "
       << "with \"MonteCarlo,\" \"CollectionMatrixSplice,\" \"Prefetch\" "
-      << "or \"Server.\" The first readable line in this file is: " << line);
+      << "or \"Server.\" The first readable line is: " << line);
   }
   return 0;
 }

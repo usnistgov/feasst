@@ -74,6 +74,7 @@ double VisitModelCell::min_len_(const Configuration& config) const {
 }
 
 void VisitModelCell::precompute(Configuration * config) {
+  DEBUG("precomputing");
   VisitModel::precompute(config);
   ASSERT(config->domain().side_lengths().size() > 0,
     "cannot define cells before domain sides");
@@ -91,6 +92,7 @@ void VisitModelCell::precompute(Configuration * config) {
 }
 
 void VisitModelCell::rebuild_(const Configuration& config) {
+  DEBUG("rebuilding");
   const double min_length = min_len_(config);
   Cells cells;
   cells.create(min_length, config.domain().side_lengths().coord());
@@ -108,8 +110,8 @@ void VisitModelCell::rebuild_(const Configuration& config) {
           " did not meet requirements when the minimum domain side length " <<
           "is " << config.domain().min_side_length());
   }
-  //INFO("num cells " << cells_->num_total());
-  //INFO("volume " << config.domain().volume());
+  DEBUG("num cells " << cells_->num_total());
+  DEBUG("volume " << config.domain().volume());
 }
 
 void VisitModelCell::change_volume(const double delta_volume, const int dimension, Configuration * config) {
@@ -117,6 +119,7 @@ void VisitModelCell::change_volume(const double delta_volume, const int dimensio
   bool rebuild = true;
   if (rebuild) {
     rebuild_(*config);
+    DEBUG("position updates after change volume rebuild");
     position_tracker_(config->group_select(group_index_), config);
   }
 }
@@ -301,8 +304,10 @@ void VisitModelCell::compute(
 void VisitModelCell::position_tracker_(const Select& select,
     Configuration * config) {
   for (int spindex = 0; spindex < select.num_particles(); ++spindex) {
+    DEBUG("spindex " << spindex << " of " << select.num_particles());
     const int particle_index = select.particle_index(spindex);
     for (const int site_index : select.site_indices(spindex)) {
+      DEBUG("site_index " << site_index << " of " << static_cast<int>(select.site_indices(spindex).size()));
       ASSERT(site_index >= 0, "index error");
       DEBUG("update cells");
       DEBUG("group " << cells_->group());

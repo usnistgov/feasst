@@ -12,6 +12,7 @@ class Configuration;
 class EnergyMap;
 class ModelParams;
 class ModelTwoBody;
+class Position;
 class Select;
 
 typedef std::map<std::string, std::string> argtype;

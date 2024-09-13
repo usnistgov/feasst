@@ -26,6 +26,10 @@ PARSER.add_argument('--num_particles_vapor', type=int, default=61,
                     help='initial number of particles in the vapor')
 PARSER.add_argument('--num_particles_liquid', type=int, default=451,
                     help='initial number of particles in the liquid')
+PARSER.add_argument('--xyz_vapor', type=str, default='',
+                    help='optionally, use an xyz file to initialize vapor')
+PARSER.add_argument('--xyz_liquid', type=str, default='',
+                    help='optionally, use an xyz file to initialize liquid')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
@@ -34,7 +38,7 @@ PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
                     help='number of iterations for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
-PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
+PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
                     help='0: run, 1: submit to queue, 2: post-process')
 PARSER.add_argument('--seed', type=int, default=-1,
@@ -68,6 +72,22 @@ if 'n-butane' in PARAMS['fstprt']:
 else:
     assert False, "input new num_sites and molecular_weight into PARAMS"
 PARAMS['last_site'] = PARAMS['num_sites'] - 1
+if PARAMS['xyz_vapor'] == '':
+    PARAMS['vapor_config'] = """cubic_side_length {cubic_side_length_vapor}""".format(**PARAMS)
+    PARAMS['init_vapor'] = """TrialGrowFile grow_file {prefix}_c0_grow_add.txt
+Run until_num_particles {num_particles_vapor} configuration_index 0
+RemoveTrial name_contains add""".format(**PARAMS)
+else:
+    PARAMS['vapor_config'] = """xyz_file {xyz_vapor}""".format(**PARAMS)
+    PARAMS['init_vapor'] = ''
+if PARAMS['xyz_liquid'] == '':
+    PARAMS['liquid_config'] = """cubic_side_length {cubic_side_length_liquid}""".format(**PARAMS)
+    PARAMS['init_liquid'] = """TrialGrowFile grow_file {prefix}_c1_grow_add.txt
+Run until_num_particles {num_particles_liquid} configuration_index 1
+RemoveTrial name_contains add""".format(**PARAMS)
+else:
+    PARAMS['liquid_config'] = """xyz_file {xyz_liquid}""".format(**PARAMS)
+    PARAMS['init_liquid'] = ''
 
 def write_partial(f, bond, angle, dihedral, params):
     if params['num_sites'] == 2:
@@ -147,9 +167,11 @@ def write_grow_file(filename, params,
                 f.write("\n")
 
 write_grow_file(filename=PARAMS['prefix']+"_c0_grow_canonical.txt", params=PARAMS, gce=0, conf=0)
-write_grow_file(filename=PARAMS['prefix']+"_c0_grow_add.txt", params=PARAMS, gce=1, conf=0)
+if PARAMS['xyz_vapor'] == '':
+    write_grow_file(filename=PARAMS['prefix']+"_c0_grow_add.txt", params=PARAMS, gce=1, conf=0)
 write_grow_file(filename=PARAMS['prefix']+"_c1_grow_canonical.txt", params=PARAMS, gce=0, conf=1)
-write_grow_file(filename=PARAMS['prefix']+"_c1_grow_add.txt", params=PARAMS, gce=1, conf=1)
+if PARAMS['xyz_liquid'] == '':
+    write_grow_file(filename=PARAMS['prefix']+"_c1_grow_add.txt", params=PARAMS, gce=1, conf=1)
 write_grow_file(filename=PARAMS['prefix']+"_grow_gibbs.txt", params=PARAMS, gce=2, conf=0, conf2=1)
 
 def write_feasst_script(params, script_file):
@@ -159,8 +181,8 @@ def write_feasst_script(params, script_file):
 # first, initialize multiple clones into windows
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length_vapor} particle_type0 {fstprt} cutoff {cutoff}
-Configuration cubic_side_length {cubic_side_length_liquid} particle_type0 {fstprt} cutoff {cutoff}
+Configuration {vapor_config} particle_type0 {fstprt} cutoff {cutoff}
+Configuration {liquid_config} particle_type0 {fstprt} cutoff {cutoff}
 Potential Model LennardJones configuration_index 0
 Potential Model LennardJones configuration_index 1
 Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3 configuration_index 0
@@ -184,6 +206,7 @@ TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site {las
 TrialGrowFile grow_file {prefix}_c0_grow_canonical.txt
 TrialGrowFile grow_file {prefix}_c1_grow_canonical.txt
 CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # gcmc initialization and nvt equilibration
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_fill.xyz configuration_index 0
@@ -193,14 +216,10 @@ Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_fill.csv i
 Tune trials_per_tune 10
 
 # fill the first box
-TrialGrowFile grow_file {prefix}_c0_grow_add.txt
-Run until_num_particles {num_particles_vapor} configuration_index 0
-RemoveTrial name_contains add
+{init_vapor}
 
 # fill the second box
-TrialGrowFile grow_file {prefix}_c1_grow_add.txt
-Run until_num_particles {num_particles_liquid} configuration_index 1
-RemoveTrial name_contains add
+{init_liquid}
 
 # equilibrate both
 #Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}

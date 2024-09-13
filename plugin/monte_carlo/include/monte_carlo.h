@@ -85,6 +85,9 @@ class MonteCarlo {
   /// Process arguments.
   void parse_args(arglist * args, const bool silent = false);
 
+  /// Add more arguments.
+  void add_args(arglist args);
+
   /// Resume processing the above arguments after Checkpointing.
   void resume();
 
@@ -263,6 +266,9 @@ class MonteCarlo {
 
   /// Attempt Monte Carlo trials until the given file name exists.
   virtual void run_until_file_exists(const std::string& file_name);
+
+  /// Set the Criteria::number_iterations_to_complete.
+  void set_num_iterations_to_complete(const int num);
 
   // HWH hackish interface for prefetch
   void before_attempts_();

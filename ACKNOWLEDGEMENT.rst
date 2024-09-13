@@ -1,7 +1,7 @@
 Acknowledgement
 ###############################################################
 
-The following acknowledgements are listed in alphabetical order of last name.
+While all criticism may be directed to the project lead, :doc:`Harold W. Hatch<CONTACT>`, acknowledgements belong to the following people listed in alphabetical order of last name.
 
 For help in testing and discussion:
 
@@ -20,7 +20,7 @@ For help in testing and discussion:
 * Dr. Yingnan Wang
 * Jilong Xu
 * Chieh-Chih (George) Yeh
-* Dr. Hasan Zerze
+* Prof. Hasan Zerze
 
 For help in discussion:
 
@@ -49,6 +49,8 @@ Publications
 
 Publications which use FEASST include:
 
+#. https://doi.org/10.1063/5.0224809
+#. https://doi.org/10.1063/5.0224283
 #. https://doi.org/10.1021/acs.jpcb.4c00753
 #. https://doi.org/10.1063/5.0148488
 #. https://doi.org/10.1021/acs.jpcb.3c00613

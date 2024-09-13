@@ -17,13 +17,19 @@ class Formula;
  */
 class Minimize {
  public:
-  /**
+  //@{
+  /** @name Arguments
     args:
     - tolerance: solve within this tolerance.
     - lower: lower bound.
     - upper: upper bound.
    */
   explicit Minimize(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the tolerance
   double tolerance() const { return tolerance_; }
@@ -55,6 +61,7 @@ class Minimize {
   explicit Minimize(std::istream& istr);
   virtual ~Minimize() {}
 
+  //@}
  protected:
   std::string class_name_ = "Minimize";
   void serialize_solver_(std::ostream& ostr) const;

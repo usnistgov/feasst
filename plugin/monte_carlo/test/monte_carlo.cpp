@@ -427,7 +427,8 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type", "../particle/atom.fstprt"},
-    {"add_particles_of_type0", str(num)}}));
+    {"add_particles_of_type0", str(num)},
+    {"cutoff", "0"}}));
   mc.add(MakePotential(MakeDontVisitModel()));
   //mc.add(MakePotential(MakeIdealGas()));
   mc.set(MakeThermoParams({{"beta", str(beta)}, {"pressure", str(pressure)}}));
@@ -448,7 +449,7 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
 
 TEST(MonteCarlo, lj_npt) {
   const int num = 10;
-  const double beta = 1.2, pressure = 0.2;
+  const double beta = 1.5, pressure = 0.002;
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
@@ -467,6 +468,7 @@ TEST(MonteCarlo, lj_npt) {
   mc.add(MakeTrialVolume({{"tunable_param", "0.5"}}));
 //  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/lj_npt"}}));
   mc.add(MakeTune());
+  mc.add(MakeLog({{"output_file", "tmp/lj.csv"}}));
   mc.attempt(1e2);
   mc.add(MakeVolume({{"trials_per_write", trials_per},
                      {"output_file", "tmp/lj_npt_vol"}}));
@@ -650,7 +652,7 @@ TEST(MonteCarlo, arglist) {
 TEST(MonteCarlo, gen_5_spce_in_triclinic) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({
-    {"side_length0", "20"}, {"side_length1", "20"}, {"side_length2", "20"},
+    {"side_length0", "22"}, {"side_length1", "22"}, {"side_length2", "22"},
     {"xy", "4"}, {"yz", "4"}, {"xz", "4"},
     {"particle_type0", "../particle/spce.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));

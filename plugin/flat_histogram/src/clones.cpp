@@ -28,6 +28,8 @@
 
 namespace feasst {
 
+Clones::~Clones() {}
+
 //void Clones::create(const MonteCarlo& mc,
 //                    const Window& window) {
 //  std::stringstream ss_fh, ss_macro;

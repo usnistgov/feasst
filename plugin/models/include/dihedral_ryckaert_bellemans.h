@@ -18,7 +18,7 @@ namespace feasst {
  */
 class DihedralRyckaertBellemans : public BondFourBody {
  public:
-  explicit DihedralRyckaertBellemans(const argtype& args = argtype()) {}
+  DihedralRyckaertBellemans() {}
   double energy(const double radians, const Bond& dihedral) const override;
   std::shared_ptr<BondFourBody> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
@@ -29,9 +29,8 @@ class DihedralRyckaertBellemans : public BondFourBody {
   void serialize_dihedral_ryckaert_bellemans_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<DihedralRyckaertBellemans> MakeDihedralRyckaertBellemans(
-    const argtype &args = argtype()) {
-  return std::make_shared<DihedralRyckaertBellemans>(args);
+inline std::shared_ptr<DihedralRyckaertBellemans> MakeDihedralRyckaertBellemans() {
+  return std::make_shared<DihedralRyckaertBellemans>();
 }
 
 }  // namespace feasst

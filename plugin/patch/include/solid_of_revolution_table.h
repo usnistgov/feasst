@@ -3,6 +3,7 @@
 #define FEASST_PATCH_SOLID_OF_REVOLUTION_TABLE_H_
 
 #include <memory>
+#include "math/include/position.h"
 #include "math/include/table.h"
 #include "math/include/matrix.h"
 #include "math/include/euler.h"

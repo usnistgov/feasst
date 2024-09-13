@@ -2,6 +2,17 @@
 C++ Interface
 ***************************
 
+An example usage of the C++ interface is shown in $HOME/feasst/tutorial/tutorial.cpp and compiled in BASH as follows:
+
+.. code-block:: bash
+
+    # Compile FEASST normally, ending with the command: make install.
+    # Set CMAKE_PREFIX_PATH in $HOME/feasst/tutorial/CMakeLists.txt
+    mkdir build; cd &_
+    cmake ..
+    make
+    ./tutorial
+
 C++ classes are organized as follows.
 The random number generate is set by :cpp:class:`Random <feasst::Random>`.
 :cpp:class:`Configuration <feasst::Configuration>` contains the identity and positions of particles, sites and the spatial :cpp:class:`Domain <feasst::Domain>`.

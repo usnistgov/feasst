@@ -8,7 +8,7 @@
 namespace feasst {
 
 /**
-  Assumes there is only one Trial, TrialAdd, and it is AlwaysReject-ed.
+  Assumes there is only one Trial, TrialAdd, and it is AlwaysReject ed.
   Accumulate \f$\langle e^{-\beta \Delta U}\rangle\f$,
   where \f$\Delta U\f$ is the energy contribution of the attempt to add the
   particle.
@@ -19,6 +19,8 @@ class HenryCoefficient : public Analyze {
   /** @name Arguments
     - num_beta_taylor: number of derivatives of second virial ratio with
       respect to beta. (default: 0).
+    - write_precision: number of decimals in writing taylor coefficients
+      (default: 8).
    */
   explicit HenryCoefficient(argtype args = argtype());
   explicit HenryCoefficient(argtype * args);
@@ -53,6 +55,8 @@ class HenryCoefficient : public Analyze {
   std::string class_name() const override { return std::string("HenryCoefficient"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<HenryCoefficient>(istr); }
+  std::shared_ptr<Analyze> create(argtype * args) const override {
+    return std::make_shared<HenryCoefficient>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit HenryCoefficient(std::istream& istr);
   virtual ~HenryCoefficient() {}
@@ -60,6 +64,7 @@ class HenryCoefficient : public Analyze {
 
  private:
   std::vector<Accumulator> beta_taylor_;
+  int write_precision_;
 };
 
 inline std::shared_ptr<HenryCoefficient> MakeHenryCoefficient(

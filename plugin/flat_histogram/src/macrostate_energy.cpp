@@ -28,6 +28,7 @@ MacrostateEnergy::MacrostateEnergy(argtype args) :
     MacrostateEnergy(Histogram(&args), &args) {
   feasst_check_all_used(args);
 }
+MacrostateEnergy::~MacrostateEnergy() {}
 
 double MacrostateEnergy::value(const System& system,
     const Criteria& criteria,

@@ -127,6 +127,7 @@ class Clones {
 
   std::string serialize() const;
   Clones deserialize(const std::string str);
+  ~Clones();
 
  private:
   std::vector<std::shared_ptr<MonteCarlo> > clones_;

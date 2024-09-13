@@ -25,6 +25,7 @@ AnalyzeExample::AnalyzeExample(argtype * args) : Analyze(args) {
 AnalyzeExample::AnalyzeExample(argtype args) : AnalyzeExample(&args) {
   feasst_check_all_used(args);
 }
+AnalyzeExample::~AnalyzeExample() {}
 
 std::string AnalyzeExample::header(const Criteria& criteria,
     const System& system,

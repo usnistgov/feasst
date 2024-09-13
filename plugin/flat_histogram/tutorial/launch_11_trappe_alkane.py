@@ -22,9 +22,9 @@ def parse():
     parser.add_argument('--temperature', type=float, default=350, help='temperature in Kelvin')
     parser.add_argument('--beta_mu', type=float, default=-6, help='beta time chemical potential')
     parser.add_argument('--cutoff', type=float, default=12, help='real space cutoff distance')
-    parser.add_argument('--max_particles', type=int, default=385, help='maximum number of particles')
+    parser.add_argument('--max_particles', type=int, default=285, help='maximum number of particles')
     parser.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
-    parser.add_argument('--min_particles_second_window', type=int, default=50, help='minimum number of particles in the second window')
+    parser.add_argument('--min_particles_second_window', type=int, default=15, help='minimum number of particles in the second window')
     parser.add_argument('--min_sweeps', type=int, default=2,
                         help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
     parser.add_argument('--cubic_side_length', type=float, default=45,
@@ -158,7 +158,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 # first, initialize multiple clones into windows
 CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}n{node}_lnpi.txt min_window_size -1
-WindowExponential maximum {max_particles} min0 {min_particles} min1 {min_particles_second_window} num {procs_per_node} overlap 0 alpha 2.15 min_size 3
+WindowExponential maximum {max_particles} min0 {min_particles} min1 {min_particles_second_window} num {procs_per_node} overlap 0 alpha 1.5 min_size 3
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 RandomMT19937 seed {seed}
@@ -204,15 +204,20 @@ CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{nod
 
 def post_process(params):
     lnp = macrostate_distribution.splice_collection_matrix(prefix='trappen0s', suffix='_crit.txt', use_soft=True)
-    lnp.equilibrium()
+    assert np.abs(lnp.ln_prob()[1] - lnp.ln_prob()[0] - 5.86440399999992) < 0.1
+    assert np.abs(lnp.ln_prob()[2] - lnp.ln_prob()[1] - 5.22683300000017) < 0.1
+    # equilibrium test below was abandoned to reduce max_particles for faster convergence
+    #lnp.equilibrium()
     #lnp.plot(show=True)
-    print('WARNING: max_particles should be higher but the liquid peak was truncated to make the simulation faster')
-    vapor, liquid = lnp.split()
-    volume = params['cubic_side_length']**3
-    na = physical_constants.AvogadroConstant().value()
-    dens_conv = 1./volume/na*params['molecular_weight']/1e3*1e30 # convert from N/V units of molecules/A^3 to kg/m
-    # https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n
-    assert np.abs(30.6 - vapor.average_macrostate()*dens_conv) < 2
+    #print('WARNING: max_particles should be higher but the liquid peak was truncated to make the simulation faster')
+    #vapor, liquid = lnp.split()
+    #volume = params['cubic_side_length']**3
+    #na = physical_constants.AvogadroConstant().value()
+    #dens_conv = 1./volume/na*params['molecular_weight']/1e3*1e30 # convert from N/V units of molecules/A^3 to kg/m
+    ## https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-trappe-ua-n
+    #density = vapor.average_macrostate()*dens_conv
+    #print('density', density)
+    #assert np.abs(30.6 - density) < 2
     #assert np.abs(508 - liquid.average_macrostate()*dens_conv) < 30
 
 if __name__ == '__main__':

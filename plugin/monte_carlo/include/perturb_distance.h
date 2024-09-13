@@ -3,6 +3,7 @@
 #define FEASST_MONTE_CARLO_PERTURB_DISTANCE_H_
 
 #include <memory>
+#include "math/include/position.h"
 #include "math/include/matrix.h"
 #include "system/include/rigid_bond.h"
 #include "monte_carlo/include/perturb_move.h"
