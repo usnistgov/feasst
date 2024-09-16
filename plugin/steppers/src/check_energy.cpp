@@ -33,8 +33,9 @@ bool CheckEnergy::is_within_tolerance_(const double u1, const double u2) const {
   DEBUG(MAX_PRECISION << "u1 " << u1 << " u2 " << u2);
   if (decimal_places_ > 0) {
     DEBUG("decimal_places_ " << decimal_places_);
-    DEBUG(std::abs(u1 - u2)/std::max(std::abs(u1), std::abs(u2)));
-    if (std::abs(u1 - u2)/std::max(std::abs(u1), std::abs(u2)) > std::pow(10, -decimal_places_)) {
+    const double max_abs = std::max(std::abs(u1), std::abs(u2));
+    const double tol = std::pow(10, -decimal_places_);
+    if (std::abs(u1 - u2)/max_abs > tol && max_abs > tol) {
       pass = false;
     }
   } else {

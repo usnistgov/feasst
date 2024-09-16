@@ -25,16 +25,25 @@ namespace feasst {
   It is not very surprising to see a difference in the 6th or 7th decimal place
   in some cases.
 
-  An alternative metric is the number of decimal places.
-  In practice, this is implemented as follows for two energies U1 and U2.
-
-  \f$\frac{|U_1-U_2|}{\mathrm{max}(|U_1|, |U_2|) < 10^{-decimal_places}\f$
-
   The size of the deviation can depend not only on the system size but the
   potential function and the number of trials between each check.
   For example, if the system undergoes a random walk deviation of size delta,
   it may deviate by the square root of the number of trials, where the size
   delta may be related to the number of interaction sites.
+
+  An alternative metric is the number of decimal places.
+  In practice, this is implemented as follows for two energies U1 and U2.
+
+  \f$\frac{|U_1-U_2|}{\mathrm{max}(|U_1|, |U_2|) < 10^{-decimal_places}\f$
+
+  For this alternative metric, special consideration is made for small or near
+  zero values of energy.
+  In this special case, the check passes as long as
+
+  \f$\mathrm{max}(|U_1|, |U_2|) < 10^{-decimal_places}\f$
+
+  Otherwise, the differences about zero to numerical precision would almost
+  always fail the test.
 
   This class effectively functions as an Analyze because it does not change the
   System within the specified tolerance.
