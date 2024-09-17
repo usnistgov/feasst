@@ -361,7 +361,6 @@ To Do List
 * Reduce size of Checkpoint files for cell/neighbor lists (re-compute instead of checkpointing them). Also large tables.
 * Represent relative rigid bodies as screw motion: https://en.wikipedia.org/wiki/Screw_theory
 * Allow mixing rules input in fstprt files (either as manual input i-j or selection of mixing rules from list, or both).
-* Add LJ/SQ b2 calculation examples
 * Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees
 * Ewald mod k2max like LAMMPS
 * Add 1/2 factor in AngleHarmonic
@@ -375,6 +374,4 @@ To Do List
 * Hard code version into source code releases. Or update README_html to download releases with wget? Release not just tag?
 * Compress README features list (table?)
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
-* Add a CheckEnergy tolerance relative to the (max value of the) total energy
 * Remove ConvertToRefPotential in v0.26
-* Class parameters should be parsed in order of documentation

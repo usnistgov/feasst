@@ -92,7 +92,7 @@ RemoveAnalyze name Movie
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations} Constraint ConstrainVolumeByCutoff
 TrialGibbsParticleTransfer weight 0.05 particle_type 0 reference_index 0
 TrialGibbsVolumeTransfer weight 0.001 tunable_param 0.1 reference_index 0
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
 CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_eq.xyz configuration_index 0

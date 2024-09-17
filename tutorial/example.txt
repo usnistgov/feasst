@@ -10,7 +10,7 @@ ThermoParams beta 1.111111111111111 chemical_potential0 -1
 Metropolis
 TrialTranslate weight 1 tunable_param 2
 Tune
-CheckEnergy trials_per_update 1e4 tolerance 1e-8
+CheckEnergy trials_per_update 1e4 decimal_places 8
 TrialAdd weight 2 particle_type 0
 Run until_num_particles 500
 RemoveTrial name TrialAdd

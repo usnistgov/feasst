@@ -63,15 +63,24 @@ std::string HenryCoefficient::header(const Criteria& criteria,
 void HenryCoefficient::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  const double en = trial_factory.trial(0).accept().energy_new();
-  DEBUG("en: " << en);
+  const Acceptance& accept = trial_factory.trial(0).accept();
+  double en_new = accept.energy_new();
+  DEBUG("en new: " << en_new);
+  double en_cur = criteria.current_energy();
+  DEBUG("en cur: " << en_cur);
+  const double delta_en = en_new - en_cur;
+  DEBUG("delta_en " << delta_en);
   const double beta = system.thermo_params().beta();
-  get_accumulator()->accumulate(std::exp(-beta*en));
+  DEBUG("beta " << beta);
+  get_accumulator()->accumulate(std::exp(-beta*delta_en));
+  DEBUG("acc " << accumulator().str());
 
   // moments for extrapolation
-  double unebu = std::exp(-beta*en);
+  double unebu = std::exp(-beta*delta_en);
+  DEBUG("unebu " << unebu);
   for (int ibd = 0; ibd < static_cast<int>(beta_taylor_.size()); ++ibd) {
-    unebu *= -en;
+    unebu *= -delta_en;
+    DEBUG("ibd " << ibd << " unebu " << unebu);
     beta_taylor_[ibd].accumulate(unebu/factorial(ibd+1));
   }
 }

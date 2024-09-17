@@ -205,7 +205,7 @@ TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 pivot_site {las
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site {last_site} configuration_index 1
 TrialGrowFile grow_file {prefix}_c0_grow_canonical.txt
 TrialGrowFile grow_file {prefix}_c1_grow_canonical.txt
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # gcmc initialization and nvt equilibration

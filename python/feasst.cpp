@@ -1,7 +1,9 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include <string>
 #include "utils/include/arguments.h"
 #include "utils/include/arguments_extra.h"
+#include "math/include/accumulator.h"
 #include "math/include/position.h"
 #include "configuration/include/site.h"
 #include "configuration/include/particle.h"
@@ -31,6 +33,15 @@ PYBIND11_MODULE(_core, m) {
         .. autosummary::
            :toctree: _generate
     )pbdoc";
+
+    py::class_<feasst::Accumulator>(m, "Accumulator")
+        .def(py::init<>())
+        .def(py::init<feasst::argtype>())
+        .def("accumulate", &feasst::Accumulator::accumulate)
+        .def("max_block_operations", &feasst::Accumulator::max_block_operations)
+        .def("str", &feasst::Accumulator::str)
+        .def("average", &feasst::Accumulator::average)
+        .def("block_stdev", &feasst::Accumulator::block_stdev);
 
     py::class_<feasst::MonteCarlo>(m, "MonteCarlo")
         .def(py::init<>())

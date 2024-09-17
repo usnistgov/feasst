@@ -12,6 +12,7 @@ cmake -DUSE_GTEST=ON -DUSE_MPI=ON -DUSE_HEADER_CHECK=ON -DUSE_PYBIND11=ON .. #-D
 #make feasst -j24
 make install -j24
 pip install ../
+cp _core*so feasst_test_env/lib/python*/site-packages/feasst/
 echo "" > summary_long.log
 echo "" > summary.log
 
@@ -46,7 +47,11 @@ for fl in `find ../ -name 'tutorial_failures.txt'`; do
 done
 
 echo "********** pybind11 **********" >> summary.log
-python ../python/tutorial/test.py >> summary_long.log 2>&1
+python ../python/tutorial/test.py >> summary_pyb.log 2>&1
+python ../python/tutorial/block_average.py >> summary_pyb.log 2>&1
+for flag in "Error" "error" "Assert"; do
+  grep $flag summary_pyb.log >> summary.log
+done
 
 echo "********** cpplib **********" >> summary.log
 pushd ../tutorial/

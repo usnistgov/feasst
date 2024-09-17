@@ -3,6 +3,7 @@ Flat-histogram simulation of TraPPE CO2 adsorption in ZIF8.
 Compare with https://doi.org/10.1021/jp400480q .
 The next tutorial with bulk CO2 is required to obtain the pressure.
 The ZIF8 forcefield is described in https://doi.org/10.1002/chem.200902144 .
+Developed with Dr. Siderius.
 """
 
 import argparse

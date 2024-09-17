@@ -87,7 +87,7 @@ Potential Model ChargeSelf
 ThermoParams beta {beta} chemical_potential0 {mu} chemical_potential1 {mu}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 
 # gcmc initialization and nvt equilibration
 TrialAddMultiple particle_type0 0 particle_type1 1 reference_index 0

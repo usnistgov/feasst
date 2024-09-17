@@ -12,6 +12,9 @@ namespace feasst {
   Accumulate \f$\langle e^{-\beta \Delta U}\rangle\f$,
   where \f$\Delta U\f$ is the energy contribution of the attempt to add the
   particle.
+  The \f$\Delta U\f$ is computed by subtracting the new energy from the current,
+  which enables use with Ewald, but also may not make sense if the existing
+  adsorption framework is not represented as a single particle.
  */
 class HenryCoefficient : public Analyze {
  public:
