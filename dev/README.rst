@@ -70,6 +70,7 @@ To incorporate the pull request into feasst
 - git fetch usnistgov pull/ID/head:BRANCHNAME
 - git checkout BRANCHNAME
 - [make local changes. Can "git commit --amend"]
+- If authorship is missing after a squash merge, use git commit --amend --author="My Nick my.adress@email.com"
 - git push usnistgov BRANCHNAME
 
 Tools
@@ -375,5 +376,3 @@ To Do List
 * Compress README features list (table?)
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
 * Remove ConvertToRefPotential in v0.26
-* Class parameters should be parsed in order of documentation
-* Tutorials should use CheckEnergy::decimal_places

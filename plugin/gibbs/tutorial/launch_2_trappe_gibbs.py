@@ -126,7 +126,7 @@ def write_grow_file(filename, params,
                     if trial_type == 1 and (gce == 1 or gce == 2):
                         if site == 0:
                             if gce == 2:
-                                f.write("""particle_type 0 configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps 1 reference_index 0\n""".format(**params))
+                                f.write("""particle_type 0 configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps 1 reference_index 0 print_num_accepted true\n""".format(**params))
                             elif gce == 1:
                                 f.write("""particle_type 0 configuration_index {conf} weight 1 add true site {site0} num_steps 1 reference_index 0\n""".format(**params))
                         elif site == 1:
@@ -231,7 +231,7 @@ RemoveAnalyze name Movie
 # gibbs ensemble equilibration
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialGrowFile grow_file {prefix}_grow_gibbs.txt
-TrialGibbsVolumeTransfer weight 0.001 tunable_param 3000 reference_index 0
+TrialGibbsVolumeTransfer weight 0.001 tunable_param 3000 reference_index 0 print_num_accepted true
 CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_eq.xyz configuration_index 0

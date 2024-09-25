@@ -50,6 +50,8 @@ class Trial {
       If there is a rigid particle type in the grand canonical ensemble, avoid
       changing the relative weight of translation vs insert/delete and breaking
       detailed balance.
+    - print_num_accepted: if true (default: false), print the number of
+      accepted trials.
    */
   explicit Trial(argtype args = argtype());
   explicit Trial(argtype * args);
@@ -222,6 +224,7 @@ class Trial {
   int64_t * num_success_() { return &((*data_.get_int64_1D())[1]); }
   int64_t * num_auto_reject_() { return &((*data_.get_int64_1D())[2]); }
   bool is_finalize_delayed_;
+  bool print_num_accepted_;
 
   // temporary or duplicate
   std::shared_ptr<Acceptance> acceptance_;

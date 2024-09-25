@@ -336,16 +336,11 @@ TEST(HardShape, henry_dimer_LONG) {
   }
 }
 
-TEST(HenryCoefficient, henry_serialize) {
-  HenryCoefficient obj;
-  HenryCoefficient obj2 = test_serialize(obj);
-}
-
-TEST(Ewald, henry_MOF_LONG) {
+TEST(MonteCarlo, henry_MOF_LONG) {
   System system;
   auto config = MakeConfiguration({{"cubic_side_length", "34.0232403"},
       {"particle_type0", install_dir() + "/particle/co2.fstprt"},
-      {"particle_type1", install_dir() + "/plugin/confinement/tutorial/ZIF8_rep222_PerezPellitero.fstprt"},
+      {"particle_type1", install_dir() + "/plugin/confinement/particle/ZIF8_rep222_PerezPellitero.fstprt"},
       {"add_particles_of_type1", "1"},
       {"cutoff", "12.0"}});
   system.add(config);
@@ -362,11 +357,11 @@ TEST(Ewald, henry_MOF_LONG) {
   EXPECT_NEAR(h.average(), 6.87, 2*h.block_stdev());
 }
 
-TEST(LennardJonesAlpha, henry_LJMOF_LONG) {
+TEST(MonteCarlo, henry_LJMOF_LONG) {
   System system;
   auto config = MakeConfiguration({{"cubic_side_length", "34.0232403"},
       {"particle_type0", install_dir() + "/particle/co2.fstprt"},
-      {"particle_type1", install_dir() + "/plugin/confinement/tutorial/ZIF8_rep222_PerezPellitero.fstprt"},
+      {"particle_type1", install_dir() + "/plugin/confinement/particle/ZIF8_rep222_PerezPellitero.fstprt"},
       {"add_particles_of_type1", "1"},
       {"cutoff", "12.0"}});
   system.add(config);

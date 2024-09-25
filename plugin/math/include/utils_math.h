@@ -313,8 +313,9 @@ inline void add(const std::vector<std::vector<std::vector<std::vector<T> > > >&
   }
 }
 
-/// Return the factorial of an integer.
-int factorial(const int num);
+/// Return the factorial using double precision and the gamma function
+/// because integers overflow beyond 12!
+double factorial(const double value);
 
 /// Return if the value is bad (i.e., nan or inf).
 template<class T>
