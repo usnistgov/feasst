@@ -375,3 +375,5 @@ To Do List
 * Compress README features list (table?)
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
 * Remove ConvertToRefPotential in v0.26
+* Class parameters should be parsed in order of documentation
+* Tutorials should use CheckEnergy::decimal_places

@@ -67,6 +67,7 @@ class HenryCoefficient : public Analyze {
 
  private:
   std::vector<Accumulator> beta_taylor_;
+  std::vector<Accumulator> beta_taylor2_;
   int write_precision_;
 };
 
