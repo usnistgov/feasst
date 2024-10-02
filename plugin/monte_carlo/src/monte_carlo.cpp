@@ -60,6 +60,12 @@ MonteCarlo::MonteCarlo(std::shared_ptr<Random> random) {
 MonteCarlo::MonteCarlo() : MonteCarlo(std::make_shared<RandomMT19937>()) {}
 MonteCarlo::~MonteCarlo() {}
 
+void MonteCarlo:: record_next_arg_(arglist *args) {
+  if (args->size() > 0) {
+    next_arg_ = *args->begin();
+  }
+}
+
 void MonteCarlo::parse_args(arglist * args, const bool silent) {
   DEBUG("first " << args->begin()->first);
   if (!silent) {
@@ -72,6 +78,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     parse(dynamic_cast<Random*>(MakeRandomMT19937().get()), args);
   if (ran) {
     DEBUG("parsing Random");
+    record_next_arg_(args);
     set(ran);
     return;
   }
@@ -79,6 +86,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
   // parse Checkpoint
   if (args->begin()->first == "Checkpoint") {
     DEBUG("parsing Checkpoint");
+    record_next_arg_(args);
     set(MakeCheckpoint(args->begin()->second));
     args->erase(args->begin());
     return;
@@ -87,6 +95,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
   // parse Configuration
   if (args->begin()->first == "Configuration") {
     DEBUG("parsing Configuration");
+    record_next_arg_(args);
     add(MakeConfiguration(args->begin()->second));
     args->erase(args->begin());
     return;
@@ -95,6 +104,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
   // parse NeighborCriteria
   if (args->begin()->first == "NeighborCriteria") {
     DEBUG("parsing NeighborCriteria");
+    record_next_arg_(args);
     add(MakeNeighborCriteria(args->begin()->second));
     args->erase(args->begin());
     return;
@@ -103,6 +113,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
   // parse Potential
   if (args->begin()->first == "Potential") {
     DEBUG("parsing Potential");
+    record_next_arg_(args);
     const int config = integer("configuration_index", &(args->begin()->second), 0);
     add(MakePotential(args->begin()->second), config);
     args->erase(args->begin());
@@ -112,6 +123,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
   // parse reference Potential
   if (args->begin()->first == "ReferencePotential") {
     DEBUG("parsing ReferencePotential");
+    record_next_arg_(args);
     add_to_reference(MakePotential(args->begin()->second));
     args->erase(args->begin());
     return;
@@ -120,6 +132,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
   // parse optimized Potential
   if (args->begin()->first == "OptimizedPotential") {
     DEBUG("parsing OptimizedPotential");
+    record_next_arg_(args);
     add_to_optimized(MakePotential(args->begin()->second));
     args->erase(args->begin());
     return;
@@ -128,6 +141,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
   // parse ThermoParams
   if (args->begin()->first == "ThermoParams") {
     DEBUG("parsing ThermoParams");
+    record_next_arg_(args);
     set(MakeThermoParams(args->begin()->second));
     args->erase(args->begin());
     return;
@@ -138,6 +152,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     parse(dynamic_cast<Criteria*>(MakeMetropolis().get()), args);
   if (crit) {
     DEBUG("parsing Criteria");
+    record_next_arg_(args);
     set(crit);
     return;
   }
@@ -147,6 +162,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     parse(dynamic_cast<Trial*>(MakeTrial().get()), args);
   if (trial) {
     DEBUG("parsing Trial");
+    record_next_arg_(args);
     add(trial);
     return;
   }
@@ -156,6 +172,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     parse(dynamic_cast<TrialFactoryNamed*>(std::make_shared<TrialFactoryNamed>().get()), args);
   if (trials) {
     DEBUG("parsing TrialFactoryNamed");
+    record_next_arg_(args);
     add(trials);
     return;
   }
@@ -165,6 +182,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     parse(dynamic_cast<Analyze*>(std::make_shared<Analyze>().get()), args);
   if (an) {
     DEBUG("parsing Analyze");
+    record_next_arg_(args);
     add(an);
     return;
   }
@@ -174,6 +192,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     parse(dynamic_cast<Modify*>(std::make_shared<Modify>().get()), args);
   if (mod) {
     DEBUG("parsing Modify");
+    record_next_arg_(args);
     add(mod);
     return;
   }
@@ -183,6 +202,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     parse(dynamic_cast<Action*>(std::make_shared<Action>().get()), args);
   if (act) {
     DEBUG("parsing Action");
+    record_next_arg_(args);
     run(act);
     return;
   }
@@ -384,7 +404,8 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
   ASSERT(criteria_set_, "set Criteria before Analyze");
   ASSERT(!duplicate_stepper_output_file_(analyze->output_file()),
     "Analyze " << analyze->class_name() << " should not have the same " <<
-    "output_file as an already existing Stepper file name");
+    "output_file as an already existing Stepper file name: " <<
+    analyze->output_file());
 
   // process multistate
   DEBUG("class name? " << analyze->class_name());
@@ -435,7 +456,8 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
   ASSERT(criteria_set_, "set Criteria before Modify");
   ASSERT(!duplicate_stepper_output_file_(modify->output_file()),
     "Modify " << modify->class_name() << " should not have the same " <<
-    "output_file as an already existing Stepper file name");
+    "output_file as an already existing Stepper file name: " <<
+    modify->output_file());
   DEBUG("class name? " << modify->class_name());
   if (modify->is_multistate() && modify->class_name() != "ModifyFactory") {
     int trials_per_write = 1;
@@ -514,6 +536,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
   feasst_serialize_fstdr(random_, ostr);
   feasst_serialize_fstdr(action_, ostr);
   feasst_serialize(args_, ostr);
+  //feasst_serialize(next_arg_, ostr);
   feasst_serialize(config_set_, ostr);
   feasst_serialize(potential_set_, ostr);
   feasst_serialize(thermo_params_set_, ostr);
@@ -525,7 +548,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
 
 MonteCarlo::MonteCarlo(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 529, "version: " << version);
+  ASSERT(version >= 529 && version <= 529, "version: " << version);
   feasst_deserialize(system_, istr);
   // feasst_deserialize_fstdr(criteria_, istr);
   { // HWH for unknown reasons the above template function does not work
@@ -563,6 +586,9 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
     }
   }
   feasst_deserialize(&args_, istr);
+  //if (version >= 530) {
+  //  feasst_deserialize(&next_arg_, istr);
+  //}
   feasst_deserialize(&config_set_, istr);
   feasst_deserialize(&potential_set_, istr);
   feasst_deserialize(&thermo_params_set_, istr);

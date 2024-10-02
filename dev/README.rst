@@ -62,11 +62,19 @@ These branch names must begin with the characters "dead".
 Pull requests
 --------------------------------------------------------------------------------
 
-To create a pull request, fork the usnistgov repo, create a new branch with your changes, and add the pull request.
+To create a pull request:
 
-Try to copy the style of existing commits in the main branch. This means reducing the number of commits in a pull request (e.g., consider a git merge), and to keep the commit descriptions in a similar style as existing commits. For example, the description should be a single sentence that is general and not redundant information from what you see when you click on the details of the commit.
+* fork the usnistgov repo
+* create a new feature branch "user/feature" to implement your changes (git checkout develop; git checkout -b user/feature)
+* make as many commits as you want for yourself, which will be squashed into one commit when you're finished as follows
+* when your feature is ready and well tested and you're ready to submit a pull request, first you can check if any more changes were made to develop (git checkout develop; git pull usnistgov develop; git checkout user/feature; git merge develop)
+* squash your commits into a new branch "testmerge" off develop (git checkout develop; git checkout -b testmerge; git merge --squash user/feature)
+* submit the "testmerge" branch in the pull request.
+* You can keep your "user/feature" branch with more fine-grain commits for your own purposes or later testing if an issue is discovered. I often rename these "complete_feature" after merging to develop.
 
-To incorporate the pull request into feasst
+Try to copy the style of existing commits in the main branch. This means reducing the number of commits in a pull request (e.g., consider a git merge), and to keep the commit descriptions in a similar style as existing commits. For example, the description should be a single sentence that is general and not redundant information from what you see when you click on the details of the commit. Basically, the commit description should be a single line and very succinct (e.g., the classes or plugins changed).
+
+For lead developers to incorporate the pull request into feasst
 - git fetch usnistgov pull/ID/head:BRANCHNAME
 - git checkout BRANCHNAME
 - [make local changes. Can "git commit --amend"]
@@ -220,6 +228,12 @@ For Ubuntu 22, I had to comment out lines 713-714 of ~/.pyenv/feasst/lib/python3
                 #assert isinstance(n, addnodes.desc_annotation)
                 #assert n.astext()[-1] == " "
 
+Sphinx bibtex
+----------------
+
+Add references in header file documentation as \rst\ :footcite:p:`bibtex_name`\endrst
+and update the bibtex in /feasst/dev/sphinx/refs.bib
+
 Pip notes
 -------------------------
 
@@ -372,7 +386,8 @@ To Do List
 * Speed up compilation. Try... https://stackoverflow.com/a/373179 .. pimpl, less includes, forward declare, etc. Remove Propertied entities, etc.
 * Add a FAQ for sim questions, such as, an overview of various table potential options, etc.
 * Optimize BondVisitor that uses deserialize_map and strings in inner loop
-* Hard code version into source code releases. Or update README_html to download releases with wget? Release not just tag?
+* Hard code version into source code releases. Or update README_html to download releases with wget? Release not just tag? Remove -g from compiler flags?
 * Compress README features list (table?)
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
 * Remove ConvertToRefPotential in v0.26
+* Make a macro for mapper/serialization boiler plate

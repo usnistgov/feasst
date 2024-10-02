@@ -3,7 +3,7 @@ README
 *************************
 
 The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
-open-source, public domain software to conduct molecular and particle-based
+open-source, public domain software to conduct molecular- and particle-based
 simulations with Monte Carlo methods.
 
 .. note::

@@ -1,7 +1,7 @@
 
 .. toctree::
 
-   Gamma
    ActionExample
+   Gamma
    AnalyzeExample
    ModelExample

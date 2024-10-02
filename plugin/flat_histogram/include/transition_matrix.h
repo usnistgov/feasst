@@ -14,31 +14,34 @@ class Histogram;
 class LnProbability;
 
 /**
-  Transition matrix flat histogram bias.
+\rst
+Transition matrix\ :footcite:p:`errington_direct_2003` flat histogram bias
+may be used to compute phase behavior in the grand canonical ensemble.
 
-  Direct calculation of liquid–vapor phase equilibria from transition matrix
-  Monte Carlo simulation
-  https://doi.org/10.1063/1.1572463
+Elucidating the effects of adsorbent flexibility on fluid adsorption using
+simple models and flat-histogram sampling methods.
+https://doi.org/10.1063/1.4884124
 
-  Elucidating the effects of adsorbent flexibility on fluid adsorption using
-  simple models and flat-histogram sampling methods.
-  https://doi.org/10.1063/1.4884124
+A count of all accepted transitions between macrostates is used for a newly
+developed sweep metric.
 
-  A count of all accepted transitions between macrostates is used for a newly
-  developed sweep metric.
+Note that transitions to macrostates that have not yet been sampled are
+unbiased.
+This can lead to long initialization times, depending on your choice of the
+chemical potential.
+For example, if a simulation begins with zero particles and attempts a
+particle insertion, this insertion is unlikely to be accepted if the chemical
+potential is very low (favoring less particles).
+This can lead to very low initialization times.
+This issue can be overcome with the use of WLTM, which instead uses
+Wang-Landau to initialize the transition matrix.
+This makes WLTM efficiency less sensitive than TransitionMatrix to the choice
+of chemical potential.
 
-  Note that transitions to macrostates that have not yet been sampled are
-  unbiased.
-  This can lead to long initialization times, depending on your choice of the
-  chemical potential.
-  For example, if a simulation begins with zero particles and attempts a
-  particle insertion, this insertion is unlikely to be accepted if the chemical
-  potential is very low (favoring less particles).
-  This can lead to very low initialization times.
-  This issue can be overcome with the use of WLTM, which instead uses
-  Wang-Landau to initialize the transition matrix.
-  This makes WLTM less sensitive than TM to the choice of chemical potential in terms
-  of efficiency.
+References:
+
+.. footbibliography::
+\endrst
  */
 class TransitionMatrix : public Bias {
  public:

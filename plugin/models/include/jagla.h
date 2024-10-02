@@ -9,22 +9,33 @@
 namespace feasst {
 
 /**
-  The Jagla model as described in
-  https://doi.org/10.1103/PhysRevE.98.012138
-  but with the variables renamed as follows:
-  \f$\epsilon_1 \rightarrow \gamma\f$,
-  \f$\epsilon_2 \rightarrow \epsilon\f$,
-  \f$\lambda_1 \rightarrow \lambda\f$,
-  \f$\lambda_2 \rightarrow r_c\f$.
+\rst
+The Jagla model,\ :footcite:p:`jagla_core-softened_1999` but with the variables
+renamed as follows:
+:math:`\epsilon_1 \rightarrow \gamma`,
+:math:`\epsilon_2 \rightarrow \epsilon`,
+:math:`\lambda_1 \rightarrow \lambda`,
+:math:`\lambda_2 \rightarrow r_c`.
 
-  \f$ U(r) = \left\{
-    \begin{array}{ll}
-      \infty & : r < \sigma, \\
-      \frac{\gamma(\lambda - r)-\epsilon(r-\sigma)}{\lambda-\sigma} & : \sigma \le r \le \lambda, \\
-      -\frac{\epsilon(r_c - r)}{r_c-\lambda} & : \lambda \le r \le r_c, \\
-      0 & : r \ge r_c.
-    \end{array}
-  \right. \f$
+.. math::
+
+    U(r) = \left\{
+      \begin{array}{ll}
+        \infty & : r < \sigma, \\
+        \frac{\gamma(\lambda - r)-\epsilon(r-\sigma)}{\lambda-\sigma} & : \sigma \le r \le \lambda, \\
+        -\frac{\epsilon(r_c - r)}{r_c-\lambda} & : \lambda \le r \le r_c, \\
+        0 & : r \ge r_c.
+      \end{array}
+    \right.
+
+The continuous linear ramp may be converted into a number of discrete steps to
+enable simulations with discontinuous molecular dynamics.
+For example, see Fig. 1(d) of :footcite:t:`de_haro_structural_2018`
+
+References:
+
+.. footbibliography::
+\endrst
  */
 class Jagla : public ModelTwoBody {
  public:
@@ -32,7 +43,6 @@ class Jagla : public ModelTwoBody {
   /** @name Arguments
     - num_discretized_steps: convert the continuous ramp potential into a number
       of dicontinuous, discretized steps.
-      See Fig. 1(d) of https://doi.org/10.1103/PhysRevE.98.012138 .
       If 0, then use the linear ramp potential (default: 0).
    */
   explicit Jagla(argtype args = argtype());

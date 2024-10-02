@@ -1,36 +1,36 @@
 
 .. toctree::
 
+   PerturbSiteType
+   PerturbToAnchor
+   PerturbPositionSwap
    SelectTwoSites
-   SelectParticlePivot
    SelectPerturbed
+   SelectParticlePivot
    SelectSiteOfType
    SelectBranch
    SelectSegment
    SelectEndSegment
    SelectCrankshaftSmall
-   PerturbSiteType
-   PerturbToAnchor
-   PerturbPositionSwap
-   SelectReptate
-   EndToEndDistance
-   RadiusOfGyration
-   PerturbLibrary
-   PerturbPivot
-   PerturbCrankshaftSmall
-   PerturbCrankshaft
-   PerturbParticlePivot
    PerturbConnector
-   AnalyzeBonds
-   PerturbBranch
+   SelectReptate
+   PerturbCrankshaft
+   PerturbCrankshaftSmall
+   PerturbLibrary
+   PerturbParticlePivot
+   PerturbPivot
+   RadiusOfGyration
+   EndToEndDistance
    PerturbDistanceAngleConnector
+   PerturbBranch
    PerturbReptate
-   TrialPivot
+   AnalyzeBonds
    TrialCrankshaft
-   TrialParticlePivot
-   TrialReptate
    TrialCrankshaftSmall
-   TrialGrow
+   TrialParticlePivot
+   TrialPivot
+   TrialReptate
    TrialSwapSites
-   TrialGrowLinear
    GhostTrialGrow
+   TrialGrow
+   TrialGrowLinear

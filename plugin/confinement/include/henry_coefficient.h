@@ -21,30 +21,33 @@ namespace feasst {
   Optionally, when the num_beta_taylor argument is specified (see below), HenryCoefficient
   also measures the averages:
 
-  \f$ K_j = \dfrac{\langle (-\Delta U)^j ~ e^{-\beta \Delta U}\rangle}{j!} \f$
+  \f$ K_j = \frac{\langle (-\Delta U)^j ~ e^{-\beta \Delta U}\rangle}{j!} \f$
 
-  \f$ Q_j = \dfrac{\langle (-\Delta U)^j ~ e^{-2 \beta \Delta U}\rangle}{j! ~ j!} \f$
+  \f$ Q_j = \frac{\langle (-\Delta U)^j ~ e^{-2 \beta \Delta U}\rangle}{j! ~ j!} \f$
 
-  These quantities may be used to extrapolate the HenryCoefficient in beta space using a Taylor-series expansion.
-  See "Temperature Extrapolation of Henry’s Law Constants and the Isosteric Heat of Adsorption" (reference given below)
-  for background information and derivation of the listed terms.
+\rst
+These quantities may be used to extrapolate the HenryCoefficient in beta space using a Taylor-series expansion.
+See :footcite:t:`siderius_temperature_2022` for background information and derivation of the listed terms.
 
-  When num_beta_taylor is specified, the output file of HenryCoefficient includes a JSON-formatted
-  dictionary in the file header that stores relevant output:
+When num_beta_taylor is specified, the output file of HenryCoefficient includes a JSON-formatted
+dictionary in the file header that stores relevant output:
 
-  - `beta_taylor` contains \f$ K_j \f$ as a list for \f$ 0 \leq j \leq \f$ num_beta_taylor.
-  - `beta_taylor2` contains \f$ Q_j \f$ as a list for \f$ 0 \leq j \leq \f$ 2*num_beta_taylor.
-  - `beta` stores the inverse temperature.
-  - `num_trials` records the number of trial insertions.
+- `beta_taylor` contains :math:`K_j` as a list for :math:`0 \leq j \leq` num_beta_taylor.
+- `beta_taylor2` contains :math:`Q_j` as a list for :math:`0 \leq j \leq` 2*num_beta_taylor.
+- `beta` stores the inverse temperature.
+- `num_trials` records the number of trial insertions.
 
-\f$ Q_j \f$ is used for computation of the covariance matrix of the extrapolation coefficients, e.g.,
+:math:`Q_j` is used for computation of the covariance matrix of the extrapolation coefficients, e.g.,
 
-  \f$ \textrm{cov} \left( K_j, K_l \right) = \dfrac{N_{mc}}{N_{mc}-1} \left( Q_{j+l} \dfrac{(j+l)! ~ (j+l)!}{j! ~ l!} - K_j \cdot K_l  \right) \f$
+:math:`\textrm{cov} \left( K_j, K_l \right) = \frac{N_{mc}}{N_{mc}-1} \left( Q_{j+l} \frac{(j+l)! ~ (j+l)!}{j! ~ l!} - K_j \cdot K_l  \right)`
 
-  where \f$ N_{mc} \f$ is the number of test insertions (equal to `num_trials` in the output dictionary).
-  The covariance matrix enable estimation of the uncertainty in an extrapolation function built from the Taylor-series expansion.
+where :math:`N_{mc}` is the number of test insertions (equal to `num_trials` in the output dictionary).
+The covariance matrix enable estimation of the uncertainty in an extrapolation function built from the Taylor-series expansion.
 
-  For more information, see "Temperature Extrapolation of Henry’s Law Constants and the Isosteric Heat of Adsorption" by Siderius, Hatch, and Shen, *J Phys Chem B*, volume 126, issue 40, pages 7999-8009. https://doi.org/10.1021/acs.jpcb.2c04583
+References:
+
+.. footbibliography::
+\endrst
  */
 class HenryCoefficient : public Analyze {
  public:

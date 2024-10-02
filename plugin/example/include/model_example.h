@@ -13,6 +13,16 @@ class ModelParams;
 
 typedef std::map<std::string, std::string> argtype;
 
+// Comments such as this beginning with // or /* do not appear in the
+// HTML/PDF documentation.
+// Note that references such as "jagla_core-softened_1999" require the rst
+// environment and an entry in /feasst/dev/sphinx/refs.bib
+// However, rst environment (beginning \rst ending \endrst) does not
+// link class names.
+// For this reason, we demonstrate here a mixture of documentation in both the
+// default doxygen and, further down, the \rst environment.
+// Comments beginning with /// or /** appear in documentation as follows.
+
 /**
   Add a model to FEASST by using this file as a template and instruction set.
   Follow the same steps detailed in /feasst/plugin/example/README.rst.
@@ -22,35 +32,44 @@ typedef std::map<std::string, std::string> argtype;
   In some cases, TablePotential may be a more convenient and efficient approach
   to implementing a custom potential in FEASST.
 
-  As an example, consider the Jagla model as described in
-  https://doi.org/10.1103/PhysRevE.98.012138
-  but with the variables renamed as follows:
-  \f$\epsilon_1 \rightarrow \gamma\f$,
-  \f$\epsilon_2 \rightarrow \epsilon\f$,
-  \f$\lambda_1 \rightarrow \lambda\f$,
-  \f$\lambda_2 \rightarrow r_c\f$.
-
-  \f$ U(r) = \left\{
-    \begin{array}{ll}
-      \infty & : r < \sigma, \\
-      \frac{\gamma(\lambda - r)-\epsilon(r-\sigma)}{\lambda-\sigma} & : \sigma \le r \le \lambda, \\
-      -\frac{\epsilon(r_c - r)}{r_c-\lambda} & : \lambda \le r \le r_c, \\
-      0 & : r \ge r_c.
-    \end{array}
-  \right. \f$
-
   For more inspiration, take a look at other existing ModelTwoBody, such as
   LennardJones or LennardJonesCutShift, or the models plugin.
   Sometimes it is easiest to find an existing model that is the more similar to
   what you need, and copy/rename those files instead.
- */
+
+\rst
+As an example, consider the Jagla model,\ :footcite:p:`jagla_core-softened_1999`
+but with the variables renamed as follows:
+:math:`\epsilon_1 \rightarrow \gamma`,
+:math:`\epsilon_2 \rightarrow \epsilon`,
+:math:`\lambda_1 \rightarrow \lambda`,
+:math:`\lambda_2 \rightarrow r_c`.
+
+.. math::
+
+    U(r) = \left\{
+      \begin{array}{ll}
+        \infty & : r < \sigma, \\
+        \frac{\gamma(\lambda - r)-\epsilon(r-\sigma)}{\lambda-\sigma} & : \sigma \le r \le \lambda, \\
+        -\frac{\epsilon(r_c - r)}{r_c-\lambda} & : \lambda \le r \le r_c, \\
+        0 & : r \ge r_c.
+      \end{array}
+    \right.
+
+In some studies, the continuous linear ramp has been converted into a number of
+discrete steps to enable simulations with discontinuous molecular dynamics.
+For example, see Fig. 1(d) of :footcite:t:`de_haro_structural_2018`
+
+References:
+
+.. footbibliography::
+\endrst*/
 class ModelExample : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
     - num_discretized_steps: convert the continuous ramp potential into a number
       of dicontinuous, discretized steps.
-      See Fig. 1(d) of https://doi.org/10.1103/PhysRevE.98.012138 .
       If 0, then use the linear ramp potential (default: 0).
 
     Use this comment to describe and add any user arguments (or delete if no

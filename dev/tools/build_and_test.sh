@@ -64,6 +64,14 @@ for flag in "Error" "error" "Assert"; do
   grep $flag ../tutorial/build/log.txt >> summary.log
 done
 
+echo "********** example **********" >> summary.log
+pushd ../tutorial/
+  ../build/bin/fst < example.txt >> log.txt 2>&1
+popd
+for flag in "Error" "error" "Assert"; do
+  grep $flag ../tutorial/log.txt >> summary.log
+done
+
 #tail -1 tutorial_failures.txt >> summary.log
 #echo "********** launch py **********" >> summary.log
 #python ../dev/tools/lnch_tutorials.py >> summary_long_long.log 2>&1
