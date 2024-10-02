@@ -9,9 +9,9 @@
    FENE
    BondHarmonic
    Yukawa
+   TwoBodyTable
    TwoBodyAlpha
    TablePotential
-   TwoBodyTable
    SquareWell
    Mie
    Jagla

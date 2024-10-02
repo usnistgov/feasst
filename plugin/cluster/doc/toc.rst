@@ -6,11 +6,18 @@
    PerturbPointReflect
    SelectParticleAVBDivalent
    SelectParticleAVB
-   CalculateCluster
-   AnalyzeCluster
    PerturbRotateCOM
    PerturbMoveAVB
    PerturbAddAVB
+   CalculateCluster
+   AnalyzeCluster
+   ComputeRemoveAVBDivalent
+   ComputeRemoveAVB
+   ComputeGCA
+   ComputeAVB4
+   ComputeAVB2
+   ComputeAddAVBDivalent
+   ComputeAddAVB
    TrialAVB4
    TrialTranslateCluster
    TrialTransferAVBDivalent
@@ -26,10 +33,3 @@
    EnergyMapNeighborCriteria
    EnergyMapAll
    EnergyMapAllCriteria
-   ComputeRemoveAVBDivalent
-   ComputeRemoveAVB
-   ComputeAVB4
-   ComputeAVB2
-   ComputeAddAVBDivalent
-   ComputeAddAVB
-   ComputeGCA

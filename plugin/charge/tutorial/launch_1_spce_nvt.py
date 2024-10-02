@@ -86,7 +86,7 @@ RemoveTrial name TrialAdd
 # canonical ensemble equilibration
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Tune
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
 Run until_criteria_complete true
 RemoveModify name Tune

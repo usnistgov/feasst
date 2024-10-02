@@ -76,7 +76,7 @@ Potential Model HardSphere VisitModel VisitModelCell min_length 1
 ThermoParams beta 1 chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0

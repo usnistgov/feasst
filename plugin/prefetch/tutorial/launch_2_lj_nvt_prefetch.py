@@ -86,7 +86,7 @@ ThermoParams beta {beta} chemical_potential -1
 Metropolis
 {trials}
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 
 # gcmc initialization
 TrialAdd particle_type 0

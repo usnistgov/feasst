@@ -126,7 +126,7 @@ def write_grow_file(filename, params,
                     if trial_type == 1 and (gce == 1 or gce == 2):
                         if site == 0:
                             if gce == 2:
-                                f.write("""particle_type 0 configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps 1 reference_index 0\n""".format(**params))
+                                f.write("""particle_type 0 configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps 1 reference_index 0 print_num_accepted true\n""".format(**params))
                             elif gce == 1:
                                 f.write("""particle_type 0 configuration_index {conf} weight 1 add true site {site0} num_steps 1 reference_index 0\n""".format(**params))
                         elif site == 1:
@@ -183,33 +183,33 @@ MonteCarlo
 RandomMT19937 seed {seed}
 Configuration {vapor_config} particle_type0 {fstprt} cutoff {cutoff}
 Configuration {liquid_config} particle_type0 {fstprt} cutoff {cutoff}
-Potential Model LennardJones configuration_index 0
+CopyNextLine replace configuration_index with 0
 Potential Model LennardJones configuration_index 1
-Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3 configuration_index 0
+CopyNextLine replace configuration_index with 0
 Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3 configuration_index 1
-Potential VisitModel LongRangeCorrections configuration_index 0
+CopyNextLine replace configuration_index with 0
 Potential VisitModel LongRangeCorrections configuration_index 1
-RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 0
+CopyNextLine replace configuration_index with 0
 RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 1
-#RefPotential Model LennardJones reference_index 0 configuration_index 0
+#CopyNextLine replace configuration_index with 0
 #RefPotential Model LennardJones reference_index 0 configuration_index 1
-#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 3 reference_index 0 configuration_index 0
+#CopyNextLine replace configuration_index with 0
 #RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 3 reference_index 0 configuration_index 1
 ThermoParams beta {beta} chemical_potential 10
 Metropolis
-TrialTranslate weight 0.5 tunable_param 30 configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 30
 TrialTranslate weight 0.5 tunable_param 1 configuration_index 1
-TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 pivot_site 0 configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 180
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site 0 configuration_index 1
-TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 pivot_site {last_site} configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 180
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site {last_site} configuration_index 1
 TrialGrowFile grow_file {prefix}_c0_grow_canonical.txt
 TrialGrowFile grow_file {prefix}_c1_grow_canonical.txt
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # gcmc initialization and nvt equilibration
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_fill.xyz configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_fill.csv include_bonds true
 # decrease trials per due to infrequency of volume transfer attempts
@@ -231,10 +231,10 @@ RemoveAnalyze name Movie
 # gibbs ensemble equilibration
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 TrialGrowFile grow_file {prefix}_grow_gibbs.txt
-TrialGibbsVolumeTransfer weight 0.001 tunable_param 3000 reference_index 0
+TrialGibbsVolumeTransfer weight 0.006 tunable_param 3000 reference_index 0 print_num_accepted true
 CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_eq.xyz configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
 Run until_criteria_complete true
 RemoveModify name Tune
@@ -245,14 +245,15 @@ RemoveAnalyze name Movie
 # gibbs ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0.xyz configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1.xyz configuration_index 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_en.csv configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_new.xyz
 Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_en.csv configuration_index 1
-Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_dens.csv configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_dens.csv
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_dens.csv configuration_index 1
 PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
 CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.csv
+ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv
 Run until_criteria_complete true
 """.format(**params))
 

@@ -69,9 +69,9 @@ Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential -1
 Metropolis
-TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
+TrialTranslate weight 1 tunable_param 2 tunable_target_acceptance 0.2
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 
 # gcmc initialization
 TrialAdd particle_type 0
@@ -84,7 +84,7 @@ RemoveAnalyze name Log
 # npt equilibration
 ThermoParams beta {beta} pressure {pressure}
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
-TrialVolume weight 0.1 tunable_param 0.2 tunable_target_acceptance 0.5
+TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density_eq.txt
@@ -101,6 +101,7 @@ Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz star
 Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.txt
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density.txt
 Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_volume.txt
+ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv
 Run until_criteria_complete true
 """.format(**params))
 

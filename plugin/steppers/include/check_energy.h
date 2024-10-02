@@ -31,6 +31,20 @@ namespace feasst {
   it may deviate by the square root of the number of trials, where the size
   delta may be related to the number of interaction sites.
 
+  An alternative metric is the number of decimal places.
+  In practice, this is implemented as follows for two energies U1 and U2.
+
+  \f$\frac{|U_1-U_2|}{\mathrm{max}(|U_1|, |U_2|)} < 10^{-decimal\_places}\f$
+
+  For this alternative metric, special consideration is made for small or near
+  zero values of energy.
+  In this special case, the check passes as long as
+
+  \f$\mathrm{max}(|U_1|, |U_2|) < 10^{-decimal\_places}\f$
+
+  Otherwise, the differences about zero to numerical precision would almost
+  always fail the test.
+
   This class effectively functions as an Analyze because it does not change the
   System within the specified tolerance.
   However, the energy is recomputed and therefore the System is technically
@@ -40,8 +54,11 @@ class CheckEnergy : public ModifyUpdateOnly {
  public:
   //@{
   /** @name Arguments
-    - tolerance: relative absolute difference between running energy
-      and recomputed energy (default: 1e-10).
+    - tolerance: absolute difference between running energy and recomputed
+      energy (default: 1e-10).
+    - decimal_places: If decimal places > 0 (default: 0), ignore the tolerance
+      parameter and instead check if the difference between the two energies
+      exceeds is within a the given number of decimal places.
     - Stepper arguments.
   */
   explicit CheckEnergy(argtype args = argtype());
@@ -70,7 +87,11 @@ class CheckEnergy : public ModifyUpdateOnly {
   //@}
  private:
   double tolerance_;
+  int decimal_places_;
   std::shared_ptr<Analyze> check_;
+
+  bool is_within_tolerance_(const double u1, const double u2) const;
+  std::string err_msg_() const;
 };
 
 inline std::shared_ptr<CheckEnergy> MakeCheckEnergy(

@@ -84,7 +84,7 @@ Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
@@ -111,6 +111,7 @@ Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_
 HeatCapacity trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_cv.txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per_update 1e5
 CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
+ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_profile.csv
 """.format(**params))
 
 def post_process(params):

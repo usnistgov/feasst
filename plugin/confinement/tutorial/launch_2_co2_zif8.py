@@ -3,6 +3,7 @@ Flat-histogram simulation of TraPPE CO2 adsorption in ZIF8.
 Compare with https://doi.org/10.1021/jp400480q .
 The next tutorial with bulk CO2 is required to obtain the pressure.
 The ZIF8 forcefield is described in https://doi.org/10.1002/chem.200902144 .
+Developed with Dr. Siderius.
 """
 
 import argparse
@@ -19,7 +20,7 @@ PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fluid', type=str, default='/feasst/particle/co2.fstprt',
                     help='FEASST particle definition of a fluid particle / adsorbate.')
-PARSER.add_argument('--MOF', type=str, default='ZIF8_rep222_PerezPellitero.fstprt',
+PARSER.add_argument('--MOF', type=str, default='/feasst/plugin/confinement/particle/ZIF8_rep222_PerezPellitero.fstprt',
                     help='FEASST particle definition of the MOF / adsorbent.')
 PARSER.add_argument('--cutoff', type=float, default=15, help='site-site cutoff distance in Angstroms')
 PARSER.add_argument('--temperature', type=float, default=303, help='temperature in Kelvin')

@@ -4,15 +4,15 @@
    FormulaSineWave
    Shape
    HalfSpaceTilted
-   HalfSpace
-   HalfSpaceSine
    Cylinder
    Cuboid
-   Supertoroid
-   Sphere
-   ShapeUnion
+   ShapeFile
    ShapeIntersect
    FiniteCylinder
-   SlabSine
+   ShapeUnion
    Slab
-   ShapeFile
+   SlabSine
+   Sphere
+   Supertoroid
+   HalfSpace
+   HalfSpaceSine

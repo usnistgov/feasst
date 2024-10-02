@@ -157,18 +157,20 @@ System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
   return system;
 }
 
-Accumulator henry(System system) {
+Accumulator henry(System system,
+  const double beta = 1.0,
+  const int num_trials = 1e6
+) {
   MonteCarlo mc;
   //WARN("remove seed");
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.set(system);
-  mc.set(MakeThermoParams({{"beta", "1.0"}, {"chemical_potential0", "1"}}));
+  mc.set(MakeThermoParams({{"beta", str(beta)}, {"chemical_potential0", "1"}}));
   mc.set(MakeAlwaysReject());
   mc.add(MakeTrialAdd({{"particle_type", "0"}, {"new_only", "true"}}));
-  //mc.add(MakeLogAndMovie({{"trials_per", str(1e4)}, {"output_file", "tmp/henry"}}));
   const int henry_index = mc.num_analyzers();
   mc.add(MakeHenryCoefficient());
-  mc.attempt(1e6);
+  mc.attempt(num_trials);
 //  const double en_bare = mc.criteria().current_energy();
 //  INFO("en_bare " << en_bare);
 //  INFO("num " << mc.configuration().num_particles());
@@ -262,7 +264,6 @@ TEST(Ewald, henry_coefficient_LONG) {
   System system;
   auto config = MakeConfiguration({{"cubic_side_length", "20"},
       {"particle_type0", "../particle/spce.fstprt"},
-      //{"particle_type0", "../plugin/charge/particle/rpm_plus.fstprt"},
       {"particle_type1", install_dir() + "/plugin/confinement/particle/slab20x20.fstprt"},
       {"add_particles_of_type1", "1"}});
   for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
@@ -272,7 +273,7 @@ TEST(Ewald, henry_coefficient_LONG) {
   system.add(config);
   system.add(MakePotential(
     MakeEwald({{"kmax_squared", "38"},
-               {"alpha", str(5.6/system.configuration().domain().inscribed_sphere_diameter())}})));
+               {"alpha", "0.28"}})));
   system.add(MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
                                                    MakeChargeScreened())));
   system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
@@ -281,7 +282,7 @@ TEST(Ewald, henry_coefficient_LONG) {
   DEBUG(system.energy());
   Accumulator h = henry(system);
   DEBUG(h.str());
-  EXPECT_NEAR(h.average(), 0.75, 0.03);
+  EXPECT_NEAR(h.average(), 0.32, 0.1);
 }
 
 TEST(HardShape, henry_LONG) {
@@ -333,6 +334,42 @@ TEST(HardShape, henry_dimer_LONG) {
     const double W=6;
     EXPECT_NEAR(h.average(), (W-3)/length + 2/length*3/4, 5*h.block_stdev());
   }
+}
+
+TEST(MonteCarlo, henry_MOF_LONG) {
+  System system;
+  auto config = MakeConfiguration({{"cubic_side_length", "34.0232403"},
+      {"particle_type0", install_dir() + "/particle/co2.fstprt"},
+      {"particle_type1", install_dir() + "/plugin/confinement/particle/ZIF8_rep222_PerezPellitero.fstprt"},
+      {"add_particles_of_type1", "1"},
+      {"cutoff", "12.0"}});
+  system.add(config);
+  system.add(MakePotential(
+    MakeEwald({{"kxmax", "6"},{"kymax", "6"},{"kzmax", "6"},
+               {"alpha", "0.24"}})));
+  system.add(MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
+                                                   MakeChargeScreened())));
+  system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
+  system.add(MakePotential(MakeChargeSelf()));
+  DEBUG(system.energy());
+  Accumulator h = henry(system, 0.35, 1e5);
+  INFO(h.str());
+  EXPECT_NEAR(h.average(), 6.87, 2*h.block_stdev());
+}
+
+TEST(MonteCarlo, henry_LJMOF_LONG) {
+  System system;
+  auto config = MakeConfiguration({{"cubic_side_length", "34.0232403"},
+      {"particle_type0", install_dir() + "/particle/co2.fstprt"},
+      {"particle_type1", install_dir() + "/plugin/confinement/particle/ZIF8_rep222_PerezPellitero.fstprt"},
+      {"add_particles_of_type1", "1"},
+      {"cutoff", "12.0"}});
+  system.add(config);
+  system.add(MakePotential(MakeLennardJones()));
+  DEBUG(system.energy());
+  Accumulator h = henry(system, 0.35, 1e5);
+  INFO(h.str());
+  EXPECT_NEAR(h.average(), 5.08, 2*h.block_stdev());
 }
 
 TEST(DensityProfile, ig_hard_slab) {

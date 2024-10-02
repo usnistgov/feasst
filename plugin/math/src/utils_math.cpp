@@ -1,4 +1,5 @@
 #include <cmath>
+//#include <math.h>       /* tgamma */
 #include "math/include/utils_math.h"
 #include "utils/include/io.h"
 #include "utils/include/debug.h"
@@ -56,14 +57,9 @@ bool is_in_interval(const double value,
   return is_inside;
 }
 
-int factorial(const int num) {
-  ASSERT(num >= 0, "factorials of negative numbers are not implemented");
-  ASSERT(num <= 100,
-    "factorial of " << num << " is too big for this simple implementation.");
-  if (num == 0) {
-    return 1;
-  }
-  return num*factorial(num - 1);
+double factorial(const double value) {
+  ASSERT(value >= 0, "factorials of negative numbers are not implemented");
+  return std::tgamma(value + 1);
 }
 
 }  // namespace feasst

@@ -46,7 +46,7 @@ Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 Log trials_per_write {trials_per} output_file ljn{min_particles}s{sim}_[sim_index].txt
 Tune
-CheckEnergy trials_per_update {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update {trials_per} decimal_places 8
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0

@@ -256,9 +256,9 @@ TEST(MonteCarlo, NVT_SRSW) {
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", str(nMol)}}));
   mc.run(MakeRemoveTrial({{"name_contains", "Add"}}));
-  mc.add(MakeLog({{"trials_per_write", str(1e3)}, {"output_file", "tmp/lj.csv"}}));
-  mc.add(MakeMovie({{"trials_per_write", str(1e3)}, {"output_file", "tmp/lj.xyz"}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", str(1e3)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeLog({{"trials_per_write", "1e3"}, {"output_file", "tmp/lj.csv"}}));
+  mc.add(MakeMovie({{"trials_per_write", "1e3"}, {"output_file", "tmp/lj.xyz"}}));
+  mc.add(MakeCheckEnergy({{"trials_per_update", "1e3"}, {"decimal_places", "9"}}));
   mc.add(MakeTune());
   Accumulator pe;
   const int num_trials = 1e3;
@@ -807,6 +807,8 @@ TEST(MonteCarlo, weight_per_number_fraction) {
     {"Tune", {{}}},
     {"Run", {{"num_trials", "1e2"}}},
   }});
+  //INFO(feasst_str(mc->next_arg()));
+  EXPECT_EQ(mc->next_arg().first, "Run");
   for (int i = 0; i < 1e2; ++i) {
     mc->attempt();
     const int num0 = mc->configuration().num_particles_of_type(0);

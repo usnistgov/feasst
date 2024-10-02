@@ -115,7 +115,7 @@ def slurm_single_node(params):
     """
     if not 'max_restarts' in params:
         params['max_restarts'] = '0'
-    params['queue_command'] = "sbatch --array=0-" + str(params['max_restarts']) + "%1 " + params['prefix'] + "_slurm.txt"
+    params['queue_command'] = "sbatch --array={queue_task}-{max_restarts}%1 {prefix}_slurm.txt".format(**params)
     params['command_to_queue_id'] = " | tail -1 | awk '{print $4}'"
     if params['scratch'] == None or params['scratch'] == 'None':
         params['scratch_slurm_preamble'] = ''

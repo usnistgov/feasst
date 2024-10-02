@@ -64,6 +64,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   double number_fraction_exclude_type = integer("number_fraction_exclude_type", &(*args)[0], -1.);
   ASSERT(weight < 0 || weight_per_number_fraction < 0,
     "TrialGrow cannot have both weight and weight_per_number_fraction arguments.");
+  const std::string default_print_num_accepted  = str("print_num_accepted", &(*args)[0], "false");
   const std::string default_num_steps = str("default_num_steps", &(*args)[0], "1");
   const std::string default_reference_index = str("default_reference_index", &(*args)[0], "-1");
   const std::string default_new_only = str("default_new_only", &(*args)[0], "false");
@@ -149,7 +150,8 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   for (int itr = 0; itr < static_cast<int>(trial_types.size()); ++itr) {
     const std::string& trial_type = trial_types[itr];
     DEBUG("trial_type: " << trial_type);
-    std::shared_ptr<Trial> trial = MakeTrial();
+    std::shared_ptr<Trial> trial = MakeTrial({{"print_num_accepted",
+                                        default_print_num_accepted}});
     trial->set_description("TrialGrow" + trial_type);
     if (weight > 0) {
       trial->set_weight(weight);
