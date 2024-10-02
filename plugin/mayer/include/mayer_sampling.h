@@ -16,14 +16,16 @@ class Random;
 typedef std::map<std::string, std::string> argtype;
 
 /**
-  Mayer-sampling Monte Carlo acceptance criteria (see
-  https://doi.org/10.1103/PhysRevLett.92.220601).
+\rst
+Mayer-sampling Monte Carlo acceptance criteria as described in :footcite:t:`singh_mayer_2004`.
+Extrapolation in temperature is performed as descirbed in :footcite:t:`hatch_communication:_2017`.
+The coefficients for the Taylor series extrapolation are written to file
+and include the factorial division.
 
-  Extrapolation in temperature is performed as descirbed in:
-  https://doi.org/10.1063/1.5016165 .
+References:
 
-  The coefficients for the Taylor series extrapolation are written to file
-  and include the division by factorial.
+.. footbibliography::
+\endrst
  */
 class MayerSampling : public Criteria {
  public:

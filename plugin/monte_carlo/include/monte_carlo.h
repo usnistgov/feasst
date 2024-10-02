@@ -306,6 +306,10 @@ class MonteCarlo {
   /// Write all Analyze and Modify.
   void write_to_file();
 
+  /// Return the last argument parsed.
+  const std::pair<std::string, argtype>& next_arg() const {
+    return next_arg_; }
+
   virtual void serialize(std::ostream& ostr) const;
   explicit MonteCarlo(std::istream& istr);
 
@@ -354,6 +358,9 @@ class MonteCarlo {
   bool thermo_params_set_ = false;
   bool system_set_ = false;
   bool criteria_set_ = false;
+
+  // temporary and not serialized
+  std::pair<std::string, argtype> next_arg_;
 
   bool duplicate_stepper_output_file_(const std::string output_file);
 };

@@ -34,13 +34,13 @@ namespace feasst {
   An alternative metric is the number of decimal places.
   In practice, this is implemented as follows for two energies U1 and U2.
 
-  \f$\frac{|U_1-U_2|}{\mathrm{max}(|U_1|, |U_2|) < 10^{-decimal_places}\f$
+  \f$\frac{|U_1-U_2|}{\mathrm{max}(|U_1|, |U_2|)} < 10^{-decimal\_places}\f$
 
   For this alternative metric, special consideration is made for small or near
   zero values of energy.
   In this special case, the check passes as long as
 
-  \f$\mathrm{max}(|U_1|, |U_2|) < 10^{-decimal_places}\f$
+  \f$\mathrm{max}(|U_1|, |U_2|) < 10^{-decimal\_places}\f$
 
   Otherwise, the differences about zero to numerical precision would almost
   always fail the test.

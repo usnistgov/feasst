@@ -59,23 +59,23 @@ MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_side_length 12 particle_type0 {fstprt}
 Configuration cubic_side_length 8 particle_type0 {fstprt}
-Potential Model LennardJones configuration_index 0
+CopyNextLine replace configuration_index with 0
 Potential Model LennardJones configuration_index 1
-#Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff configuration_index 0
+#CopyNextLine replace configuration_index with 0
 #Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff configuration_index 1
-Potential VisitModel LongRangeCorrections configuration_index 0
+CopyNextLine replace configuration_index with 0
 Potential VisitModel LongRangeCorrections configuration_index 1
-RefPotential VisitModel DontVisitModel configuration_index 0
+CopyNextLine replace configuration_index with 0
 RefPotential VisitModel DontVisitModel configuration_index 1
 ThermoParams beta {beta} chemical_potential 10
 Metropolis
-TrialTranslate tunable_param 2 tunable_target_acceptance 0.2 configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 2.0
 TrialTranslate tunable_param 0.1 tunable_target_acceptance 0.2 configuration_index 1
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # grand canonical ensemble initalization
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_fill.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_fill.xyz configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
 Tune
 TrialAdd particle_type 0 configuration_index 0
@@ -95,7 +95,7 @@ TrialGibbsVolumeTransfer weight 0.001 tunable_param 0.1 reference_index 0 print_
 CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
 CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_eq.xyz configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
 RemoveModify name Tune
 # decrease trials per due to infrequency of volume transfer attempts
@@ -109,18 +109,19 @@ RemoveAnalyze name Movie
 # gibbs ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations} Constraint ConstrainVolumeByCutoff
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0.xyz configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1.xyz configuration_index 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_en.csv configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_en.csv
 Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_en.csv configuration_index 1
-Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_dens.csv configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_dens.csv
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_dens.csv configuration_index 1
-Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_vol.csv configuration_index 0
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_vol.csv
 Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_vol.csv configuration_index 1
 PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
 # the pressure in the liquid phase is harder to converge with test volume changes? and faster to compute in the vapor.
 #PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_pressure.csv configuration_index 1
 CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.csv
+ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv
 Run until_criteria_complete true
 """.format(**params))
 

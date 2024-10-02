@@ -3,22 +3,22 @@
 
    constants
    Euler
-   Minimize
-   GoldenSearch
-   Position
-   quadratic_equation
-   Solver
-   SolverBrentDekker
-   SolverNewtonRaphson
-   Table
-   Accumulator
    Formula
-   FormulaExponential
    FormulaPolynomial
-   Histogram
    Matrix
+   quadratic_equation
    Random
    RandomModulo
    RandomMT19937
+   Solver
    SolverBisection
+   SolverBrentDekker
+   SolverNewtonRaphson
+   Table
+   FormulaExponential
+   Histogram
+   Minimize
+   GoldenSearch
+   Position
+   Accumulator
    utils_math

@@ -10,9 +10,13 @@ namespace feasst {
 class Random;
 
 /**
-  Metropolis acceptance criteria.
+\rst
+:footcite:t:`metropolis_equation_1953` acceptance criteria.
 
-  https://doi.org/10.1063%2F1.1699114
+References:
+
+.. footbibliography::
+\endrst
  */
 class Metropolis : public Criteria {
  public:

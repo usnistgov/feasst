@@ -808,6 +808,8 @@ TEST(MonteCarlo, weight_per_number_fraction) {
     {"Tune", {{}}},
     {"Run", {{"num_trials", "1e2"}}},
   }});
+  //INFO(feasst_str(mc->next_arg()));
+  EXPECT_EQ(mc->next_arg().first, "Run");
   for (int i = 0; i < 1e2; ++i) {
     mc->attempt();
     const int num0 = mc->configuration().num_particles_of_type(0);

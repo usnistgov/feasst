@@ -9,8 +9,9 @@
 namespace feasst {
 
 /**
-  Profile time spent on each trial.
-  Because profiling can be time consuming, consider using trials_per_update != 1.
+  Output the percentage of CPU time spent on each Trial.
+  Consider using trials_per_update != 1,
+  because profiling may be time consuming. 
  */
 class ProfileTrials : public Analyze {
  public:

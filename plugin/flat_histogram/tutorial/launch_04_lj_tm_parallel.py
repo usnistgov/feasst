@@ -111,6 +111,7 @@ Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_
 HeatCapacity trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_cv.txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per_update 1e5
 CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
+ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_profile.csv
 """.format(**params))
 
 def post_process(params):

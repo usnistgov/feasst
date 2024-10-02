@@ -117,7 +117,7 @@ Potential Model ChargeSelf
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
-TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
+TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
 CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
 
@@ -144,6 +144,8 @@ Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_in
 Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per_update 1e5
 CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
+CPUTime trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_cpu.csv
+ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_profile.csv
 """.format(**params))
 
 def post_process(params):
